@@ -17,7 +17,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
-            Hello world!
+            Hello people eat!
           </p>
           <div>
             <a
