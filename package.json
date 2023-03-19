@@ -6,7 +6,7 @@
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "verify": "yarn format:check && nx lint web-app && nx lint web-app-e2e",
-        "storybook": "nx g @nrwl/storybook:configuration web-app && nx g @nrwl/storybook:configuration web-app-e2e",
+        "storybook": "nx g @nrwl/storybook:configuration web-app",
         "storybook-serve": "nx run web-app:storybook"
     },
     "private": true,
