@@ -1,0 +1,23 @@
+name: Verify Code Changes
+
+on:
+  push:
+    branches: [integration, production]
+  pull_request:
+    branches: [integration, production]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '19.x'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Verify code (build, lint, test)
+        run: yarn verify

@@ -4,7 +4,8 @@
     "license": "MIT",
     "scripts": {
         "format": "prettier --write .",
-        "format:check": "prettier --check ."
+        "format:check": "prettier --check .",
+        "verify": "yarn format:check && nx lint web-app && nx lint web-app-e2e"
     },
     "private": true,
     "dependencies": {
