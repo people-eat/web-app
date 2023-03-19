@@ -1,3 +1,4 @@
+import Button from '@mui/material/Button';
 import styles from './index.module.scss';
 
 export function Index() {
@@ -14,6 +15,9 @@ export function Index() {
                         <h1>
                             <span> Hello there, </span>
                             Welcome web-app 👋
+                            <Button variant="contained" style={{ backgroundColor: 'orange' }}>
+                                Contained
+                            </Button>
                         </h1>
                     </div>
 
