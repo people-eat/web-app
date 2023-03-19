@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withNx } = require('@nrwl/next/plugins/with-nx');
@@ -6,6 +6,7 @@ const { withNx } = require('@nrwl/next/plugins/with-nx');
 /**
  * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
+// eslint-disable-next-line @typescript-eslint/typedef
 const nextConfig = {
     nx: {
         // Set this to true if you would like to use SVGR
