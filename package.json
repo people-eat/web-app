@@ -5,7 +5,9 @@
     "scripts": {
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "verify": "yarn format:check && nx lint web-app && nx lint web-app-e2e"
+        "verify": "yarn format:check && nx lint web-app && nx lint web-app-e2e",
+        "storybook": "nx g @nrwl/storybook:configuration web-app && nx g @nrwl/storybook:configuration web-app-e2e",
+        "storybook-serve": "nx run web-app:storybook"
     },
     "private": true,
     "dependencies": {
@@ -13,13 +15,17 @@
         "@emotion/styled": "^11.10.6",
         "@mui/material": "^5.11.13",
         "@nrwl/next": "15.8.7",
+        "@storybook/react": "^6.5.16",
         "next": "13.1.1",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "tslib": "^2.3.0"
+        "tslib": "^2.3.0",
+        "yarn": "^1.22.19"
     },
     "devDependencies": {
+        "@babel/core": "7.12.13",
         "@babel/preset-react": "^7.14.5",
+        "@babel/preset-typescript": "7.12.13",
         "@nrwl/cypress": "15.8.7",
         "@nrwl/eslint-plugin-nx": "15.8.7",
         "@nrwl/jest": "15.8.7",
@@ -27,7 +33,14 @@
         "@nrwl/linter": "15.8.7",
         "@nrwl/nx-cloud": "latest",
         "@nrwl/react": "15.8.7",
+        "@nrwl/storybook": "^15.8.7",
+        "@nrwl/webpack": "15.8.7",
         "@nrwl/workspace": "15.8.7",
+        "@storybook/addon-essentials": "^6.5.15",
+        "@storybook/builder-webpack5": "^6.5.15",
+        "@storybook/core-server": "^6.5.15",
+        "@storybook/manager-webpack5": "^6.5.15",
+        "@svgr/webpack": "^6.1.2",
         "@testing-library/react": "14.0.0",
         "@types/jest": "^29.4.0",
         "@types/node": "18.14.2",
@@ -36,6 +49,7 @@
         "@typescript-eslint/eslint-plugin": "^5.36.1",
         "@typescript-eslint/parser": "^5.36.1",
         "babel-jest": "^29.4.1",
+        "babel-loader": "8.1.0",
         "cypress": "^12.2.0",
         "eslint": "~8.15.0",
         "eslint-config-next": "13.1.1",
@@ -47,6 +61,7 @@
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "7.32.2",
         "eslint-plugin-react-hooks": "4.6.0",
+        "html-webpack-plugin": "^5.5.0",
         "jest": "^29.4.1",
         "jest-environment-jsdom": "^29.4.1",
         "nx": "15.8.7",
@@ -54,9 +69,12 @@
         "prettier-plugin-organize-imports": "^3.2.2",
         "react-test-renderer": "18.2.0",
         "sass": "1.55.0",
+        "storybook-addon-next": "^1.6.6",
+        "storybook-addon-swc": "^1.1.7",
         "ts-jest": "^29.0.5",
         "ts-node": "10.9.1",
-        "typescript": "~4.9.5"
+        "typescript": "~4.9.5",
+        "url-loader": "^4.1.1"
     },
     "engines": {
         "node": "^19.5.0",

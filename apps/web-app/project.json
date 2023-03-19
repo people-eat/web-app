@@ -63,6 +63,33 @@
             "options": {
                 "lintFilePatterns": ["apps/web-app/**/*.{ts,tsx,js,jsx}"]
             }
+        },
+        "storybook": {
+            "executor": "@nrwl/storybook:storybook",
+            "options": {
+                "port": 4400,
+                "configDir": "apps/web-app/.storybook",
+                "uiFramework": "@storybook/react"
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
+        },
+        "build-storybook": {
+            "executor": "@nrwl/storybook:build",
+            "outputs": ["{options.outputDir}"],
+            "options": {
+                "outputDir": "dist/storybook/web-app",
+                "configDir": "apps/web-app/.storybook",
+                "uiFramework": "@storybook/react"
+            },
+            "configurations": {
+                "ci": {
+                    "quiet": true
+                }
+            }
         }
     },
     "tags": []
