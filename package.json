@@ -7,7 +7,8 @@
         "format:check": "prettier --check .",
         "verify": "yarn format:check && nx lint web-app && nx lint web-app-e2e",
         "storybook": "nx g @nrwl/react:storybook-configuration web-app",
-        "start:storybook": "nx run web-app:storybook"
+        "start:storybook": "nx run web-app:storybook",
+        "start:web-app": "nx serve web-app --prod"
     },
     "private": true,
     "dependencies": {
