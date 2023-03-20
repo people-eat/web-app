@@ -3,11 +3,7 @@ import PeopleEatButton from '../components/PeopleEatButton';
 import styles from './index.module.scss';
 
 export function Index() {
-    /*
-     * Replace the elements below with your own.
-     *
-     * Note: The corresponding styles are in the ./index.scss file.
-     */
+
     return (
         <div className={styles.page}>
             <div className="wrapper">
@@ -21,6 +17,10 @@ export function Index() {
                                 Contained
                             </Button>
                         </h1>
+                    </div>
+
+                    <div className="apollo-list">
+
                     </div>
 
                     <div id="hero" className="rounded">
