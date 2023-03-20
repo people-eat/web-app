@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button';
+import PeopleEatButton from '../components/PeopleEatButton';
 import styles from './index.module.scss';
 
 export function Index() {
@@ -15,6 +16,7 @@ export function Index() {
                         <h1>
                             <span> Hello there, </span>
                             Welcome web-app 👋
+                            <PeopleEatButton></PeopleEatButton>
                             <Button variant="contained" style={{ backgroundColor: 'orange' }}>
                                 Contained
                             </Button>
