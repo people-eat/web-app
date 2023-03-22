@@ -5,12 +5,5 @@
         "outDir": "../../dist/out-tsc",
         "allowJs": true,
         "types": ["cypress", "node"]
-    },
-    "include": ["src/**/*.ts", "src/**/*.js", "cypress.config.ts"],
-    "exclude": ["**/*.stories.ts", "**/*.stories.js", "**/*.stories.jsx", "**/*.stories.tsx"],
-    "references": [
-        {
-            "path": "./.storybook/tsconfig.json"
-        }
-    ]
+    }
 }
