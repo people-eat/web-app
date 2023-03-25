@@ -1,0 +1,4 @@
+{
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "markdownlint.config": { "MD030": { "ul_single": 3, "ol_single": 3 } }
+}
