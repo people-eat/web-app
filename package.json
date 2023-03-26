@@ -15,8 +15,10 @@
         "start": "next start",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
+        "lint": "eslint . --ext js,cjs,mjs,jsx,ts,cts,mts,tsx --fix",
+        "lint:check": "eslint . --ext js,cjs,mjs,jsx,ts,cts,mts,tsx",
         "spell:check": "cspell . --no-progress",
-        "verify": "yarn build && yarn format:check && yarn spell:check"
+        "verify": "yarn build && yarn format:check && yarn lint:check && yarn spell:check"
     },
     "dependencies": {
         "next": "^13.2.4",
@@ -36,6 +38,9 @@
         "eslint": "^8.36.0",
         "eslint-config-next": "^13.2.4",
         "eslint-config-prettier": "^8.8.0",
+        "eslint-import-resolver-typescript": "^3.5.3",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-prettier": "^4.2.1",
         "postcss": "^8.4.21",
         "prettier": "^2.8.6",
         "prettier-plugin-organize-imports": "^3.2.2",
