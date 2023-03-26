@@ -50,5 +50,10 @@
     },
     "ct3aMetadata": {
         "initVersion": "7.9.0"
+    },
+    "engines": {
+        "node": "^20.0.0",
+        "npm": "please-use-yarn",
+        "yarn": "^1.20.0"
     }
 }
