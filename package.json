@@ -16,7 +16,8 @@
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "lint": "eslint . --ext js,cjs,mjs,jsx,ts,cts,mts,tsx --fix",
-        "lint:check": "eslint . --ext js,cjs,mjs,jsx,ts,cts,mts,tsx"
+        "lint:check": "eslint . --ext js,cjs,mjs,jsx,ts,cts,mts,tsx",
+        "verify": "yarn build && yarn format:check && yarn lint:check"
     },
     "dependencies": {
         "next": "^13.2.4",
