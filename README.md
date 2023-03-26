@@ -64,3 +64,4 @@ The design implemented in this repository is based on the following Figma design
 -   [Prettier](https://prettier.io)
 -   [ESLint](https://eslint.org)
 -   [mui](https://mui.com)
+-   [Apollo Client](https://www.apollographql.com/docs/react)
