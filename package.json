@@ -12,7 +12,6 @@
     "scripts": {
         "build": "next build",
         "dev": "next dev",
-        "start": "next start",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "generate:graphql": "graphql-codegen",
