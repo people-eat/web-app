@@ -63,3 +63,4 @@ The design implemented in this repository is based on the following Figma design
 -   [Tailwind CSS](https://tailwindcss.com)
 -   [Prettier](https://prettier.io)
 -   [ESLint](https://eslint.org)
+-   [mui](https://mui.com)
