@@ -1,5 +1,10 @@
+import Button from '@mui/material/Button';
 import { type ReactElement } from 'react';
 
 export default function PeopleEatButton(): ReactElement {
-    return <button style={{ backgroundColor: 'orange', padding: 8 }}>Click me</button>;
+    return (
+        <Button variant="contained" style={{ backgroundColor: 'orange' }}>
+            Click me
+        </Button>
+    );
 }
