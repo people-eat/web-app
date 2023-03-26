@@ -61,3 +61,4 @@ The design implemented in this repository is based on the following Figma design
 - [TypeScript](https://www.typescriptlang.org)
 - [React](https://reactjs.org)
 - [Tailwind CSS](https://tailwindcss.com)
+- [Prettier](https://prettier.io)
