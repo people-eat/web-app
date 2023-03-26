@@ -3,6 +3,7 @@
         "bradlc.vscode-tailwindcss",
         "davidanson.vscode-markdownlint",
         "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
         "streetsidesoftware.code-spell-checker"
     ]
 }
