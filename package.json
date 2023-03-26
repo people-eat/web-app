@@ -17,7 +17,8 @@
         "format:check": "prettier --check .",
         "lint": "eslint . --ext js,cjs,mjs,jsx,ts,cts,mts,tsx --fix",
         "lint:check": "eslint . --ext js,cjs,mjs,jsx,ts,cts,mts,tsx",
-        "spell:check": "cspell ."
+        "spell:check": "cspell .",
+        "verify": "yarn build && yarn format:check && yarn lint:check && yarn spell:check"
     },
     "dependencies": {
         "next": "^13.2.4",
