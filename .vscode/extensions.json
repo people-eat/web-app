@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "bradlc.vscode-tailwindcss",
-        "davidanson.vscode-markdownlint"
+        "davidanson.vscode-markdownlint",
+        "editorconfig.editorconfig"
     ]
 }
