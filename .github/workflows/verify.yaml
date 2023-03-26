@@ -1,0 +1,43 @@
+name: Verify Code Changes
+
+on:
+  push:
+    branches: [integration, production]
+  pull_request:
+    branches: [integration, production]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+        # https://nextjs.org/docs/advanced-features/ci-build-caching#github-actions
+      - uses: actions/cache@v3
+        with:
+          # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
+          path: ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Check formatting
+        run: yarn format:check
+
+      - name: Check linting
+        run: yarn lint:check
+
+      - name: Check spelling
+        run: yarn spell:check
