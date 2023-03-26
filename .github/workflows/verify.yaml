@@ -1,0 +1,35 @@
+name: Verify Code Changes
+
+on:
+  push:
+    branches: [integration, production]
+  pull_request:
+    branches: [integration, production]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Check formatting
+        run: yarn format:check
+
+      - name: Check linting
+        run: yarn lint:check
+
+      - name: Check spelling
+        run: yarn spell:check"
