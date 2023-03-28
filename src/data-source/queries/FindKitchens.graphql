@@ -1,0 +1,8 @@
+query FindKitchens {
+    kitchens {
+        findAll {
+            kitchenId
+            title
+        }
+    }
+}

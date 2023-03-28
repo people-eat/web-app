@@ -1,0 +1,6 @@
+fragment SignedInUser on User {
+    userId
+    firstName
+    profilePictureUrl
+    isCook
+}
