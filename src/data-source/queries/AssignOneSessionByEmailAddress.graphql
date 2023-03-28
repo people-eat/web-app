@@ -1,0 +1,5 @@
+mutation AssignOneSessionByEmailAddress($request: CreateOneSessionByEmailAddressRequest!) {
+    sessions {
+        success: assignOneByEmailAddress(request: $request)
+    }
+}
