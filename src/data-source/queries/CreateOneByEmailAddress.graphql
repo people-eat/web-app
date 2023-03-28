@@ -1,0 +1,5 @@
+mutation CreateOneByEmailAddress($request: CreateOneUserByEmailAddressRequest!) {
+    users {
+        success: createOneByEmailAddress(request: $request)
+    }
+}
