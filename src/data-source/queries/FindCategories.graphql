@@ -1,0 +1,8 @@
+query FindCategories {
+    categories {
+        findAll {
+            categoryId
+            title
+        }
+    }
+}
