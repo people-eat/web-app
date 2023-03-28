@@ -12,7 +12,7 @@ const config = {
             },
         },
     ],
-    ignorePatterns: ['next-env.d.ts', 'server.js'],
+    ignorePatterns: ['next-env.d.ts', 'server.js', 'src/data-source/generated/*'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
         project: path.join(__dirname, 'tsconfig.json'),
