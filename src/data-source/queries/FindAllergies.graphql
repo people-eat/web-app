@@ -1,0 +1,8 @@
+query FindAllergies {
+    allergies {
+        findAll {
+            allergyId
+            title
+        }
+    }
+}
