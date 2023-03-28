@@ -9,7 +9,9 @@ const HomePage: NextPage = () => {
                 <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main></main>
+            <main>
+                <div>{process.env.NEXT_PUBLIC_SERVER_URL}</div>
+            </main>
         </>
     );
 };
