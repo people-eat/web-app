@@ -1,0 +1,14 @@
+query FindManyCooks($request: FindManyRequest!) {
+    cooks {
+        findMany(request: $request) {
+            cookId
+            user {
+                firstName
+                lastName
+            }
+            rank
+            isLocked
+            biography
+        }
+    }
+}

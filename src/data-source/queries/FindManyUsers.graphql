@@ -1,0 +1,12 @@
+query FindManyUsers($request: FindManyRequest!) {
+    users {
+        findMany(request: $request) {
+            userId
+            firstName
+            lastName
+            language
+            isCook
+            isAdmin
+        }
+    }
+}
