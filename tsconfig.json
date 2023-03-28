@@ -16,6 +16,9 @@
         "jsx": "preserve",
         "incremental": true,
         "noUncheckedIndexedAccess": true,
+        "strictFunctionTypes": true,
+        "noImplicitAny": true,
+        "strictPropertyInitialization": true,
         "baseUrl": ".",
         "paths": {
             "~/*": ["./src/*"]
