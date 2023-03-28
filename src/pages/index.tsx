@@ -11,6 +11,7 @@ const HomePage: NextPage = () => {
             </Head>
             <main>
                 <h1>Welcome to PeopleEat</h1>
+                <div>{process.env.NEXT_PUBLIC_SERVER_URL}</div>
             </main>
         </>
     );
