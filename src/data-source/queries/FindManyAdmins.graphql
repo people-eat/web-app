@@ -1,0 +1,11 @@
+query FindManyAdmins {
+    admins {
+        findMany {
+            adminId
+            user {
+                firstName
+                createdAt
+            }
+        }
+    }
+}
