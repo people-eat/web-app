@@ -14,6 +14,7 @@
         "dev": "next dev",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
+        "generate:graphql": "graphql-codegen",
         "lint": "eslint . --ext js,cjs,mjs,jsx,ts,cts,mts,tsx --fix",
         "lint:check": "eslint . --ext js,cjs,mjs,jsx,ts,cts,mts,tsx",
         "spell:check": "cspell .",
@@ -30,6 +31,8 @@
         "react-dom": "18.2.0"
     },
     "devDependencies": {
+        "@graphql-codegen/cli": "^3.2.2",
+        "@graphql-codegen/client-preset": "^2.1.1",
         "@types/eslint": "^8.21.3",
         "@types/node": "^18.15.5",
         "@types/prettier": "^2.7.2",
