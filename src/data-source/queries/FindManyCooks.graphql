@@ -1,0 +1,14 @@
+query FindManyCooks {
+    cooks {
+        findMany {
+            cookId
+            user {
+                firstName
+                lastName
+            }
+            rank
+            isLocked
+            biography
+        }
+    }
+}
