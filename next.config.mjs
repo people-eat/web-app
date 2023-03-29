@@ -16,6 +16,10 @@ const config = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+
+    images: {
+        dangerouslyAllowSVG: true,
+    },
 };
 
 export default config;
