@@ -1,4 +1,4 @@
-export enum Icons {
+export enum Icon {
     apple = '/apple.svg',
     arrowNarrowRight = '/arrow-narrow-right.svg',
     arrowRight = 'arrow-right.svg',
@@ -41,7 +41,7 @@ export enum Icons {
 }
 
 type IconProps = {
-    icon: Icons;
+    icon: Icon;
 };
 
 export const PeopleEatIcon = ({ icon }: IconProps): JSX.Element => {

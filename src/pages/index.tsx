@@ -1,7 +1,7 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
 import PeopleEatButton from '~/components/standard/PeopleEatButton';
-import { Icons, PeopleEatIcon } from '~/components/standard/icon/PeopleEatIcon';
+import { Icon, PeopleEatIcon } from '~/components/standard/icon/PeopleEatIcon';
 
 const HomePage: NextPage = () => {
     return (
@@ -12,8 +12,8 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <PeopleEatIcon icon={Icons.apple} />
-                <PeopleEatIcon icon={Icons.close} />
+                <PeopleEatIcon icon={Icon.apple} />
+                <PeopleEatIcon icon={Icon.close} />
                 <h1>Welcome to PeopleEat</h1>
                 <PeopleEatButton />
                 <div>{process.env.NEXT_PUBLIC_SERVER_URL}</div>
