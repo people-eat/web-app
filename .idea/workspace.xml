@@ -2,32 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0b943aa0-e6c8-495f-b87e-e859b3a9ef22" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/apple.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/arrow-narrow-right.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/arrow-right.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/bar-chart.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/camera.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/check.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/close.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/coins-hand.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/download.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/facebook.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/file-search.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/file.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/filter-lines.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/google.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/home.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/list.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/marker-pin.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/message-chat-circle.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/minus.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/more-apps.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/play.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/plus.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/profile-empty.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/search.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/settings.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/standard/PeopleEatIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/standard/PeopleEatIcon.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +67,8 @@
       <option name="presentableId" value="Default" />
       <updated>1680092104547</updated>
       <workItem from="1680092107415" duration="3849000" />
+      <workItem from="1680098961875" duration="318000" />
+      <workItem from="1680100368298" duration="828000" />
     </task>
     <servers />
   </component>
