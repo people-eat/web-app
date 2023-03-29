@@ -12,6 +12,10 @@ const config = {
         locales: ['en'],
         defaultLocale: 'en',
     },
+
+    images: {
+        dangerouslyAllowSVG: true,
+    },
 };
 
 export default config;
