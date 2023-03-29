@@ -40,15 +40,13 @@ export enum Icons {
     usersOrange = '/users-orange.svg',
 }
 
-type Props = {
-    icon?: Icons;
+type IconProps = {
+    icon: Icons;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const PeopleEatIcon = ({ icon }: Props) => {
+export const PeopleEatIcon = ({ icon }: IconProps): JSX.Element => {
     return (
         <div>
-            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
             <img src={icon} alt="people eat icon component" />
         </div>
     );
