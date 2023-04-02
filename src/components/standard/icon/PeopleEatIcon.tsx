@@ -40,14 +40,16 @@ export enum Icon {
     usersOrange = '/users-orange.svg',
 }
 
-type IconProps = {
+type PeopleEatIconProps = {
     icon: Icon;
+    width?: string;
+    height?: string;
 };
 
-export const PeopleEatIcon = ({ icon }: IconProps): JSX.Element => {
+export const PeopleEatIcon = ({ icon, width, height }: PeopleEatIconProps): JSX.Element => {
     return (
         <div>
-            <img src={icon} alt="people eat icon component" />
+            <img style={{ width: width, height: height }} src={icon} alt="people eat icon component" />
         </div>
     );
 };
