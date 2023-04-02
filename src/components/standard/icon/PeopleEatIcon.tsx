@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export enum Icon {
     apple = '/apple.svg',
     arrowNarrowRight = '/arrow-narrow-right.svg',
@@ -40,16 +42,16 @@ export enum Icon {
     usersOrange = '/users-orange.svg',
 }
 
-type PeopleEatIconProps = {
+interface PeopleEatIconProps {
     icon: Icon;
-    width?: string;
-    height?: string;
-};
+    width?: number;
+    height?: number;
+}
 
 export const PeopleEatIcon = ({ icon, width, height }: PeopleEatIconProps): JSX.Element => {
     return (
         <div>
-            <img style={{ width: width, height: height }} src={icon} alt="people eat icon component" />
+            <Image height={height} width={width} src={icon} alt="PeopleEat icon component" />
         </div>
     );
 };
