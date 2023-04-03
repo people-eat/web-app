@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0b943aa0-e6c8-495f-b87e-e859b3a9ef22" name="Changes" comment="Image tag and width/height - number">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="0b943aa0-e6c8-495f-b87e-e859b3a9ef22" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/standard/icon/PeopleEatIcon.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/standard/icon/PeopleEatIcon.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +74,8 @@
       <workItem from="1680092107415" duration="3849000" />
       <workItem from="1680098961875" duration="318000" />
       <workItem from="1680100368298" duration="1200000" />
-      <workItem from="1680443114976" duration="2173000" />
+      <workItem from="1680443114976" duration="7849000" />
+      <workItem from="1680518637266" duration="858000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed PeopleEatIcon.tsx">
       <created>1680444131049</created>
@@ -80,7 +84,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680444131049</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Image tag and width/height - number">
+      <created>1680445665241</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1680445665241</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -99,6 +110,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fixed PeopleEatIcon.tsx" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed PeopleEatIcon.tsx" />
+    <MESSAGE value="Image tag and width/height - number" />
+    <option name="LAST_COMMIT_MESSAGE" value="Image tag and width/height - number" />
   </component>
 </project>

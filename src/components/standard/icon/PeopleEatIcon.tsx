@@ -1,6 +1,7 @@
+import classNames from 'classnames';
 import Image from 'next/image';
 
-export enum Icon {
+export enum IconsList {
     apple = '/apple.svg',
     arrowNarrowRight = '/arrow-narrow-right.svg',
     arrowRight = 'arrow-right.svg',
@@ -43,15 +44,25 @@ export enum Icon {
 }
 
 interface PeopleEatIconProps {
-    icon: Icon;
+    icon: IconsList;
     width?: number;
     height?: number;
+    color?: 'white' | 'black';
+    Classes?: string;
 }
 
-export const PeopleEatIcon = ({ icon, width, height }: PeopleEatIconProps): JSX.Element => {
+export const PeopleEatIcon = ({ icon, width = 44, height = 44, color = 'black', Classes }: PeopleEatIconProps): JSX.Element => {
     return (
         <div>
-            <Image height={height} width={width} src={icon} alt="PeopleEat icon component" />
+            <Image
+                className={classNames(Classes, {
+                    ['invert']: color === 'white',
+                })}
+                height={height}
+                width={width}
+                src={icon}
+                alt="PeopleEat icon component"
+            />
         </div>
     );
 };
