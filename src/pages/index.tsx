@@ -2,6 +2,7 @@ import { type NextPage } from 'next';
 import Head from 'next/head';
 import PeopleEatButton from '~/components/standard/PeopleEatButton';
 import PeopleEatNext from '~/components/standard/buttons/PeopleEatNext';
+import PeopleEatTabItem from '~/components/standard/buttons/PeopleEatTabItem';
 import { IconsList, PeopleEatIcon } from '~/components/standard/icon/PeopleEatIcon';
 
 const HomePage: NextPage = () => {
@@ -16,6 +17,11 @@ const HomePage: NextPage = () => {
                 <PeopleEatIcon icon={IconsList.apple} />
                 <PeopleEatIcon icon={IconsList.close} />
                 <PeopleEatNext />
+                <div>
+                    <PeopleEatTabItem title={'Europäisch01'} />
+                    <PeopleEatTabItem title={'Europäisch02'} />
+                    <PeopleEatTabItem title={'Europäisch03'} />
+                </div>
                 <h1>Welcome to PeopleEat</h1>
                 <PeopleEatButton />
                 <div>{process.env.NEXT_PUBLIC_SERVER_URL}</div>
