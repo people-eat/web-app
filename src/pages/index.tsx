@@ -3,6 +3,7 @@ import Head from 'next/head';
 import PeopleEatButton from '../components/standard/PeopleEatButton';
 import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
+import PeopleEatCheckbox from "~/components/standard/buttons/PeopleEatCheckbox";
 
 const HomePage: NextPage = () => {
     return (
@@ -13,6 +14,7 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
+                <PeopleEatCheckbox />
                 <PeopleEatIcon icon={Icon.apple} edgeLength={50} />
                 <PeopleEatIcon icon={Icon.close} />
                 <h1>Welcome to PeopleEat</h1>

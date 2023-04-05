@@ -22,7 +22,7 @@ export default function PeopleEatCheckbox({ disabled = false, defaultChecked = t
             outlineOffset: 2,
         },
         'input:hover ~ &': {
-            backgroundColor: 'rgba(255, 100, 51, .5)',
+            backgroundColor: 'rgba(255, 255, 255, .5)',
         },
         'input:disabled ~ &': {
             boxShadow: 'none',
@@ -35,6 +35,9 @@ export default function PeopleEatCheckbox({ disabled = false, defaultChecked = t
         backgroundImage: 'url(./check-white.svg)',
         content: '""',
         boxShadow: '0 0 0 1px rgb(16 22 26 / 0%)',
+        'input:hover ~ &': {
+            backgroundColor: 'rgba(255, 100, 51, .7)',
+        },
         '&:before': {
             display: 'block',
             width: 24,
