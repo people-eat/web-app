@@ -2,6 +2,7 @@ import { type NextPage } from 'next';
 import Head from 'next/head';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
+import PeopleEatFavorite from '../components/standard/favorite/PeopleEatFavorite';
 import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
 
@@ -14,6 +15,7 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
+                <PeopleEatFavorite />
                 <PeopleEatCounter />
                 <PeopleEatCheckbox />
                 <PeopleEatIcon icon={Icon.apple} edgeLength={50} />
