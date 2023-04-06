@@ -1,5 +1,11 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
+import PeopleEatCheckbox from '~/components/standard/buttons/PeopleEatCheckbox';
+import PeopleEatFavorite from '~/components/standard/buttons/PeopleEatFavorite';
+import PeopleEatNext from '~/components/standard/buttons/PeopleEatNext';
+import PeopleEatShowPassword from '~/components/standard/buttons/PeopleEatShowPass';
+import PeopleEatTabItem from '~/components/standard/buttons/PeopleEatTabItem';
+import PeopleEatCounter from '~/components/standard/counter';
 import PeopleEatButton from '../components/standard/PeopleEatButton';
 import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
@@ -13,6 +19,12 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
+                <PeopleEatCheckbox />
+                <PeopleEatShowPassword />
+                <PeopleEatFavorite />
+                <PeopleEatCounter />
+                <PeopleEatTabItem title={'Europäisch'} />
+                <PeopleEatNext />
                 <PeopleEatIcon icon={Icon.apple} edgeLength={50} />
                 <PeopleEatIcon icon={Icon.close} />
                 <h1>Welcome to PeopleEat</h1>
