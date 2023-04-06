@@ -24,6 +24,7 @@ const config = {
         'plugin:prettier/recommended',
         'plugin:import/recommended',
         'plugin:import/typescript',
+        'plugin:storybook/recommended',
     ],
     rules: {
         '@typescript-eslint/consistent-type-imports': [
@@ -61,5 +62,4 @@ const config = {
         'import/no-extraneous-dependencies': 'error',
     },
 };
-
 module.exports = config;
