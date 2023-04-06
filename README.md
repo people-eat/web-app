@@ -37,11 +37,21 @@ yarn dev
 | --- | --- |
 | [Home page](http://localhost:3000) | / |
 
+### Storybook
+
+Start locally:
+
+```bash
+yarn storybook:start
+```
+
 ## Integration
 
 | Available Pages ||
 | --- | --- |
 | [Home page](https://integration-people-eat.cem-yilmaz.de) | / |
+
+Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.de](https://storybook-integration-people-eat.cem-yilmaz.de)
 
 ## Production
 
@@ -66,3 +76,4 @@ The design implemented in this repository is based on the following Figma design
 - [mui](https://mui.com)
 - [Apollo Client](https://www.apollographql.com/docs/react)
 - [GraphQL Code Generator](https://graphql-code-generator.com)
+- [Storybook](https://storybook.js.org)
