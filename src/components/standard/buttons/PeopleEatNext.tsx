@@ -27,7 +27,7 @@ export default function PeopleEatNext({ onClick }: IPeopleEatNextProps): ReactEl
                 ['bg-orange']: active,
             })}
         >
-            <PeopleEatIcon icon={Icon.arrowRight} classes={classNames('', { ['invert']: active })} edgeLength={46} />
+            <PeopleEatIcon icon={Icon.arrowRight} className={classNames('', { ['invert']: active })} edgeLength={46} />
         </IconButton>
     );
 }
