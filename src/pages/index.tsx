@@ -3,6 +3,7 @@ import Head from 'next/head';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
 import PeopleEatFavorite from '../components/standard/favorite/PeopleEatFavorite';
+import PeopleEatHideButton from '../components/standard/hideButton/PeopleEatHideButton';
 import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
@@ -17,6 +18,7 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
+                <PeopleEatHideButton />
                 <PeopleEatTabItem title={'european'} />
                 <PeopleEatNextButton />
                 <PeopleEatFavorite />
