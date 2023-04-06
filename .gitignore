@@ -34,5 +34,7 @@ yarn-error.log*
 
 .idea
 
+storybook-static
+
 # secrets
 *.env
