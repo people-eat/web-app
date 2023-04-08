@@ -25,6 +25,7 @@ const config = {
                 'text-s': ['12px', { lineHeight: '15px' }],
                 'text-sm': ['14px', { lineHeight: '18px' }],
                 'text-m': ['16px', { lineHeight: '20px' }],
+                'text-m-bold': ['16px', { fontWeight: '700' }],
                 'text-l': ['18px', { lineHeight: '22px' }],
                 'text-l-bold': ['18px', { fontWeight: '600' }],
                 'accent-l': ['18px', { fontWeight: '500' }],

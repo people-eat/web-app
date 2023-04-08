@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import { useState, type ReactElement } from 'react';
 import { type PeopleEatTabItemProps } from './PeopleEatTabItemProps';
 
-export default function PeopleEatTabItem({ disabled = false, title }: PeopleEatTabItemProps): ReactElement {
-    const [selected, setSelect] = useState(false);
+export default function PeopleEatTabItem({ disabled = false, title, active }: PeopleEatTabItemProps): ReactElement {
+    const [selected, setSelect] = useState(active);
 
     return (
         <Button
