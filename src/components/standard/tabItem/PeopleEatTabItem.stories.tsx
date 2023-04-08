@@ -9,5 +9,14 @@ const meta: Meta<typeof PeopleEatTabItem> = {
 export default meta;
 
 export const Component: StoryObj<typeof PeopleEatTabItem> = {
-    args: {},
+    args: {
+        title: 'Europäisch',
+    },
+};
+
+export const ActiveComponent: StoryObj<typeof PeopleEatTabItem> = {
+    args: {
+        active: true,
+        title: 'Europäisch',
+    },
 };
