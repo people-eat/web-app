@@ -13,7 +13,8 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start",
-    "verify": "yarn build"
+    "spell:check": "cspell . --no-progress",
+    "verify": "yarn build && yarn spell:check"
   },
   "dependencies": {
     "next": "^13.2.4",
@@ -29,6 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
     "autoprefixer": "^10.4.14",
+    "cspell": "^6.31.1",
     "eslint": "^8.36.0",
     "eslint-config-next": "^13.2.4",
     "postcss": "^8.4.21",
