@@ -1,0 +1,4 @@
+{
+    "ignorePaths": ["node_modules", "dist", "public"],
+    "words": ["esnext", "nextjs", "tailwindcss"]
+}
