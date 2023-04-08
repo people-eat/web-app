@@ -4,7 +4,7 @@ import { type PeopleEatIconProps } from './PeopleEatIconProps';
 
 export default function PeopleEatIcon({ className, edgeLength = 24, icon, onClick }: PeopleEatIconProps): ReactElement {
     return (
-        <div onClick={() => onClick && onClick()}>
+        <div onClick={(): void => onClick && onClick()}>
             <Image src={icon} width={edgeLength} className={className} height={edgeLength} alt={`PeopleEat icon ${icon}`} />
         </div>
     );
