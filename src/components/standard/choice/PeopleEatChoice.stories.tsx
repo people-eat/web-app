@@ -11,6 +11,6 @@ export default meta;
 export const Component: StoryObj<typeof PeopleEatChoice> = {
     args: {
         title: 'Europäisch',
-        onClose: () => alert('click'),
+        onClose: () => console.log('click'),
     },
 };
