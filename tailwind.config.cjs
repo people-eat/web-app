@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 const config = {
     content: ['./src/**/*.{js,ts,jsx,tsx}'],
+    corePlugins: {
+        preflight: false,
+    },
     theme: {
         extend: {
             colors: {
@@ -16,6 +19,11 @@ const config = {
                 disabled: 'rgba(31, 31, 31, 0.2)',
                 'header-darkness': 'rgba(7, 0, 48, 1)',
                 'footer-lightness': 'rgba(253, 250, 244, 1)',
+            },
+            borderColor: {
+                orange: 'rgba(255, 100, 51, 1)',
+                border: 'rgba(31, 31, 31, 0.1)',
+                disabled: 'rgba(31, 31, 31, 0.2)',
             },
             fontSize: {
                 'heading-ss': ['18px', { fontWeight: '500' }],
@@ -64,6 +72,9 @@ const config = {
                 10: '40px',
                 11: '44px',
                 12: '48px',
+            },
+            fontFamily: {
+                manrope: ['Manrope'],
             },
         },
     },

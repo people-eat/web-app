@@ -9,9 +9,11 @@ interface IPeopleEatChoiceProps {
 
 export default function PeopleEatChoice({ title, onClose }: IPeopleEatChoiceProps): ReactElement {
     return (
-        <span className="flex flex-1 flex-row gap-3 px-4 py-2 bg-base rounded-5">
-            <span className="text-text-m-bold">{title}</span>{' '}
-            <PeopleEatIcon icon={Icon.close} className={'cursor-pointer'} onClick={onClose} edgeLength={24} />
-        </span>
+        <div className="relative text-text-m-bold px-4 py-2 bg-base rounded-5 max-w-[130px]">
+            <span className="flex items-center flex-row gap-4">
+                {title}
+                <PeopleEatIcon icon={Icon.close} className={'cursor-pointer flex items-center'} onClick={onClose} edgeLength={24} />
+            </span>
+        </div>
     );
 }

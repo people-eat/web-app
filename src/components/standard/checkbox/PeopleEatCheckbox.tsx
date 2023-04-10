@@ -27,11 +27,13 @@ export default function PeopleEatCheckbox({ disabled = false, defaultChecked = t
     }));
 
     return (
-        <Checkbox
-            icon={<BpIcon />}
-            checkedIcon={<PeopleEatIcon className="bg-orange rounded-md" icon={Icon.checkWhite} />}
-            defaultChecked={Boolean(defaultChecked)}
-            disabled={disabled}
-        />
+        <section className="w-11">
+            <Checkbox
+                icon={<BpIcon />}
+                checkedIcon={<PeopleEatIcon className="bg-orange rounded-md" icon={Icon.checkWhite} />}
+                defaultChecked={Boolean(defaultChecked)}
+                disabled={disabled}
+            />
+        </section>
     );
 }

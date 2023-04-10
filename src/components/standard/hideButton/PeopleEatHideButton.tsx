@@ -30,5 +30,9 @@ export default function PeopleEatHideButton({ disabled = false, defaultChecked =
         },
     });
 
-    return <Checkbox icon={<BpIcon />} checkedIcon={<BpCheckedIcon />} defaultChecked={Boolean(defaultChecked)} disabled={disabled} />;
+    return (
+        <section className="">
+            <Checkbox icon={<BpIcon />} checkedIcon={<BpCheckedIcon />} defaultChecked={Boolean(defaultChecked)} disabled={disabled} />
+        </section>
+    );
 }
