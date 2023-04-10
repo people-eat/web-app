@@ -1,8 +1,8 @@
 import IconButton from '@mui/material/Button';
 import classNames from 'classnames';
 import { useState, type ReactElement } from 'react';
-import { Icon } from '~/components/standard/icon/Icon';
-import PeopleEatIcon from '~/components/standard/icon/PeopleEatIcon';
+import { Icon } from '../icon/Icon';
+import PeopleEatIcon from '../icon/PeopleEatIcon';
 import { type PeopleEatNextButtonProps } from './PeopleEatNextButtonProps';
 
 export default function PeopleEatNextButton({ onClick }: PeopleEatNextButtonProps): ReactElement {

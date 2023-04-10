@@ -4,5 +4,4 @@ export interface PeopleEatIconProps {
     className?: string;
     edgeLength?: number;
     icon: Icon;
-    onClick?: () => void;
 }
