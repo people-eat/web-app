@@ -9,10 +9,6 @@ import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
-import PeopleEatDocumentDownloadButton
-    from "~/components/standard/documentDownloadButton/PeopleEatDocumentDownloadButton";
-import PeopleEatCreditCard from "~/components/standard/creditCard/PeopleEaCreditCard";
-import PeopleEatInput from "~/components/standard/input/PeopleEatInput";
 
 const HomePage: NextPage = () => {
     return (
@@ -28,15 +24,8 @@ const HomePage: NextPage = () => {
                 <PeopleEatChoice onClose={(): void => console.log('click')} title={'Europäisch '} />
                 <PeopleEatNextButton />
                 <PeopleEatFavorite />
-                <PeopleEatInput />
-                <PeopleEatInput pass />
-                <PeopleEatInput disabled />
-                <PeopleEatInput email />
                 <PeopleEatCounter />
                 <PeopleEatCheckbox />
-                <PeopleEatDocumentDownloadButton title={'überprüfen.pdf'} downloadSize={'245 Mb'} />
-                <PeopleEatDocumentDownloadButton title={'überprüfen.pdf'} downloadSize={'245 Mb'} disabled />
-                <PeopleEatCreditCard label={'MasterCard'} number={'132 * 12'} />
                 <PeopleEatIcon icon={Icon.apple} edgeLength={50} />
                 <PeopleEatIcon icon={Icon.close} />
                 <h1>Welcome to PeopleEat</h1>
