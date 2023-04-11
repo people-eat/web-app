@@ -1,18 +1,17 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
-import PeopleEatInput from '~/components/standard/input/PeopleEatInput';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatChoice from '../components/standard/choice/PeopleEatChoice';
 import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
+import PeopleEatCreditCard from '../components/standard/creditCard/PeopleEaCreditCard';
+import PeopleEatDocumentDownloadButton from '../components/standard/documentDownloadButton/PeopleEatDocumentDownloadButton';
 import PeopleEatFavorite from '../components/standard/favorite/PeopleEatFavorite';
 import PeopleEatHideButton from '../components/standard/hideButton/PeopleEatHideButton';
 import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
+import PeopleEatInput from '../components/standard/input/PeopleEatInput';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
-import PeopleEatCreditCard from "~/components/standard/creditCard/PeopleEaCreditCard";
-import PeopleEatDocumentDownloadButton
-    from "~/components/standard/documentDownloadButton/PeopleEatDocumentDownloadButton";
 
 const HomePage: NextPage = () => {
     return (
