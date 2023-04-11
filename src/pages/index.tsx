@@ -20,8 +20,8 @@ const HomePage: NextPage = () => {
             </Head>
             <main className="max-w-[401px] flex flex-col gap-4">
                 <PeopleEatHideButton />
-                <PeopleEatTabItem title={'Europäisch'} />
-                <PeopleEatChoice onClose={(): string => 'click'} title={'Europäisch '} />
+                <PeopleEatTabItem title={'European'} />
+                <PeopleEatChoice onClose={(): string => 'click'} title={'European '} />
                 <PeopleEatNextButton />
                 <PeopleEatFavorite />
                 <PeopleEatCounter />

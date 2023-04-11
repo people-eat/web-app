@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { type ReactElement } from 'react';
-import { Icon } from '~/components/standard/icon/Icon';
-import PeopleEatIcon from '~/components/standard/icon/PeopleEatIcon';
+import { Icon } from '../icon/Icon';
+import PeopleEatIcon from '../icon/PeopleEatIcon';
 
 interface IPeopleEatDocumentDownloadButtonProps {
     disabled?: boolean;

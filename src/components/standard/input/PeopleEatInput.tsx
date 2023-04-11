@@ -1,7 +1,7 @@
 import Input from '@mui/joy/Input';
 import { type ReactElement } from 'react';
-import { Icon } from '~/components/standard/icon/Icon';
-import PeopleEatIcon from '~/components/standard/icon/PeopleEatIcon';
+import { Icon } from '../icon/Icon';
+import PeopleEatIcon from '../icon/PeopleEatIcon';
 
 interface IPeopleEatInputProps {
     disabled?: boolean;

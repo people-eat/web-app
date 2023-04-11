@@ -10,13 +10,13 @@ export default meta;
 
 export const Component: StoryObj<typeof PeopleEatTabItem> = {
     args: {
-        title: 'Europäisch',
+        title: 'European',
     },
 };
 
 export const ActiveComponent: StoryObj<typeof PeopleEatTabItem> = {
     args: {
         active: true,
-        title: 'Europäisch',
+        title: 'European',
     },
 };
