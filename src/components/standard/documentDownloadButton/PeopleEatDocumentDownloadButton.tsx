@@ -21,14 +21,16 @@ export default function PeopleEatDocumentDownloadButton({
 
     return (
         <section className={className}>
-            <section className="flex flex-row items-center gap-2">
-                <PeopleEatIcon icon={Icon.file} />
+            <section className="flex flex-row justify-start items-center gap-2 relative">
+                <section className="flex items-start h-8">
+                    <PeopleEatIcon icon={Icon.file} edgeLength={16} />
+                </section>
                 <section className="flex flex-col">
                     <span className="text-text-sm">{title}</span>
                     <span className="text-disabled text-text-s">{downloadSize}</span>
                 </section>
             </section>
-            <PeopleEatIcon icon={Icon.download} />
+            {disabled ? <PeopleEatIcon icon={Icon.download} /> : <PeopleEatIcon icon={Icon.downloadOrange} />}
         </section>
     );
 }

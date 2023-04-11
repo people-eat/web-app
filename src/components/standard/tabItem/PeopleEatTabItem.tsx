@@ -1,5 +1,4 @@
 import Button from '@mui/material/Button';
-import classNames from 'classnames';
 import { useState, type ReactElement } from 'react';
 import { type PeopleEatTabItemProps } from './PeopleEatTabItemProps';
 
