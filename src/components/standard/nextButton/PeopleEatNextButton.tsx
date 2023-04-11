@@ -15,17 +15,19 @@ export default function PeopleEatNextButton({ onClick }: PeopleEatNextButtonProp
 
     return (
         <IconButton
-            sx={{ border: 1, '$hover:': { backgroundColor: 'white' } }}
+            sx={{
+                border: '1px solid rgba(31, 31, 31, 0.1)',
+                '&:hover': {
+                    background: 'transparent',
+                    backgroundColor: active ? 'rgba(255, 100, 51, 1)' : 'white',
+                },
+                backgroundColor: active ? 'rgba(255, 100, 51, 1)' : 'white',
+                padding: 0,
+            }}
             size={'small'}
             variant="contained"
             onClick={handleClick}
-            className={classNames(
-                'min-w-[46px] max-w-[46px] min-h-[46px] h-[46px] hover:bg-orange p-0 border-border hover:border-transparent',
-                {
-                    ['bg-white hover:bg-white']: !active,
-                    ['bg-orange']: active,
-                },
-            )}
+            className={'min-w-[46px] max-w-[46px] min-h-[46px] h-[46px] '}
         >
             <PeopleEatIcon icon={Icon.arrowRight} className={classNames('', { ['invert']: active })} edgeLength={46} />
         </IconButton>
