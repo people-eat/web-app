@@ -3,7 +3,7 @@ import Head from 'next/head';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatChoice from '../components/standard/choice/PeopleEatChoice';
 import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
-import PeopleEatCreditCard from '../components/standard/creditCard/PeopleEaCreditCard';
+import PeopleEatCreditCard from '../components/standard/creditCard/PeopleEatCreditCard';
 import PeopleEatDocumentDownloadButton from '../components/standard/documentDownloadButton/PeopleEatDocumentDownloadButton';
 import PeopleEatFavorite from '../components/standard/favorite/PeopleEatFavorite';
 import PeopleEatHideButton from '../components/standard/hideButton/PeopleEatHideButton';
