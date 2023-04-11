@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
-import { Icon } from '~/components/standard/icon/Icon';
-import PeopleEatIcon from '~/components/standard/icon/PeopleEatIcon';
+import { Icon } from '../icon/Icon';
+import PeopleEatIcon from '../icon/PeopleEatIcon';
 
 interface IPeopleEatCreditCardProps {
     disabled?: boolean;
@@ -19,7 +19,7 @@ export default function PeopleEatCreditCard({ disabled, label, number }: IPeople
     return (
         <section className={className}>
             <section className="flex flex-row items-center gap-2">
-                <Image src={'/MasterCard.png'} alt={'MasterCard'} width={36} height={22} />
+                <Image src={'/master-card.png'} alt={'MasterCard'} width={36} height={22} />
                 <span className="text-text-sm">{label}</span>
                 <span className="text-text-sm">{number}</span>
             </section>
