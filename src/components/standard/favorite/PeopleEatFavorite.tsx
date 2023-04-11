@@ -15,11 +15,11 @@ export default function PeopleEatFavorite({ disabled = false, defaultChecked = t
         width: 24,
         height: 24,
         boxShadow: 'boxShadow: 0 0 0 1px transparent',
-        backgroundImage: 'url(./icons/heart.svg)',
+        backgroundImage: 'url(/icons/heart.svg)',
     }));
 
     const BpCheckedIcon = styled(BpIcon)({
-        backgroundImage: 'url(./icons/heart-full.svg)',
+        backgroundImage: 'url(/icons/heart-full.svg)',
         content: '""',
         boxShadow: '0 0 0 1px transparent',
         '&:before': {

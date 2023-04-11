@@ -15,11 +15,11 @@ export default function PeopleEatHideButton({ disabled = false, defaultChecked =
         width: 24,
         height: 24,
         boxShadow: 'boxShadow: 0 0 0 1px transparent',
-        backgroundImage: 'url(./icons/eye-crossed-out.svg)',
+        backgroundImage: 'url(/icons/eye-crossed-out.svg)',
     }));
 
     const BpCheckedIcon = styled(BpIcon)({
-        backgroundImage: 'url(./icons/eye.svg)',
+        backgroundImage: 'url(/icons/eye.svg)',
         content: '""',
         boxShadow: '0 0 0 1px transparent',
         '&:before': {
