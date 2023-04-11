@@ -10,6 +10,6 @@ export default meta;
 
 export const Component: StoryObj<typeof PeopleEatCameraButton> = {
     args: {
-        onClick: () => console.log('click'),
+        onClick: () => 'click',
     },
 };
