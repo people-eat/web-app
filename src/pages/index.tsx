@@ -1,5 +1,6 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
+import PeopleEatInput from '~/components/standard/input/PeopleEatInput';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatChoice from '../components/standard/choice/PeopleEatChoice';
 import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
@@ -9,7 +10,9 @@ import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
-import PeopleEatInput from "~/components/standard/input/PeopleEatInput";
+import PeopleEatCreditCard from "~/components/standard/creditCard/PeopleEaCreditCard";
+import PeopleEatDocumentDownloadButton
+    from "~/components/standard/documentDownloadButton/PeopleEatDocumentDownloadButton";
 
 const HomePage: NextPage = () => {
     return (
@@ -28,6 +31,8 @@ const HomePage: NextPage = () => {
                 <PeopleEatInput pass />
                 <PeopleEatInput disabled />
                 <PeopleEatInput email />
+                <PeopleEatCreditCard number={'*1913'} label={'MasterCard'} />
+                <PeopleEatDocumentDownloadButton downloadSize={'245 Mb'} title={'European'} />
                 <PeopleEatFavorite />
                 <PeopleEatCounter />
                 <PeopleEatCheckbox />

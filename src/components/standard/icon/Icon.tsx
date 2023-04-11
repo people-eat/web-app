@@ -13,6 +13,7 @@ export enum Icon {
     creditCard = '/icons/credit-card.svg',
     data = '/icons/data.svg',
     download = '/icons/download.svg',
+    downloadOrange = '/icons/download-orange.svg',
     editPencil = '/icons/edit-pencil.svg',
     eye = '/icons/eye.svg',
     eyeCrossedOut = '/icons/eye-crossed-out.svg',
