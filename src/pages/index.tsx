@@ -9,6 +9,7 @@ import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
+import PeopleEatInput from "~/components/standard/input/PeopleEatInput";
 
 const HomePage: NextPage = () => {
     return (
@@ -23,6 +24,10 @@ const HomePage: NextPage = () => {
                 <PeopleEatTabItem title={'European'} />
                 <PeopleEatChoice onClose={(): string => 'click'} title={'European '} />
                 <PeopleEatNextButton />
+                <PeopleEatInput />
+                <PeopleEatInput pass />
+                <PeopleEatInput disabled />
+                <PeopleEatInput email />
                 <PeopleEatFavorite />
                 <PeopleEatCounter />
                 <PeopleEatCheckbox />

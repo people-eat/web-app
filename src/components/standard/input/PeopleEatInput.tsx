@@ -1,7 +1,8 @@
-import Input from '@mui/joy/Input';
 import { type ReactElement } from 'react';
 import { Icon } from '../icon/Icon';
 import PeopleEatIcon from '../icon/PeopleEatIcon';
+import {OutlinedInput} from "@mui/material";
+import classNames from "classnames";
 
 interface IPeopleEatInputProps {
     disabled?: boolean;
@@ -17,8 +18,23 @@ export default function PeopleEatInput({ disabled, pass, email }: IPeopleEatInpu
     ) : null;
 
     return (
-        <section className={'flex justify-center items-center rounded-3 w-full'}>
-            <Input endDecorator={decorator} fullWidth size={'lg'} placeholder="Type in here…" variant="outlined" disabled={disabled} />
+        <section
+            className={'relative flex justify-center items-center rounded-3 w-full'}
+        >
+            <OutlinedInput
+                sx={{
+                    borderBottom: 0,
+                    '&:hover': {
+                        borderBottom: 0,
+                    },
+                    borderRadius: '12px',
+                }}
+                disabled={Boolean(disabled)}
+                fullWidth
+                placeholder="Type in here…"
+                variant="outlined"
+            />
+            <span className={'absolute right-4'}>{decorator}</span>
         </section>
     );
 }
