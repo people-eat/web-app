@@ -29,7 +29,6 @@ export default function PeopleEatInput({ disabled, pass, email }: IPeopleEatInpu
                 disabled={Boolean(disabled)}
                 fullWidth
                 placeholder="Type in here…"
-                variant="outlined"
             />
             <span className={'absolute right-4'}>{decorator}</span>
         </section>
