@@ -9,9 +9,16 @@ export default function PeopleEatTabItem({ disabled = false, title, active }: Pe
     return (
         <section>
             <Button
-                className={classNames('text-black hover:text-white hover:bg-hover pl-5 pr-5 pt-2 pb-2 rounded-5', {
-                    ['bg-orange text-white']: selected,
-                })}
+                sx={{
+                    borderRadius: '20px',
+                    color: selected ? 'white' : 'black',
+                    padding: '8px 20px',
+                    '&:hover': {
+                        color: 'white',
+                        backgroundColor: 'rgba(255, 100, 51, .7)',
+                    },
+                    backgroundColor: selected ? 'rgba(255, 100, 51, 1)' : 'white',
+                }}
                 disabled={Boolean(disabled)}
                 onClick={(): void => setSelect(!selected)}
             >
