@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import PeopleEatCameraButton from './changePhotoButton';
+import PeopleEatCameraButton from './PeopleEatCameraButton';
 
 const meta: Meta<typeof PeopleEatCameraButton> = {
     title: 'Standard Components/PeopleEatCameraButton',
