@@ -22,14 +22,16 @@ export default function PeopleEatNextButton({ onClick }: PeopleEatNextButtonProp
                     backgroundColor: active ? 'rgba(255, 100, 51, 1)' : 'white',
                 },
                 backgroundColor: active ? 'rgba(255, 100, 51, 1)' : 'white',
+                minWidth: '46px',
+                height: '46px',
+                width: '46px',
                 padding: 0,
             }}
             size={'small'}
             variant="contained"
             onClick={handleClick}
-            className={'min-w-[46px] max-w-[46px] min-h-[46px] h-[46px] '}
         >
-            <PeopleEatIcon icon={Icon.arrowRight} className={classNames('', { ['invert']: active })} edgeLength={46} />
+            <PeopleEatIcon icon={Icon.arrowRight} className={classNames('', { ['invert']: active })} edgeLength={24} />
         </IconButton>
     );
 }
