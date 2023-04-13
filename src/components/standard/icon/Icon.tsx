@@ -37,6 +37,7 @@ export enum Icon {
     plus = '/icons/plus.svg',
     profileEmpty = '/icons/profile-empty.svg',
     search = '/icons/search.svg',
+    searchBar = '/icons/search-bar.svg',
     settings = '/icons/settings.svg',
     shieldCheck = '/icons/shield-check.svg',
     star = '/icons/star.svg',

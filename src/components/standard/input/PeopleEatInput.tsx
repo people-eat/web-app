@@ -10,7 +10,7 @@ interface PeopleEatInputProps {
     email?: boolean;
 }
 
-type TInputChangeEvent = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>;
+export type TInputChangeEvent = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>;
 
 export default function PeopleEatInput({ disabled, password: pass, email }: PeopleEatInputProps): ReactElement {
     const [isShowPass, setShowPass] = useState(Boolean(pass));
