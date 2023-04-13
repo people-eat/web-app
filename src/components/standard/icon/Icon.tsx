@@ -1,5 +1,6 @@
 export enum Icon {
     apple = '/icons/apple.svg',
+    arrowDown = '/icons/arrow-down.svg',
     arrowNarrowRight = '/icons/arrow-narrow-right.svg',
     arrowRight = '/icons/arrow-right.svg',
     arrowReload = '/icons/arrow-reload.svg',
@@ -33,6 +34,7 @@ export enum Icon {
     minus = '/icons/minus.svg',
     moreApps = '/icons/more-apps.svg',
     navigation = '/icons/navigation.svg',
+    pin = '/icons/pin.svg',
     play = '/icons/play.svg',
     plus = '/icons/plus.svg',
     profileEmpty = '/icons/profile-empty.svg',

@@ -5,7 +5,7 @@ import { Icon } from '../icon/Icon';
 import PeopleEatIcon from '../icon/PeopleEatIcon';
 import { type PeopleEatCheckboxProps } from './PeopleEatCheckboxProps';
 
-export default function PeopleEatCheckbox({ disabled = false, defaultChecked = true }: PeopleEatCheckboxProps): ReactElement {
+export default function PeopleEatCheckbox({ disabled = false, checked }: PeopleEatCheckboxProps): ReactElement {
     const BpIcon = styled('span')(({ theme }) => ({
         borderRadius: 5,
         width: 24,
@@ -29,9 +29,9 @@ export default function PeopleEatCheckbox({ disabled = false, defaultChecked = t
     return (
         <section className="w-11">
             <Checkbox
+                checked={checked}
                 icon={<BpIcon />}
                 checkedIcon={<PeopleEatIcon className="bg-orange rounded-md" icon={Icon.checkWhite} />}
-                defaultChecked={Boolean(defaultChecked)}
                 disabled={disabled}
             />
         </section>

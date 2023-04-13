@@ -1,4 +1,6 @@
+import type dayjs from 'dayjs';
+
 export interface PeopleEatDatePickerProps {
-    date?: Date;
-    onChange?: (date?: Date) => void;
+    date?: dayjs.Dayjs;
+    onChange: (date?: dayjs.Dayjs) => void;
 }

@@ -1,15 +1,23 @@
 import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { type ReactElement } from 'react';
+import dayjs from 'dayjs';
+import { useState, type ReactElement } from 'react';
 import { type PeopleEatDatePickerProps } from './PeopleEatDatePickerProps';
 
 export default function PeopleEatDatePicker({ date, onChange }: PeopleEatDatePickerProps): ReactElement {
+    const [dateValue, setDateValue] = useState(date);
+
+    function handleChangeDate(changedDate: dayjs.Dayjs | null): void {
+        onChange?.(changedDate ?? undefined);
+        setDateValue(changedDate ?? dayjs());
+    }
+
     return (
         <>
             <LocalizationProvider
                 dateAdapter={AdapterDayjs}
-                adapterLocale="de"
+                adapterLocale={'de'}
                 localeText={{ clearButtonLabel: 'Empty', todayButtonLabel: 'Now' }}
             >
                 <DatePicker
@@ -46,8 +54,8 @@ export default function PeopleEatDatePicker({ date, onChange }: PeopleEatDatePic
                             size: 'small',
                         },
                     }}
-                    value={date}
-                    onChange={(changedDate: Date | null): void => onChange?.(changedDate ?? undefined)}
+                    value={dateValue}
+                    onChange={handleChangeDate}
                 />
             </LocalizationProvider>
         </>
