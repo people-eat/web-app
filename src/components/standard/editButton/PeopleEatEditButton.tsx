@@ -2,7 +2,6 @@ import IconButton from '@mui/material/Button';
 import { type ReactElement } from 'react';
 import { Icon } from '../icon/Icon';
 import PeopleEatIcon from '../icon/PeopleEatIcon';
-import IconButton from "@mui/material/Button";
 
 interface IPeopleEatEditButtonProps {
     onClick: () => void;
