@@ -7,12 +7,14 @@ interface IPeopleEatDocumentDownloadButtonProps {
     disabled?: boolean;
     title: string;
     downloadSize: string;
+    onClick: () => void;
 }
 
 export default function PeopleEatDocumentDownloadButton({
     disabled,
     title,
     downloadSize,
+    onClick,
 }: IPeopleEatDocumentDownloadButtonProps): ReactElement {
     const className = classNames(
         'max-w-[400px] box-border hover:opacity-70 cursor-pointer border border-solid rounded-3 border-border flex flex-row gap-3 items-center justify-between pr-4 pl-2 py-2',
@@ -20,7 +22,7 @@ export default function PeopleEatDocumentDownloadButton({
     );
 
     return (
-        <section className={className}>
+        <section className={className} onClick={onClick}>
             <section className="flex flex-row justify-start items-center gap-2 relative">
                 <section className="flex items-start h-8">
                     <PeopleEatIcon icon={Icon.file} edgeLength={16} />

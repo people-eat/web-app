@@ -13,6 +13,7 @@ import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
 import PeopleEatInput from '../components/standard/input/PeopleEatInput';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
+import PeopleEatEditButton from "~/components/standard/editButton/PeopleEatEditButton";
 
 const HomePage: NextPage = () => {
     return (
@@ -27,13 +28,14 @@ const HomePage: NextPage = () => {
                 <PeopleEatTabItem title={'European'} />
                 <PeopleEatChoice onClose={(): string => 'click'} title={'European '} />
                 <PeopleEatCameraButton onClick={(): string => 'click'} />
+                <PeopleEatEditButton onClick={(): string => 'click'} />
                 <PeopleEatNextButton />
                 <PeopleEatInput />
                 <PeopleEatInput pass />
                 <PeopleEatInput disabled />
                 <PeopleEatInput email />
                 <PeopleEatCreditCard number={'*1913'} label={'MasterCard'} />
-                <PeopleEatDocumentDownloadButton downloadSize={'245 Mb'} title={'European'} />
+                <PeopleEatDocumentDownloadButton downloadSize={'245 Mb'} title={'European'} onClick={(): string => 'click'}/>
                 <PeopleEatFavorite />
                 <PeopleEatCounter />
                 <PeopleEatCheckbox />
