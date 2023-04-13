@@ -31,7 +31,7 @@ export default function PeopleEatNextButton({ onClick }: PeopleEatNextButtonProp
             variant="contained"
             onClick={handleClick}
         >
-            <PeopleEatIcon icon={Icon.arrowRight} className={classNames('', { ['invert']: active })} edgeLength={24} />
+            <PeopleEatIcon icon={Icon.arrowRight} className={classNames('', { ['invert']: active })} />
         </IconButton>
     );
 }

@@ -5,11 +5,12 @@ import { type ReactElement } from 'react';
 interface IPeopleEatCheckboxProps {
     disabled?: boolean;
     defaultChecked?: boolean;
+    onClick: () => void;
 }
 
 type TPeopleEatCheckboxProps = IPeopleEatCheckboxProps & CheckboxProps;
 
-export default function PeopleEatHideButton({ disabled = false, defaultChecked = true }: TPeopleEatCheckboxProps): ReactElement {
+export default function PeopleEatHideButton({ disabled = false, defaultChecked = true, onClick }: TPeopleEatCheckboxProps): ReactElement {
     const BpIcon = styled('span')(() => ({
         borderRadius: 5,
         width: 24,
@@ -31,8 +32,14 @@ export default function PeopleEatHideButton({ disabled = false, defaultChecked =
     });
 
     return (
-        <section className="">
-            <Checkbox icon={<BpIcon />} checkedIcon={<BpCheckedIcon />} defaultChecked={Boolean(defaultChecked)} disabled={disabled} />
-        </section>
+        <div>
+            <Checkbox
+                onClick={onClick}
+                icon={<BpIcon />}
+                checkedIcon={<BpCheckedIcon />}
+                defaultChecked={Boolean(defaultChecked)}
+                disabled={disabled}
+            />
+        </div>
     );
 }
