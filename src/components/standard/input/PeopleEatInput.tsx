@@ -1,6 +1,6 @@
 import { OutlinedInput } from '@mui/material';
 import classNames from 'classnames';
-import { ChangeEvent, useState, type ReactElement } from 'react';
+import { useState, type ChangeEvent, type ReactElement } from 'react';
 import { isEmail } from '~/utils/isEmail';
 import PeopleEatHideButton from '../../standard/hideButton/PeopleEatHideButton';
 
