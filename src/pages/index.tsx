@@ -1,19 +1,21 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
-import PeopleEatCameraButton from '../components/standard/cameraButton/PeopleEatCameraButton';
+import PeopleEatAddress from '../components/standard/address/PeopleEatAddress';
+import PeopleEatChatComponentPreview from '../components/standard/chatComponent/PeopleEatChatComponentPreview';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatChoice from '../components/standard/choice/PeopleEatChoice';
 import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
 import PeopleEatCreditCard from '../components/standard/creditCard/PeopleEatCreditCard';
 import PeopleEatDownloadButton from '../components/standard/downloadButton/PeopleEatDownloadButton';
-import PeopleEatEditButton from '../components/standard/editButton/PeopleEatEditButton';
+import PeopleEatDropdown from '../components/standard/dropdown/PeopleEatDropdown';
 import PeopleEatFavorite from '../components/standard/favorite/PeopleEatFavorite';
 import PeopleEatHideButton from '../components/standard/hideButton/PeopleEatHideButton';
 import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
 import PeopleEatInput from '../components/standard/input/PeopleEatInput';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
-import PeopleEatSearch from '../components/standard/search/PeopleEatSearch';
+import PeopleEatSearch, { type PeopleEatSearchResult } from '../components/standard/search/PeopleEatSearch';
+import PeopleEatSlider from '../components/standard/slider/PeopleEatSlider';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
 
 const HomePage: NextPage = () => {
@@ -25,12 +27,28 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="max-w-[401px] flex flex-col gap-4">
-                <PeopleEatSearch />
+                <PeopleEatDropdown />
+                <PeopleEatChatComponentPreview
+                    label={'In Germany'}
+                    menuTitle={'delicious dinner'}
+                    date={'1. Jan 2023'}
+                    time={'18:00'}
+                    userName={'Lev Chernenko'}
+                    lastDateActive={'2d'}
+                    place={'Viewer street'}
+                    onClick={(): void => undefined}
+                />
+                <PeopleEatSlider onProgress={(): void => undefined} />
+                <PeopleEatSearch
+                    onSearchClick={({ city, persons, children, date }: PeopleEatSearchResult): void => {
+                        `${city}, ${persons}, ${children}, ${date}`;
+                    }}
+                />
+                <PeopleEatAddress city={'House'} address={'Your address'} />
+                <PeopleEatAddress city={'House'} street={'Viewer street 125 23'} address={'Your address'} />
                 <PeopleEatHideButton />
                 <PeopleEatTabItem title={'European'} />
-                <PeopleEatChoice title={'European '} />
-                <PeopleEatCameraButton onClick={(): void => undefined} />
-                <PeopleEatEditButton onClick={(): void => undefined} />
+                <PeopleEatChoice onClose={(): void => undefined} title={'European '} />
                 <PeopleEatNextButton />
                 <PeopleEatInput />
                 <PeopleEatInput password />
