@@ -1,11 +1,12 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
-import PeopleEatCameraButton from '~/components/standard/changePhotoButton/PeopleEatCameraButton';
+import PeopleEatCameraButton from '../components/standard/changePhotoButton/PeopleEatCameraButton';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatChoice from '../components/standard/choice/PeopleEatChoice';
 import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
 import PeopleEatCreditCard from '../components/standard/creditCard/PeopleEatCreditCard';
 import PeopleEatDocumentDownloadButton from '../components/standard/documentDownloadButton/PeopleEatDocumentDownloadButton';
+import PeopleEatEditButton from '../components/standard/editButton/PeopleEatEditButton';
 import PeopleEatFavorite from '../components/standard/favorite/PeopleEatFavorite';
 import PeopleEatHideButton from '../components/standard/hideButton/PeopleEatHideButton';
 import { Icon } from '../components/standard/icon/Icon';
@@ -13,7 +14,6 @@ import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
 import PeopleEatInput from '../components/standard/input/PeopleEatInput';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
-import PeopleEatEditButton from "~/components/standard/editButton/PeopleEatEditButton";
 
 const HomePage: NextPage = () => {
     return (
@@ -35,7 +35,7 @@ const HomePage: NextPage = () => {
                 <PeopleEatInput disabled />
                 <PeopleEatInput email />
                 <PeopleEatCreditCard number={'*1913'} label={'MasterCard'} />
-                <PeopleEatDocumentDownloadButton downloadSize={'245 Mb'} title={'European'} onClick={(): string => 'click'}/>
+                <PeopleEatDocumentDownloadButton downloadSize={'245 Mb'} title={'European'} onClick={(): string => 'click'} />
                 <PeopleEatFavorite />
                 <PeopleEatCounter />
                 <PeopleEatCheckbox />
