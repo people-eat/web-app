@@ -1,5 +1,6 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
+import PeopleEatCameraButton from '~/components/standard/changePhotoButton/PeopleEatCameraButton';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatChoice from '../components/standard/choice/PeopleEatChoice';
 import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
@@ -25,6 +26,7 @@ const HomePage: NextPage = () => {
                 <PeopleEatHideButton />
                 <PeopleEatTabItem title={'European'} />
                 <PeopleEatChoice onClose={(): string => 'click'} title={'European '} />
+                <PeopleEatCameraButton onClick={(): string => 'click'} />
                 <PeopleEatNextButton />
                 <PeopleEatInput />
                 <PeopleEatInput pass />
