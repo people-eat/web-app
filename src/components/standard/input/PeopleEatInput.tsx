@@ -1,7 +1,8 @@
 import { OutlinedInput } from '@mui/material';
-import { type ReactElement } from 'react';
-import { Icon } from '../icon/Icon';
-import PeopleEatIcon from '../icon/PeopleEatIcon';
+import classNames from 'classnames';
+import { ChangeEvent, useState, type ReactElement } from 'react';
+import { isEmail } from '~/utils/isEmail';
+import PeopleEatHideButton from '../../standard/hideButton/PeopleEatHideButton';
 
 interface IPeopleEatInputProps {
     disabled?: boolean;
@@ -9,16 +10,45 @@ interface IPeopleEatInputProps {
     email?: boolean;
 }
 
+type TInputChangeEvent = ChangeEvent<HTMLTextAreaElement | HTMLInputElement>;
+
 export default function PeopleEatInput({ disabled, pass, email }: IPeopleEatInputProps): ReactElement {
+    const [isShowPass, setShowPass] = useState(Boolean(pass));
+    const [isError, setError] = useState(false);
+    const [isValid, setIsValid] = useState(false);
+    const [emailValue, setEmail] = useState({ Email: 'your-email@gmail.com', isValidEmail: true });
+    const type = isShowPass ? 'password' : email ? 'email' : 'text';
+
+    function handleEmailChange(value: string, isValidEmail: boolean): void {
+        setEmail({ Email: value, isValidEmail: isValidEmail });
+        setError(!isValidEmail);
+    }
+
+    function handleInputChange({ target }: TInputChangeEvent): void {
+        if (email) {
+            setIsValid(isEmail(target.value));
+            handleEmailChange(target.value, isValid);
+        }
+    }
+
     const decorator = pass ? (
-        <PeopleEatIcon icon={Icon.eye} className="opacity-50" />
+        <div className={'opacity-50 hover:opacity-100 z-50'}>
+            <PeopleEatHideButton onClick={(): void => setShowPass(!isShowPass)} />
+        </div>
     ) : email ? (
-        <span className="text-disabled">Enter yor email</span>
+        <span
+            className={classNames('text-disabled', {
+                ['text-red-500']: isError,
+            })}
+        >
+            Enter your email
+        </span>
     ) : null;
 
     return (
         <section className={'relative flex justify-center items-center rounded-3 w-full'}>
             <OutlinedInput
+                error={isError}
                 sx={{
                     borderBottom: 0,
                     '&:hover': {
@@ -26,11 +56,14 @@ export default function PeopleEatInput({ disabled, pass, email }: IPeopleEatInpu
                     },
                     borderRadius: '12px',
                 }}
+                type={type}
                 disabled={Boolean(disabled)}
+                onChange={handleInputChange}
                 fullWidth
+                required
                 placeholder="Type in here..."
             />
-            <span className={'absolute right-4'}>{decorator}</span>
+            <span className={'absolute right-2'}>{decorator}</span>
         </section>
     );
 }

@@ -24,18 +24,41 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="max-w-[401px] flex flex-col gap-4">
-                <PeopleEatHideButton />
+                <PeopleEatHideButton
+                    onClick={(): void => {
+                        'click';
+                    }}
+                />
                 <PeopleEatTabItem title={'European'} />
-                <PeopleEatChoice onClose={(): string => 'click'} title={'European '} />
-                <PeopleEatCameraButton onClick={(): string => 'click'} />
-                <PeopleEatEditButton onClick={(): string => 'click'} />
+                <PeopleEatChoice
+                    onClose={(): void => {
+                        'click';
+                    }}
+                    title={'European '}
+                />
+                <PeopleEatCameraButton
+                    onClick={(): void => {
+                        'click';
+                    }}
+                />
+                <PeopleEatEditButton
+                    onClick={(): void => {
+                        'click';
+                    }}
+                />
                 <PeopleEatNextButton />
                 <PeopleEatInput />
                 <PeopleEatInput pass />
                 <PeopleEatInput disabled />
                 <PeopleEatInput email />
                 <PeopleEatCreditCard number={'*1913'} label={'MasterCard'} />
-                <PeopleEatDocumentDownloadButton downloadSize={'245 Mb'} title={'European'} onClick={(): string => 'click'} />
+                <PeopleEatDocumentDownloadButton
+                    downloadSize={'245 Mb'}
+                    title={'European'}
+                    onClick={(): void => {
+                        'click';
+                    }}
+                />
                 <PeopleEatFavorite />
                 <PeopleEatCounter />
                 <PeopleEatCheckbox />
