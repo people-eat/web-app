@@ -13,6 +13,10 @@ const config = {
         defaultLocale: 'en',
     },
 
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
+
     images: {
         dangerouslyAllowSVG: true,
     },
