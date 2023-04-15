@@ -1,10 +1,10 @@
 import { Input } from '@mui/material';
 import classNames from 'classnames';
 import { ReactElement, useState } from 'react';
-import { Icon } from '~/components/standard/icon/Icon';
-import PeopleEatIcon from '~/components/standard/icon/PeopleEatIcon';
+import { Icon } from '../../standard/icon/Icon';
+import PeopleEatIcon from '../../standard/icon/PeopleEatIcon';
 
-const SEARCH_TABS = ['Deine Stadt', 'Anzahl der Personen', 'Kinder', 'Date'];
+const SEARCH_TABS = ['Your city', 'Number of persons', 'Children', 'Date'];
 
 export default function PeopleEatSearch(): ReactElement {
     const temporary = 'absolute left-[50vw] translate-x-[-50%]';
@@ -43,9 +43,9 @@ export default function PeopleEatSearch(): ReactElement {
                             <span className={'text-text-s text-preBlack'}>{tab}</span>
                             <span className={'text-text-m text-black mt-1'}>
                                 {activeTab === tab ? (
-                                    <Input sx={{ boxSizing: 'border-box', maxHeight: '20px' }} value={'Rome, Italy.Rome dewfofweferpvr'} />
+                                    <Input sx={{ boxSizing: 'border-box', maxHeight: '20px' }} value={'Rome, Italy.Rome, Italy'} />
                                 ) : (
-                                    validateString('Rome, Italy.Rome dewfofweferpvr')
+                                    validateString('Rome, Italy.Rome, Italy')
                                 )}
                             </span>
                         </div>

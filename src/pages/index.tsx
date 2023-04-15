@@ -1,6 +1,5 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
-import PeopleEatSearch from '~/components/standard/search/PeopleEatSearch';
 import PeopleEatCameraButton from '../components/standard/changePhotoButton/PeopleEatCameraButton';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatChoice from '../components/standard/choice/PeopleEatChoice';
@@ -14,6 +13,7 @@ import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
 import PeopleEatInput from '../components/standard/input/PeopleEatInput';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
+import PeopleEatSearch from '../components/standard/search/PeopleEatSearch';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
 
 const HomePage: NextPage = () => {

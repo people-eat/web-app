@@ -1,7 +1,7 @@
 import { OutlinedInput } from '@mui/material';
 import classNames from 'classnames';
 import { useState, type ChangeEvent, type ReactElement } from 'react';
-import { isEmail } from '~/utils/isEmail';
+import { isEmail } from '../../../utils/isEmail';
 import PeopleEatHideButton from '../../standard/hideButton/PeopleEatHideButton';
 
 interface IPeopleEatInputProps {
@@ -16,7 +16,7 @@ export default function PeopleEatInput({ disabled, pass, email }: IPeopleEatInpu
     const [isShowPass, setShowPass] = useState(Boolean(pass));
     const [isError, setError] = useState(false);
     const [isValid, setIsValid] = useState(false);
-    const [emailValue, setEmail] = useState({ Email: 'your-email@gmail.com', isValidEmail: true });
+    const [_emailValue, setEmail] = useState({ Email: 'your-email@gmail.com', isValidEmail: true });
     const type = isShowPass ? 'password' : email ? 'email' : 'text';
 
     function handleEmailChange(value: string, isValidEmail: boolean): void {
