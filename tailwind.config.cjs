@@ -10,6 +10,10 @@ const config = {
                 orange: 'rgba(255, 100, 51, 1)',
                 border: 'rgba(31, 31, 31, 0.1)',
                 disabled: 'rgba(31, 31, 31, 0.2)',
+                preBlack: 'rgba(31, 31, 31, 0.8)',
+            },
+            boxShadow: {
+                primary: '0px 1px 24px rgba(0, 0, 0, 0.08)',
             },
             backgroundColor: {
                 orange: 'rgba(255, 100, 51, 1)',
@@ -17,6 +21,7 @@ const config = {
                 base: 'rgba(245, 245, 245, 1)',
                 border: 'rgba(31, 31, 31, 0.1)',
                 disabled: 'rgba(31, 31, 31, 0.2)',
+                separator: 'rgba(0, 0, 0, 0.2)',
                 'header-darkness': 'rgba(7, 0, 48, 1)',
                 'footer-lightness': 'rgba(253, 250, 244, 1)',
             },
@@ -56,6 +61,8 @@ const config = {
                 10: '40px',
                 11: '44px',
                 12: '48px',
+                13: '52px',
+                14: '56px',
                 'icon-1': '24px',
                 'icon-2': '32px',
             },

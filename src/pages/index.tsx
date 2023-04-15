@@ -1,5 +1,6 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
+import PeopleEatSearch from '~/components/standard/search/PeopleEatSearch';
 import PeopleEatCameraButton from '../components/standard/changePhotoButton/PeopleEatCameraButton';
 import PeopleEatCheckbox from '../components/standard/checkbox/PeopleEatCheckbox';
 import PeopleEatChoice from '../components/standard/choice/PeopleEatChoice';
@@ -24,6 +25,7 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="max-w-[401px] flex flex-col gap-4">
+                <PeopleEatSearch />
                 <PeopleEatHideButton
                     onClick={(): void => {
                         'click';
