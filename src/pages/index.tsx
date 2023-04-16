@@ -14,6 +14,7 @@ import PeopleEatInput from '../components/standard/input/PeopleEatInput';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
 import PeopleEatSearch from '../components/standard/search/PeopleEatSearch';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
+import PeopleEatSlider from "~/components/standard/slider/PeopleEatSlider";
 
 const HomePage: NextPage = () => {
     return (
@@ -24,6 +25,7 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="max-w-[401px] flex flex-col gap-4">
+                <PeopleEatSlider />
                 <PeopleEatSearch />
                 <PeopleEatHideButton />
                 <PeopleEatTabItem title={'European'} />
