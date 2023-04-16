@@ -38,11 +38,6 @@ const PrettoSlider = styled(Slider)({
             transform: 'rotate(45deg)',
         },
     },
-    '& .MuiSlider-rail': {
-        color: 'rgba(31, 31, 31, 0.05)',
-        opacity: 0.5,
-        height: 2,
-    },
 });
 
 export default function PeopleEatSlider(): ReactElement {
