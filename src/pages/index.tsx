@@ -14,7 +14,7 @@ import PeopleEatInput from '../components/standard/input/PeopleEatInput';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
 import PeopleEatSearch from '../components/standard/search/PeopleEatSearch';
 import PeopleEatTabItem from '../components/standard/tabItem/PeopleEatTabItem';
-import PeopleEatSlider from "~/components/standard/slider/PeopleEatSlider";
+import PeopleEatSlider from "../components/standard/slider/PeopleEatSlider";
 
 const HomePage: NextPage = () => {
     return (
@@ -29,7 +29,7 @@ const HomePage: NextPage = () => {
                 <PeopleEatSearch />
                 <PeopleEatHideButton />
                 <PeopleEatTabItem title={'European'} />
-                <PeopleEatChoice onClose={(): string => 'click'} title={'European '} />
+                <PeopleEatChoice onClose={(): void => undefined} title={'European '} />
                 <PeopleEatNextButton />
                 <PeopleEatInput />
                 <PeopleEatInput password />
