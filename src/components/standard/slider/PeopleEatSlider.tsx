@@ -1,7 +1,7 @@
 import { Slider, styled } from '@mui/material';
 import { ChangeEvent, useState, type ReactElement } from 'react';
 
-const PrettoSlider = styled(Slider)({
+const StyledSlider = styled(Slider)({
     color: 'rgba(255, 100, 51, 1)',
     height: 2,
     '& .MuiSlider-track': {
@@ -49,7 +49,7 @@ export default function PeopleEatSlider(): ReactElement {
 
     return (
         <div>
-            <PrettoSlider onChange={(event): void => handleOnChange(event)} />
+            <StyledSlider onChange={(event): void => handleOnChange(event)} />
         </div>
     );
 }
