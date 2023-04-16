@@ -24,6 +24,14 @@ const config = {
     images: {
         dangerouslyAllowSVG: true,
     },
+
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    rewrites: async () => [
+        {
+            source: '/google-places-api/:path*',
+            destination: 'https://maps.googleapis.com/maps/api/:path*',
+        },
+    ],
 };
 
 export default nextTranslate(config);
