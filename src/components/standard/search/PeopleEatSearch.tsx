@@ -1,7 +1,7 @@
 import { Input } from '@mui/material';
 import classNames from 'classnames';
 import { ChangeEvent, useState, type ReactElement } from 'react';
-import PeopleEatDatePicker from '~/components/standard/datePicker/PeopleEatDatePicker';
+import PeopleEatDatePicker from '../../standard/datePicker/PeopleEatDatePicker';
 import { Icon } from '../../standard/icon/Icon';
 import PeopleEatIcon from '../../standard/icon/PeopleEatIcon';
 import PeopleEatSearchTab from './PeopleEatSearchTab';

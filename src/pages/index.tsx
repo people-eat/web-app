@@ -24,7 +24,7 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className="max-w-[401px] flex flex-col gap-4">
-                <PeopleEatSlider />
+                <PeopleEatSlider onProgress={(): void => undefined} />
                 <PeopleEatSearch />
                 <PeopleEatHideButton />
                 <PeopleEatTabItem title={'European'} />
