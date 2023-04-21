@@ -15,7 +15,6 @@ export default function PeopleEatSearch(): ReactElement {
     const [city, setCity] = useState('Rome, Italy.Rome, Italy');
     const [persons, setPersons] = useState('12');
     const [children, setChildren] = useState('3');
-    const [date, setDate] = useState('12-10-2024');
 
     function validateString(value: string): string {
         return value.length > 20 ? value.slice(0, 17) + '...' : value;

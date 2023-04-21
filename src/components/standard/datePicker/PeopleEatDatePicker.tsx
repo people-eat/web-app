@@ -19,7 +19,7 @@ export default function PeopleEatDatePicker(): ReactElement {
                         maxWidth: '140px',
                         minHeight: '40px',
                     }}
-                    format={'DD-MM-YYYY'}
+                    format={'DD.MM.YYYY'}
                     disablePast={true}
                     slotProps={{
                         textField: {
