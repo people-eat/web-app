@@ -1,4 +1,6 @@
 import { ThemeProvider } from '@mui/material';
+import { LocalizationProvider as MuiI18nProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import type { Preview } from '@storybook/react';
 import moment from 'moment';
 import I18nProvider from 'next-translate/I18nProvider';
@@ -23,9 +25,11 @@ export const decorators = [
 
         return (
             <ThemeProvider theme={theme}>
-                <I18nProvider lang={language} namespaces={nameSpaces}>
-                    <Story />
-                </I18nProvider>
+                <MuiI18nProvider dateAdapter={AdapterMoment} adapterLocale={language}>
+                    <I18nProvider lang={language} namespaces={nameSpaces}>
+                        <Story />
+                    </I18nProvider>
+                </MuiI18nProvider>
             </ThemeProvider>
         );
     },
