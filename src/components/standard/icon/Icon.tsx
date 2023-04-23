@@ -1,5 +1,6 @@
 export enum Icon {
     apple = '/icons/apple.svg',
+    arrowDown = '/icons/arrow-down.svg',
     arrowNarrowRight = '/icons/arrow-narrow-right.svg',
     arrowRight = '/icons/arrow-right.svg',
     arrowReload = '/icons/arrow-reload.svg',

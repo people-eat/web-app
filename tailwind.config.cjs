@@ -11,6 +11,7 @@ const config = {
                 border: 'rgba(31, 31, 31, 0.1)',
                 disabled: 'rgba(31, 31, 31, 0.2)',
                 midBlack: 'rgba(31, 31, 31, 0.4)',
+                '60black': 'rgba(31, 31, 31, 0.6)',
                 preBlack: 'rgba(31, 31, 31, 0.8)',
                 lightBlack: 'rgba(31, 31, 31, 1)',
                 midBlackHover: 'rgba(31, 31, 31, 0.05)',
@@ -86,7 +87,7 @@ const config = {
                 12: '48px',
             },
             fontFamily: {
-                manrope: ['Manrope'],
+                manrope: ['Manrope', 'Arial', 'sans-serif'],
             },
         },
     },
