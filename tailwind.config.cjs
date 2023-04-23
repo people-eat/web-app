@@ -27,6 +27,7 @@ const config = {
                 border: 'rgba(31, 31, 31, 0.1)',
                 disabled: 'rgba(31, 31, 31, 0.2)',
                 separator: 'rgba(0, 0, 0, 0.2)',
+                pagination: 'rgba(24, 24, 24, 0.5)',
                 'header-darkness': 'rgba(7, 0, 48, 1)',
                 'footer-lightness': 'rgba(253, 250, 244, 1)',
             },
