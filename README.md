@@ -33,9 +33,10 @@ Start the development server:
 yarn dev
 ```
 
-| Available Pages                    |     |
-| ---------------------------------- | --- |
-| [Home page](http://localhost:3000) | /   |
+| Available Pages                               |          |
+| --------------------------------------------- | -------- |
+| [Home page](http://localhost:3000)            | /        |
+| [Sign in page](http://localhost:3000/sign-in) | /sign-in |
 
 ### Storybook
 
@@ -47,17 +48,19 @@ yarn storybook:start
 
 ## Integration
 
-| Available Pages                                           |     |
-| --------------------------------------------------------- | --- |
-| [Home page](https://integration-people-eat.cem-yilmaz.de) | /   |
+| Available Pages                                                      |          |
+| -------------------------------------------------------------------- | -------- |
+| [Home page](https://integration-people-eat.cem-yilmaz.de)            | /        |
+| [Sign in page](https://integration-people-eat.cem-yilmaz.de/sign-in) | /sign-in |
 
 Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.de](https://storybook-integration-people-eat.cem-yilmaz.de)
 
 ## Production
 
-| Available Pages                               |     |
-| --------------------------------------------- | --- |
-| [Home page](https://people-eat.cem-yilmaz.de) | /   |
+| Available Pages                                          |          |
+| -------------------------------------------------------- | -------- |
+| [Home page](https://people-eat.cem-yilmaz.de)            | /        |
+| [Sign in page](https://people-eat.cem-yilmaz.de/sign-in) | /sign-in |
 
 ## Design
 
