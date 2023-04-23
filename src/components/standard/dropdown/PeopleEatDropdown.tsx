@@ -20,7 +20,7 @@ function intersection(a: readonly string[], b: readonly string[]): string[] {
 export default function PeopleEatDropdown(): ReactElement {
     const [checked, setChecked] = useState<readonly string[]>([]);
     const [isOpen, setOpen] = useState(true);
-    const items = ['Vegan', 'ViewerStreet', 'Halal', 'Kircher', 'Regional', 'Bio'];
+    const items = ['Vegan', 'ViewerStreet', 'Halal', 'Regional', 'Bio'];
 
     const handleToggle = (value: string) => () => {
         const currentIndex = checked.indexOf(value);
