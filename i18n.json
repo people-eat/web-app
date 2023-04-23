@@ -4,6 +4,7 @@
     "pages": {
         "*": ["common"],
         "/": ["home", "search"],
-        "/sign-in": ["sign-in"]
+        "/sign-in": ["sign-in"],
+        "/sign-up": ["chef-sign-up"]
     }
 }
