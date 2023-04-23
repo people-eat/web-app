@@ -37,6 +37,7 @@ yarn dev
 | --------------------------------------------- | -------- |
 | [Home page](http://localhost:3000)            | /        |
 | [Sign in page](http://localhost:3000/sign-in) | /sign-in |
+| [Sign up page](http://localhost:3000/sign-up) | /sign-up |
 
 ### Storybook
 
@@ -52,6 +53,7 @@ yarn storybook:start
 | -------------------------------------------------------------------- | -------- |
 | [Home page](https://integration-people-eat.cem-yilmaz.de)            | /        |
 | [Sign in page](https://integration-people-eat.cem-yilmaz.de/sign-in) | /sign-in |
+| [Sign up page](https://integration-people-eat.cem-yilmaz.de/sign-up) | /sign-up |
 
 Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.de](https://storybook-integration-people-eat.cem-yilmaz.de)
 
@@ -61,6 +63,7 @@ Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.d
 | -------------------------------------------------------- | -------- |
 | [Home page](https://people-eat.cem-yilmaz.de)            | /        |
 | [Sign in page](https://people-eat.cem-yilmaz.de/sign-in) | /sign-in |
+| [Sign up page](https://people-eat.cem-yilmaz.de/sign-up) | /sign-up |
 
 ## Design
 
