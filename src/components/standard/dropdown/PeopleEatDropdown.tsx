@@ -73,7 +73,6 @@ export default function PeopleEatDropdown(): ReactElement {
                         bgcolor: 'background.paper',
                         overflow: 'auto',
                         padding: 0,
-                        transitionDelay: '1000ms',
                     }}
                     dense
                     component="div"

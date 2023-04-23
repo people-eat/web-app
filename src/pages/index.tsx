@@ -8,10 +8,12 @@ import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
 import PeopleEatCreditCard from '../components/standard/creditCard/PeopleEatCreditCard';
 import PeopleEatDownloadButton from '../components/standard/downloadButton/PeopleEatDownloadButton';
 import PeopleEatDropdown from '../components/standard/dropdown/PeopleEatDropdown';
+import PeopleEatFAQ from '../components/standard/faq/PeopleEatFAQ';
 import PeopleEatFavorite from '../components/standard/favorite/PeopleEatFavorite';
 import PeopleEatHideButton from '../components/standard/hideButton/PeopleEatHideButton';
 import { Icon } from '../components/standard/icon/Icon';
 import PeopleEatIcon from '../components/standard/icon/PeopleEatIcon';
+import PeopleEatImagePagination from '../components/standard/imagePagination/PeopleEatImagePagination';
 import PeopleEatInput from '../components/standard/input/PeopleEatInput';
 import PeopleEatNextButton from '../components/standard/nextButton/PeopleEatNextButton';
 import PeopleEatSearch, { type PeopleEatSearchResult } from '../components/standard/search/PeopleEatSearch';
@@ -26,8 +28,17 @@ const HomePage: NextPage = () => {
                 <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <main className="max-w-[401px] flex flex-col gap-4">
+            <main className="max-w-[401px] flex flex-col gap-4 px-4">
                 <PeopleEatDropdown />
+                <PeopleEatImagePagination index={1} length={2} />
+                <PeopleEatFAQ
+                    title={
+                        'title title title title title title title title title title title title title title title title title title title title'
+                    }
+                    description={
+                        'description description description description dd  description description description description description description description description description description description description '
+                    }
+                />
                 <PeopleEatChatComponentPreview
                     label={'In Germany'}
                     menuTitle={'delicious dinner'}
