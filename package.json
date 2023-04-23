@@ -30,12 +30,14 @@
         "@mui/material": "^5.11.14",
         "@mui/system": "^5.12.1",
         "@mui/x-date-pickers": "^6.2.1",
+        "@types/validatorjs": "^3.15.0",
         "classnames": "^2.3.2",
         "dayjs": "^1.11.7",
         "graphql": "^16.6.0",
         "next": "^13.2.4",
         "react": "18.2.0",
-        "react-dom": "18.2.0"
+        "react-dom": "18.2.0",
+        "validatorjs": "^3.22.1"
     },
     "devDependencies": {
         "@babel/core": "^7.21.4",

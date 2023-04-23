@@ -1,5 +1,15 @@
-export function isEmail(value: string): boolean {
-    const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{1,2}');
+import Validator from 'validatorjs';
 
-    return regex.test(value);
+export function isEmail(value: string): boolean {
+    const data = {
+        email: value,
+    };
+
+    const rules = {
+        email: 'required|email',
+    };
+
+    const validationEmail = new Validator(data, rules);
+
+    return Boolean(validationEmail.passes());
 }

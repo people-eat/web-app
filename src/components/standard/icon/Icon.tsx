@@ -33,6 +33,7 @@ export enum Icon {
     minus = '/icons/minus.svg',
     moreApps = '/icons/more-apps.svg',
     navigation = '/icons/navigation.svg',
+    pin = '/icons/pin.svg',
     play = '/icons/play.svg',
     plus = '/icons/plus.svg',
     profileEmpty = '/icons/profile-empty.svg',

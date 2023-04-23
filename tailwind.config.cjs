@@ -10,7 +10,11 @@ const config = {
                 orange: 'rgba(255, 100, 51, 1)',
                 border: 'rgba(31, 31, 31, 0.1)',
                 disabled: 'rgba(31, 31, 31, 0.2)',
+                midBlack: 'rgba(31, 31, 31, 0.4)',
                 preBlack: 'rgba(31, 31, 31, 0.8)',
+                lightBlack: 'rgba(31, 31, 31, 1)',
+                midBlackHover: 'rgba(31, 31, 31, 0.05)',
+                green: '#34A853',
             },
             boxShadow: {
                 primary: '0px 1px 24px rgba(0, 0, 0, 0.08)',
@@ -32,6 +36,7 @@ const config = {
             },
             fontSize: {
                 'heading-ss': ['18px', { fontWeight: '500' }],
+                'heading-ss-bold': ['18px', { fontWeight: '700' }],
                 'heading-s': ['20px', { fontWeight: '600', lineHeight: '24px' }],
                 'heading-m': ['24px', { fontWeight: '600' }],
                 'heading-l': ['32px', { fontWeight: '600' }],
