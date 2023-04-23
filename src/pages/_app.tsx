@@ -1,5 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { ThemeProvider, createTheme, type Theme } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { type AppType } from 'next/dist/shared/lib/utils';
 import apolloClient from '../data-source/apolloClient';
 
@@ -18,7 +20,9 @@ const PeopleEatApp: AppType = ({ Component, pageProps }) => {
     return (
         <ApolloProvider client={apolloClient}>
             <ThemeProvider theme={theme}>
-                <Component {...pageProps} />
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <Component {...pageProps} />
+                </LocalizationProvider>
             </ThemeProvider>
         </ApolloProvider>
     );
