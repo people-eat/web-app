@@ -1,16 +1,18 @@
 import IconButton from '@mui/material/Button';
+import classNames from 'classnames';
 import { type ReactElement } from 'react';
 import { type Icon } from '../icon/Icon';
 import PeopleEatIcon from '../icon/PeopleEatIcon';
 
 interface PeopleEatIconButtonProps {
-    onClick: () => void;
+    onClick?: () => void;
     icon: Icon;
     size?: string;
+    className?: string;
     iconSize?: number;
 }
 
-export default function PeopleEatIconButton({ onClick, icon, size = '36px', iconSize }: PeopleEatIconButtonProps): ReactElement {
+export default function PeopleEatIconButton({ onClick, icon, size = '36px', iconSize, className }: PeopleEatIconButtonProps): ReactElement {
     return (
         <IconButton
             sx={{
@@ -29,9 +31,9 @@ export default function PeopleEatIconButton({ onClick, icon, size = '36px', icon
             }}
             size={'small'}
             variant="contained"
-            onClick={onClick}
+            onClick={() => onClick?.()}
         >
-            <PeopleEatIcon icon={icon} className={'cursor-pointer'} edgeLength={iconSize ?? 16} />
+            <PeopleEatIcon icon={icon} className={classNames('cursor-pointer', className)} edgeLength={iconSize ?? 16} />
         </IconButton>
     );
 }

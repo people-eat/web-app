@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import { useState, type ChangeEvent, type ReactElement } from 'react';
 import { isEmail } from '../../../utils/isEmail';
 import PeopleEatHideButton from '../../standard/hideButton/PeopleEatHideButton';
+import { Icon } from '../../standard/icon/Icon';
+import PeopleEatIcon from '../../standard/icon/PeopleEatIcon';
 
 interface PeopleEatInputProps {
     disabled?: boolean;
@@ -36,13 +38,19 @@ export default function PeopleEatInput({ disabled, password: pass, email }: Peop
             <PeopleEatHideButton onClick={(): void => setShowPass(!isShowPass)} />
         </div>
     ) : email ? (
-        <span
-            className={classNames('text-disabled', {
-                ['text-red-500']: isError,
-            })}
-        >
-            Enter your email
-        </span>
+        isValid ? (
+            <div className="mr-2">
+                <PeopleEatIcon icon={Icon.checkGreen} />
+            </div>
+        ) : (
+            <span
+                className={classNames('text-disabled', {
+                    ['text-red-500']: isError,
+                })}
+            >
+                Enter your email
+            </span>
+        )
     ) : null;
 
     return (
@@ -50,9 +58,11 @@ export default function PeopleEatInput({ disabled, password: pass, email }: Peop
             <OutlinedInput
                 error={isError}
                 sx={{
-                    borderBottom: 0,
-                    '&:hover': {
-                        borderBottom: 0,
+                    '&.Mui-focused': {
+                        '.MuiOutlinedInput-notchedOutline': {
+                            border: '1px solid black',
+                            borderColor: 'black',
+                        },
                     },
                     borderRadius: '12px',
                 }}

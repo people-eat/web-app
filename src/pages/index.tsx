@@ -55,8 +55,7 @@ const HomePage: NextPage = () => {
                         `${city}, ${persons}, ${children}, ${date}`;
                     }}
                 />
-                <PeopleEatAddress city={'House'} address={'Your address'} />
-                <PeopleEatAddress city={'House'} street={'Viewer street 125 23'} address={'Your address'} />
+                <PeopleEatAddress title={'House'} address={'Your address'} />
                 <PeopleEatHideButton />
                 <PeopleEatTabItem title={'European'} />
                 <PeopleEatChoice onClose={(): void => undefined} title={'European '} />
