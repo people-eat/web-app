@@ -31,7 +31,7 @@ export default function PeopleEatIconButton({ onClick, icon, size = '36px', icon
             }}
             size={'small'}
             variant="contained"
-            onClick={() => onClick?.()}
+            onClick={(): void => onClick?.()}
         >
             <PeopleEatIcon icon={icon} className={classNames('cursor-pointer', className)} edgeLength={iconSize ?? 16} />
         </IconButton>

@@ -40,6 +40,7 @@ export enum Icon {
     play = '/icons/play.svg',
     plus = '/icons/plus.svg',
     plusOrange = '/icons/plus-orange.svg',
+    profile = '/icons/profile.svg',
     profileEmpty = '/icons/profile-empty.svg',
     search = '/icons/search.svg',
     searchBar = '/icons/search-bar.svg',

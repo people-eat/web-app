@@ -1,6 +1,6 @@
 import { type ReactElement } from 'react';
 
-interface PeopleEatImagePaginationProps {
+export interface PeopleEatImagePaginationProps {
     index: number;
     length: number;
 }

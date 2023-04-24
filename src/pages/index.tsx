@@ -8,7 +8,7 @@ import PeopleEatCounter from '../components/standard/counter/PeopleEatCounter';
 import PeopleEatCreditCard from '../components/standard/creditCard/PeopleEatCreditCard';
 import PeopleEatDownloadButton from '../components/standard/downloadButton/PeopleEatDownloadButton';
 import PeopleEatDropdown from '../components/standard/dropdown/PeopleEatDropdown';
-import PeopleEatFAQ from '../components/standard/faq/PeopleEatFAQ';
+import PeopleEatExpandable from '../components/standard/faq/PeopleEatExpandable';
 import PeopleEatFavorite from '../components/standard/favorite/PeopleEatFavorite';
 import PeopleEatHideButton from '../components/standard/hideButton/PeopleEatHideButton';
 import { Icon } from '../components/standard/icon/Icon';
@@ -31,7 +31,7 @@ const HomePage: NextPage = () => {
             <main className="max-w-[401px] flex flex-col gap-4 px-4">
                 <PeopleEatDropdown />
                 <PeopleEatImagePagination index={1} length={2} />
-                <PeopleEatFAQ
+                <PeopleEatExpandable
                     title={
                         'title title title title title title title title title title title title title title title title title title title title'
                     }
