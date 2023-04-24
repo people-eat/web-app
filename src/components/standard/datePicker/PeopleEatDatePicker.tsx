@@ -17,7 +17,7 @@ export default function PeopleEatDatePicker({ date, onChange }: PeopleEatDatePic
         <>
             <LocalizationProvider
                 dateAdapter={AdapterDayjs}
-                adapterLocale={'de'}
+                adapterLocale={'de-DE'}
                 localeText={{ clearButtonLabel: 'Empty', todayButtonLabel: 'Now' }}
             >
                 <DatePicker

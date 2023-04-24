@@ -3,9 +3,12 @@ import { useState, type ReactElement } from 'react';
 
 interface IPeopleEatSlider {
     onProgress: (progress: number) => void;
+    step?: number;
+    min?: number;
+    max?: number;
 }
 
-export default function PeopleEatSlider({ onProgress }: IPeopleEatSlider): ReactElement {
+export default function PeopleEatSlider({ onProgress, step, min, max }: IPeopleEatSlider): ReactElement {
     const [_sliderProgress, setSliderProgress] = useState('0');
 
     function handleOnChange(value: number | number[]): void {
@@ -16,6 +19,10 @@ export default function PeopleEatSlider({ onProgress }: IPeopleEatSlider): React
     return (
         <div>
             <Slider
+                valueLabelDisplay="auto"
+                step={step ?? 1}
+                min={min ?? 0}
+                max={max ?? 100}
                 sx={{
                     color: 'rgba(255, 100, 51, 1)',
                     height: 2,
