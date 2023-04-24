@@ -14,7 +14,7 @@ export default function PeopleEatExpandable({ title, description }: PeopleEatExp
 
     return (
         <div className="p-4">
-            <div onClick={(): void => setOpen(!isOpen)} className="flex flex-row items-center mb-5 cursor-pointer">
+            <div onClick={(): void => setOpen(!isOpen)} className="flex flex-row items-center justify-between mb-5 cursor-pointer">
                 <span
                     className={classNames({
                         ['text-orange']: isOpen,
