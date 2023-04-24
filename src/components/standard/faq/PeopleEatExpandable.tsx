@@ -4,12 +4,12 @@ import { useState, type ReactElement } from 'react';
 import PeopleEatIconButton from '../../standard/iconButton/PeopleEatIconButton';
 import { Icon } from '../icon/Icon';
 
-interface PeopleEatFAQProps {
+interface PeopleEatExpandableProps {
     title: string;
     description: string;
 }
 
-export default function PeopleEatFAQ({ title, description }: PeopleEatFAQProps): ReactElement {
+export default function PeopleEatExpandable({ title, description }: PeopleEatExpandableProps): ReactElement {
     const [isOpen, setOpen] = useState(true);
 
     return (

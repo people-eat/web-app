@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+import Image from 'next/image';
 import { type ReactElement } from 'react';
 import { Icon } from '../../standard/icon/Icon';
 import PeopleEatIcon from '../../standard/icon/PeopleEatIcon';
@@ -11,6 +13,7 @@ interface PeopleEatChatComponentProps {
     place?: string;
     userName?: string;
     lastDateActive?: string;
+    imageUrl?: string;
 }
 
 export default function PeopleEatChatComponentPreview({
@@ -22,6 +25,7 @@ export default function PeopleEatChatComponentPreview({
     place,
     userName,
     lastDateActive,
+    imageUrl,
 }: PeopleEatChatComponentProps): ReactElement {
     return (
         <div onClick={onClick} className="flex flex-col gap-2 max-w-[365px] px-4 box-border py-2 relative">
@@ -41,7 +45,13 @@ export default function PeopleEatChatComponentPreview({
             </div>
             <div className="flex justify-between items-center">
                 <div className="gap-4 flex flex-row items-center">
-                    <div className="w-[26px] h-[26px] rounded-1 bg-base"></div>
+                    <div
+                        className={classNames('w-[26px] h-[26px] rounded-1 justify-center items-center', {
+                            ['bg-base']: imageUrl,
+                        })}
+                    >
+                        {imageUrl ? <Image src={imageUrl} alt={imageUrl} /> : <PeopleEatIcon icon={Icon.profile} />}
+                    </div>
                     <span className="text-black text-text-sm">{userName}</span>
                 </div>
                 <span className="text-midBlack text-text-sm">{lastDateActive}</span>
