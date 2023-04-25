@@ -26,7 +26,7 @@ export const ButtonSecondary: StoryObj<typeof PEButton> = {
     },
 };
 
-export const ButtonPrimaryloading: StoryObj<typeof PEButton> = {
+export const ButtonPrimaryLoading: StoryObj<typeof PEButton> = {
     args: {
         type: 'primary',
         size: 'l',
