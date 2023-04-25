@@ -22,6 +22,7 @@ const config = {
             },
             backgroundColor: {
                 orange: 'rgba(255, 100, 51, 1)',
+                orangePlus: 'rgba(255, 90, 38, 1)',
                 hover: 'rgba(255, 100, 51, .7)',
                 base: 'rgba(245, 245, 245, 1)',
                 border: 'rgba(31, 31, 31, 0.1)',
@@ -86,6 +87,9 @@ const config = {
                 10: '40px',
                 11: '44px',
                 12: '48px',
+                13: '52px',
+                14: '56px',
+                15: '60px',
             },
             fontFamily: {
                 manrope: ['Manrope', 'Arial', 'sans-serif'],

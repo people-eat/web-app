@@ -30,6 +30,8 @@ export enum Icon {
     heartFull = '/icons/heart-full.svg',
     home = '/icons/home.svg',
     list = '/icons/list.svg',
+    loaderWhite = '/icons/loader-white.svg',
+    loaderOrange = '/icons/loader-orange.svg',
     markerPin = '/icons/marker-pin.svg',
     messageChat = '/icons/message-chat-circle.svg',
     minus = '/icons/minus.svg',
