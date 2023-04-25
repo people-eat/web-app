@@ -19,6 +19,7 @@ const config = {
             },
             boxShadow: {
                 primary: '0px 1px 24px rgba(0, 0, 0, 0.08)',
+                active: '0px 5px 24px rgba(0, 0, 0, 0.16)',
             },
             backgroundColor: {
                 orange: 'rgba(255, 100, 51, 1)',

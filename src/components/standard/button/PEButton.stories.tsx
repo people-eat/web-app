@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Icon } from '../../standard/icon/Icon';
 import PEButton from './PEButton';
 
 const meta: Meta<typeof PEButton> = {
@@ -33,5 +34,23 @@ export const ButtonPrimaryLoading: StoryObj<typeof PEButton> = {
         onClick: (): void => undefined,
         title: 'click me!',
         loading: true,
+    },
+};
+
+export const ButtonPrimaryIcon: StoryObj<typeof PEButton> = {
+    args: {
+        type: 'primary',
+        size: 'l',
+        onClick: (): void => undefined,
+        iconLeft: Icon.searchBar,
+    },
+};
+
+export const ButtonSecondaryIcon: StoryObj<typeof PEButton> = {
+    args: {
+        type: 'secondary',
+        size: 'l',
+        onClick: (): void => undefined,
+        iconLeft: Icon.search,
     },
 };

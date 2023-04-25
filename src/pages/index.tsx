@@ -13,7 +13,7 @@ const HomePage: NextPage = () => {
             <main>
                 <div className="flex flex-row flex-wrap p-10 box-border gap-5">
                     <PEChefCard
-                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        kitchensList={['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek']}
                         chefName={'Maximilian'}
                         image={'/chef.png'}
                         city={'Berlin'}
@@ -21,14 +21,14 @@ const HomePage: NextPage = () => {
                         voices={'25'}
                     />
                     <PEChefCard
-                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        kitchensList={['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek']}
                         chefName={'Maximilian'}
                         image={'/chef.png'}
                         estimation={'4.9'}
                         voices={'25'}
                     />
                     <PEChefCard
-                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        kitchensList={['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek']}
                         chefName={'Maximilian'}
                         city={'Berlin'}
                         estimation={'4.9'}
@@ -37,7 +37,7 @@ const HomePage: NextPage = () => {
                 </div>
                 <div className="flex flex-row flex-wrap p-10 box-border gap-5">
                     <PEChefCard
-                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        kitchensList={['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek']}
                         chefName={'Maximilian'}
                         city={'Berlin'}
                         image={'/chef.png'}
@@ -47,7 +47,7 @@ const HomePage: NextPage = () => {
                         dishesList={['European', 'Australia', 'Midland']}
                     />
                     <PEChefCard
-                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        kitchensList={['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek']}
                         chefName={'Maximilian'}
                         city={'Berlin'}
                         size={'s'}

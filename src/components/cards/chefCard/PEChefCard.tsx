@@ -26,7 +26,7 @@ export default function PEChefCard({
     dishesList,
 }: PEChefCardProps): ReactElement {
     const baseClassNames =
-        'flex flex-col active:shadow-primary hover:shadow-primary overflow-hidden w-full border-solid border-border border-[1px] rounded-3 cursor-pointer';
+        'flex flex-col active:shadow-active hover:shadow-primary overflow-hidden w-full border-solid border-border border-[1px] rounded-3 cursor-pointer';
     const width = classNames({
         'max-w-[380px]': size !== 's',
         'max-w-[280px]': size === 's',
