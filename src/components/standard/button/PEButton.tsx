@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { type ReactElement } from 'react';
-import { Icon } from '~/components/standard/icon/Icon';
+import { Icon } from '../../standard/icon/Icon';
 import PeopleEatIcon from '../../standard/icon/PEIcon';
 
 export interface PEButtonProps {

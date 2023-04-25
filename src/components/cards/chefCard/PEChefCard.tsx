@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
-import { Icon } from '~/components/standard/icon/Icon';
-import PeopleEatIcon from '~/components/standard/icon/PEIcon';
+import { Icon } from '../../standard/icon/Icon';
+import PeopleEatIcon from '../../standard/icon/PEIcon';
 
 export interface PEChefCardProps {
     size?: 's' | 'b';
