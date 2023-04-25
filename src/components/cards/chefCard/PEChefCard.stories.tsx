@@ -10,7 +10,7 @@ export default meta;
 
 export const BigWithChef: StoryObj<typeof PEChefCard> = {
     args: {
-        kitchensList: ['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo'],
+        kitchensList: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
         chefName: 'Maximilian',
         image: '/chef.png',
         city: 'Berlin',
@@ -21,7 +21,7 @@ export const BigWithChef: StoryObj<typeof PEChefCard> = {
 
 export const BigWithoutChef: StoryObj<typeof PEChefCard> = {
     args: {
-        kitchensList: ['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo'],
+        kitchensList: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
         chefName: 'Maximilian',
         city: 'Berlin',
         estimation: '4.9',
@@ -31,7 +31,7 @@ export const BigWithoutChef: StoryObj<typeof PEChefCard> = {
 
 export const SmallWithChef: StoryObj<typeof PEChefCard> = {
     args: {
-        kitchensList: ['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo'],
+        kitchensList: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
         chefName: 'Maximilian',
         image: '/chef.png',
         city: 'Berlin',
@@ -44,7 +44,7 @@ export const SmallWithChef: StoryObj<typeof PEChefCard> = {
 
 export const SmallWithoutChef: StoryObj<typeof PEChefCard> = {
     args: {
-        kitchensList: ['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo'],
+        kitchensList: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
         chefName: 'Maximilian',
         city: 'Berlin',
         size: 's',
