@@ -13,16 +13,16 @@ const HomePage: NextPage = () => {
             </Head>
             <main>
                 <div className="flex flex-col p-10 box-border gap-5">
-                    <PEButton type={'primary'} title={'Button'} onClick={() => ''} />
-                    <PEButton type={'secondary'} title={'Button'} onClick={() => ''} />
-                    <PEButton disabled={true} title={'Button'} onClick={() => ''} />
-                    <PEButton type={'secondary'} disabled={true} title={'Button'} onClick={() => ''} />
-                    <PEButton iconLeft={Icon.searchBar} type={'primary'} title={'Button'} onClick={() => ''} />
-                    <PEButton iconRight={Icon.searchBar} type={'primary'} title={'Button'} onClick={() => ''} />
-                    <PEButton size={'l'} iconRight={Icon.search} type={'primary'} title={'Button'} onClick={() => ''} />
-                    <PEButton loading size={'l'} type={'primary'} title={'Button'} onClick={() => ''} />
-                    <PEButton loading type={'secondary'} title={'Button'} onClick={() => ''} />
-                    <PEButton iconLeft={Icon.searchBar} type={'primary'} title={''} onClick={() => ''} />
+                    <PEButton type={'primary'} title={'Button'} onClick={(): void => undefined} />
+                    <PEButton type={'secondary'} title={'Button'} onClick={(): void => undefined} />
+                    <PEButton disabled={true} title={'Button'} onClick={(): void => undefined} />
+                    <PEButton type={'secondary'} disabled={true} title={'Button'} onClick={(): void => undefined} />
+                    <PEButton iconLeft={Icon.searchBar} type={'primary'} title={'Button'} onClick={(): void => undefined} />
+                    <PEButton iconRight={Icon.searchBar} type={'primary'} title={'Button'} onClick={(): void => undefined} />
+                    <PEButton size={'l'} iconRight={Icon.search} type={'primary'} title={'Button'} onClick={(): void => undefined} />
+                    <PEButton loading size={'l'} type={'primary'} title={'Button'} onClick={(): void => undefined} />
+                    <PEButton loading type={'secondary'} title={'Button'} onClick={(): void => undefined} />
+                    <PEButton iconLeft={Icon.searchBar} type={'primary'} title={''} onClick={(): void => undefined} />
                 </div>
             </main>
         </>

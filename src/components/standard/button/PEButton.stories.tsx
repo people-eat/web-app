@@ -12,7 +12,7 @@ export const ButtonPrimary: StoryObj<typeof PEButton> = {
     args: {
         type: 'primary',
         size: 'm',
-        onClick: () => undefined,
+        onClick: (): void => undefined,
         title: 'click me!',
     },
 };
@@ -21,7 +21,7 @@ export const ButtonSecondary: StoryObj<typeof PEButton> = {
     args: {
         type: 'secondary',
         size: 'l',
-        onClick: () => undefined,
+        onClick: (): void => undefined,
         title: 'click me!',
     },
 };
@@ -30,7 +30,7 @@ export const ButtonPrimaryloading: StoryObj<typeof PEButton> = {
     args: {
         type: 'primary',
         size: 'l',
-        onClick: () => undefined,
+        onClick: (): void => undefined,
         title: 'click me!',
         loading: true,
     },
