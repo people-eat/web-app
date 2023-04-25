@@ -3,7 +3,7 @@ import { type ReactElement } from 'react';
 import { Icon } from '~/components/standard/icon/Icon';
 import PeopleEatIcon from '../../standard/icon/PEIcon';
 
-type PEButtonProps = {
+export interface PEButtonProps {
     type?: 'primary' | 'secondary';
     size?: 'm' | 'l' | 's';
     disabled?: boolean;
@@ -14,7 +14,7 @@ type PEButtonProps = {
     onClick: () => void;
     title: string;
     loading?: boolean;
-};
+}
 
 export default function PEButton({
     type = 'primary',
@@ -33,6 +33,7 @@ export default function PEButton({
         'bg-orange text-white active:shadow-primary cursor-pointer': type === 'primary' && !disabled,
         'border-[1px] bg-white border-orange active:shadow-primary text-orange cursor-pointer': type === 'secondary' && !disabled,
     });
+
     const opacity = classNames({
         'bg-disabled text-white': disabled && type === 'primary',
         'border-[1px] border-disabled text-disabled': disabled && type === 'secondary',
@@ -42,6 +43,7 @@ export default function PEButton({
         'hover:bg-orangePlus': type === 'primary' && !disabled,
         'hover:shadow-primary': type === 'secondary' && !disabled,
     });
+
     const height = classNames({
         'h-[72px]': size === 'l',
         'h-[49px]': size === 'm' || size === 's',

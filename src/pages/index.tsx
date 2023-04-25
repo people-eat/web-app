@@ -1,7 +1,6 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
-import PEButton from '../components/standard/button/PEButton';
-import { Icon } from '../components/standard/icon/Icon';
+import PEChefCard from '../components/cards/chefCard/PEChefCard';
 
 const HomePage: NextPage = () => {
     return (
@@ -12,17 +11,50 @@ const HomePage: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <div className="flex flex-col p-10 box-border gap-5">
-                    <PEButton type={'primary'} title={'Button'} onClick={(): void => undefined} />
-                    <PEButton type={'secondary'} title={'Button'} onClick={(): void => undefined} />
-                    <PEButton disabled={true} title={'Button'} onClick={(): void => undefined} />
-                    <PEButton type={'secondary'} disabled={true} title={'Button'} onClick={(): void => undefined} />
-                    <PEButton iconLeft={Icon.searchBar} type={'primary'} title={'Button'} onClick={(): void => undefined} />
-                    <PEButton iconRight={Icon.searchBar} type={'primary'} title={'Button'} onClick={(): void => undefined} />
-                    <PEButton size={'l'} iconRight={Icon.search} type={'primary'} title={'Button'} onClick={(): void => undefined} />
-                    <PEButton loading size={'l'} type={'primary'} title={'Button'} onClick={(): void => undefined} />
-                    <PEButton loading type={'secondary'} title={'Button'} onClick={(): void => undefined} />
-                    <PEButton iconLeft={Icon.searchBar} type={'primary'} title={''} onClick={(): void => undefined} />
+                <div className="flex flex-row flex-wrap p-10 box-border gap-5">
+                    <PEChefCard
+                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        chefName={'Maximilian'}
+                        image={'/chef.png'}
+                        city={'Berlin'}
+                        estimation={'4.9'}
+                        voices={'25'}
+                    />
+                    <PEChefCard
+                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        chefName={'Maximilian'}
+                        image={'/chef.png'}
+                        estimation={'4.9'}
+                        voices={'25'}
+                    />
+                    <PEChefCard
+                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        chefName={'Maximilian'}
+                        city={'Berlin'}
+                        estimation={'4.9'}
+                        voices={'25'}
+                    />
+                </div>
+                <div className="flex flex-row flex-wrap p-10 box-border gap-5">
+                    <PEChefCard
+                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        chefName={'Maximilian'}
+                        city={'Berlin'}
+                        image={'/chef.png'}
+                        size={'s'}
+                        estimation={'4.9'}
+                        voices={'25'}
+                        dishesList={['European', 'Australia', 'Midland']}
+                    />
+                    <PEChefCard
+                        kitchensList={['halal', 'eropean', 'halal', 'eropean', 'halal', 'eropean', 'geengo']}
+                        chefName={'Maximilian'}
+                        city={'Berlin'}
+                        size={'s'}
+                        estimation={'4.9'}
+                        voices={'25'}
+                        dishesList={['European', 'Australia', 'Midland']}
+                    />
                 </div>
             </main>
         </>
