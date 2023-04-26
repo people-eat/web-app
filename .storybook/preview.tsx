@@ -6,9 +6,13 @@ import moment from 'moment';
 import I18nProvider from 'next-translate/I18nProvider';
 import React, { type ReactElement } from 'react';
 import commonGerman from '../locales/de/common.json';
+import homeGerman from '../locales/de/home.json';
 import commonEnglish from '../locales/en/common.json';
+import homeEnglish from '../locales/en/home.json';
 import commonFrench from '../locales/fr/common.json';
+import homeFrench from '../locales/fr/home.json';
 import commonRussian from '../locales/ru/common.json';
+import homeRussian from '../locales/ru/home.json';
 import { theme } from '../src/pages/_app';
 import '../src/styles/globals.css';
 
@@ -17,11 +21,11 @@ export const decorators = [
         const language = context.globals.language;
         moment.locale(language);
 
-        let nameSpaces = { common: commonEnglish };
+        let nameSpaces = { common: commonEnglish, home: homeEnglish };
 
-        if (language === 'de') nameSpaces = { common: commonGerman };
-        if (language === 'ru') nameSpaces = { common: commonRussian };
-        if (language === 'fr') nameSpaces = { common: commonFrench };
+        if (language === 'de') nameSpaces = { common: commonGerman, home: homeGerman };
+        if (language === 'ru') nameSpaces = { common: commonRussian, home: homeRussian };
+        if (language === 'fr') nameSpaces = { common: commonFrench, home: homeFrench };
 
         return (
             <ThemeProvider theme={theme}>
