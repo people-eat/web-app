@@ -1,6 +1,8 @@
 import { ThemeProvider } from '@mui/material';
 import type { Preview } from '@storybook/react';
+import I18nProvider from 'next-translate/I18nProvider';
 import React, { type ReactElement } from 'react';
+import common from '../locales/en/common.json';
 import { theme } from '../src/pages/_app';
 import '../src/styles/globals.css';
 
@@ -8,7 +10,9 @@ export const decorators = [
     (Story: any): ReactElement => {
         return (
             <ThemeProvider theme={theme}>
-                <Story />
+                <I18nProvider lang={'en'} namespaces={{ common }}>
+                    <Story />
+                </I18nProvider>
             </ThemeProvider>
         );
     },
