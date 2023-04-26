@@ -11,8 +11,8 @@ export default meta;
 export const Component: StoryObj<typeof PEMealCard> = {
     args: {
         pricePerPerson: 12,
-        menus: ['halhwfw', 'erfer', 'freferfre'],
-        categories: ['halhwfw', 'erfer', 'freferfre'],
+        menus: ['PEMealCard', 'PEMealC', 'PEMealCard'],
+        categories: ['PEMealCard', 'PEMealC', 'PEMealCard'],
         mealDescription: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard',
         mealTitle: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMea',
     },
