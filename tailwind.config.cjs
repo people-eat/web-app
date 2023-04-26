@@ -20,6 +20,7 @@ const config = {
             boxShadow: {
                 primary: '0px 1px 24px rgba(0, 0, 0, 0.08)',
                 active: '0px 5px 24px rgba(0, 0, 0, 0.16)',
+                orange: '0px 1px 12px rgba(255, 100, 51, 0.7)',
             },
             backgroundColor: {
                 orange: 'rgba(255, 100, 51, 1)',
@@ -47,6 +48,7 @@ const config = {
                 'text-s': ['12px', { lineHeight: '15px' }],
                 'text-s-height': ['12px', { lineHeight: '20px' }],
                 'text-sm': ['14px', { lineHeight: '18px' }],
+                'text-sm-bold': ['14px', { lineHeight: '18px', fontWeight: '700' }],
                 'text-m': ['16px', { lineHeight: '20px' }],
                 'text-m-bold': ['16px', { fontWeight: '700' }],
                 'text-l': ['18px', { lineHeight: '22px' }],

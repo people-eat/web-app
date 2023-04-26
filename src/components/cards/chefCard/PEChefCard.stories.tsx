@@ -10,46 +10,46 @@ export default meta;
 
 export const BigWithChef: StoryObj<typeof PEChefCard> = {
     args: {
-        kitchensList: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
-        chefName: 'Maximilian',
-        image: '/chef.png',
-        city: 'Berlin',
-        estimation: '4.9',
-        voices: '25',
+        categories: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
+        name: 'Maximilian',
+        imageUrl: '/chef.png',
+        location: 'Berlin',
+        rank: '4.9',
+        rating: { count: 25 },
     },
 };
 
 export const BigWithoutChef: StoryObj<typeof PEChefCard> = {
     args: {
-        kitchensList: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
-        chefName: 'Maximilian',
-        city: 'Berlin',
-        estimation: '4.9',
-        voices: '25',
+        categories: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
+        name: 'Maximilian',
+        location: 'Berlin',
+        rank: '4.9',
+        rating: { count: 25 },
     },
 };
 
 export const SmallWithChef: StoryObj<typeof PEChefCard> = {
     args: {
-        kitchensList: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
-        chefName: 'Maximilian',
-        image: '/chef.png',
-        city: 'Berlin',
+        categories: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
+        name: 'Maximilian',
+        imageUrl: '/chef.png',
+        location: 'Berlin',
         size: 's',
-        estimation: '4.9',
-        voices: '25',
-        dishesList: ['European', 'Australia', 'Midland'],
+        rank: '4.9',
+        rating: { count: 25 },
+        menus: ['European', 'Australia', 'Midland'],
     },
 };
 
 export const SmallWithoutChef: StoryObj<typeof PEChefCard> = {
     args: {
-        kitchensList: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
-        chefName: 'Maximilian',
-        city: 'Berlin',
+        categories: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
+        name: 'Maximilian',
+        location: 'Berlin',
         size: 's',
-        estimation: '4.9',
-        voices: '25',
-        dishesList: ['European', 'Australia', 'Midland'],
+        rank: '4.9',
+        rating: { count: 25 },
+        menus: ['European', 'Australia', 'Midland'],
     },
 };
