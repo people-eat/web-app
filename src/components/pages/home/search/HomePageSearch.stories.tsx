@@ -6,7 +6,7 @@ import { type AddressSearchResult } from './AddressSearchResult';
 import HomePageSearch, { type HomePageSearchProps } from './HomePageSearch';
 
 const meta: Meta<typeof HomePageSearch> = {
-    title: 'HomePage/Search',
+    title: 'Home Page/Search',
     component: HomePageSearch,
 };
 
