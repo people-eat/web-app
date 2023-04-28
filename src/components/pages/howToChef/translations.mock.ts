@@ -17,7 +17,8 @@ export const ChefDescription = 'Lebe deinen Traum vom eigenen Restaurant';
 export const HobbyChefDescription = 'Lebe deine Leidenschaft! Du bestimmst das Tempo';
 export const register = 'Registrieren';
 export const promoTitle =
-    'Aci turpis - egestas sed tempus urna. Consectetur adipiscing elit pellentesque habitant morbi tristique senectus et. egestas sed tempus urna.';
+    'Starte deine Journey als Privatkoch. \n' +
+    'Schaffe eigene Menükreationen, bringe exklusive kulinarische Erlebnismomente nachhause und baue deine eigene Brand auf.';
 
 export const section4Title = 'So wirst du PeopleEat Chef';
 export const menuName = 'Herbstmenü';
@@ -37,13 +38,13 @@ export const cemSecondName = 'Mustermann';
 export const profile = 'Profilfoto';
 
 export const step1 = 'Schritt 1';
-export const step1Title = 'Registrieren Sie sich als Koch';
+export const step1Title = 'Registrieren Erstelle in unter 3 Minuten dein Profil';
 export const step1Description = 'Verdienen Sie noch heute Geld mit dem, was Sie lieben';
 export const step2 = 'Schritt 2';
-export const step2Title = 'Das Vorstellungsgespräch bestehen';
+export const step2Title = 'ein On-Boarding';
 export const step2Description = 'Verdienen Sie noch heute Geld mit dem, was Sie lieben';
 export const step3 = 'Schritt 3';
-export const step3Title = 'Verdienen';
+export const step3Title = 'Lebe deine Leidenschaft und vernetze dich mit potenziellen Kunden';
 export const step3Description = 'Verdienen Sie noch heute Geld mit dem, was Sie lieben';
 
 export const section5Title = 'Features';

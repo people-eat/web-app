@@ -34,16 +34,16 @@ export default function HowToChefSection2(): ReactElement {
     }
 
     return (
-        <VStack className="w-full max-w-screen-xl lg:px-8 box-border">
+        <VStack className="w-full max-w-screen-xl box-border">
             <VStack className="w-full gap-8">
                 <div className="flex w-full lg:justify-center mt-[160px] mb-15">
                     <h2 className="w-full text-center lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xl m-0 p-0 lg:uppercase">
                         {calculate}
                     </h2>
                 </div>
-                <HStack className="w-full">
-                    <VStack className="w-[50%] gap-12" style={{ alignItems: 'flex-start' }}>
-                        <h3 className="text-heading-ss-bold m-0 py-0 lg:uppercase">{calculateTitle}</h3>
+                <HStack className="w-full lg:flex-wrap lg:bg-howToChef lg:py-8 box-border ">
+                    <VStack className="w-[50%] lg:w-full lg:px-10 box-border min-w-[460px] gap-12" style={{ alignItems: 'flex-start' }}>
+                        <h3 className="text-heading-ss-bold m-0 py-0 lg:text-center lg:uppercase">{calculateTitle}</h3>
                         <VStack style={{ alignItems: 'flex-start' }}>
                             <p className="py-0">{qualification}</p>
                             <HStack className=" gap-3">
@@ -61,24 +61,24 @@ export default function HowToChefSection2(): ReactElement {
                             </HStack>
                         </VStack>
                         <VStack className="gap-3" style={{ alignItems: 'start' }}>
-                            <p className="my-0 text-text-sm py-0">{ordersCountTitle}</p>
+                            <p className="my-0 text-text-sm py-0 md:text-text-sm">{ordersCountTitle}</p>
                             <PECounter value={Number(personsCount)} onValueChange={(value): void => setPersonsCount(String(value))} />
                         </VStack>
                         <PEButton
-                            className="max-w-[300px]"
+                            className="max-w-[300px] md:max-w-full"
                             onClick={(): void => calculateCountPrice()}
                             title={buttonTitle}
                             type="secondary"
                         />
                     </VStack>
-                    <VStack className="bg-howToChef w-[50%] p-15 box-border rounded-3">
+                    <VStack className="bg-howToChef w-[50%] lg:w-full min-w-[460px] p-15 md:p-8 box-border rounded-3">
                         <VStack
                             style={{ alignItems: 'flex-start' }}
                             className="w-full justify-between relative bg-white h-[250px] shadow-primary rounded-2 py-11 px-8 box-border"
                         >
-                            <p className="absolute top-8 right-8 text-heading-xl my-0">{income}€</p>
+                            <p className="absolute top-10 right-8 text-heading-xl md:text-text-m-bold my-0">{income}€</p>
                             <VStack style={{ alignItems: 'flex-start' }} className="w-full">
-                                <p className="text-heading-m my-0 text-left w-full">{perMonth}</p>
+                                <p className="text-heading-m my-0 text-left w-full md:text-text-m-bold">{perMonth}</p>
                                 <p className="text-disabled text-text-s w-[200px] my-2">{changePersonsCount(example, personsCount)}</p>
                             </VStack>
                             <VStack style={{ alignItems: 'flex-start' }}>

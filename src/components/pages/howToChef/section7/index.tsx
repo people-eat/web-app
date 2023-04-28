@@ -5,9 +5,9 @@ import { register, section7Title } from '../translations.mock';
 
 export default function HowToChefSection7(): ReactElement {
     return (
-        <VStack className="w-full h-[270px] relative overflow-hidden max-w-screen-xl lg:px-8 box-border bg-peBlack mt-15 rounded-4">
+        <VStack className="w-[calc(100%+20px)] h-[270px] relative overflow-hidden max-w-screen-xl lg:px-4 box-border bg-peBlack mt-15 rounded-4">
             <div className="relative flex w-full mt-[70px] lg:justify-center mb-15">
-                <h2 className="absolute z-10 w-full text-white text-center lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xl m-0 p-0 lg:uppercase">
+                <h2 className="absolute z-10 w-full md:text-heading-s text-white text-center w-full text-heading-xl m-0 p-0 lg:uppercase">
                     {section7Title}
                 </h2>
             </div>
