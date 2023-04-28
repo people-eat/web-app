@@ -3,6 +3,7 @@
     "defaultLocale": "en",
     "pages": {
         "*": ["common"],
-        "/": ["home"]
+        "/": ["home"],
+        "/chef-sign-up": ["chef-sign-up"]
     }
 }
