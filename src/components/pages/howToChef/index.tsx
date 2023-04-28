@@ -29,6 +29,7 @@ export default function HowToChefPage(): ReactElement {
                 <HowToChefSection7 />
                 {/* <HowToChefSection8 /> */}
             </VStack>
+
             <PEFooter />
         </VStack>
     );

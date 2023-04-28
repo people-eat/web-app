@@ -16,8 +16,6 @@ export const Component: StoryObj<typeof PEReviewCardPlatform> = {
         occasion: 'Birthday',
         location: 'Berlin',
         comment: 'Thank you for the amazing experience.',
-        createdAt: new Date().toDateString(),
-        onClick: undefined,
     },
 };
 
@@ -29,8 +27,6 @@ export const WithoutImage: StoryObj<typeof PEReviewCardPlatform> = {
         occasion: 'Birthday',
         location: 'Berlin',
         comment: 'Thank you for the amazing experience.',
-        createdAt: new Date().toDateString(),
-        onClick: undefined,
     },
 };
 
@@ -43,7 +39,5 @@ export const WithoutLongText: StoryObj<typeof PEReviewCardPlatform> = {
         location: 'Berlin',
         comment:
             'Thank you for the amazing experience. Thank you for the amazing experience. Thank you for the amazing experience. Thank you for the amazing experience. Thank you for the amazing experience. Thank you for the amazing experience. Thank you for the amazing experience. Thank you for the amazing experience. Thank you for the amazing experience. Thank you for the amazing experience.',
-        createdAt: new Date().toDateString(),
-        onClick: undefined,
     },
 };

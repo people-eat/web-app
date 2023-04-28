@@ -6,7 +6,7 @@ import { expand01, expandDescription01 } from '../translations.mock';
 
 export default function HowToChefSection8(): ReactElement {
     return (
-        <VStack className="w-full max-w-screen-xl lg:px-8 box-border">
+        <VStack className="w-full max-w-screen-xl box-border">
             <VStack className="w-full gap-8">
                 <div className="flex w-full lg:justify-center mt-[120px] mb-15">
                     <h2 className="w-full text-center lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xl m-0 p-0 lg:uppercase">
