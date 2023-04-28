@@ -33,12 +33,13 @@ Start the development server:
 yarn dev
 ```
 
-| Available Pages                                                |              |
-| -------------------------------------------------------------- | ------------ |
-| [Home page](http://localhost:3000)                             | /            |
-| [Sign in page](http://localhost:3000/sign-in)                  | /sign-in     |
-| [Sign up page](http://localhost:3000/sign-up)                  | /sign-up     |
-| [How to become a chef page](http://localhost:3000/how-to-chef) | /how-to-chef |
+| Available Pages                                                |               |
+| -------------------------------------------------------------- | ------------- |
+| [Home page](http://localhost:3000)                             | /             |
+| [Sign in page](http://localhost:3000/sign-in)                  | /sign-in      |
+| [Sign up page](http://localhost:3000/sign-up)                  | /sign-up      |
+| [How to become a chef page](http://localhost:3000/how-to-chef) | /how-to-chef  |
+| [Chef sign up page](http://localhost:3000/chef-sign-up)        | /chef-sign-up |
 
 ### Storybook
 
@@ -50,23 +51,25 @@ yarn storybook:start
 
 ## Integration
 
-| Available Pages                                                                       |              |
-| ------------------------------------------------------------------------------------- | ------------ |
-| [Home page](https://integration-people-eat.cem-yilmaz.de)                             | /            |
-| [Sign in page](https://integration-people-eat.cem-yilmaz.de/sign-in)                  | /sign-in     |
-| [Sign up page](https://integration-people-eat.cem-yilmaz.de/sign-up)                  | /sign-up     |
-| [How to become a chef page](https://integration-people-eat.cem-yilmaz.de/how-to-chef) | /how-to-chef |
+| Available Pages                                                                       |               |
+| ------------------------------------------------------------------------------------- | ------------- |
+| [Home page](https://integration-people-eat.cem-yilmaz.de)                             | /             |
+| [Sign in page](https://integration-people-eat.cem-yilmaz.de/sign-in)                  | /sign-in      |
+| [Sign up page](https://integration-people-eat.cem-yilmaz.de/sign-up)                  | /sign-up      |
+| [How to become a chef page](https://integration-people-eat.cem-yilmaz.de/how-to-chef) | /how-to-chef  |
+| [Chef sign up page](https://integration-people-eat.cem-yilmaz.de/chef-sign-up)        | /chef-sign-up |
 
 Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.de](https://storybook-integration-people-eat.cem-yilmaz.de)
 
 ## Production
 
-| Available Pages                                                           |              |
-| ------------------------------------------------------------------------- | ------------ |
-| [Home page](https://people-eat.cem-yilmaz.de)                             | /            |
-| [Sign in page](https://people-eat.cem-yilmaz.de/sign-in)                  | /sign-in     |
-| [Sign up page](https://people-eat.cem-yilmaz.de/sign-up)                  | /sign-up     |
-| [How to become a chef page](https://people-eat.cem-yilmaz.de/how-to-chef) | /how-to-chef |
+| Available Pages                                                           |               |
+| ------------------------------------------------------------------------- | ------------- |
+| [Home page](https://people-eat.cem-yilmaz.de)                             | /             |
+| [Sign in page](https://people-eat.cem-yilmaz.de/sign-in)                  | /sign-in      |
+| [Sign up page](https://people-eat.cem-yilmaz.de/sign-up)                  | /sign-up      |
+| [How to become a chef page](https://people-eat.cem-yilmaz.de/how-to-chef) | /how-to-chef  |
+| [Chef sign up page](https://people-eat.cem-yilmaz.de/chef-sign-up)        | /chef-sign-up |
 
 ## Design
 
