@@ -6,6 +6,7 @@
         "/": ["home", "search"],
         "/sign-in": ["sign-in"],
         "/sign-up": ["chef-sign-up"],
-        "/how-to-chef": ["how-to-chef"]
+        "/how-to-chef": ["how-to-chef"],
+        "/chef-sign-up": ["chef-sign-up"]
     }
 }
