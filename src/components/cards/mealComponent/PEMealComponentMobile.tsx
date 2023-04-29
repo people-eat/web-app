@@ -10,10 +10,10 @@ export interface PEMealComponentProps {
     mealPicture?: string;
 }
 
-export default function PEMealComponentTouch({ onClick, mealTitle, mealDescription, mealPicture }: PEMealComponentProps): ReactElement {
+export default function PEMealComponentMobile({ onClick, mealTitle, mealDescription, mealPicture }: PEMealComponentProps): ReactElement {
     return (
         <div
-            onClick={(): void => onClick?.()}
+            onClick={onClick}
             className="flex w-[343px] max-h-[144px] gap-3 flex-row p-3 box-border rounded-3 shadow-primary cursor-pointer active:shadow-orange hover:shadow-active"
         >
             <div className="flex rounded-3 overflow-hidden min-w-[120px] h-[120px] justify-center items-center bg-base">

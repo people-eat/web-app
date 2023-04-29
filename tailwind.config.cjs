@@ -8,8 +8,10 @@ const config = {
         extend: {
             colors: {
                 orange: 'rgba(255, 100, 51, 1)',
+                orangeActive: '#FF4C13',
                 border: 'rgba(31, 31, 31, 0.1)',
                 disabled: 'rgba(31, 31, 31, 0.2)',
+                gray: 'rgba(188, 188, 188, 1)',
                 midBlack: 'rgba(31, 31, 31, 0.4)',
                 '60black': 'rgba(31, 31, 31, 0.6)',
                 preBlack: 'rgba(31, 31, 31, 0.8)',
@@ -71,6 +73,7 @@ const config = {
                 8: '32px',
                 9: '36px',
                 10: '40px',
+                '10_': '42px',
                 11: '44px',
                 12: '48px',
                 13: '52px',

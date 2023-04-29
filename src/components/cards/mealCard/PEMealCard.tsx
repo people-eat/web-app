@@ -24,7 +24,7 @@ export default function PEMealCard({
 }: PEMealCardProps): ReactElement {
     return (
         <div
-            onClick={(): void => onClick?.()}
+            onClick={onClick}
             className="flex w-[380px] gap-3 flex-col p-3 box-border rounded-3 shadow-primary cursor-pointer active:shadow-orange hover:shadow-active"
         >
             <div className="flex gap-3 flex-row box-border">

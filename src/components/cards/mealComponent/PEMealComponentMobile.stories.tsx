@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import PEMealComponentTouch from './PEMealComponentTouch';
+import PEMealComponentMobile from './PEMealComponentMobile';
 
-const meta: Meta<typeof PEMealComponentTouch> = {
-    title: 'Cards/PEMealComponentTouch',
-    component: PEMealComponentTouch,
+const meta: Meta<typeof PEMealComponentMobile> = {
+    title: 'Cards/PEMealComponentMobile',
+    component: PEMealComponentMobile,
 };
 
 export default meta;
 
-export const Component: StoryObj<typeof PEMealComponentTouch> = {
+export const Component: StoryObj<typeof PEMealComponentMobile> = {
     args: {
         mealDescription: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard',
         mealTitle: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMea',
