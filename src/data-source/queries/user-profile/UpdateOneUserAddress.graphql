@@ -1,0 +1,7 @@
+mutation UpdateOneUserAddress($addressId: String!, $address: CreateOneAddressRequest!, $userId: String!) {
+    users {
+        addresses(userId: $userId) {
+            success: update(addressId: $addressId, address: $address)
+        }
+    }
+}

@@ -1,0 +1,5 @@
+mutation UpdateUserGender($userId: String!, $gender: Gender!) {
+    users {
+        success: updateGender(userId: $userId, gender: $gender)
+    }
+}
