@@ -1,0 +1,13 @@
+{
+    "addresses-label": "адреса",
+    "birthday-label": "Дата рождения",
+    "bookings-label": "заказы",
+    "chats-label": "чат",
+    "email-address-label": "Адрес электронной почты",
+    "favorite-chefs-label": "любимые повара",
+    "first-name-label": "Имя",
+    "last-name-label": "Фамилия",
+    "personal-information-label": "Личная информация",
+    "phone-number-label": "номер телефона",
+    "ratings-label": "обзоры"
+}
