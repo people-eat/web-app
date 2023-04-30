@@ -1,0 +1,5 @@
+mutation AddOneCookLanguage($cookId: String!, $languageId: String!) {
+    cooks {
+        success: addOneLanguage(cookId: $cookId, languageId: $languageId)
+    }
+}

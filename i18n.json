@@ -8,6 +8,7 @@
         "/sign-up": ["chef-sign-up"],
         "/how-to-chef": ["how-to-chef"],
         "/chef-sign-up": ["chef-sign-up"],
+        "/chef-profile": ["chef-profile"],
         "/profile": ["profile"]
     }
 }

@@ -1,0 +1,28 @@
+query FindCookMenu($menuId: String!, $cookId: String!) {
+    cooks {
+        menus(cookId: $cookId) {
+            findOne(menuId: $menuId) {
+                menuId
+                isVisible
+                title
+                description
+                basePrice
+                basePriceCustomers
+                pricePerAdult
+                pricePerChild
+                currencyCode
+                greetingFromKitchen
+                preparationTime
+                kitchen {
+                    kitchenId
+                    title
+                }
+                categories {
+                    categoryId
+                    title
+                }
+                createdAt
+            }
+        }
+    }
+}

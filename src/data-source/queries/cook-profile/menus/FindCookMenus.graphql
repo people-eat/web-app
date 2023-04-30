@@ -1,0 +1,33 @@
+query FindCookMenus($cookId: String!) {
+    users {
+        me {
+            firstName
+            profilePictureUrl
+        }
+    }
+    cooks {
+        menus(cookId: $cookId) {
+            findMany {
+                menuId
+                title
+                description
+                basePrice
+                basePriceCustomers
+                createdAt
+                currencyCode
+                preparationTime
+                pricePerAdult
+                pricePerChild
+                isVisible
+                categories {
+                    categoryId
+                    title
+                }
+                kitchen {
+                    kitchenId
+                    title
+                }
+            }
+        }
+    }
+}
