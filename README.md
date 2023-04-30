@@ -41,6 +41,7 @@ yarn dev
 | [How to become a chef page](http://localhost:3000/how-to-chef) | /how-to-chef  |
 | [Chef sign up page](http://localhost:3000/chef-sign-up)        | /chef-sign-up |
 | [Profile page](http://localhost:3000/profile)                  | /profile      |
+| [Chef profile page](http://localhost:3000/chef-profile)        | /chef-profile |
 
 ### Storybook
 
@@ -60,6 +61,7 @@ yarn storybook:start
 | [How to become a chef page](https://integration-people-eat.cem-yilmaz.de/how-to-chef) | /how-to-chef  |
 | [Chef sign up page](https://integration-people-eat.cem-yilmaz.de/chef-sign-up)        | /chef-sign-up |
 | [Profile page](https://integration-people-eat.cem-yilmaz.de/profile)                  | /profile      |
+| [Chef profile page](https://integration-people-eat.cem-yilmaz.de/chef-profile)        | /chef-profile |
 
 Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.de](https://storybook-integration-people-eat.cem-yilmaz.de)
 
@@ -73,6 +75,7 @@ Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.d
 | [How to become a chef page](https://people-eat.cem-yilmaz.de/how-to-chef) | /how-to-chef  |
 | [Chef sign up page](https://people-eat.cem-yilmaz.de/chef-sign-up)        | /chef-sign-up |
 | [Profile page](https://people-eat.cem-yilmaz.de/profile)                  | /profile      |
+| [Chef profile page](https://people-eat.cem-yilmaz.de/chef-profile)        | /chef-profile |
 
 ## Design
 
