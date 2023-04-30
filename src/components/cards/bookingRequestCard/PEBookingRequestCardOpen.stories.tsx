@@ -1,18 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import PEBookingRequestCardOffer from './PEBookingRequestCardOffer';
+import PEBookingRequestCardOpen from './PEBookingRequestCardOpen';
 
-const meta: Meta<typeof PEBookingRequestCardOffer> = {
-    title: 'Cards/PEBookingRequestCardOffer',
-    component: PEBookingRequestCardOffer,
+const meta: Meta<typeof PEBookingRequestCardOpen> = {
+    title: 'Cards/PEBookingRequestCardOpen',
+    component: PEBookingRequestCardOpen,
 };
 
 export default meta;
 
-export const Component: StoryObj<typeof PEBookingRequestCardOffer> = {
+export const Component: StoryObj<typeof PEBookingRequestCardOpen> = {
     args: {
         menuName: 'Herdsmen',
         date: '9. April 2022, 12:20',
         onOrderDetailsClick: (): void => undefined,
+        onShowReviewClick: (): void => undefined,
+        onDeclineClick: (): void => undefined,
+        onAcceptClick: (): void => undefined,
         clientName: 'Brad',
         event: 'class: Bundestag',
         price: '340$',
