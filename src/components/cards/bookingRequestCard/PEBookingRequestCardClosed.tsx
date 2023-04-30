@@ -43,7 +43,7 @@ export default function PEBookingRequestCardClosed({
             <div className="flex w-full justify-between">
                 <div className="flex gap-4 justify-between md:justify-center w-full md:w-auto">
                     <PELineButton title={'Order Details'} onClick={(): void => onOrderDetailsClick?.()} />
-                    <PELineButton title={'Rezension (Ansehen)'} onClick={(): void => onShowReviewClick?.()} />
+                    <PELineButton title={'Recension (Hansen)'} onClick={(): void => onShowReviewClick?.()} />
                 </div>
                 <span className="text-60black text-text-sm hidden md:block">{date}</span>
             </div>
@@ -95,7 +95,7 @@ export default function PEBookingRequestCardClosed({
                     />
                 </div>
                 <div className="basis-1/2">
-                    <PEButton onClick={(): void => undefined} title={'Rehung an Kundera  sender'} size={'s'} />
+                    <PEButton onClick={(): void => undefined} title={'Rehung an sender'} size={'s'} />
                 </div>
             </div>
             <span className="text-60black text-text-s block md:hidden w-full text-end">{date}</span>
