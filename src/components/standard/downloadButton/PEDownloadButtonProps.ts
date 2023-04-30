@@ -3,4 +3,5 @@ export interface PEDownloadButtonProps {
     title: string;
     downloadSize: string;
     onClick: () => void;
+    className?: string;
 }

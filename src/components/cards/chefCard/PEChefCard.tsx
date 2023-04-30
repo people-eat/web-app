@@ -1,13 +1,13 @@
 import classNames from 'classnames';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
+import PEFavorite from '~/components/standard/favorite/PEFavorite';
 import { Icon } from '../../standard/icon/Icon';
 import PeopleEatIcon from '../../standard/icon/PEIcon';
 
 export interface PEChefCardProps {
     imageUrl?: string;
     name?: string;
-    size?: 's' | 'b' | 'web';
     location?: string;
     rank?: string;
     rating: {
@@ -18,45 +18,35 @@ export interface PEChefCardProps {
     menus?: string[];
 }
 
-export default function PEChefCard({ imageUrl, name, size, location, rank, rating, categories, menus }: PEChefCardProps): ReactElement {
+export default function PEChefCard({ imageUrl, name, location, rank, rating, categories, menus }: PEChefCardProps): ReactElement {
     const baseClassNames =
         'flex flex-col active:shadow-active hover:shadow-primary overflow-hidden w-full border-solid border-border border-[1px] rounded-3 cursor-pointer';
-    const width = classNames({
-        'max-w-[380px]': size !== 's',
-        'max-w-[280px]': size === 's',
-    });
+    const width = classNames('max-w-[280px]');
 
     return (
         <div className={classNames(baseClassNames, width)}>
-            <div>
+            <div className="relative">
+                <div className="absolute top-[12px] right-[12px]">
+                    <PEFavorite className={'bg-white rounded-2'} />
+                </div>
                 {imageUrl ? (
                     <Image
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                         src={imageUrl}
                         alt={imageUrl}
-                        width={size !== 's' ? 380 : 280}
-                        height={size !== 's' ? 400 : 290}
+                        width={280}
+                        height={290}
                     />
                 ) : null}
                 {!imageUrl ? (
-                    <div
-                        className={classNames('w-full bg-base flex justify-center items-center', {
-                            ['h-[400px]']: size !== 's',
-                            ['h-[280px]']: size === 's',
-                        })}
-                    >
+                    <div className={classNames('w-full bg-base flex justify-center items-center h-[280px]')}>
                         <PeopleEatIcon edgeLength={110} icon={Icon.profileLight} />
                     </div>
                 ) : null}
             </div>
             <div className="flex gap-2 flex-col p-4 box-border">
                 <span className="text-heading-m">{name}</span>
-                <div
-                    className={classNames('flex gap-2 justify-between', {
-                        ['items-center']: size === 'b',
-                        ['flex-col items-start']: size === 's',
-                    })}
-                >
+                <div className={classNames('flex gap-2 justify-between flex-col items-start')}>
                     <span className="text-text-m text-preBlack">{name}</span>
                     <div className="flex items-center gap-2">
                         {location ? (

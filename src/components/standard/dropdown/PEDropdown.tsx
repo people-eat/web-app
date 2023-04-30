@@ -17,10 +17,13 @@ function intersection(a: readonly string[], b: readonly string[]): string[] {
     return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-export default function PeopleEatDropdown(): ReactElement {
+interface PeopleEatDropdownProps {
+    items: string[];
+}
+
+export default function PeopleEatDropdown({ items }: PeopleEatDropdownProps): ReactElement {
     const [checked, setChecked] = useState<readonly string[]>([]);
     const [isOpen, setOpen] = useState(true);
-    const items = ['Vegan', 'ViewerStreet', 'Halal', 'Regional', 'Bio'];
 
     const handleToggle = (value: string) => () => {
         const currentIndex = checked.indexOf(value);
