@@ -1,0 +1,13 @@
+{
+    "addresses-label": "adresses",
+    "birthday-label": "date de naissance",
+    "bookings-label": "réservations",
+    "chats-label": "discuter",
+    "email-address-label": "Adresse e-mail",
+    "favorite-chefs-label": "chefs préférés",
+    "first-name-label": "Prénom",
+    "last-name-label": "Nom de famille",
+    "personal-information-label": "Informations personnelles",
+    "phone-number-label": "numéro de téléphone",
+    "ratings-label": "Commentaires"
+}

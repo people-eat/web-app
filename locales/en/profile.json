@@ -1,0 +1,13 @@
+{
+    "addresses-label": "Addresses",
+    "birthday-label": "Birth date",
+    "bookings-label": "Bookings",
+    "chats-label": "Chats",
+    "email-address-label": "E-mail address",
+    "favorite-chefs-label": "Favorite chefs",
+    "first-name-label": "First name",
+    "last-name-label": "Last name",
+    "personal-information-label": "Personal Information",
+    "phone-number-label": "Phone number",
+    "ratings-label": "Ratings"
+}

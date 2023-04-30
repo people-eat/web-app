@@ -1872,7 +1872,19 @@ export type GetProfileQueryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetProfileQueryQuery = {
     __typename?: 'Query';
-    users: { __typename?: 'UserQuery'; me?: { __typename?: 'User'; firstName: string } | null };
+    users: {
+        __typename?: 'UserQuery';
+        me?: {
+            __typename?: 'User';
+            userId: string;
+            firstName: string;
+            lastName: string;
+            profilePictureUrl?: any | null;
+            acceptedTerms: Date;
+            acceptedPrivacyPolicy: Date;
+            createdAt: Date;
+        } | null;
+    };
 };
 
 export type ConfirmOneEmailAddressUpdateMutationVariables = Exact<{
@@ -2300,7 +2312,15 @@ export const GetProfileQueryDocument = {
                                     name: { kind: 'Name', value: 'me' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'firstName' } }],
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedTerms' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedPrivacyPolicy' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
                                     },
                                 },
                             ],
