@@ -1,0 +1,5 @@
+mutation UpdateCookMaximumPrice($cookId: String!) {
+    cooks {
+        success: updateMaximumPrice(cookId: $cookId)
+    }
+}

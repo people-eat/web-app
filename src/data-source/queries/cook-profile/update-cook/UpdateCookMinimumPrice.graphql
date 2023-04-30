@@ -1,0 +1,5 @@
+mutation UpdateCookMinimumPrice($cookId: String!) {
+    cooks {
+        success: updateMinimumPrice(cookId: $cookId)
+    }
+}

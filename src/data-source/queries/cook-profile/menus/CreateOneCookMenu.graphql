@@ -1,0 +1,7 @@
+mutation CreateOneCookMenu($menu: CreateOneMenuRequest!, $cookId: String!) {
+    cooks {
+        menus(cookId: $cookId) {
+            success: createOne(menu: $menu)
+        }
+    }
+}

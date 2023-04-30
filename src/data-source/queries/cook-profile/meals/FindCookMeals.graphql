@@ -1,0 +1,15 @@
+query FindCookMeals($cookId: String!) {
+    cooks {
+        meals(cookId: $cookId) {
+            findMany {
+                mealId
+                cookId
+                title
+                type
+                description
+                imageUrl
+                createdAt
+            }
+        }
+    }
+}
