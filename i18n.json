@@ -4,6 +4,7 @@
     "pages": {
         "*": ["common"],
         "/": ["home"],
-        "/chef-sign-up": ["chef-sign-up"]
+        "/chef-sign-up": ["chef-sign-up"],
+        "/profile": ["profile"]
     }
 }
