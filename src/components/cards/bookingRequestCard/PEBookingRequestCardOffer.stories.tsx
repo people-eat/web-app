@@ -13,7 +13,7 @@ export const Component: StoryObj<typeof PEBookingRequestCardOffer> = {
         menuName: 'Herdsmen',
         date: '9. April 2022, 12:20',
         onOrderDetailsClick: (): void => undefined,
-        clientName: 'Bernd',
+        clientName: 'Brad',
         event: 'class: Bundestag',
         price: '340$',
         eventDate: '1. Jan 2023',

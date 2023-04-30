@@ -81,7 +81,7 @@ export default function PEBookingRequestCardInProcess({
                 </div>
             </div>
             <div className="flex flex-row gap-3 mt-3">
-                <PEButton onClick={(): void => undefined} title={'Rehung an Kundera  sender'} size={'s'} type={'secondary'} />
+                <PEButton onClick={(): void => undefined} title={'Rehung an sender'} size={'s'} type={'secondary'} />
             </div>
             <span className="text-60black text-text-s block md:hidden w-full text-end">{date}</span>
         </div>
