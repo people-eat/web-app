@@ -18,7 +18,7 @@ function intersection(a: readonly string[], b: readonly string[]): string[] {
 }
 
 interface PeopleEatDropdownProps {
-    items: string[];
+    items?: string[];
 }
 
 export default function PeopleEatDropdown({ items }: PeopleEatDropdownProps): ReactElement {
@@ -39,7 +39,7 @@ export default function PeopleEatDropdown({ items }: PeopleEatDropdownProps): Re
         <div className={'flex justify-between items-center'}>
             <div>
                 <span className="font-manrope text-text-m">{title} </span>
-                <span className="font-manrope text-60black text-text-m">({numberOfChecked(items)} selected)</span>
+                <span className="font-manrope text-60black text-text-m">({numberOfChecked(items ?? [])} selected)</span>
             </div>
             <div
                 className={classNames('w-6 h-6 scroll flex items-start justify-center bg-base rounded-4', {
@@ -105,7 +105,7 @@ export default function PeopleEatDropdown({ items }: PeopleEatDropdownProps): Re
 
     return (
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-            <Grid item>{customList('Choices', items)}</Grid>
+            <Grid item>{customList('Choices', items ?? [])}</Grid>
         </Grid>
     );
 }
