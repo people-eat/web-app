@@ -12,7 +12,7 @@ export const BigWithChef: StoryObj<typeof PEChefCard> = {
     args: {
         categories: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
         name: 'Maximilian',
-        imageUrl: '/chef.png',
+        imageUrl: 'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
         location: 'Berlin',
         rank: '4.9',
         rating: { count: 25 },
@@ -33,7 +33,7 @@ export const SmallWithChef: StoryObj<typeof PEChefCard> = {
     args: {
         categories: ['halal', 'european', 'halal', 'european', 'halal', 'european', 'greek'],
         name: 'Maximilian',
-        imageUrl: '/chef.png',
+        imageUrl: 'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
         location: 'Berlin',
         size: 's',
         rank: '4.9',

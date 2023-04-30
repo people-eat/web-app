@@ -10,7 +10,7 @@ export default meta;
 
 export const Component: StoryObj<typeof PEMealComponent> = {
     args: {
-        mealDescription: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard',
-        mealTitle: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMea',
+        description: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard',
+        title: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMea',
     },
 };
