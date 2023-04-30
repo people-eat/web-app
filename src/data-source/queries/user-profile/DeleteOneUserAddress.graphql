@@ -1,0 +1,7 @@
+mutation DeleteOneUserAddress($addressId: String!, $userId: String!) {
+    users {
+        addresses(userId: $userId) {
+            success: deleteOne(addressId: $addressId)
+        }
+    }
+}
