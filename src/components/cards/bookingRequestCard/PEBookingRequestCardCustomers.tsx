@@ -5,9 +5,9 @@ import PELineButton from '../../standard/buttons/PELineButton';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 
-export interface PEBookingRequestCardOfferProps {
-    onOrderDetailsClick?: () => void;
-    onShowReviewClick?: () => void;
+export interface PEBookingRequestCardCustomersProps {
+    onOrderDetailsClick: () => void;
+    onCustomersButtonClick: () => void;
     date?: string;
     menuName?: string;
     clientName?: string;
@@ -20,8 +20,9 @@ export interface PEBookingRequestCardOfferProps {
     address?: string;
 }
 
-export default function PEBookingRequestCardOffer({
+export default function PEBookingRequestCardCustomers({
     onOrderDetailsClick,
+    onCustomersButtonClick,
     date,
     menuName,
     clientName,
@@ -32,7 +33,7 @@ export default function PEBookingRequestCardOffer({
     persons,
     time,
     address,
-}: PEBookingRequestCardOfferProps): ReactElement {
+}: PEBookingRequestCardCustomersProps): ReactElement {
     return (
         <div
             onClick={(): void => undefined}
@@ -81,12 +82,7 @@ export default function PEBookingRequestCardOffer({
                 </div>
             </div>
             <div className="flex flex-row gap-3 mt-3">
-                <div className="basis-1/2">
-                    <PEButton onClick={(): void => undefined} title={'Rehung an sender'} size={'s'} type={'secondary'} />
-                </div>
-                <div className="basis-1/2">
-                    <PEButton onClick={(): void => undefined} title={'Rehung an sender'} size={'s'} />
-                </div>
+                <PEButton onClick={onCustomersButtonClick} title={'Customers button'} size={'s'} />
             </div>
             <span className="text-60black text-text-s block md:hidden w-full text-end">{date}</span>
         </div>
