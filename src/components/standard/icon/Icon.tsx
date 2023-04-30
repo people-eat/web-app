@@ -26,7 +26,6 @@ export enum Icon {
     filterLines = '/icons/filter-lines.svg',
     folder = '/icons/folder.svg',
     food = '/icons/food.svg',
-    foodDelivery = '/icons/food-delivery.svg',
     forward = '/icons/forward.svg',
     google = '/icons/google.svg',
     heart = '/icons/heart.svg',

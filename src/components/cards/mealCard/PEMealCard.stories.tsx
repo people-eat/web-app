@@ -13,7 +13,7 @@ export const Component: StoryObj<typeof PEMealCard> = {
         pricePerPerson: 12,
         menus: ['PEMealCard', 'PEMealC', 'PEMealCard'],
         categories: ['PEMealCard', 'PEMealC', 'PEMealCard'],
-        mealDescription: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard',
-        mealTitle: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMea',
+        description: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard',
+        title: 'PEMealCard PEMealCard PEMealCard PEMealCard PEMealCard PEMea',
     },
 };

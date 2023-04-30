@@ -5,20 +5,20 @@ import PeopleEatIcon from '../../standard/icon/PEIcon';
 
 export interface PEMealCardProps {
     onClick?: () => void;
-    mealTitle?: string;
+    title?: string;
     pricePerPerson?: number;
-    mealDescription?: string;
-    mealPicture?: string;
+    description?: string;
+    picture?: string;
     categories?: string[];
     menus?: string[];
 }
 
 export default function PEMealCard({
     onClick,
-    mealTitle,
+    title,
     pricePerPerson,
-    mealDescription,
-    mealPicture,
+    description,
+    picture,
     categories,
     menus,
 }: PEMealCardProps): ReactElement {
@@ -29,12 +29,12 @@ export default function PEMealCard({
         >
             <div className="flex gap-3 flex-row box-border">
                 <div className="flex rounded-3 overflow-hidden min-w-[120px] h-[120px] justify-center items-center bg-base">
-                    {mealPicture ? <Image src={mealPicture} alt={mealPicture} /> : <PeopleEatIcon icon={Icon.food} edgeLength={52} />}
+                    {picture ? <Image src={picture} alt={picture} /> : <PeopleEatIcon icon={Icon.food} edgeLength={52} />}
                 </div>
                 <div className="flex flex-col gap-2">
-                    <span className="text-text-sm-bold text-preBlack">{mealTitle}</span>
+                    <span className="text-text-sm-bold text-preBlack">{title}</span>
                     {pricePerPerson ? <span className="text-orange text-text-sm-bold">${pricePerPerson} for each person</span> : null}
-                    <span className="text-text-s text-preBlack">{mealDescription}</span>
+                    <span className="text-text-s text-preBlack">{description}</span>
                 </div>
             </div>
             <div className={'overflow-scroll flex flex-row gap-2 scrollbar-hide'}>
