@@ -543,6 +543,21 @@ export type CreateOneAddressRequest = {
     title: Scalars['String'];
 };
 
+export type CreateOneAnonymousGlobalBookingRequestInput = {
+    adults: Scalars['UnsignedInt'];
+    budget: Scalars['String'];
+    children: Scalars['UnsignedInt'];
+    customerEmailAddress: Scalars['EmailAddress'];
+    customerFirstName: Scalars['String'];
+    customerLastName: Scalars['String'];
+    customerPhoneNumber?: InputMaybe<Scalars['PhoneNumber']>;
+    dateTime: Scalars['DateTime'];
+    location?: InputMaybe<LocationInput>;
+    locationName: Scalars['String'];
+    message: Scalars['String'];
+    occasion?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateOneCookRequest = {
     biography: Scalars['String'];
     isVisible: Scalars['Boolean'];
@@ -974,6 +989,7 @@ export type Mutation = {
     categories: CategoryMutation;
     cookSpecificFees: CookSpecificFeeMutation;
     cooks: CookMutation;
+    createOneAnonymousGlobalBookingRequest: Scalars['Boolean'];
     customerFeeUpdates: CustomerFeeUpdateMutation;
     globalBookingRequests: GlobalBookingRequestMutation;
     kitchens: KitchenMutation;
@@ -983,6 +999,10 @@ export type Mutation = {
     sessions: SessionMutation;
     termsUpdates: TermsUpdateMutation;
     users: UserMutation;
+};
+
+export type MutationCreateOneAnonymousGlobalBookingRequestArgs = {
+    input: CreateOneAnonymousGlobalBookingRequestInput;
 };
 
 export type Notification = {
@@ -1187,6 +1207,7 @@ export type PublicTermsUpdate = {
 export type PublicTermsUpdateQuery = {
     __typename?: 'PublicTermsUpdateQuery';
     findAll: Array<PublicTermsUpdate>;
+    findLatest?: Maybe<PublicTermsUpdate>;
     findOne?: Maybe<PublicTermsUpdate>;
 };
 
@@ -1848,7 +1869,19 @@ export type GetProfileQueryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetProfileQueryQuery = {
     __typename?: 'Query';
-    users: { __typename?: 'UserQuery'; me?: { __typename?: 'User'; firstName: string } | null };
+    users: {
+        __typename?: 'UserQuery';
+        me?: {
+            __typename?: 'User';
+            userId: string;
+            firstName: string;
+            lastName: string;
+            profilePictureUrl?: any | null;
+            acceptedTerms: Date;
+            acceptedPrivacyPolicy: Date;
+            createdAt: Date;
+        } | null;
+    };
 };
 
 export const AssignOneSessionByEmailAddressDocument = {
@@ -2215,7 +2248,15 @@ export const GetProfileQueryDocument = {
                                     name: { kind: 'Name', value: 'me' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
-                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'firstName' } }],
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedTerms' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedPrivacyPolicy' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
                                     },
                                 },
                             ],

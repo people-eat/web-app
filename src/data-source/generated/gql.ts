@@ -26,7 +26,8 @@ const documents = {
         types.FindManyCooksDocument,
     'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}':
         types.FindManyUsersDocument,
-    'query GetProfileQuery {\n  users {\n    me {\n      firstName\n    }\n  }\n}': types.GetProfileQueryDocument,
+    'query GetProfileQuery {\n  users {\n    me {\n      userId\n      firstName\n      lastName\n      profilePictureUrl\n      acceptedTerms\n      acceptedPrivacyPolicy\n      createdAt\n    }\n  }\n}':
+        types.GetProfileQueryDocument,
 };
 
 /**
@@ -95,8 +96,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query GetProfileQuery {\n  users {\n    me {\n      firstName\n    }\n  }\n}',
-): (typeof documents)['query GetProfileQuery {\n  users {\n    me {\n      firstName\n    }\n  }\n}'];
+    source: 'query GetProfileQuery {\n  users {\n    me {\n      userId\n      firstName\n      lastName\n      profilePictureUrl\n      acceptedTerms\n      acceptedPrivacyPolicy\n      createdAt\n    }\n  }\n}',
+): (typeof documents)['query GetProfileQuery {\n  users {\n    me {\n      userId\n      firstName\n      lastName\n      profilePictureUrl\n      acceptedTerms\n      acceptedPrivacyPolicy\n      createdAt\n    }\n  }\n}'];
 
 export function gql(source: string) {
     return (documents as any)[source] ?? {};
