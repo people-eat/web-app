@@ -1,9 +1,14 @@
 import { styled } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
+import classNames from 'classnames';
 import { type ReactElement } from 'react';
 import { type PEFavoriteProps } from './PEFavoriteProps';
 
-export default function PEFavorite({ disabled = false, defaultChecked = true }: PEFavoriteProps): ReactElement {
+export default function PEFavorite({ disabled = false, defaultChecked = true, className, onClick }: PEFavoriteProps): ReactElement {
+    function handleClick(): void {
+        onClick?.();
+    }
+
     const BpIcon = styled('span')(() => ({
         borderRadius: 5,
         width: 24,
@@ -25,7 +30,7 @@ export default function PEFavorite({ disabled = false, defaultChecked = true }: 
     });
 
     return (
-        <section className={'bg-base w-10 h-10 rounded-2'}>
+        <section onClick={handleClick} className={classNames('w-10_ h-10_ rounded-2', className)}>
             <Checkbox icon={<BpIcon />} checkedIcon={<BpCheckedIcon />} defaultChecked={Boolean(defaultChecked)} disabled={disabled} />
         </section>
     );
