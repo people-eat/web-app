@@ -28,7 +28,7 @@ export default function PEButton({
     title,
     loading,
 }: PEButtonProps): ReactElement {
-    const baseClassNames = 'flex items-center border-solid gap-2 p-3 justify-center w-full rounded-15 border-0 transition-all';
+    const baseClassNames = 'flex items-center border-solid gap-2 p-3 box-border justify-center w-full rounded-15 border-0 transition-all';
     const color = classNames({
         'bg-orange text-white active:shadow-active cursor-pointer': type === 'primary' && !disabled,
         'border-[1px] bg-white border-orange active:shadow-active text-orange cursor-pointer': type === 'secondary' && !disabled,

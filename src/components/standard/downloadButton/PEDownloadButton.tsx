@@ -4,14 +4,15 @@ import { Icon } from '../icon/Icon';
 import PEIcon from '../icon/PEIcon';
 import { type PEDownloadButtonProps } from './PEDownloadButtonProps';
 
-export default function PEDownloadButton({ disabled, title, downloadSize, onClick }: PEDownloadButtonProps): ReactElement {
-    const className = classNames(
-        'max-w-[400px] box-border hover:opacity-70 cursor-pointer border border-solid rounded-3 border-border flex flex-row gap-3 items-center justify-between pr-4 pl-2 py-2',
+export default function PEDownloadButton({ disabled, title, downloadSize, onClick, className }: PEDownloadButtonProps): ReactElement {
+    const baseClassNames = classNames(
+        className,
+        'max-w-[400px] box-border hover:opacity-70 cursor-pointer border border-solid border-border flex flex-row gap-3 items-center justify-between pr-4 pl-2 py-2',
         { ['opacity-50 hover:opacity-50']: disabled },
     );
 
     return (
-        <section className={className} onClick={onClick}>
+        <section className={baseClassNames} onClick={onClick}>
             <section className="flex flex-row justify-start items-center gap-2 relative">
                 <section className="flex items-start h-8">
                     <PEIcon icon={Icon.file} edgeLength={16} />
