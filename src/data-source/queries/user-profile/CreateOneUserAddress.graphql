@@ -1,0 +1,7 @@
+mutation CreateOneUserAddress($address: CreateOneAddressRequest!, $userId: String!) {
+    users {
+        addresses(userId: $userId) {
+            success: createOne(address: $address)
+        }
+    }
+}
