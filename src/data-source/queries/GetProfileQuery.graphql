@@ -1,7 +1,13 @@
 query GetProfileQuery {
     users {
         me {
+            userId
             firstName
+            lastName
+            profilePictureUrl
+            acceptedTerms
+            acceptedPrivacyPolicy
+            createdAt
         }
     }
 }
