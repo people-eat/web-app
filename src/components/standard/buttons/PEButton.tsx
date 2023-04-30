@@ -4,7 +4,7 @@ import { Icon } from '../../standard/icon/Icon';
 import PeopleEatIcon from '../../standard/icon/PEIcon';
 
 export interface PEButtonProps {
-    type?: 'primary' | 'secondary';
+    type?: 'primary' | 'secondary' | 'base';
     size?: 'm' | 'l' | 's';
     disabled?: boolean;
     iconLeft?: Icon;
@@ -32,6 +32,7 @@ export default function PEButton({
     const color = classNames({
         'bg-orange text-white active:shadow-active cursor-pointer': type === 'primary' && !disabled,
         'border-[1px] bg-white border-orange active:shadow-active text-orange cursor-pointer': type === 'secondary' && !disabled,
+        'bg-base text-preBlack active:shadow-active cursor-pointer': type === 'base' && !disabled,
     });
 
     const opacity = classNames({
@@ -61,7 +62,7 @@ export default function PEButton({
     return (
         <div
             onClick={onClick}
-            className={classNames(baseClassNames, className, fontSize, color, height, opacity, {
+            className={classNames(baseClassNames, fontSize, color, height, opacity, className, {
                 [hover]: !disabled,
                 ['max-w-[49px]']: !title && size === 'm',
                 ['max-w-[72px]']: !title && size === 'l',
