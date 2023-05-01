@@ -47,7 +47,7 @@ export default function PEChefCard({ imageUrl, name, location, rank, rating, cat
             <div className="flex gap-2 flex-col p-4 box-border">
                 <span className="text-heading-m">{name}</span>
                 <div className={classNames('flex gap-2 justify-between flex-col items-start')}>
-                    <span className="text-text-m text-preBlack">{name}</span>
+                    <span className="text-text-m text-preBlack">{rank}</span>
                     <div className="flex items-center gap-2">
                         {location ? (
                             <div className={'flex items-center gap-2 flex-row'}>
@@ -57,7 +57,7 @@ export default function PEChefCard({ imageUrl, name, location, rank, rating, cat
                         ) : null}
                         <div className="flex items-center gap-2 flex-row">
                             <PeopleEatIcon icon={Icon.star} edgeLength={20} />
-                            <span className="text-preBlack">{rank}</span>
+                            <span className="text-preBlack">{rating.average}</span>
                             <span className="text-disabled">({rating.count})</span>
                         </div>
                     </div>
