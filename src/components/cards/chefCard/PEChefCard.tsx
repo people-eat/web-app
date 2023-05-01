@@ -14,8 +14,8 @@ export interface PEChefCardProps {
         average: number;
         count: number;
     };
-    categories?: string[];
-    kitchens?: string[];
+    categories: string[];
+    kitchens: string[];
 }
 
 export default function PEChefCard({ imageUrl, name, location, rank, rating, categories, kitchens }: PEChefCardProps): ReactElement {

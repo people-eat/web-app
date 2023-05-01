@@ -9,6 +9,8 @@ import PEIcon from '../../standard/icon/PEIcon';
 export interface PEBookingRequestCardClosedProps {
     onOrderDetailsClick: () => void;
     onShowReviewClick: () => void;
+    onDownloadDocumentsClick: () => void;
+    onSendInvoiceClick: () => void;
     date: string;
     menuName: string;
     clientName: string;
@@ -24,6 +26,8 @@ export interface PEBookingRequestCardClosedProps {
 export default function PEBookingRequestCardClosed({
     onOrderDetailsClick,
     onShowReviewClick,
+    onDownloadDocumentsClick,
+    onSendInvoiceClick,
     date,
     menuName,
     clientName,
@@ -50,7 +54,7 @@ export default function PEBookingRequestCardClosed({
                     {clientImage ? (
                         <Image
                             style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
-                            src={clientImage ?? ''}
+                            src={clientImage}
                             alt={'client image'}
                             width={45}
                             height={45}
@@ -94,11 +98,11 @@ export default function PEBookingRequestCardClosed({
                         className={'rounded-12 pl-4'}
                         title={'Recurring .pDF'}
                         downloadSize={'245 Mb'}
-                        onClick={(): void => undefined}
+                        onClick={onDownloadDocumentsClick}
                     />
                 </div>
                 <div className="basis-1/2">
-                    <PEButton onClick={(): void => undefined} title={'Send invoice to customer'} size={'s'} />
+                    <PEButton onClick={onSendInvoiceClick} title={'Send invoice to customer'} size={'s'} />
                 </div>
             </div>
             <span className="text-60black text-text-s block md:hidden w-full text-end">{date}</span>

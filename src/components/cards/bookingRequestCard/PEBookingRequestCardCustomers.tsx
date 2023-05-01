@@ -46,7 +46,7 @@ export default function PEBookingRequestCardCustomers({
                     {clientImage ? (
                         <Image
                             style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
-                            src={clientImage ?? ''}
+                            src={clientImage}
                             alt={'client image'}
                             width={45}
                             height={45}

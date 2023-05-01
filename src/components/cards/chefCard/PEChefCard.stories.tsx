@@ -15,7 +15,7 @@ export const BigWithChef: StoryObj<typeof PEChefCard> = {
         imageUrl: 'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
         location: 'Berlin',
         rank: '4.9',
-        rating: { count: 25 },
+        rating: { count: 25, average: 11 },
     },
 };
 
@@ -25,7 +25,7 @@ export const BigWithoutChef: StoryObj<typeof PEChefCard> = {
         name: 'Maximilian',
         location: 'Berlin',
         rank: '4.9',
-        rating: { count: 25 },
+        rating: { count: 25, average: 11 },
     },
 };
 
@@ -36,7 +36,7 @@ export const SmallWithChef: StoryObj<typeof PEChefCard> = {
         imageUrl: 'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
         location: 'Berlin',
         rank: '4.9',
-        rating: { count: 25 },
+        rating: { count: 25, average: 11 },
         menus: ['European', 'Australia', 'Midland'],
     },
 };
@@ -47,7 +47,7 @@ export const SmallWithoutChef: StoryObj<typeof PEChefCard> = {
         name: 'Maximilian',
         location: 'Berlin',
         rank: '4.9',
-        rating: { count: 25 },
+        rating: { count: 25, average: 11 },
         menus: ['European', 'Australia', 'Midland'],
     },
 };

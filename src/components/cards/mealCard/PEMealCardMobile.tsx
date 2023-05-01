@@ -5,8 +5,8 @@ import PeopleEatIcon from '../../standard/icon/PEIcon';
 
 export interface PEMealComponentProps {
     onClick?: () => void;
-    title?: string;
-    description?: string;
+    title: string;
+    description: string;
     picture?: string;
 }
 
