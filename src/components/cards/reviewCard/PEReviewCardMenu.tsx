@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import {type ReactElement} from 'react';
-import {Icon} from '../../standard/icon/Icon';
+import { type ReactElement } from 'react';
+import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 
 export interface PEBookingRequestCardClosedProps {

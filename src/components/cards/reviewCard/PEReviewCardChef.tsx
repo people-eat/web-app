@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import {type ReactElement} from 'react';
-import {Icon} from '../../standard/icon/Icon';
+import { type ReactElement } from 'react';
+import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 
 export interface PEReviewCardChefProps {
@@ -12,14 +12,7 @@ export interface PEReviewCardChefProps {
     description: string;
 }
 
-export default function PEReviewCardChef({
-    chefName,
-    chefImage,
-    event,
-    rank,
-    date,
-    description,
-}: PEReviewCardChefProps): ReactElement {
+export default function PEReviewCardChef({ chefName, chefImage, event, rank, date, description }: PEReviewCardChefProps): ReactElement {
     return (
         <div className="flex w-[340px] md:w-[380px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active duration-200 ease-in">
             <div className="flex items-center justify-between">
