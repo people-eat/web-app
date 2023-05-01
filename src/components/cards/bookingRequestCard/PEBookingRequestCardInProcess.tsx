@@ -6,8 +6,8 @@ import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 
 export interface PEBookingRequestCardInProcessProps {
-    onOrderDetailsClick?: () => void;
-    onShowReviewClick?: () => void;
+    onOrderDetailsClick: () => void;
+    onAcceptAsSender: () => void;
     date: string;
     menuName: string;
     clientName: string;
@@ -22,6 +22,7 @@ export interface PEBookingRequestCardInProcessProps {
 
 export default function PEBookingRequestCardInProcess({
     onOrderDetailsClick,
+    onAcceptAsSender,
     date,
     menuName,
     clientName,
@@ -36,7 +37,7 @@ export default function PEBookingRequestCardInProcess({
     return (
         <div className="flex md:w-[580px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
             <div className="flex w-full justify-between">
-                <PELineButton title={'Order Details'} onClick={(): void => onOrderDetailsClick?.()} />
+                <PELineButton title={'Order Details'} onClick={onOrderDetailsClick} />
                 <span className="text-60black text-text-sm hidden md:block">{date}</span>
             </div>
             <span className="pt-4 text-heading-ss-bold">{menuName}</span>
@@ -78,7 +79,7 @@ export default function PEBookingRequestCardInProcess({
                 </div>
             </div>
             <div className="flex flex-row gap-3 mt-3">
-                <PEButton onClick={(): void => undefined} title={'Rehung an sender'} size={'s'} type={'secondary'} />
+                <PEButton onClick={onAcceptAsSender} title={'Rehung an sender'} size={'s'} type={'secondary'} />
             </div>
             <span className="text-60black text-text-s block md:hidden w-full text-end">{date}</span>
         </div>

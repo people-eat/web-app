@@ -7,8 +7,8 @@ import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 
 export interface PEBookingRequestCardClosedProps {
-    onOrderDetailsClick?: () => void;
-    onShowReviewClick?: () => void;
+    onOrderDetailsClick: () => void;
+    onShowReviewClick: () => void;
     date: string;
     menuName: string;
     clientName: string;
@@ -39,8 +39,8 @@ export default function PEBookingRequestCardClosed({
         <div className="flex md:w-[580px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
             <div className="flex w-full justify-between">
                 <div className="flex gap-4 justify-between md:justify-center w-full md:w-auto">
-                    <PELineButton title={'Order Details'} onClick={(): void => onOrderDetailsClick?.()} />
-                    <PELineButton title={'Recension (Hansen)'} onClick={(): void => onShowReviewClick?.()} />
+                    <PELineButton title={'Order Details'} onClick={onOrderDetailsClick} />
+                    <PELineButton title={'Recension (Hansen)'} onClick={onShowReviewClick} />
                 </div>
                 <span className="text-60black text-text-sm hidden md:block">{date}</span>
             </div>

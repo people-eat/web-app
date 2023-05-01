@@ -7,7 +7,6 @@ import PEIcon from '../../standard/icon/PEIcon';
 
 export interface PEBookingRequestCardOfferProps {
     onOrderDetailsClick: () => void;
-    onShowReviewClick: () => void;
     onDeclineClick: () => void;
     onAcceptClick: () => void;
     date: string;
@@ -40,7 +39,7 @@ export default function PEBookingRequestCardOpen({
     return (
         <div className="flex md:w-[580px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
             <div className="flex w-full justify-between">
-                <PELineButton title={'Order Details'} onClick={(): void => onOrderDetailsClick?.()} />
+                <PELineButton title={'Order Details'} onClick={onOrderDetailsClick} />
                 <span className="text-60black text-text-sm hidden md:block">{date}</span>
             </div>
             <span className="pt-4 text-heading-ss-bold">{menuName}</span>
