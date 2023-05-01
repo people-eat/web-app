@@ -10,7 +10,7 @@ export default meta;
 
 export const Component: StoryObj<typeof PEMealComponentMobile> = {
     args: {
-        description: 'PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard',
-        title: 'PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMea',
+        description: 'Meal description',
+        title: 'Meal title',
     },
 };

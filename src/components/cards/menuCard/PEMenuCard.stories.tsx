@@ -11,7 +11,7 @@ export default meta;
 export const Component: StoryObj<typeof PEMenuCard> = {
     args: {
         pricePerPerson: 12,
-        kitchens: ['PEMenuCard', 'PEMealC', 'PEMenuCard'],
+        kitchens: ['kitchen-1', 'kitchen-2', 'kitchen-3'],
         pictures: [
             'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
             'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',

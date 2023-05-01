@@ -2,7 +2,7 @@ import { type ReactElement } from 'react';
 import { Icon } from '../../standard/icon/Icon';
 import PeopleEatIcon from '../../standard/icon/PEIcon';
 
-export interface PEMealCardProps {
+export interface PEMenuCardMobileProps {
     onClick?: () => void;
     title?: string;
     chefName: string;
@@ -24,7 +24,7 @@ export default function PEMenuCardMobile({
     chefPicture,
     categories,
     kitchens,
-}: PEMealCardProps): ReactElement {
+}: PEMenuCardMobileProps): ReactElement {
     return (
         <div
             onClick={onClick}
@@ -66,9 +66,9 @@ export default function PEMenuCardMobile({
                     <PeopleEatIcon icon={Icon.dishes} />
                     <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
                         {kitchens?.map(
-                            (menu): ReactElement => (
-                                <div key={menu} className={'text-orange text-text-s-height '}>
-                                    {menu}
+                            (kitchen): ReactElement => (
+                                <div key={kitchen} className={'text-orange text-text-s-height '}>
+                                    {kitchen}
                                 </div>
                             ),
                         )}
