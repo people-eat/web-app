@@ -9,16 +9,16 @@ import PEIcon from '../../standard/icon/PEIcon';
 export interface PEBookingRequestCardClosedProps {
     onOrderDetailsClick?: () => void;
     onShowReviewClick?: () => void;
-    date?: string;
-    menuName?: string;
-    clientName?: string;
-    clientImage?: string;
-    event?: string;
+    date: string;
+    menuName: string;
+    clientName: string;
+    clientImage: string;
+    event: string;
     price?: string;
-    eventDate?: string;
-    persons?: string;
-    time?: string;
-    address?: string;
+    eventDate: string;
+    persons: string;
+    time: string;
+    address: string;
 }
 
 export default function PEBookingRequestCardClosed({
@@ -36,10 +36,7 @@ export default function PEBookingRequestCardClosed({
     address,
 }: PEBookingRequestCardClosedProps): ReactElement {
     return (
-        <div
-            onClick={(): void => undefined}
-            className="flex md:w-[580px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active"
-        >
+        <div className="flex md:w-[580px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
             <div className="flex w-full justify-between">
                 <div className="flex gap-4 justify-between md:justify-center w-full md:w-auto">
                     <PELineButton title={'Order Details'} onClick={(): void => onOrderDetailsClick?.()} />
