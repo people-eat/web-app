@@ -1,4 +1,5 @@
 import { type ReactElement } from 'react';
+import PECarusel from '~/components/standard/carusel/PECarusel';
 import { Icon } from '../../standard/icon/Icon';
 import PeopleEatIcon from '../../standard/icon/PEIcon';
 
@@ -9,7 +10,7 @@ export interface PEMealCardProps {
     chefPicture?: string;
     pricePerPerson?: number;
     description?: string;
-    picture?: string;
+    pictures?: string[];
     categories?: string[];
     kitchens?: string[];
 }
@@ -21,7 +22,7 @@ export default function PEMenuCard({
     chefPicture,
     pricePerPerson,
     description,
-    picture,
+    pictures,
     categories,
     kitchens,
 }: PEMealCardProps): ReactElement {
@@ -30,9 +31,15 @@ export default function PEMenuCard({
             onClick={onClick}
             className="flex w-[580px] gap-3 flex-row p-3 box-border rounded-3 shadow-primary cursor-pointer active:shadow-orange hover:shadow-active"
         >
-            <div className="flex rounded-3 overflow-hidden min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] justify-center items-center bg-base">
-                {picture ? (
-                    <img src={picture} alt={picture} className="w-[220px] h-[220px] object-cover" />
+            <div className="flex rounded-3 overflow-hidden w-[220px] min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] justify-center items-center bg-base">
+                {pictures && pictures?.length > 1 ? (
+                    <PECarusel
+                        images={pictures?.map((picture) => (
+                            <img key={picture} src={picture} alt={picture} className="w-[220px] h-[220px] object-cover" />
+                        ))}
+                    />
+                ) : pictures ? (
+                    <img key={pictures[0]} src={pictures[0]} alt={pictures[0]} className="w-[220px] h-[220px] object-cover" />
                 ) : (
                     <PeopleEatIcon icon={Icon.food} edgeLength={52} />
                 )}
@@ -61,18 +68,20 @@ export default function PEMenuCard({
                         )}
                         <span className="text-preBlack">{chefName}</span>
                     </div>
-                    <div className={'items-center flex flex-row gap-2'}>
-                        <PeopleEatIcon icon={Icon.dishes} />
-                        <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
-                            {kitchens?.map(
-                                (menu): ReactElement => (
-                                    <div key={menu} className={'text-orange text-text-s-height '}>
-                                        {menu}
-                                    </div>
-                                ),
-                            )}
+                    {kitchens ? (
+                        <div className={'items-center flex flex-row gap-2'}>
+                            <PeopleEatIcon icon={Icon.dishes} />
+                            <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
+                                {kitchens?.map(
+                                    (menu): ReactElement => (
+                                        <div key={menu} className={'text-orange text-text-s-height '}>
+                                            {menu}
+                                        </div>
+                                    ),
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    ) : null}
                 </div>
             </div>
         </div>
