@@ -1,18 +1,18 @@
 import { type ReactElement } from 'react';
-import PECarusel from '~/components/standard/carusel/PECarusel';
+import PECarousel from '../../standard/carousel/PECarousel';
 import { Icon } from '../../standard/icon/Icon';
 import PeopleEatIcon from '../../standard/icon/PEIcon';
 
-export interface PEMealCardProps {
+export interface PEMenuCardProps {
     onClick?: () => void;
-    title?: string;
+    title: string;
     chefName: string;
-    chefPicture?: string;
-    pricePerPerson?: number;
-    description?: string;
-    pictures?: string[];
-    categories?: string[];
-    kitchens?: string[];
+    chefPicture: string;
+    pricePerPerson: number;
+    description: string;
+    pictures: string[];
+    categories: string[];
+    kitchens: string[];
 }
 
 export default function PEMenuCard({
@@ -25,7 +25,7 @@ export default function PEMenuCard({
     pictures,
     categories,
     kitchens,
-}: PEMealCardProps): ReactElement {
+}: PEMenuCardProps): ReactElement {
     return (
         <div
             onClick={onClick}
@@ -33,7 +33,7 @@ export default function PEMenuCard({
         >
             <div className="flex rounded-3 overflow-hidden w-[220px] min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] justify-center items-center bg-base">
                 {pictures && pictures?.length > 1 ? (
-                    <PECarusel
+                    <PECarousel
                         images={pictures?.map((picture) => (
                             <img key={picture} src={picture} alt={picture} className="w-[220px] h-[220px] object-cover" />
                         ))}
@@ -68,20 +68,20 @@ export default function PEMenuCard({
                         )}
                         <span className="text-preBlack">{chefName}</span>
                     </div>
-                    {kitchens ? (
+                    {kitchens && (
                         <div className={'items-center flex flex-row gap-2'}>
                             <PeopleEatIcon icon={Icon.dishes} />
                             <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
                                 {kitchens?.map(
-                                    (menu): ReactElement => (
-                                        <div key={menu} className={'text-orange text-text-s-height '}>
-                                            {menu}
+                                    (kitchen): ReactElement => (
+                                        <div key={kitchen} className={'text-orange text-text-s-height '}>
+                                            {kitchen}
                                         </div>
                                     ),
                                 )}
                             </div>
                         </div>
-                    ) : null}
+                    )}
                 </div>
             </div>
         </div>

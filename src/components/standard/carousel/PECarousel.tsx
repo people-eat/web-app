@@ -1,11 +1,11 @@
 import { type ReactElement } from 'react';
 import Carousel from 'react-material-ui-carousel';
 
-export interface PECaruselProps {
+export interface PECarouselProps {
     images: ReactElement[];
 }
 
-export default function PECarusel({ images }: PECaruselProps): ReactElement {
+export default function PECarousel({ images }: PECarouselProps): ReactElement {
     return (
         <Carousel
             // sx={{

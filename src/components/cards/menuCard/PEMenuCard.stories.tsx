@@ -18,9 +18,9 @@ export const Component: StoryObj<typeof PEMenuCard> = {
             'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
         ],
         chefPicture: 'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
-        categories: ['PEMenuCard', 'PEMealC', 'PEMenuCard'],
-        description: 'PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard',
-        title: 'PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMea',
+        categories: ['category-1', 'category-2', 'category-3'],
+        description: 'Menu description',
+        title: 'Menu title',
         chefName: 'Loren',
     },
 };
