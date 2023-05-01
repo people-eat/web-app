@@ -36,6 +36,7 @@
         "next": "^13.2.4",
         "react": "18.2.0",
         "react-dom": "18.2.0",
+        "react-material-ui-carousel": "^3.4.2",
         "validatorjs": "^3.22.1"
     },
     "devDependencies": {
