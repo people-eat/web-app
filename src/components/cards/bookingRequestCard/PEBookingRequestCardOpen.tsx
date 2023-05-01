@@ -46,7 +46,13 @@ export default function PEBookingRequestCardOpen({
             <div className="flex gap-4">
                 <div className={'overflow-hidden rounded-3'}>
                     {clientImage ? (
-                        <Image src={clientImage ?? ''} alt={'client image'} width={45} height={45} />
+                        <Image
+                            style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                            src={clientImage ?? ''}
+                            alt={'client image'}
+                            width={45}
+                            height={45}
+                        />
                     ) : (
                         <div className="flex justify-center items-center w-11 h-11 bg-base">
                             <PEIcon icon={Icon.profileLight} edgeLength={32} />

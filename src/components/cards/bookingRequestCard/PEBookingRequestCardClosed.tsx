@@ -48,7 +48,13 @@ export default function PEBookingRequestCardClosed({
             <div className="flex gap-4">
                 <div className={'overflow-hidden rounded-3'}>
                     {clientImage ? (
-                        <Image src={clientImage ?? ''} alt={'client image'} width={45} height={45} />
+                        <Image
+                            style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                            src={clientImage ?? ''}
+                            alt={'client image'}
+                            width={45}
+                            height={45}
+                        />
                     ) : (
                         <div className="flex justify-center items-center w-11 h-11 bg-base">
                             <PEIcon icon={Icon.profileLight} edgeLength={32} />
@@ -92,7 +98,7 @@ export default function PEBookingRequestCardClosed({
                     />
                 </div>
                 <div className="basis-1/2">
-                    <PEButton onClick={(): void => undefined} title={'Rehung an sender'} size={'s'} />
+                    <PEButton onClick={(): void => undefined} title={'Send invoice to customer'} size={'s'} />
                 </div>
             </div>
             <span className="text-60black text-text-s block md:hidden w-full text-end">{date}</span>
