@@ -13,7 +13,6 @@ export const Component: StoryObj<typeof PEBookingRequestCardOpen> = {
         menuName: 'Herdsmen',
         date: '9. April 2022, 12:20',
         onOrderDetailsClick: (): void => undefined,
-        onShowReviewClick: (): void => undefined,
         onDeclineClick: (): void => undefined,
         onAcceptClick: (): void => undefined,
         clientName: 'Brad',
