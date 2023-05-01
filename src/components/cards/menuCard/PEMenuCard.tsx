@@ -5,12 +5,12 @@ import PeopleEatIcon from '../../standard/icon/PEIcon';
 
 export interface PEMenuCardProps {
     onClick?: () => void;
-    title: string;
+    title?: string;
     chefName: string;
-    chefPicture: string;
-    pricePerPerson: number;
-    description: string;
-    pictures: string[];
+    chefPicture?: string;
+    pricePerPerson?: number;
+    description?: string;
+    pictures?: string[];
     categories: string[];
     kitchens: string[];
 }
@@ -51,7 +51,7 @@ export default function PEMenuCard({
                     <span className="text-text-s text-preBlack">{description}</span>
                 </div>
                 <div className={'overflow-x-scroll flex flex-row gap-2'}>
-                    {categories?.map(
+                    {categories.map(
                         (category): ReactElement => (
                             <div key={category} className={'rounded-4 text-preBlack text-text-s-height px-2 py-[2px] bg-base'}>
                                 {category}
@@ -68,20 +68,18 @@ export default function PEMenuCard({
                         )}
                         <span className="text-preBlack">{chefName}</span>
                     </div>
-                    {kitchens && (
-                        <div className={'items-center flex flex-row gap-2'}>
-                            <PeopleEatIcon icon={Icon.dishes} />
-                            <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
-                                {kitchens?.map(
-                                    (kitchen): ReactElement => (
-                                        <div key={kitchen} className={'text-orange text-text-s-height '}>
-                                            {kitchen}
-                                        </div>
-                                    ),
-                                )}
-                            </div>
+                    <div className={'items-center flex flex-row gap-2'}>
+                        <PeopleEatIcon icon={Icon.dishes} />
+                        <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
+                            {kitchens.map(
+                                (kitchen): ReactElement => (
+                                    <div key={kitchen} className={'text-orange text-text-s-height '}>
+                                        {kitchen}
+                                    </div>
+                                ),
+                            )}
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
         </div>

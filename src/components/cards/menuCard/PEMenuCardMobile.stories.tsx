@@ -11,10 +11,10 @@ export default meta;
 export const Component: StoryObj<typeof PEMenuCardMobile> = {
     args: {
         pricePerPerson: 12,
-        kitchens: ['PEMenuCard', 'PEMealC', 'PEMenuCard'],
-        categories: ['PEMenuCard', 'PEMealC', 'PEMenuCard'],
-        description: 'PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard',
-        title: 'PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMenuCard PEMea',
+        kitchens: ['kitchen-1', 'kitchen-2', 'kitchen-3'],
+        categories: ['category-1', 'category-2', 'category-3'],
+        description: 'Menu description',
+        title: 'Menu title',
         chefName: 'Loren',
     },
 };
