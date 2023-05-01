@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import {type ReactElement} from 'react';
-import {Icon} from '../../standard/icon/Icon';
+import { type ReactElement } from 'react';
+import PeopleEatIcon from '~/components/standard/icon/PEIcon';
+import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
-import PeopleEatIcon from "~/components/standard/icon/PEIcon";
 
 export interface PEBookingRequestCardClosedProps {
     chefName?: string;
