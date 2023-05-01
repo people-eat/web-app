@@ -50,7 +50,7 @@ export default function PEMenuCard({
                     <Image
                         key={pictures[0]}
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
-                        src={pictures[0]}
+                        src={pictures[0]!}
                         alt={pictures[0]}
                         width={220}
                         height={220}
