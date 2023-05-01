@@ -37,7 +37,7 @@ export const SmallWithChef: StoryObj<typeof PEChefCard> = {
         location: 'Berlin',
         rank: 'Home',
         rating: { count: 25, average: 4.9 },
-        menus: ['European', 'Australia', 'Midland'],
+        kitchens: ['European', 'Australia', 'Midland'],
     },
 };
 
@@ -48,6 +48,6 @@ export const SmallWithoutChef: StoryObj<typeof PEChefCard> = {
         location: 'Berlin',
         rank: 'home',
         rating: { count: 25, average: 4.9 },
-        menus: ['European', 'Australia', 'Midland'],
+        kitchens: ['European', 'Australia', 'Midland'],
     },
 };
