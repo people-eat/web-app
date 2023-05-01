@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { type ReactElement } from 'react';
 import PECarousel from '../../standard/carousel/PECarousel';
 import { Icon } from '../../standard/icon/Icon';
@@ -12,7 +13,7 @@ export interface PEMenuCardProps {
     description?: string;
     pictures?: string[];
     categories: string[];
-    kitchens: string[];
+    kitchens?: string[];
 }
 
 export default function PEMenuCard({
@@ -35,16 +36,30 @@ export default function PEMenuCard({
                 {pictures && pictures?.length > 1 ? (
                     <PECarousel
                         images={pictures?.map((picture) => (
-                            <img key={picture} src={picture} alt={picture} className="w-[220px] h-[220px] object-cover" />
+                            <Image
+                                key={picture}
+                                style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                                src={picture}
+                                alt={picture}
+                                width={220}
+                                height={220}
+                            />
                         ))}
                     />
-                ) : pictures ? (
-                    <img key={pictures[0]} src={pictures[0]} alt={pictures[0]} className="w-[220px] h-[220px] object-cover" />
+                ) : pictures?.length ? (
+                    <Image
+                        key={pictures[0]}
+                        style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                        src={pictures[0]}
+                        alt={pictures[0]}
+                        width={220}
+                        height={220}
+                    />
                 ) : (
                     <PeopleEatIcon icon={Icon.food} edgeLength={52} />
                 )}
             </div>
-            <div className="flex gap-3 flex-col box-border">
+            <div className="flex gap-3 flex-col box-border w-full">
                 <div className="flex flex-col gap-2 h-[148px] overflow-hidden">
                     <span className="text-text-sm-bold text-preBlack">{title}</span>
                     {pricePerPerson ? <span className="text-orange text-text-sm-bold">${pricePerPerson} for each person</span> : null}
@@ -59,7 +74,7 @@ export default function PEMenuCard({
                         ),
                     )}
                 </div>
-                <div className="flex flex-row justify-between">
+                <div className="flex flex-row justify-between w-full">
                     <div className="flex flex-row items-center gap-2 overflow-hidden">
                         {chefPicture ? (
                             <img src={chefPicture} alt={chefPicture} className="rounded-4 w-6 h-6 object-cover" />
@@ -68,18 +83,20 @@ export default function PEMenuCard({
                         )}
                         <span className="text-preBlack">{chefName}</span>
                     </div>
-                    <div className={'items-center flex flex-row gap-2'}>
-                        <PeopleEatIcon icon={Icon.dishes} />
-                        <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
-                            {kitchens.map(
-                                (kitchen): ReactElement => (
-                                    <div key={kitchen} className={'text-orange text-text-s-height '}>
-                                        {kitchen}
-                                    </div>
-                                ),
-                            )}
+                    {kitchens && Boolean(kitchens.length) && (
+                        <div className={'items-center flex flex-row gap-2'}>
+                            <PeopleEatIcon icon={Icon.dishes} />
+                            <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
+                                {kitchens.map(
+                                    (kitchen): ReactElement => (
+                                        <div key={kitchen} className={'text-orange text-text-s-height '}>
+                                            {kitchen}
+                                        </div>
+                                    ),
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

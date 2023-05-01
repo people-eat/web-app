@@ -7,18 +7,18 @@ import PeopleEatIcon from '../../standard/icon/PEIcon';
 
 export interface PEChefCardProps {
     imageUrl?: string;
-    name?: string;
-    location?: string;
-    rank?: string;
+    name: string;
+    location: string;
+    rank: string;
     rating: {
-        average?: number;
-        count?: number;
+        average: number;
+        count: number;
     };
     categories?: string[];
-    menus?: string[];
+    kitchens?: string[];
 }
 
-export default function PEChefCard({ imageUrl, name, location, rank, rating, categories, menus }: PEChefCardProps): ReactElement {
+export default function PEChefCard({ imageUrl, name, location, rank, rating, categories, kitchens }: PEChefCardProps): ReactElement {
     const baseClassNames =
         'flex flex-col active:shadow-active hover:shadow-primary overflow-hidden w-full border-solid border-border border-[1px] rounded-3 cursor-pointer';
     const width = classNames('max-w-[280px]');
@@ -73,10 +73,10 @@ export default function PEChefCard({ imageUrl, name, location, rank, rating, cat
                 </div>
                 <div className={'overflow-x-scroll items-center flex flex-row gap-2 mt-3 scrollbar-hide'}>
                     <PeopleEatIcon icon={Icon.dishes} />
-                    {menus?.map(
-                        (menu): ReactElement => (
-                            <div key={menu} className={'text-orange text-text-s-height '}>
-                                {menu}
+                    {kitchens?.map(
+                        (kitchen): ReactElement => (
+                            <div key={kitchen} className={'text-orange text-text-s-height '}>
+                                {kitchen}
                             </div>
                         ),
                     )}
