@@ -36,7 +36,7 @@ export default function SignInPage(): ReactElement {
             <VStack style={{ flex: 1, padding: '32px', overflowY: 'scroll' }}>
                 <VStack style={{ gap: '32px', width: '100%', maxWidth: '800px' }}>
                     <HStack style={{ width: '100%' }}>
-                        <Image src={'/people-eat-logo-title.jpeg'} alt="" width={200} height={100} />
+                        <Image src={'/people-eat-logo-title.png'} alt="" width={203} height={46} />
                         <Spacer />
                     </HStack>
 
