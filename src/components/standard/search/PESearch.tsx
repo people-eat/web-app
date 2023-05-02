@@ -32,8 +32,11 @@ export default function PESearch({ onSearchClick }: PESearchProps): ReactElement
     useEffect(() => {
         document.addEventListener('click', (event) => {
             if (event && event.target) {
+                let parentClassList: string | string[] = '';
                 const classList = (event.target as Element).classList.value;
-                const parentClassList = (event.target as HTMLElement)?.offsetParent.classList.value;
+                const parent = (event.target as HTMLElement).offsetParent;
+
+                if (parent) parentClassList = parent.classList.value;
 
                 if (!classList.includes('people-eat-autocomplete-item') && !parentClassList?.includes('people-eat-search-input'))
                     setFocus(false);
