@@ -1,4 +1,4 @@
 {
     "ignorePaths": ["node_modules", "dist", "public"],
-    "words": ["codegen", "esnext", "minifiable", "nextjs", "tailwindcss", "validatorjs"]
+    "words": ["codegen", "esnext", "Impressum", "Daterschutzerklarung", "minifiable", "nextjs", "tailwindcss", "validatorjs"]
 }

@@ -23,17 +23,21 @@ export interface PESearchProps {
 
 export default function PESearch({ onSearchClick }: PESearchProps): ReactElement {
     const [activeTab, setActiveTab] = useState('');
-    const [city, setCity] = useState('Rome, Italy.Rome, Italy');
-    const [persons, setPersons] = useState('12');
-    const [children, setChildren] = useState('3');
+    const [city, setCity] = useState('');
+    const [persons, setPersons] = useState('4');
+    const [children, setChildren] = useState('0');
     const [date, setDate] = useState('');
-    const [focus, setFocus] = useState(true);
+    const [focus, setFocus] = useState(false);
 
     useEffect(() => {
         document.addEventListener('click', (event) => {
-            const classList = (event.target as Element).classList.value;
+            if (event && event.target) {
+                const classList = (event.target as Element).classList.value;
+                const parentClassList = (event.target as HTMLElement)?.offsetParent.classList.value;
 
-            if (!classList.includes('people-eat-autocomplete-item') && !classList.includes('MuiInputBase-input')) setFocus(false);
+                if (!classList.includes('people-eat-autocomplete-item') && !parentClassList?.includes('people-eat-search-input'))
+                    setFocus(false);
+            }
         });
     }, [focus]);
 
@@ -52,6 +56,7 @@ export default function PESearch({ onSearchClick }: PESearchProps): ReactElement
                 <>
                     <Input
                         onChange={(event): void => handleInputChange(event, setCity)}
+                        className={'people-eat-search-input'}
                         sx={{ boxSizing: 'border-box', maxHeight: '20px' }}
                         disableUnderline
                         onFocus={(): void => setFocus(true)}
