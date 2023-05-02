@@ -1,0 +1,29 @@
+# .github/workflows/chromatic.yml
+
+name: 'Chromatic'
+
+on:
+  pull_request:
+    branches: [integration]
+
+jobs:
+  chromatic-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: 2bce3d27955c
+          buildScriptName: 'storybook:build'
+          exitOnceUploaded: true
