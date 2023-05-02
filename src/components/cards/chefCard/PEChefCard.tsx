@@ -34,6 +34,7 @@ export default function PEChefCard({
                         height={290}
                     />
                 )}
+                Hello world!
                 {!imageUrl && (
                     <div className={classNames('w-full bg-base flex justify-center items-center h-[280px]')}>
                         <PEIcon edgeLength={110} icon={Icon.profileLight} />
