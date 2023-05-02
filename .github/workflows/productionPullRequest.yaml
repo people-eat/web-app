@@ -1,0 +1,24 @@
+name: Create production promotion pull request
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - integration
+
+jobs:
+  productionPromotion:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: production
+      - name: Reset promotion branch
+        run: |
+          git fetch origin integration:integration
+          git reset --hard integration
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: 'Integration -> Production'
+          branch: integration
