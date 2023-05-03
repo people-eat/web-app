@@ -54,7 +54,7 @@ export default function PEDropdown({ items }: PEDropdownProps): ReactElement {
     );
 
     return (
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
+        <Grid container spacing={2}>
             <Grid item>
                 <Card sx={{ borderRadius: '12px', width: '690px', my: '16px' }}>
                     <CardHeader
