@@ -17,6 +17,7 @@ const config = {
                 preBlack: 'rgba(31, 31, 31, 0.8)',
                 lightBlack: 'rgba(31, 31, 31, 1)',
                 midBlackHover: 'rgba(31, 31, 31, 0.05)',
+                darkBlue: 'rgba(7, 0, 48, 1)',
                 green: '#34A853',
             },
             boxShadow: {
@@ -31,6 +32,7 @@ const config = {
                 base: 'rgba(245, 245, 245, 1)',
                 border: 'rgba(31, 31, 31, 0.1)',
                 disabled: 'rgba(31, 31, 31, 0.2)',
+                footer: 'rgba(253, 250, 244, 1)',
                 separator: 'rgba(0, 0, 0, 0.2)',
                 pagination: 'rgba(24, 24, 24, 0.5)',
                 'header-darkness': 'rgba(7, 0, 48, 1)',
@@ -78,6 +80,7 @@ const config = {
                 12: '48px',
                 13: '52px',
                 14: '56px',
+                15: '60px',
                 'icon-1': '24px',
                 'icon-2': '32px',
             },
