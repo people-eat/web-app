@@ -56,10 +56,11 @@ export default function PEDropdown({ items }: PEDropdownProps): ReactElement {
     return (
         <Grid container spacing={2} justifyContent="center" alignItems="center">
             <Grid item>
-                <Card sx={{ borderRadius: '12px', width: '690px', marginLeft: '400px', my: '16px' }}>
+                <Card sx={{ borderRadius: '12px', width: '690px', my: '16px' }}>
                     <CardHeader
                         onClick={(): void => setOpen(!isOpen)}
                         sx={{
+                            cursor: 'pointer',
                             px: 2,
                             py: 1,
                             fontFamily: 'Manrope',
