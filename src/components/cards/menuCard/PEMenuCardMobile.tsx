@@ -51,7 +51,7 @@ export default function PEMenuCardMobile({
                     <span className="text-preBlack">{chefFirstName}</span>
                 </div>
                 <div className={'items-center flex flex-row gap-2'}>
-                    <PEIcon icon={Icon.dishes} />
+                    {Boolean(kitchen) && <PEIcon icon={Icon.dishes} />}
                     <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
                         {kitchen && (
                             <div key={kitchen} className={'text-orange text-text-s-height '}>

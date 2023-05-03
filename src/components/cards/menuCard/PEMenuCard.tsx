@@ -73,7 +73,7 @@ export default function PEMenuCard({
                     </div>
                     {kitchen && (
                         <div className={'items-center flex flex-row gap-2'}>
-                            <PEIcon icon={Icon.dishes} />
+                            {Boolean(kitchen) && <PEIcon icon={Icon.dishes} />}
                             <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
                                 <div key={kitchen} className={'text-orange text-text-s-height '}>
                                     {kitchen}

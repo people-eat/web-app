@@ -70,7 +70,7 @@ export default function PEChefCardMobile({
                 </div>
                 {kitchens.length > 0 && (
                     <div className={'overflow-x-scroll items-center flex flex-row gap-2 scrollbar-hide'}>
-                        <PEIcon icon={Icon.dishes} />
+                        {Boolean(kitchens.length) && <PEIcon icon={Icon.dishes} />}
                         {kitchens.map((kitchen) => (
                             <div key={kitchen} className={'text-orange text-text-s-height'}>
                                 {kitchen}
