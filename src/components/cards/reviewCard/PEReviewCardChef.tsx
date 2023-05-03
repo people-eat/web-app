@@ -64,7 +64,7 @@ export default function PEReviewCardChef({
             <div>
                 to {chefRank} <span className="text-orange text-text-m-bold">{chefFirstName}</span>
             </div>
-            <span className="text-text-m text-preBlack">{comment}</span>
+            <span className="text-text-m text-preBlack line-clamp-3">{comment}</span>
             <span className="text-orange text-text-m-bold flex items-center gap-2">
                 View original review <PEIcon icon={Icon.arrowNarrowRightOrange} />
             </span>

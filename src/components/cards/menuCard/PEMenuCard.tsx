@@ -52,7 +52,7 @@ export default function PEMenuCard({
                 <div className="flex flex-col gap-2 h-[148px] overflow-hidden">
                     <span className="text-text-sm-bold text-preBlack">{title}</span>
                     <span className="text-orange text-text-sm-bold">${pricePerPerson} for each person</span>
-                    <span className="text-text-s text-preBlack">{description}</span>
+                    <span className="text-text-s text-preBlack line-clamp-6">{description}</span>
                 </div>
                 <div className={'no-scrollbar overflow-x-scroll flex flex-row gap-2'}>
                     {categories.map(

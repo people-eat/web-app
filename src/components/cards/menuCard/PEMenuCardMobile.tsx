@@ -30,7 +30,7 @@ export default function PEMenuCardMobile({
                 <div className="flex flex-col gap-2">
                     <span className="text-text-sm-bold text-preBlack">{title}</span>
                     {pricePerPerson ? <span className="text-orange text-text-sm-bold">${pricePerPerson} for each person</span> : null}
-                    <span className="text-text-s text-preBlack">{description}</span>
+                    <span className="text-text-s text-preBlack line-clamp-4">{description}</span>
                 </div>
             </div>
             <div className={'no-scrollbar overflow-x-scroll flex flex-row gap-2 scrollbar-hide'}>

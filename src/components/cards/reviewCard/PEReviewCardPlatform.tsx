@@ -60,11 +60,11 @@ export default function PEReviewCardPlatform({
                                 <span className="text-preBlack text-text-sm md:text-text-m">{location}</span>
                             </div>
                         )}
-                        <span className="text-text-m hidden md:block text-preBlack">{description}</span>
+                        <span className="text-text-m hidden md:block text-preBlack line-clamp-6">{description}</span>
                     </div>
                 </div>
             </div>
-            <span className="text-text-m block md:hidden text-preBlack">{description}</span>
+            <span className="text-text-m block md:hidden text-preBlack line-clamp-3">{description}</span>
         </div>
     );
 }

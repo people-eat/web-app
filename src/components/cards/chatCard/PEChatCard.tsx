@@ -23,7 +23,7 @@ export default function PEChatCard({
                 <PEIcon icon={Icon.fileSearch} />
             </div>
             <div>
-                <span className="text-heading-ss-bold text-black">{menuTitle}</span>
+                <span className="text-heading-ss-bold text-black line-clamp-1">{menuTitle}</span>
             </div>
             <div className="flex gap-[10px]">
                 <span className="text-midBlack text-text-sm">{date}</span>

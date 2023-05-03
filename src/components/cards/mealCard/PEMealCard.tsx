@@ -25,7 +25,7 @@ export default function PEMealCard({ onClick, title, description, imageUrl }: PE
             </div>
             <div className="flex flex-col gap-2">
                 <span className="text-text-sm-bold text-preBlack">{title}</span>
-                <span className="text-text-s text-preBlack">{description}</span>
+                <span className="text-text-s text-preBlack line-clamp-6">{description}</span>
             </div>
         </div>
     );
