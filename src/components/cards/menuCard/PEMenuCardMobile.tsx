@@ -33,7 +33,7 @@ export default function PEMenuCardMobile({
                     <span className="text-text-s text-preBlack">{description}</span>
                 </div>
             </div>
-            <div className={'overflow-x-scroll flex flex-row gap-2 scrollbar-hide'}>
+            <div className={'no-scrollbar overflow-x-scroll flex flex-row gap-2 scrollbar-hide'}>
                 {categories?.map(
                     (category): ReactElement => (
                         <div key={category} className={'rounded-4 text-preBlack text-text-s-height px-2 py-[2px] bg-base'}>
@@ -52,7 +52,7 @@ export default function PEMenuCardMobile({
                 </div>
                 <div className={'items-center flex flex-row gap-2'}>
                     {Boolean(kitchen) && <PEIcon icon={Icon.dishes} />}
-                    <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
+                    <div className={'no-scrollbar overflow-x-scroll items-center flex flex-row gap-2'}>
                         {kitchen && (
                             <div key={kitchen} className={'text-orange text-text-s-height '}>
                                 {kitchen}

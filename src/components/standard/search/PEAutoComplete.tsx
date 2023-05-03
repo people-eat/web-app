@@ -23,9 +23,9 @@ export default function PEAutoComplete({ onClick }: PEAutoCompleteProps): ReactE
     return (
         <div
             id={'search-autocomplete'}
-            className="mt-5 absolute overflow-scroll z-50 w-full h-[380px] min-w-[300px] rounded-4 bg-white shadow-primary"
+            className="mt-5 absolute no-scrollbar overflow-x-scroll z-50 w-full h-[380px] min-w-[300px] rounded-4 bg-white shadow-primary"
         >
-            <div className="overflow-scroll flex flex-col overscroll-y-auto">
+            <div className="no-scrollbar overflow-x-scroll flex flex-col overscroll-y-auto">
                 {CITIES.map((item, index) => (
                     <PEAutoCompleteItem onClick={onClick} key={`${item}_${index}`} address={item} />
                 ))}

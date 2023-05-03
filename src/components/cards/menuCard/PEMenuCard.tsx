@@ -54,7 +54,7 @@ export default function PEMenuCard({
                     <span className="text-orange text-text-sm-bold">${pricePerPerson} for each person</span>
                     <span className="text-text-s text-preBlack">{description}</span>
                 </div>
-                <div className={'overflow-x-scroll flex flex-row gap-2'}>
+                <div className={'no-scrollbar overflow-x-scroll flex flex-row gap-2'}>
                     {categories.map(
                         (category): ReactElement => (
                             <div key={category} className={'rounded-4 text-preBlack text-text-s-height px-2 py-[2px] bg-base'}>
@@ -74,7 +74,7 @@ export default function PEMenuCard({
                     {kitchen && (
                         <div className={'items-center flex flex-row gap-2'}>
                             {Boolean(kitchen) && <PEIcon icon={Icon.dishes} />}
-                            <div className={'overflow-x-scroll items-center flex flex-row gap-2'}>
+                            <div className={'no-scrollbar overflow-x-scroll items-center flex flex-row gap-2'}>
                                 <div key={kitchen} className={'text-orange text-text-s-height '}>
                                     {kitchen}
                                 </div>
