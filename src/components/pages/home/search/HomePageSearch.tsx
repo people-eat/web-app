@@ -45,7 +45,7 @@ export default function HomePageSearch({
     return (
         <HStack style={{ gap: 16, backgroundColor: 'white', padding: '10px', paddingLeft: '24px', borderRadius: 64 }}>
             <Autocomplete
-                style={{ width: 600 }}
+                style={{ width: 200 }}
                 freeSolo
                 disableClearable
                 options={searchResults}
@@ -67,8 +67,6 @@ export default function HomePageSearch({
                     />
                 )}
             />
-            <Divider orientation="vertical" />
-            {searchResults.length}
             <Divider orientation="vertical" />
             <TextField
                 value={adultCount}
