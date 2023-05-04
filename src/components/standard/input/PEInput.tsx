@@ -1,5 +1,4 @@
 import { OutlinedInput } from '@mui/material';
-import classNames from 'classnames';
 import { useState, type ChangeEvent, type ReactElement } from 'react';
 import { isEmail } from '../../../utils/isEmail';
 import PEHideButton from '../hideButton/PEHideButton';
@@ -30,16 +29,17 @@ export default function PEInput({ disabled, placeholder, type, onChange, value }
                         },
                     },
                     borderRadius: '12px',
+                    paddingRight: '40px',
                 }}
                 type={textFieldType}
-                disabled={disabled}
+                disabled={Boolean(disabled)}
                 onChange={({ target }: TInputChangeEvent): void => {
                     if (type === 'email') setIsValidEmail(isEmail(target.value));
                     onChange?.(target.value);
                 }}
                 fullWidth
                 required
-                placeholder={placeholder}
+                placeholder={placeholder ?? ''}
             />
             <span className={'absolute right-2'}>
                 {type === 'password' && (
@@ -53,7 +53,9 @@ export default function PEInput({ disabled, placeholder, type, onChange, value }
                             <PEIcon icon={Icon.checkGreen} />
                         </div>
                     ) : (
-                        <span className={classNames('text-disabled', { ['text-red-500']: !isValidEmail })}>Enter your email</span>
+                        <div className="mr-2">
+                            <PEIcon icon={Icon.close} />
+                        </div>
                     ))}
             </span>
         </section>

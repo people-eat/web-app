@@ -49,6 +49,7 @@ const config = {
                 'heading-s': ['20px', { fontWeight: '600', lineHeight: '24px' }],
                 'heading-m': ['24px', { fontWeight: '600' }],
                 'heading-l': ['32px', { fontWeight: '600' }],
+                'heading-xl': ['38px', { fontWeight: '600' }],
                 'text-s': ['12px', { lineHeight: '15px' }],
                 'text-s-height': ['12px', { lineHeight: '20px' }],
                 'text-sm': ['14px', { lineHeight: '18px' }],
