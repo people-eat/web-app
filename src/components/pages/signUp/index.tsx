@@ -133,23 +133,13 @@ export default function SignUpPage(): ReactElement {
                     >
                         <FormGroup>
                             <FormControlLabel
-                                control={
-                                    <PECheckbox
-                                        checked={acceptedPrivacyPolicy}
-                                        onCheckedChange={setAcceptedPrivacyPolicy}
-                                    />
-                                }
+                                control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
                                 label="I have read and accept the Privacy Policy"
                             />
                         </FormGroup>
                         <FormGroup>
                             <FormControlLabel
-                                control={
-                                    <PECheckbox
-                                        checked={acceptedTerms}
-                                        onCheckedChange={setAcceptedTerms}
-                                    />
-                                }
+                                control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
                                 label="I have read and accept the Terms and Conditions"
                             />
                         </FormGroup>
