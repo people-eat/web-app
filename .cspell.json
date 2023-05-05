@@ -1,4 +1,15 @@
 {
     "ignorePaths": ["node_modules", "dist", "public", "locales/de", "locales/fr", "locales/ru"],
-    "words": ["codegen", "esnext", "minifiable", "nextjs", "tailwindcss", "textsearch", "validatorjs"]
+    "words": [
+        "codegen",
+        "esnext",
+        "minifiable",
+        "nextjs",
+        "tailwindcss",
+        "Spagetiikürbis",
+        "Wurttemberg",
+        "textsearch",
+        "manrope",
+        "validatorjs"
+    ]
 }

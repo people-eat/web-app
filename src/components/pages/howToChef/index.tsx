@@ -10,7 +10,7 @@ export default function HowToChefPage(): ReactElement {
     return (
         <VStack className="w-full">
             <PEHeader />
-            <VStack className="w-full max-w-screen-lg">
+            <VStack className="w-full max-w-screen-xl">
                 <VStack
                     className="w-full"
                     style={{

@@ -1,25 +1,25 @@
 import Button from '@mui/material/Button';
-import { useState, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { type PETabItemProps } from './PETabItemProps';
 
-export default function PETabItem({ disabled = false, title, active }: PETabItemProps): ReactElement {
-    const [selected, setSelect] = useState(active);
-
+export default function PETabItem({ disabled = false, title, active, onClick }: PETabItemProps): ReactElement {
     return (
         <section>
             <Button
                 sx={{
                     borderRadius: '20px',
-                    color: selected ? 'white' : 'black',
+                    color: active ? 'white' : 'black',
                     padding: '8px 20px',
                     '&:hover': {
                         color: 'white',
                         backgroundColor: 'rgba(255, 100, 51, .7)',
                     },
-                    backgroundColor: selected ? 'rgba(255, 100, 51, 1)' : 'white',
+                    backgroundColor: active ? 'rgba(255, 100, 51, 1)' : 'rgba(245, 245, 245, 0.5)',
                 }}
                 disabled={Boolean(disabled)}
-                onClick={(): void => setSelect(!selected)}
+                onClick={(): void => {
+                    onClick?.();
+                }}
             >
                 {title}
             </Button>

@@ -12,7 +12,7 @@ export default function PEBulletPoint({ icon, text }: PEBulletPointProps): React
     return (
         <>
             <HStack style={{ alignItems: 'center', justifyContent: 'left', gap: 16, width: '300px' }}>
-                <div className="bg-white shadow-md" style={{ padding: 30, borderRadius: '50%' }}>
+                <div className="bg-white shadow-primary" style={{ padding: 30, borderRadius: '50%' }}>
                     <PEIcon icon={icon} edgeLength={20} />
                 </div>
                 <span style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{text}</span>

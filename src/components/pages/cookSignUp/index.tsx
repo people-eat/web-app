@@ -21,7 +21,7 @@ export default function CookSignUpPage(): ReactElement {
     return (
         <VStack className="w-full">
             <PEHeader />
-            <VStack className="w-full max-w-screen-lg" style={{ gap: 32, marginBottom: 64 }}>
+            <VStack className="w-full max-w-screen-xl" style={{ gap: 32, marginBottom: 64 }}>
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                     <h1>Chef Registration</h1>
                     <p>Please enter your details</p>

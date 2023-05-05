@@ -8,7 +8,7 @@ import PEIcon from '../../standard/icon/PEIcon';
 export default function PEFooter(): ReactElement {
     return (
         <div className={'w-full flex justify-center bg-footer py-15'}>
-            <div className={'flex  max-w-[1180px] justify-between w-full'} style={{ padding: '8px' }}>
+            <div className={'flex max-w-screen-xl justify-between w-full'} style={{ padding: '8px' }}>
                 <div className="flex flex-row gap-[100px]">
                     <div className="flex flex-col gap-4">
                         <Link href={'/'}>

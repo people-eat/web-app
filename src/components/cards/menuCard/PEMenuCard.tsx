@@ -19,7 +19,7 @@ export default function PEMenuCard({
     return (
         <div
             onClick={onClick}
-            className="flex w-[580px] gap-3 flex-row p-3 box-border rounded-3 shadow-primary cursor-pointer active:shadow-orange hover:shadow-active"
+            className="flex w-[580px] items-center gap-3 flex-row p-3 box-border rounded-3 shadow-primary cursor-pointer active:shadow-orange hover:shadow-active"
         >
             <div className="flex rounded-3 overflow-hidden w-[220px] min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] justify-center items-center bg-base">
                 {imageUrls.length < 1 && <PEIcon icon={Icon.food} edgeLength={52} />}

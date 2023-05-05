@@ -12,7 +12,7 @@ export default function ProfilePage(): ReactElement {
         <VStack className="w-full">
             <PEHeader />
 
-            <VStack className="w-full max-w-screen-lg" style={{ gap: 16 }}>
+            <VStack className="w-full max-w-screen-xl" style={{ gap: 16 }}>
                 <HStack className="w-full bg-white shadow-md" style={{ padding: 16, alignItems: 'center', borderRadius: 16 }}>
                     First name
                     <Spacer />

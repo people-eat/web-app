@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { type ReactElement } from 'react';
 import { type PEFavoriteProps } from './PEFavoriteProps';
 
-export default function PEFavorite({ disabled = false, defaultChecked = true, className, onClick }: PEFavoriteProps): ReactElement {
+export default function PEFavorite({ disabled = false, defaultChecked = false, className, onClick }: PEFavoriteProps): ReactElement {
     const BpIcon = styled('span')(() => ({
         borderRadius: 5,
         width: 24,

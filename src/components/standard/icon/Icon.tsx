@@ -3,6 +3,7 @@ export enum Icon {
     appleWhiteIcon = '/icons/apple-white-icon.svg',
     arrowDown = '/icons/arrow-down.svg',
     arrowNarrowRight = '/icons/arrow-narrow-right.svg',
+    arrowNarrowWhite = '/icons/arrow-narrow-white.svg',
     arrowNext = '/icons/arrow-next-orange.svg',
     arrowPrev = '/icons/arrow-prev-orange.svg',
     arrowNarrowRightOrange = '/icons/arrow-narrow-right-orange.svg',

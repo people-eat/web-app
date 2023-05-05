@@ -38,6 +38,9 @@ const config = {
                 'header-darkness': 'rgba(7, 0, 48, 1)',
                 'footer-lightness': 'rgba(253, 250, 244, 1)',
             },
+            backgroundImage: {
+                yellowLight: 'linear-gradient(180deg, #FFFCF3 0%, #FFFDF7 100%)',
+            },
             borderColor: {
                 orange: 'rgba(255, 100, 51, 1)',
                 border: 'rgba(31, 31, 31, 0.1)',
@@ -50,6 +53,7 @@ const config = {
                 'heading-m': ['24px', { fontWeight: '600' }],
                 'heading-l': ['32px', { fontWeight: '600' }],
                 'heading-xl': ['38px', { fontWeight: '600' }],
+                'heading-xxl': ['52px', { fontWeight: '600' }],
                 'text-s': ['12px', { lineHeight: '15px' }],
                 'text-s-height': ['12px', { lineHeight: '20px' }],
                 'text-sm': ['14px', { lineHeight: '18px' }],
@@ -103,7 +107,7 @@ const config = {
                 15: '60px',
             },
             fontFamily: {
-                manrope: ['Manrope', 'Arial', 'sans-serif'],
+                manrope: '"Manrope", sans-serif',
             },
         },
     },

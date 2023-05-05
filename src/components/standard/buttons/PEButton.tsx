@@ -9,6 +9,7 @@ export interface PEButtonProps {
     disabled?: boolean;
     iconLeft?: Icon;
     iconRight?: Icon;
+    iconSize?: number;
     className?: string;
     fontSize?: string;
     onClick: () => void;
@@ -23,6 +24,7 @@ export default function PEButton({
     disabled = false,
     iconLeft,
     iconRight,
+    iconSize,
     className,
     onClick,
     title,
@@ -50,8 +52,8 @@ export default function PEButton({
         'h-[49px]': size === 'm' || size === 's',
     });
 
-    const IconLeft = !!iconLeft && <PEIcon icon={iconLeft} />;
-    const IconRight = !!iconRight && <PEIcon icon={iconRight} />;
+    const IconLeft = !!iconLeft && <PEIcon icon={iconLeft} edgeLength={iconSize ?? 24} />;
+    const IconRight = !!iconRight && <PEIcon icon={iconRight} edgeLength={iconSize ?? 24} />;
     const Loader =
         type === 'primary' ? (
             <PEIcon className={'animate-spin'} icon={Icon.loaderWhite} />

@@ -36,7 +36,16 @@ export default function HomePageSearch({
     const { t } = useTranslation('home');
 
     return (
-        <HStack style={{ gap: 16, backgroundColor: 'white', padding: '10px', paddingLeft: '24px', borderRadius: 64 }}>
+        <HStack
+            style={{
+                boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.5)',
+                gap: 16,
+                backgroundColor: 'white',
+                padding: '10px',
+                paddingLeft: '24px',
+                borderRadius: 64,
+            }}
+        >
             <Autocomplete
                 style={{ width: 200 }}
                 freeSolo
@@ -57,12 +66,13 @@ export default function HomePageSearch({
                         variant="standard"
                         label={t('search-city-label')}
                         InputProps={{ disableUnderline: true, ...params.InputProps }}
-                        InputLabelProps={{ shrink: true }}
+                        // InputLabelProps={{ shrink: true }}
                     />
                 )}
             />
             <Divider orientation="vertical" />
             <TextField
+                sx={{ maxWidth: '140px' }}
                 value={adultCount}
                 onChange={(event): void => {
                     onAdultsChange(Number(event.target.value));
@@ -75,6 +85,7 @@ export default function HomePageSearch({
             />
             <Divider orientation="vertical" />
             <TextField
+                sx={{ maxWidth: '140px' }}
                 value={childrenCount}
                 onChange={(event): void => {
                     onChildrenChange(Number(event.target.value));
