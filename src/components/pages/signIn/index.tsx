@@ -67,7 +67,7 @@ export default function SignInPage(): ReactElement {
 
                     <VStack style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
                         <p>Password</p>
-                        <PEInput type={'password'} value={password} onChange={setPassword} placeholder={'Enter your email'} />
+                        <PEInput type={'password'} value={password} onChange={setPassword} placeholder={'Enter your password'} />
                     </VStack>
 
                     <HStack style={{ width: '400px' }}>
@@ -91,13 +91,7 @@ export default function SignInPage(): ReactElement {
                     <HStack style={{ alignItems: 'center' }}>
                         <p className={'text-disabled'}>No profile yet? &nbsp;</p>
                         <Link href={'/sign-up'} className={'no-underline'}>
-                            <PELineButton
-                                title={'Register here'}
-                                fontSize={'text-text-m'}
-                                onClick={function (): void {
-                                    throw new Error('Function not implemented.');
-                                }}
-                            />
+                            <PELineButton title={'Register here'} fontSize={'text-text-m'} />
                         </Link>
                     </HStack>
                 </VStack>

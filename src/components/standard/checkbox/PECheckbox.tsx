@@ -5,7 +5,7 @@ import { Icon } from '../icon/Icon';
 import PEIcon from '../icon/PEIcon';
 import { type PECheckboxProps } from './PECheckboxProps';
 
-export default function PECheckbox({ disabled = false, checked }: PECheckboxProps): ReactElement {
+export default function PECheckbox({ disabled = false, checked, onCheckedChange }: PECheckboxProps): ReactElement {
     const BpIcon = styled('span')(({ theme }) => ({
         borderRadius: 5,
         width: 24,
@@ -26,9 +26,14 @@ export default function PECheckbox({ disabled = false, checked }: PECheckboxProp
         },
     }));
 
+    function onCheckHandle(event: React.ChangeEvent<HTMLInputElement>): void {
+        onCheckedChange?.(event.target.checked);
+    }
+
     return (
         <section className="w-11">
             <Checkbox
+                onChange={onCheckHandle}
                 checked={checked}
                 icon={<BpIcon />}
                 checkedIcon={<PEIcon className="bg-orange rounded-md" icon={Icon.checkWhite} />}
