@@ -2,6 +2,7 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import PEHeader from '../../header/PEHeader';
+import PEMap from '../../map/PEMap';
 import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';
 import PEFooter from '../../standard/footer/PEFooter';
 import { Icon } from '../../standard/icon/Icon';
@@ -86,6 +87,7 @@ export default function HomePage(): ReactElement {
                     <PEBulletPoint icon={Icon.usersOrange} text={t('section-1-selling-point-2')} />
                     <PEBulletPoint icon={Icon.chatDots} text={t('section-1-selling-point-3')} />
                 </HStack>
+                <PEMap apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''} style={{ height: '500px' }}></PEMap>
             </VStack>
             <PEFooter />
         </VStack>
