@@ -2,7 +2,7 @@ import nextTranslate from 'next-translate-plugin';
 
 /** @type {import("next").NextConfig} */
 const config = {
-    reactStrictMode: true,
+    reactStrictMode: false,
 
     pageExtensions: ['tsx'],
 
