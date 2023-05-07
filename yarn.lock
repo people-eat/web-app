@@ -8076,6 +8076,11 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+libphonenumber-js@^1.10.15:
+  version "1.10.30"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.10.30.tgz#c0559d6c58dc1a7f189b88b7b23354c98b182848"
+  integrity sha512-PLGc+xfrQrkya/YK2/5X+bPpxRmyJBHM+xxz9krUdSgk4Vs2ZwxX5/Ow0lv3r9PDlDtNWb4u+it8MY5rZ0IyGw==
+
 lilconfig@^2.0.5, lilconfig@^2.0.6:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.1.0.tgz#78e23ac89ebb7e1bfbf25b18043de756548e7f52"
@@ -8449,6 +8454,13 @@ ms@2.1.3, ms@^2.1.1:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
+
+mui-tel-input@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/mui-tel-input/-/mui-tel-input-3.1.3.tgz#ef4abc475edc5e9fe0ecf0d2e3498ae41ad749a0"
+  integrity sha512-TNMgw3ScWRybjArJd82tdsnsnJxZzoKNWhIPy6rzZT0XSpWbQ8kKZXRorS5G1HCF0D9UceZz+EfcdsvSuiXAxg==
+  dependencies:
+    libphonenumber-js "^1.10.15"
 
 mute-stream@0.0.8:
   version "0.0.8"
