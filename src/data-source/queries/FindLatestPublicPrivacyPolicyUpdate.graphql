@@ -1,0 +1,10 @@
+query FindLatestPublicPrivacyPolicyUpdate {
+    publicPrivacyPolicyUpdates {
+        findLatest {
+            privacyPolicyUpdateId
+            englishText
+            germanText
+            createdAt
+        }
+    }
+}
