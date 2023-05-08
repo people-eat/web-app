@@ -1842,6 +1842,22 @@ export type FindKitchensQuery = {
     kitchens: { __typename?: 'KitchenQuery'; findAll: Array<{ __typename?: 'Kitchen'; kitchenId: string; title: string }> };
 };
 
+export type FindLatestPublicPrivacyPolicyUpdateQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindLatestPublicPrivacyPolicyUpdateQuery = {
+    __typename?: 'Query';
+    publicPrivacyPolicyUpdates: {
+        __typename?: 'PublicPrivacyPolicyUpdateQuery';
+        findLatest?: {
+            __typename?: 'PublicPrivacyPolicyUpdate';
+            privacyPolicyUpdateId: string;
+            englishText: string;
+            germanText: string;
+            createdAt: Date;
+        } | null;
+    };
+};
+
 export type FindManyAdminsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindManyAdminsQuery = {
@@ -2501,6 +2517,43 @@ export const FindKitchensDocument = {
         },
     ],
 } as unknown as DocumentNode<FindKitchensQuery, FindKitchensQueryVariables>;
+export const FindLatestPublicPrivacyPolicyUpdateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindLatestPublicPrivacyPolicyUpdate' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publicPrivacyPolicyUpdates' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findLatest' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'privacyPolicyUpdateId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'englishText' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'germanText' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindLatestPublicPrivacyPolicyUpdateQuery, FindLatestPublicPrivacyPolicyUpdateQueryVariables>;
 export const FindManyAdminsDocument = {
     kind: 'Document',
     definitions: [
