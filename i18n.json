@@ -5,6 +5,7 @@
         "*": ["common"],
         "/": ["home"],
         "/chef-sign-up": ["chef-sign-up"],
-        "/profile": ["profile"]
+        "/profile": ["profile"],
+        "/about-us": ["about-us"]
     }
 }
