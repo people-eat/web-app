@@ -43,6 +43,7 @@ yarn dev
 | [Profile page](http://localhost:3000/profile)                  | /profile      |
 | [Chef profile page](http://localhost:3000/chef-profile)        | /chef-profile |
 | [About us page](http://localhost:3000/about-us)                | /about-us     |
+| [Imprint page](http://localhost:3000/imprint)                  | /imprint      |
 
 ### Storybook
 
@@ -64,6 +65,7 @@ yarn storybook:start
 | [Profile page](https://integration-people-eat.cem-yilmaz.de/profile)                  | /profile      |
 | [Chef profile page](https://integration-people-eat.cem-yilmaz.de/chef-profile)        | /chef-profile |
 | [About us page](https://integration-people-eat.cem-yilmaz.de/about-us)                | /about-us     |
+| [Imprint page](https://integration-people-eat.cem-yilmaz.de/imprint)                  | /imprint      |
 
 Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.de](https://storybook-integration-people-eat.cem-yilmaz.de)
 
@@ -79,6 +81,7 @@ Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.d
 | [Profile page](https://people-eat.cem-yilmaz.de/profile)                  | /profile      |
 | [Chef profile page](https://people-eat.cem-yilmaz.de/chef-profile)        | /chef-profile |
 | [About us page](https://people-eat.cem-yilmaz.de/about-us)                | /about-us     |
+| [Imprint page](https://people-eat.cem-yilmaz.de/imprint)                  | /imprint      |
 
 ## Design
 
