@@ -1834,6 +1834,22 @@ export type FindLatestPublicPrivacyPolicyUpdateQuery = {
     };
 };
 
+export type FindLatestPublicTermsUpdateQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindLatestPublicTermsUpdateQuery = {
+    __typename?: 'Query';
+    publicTermsUpdates: {
+        __typename?: 'PublicTermsUpdateQuery';
+        findLatest?: {
+            __typename?: 'PublicTermsUpdate';
+            termsUpdateId: string;
+            englishText: string;
+            germanText: string;
+            createdAt: Date;
+        } | null;
+    };
+};
+
 export type FindManyAdminsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindManyAdminsQuery = {
@@ -2154,6 +2170,43 @@ export const FindLatestPublicPrivacyPolicyUpdateDocument = {
         },
     ],
 } as unknown as DocumentNode<FindLatestPublicPrivacyPolicyUpdateQuery, FindLatestPublicPrivacyPolicyUpdateQueryVariables>;
+export const FindLatestPublicTermsUpdateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindLatestPublicTermsUpdate' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publicTermsUpdates' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findLatest' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'termsUpdateId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'englishText' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'germanText' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindLatestPublicTermsUpdateQuery, FindLatestPublicTermsUpdateQueryVariables>;
 export const FindManyAdminsDocument = {
     kind: 'Document',
     definitions: [
