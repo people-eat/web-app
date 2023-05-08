@@ -543,6 +543,21 @@ export type CreateOneAddressRequest = {
     title: Scalars['String'];
 };
 
+export type CreateOneAnonymousGlobalBookingRequestInput = {
+    adults: Scalars['UnsignedInt'];
+    budget: Scalars['String'];
+    children: Scalars['UnsignedInt'];
+    customerEmailAddress: Scalars['EmailAddress'];
+    customerFirstName: Scalars['String'];
+    customerLastName: Scalars['String'];
+    customerPhoneNumber?: InputMaybe<Scalars['PhoneNumber']>;
+    dateTime: Scalars['DateTime'];
+    location?: InputMaybe<LocationInput>;
+    locationName: Scalars['String'];
+    message: Scalars['String'];
+    occasion?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateOneCookRequest = {
     biography: Scalars['String'];
     isVisible: Scalars['Boolean'];
@@ -974,6 +989,7 @@ export type Mutation = {
     categories: CategoryMutation;
     cookSpecificFees: CookSpecificFeeMutation;
     cooks: CookMutation;
+    createOneAnonymousGlobalBookingRequest: Scalars['Boolean'];
     customerFeeUpdates: CustomerFeeUpdateMutation;
     globalBookingRequests: GlobalBookingRequestMutation;
     kitchens: KitchenMutation;
@@ -983,6 +999,10 @@ export type Mutation = {
     sessions: SessionMutation;
     termsUpdates: TermsUpdateMutation;
     users: UserMutation;
+};
+
+export type MutationCreateOneAnonymousGlobalBookingRequestArgs = {
+    input: CreateOneAnonymousGlobalBookingRequestInput;
 };
 
 export type Notification = {
@@ -1187,6 +1207,7 @@ export type PublicTermsUpdate = {
 export type PublicTermsUpdateQuery = {
     __typename?: 'PublicTermsUpdateQuery';
     findAll: Array<PublicTermsUpdate>;
+    findLatest?: Maybe<PublicTermsUpdate>;
     findOne?: Maybe<PublicTermsUpdate>;
 };
 
@@ -1797,6 +1818,22 @@ export type FindKitchensQuery = {
     kitchens: { __typename?: 'KitchenQuery'; findAll: Array<{ __typename?: 'Kitchen'; kitchenId: string; title: string }> };
 };
 
+export type FindLatestPublicTermsUpdateQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindLatestPublicTermsUpdateQuery = {
+    __typename?: 'Query';
+    publicTermsUpdates: {
+        __typename?: 'PublicTermsUpdateQuery';
+        findLatest?: {
+            __typename?: 'PublicTermsUpdate';
+            termsUpdateId: string;
+            englishText: string;
+            germanText: string;
+            createdAt: Date;
+        } | null;
+    };
+};
+
 export type FindManyAdminsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindManyAdminsQuery = {
@@ -2048,6 +2085,43 @@ export const FindKitchensDocument = {
         },
     ],
 } as unknown as DocumentNode<FindKitchensQuery, FindKitchensQueryVariables>;
+export const FindLatestPublicTermsUpdateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindLatestPublicTermsUpdate' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publicTermsUpdates' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findLatest' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'termsUpdateId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'englishText' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'germanText' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindLatestPublicTermsUpdateQuery, FindLatestPublicTermsUpdateQueryVariables>;
 export const FindManyAdminsDocument = {
     kind: 'Document',
     definitions: [
