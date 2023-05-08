@@ -4,6 +4,7 @@
         "dist",
         "public",
         "locales/de",
+        "locales/en",
         "locales/fr",
         "locales/ru",
         "src/components/pages/home/section6/PEPointsCard.tsx",
