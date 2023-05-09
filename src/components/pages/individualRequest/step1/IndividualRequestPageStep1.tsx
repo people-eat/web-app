@@ -1,9 +1,11 @@
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
-import { type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
+import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECounter from '../../../standard/counter/PECounter';
+import PEAutoCompleteTextField from '../../../standard/textFields/PEAutoCompleteTextField';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
@@ -42,7 +44,10 @@ export default function IndividualRequestPageStep1({
 }: IndividualRequestPageStepOneProps): ReactElement {
     const { t } = useTranslation('individual-request');
 
-    const disabled = adultCount < 1 || dateTime.diff(moment(), 'days') < 7;
+    const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
+    const [_selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
+
+    const disabled = adultCount < 1 || budget === '';
 
     return (
         <>
@@ -72,7 +77,7 @@ export default function IndividualRequestPageStep1({
                             }}
                             slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
                             label={t('date-label')}
-                            disablePast
+                            minDate={moment().add(7, 'days')}
                         />
                     </div>
                     <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4  py-2 box-border">
@@ -91,10 +96,20 @@ export default function IndividualRequestPageStep1({
             </VStack>
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>{t('location-label')}</h3>
-                <PETextField
-                    value={addressSearchText}
-                    onChange={setAddressSearchText}
-                    type="text"
+                <PEAutoCompleteTextField
+                    searchText={addressSearchText}
+                    onSearchTextChange={(changedAddressSearchText: string): void => {
+                        setAddressSearchText(changedAddressSearchText);
+                        searchAddress(changedAddressSearchText, setAddressSearchResults);
+                    }}
+                    options={addressSearchResults}
+                    getOptionLabel={(selectedOption: GoogleMapsPlacesResult): string => selectedOption.formatted_address}
+                    onOptionSelect={(selectedSearchResult: GoogleMapsPlacesResult): void =>
+                        setSelectedLocation({
+                            latitude: selectedSearchResult.geometry.location.lat,
+                            longitude: selectedSearchResult.geometry.location.lng,
+                        })
+                    }
                     placeholder={t('location-placeholder-label')}
                 />
             </VStack>
@@ -102,8 +117,8 @@ export default function IndividualRequestPageStep1({
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>{t('budget-label')}</h3>
                 <PETextField
-                    startContent={<p>€</p>}
-                    type={'number'}
+                    startContent={<>€</>}
+                    type="number"
                     value={budget}
                     onChange={setBudget}
                     placeholder={t('budget-placeholder-label')}

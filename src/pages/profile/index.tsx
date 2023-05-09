@@ -1,8 +1,36 @@
-import { type NextPage } from 'next';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
-import ProfilePage from '../../components/pages/profile';
+import ProfilePage, { type ProfilePageProps } from '../../components/pages/profile';
+import { GetProfileQueryDocument } from '../../data-source/generated/graphql';
 
-const Index: NextPage = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { data } = await new ApolloClient({
+        uri: process.env.NEXT_PUBLIC_SERVER_URL,
+        credentials: 'include',
+        headers: { cookie: context.req.headers.cookie as string },
+        cache: new InMemoryCache(),
+        ssrMode: true,
+    }).query({
+        query: GetProfileQueryDocument,
+    });
+
+    return {
+        props: {
+            signedInUser: data.users.me
+                ? {
+                      userId: data.users.me.userId,
+                      firstName: data.users.me.firstName,
+                      profilePictureUrl: data.users.me.profilePictureUrl,
+                      isAdmin: false,
+                      isCook: data.users.me.isCook,
+                  }
+                : null,
+        },
+    };
+};
+
+const Index: NextPage<ProfilePageProps> = ({ signedInUser }) => {
     return (
         <>
             <Head>
@@ -10,7 +38,7 @@ const Index: NextPage = () => {
                 <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <ProfilePage />
+            <ProfilePage signedInUser={signedInUser} />
         </>
     );
 };

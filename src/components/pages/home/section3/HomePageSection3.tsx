@@ -10,8 +10,9 @@ export default function HomePageSection3(): ReactElement {
     return (
         <div className="flex w-full min-h-[700px] lg:my-0 my-[64px] lg:flex-col">
             <Image
-                className="object-cover object-[0 -40px] rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full w-[50%] lg:w-full shadow-xl"
+                draggable={false}
                 src={'/peopleEatPreview.gif'}
+                className="object-cover object-[0 -40px] rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full w-[50%] lg:w-full shadow-xl"
                 alt={'Gif of a chef arriving at someones home, preparing and serving a menu with fresh ingredients'}
                 width={256}
                 height={602}

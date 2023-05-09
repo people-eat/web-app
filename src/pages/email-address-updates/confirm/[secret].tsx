@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client';
+import { Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { type NextPage } from 'next';
@@ -6,8 +7,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PEFooter from '../../../components/footer/PEFooter';
-import PEHeader from '../../../components/header/PEHeader';
+import PEHeaderDesktop from '../../../components/header/PEHeaderDesktop';
 import PEHeaderMobile from '../../../components/header/PEHeaderMobile';
+import PEButton from '../../../components/standard/buttons/PEButton';
 import VStack from '../../../components/utility/vStack/VStack';
 import { ConfirmOneEmailAddressUpdateDocument } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
@@ -17,22 +19,9 @@ const Index: NextPage = () => {
     const router = useRouter();
     const secret = router.query.secret;
 
-    if (typeof secret !== 'string') return <>An error occurred</>;
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, react-hooks/rules-of-hooks, @typescript-eslint/no-unsafe-assignment
     const [confirmOneEmailAddressUpdate, { data, loading, error }] = useMutation(ConfirmOneEmailAddressUpdateDocument, {
-        variables: { userId: '', secret },
+        variables: { userId: '', secret: secret as string },
     });
-
-    if (!data && !error && !loading) {
-        confirmOneEmailAddressUpdate()
-            .then()
-            .catch((err) => console.log(err));
-    }
-
-    if (error) return <>An error occurred</>;
-
-    if (loading) return <CircularProgress />;
 
     return (
         <>
@@ -43,27 +32,36 @@ const Index: NextPage = () => {
             </Head>
 
             <VStack>
-                {isMobile ? <PEHeaderMobile /> : <PEHeader />}
+                {isMobile ? <PEHeaderMobile /> : <PEHeaderDesktop />}
 
                 <div style={{ margin: '64px' }}>
-                    {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                        data?.users?.emailAddressUpdate?.success && (
-                            <VStack>
-                                <p>You successfully verified your email address</p>
-                                <Link href={'/profile'} className="no-underline">
-                                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>To my profile page</Button>
-                                </Link>
-                            </VStack>
-                        )
-                    }
-                    {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                        !data?.users?.emailAddressUpdate?.success && <>It looks like your confirmation link has expired</>
-                    }
+                    {!data && <PEButton title="Confirm Email Address" onClick={(): any => confirmOneEmailAddressUpdate()} />}
+
+                    {data?.users.emailAddressUpdate.success && (
+                        <VStack>
+                            <p>You successfully verified your email address</p>
+                            <Link href={'/profile'} className="no-underline">
+                                <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>To my profile page</Button>
+                            </Link>
+                        </VStack>
+                    )}
                 </div>
 
                 <PEFooter />
+
+                {loading && (
+                    <Dialog open>
+                        <DialogContent>
+                            <CircularProgress />
+                        </DialogContent>
+                    </Dialog>
+                )}
+
+                {(error || (data && !data.users.emailAddressUpdate.success)) && (
+                    <Dialog open>
+                        <DialogContent>An error ocurred</DialogContent>
+                    </Dialog>
+                )}
             </VStack>
         </>
     );

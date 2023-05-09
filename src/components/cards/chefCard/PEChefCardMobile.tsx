@@ -28,6 +28,7 @@ export default function PEChefCardMobile({
                     <div className={'rounded-2 overflow-hidden max-h-[48px] '}>
                         {profilePictureUrl && (
                             <Image
+                                draggable={false}
                                 style={{ objectPosition: 'top', objectFit: 'cover' }}
                                 src={profilePictureUrl}
                                 alt={profilePictureUrl}

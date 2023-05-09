@@ -1,4 +1,9 @@
 query FindLatestPublicPrivacyPolicyUpdate {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
     publicPrivacyPolicyUpdates {
         findLatest {
             privacyPolicyUpdateId

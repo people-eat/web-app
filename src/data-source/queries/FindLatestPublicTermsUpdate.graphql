@@ -1,4 +1,9 @@
 query FindLatestPublicTermsUpdate {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
     publicTermsUpdates {
         findLatest {
             termsUpdateId
