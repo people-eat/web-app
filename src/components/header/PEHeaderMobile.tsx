@@ -6,8 +6,9 @@ import { useEffect, useState, type ReactElement } from 'react';
 import { Icon } from '../standard/icon/Icon';
 import PEIconButton from '../standard/iconButton/PEIconButton';
 import PEMobileMenu from '../standard/mobileMenu/PEMobileMenu';
+import { type PEHeaderProps } from './PEHeaderProps';
 
-export default function PEHeaderMobile(): ReactElement {
+export default function PEHeaderMobile({}: PEHeaderProps): ReactElement {
     const [openMenu, setOpenMenu] = useState(false);
     const [sticky, setSticky] = useState(false);
 
@@ -21,10 +22,7 @@ export default function PEHeaderMobile(): ReactElement {
     return (
         <>
             <div
-                className={classNames(
-                    'flex mt-0 bg-white z-10 top-0 left-0 h-[80px] w-full justify-between px-4 box-border max-w-screen-xl',
-                    'border-y-1 border-solid border-b-disabled border-transparent',
-                )}
+                className="flex mt-0 bg-white z-10 top-0 left-0 h-[80px] w-full justify-between px-4 box-border max-w-screen-xl border-y-1 border-solid border-b-disabled border-transparent"
                 style={{ alignItems: 'center', padding: '0px 16px', gap: 16 }}
             >
                 <Link href={'/'}>
@@ -32,13 +30,14 @@ export default function PEHeaderMobile(): ReactElement {
                 </Link>
 
                 <PEMobileMenu openMenu={openMenu} handleOpenMenu={setOpenMenu} />
+
                 <PEIconButton iconSize={24} icon={Icon.burgerMenu} onClick={(): void => setOpenMenu(!openMenu)} bg="white" withoutShadow />
             </div>
+
             <Slide direction="down" in={sticky}>
                 <div
                     className={classNames(
-                        'flex mt-0 bg-white z-10 top-0 left-0 w-full justify-between px-4 box-border max-w-screen-xl',
-                        'border-y-1 border-solid border-b-disabled border-transparent',
+                        'flex mt-0 bg-white z-10 top-0 left-0 w-full justify-between px-4 box-border max-w-screen-xl border-y-1 border-solid border-b-disabled border-transparent',
                         {
                             ['h-0 hidden']: !sticky,
                             ['lg:fixed h-[80px]']: sticky,
@@ -51,6 +50,7 @@ export default function PEHeaderMobile(): ReactElement {
                     </Link>
 
                     <PEMobileMenu openMenu={openMenu} handleOpenMenu={setOpenMenu} />
+
                     <PEIconButton
                         iconSize={24}
                         icon={Icon.burgerMenu}

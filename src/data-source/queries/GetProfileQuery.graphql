@@ -8,6 +8,8 @@ query GetProfileQuery {
             acceptedTerms
             acceptedPrivacyPolicy
             createdAt
+
+            isCook
         }
     }
 }

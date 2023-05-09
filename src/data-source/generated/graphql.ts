@@ -321,6 +321,7 @@ export type CookMutationBookingRequestsArgs = {
 };
 
 export type CookMutationCreateOneArgs = {
+    cookId: Scalars['String'];
     request: CreateOneCookRequest;
 };
 
@@ -414,7 +415,7 @@ export type CookQueryCookVisitsArgs = {
 };
 
 export type CookQueryFindManyArgs = {
-    request?: InputMaybe<FindManyRequest>;
+    request: FindManyRequest;
 };
 
 export type CookQueryFindOneArgs = {
@@ -1866,7 +1867,9 @@ export type FindManyAdminsQuery = {
     };
 };
 
-export type FindManyCooksQueryVariables = Exact<{ [key: string]: never }>;
+export type FindManyCooksQueryVariables = Exact<{
+    request: FindManyRequest;
+}>;
 
 export type FindManyCooksQuery = {
     __typename?: 'Query';
@@ -1927,6 +1930,7 @@ export type GetProfileQueryQuery = {
             acceptedTerms: Date;
             acceptedPrivacyPolicy: Date;
             createdAt: Date;
+            isCook: boolean;
         } | null;
     };
 };
@@ -2311,6 +2315,13 @@ export const FindManyCooksDocument = {
             kind: 'OperationDefinition',
             operation: 'query',
             name: { kind: 'Name', value: 'FindManyCooks' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'FindManyRequest' } } },
+                },
+            ],
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
@@ -2323,6 +2334,13 @@ export const FindManyCooksDocument = {
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'findMany' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'request' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                        },
+                                    ],
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
@@ -2509,6 +2527,7 @@ export const GetProfileQueryDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'acceptedTerms' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'acceptedPrivacyPolicy' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
                                         ],
                                     },
                                 },

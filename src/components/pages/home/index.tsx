@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import useResponsive from '../../../hooks/useResponsive';
+import { type SignedInUser } from '../../../types/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEHeaderMobile from '../../header/PEHeaderMobile';
@@ -31,7 +32,11 @@ export interface GoogleMapsPlacesResult {
     };
 }
 
-export default function HomePage(): ReactElement {
+export interface HomePageProps {
+    signedInUser?: SignedInUser;
+}
+
+export default function HomePage({ signedInUser }: HomePageProps): ReactElement {
     const { isMobile } = useResponsive();
     const router = useRouter();
 
@@ -73,7 +78,7 @@ export default function HomePage(): ReactElement {
 
     return (
         <VStack gap={40} className="w-full overflow-hidden">
-            {isMobile ? <PEHeaderMobile /> : <PEHeader />}
+            {isMobile ? <PEHeaderMobile signedInUser={signedInUser} /> : <PEHeader signedInUser={signedInUser} />}
 
             <VStack
                 className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4"

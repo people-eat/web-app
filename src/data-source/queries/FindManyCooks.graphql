@@ -1,6 +1,6 @@
-query FindManyCooks {
+query FindManyCooks($request: FindManyRequest!) {
     cooks {
-        findMany {
+        findMany(request: $request) {
             cookId
             user {
                 firstName
