@@ -1,0 +1,5 @@
+mutation UpdateCookRank($cookId: String!, $rank: CookRank!) {
+    cooks {
+        success: updateRank(cookId: $cookId, rank: $rank)
+    }
+}

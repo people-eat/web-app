@@ -25,6 +25,8 @@ export interface ChefProfileSection1Props {
             lastName: string;
             profilePictureUrl?: string | null;
         };
+        ratingAverage: number;
+        ratingCount: number;
     };
 }
 
@@ -101,8 +103,8 @@ export default function ChefProfileSection1({ chefProfile }: ChefProfileSection1
 
                     <HStack gap={2} className="flex-row mt-4">
                         <PEIcon icon={Icon.star} edgeLength={20} />
-                        <span className="text-preBlack">{5.0}</span>
-                        <span className="text-disabled">({0})</span>
+                        <span className="text-preBlack">{chefProfile.ratingAverage / 3}</span>
+                        <span className="text-disabled">({chefProfile.ratingCount})</span>
                     </HStack>
                 </VStack>
             </HStack>

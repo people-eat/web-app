@@ -1,11 +1,14 @@
+import { useMutation } from '@apollo/client';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import { useState, type ReactElement } from 'react';
-import { type PEMealCardProps } from '../../../cards/mealCard/PEMealCardProps';
+import { CreateOneCookMenuDocument, type CurrencyCode } from '../../../../data-source/generated/graphql';
+import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import VStack from '../../../utility/vStack/VStack';
+import { type MealEntity } from './ChefProfilePageMenusTab';
 import ChefProfilePageCreateMenusStep1 from './createMenuStep1/ChefProfilePageCreateMenusStep1';
 import ChefProfilePageCreateMenusStep2 from './createMenuStep2/ChefProfilePageCreateMenuStep2';
 import ChefProfilePageCreateMenusPreviewStep2 from './createMenuStep2/ChefProfilePageCreateMenusPreviewStep2';
@@ -16,13 +19,34 @@ interface ChefProfilePageCreateMenuProps {
     onCancel: () => void;
 }
 
+// eslint-disable-next-line max-statements
 export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProfilePageCreateMenuProps): ReactElement {
     const [step, setStep] = useState(0);
-    const [selectedMeals, setSelectedMeals] = useState<PEMealCardProps[]>([]);
 
-    function handleOnSelectedMeals(meals: PEMealCardProps[]): void {
+    const [title, _setTitle] = useState('');
+    const [description, _setDescription] = useState('');
+
+    // in cents: 10000 -> 100.00 EUR
+    const [basePrice, _setBasePrice] = useState(10000);
+    const [basePriceCustomers, _setBasePriceCustomers] = useState(2);
+    const [pricePerAdult, _setPricePerAdult] = useState(5000);
+    const [pricePerChild, _setPricePerChild] = useState<undefined | number>(undefined);
+    const [currencyCode, _setCurrencyCode] = useState<CurrencyCode>('EUR');
+
+    const [greetingFromKitchen, _setGreetingFromKitchen] = useState(false);
+    const [isVisible, _setIsVisible] = useState(true);
+    const [preparationTime, _setPreparationTime] = useState(60);
+
+    const [selectedKitchen, _setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
+    const [selectedCategories, _setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
+
+    const [selectedMeals, setSelectedMeals] = useState<MealEntity[]>([]);
+
+    function handleOnSelectedMeals(meals: MealEntity[]): void {
         setSelectedMeals(meals);
     }
+
+    const [createMenu] = useMutation(CreateOneCookMenuDocument);
 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -62,6 +86,34 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProf
                     <ChefProfilePageCreateMenusPreviewStep2 selectedMeals={selectedMeals} />
                 </VStack>
             )}
+
+            <PEButton
+                title="Demo Create"
+                onClick={(): void =>
+                    void createMenu({
+                        variables: {
+                            cookId,
+                            menu: {
+                                title,
+                                description,
+                                basePrice,
+                                basePriceCustomers,
+                                pricePerAdult,
+                                pricePerChild,
+                                currencyCode,
+                                greetingFromKitchen,
+                                isVisible,
+                                preparationTime,
+                                kitchenId: selectedKitchen?.kitchenId,
+                                categoryIds: selectedCategories.map(({ categoryId }) => categoryId),
+
+                                // The big todo:
+                                courses: [],
+                            },
+                        },
+                    })
+                }
+            />
         </VStack>
     );
 }

@@ -2,11 +2,11 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
-import FullScreenDialog from '../../../standard/dialogs/PEDialog';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import { type AddressSearchResult } from './AddressSearchResult';
 import { type HomePageSearchProps } from './HomePageSearch';
+import HomePageSearchDialogMobile from './HomePageSearchDialogMobile';
 
 export default function HomePageSearchMobile({
     addressSearchText,
@@ -55,7 +55,7 @@ export default function HomePageSearchMobile({
                     />
                 )}
             />
-            <FullScreenDialog
+            <HomePageSearchDialogMobile
                 isOpen={isOpen}
                 onClick={(): void => setOpenDialog(!isOpen)}
                 addressSearchText={addressSearchText}

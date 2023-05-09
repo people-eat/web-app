@@ -1,0 +1,5 @@
+mutation UpdateCookTravelExpenses($cookId: String!, $travelExpenses: UnsignedInt!) {
+    cooks {
+        success: updateTravelExpenses(cookId: $cookId, travelExpenses: $travelExpenses)
+    }
+}

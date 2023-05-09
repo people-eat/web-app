@@ -1,0 +1,5 @@
+mutation RemoveOneCookLanguage($cookId: String!, $languageId: String!) {
+    cooks {
+        success: removeOneLanguage(cookId: $cookId, languageId: $languageId)
+    }
+}

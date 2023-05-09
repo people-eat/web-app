@@ -1,0 +1,35 @@
+query GetProfileQuery {
+    users {
+        me {
+            userId
+            firstName
+            lastName
+            profilePictureUrl
+            birthDate
+            gender
+            acceptedTerms
+            acceptedPrivacyPolicy
+            emailAddress
+            phoneNumber
+            createdAt
+
+            isCook
+            isAdmin
+
+            addresses {
+                addressId
+                title
+                country
+                city
+                postCode
+                street
+                houseNumber
+                location {
+                    latitude
+                    longitude
+                }
+                createdAt
+            }
+        }
+    }
+}

@@ -1,6 +1,8 @@
 import { type PEMealCardProps } from '../../../cards/mealCard/PEMealCardProps';
 import { type PEMenuCardProps } from '../../../cards/menuCard/PEMenuCardProps';
 
+export const step2Button = 'Gang hinzufügen';
+
 export const MENUS: PEMenuCardProps[] = [
     {
         title: 'Чиабатта с пастрами из говядины и луковым джемом с вишней «Из Лавки»',

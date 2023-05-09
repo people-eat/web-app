@@ -1,13 +1,24 @@
+import { useQuery } from '@apollo/client';
+import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import { useState, type ReactElement } from 'react';
+import { FindCookMenusDocument, type MealType } from '../../../../data-source/generated/graphql';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
-import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import ChefProfilePageCreateMenu from './ChefProfilePageCreateMenu';
-import { ARCHIVE_MENUS, MENUS } from './meals.mock';
+
+export interface MealEntity {
+    mealId: string;
+    cookId: string;
+    title: string;
+    type: MealType;
+    description: string;
+    imageUrl?: string | null;
+    createdAt: Date;
+}
 
 export interface ChefProfilePageMenusTabProps {
     cookId: string;
@@ -16,24 +27,27 @@ export interface ChefProfilePageMenusTabProps {
 export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenusTabProps): ReactElement {
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE'>('MENUS');
 
+    const { data, loading } = useQuery(FindCookMenusDocument, { variables: { cookId } });
+
+    const menus = data?.cooks.menus.findMany ?? [];
+
+    const visibleMenus = menus.filter((menu) => menu.isVisible);
+
+    const invisibleMenus = menus.filter((menu) => !menu.isVisible);
+
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
-            <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6" style={{ alignItems: 'center' }}>
-                <HStack className="gap-4">
-                    <PETextField type="text" />
-                </HStack>
-
+            <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
                 <Spacer />
 
-                <HStack className="gap-4">
-                    <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
-                    <PEIconButton
-                        onClick={(): void => setSelectedTab('CREATE')}
-                        icon={Icon.plusWhite}
-                        bg="rgba(255, 100, 51, 1)"
-                        withoutShadow
-                    />
-                </HStack>
+                <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
+
+                <PEIconButton
+                    onClick={(): void => setSelectedTab('CREATE')}
+                    icon={Icon.plusWhite}
+                    bg="rgba(255, 100, 51, 1)"
+                    withoutShadow
+                />
             </HStack>
 
             {selectedTab === 'CREATE' && (
@@ -45,36 +59,40 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
             )}
 
             {selectedTab === 'MENUS' && (
-                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    {MENUS.map((menu, index) => (
+                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
+                    {visibleMenus.map((menu, index) => (
                         <PEMenuCard
-                            key={`${index}_ChefProfilePageMenu`}
+                            key={index}
                             title={menu.title}
-                            description={String(menu.description)}
-                            imageUrls={menu.imageUrls}
-                            pricePerPerson={menu.pricePerPerson}
-                            chefFirstName={menu.chefFirstName}
-                            categories={menu.categories}
+                            description={menu.description}
+                            imageUrls={[]}
+                            pricePerPerson={menu.pricePerAdult}
+                            chefFirstName={data?.users.me?.firstName ?? ''}
+                            chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                            categories={menu.categories.map(({ title }) => title)}
+                            kitchen={menu.kitchen?.title ?? undefined}
                             fullWidth
                         />
                     ))}
 
-                    {ARCHIVE_MENUS.length && (
+                    {Boolean(invisibleMenus.length) && (
                         <>
                             <p className="text-text-m-bold w-full">Archive</p>
                             <HStack
                                 className="relative w-full gap-6 flex-wrap opacity-30"
-                                style={{ alignItems: 'center', justifyContent: 'center' }}
+                                style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                             >
-                                {ARCHIVE_MENUS.map((menu, index) => (
-                                    <div className="relative" key={`${index}_archive_ChefProfilePageMenu`}>
+                                {invisibleMenus.map((menu, index) => (
+                                    <div className="relative" key={index}>
                                         <PEMenuCard
                                             title={menu.title}
-                                            description={String(menu.description)}
-                                            imageUrls={menu.imageUrls}
-                                            pricePerPerson={menu.pricePerPerson}
-                                            chefFirstName={menu.chefFirstName}
-                                            categories={menu.categories}
+                                            description={menu.description}
+                                            imageUrls={[]}
+                                            pricePerPerson={menu.pricePerAdult}
+                                            chefFirstName={data?.users.me?.firstName ?? ''}
+                                            chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                            categories={menu.categories.map(({ title }) => title)}
+                                            kitchen={menu.kitchen?.title ?? undefined}
                                             fullWidth
                                         />
                                     </div>
@@ -83,6 +101,14 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                         </>
                     )}
                 </HStack>
+            )}
+
+            {loading && (
+                <Dialog open>
+                    <DialogContent>
+                        <CircularProgress />
+                    </DialogContent>
+                </Dialog>
             )}
         </VStack>
     );

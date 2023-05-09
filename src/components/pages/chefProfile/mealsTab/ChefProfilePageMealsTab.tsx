@@ -25,30 +25,28 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
-            <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6" style={{ alignItems: 'center' }}>
-                <HStack className="gap-4">
-                    <PETabItem title="All" onClick={(): void => setSelectedTab('ALL')} active={selectedTab === 'ALL'} />
-                    {mealTypes.map((mealType, index) => (
-                        <PETabItem
-                            key={index}
-                            title={mealType}
-                            onClick={(): void => setSelectedTab(mealType)}
-                            active={selectedTab === mealType}
-                        />
-                    ))}
-                </HStack>
+            <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
+                <PETabItem title="All" onClick={(): void => setSelectedTab('ALL')} active={selectedTab === 'ALL'} />
+
+                {mealTypes.map((mealType, index) => (
+                    <PETabItem
+                        key={index}
+                        title={mealType}
+                        onClick={(): void => setSelectedTab(mealType)}
+                        active={selectedTab === mealType}
+                    />
+                ))}
 
                 <Spacer />
 
-                <HStack className="gap-4">
-                    <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
-                    <PEIconButton
-                        onClick={(): void => setSelectedTab('CREATE')}
-                        icon={Icon.plusWhite}
-                        bg="rgba(255, 100, 51, 1)"
-                        withoutShadow
-                    />
-                </HStack>
+                <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
+
+                <PEIconButton
+                    onClick={(): void => setSelectedTab('CREATE')}
+                    icon={Icon.plusWhite}
+                    bg="rgba(255, 100, 51, 1)"
+                    withoutShadow
+                />
             </HStack>
 
             {selectedTab === 'ALL' && (

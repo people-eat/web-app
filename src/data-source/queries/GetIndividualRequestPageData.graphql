@@ -1,4 +1,9 @@
 query GetIndividualRequestPageData {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
     categories {
         findAll {
             categoryId

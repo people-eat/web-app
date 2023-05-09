@@ -1,0 +1,5 @@
+mutation UpdateCookBiography($cookId: String!, $biography: String!) {
+    cooks {
+        success: updateBiography(cookId: $cookId, biography: $biography)
+    }
+}

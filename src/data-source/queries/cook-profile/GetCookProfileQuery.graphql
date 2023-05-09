@@ -1,0 +1,46 @@
+query GetCookProfileQuery($cookId: String!) {
+    cooks {
+        findOne(cookId: $cookId) {
+            cookId
+            user {
+                firstName
+                lastName
+                profilePictureUrl
+                addresses {
+                    addressId
+                    title
+                    country
+                    city
+                    postCode
+                    street
+                    houseNumber
+                    location {
+                        latitude
+                        longitude
+                    }
+                    createdAt
+                }
+            }
+            languages {
+                languageId
+                title
+            }
+            isLocked
+            isVisible
+            biography
+            location {
+                latitude
+                longitude
+            }
+            maximumParticipants
+            maximumPrice
+            maximumTravelDistance
+            minimumParticipants
+            minimumPrice
+            rank
+            travelExpenses
+            ratingAverage
+            ratingCount
+        }
+    }
+}

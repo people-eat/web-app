@@ -226,7 +226,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
 
                     <ChefProfileSection3 />
 
-                    <ChefProfileSection5 />
+                    <ChefProfileSection5 chefProfile={chefProfile} />
 
                     {/* <VStack
                         className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-3"

@@ -1,0 +1,13 @@
+query GetCookSignUpPageData {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    languages {
+        findAll {
+            languageId
+            title
+        }
+    }
+}
