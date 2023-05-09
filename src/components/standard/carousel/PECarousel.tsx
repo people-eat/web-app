@@ -28,7 +28,7 @@ export default function PECarousel({ images }: PECarouselProps): ReactElement {
             className={'w-full h-full object-cover'}
         >
             {images.map((Item, i) => (
-                <div key={i}>{Item}</div>
+                <div key={`Carousel-component__${i}`}>{Item}</div>
             ))}
         </Carousel>
     );
