@@ -46,6 +46,8 @@ export default function HomePage(): ReactElement {
     const [date, setDate] = useState(moment());
     const [searchResults, setSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
+    const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
+
     function handleBookNow(): void {
         return;
     }
@@ -176,12 +178,13 @@ export default function HomePage(): ReactElement {
                     </div>
                     <VStack
                         className={
-                            'rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] sm_min:min-w-full lg:w-[75%] w-[50%] lg:w-full'
+                            'rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full lg:w-[75%] w-[50%] lg:w-full'
                         }
                         style={{
                             backgroundImage: 'url(/friendsAtTheTable.png)',
                             backgroundPosition: 'center',
                             backgroundSize: 'cover',
+                            height: 602,
                         }}
                     />
                 </div>
