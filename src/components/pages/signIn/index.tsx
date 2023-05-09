@@ -104,20 +104,16 @@ export default function SignInPage(): ReactElement {
                 </VStack>
             </VStack>
             {isDesktop && (
-                <div
-                    className="flex justify-center flex-col"
-                    style={{
-                        flex: 1,
-                        backgroundImage: 'url(/picture-1.png)',
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
-                    }}
+                <VStack
+                    className={'p-5 box-border'}
+                    style={{ flex: 1, backgroundImage: 'url(/picture-1.png)', backgroundPosition: 'center', backgroundSize: 'cover' }}
                 >
                     <Spacer />
                     <VStack
+                        className="box-border"
                         style={{
                             width: 'calc(100% - 64px)',
-                            margin: '42px',
+                            margin: '32px',
                             backgroundColor: 'rgba(163, 163, 163, 0.5)',
                             backdropFilter: 'blur(15px)',
                             borderRadius: '16px',
@@ -127,7 +123,7 @@ export default function SignInPage(): ReactElement {
                     >
                         <HStack></HStack>
                     </VStack>
-                </div>
+                </VStack>
             )}
         </HStack>
     );

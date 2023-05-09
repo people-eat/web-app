@@ -7,6 +7,7 @@ export default function PEAutoCompleteTextField<T>({
     searchText,
     onSearchTextChange,
     options,
+    getOptionLabel,
     onOptionSelect,
     placeholder,
     disabled,
@@ -21,6 +22,11 @@ export default function PEAutoCompleteTextField<T>({
             disableClearable
             disabled={disabled}
             options={options}
+            getOptionLabel={(option): string => {
+                if (typeof option === 'string') return option;
+                if (getOptionLabel) return getOptionLabel(option);
+                return '';
+            }}
             onChange={(_event, selectedOption): void => {
                 if (typeof selectedOption === 'string') return;
                 onOptionSelect(selectedOption);
@@ -28,6 +34,7 @@ export default function PEAutoCompleteTextField<T>({
             inputValue={searchText}
             onInputChange={(_event, value): void => onSearchTextChange(value)}
             filterOptions={(optionToFilter): T[] => optionToFilter}
+            className={'w-full' + (className ? ' ' + className : '')}
             renderInput={(params): ReactElement => (
                 <PETextField
                     {...params}
@@ -39,7 +46,6 @@ export default function PEAutoCompleteTextField<T>({
                     startContent={startContent}
                     endContent={endContent}
                     style={style}
-                    className={'w-full' + (className ? ' ' + className : '')}
                 />
             )}
         />

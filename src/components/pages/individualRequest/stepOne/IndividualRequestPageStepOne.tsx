@@ -1,9 +1,9 @@
-import { TextField } from '@mui/material';
 import { type Moment } from 'moment';
 import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECounter from '../../../standard/counter/PECounter';
 import PEInput from '../../../standard/input/PEInput';
+import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
@@ -45,7 +45,7 @@ export default function IndividualRequestPageStepOne({
 }: IndividualRequestPageStepOneProps): ReactElement {
     return (
         <>
-            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+            <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>Participants</h3>
                 <HStack className="w-full">
                     <span>Adults</span>
@@ -59,35 +59,28 @@ export default function IndividualRequestPageStepOne({
                 </HStack>
             </VStack>
 
-            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+            <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>Event details</h3>
-                <HStack className="w-full gap-4">
+                <HStack gap={4} className="w-full">
                     <PEInput value={occasion} onChange={setOccasion} type="text" placeholder="Date" />
                     <PEInput value={occasion} onChange={setOccasion} type="text" placeholder="Time" />
                 </HStack>
                 <PEInput value={occasion} onChange={setOccasion} type="text" placeholder="Occasion" />
             </VStack>
 
-            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+            <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>Event location</h3>
                 <PEInput value={addressSearchText} onChange={setAddressSearchText} type="text" placeholder="Location" />
             </VStack>
 
-            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+            <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>Budget</h3>
                 <PEInput value={budget} onChange={setBudget} type="text" placeholder="Budget" />
             </VStack>
 
-            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+            <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>Message</h3>
-                <TextField
-                    className="w-full"
-                    multiline
-                    value={message}
-                    onChange={(event): void => setMessage(event.target.value)}
-                    type="text"
-                    placeholder="Message"
-                />
+                <PEMultiLineTextField value={message} onChange={setMessage} placeholder="Message" />
             </VStack>
 
             <PEButton onClick={onContinue} title="Continue" />

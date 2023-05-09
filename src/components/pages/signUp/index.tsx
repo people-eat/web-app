@@ -161,33 +161,26 @@ export default function SignUpPage(): ReactElement {
                 </VStack>
             </VStack>
             {isDesktop && (
-                <div className={'flex flex-col items-center p-5 w-full min-w-[50%] box-border'}>
-                    <div
-                        className="flex w-full justify-center flex-col rounded-tl-15"
+                <VStack
+                    className={'p-5 box-border'}
+                    style={{ flex: 1, backgroundImage: 'url(/picture-1.png)', backgroundPosition: 'center', backgroundSize: 'cover' }}
+                >
+                    <Spacer />
+                    <VStack
+                        className="box-border"
                         style={{
-                            flex: 1,
-                            backgroundImage: 'url(/picture-1.png)',
-                            backgroundPosition: 'center',
-                            backgroundSize: 'cover',
+                            width: 'calc(100% - 64px)',
+                            margin: '32px',
+                            backgroundColor: 'rgba(163, 163, 163, 0.5)',
+                            backdropFilter: 'blur(15px)',
+                            borderRadius: '16px',
+                            padding: '16px',
+                            height: '256px',
                         }}
                     >
-                        <Spacer />
-                        <VStack
-                            className="box-border"
-                            style={{
-                                width: 'calc(100% - 64px)',
-                                margin: '32px',
-                                backgroundColor: 'rgba(163, 163, 163, 0.5)',
-                                backdropFilter: 'blur(15px)',
-                                borderRadius: '16px',
-                                padding: '16px',
-                                height: '256px',
-                            }}
-                        >
-                            <HStack></HStack>
-                        </VStack>
-                    </div>
-                </div>
+                        <HStack></HStack>
+                    </VStack>
+                </VStack>
             )}
         </HStack>
     );

@@ -40,3 +40,28 @@ export const Component: StoryObj<typeof PEAutoCompleteTextField> = {
         );
     },
 };
+
+export const ComponentWithComplexInput: StoryObj<typeof PEAutoCompleteTextField> = {
+    args: {
+        options: [{ label: 'D' }, { label: 'E' }, { label: 'F' }],
+        placeholder: 'Auto Complete',
+        disabled: false,
+    },
+    render: ({ options, placeholder, disabled }) => {
+        const [searchText, setSearchText] = useState('');
+
+        return (
+            <PEAutoCompleteTextField
+                searchText={searchText}
+                onSearchTextChange={setSearchText}
+                options={options}
+                onOptionSelect={(selectedOption): void => {
+                    // eslint-disable-next-line no-alert
+                    alert(selectedOption);
+                }}
+                placeholder={placeholder}
+                disabled={disabled}
+            />
+        );
+    },
+};

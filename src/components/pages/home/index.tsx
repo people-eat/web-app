@@ -18,9 +18,10 @@ import HomePageSearchMobile from '../../pages/home/search/HomePageSearchMobile';
 import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';
 import PEButton from '../../standard/buttons/PEButton';
 import { Icon } from '../../standard/icon/Icon';
-import PEInput from '../../standard/input/PEInput';
+import PEIconButton from '../../standard/iconButton/PEIconButton';
 import PENextButton from '../../standard/nextButton/PENextButton';
 import PETabItem from '../../standard/tabItem/PETabItem';
+import PEAutoCompleteTextField from '../../standard/textFields/PEAutoCompleteTextField';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
 import HomePageSearch from './search/HomePageSearch';
@@ -52,17 +53,13 @@ export default function HomePage(): ReactElement {
     const [date, setDate] = useState(moment());
     const [searchResults, setSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
-    const [selectedLocation, _setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
+    const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
     function handleBookNow(): void {
         return;
     }
 
     function handleGoToAllMenus(): void {
-        return;
-    }
-
-    function handleFindTheMenu(): void {
         return;
     }
 
@@ -99,12 +96,12 @@ export default function HomePage(): ReactElement {
     }
 
     return (
-        <VStack className="w-full overflow-hidden">
+        <VStack gap={40} className="w-full overflow-hidden">
             {isMobile ? <PEHeaderMobile /> : <PEHeader />}
 
             <VStack
                 className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4"
-                style={{ alignItems: 'flex-start', gap: 32 }}
+                style={{ alignItems: 'flex-start', gap: 16 }}
             >
                 <VStack
                     className="w-full relative pl-8 lg:pl-0 items-start max-w-screen-xl h-[602px] lg:h-[522px]"
@@ -146,7 +143,12 @@ export default function HomePage(): ReactElement {
                             label: formatted_address,
                             location: { latitude: location.lat, longitude: location.lng },
                         }))}
-                        onSearchResultSelect={(selectedSearchResult): void => console.log({ selectedSearchResult })}
+                        onSearchResultSelect={(selectedSearchResult): void =>
+                            setSelectedLocation({
+                                latitude: selectedSearchResult.location.latitude,
+                                longitude: selectedSearchResult.location.longitude,
+                            })
+                        }
                         onSearch={handleSearch}
                     />
                     <div className="flex w-full lg:justify-center">
@@ -168,7 +170,12 @@ export default function HomePage(): ReactElement {
                                 label: formatted_address,
                                 location: { latitude: location.lat, longitude: location.lng },
                             }))}
-                            onSearchResultSelect={(selectedSearchResult): void => console.log({ selectedSearchResult })}
+                            onSearchResultSelect={(selectedSearchResult): void =>
+                                setSelectedLocation({
+                                    latitude: selectedSearchResult.location.latitude,
+                                    longitude: selectedSearchResult.location.longitude,
+                                })
+                            }
                             onSearch={handleSearch}
                         />
                     </div>
@@ -181,7 +188,7 @@ export default function HomePage(): ReactElement {
                     <PEBulletPoint icon={Icon.support24} text={t('section-1-selling-point-2')} />
                     <PEBulletPoint icon={Icon.communicationWithChef} text={t('section-1-selling-point-3')} />
                 </div>
-                <div className="flex w-full min-h-[700px] lg:my-10 my-[100px] justify-between items-center lg:flex-col-reverse">
+                <div className="flex w-full min-h-[700px] lg:my-10 my-[64px] justify-between items-center lg:flex-col-reverse">
                     <div className="flex items-start lg:items-center flex-col">
                         <h2 className="text-heading-xl lg:text-heading-s leading-[60px] mb-12 lg:uppercase">
                             Every occasion as a unique <br /> experience moment
@@ -208,7 +215,7 @@ export default function HomePage(): ReactElement {
                         }}
                     />
                 </div>
-                <div className="flex w-full min-h-[700px] lg:my-0 my-[100px] lg:flex-col">
+                <div className="flex w-full min-h-[700px] lg:my-0 my-[64px] lg:flex-col">
                     <VStack
                         className="rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full w-[50%] lg:w-full"
                         style={{
@@ -366,20 +373,34 @@ export default function HomePage(): ReactElement {
                         />
                     </VStack>
                 </VStack>
-                <VStack className="w-full">
-                    <h2 className="text-heading-xl my-0 leading-15">PeopleEat Chefs in Germany</h2>
-                    <VStack className="my-8 w-[600px] md:w-full">
-                        <PEInput type={'text'} placeholder={'search'} value={addressSearchText} onChange={setAddressSearchText} />
-                    </VStack>
+
+                <VStack gap={32} className="w-full">
+                    <span className="text-heading-xl lg:text-rem-heading-xm lg:uppercase">PeopleEat Chefs in your region</span>
+
+                    <PEAutoCompleteTextField
+                        searchText={addressSearchText}
+                        onSearchTextChange={handleAddressSearchTextChange}
+                        options={searchResults}
+                        getOptionLabel={(searchResult): string => searchResult.formatted_address}
+                        onOptionSelect={(selectedSearchResult): void =>
+                            setSelectedLocation({
+                                latitude: selectedSearchResult.geometry.location.lat,
+                                longitude: selectedSearchResult.geometry.location.lng,
+                            })
+                        }
+                        placeholder={'Location'}
+                        disabled={false}
+                        startContent={undefined}
+                        endContent={<PEIconButton icon={Icon.search} onClick={handleSearch}></PEIconButton>}
+                    />
+
+                    <PEMap
+                        apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
+                        style={{ height: '500px', borderRadius: 16 }}
+                        location={selectedLocation}
+                    ></PEMap>
                 </VStack>
-                <PEMap
-                    apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
-                    style={{ height: '500px', borderRadius: 16 }}
-                    location={selectedLocation}
-                ></PEMap>
-                <VStack className="w-full">
-                    <PEButton className="mt-12 max-w-[320px]" onClick={handleFindTheMenu} title={'Find menu'} />
-                </VStack>
+
                 <VStack className="w-full">
                     <VStack className="relative w-full pt-[140px] pb-15 lg:py-15 rounded-4 gap-4 max-w-[1190px]">
                         <div className="flex justify-center w-full">
@@ -482,6 +503,7 @@ export default function HomePage(): ReactElement {
                     />
                 </VStack>
             </VStack>
+
             <PEFooter />
         </VStack>
     );
