@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import PEBookingRequestCardCustomers from './PEBookingRequestCardCustomers';
 
 const meta: Meta<typeof PEBookingRequestCardCustomers> = {
-    title: 'Cards/PEBookingRequestCardCustomers',
+    title: 'Cards/Booking Request/PEBookingRequestCardCustomers',
     component: PEBookingRequestCardCustomers,
 };
 

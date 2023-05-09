@@ -14,7 +14,7 @@ interface PEImagePickerProps {
 export default function PEImagePicker({ onDownloaded, initImageFile }: PEImagePickerProps): ReactElement {
     const [openFileSelector, { filesContent }] = useFilePicker({
         readAs: 'DataURL',
-        accept: 'image/*',
+        accept: ['.jpg', '.jpeg', '.png'],
         multiple: true,
         limitFilesConfig: { max: 1 },
         // in megabytes
@@ -36,7 +36,11 @@ export default function PEImagePicker({ onDownloaded, initImageFile }: PEImagePi
     useEffect(() => {
         if (filesContent[0]) onDownloaded?.(filesContent[0].content);
         if (filesContent[0]) setImageFile(filesContent[0].content);
-    }, [filesContent, onDownloaded]);
+    }, [filesContent]);
+
+    useEffect(() => {
+        setImageFile(initImageFile);
+    }, [initImageFile]);
 
     return (
         <VStack style={{ alignItems: 'flex-start' }}>

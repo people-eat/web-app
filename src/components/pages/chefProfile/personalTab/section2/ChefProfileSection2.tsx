@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client';
+import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import { UpdateCookBiographyDocument } from '../../../../../data-source/generated/graphql';
 import { Icon } from '../../../../standard/icon/Icon';
@@ -13,6 +14,8 @@ export interface ChefProfileSection2Props {
 }
 
 export default function ChefProfileSection2({ chefBiography, cookId }: ChefProfileSection2Props): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     const [edit, setEdit] = useState(false);
     const [biography, setBiography] = useState(chefBiography);
 
@@ -43,7 +46,7 @@ export default function ChefProfileSection2({ chefBiography, cookId }: ChefProfi
             <p className="text-heading-ss w-full justify-start my-0">Bio</p>
             <VStack className="w-full gap-3">
                 <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                    <p className="my-0 text-text-sm-bold">Everything the customer needs to know</p>
+                    <p className="my-0 text-text-sm-bold">{t('section-bio-description')}</p>
                     {edit ? (
                         <HStack className="gap-3">
                             <PEIconButton

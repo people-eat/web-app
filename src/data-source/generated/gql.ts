@@ -17,14 +17,15 @@ const documents = {
         types.AssignOneSessionByEmailAddressDocument,
     'mutation CreateOneAnonymousGlobalBookingRequest($input: CreateOneAnonymousGlobalBookingRequestInput!) {\n  success: createOneAnonymousGlobalBookingRequest(input: $input)\n}':
         types.CreateOneAnonymousGlobalBookingRequestDocument,
-    'mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!) {\n  users {\n    success: createOneByEmailAddress(request: $request)\n  }\n}':
+    'mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!, $profilePicture: Upload) {\n  users {\n    success: createOneByEmailAddress(\n      request: $request\n      profilePicture: $profilePicture\n    )\n  }\n}':
         types.CreateOneUserByEmailAddressDocument,
     'query FindAllergies {\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}': types.FindAllergiesDocument,
     'query FindCategories {\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n}': types.FindCategoriesDocument,
     'query FindKitchens {\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n}': types.FindKitchensDocument,
-    'query FindLatestPublicPrivacyPolicyUpdate {\n  publicPrivacyPolicyUpdates {\n    findLatest {\n      privacyPolicyUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}':
+    'query FindLanguages {\n  languages {\n    findAll {\n      languageId\n      title\n    }\n  }\n}': types.FindLanguagesDocument,
+    'query FindLatestPublicPrivacyPolicyUpdate {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicPrivacyPolicyUpdates {\n    findLatest {\n      privacyPolicyUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}':
         types.FindLatestPublicPrivacyPolicyUpdateDocument,
-    'query FindLatestPublicTermsUpdate {\n  publicTermsUpdates {\n    findLatest {\n      termsUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}':
+    'query FindLatestPublicTermsUpdate {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicTermsUpdates {\n    findLatest {\n      termsUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}':
         types.FindLatestPublicTermsUpdateDocument,
     'query FindManyAdmins {\n  admins {\n    findMany {\n      adminId\n      user {\n        firstName\n        createdAt\n      }\n    }\n  }\n}':
         types.FindManyAdminsDocument,
@@ -34,7 +35,9 @@ const documents = {
         types.FindManyPublicCooksDocument,
     'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}':
         types.FindManyUsersDocument,
-    'query GetIndividualRequestPageData {\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}':
+    'query GetCookSignUpPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  languages {\n    findAll {\n      languageId\n      title\n    }\n  }\n}':
+        types.GetCookSignUpPageDataDocument,
+    'query GetIndividualRequestPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}':
         types.GetIndividualRequestPageDataDocument,
     'query GetCookProfileQuery($cookId: String!) {\n  cooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        firstName\n        lastName\n        profilePictureUrl\n        addresses {\n          addressId\n          title\n          country\n          city\n          postCode\n          street\n          houseNumber\n          location {\n            latitude\n            longitude\n          }\n          createdAt\n        }\n      }\n      languages {\n        languageId\n        title\n      }\n      isLocked\n      isVisible\n      biography\n      location {\n        latitude\n        longitude\n      }\n      maximumParticipants\n      maximumPrice\n      maximumTravelDistance\n      minimumParticipants\n      minimumPrice\n      rank\n      travelExpenses\n      ratingAverage\n      ratingCount\n    }\n  }\n}':
         types.GetCookProfileQueryDocument,
@@ -82,7 +85,7 @@ const documents = {
         types.ConfirmOneEmailAddressUpdateDocument,
     'mutation CreateOneEmailAddressUpdate($emailAddress: EmailAddress!, $userId: String!) {\n  users {\n    emailAddressUpdate(userId: $userId) {\n      success: createOne(emailAddress: $emailAddress)\n    }\n  }\n}':
         types.CreateOneEmailAddressUpdateDocument,
-    'fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n}': types.SignedInUserFragmentDoc,
+    'fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n  isAdmin\n}': types.SignedInUserFragmentDoc,
     'mutation CreateOneUserAddress($address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: createOne(address: $address)\n    }\n  }\n}':
         types.CreateOneUserAddressDocument,
     'mutation DeleteOneUserAddress($addressId: String!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: deleteOne(addressId: $addressId)\n    }\n  }\n}':
@@ -129,8 +132,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!) {\n  users {\n    success: createOneByEmailAddress(request: $request)\n  }\n}',
-): (typeof documents)['mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!) {\n  users {\n    success: createOneByEmailAddress(request: $request)\n  }\n}'];
+    source: 'mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!, $profilePicture: Upload) {\n  users {\n    success: createOneByEmailAddress(\n      request: $request\n      profilePicture: $profilePicture\n    )\n  }\n}',
+): (typeof documents)['mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!, $profilePicture: Upload) {\n  users {\n    success: createOneByEmailAddress(\n      request: $request\n      profilePicture: $profilePicture\n    )\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -153,14 +156,20 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query FindLatestPublicPrivacyPolicyUpdate {\n  publicPrivacyPolicyUpdates {\n    findLatest {\n      privacyPolicyUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}',
-): (typeof documents)['query FindLatestPublicPrivacyPolicyUpdate {\n  publicPrivacyPolicyUpdates {\n    findLatest {\n      privacyPolicyUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}'];
+    source: 'query FindLanguages {\n  languages {\n    findAll {\n      languageId\n      title\n    }\n  }\n}',
+): (typeof documents)['query FindLanguages {\n  languages {\n    findAll {\n      languageId\n      title\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query FindLatestPublicTermsUpdate {\n  publicTermsUpdates {\n    findLatest {\n      termsUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}',
-): (typeof documents)['query FindLatestPublicTermsUpdate {\n  publicTermsUpdates {\n    findLatest {\n      termsUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}'];
+    source: 'query FindLatestPublicPrivacyPolicyUpdate {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicPrivacyPolicyUpdates {\n    findLatest {\n      privacyPolicyUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}',
+): (typeof documents)['query FindLatestPublicPrivacyPolicyUpdate {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicPrivacyPolicyUpdates {\n    findLatest {\n      privacyPolicyUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindLatestPublicTermsUpdate {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicTermsUpdates {\n    findLatest {\n      termsUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}',
+): (typeof documents)['query FindLatestPublicTermsUpdate {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicTermsUpdates {\n    findLatest {\n      termsUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -189,8 +198,14 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query GetIndividualRequestPageData {\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}',
-): (typeof documents)['query GetIndividualRequestPageData {\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}'];
+    source: 'query GetCookSignUpPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  languages {\n    findAll {\n      languageId\n      title\n    }\n  }\n}',
+): (typeof documents)['query GetCookSignUpPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  languages {\n    findAll {\n      languageId\n      title\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query GetIndividualRequestPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}',
+): (typeof documents)['query GetIndividualRequestPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -333,8 +348,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n}',
-): (typeof documents)['fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n}'];
+    source: 'fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n  isAdmin\n}',
+): (typeof documents)['fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n  isAdmin\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

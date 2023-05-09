@@ -1823,6 +1823,7 @@ export type CreateOneAnonymousGlobalBookingRequestMutation = { __typename?: 'Mut
 
 export type CreateOneUserByEmailAddressMutationVariables = Exact<{
     request: CreateOneUserByEmailAddressRequest;
+    profilePicture?: InputMaybe<Scalars['Upload']>;
 }>;
 
 export type CreateOneUserByEmailAddressMutation = { __typename?: 'Mutation'; users: { __typename?: 'UserMutation'; success: boolean } };
@@ -1848,10 +1849,21 @@ export type FindKitchensQuery = {
     kitchens: { __typename?: 'KitchenQuery'; findAll: Array<{ __typename?: 'Kitchen'; kitchenId: string; title: string }> };
 };
 
+export type FindLanguagesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindLanguagesQuery = {
+    __typename?: 'Query';
+    languages: { __typename?: 'LanguageQuery'; findAll: Array<{ __typename?: 'Language'; languageId: string; title: string }> };
+};
+
 export type FindLatestPublicPrivacyPolicyUpdateQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindLatestPublicPrivacyPolicyUpdateQuery = {
     __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
     publicPrivacyPolicyUpdates: {
         __typename?: 'PublicPrivacyPolicyUpdateQuery';
         findLatest?: {
@@ -1868,6 +1880,10 @@ export type FindLatestPublicTermsUpdateQueryVariables = Exact<{ [key: string]: n
 
 export type FindLatestPublicTermsUpdateQuery = {
     __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
     publicTermsUpdates: {
         __typename?: 'PublicTermsUpdateQuery';
         findLatest?: {
@@ -1954,10 +1970,25 @@ export type FindManyUsersQuery = {
     };
 };
 
+export type GetCookSignUpPageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetCookSignUpPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
+    languages: { __typename?: 'LanguageQuery'; findAll: Array<{ __typename?: 'Language'; languageId: string; title: string }> };
+};
+
 export type GetIndividualRequestPageDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetIndividualRequestPageDataQuery = {
     __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
     categories: { __typename?: 'CategoryQuery'; findAll: Array<{ __typename?: 'Category'; categoryId: string; title: string }> };
     kitchens: { __typename?: 'KitchenQuery'; findAll: Array<{ __typename?: 'Kitchen'; kitchenId: string; title: string }> };
     allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
@@ -2266,6 +2297,7 @@ export type SignedInUserFragment = {
     firstName: string;
     profilePictureUrl?: string | null;
     isCook: boolean;
+    isAdmin: boolean;
 } & { ' $fragmentName'?: 'SignedInUserFragment' };
 
 export type CreateOneUserAddressMutationVariables = Exact<{
@@ -2371,6 +2403,7 @@ export const SignedInUserFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
                 ],
             },
         },
@@ -2475,6 +2508,11 @@ export const CreateOneUserByEmailAddressDocument = {
                         type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateOneUserByEmailAddressRequest' } },
                     },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'profilePicture' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'Upload' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -2494,6 +2532,11 @@ export const CreateOneUserByEmailAddressDocument = {
                                             kind: 'Argument',
                                             name: { kind: 'Name', value: 'request' },
                                             value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'profilePicture' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'profilePicture' } },
                                         },
                                     ],
                                 },
@@ -2610,6 +2653,41 @@ export const FindKitchensDocument = {
         },
     ],
 } as unknown as DocumentNode<FindKitchensQuery, FindKitchensQueryVariables>;
+export const FindLanguagesDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindLanguages' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'languages' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'languageId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindLanguagesQuery, FindLanguagesQueryVariables>;
 export const FindLatestPublicPrivacyPolicyUpdateDocument = {
     kind: 'Document',
     definitions: [
@@ -2620,6 +2698,24 @@ export const FindLatestPublicPrivacyPolicyUpdateDocument = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'publicPrivacyPolicyUpdates' },
@@ -2645,6 +2741,21 @@ export const FindLatestPublicPrivacyPolicyUpdateDocument = {
                 ],
             },
         },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
     ],
 } as unknown as DocumentNode<FindLatestPublicPrivacyPolicyUpdateQuery, FindLatestPublicPrivacyPolicyUpdateQueryVariables>;
 export const FindLatestPublicTermsUpdateDocument = {
@@ -2657,6 +2768,24 @@ export const FindLatestPublicTermsUpdateDocument = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'publicTermsUpdates' },
@@ -2679,6 +2808,21 @@ export const FindLatestPublicTermsUpdateDocument = {
                             ],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
                 ],
             },
         },
@@ -2952,6 +3096,74 @@ export const FindManyUsersDocument = {
         },
     ],
 } as unknown as DocumentNode<FindManyUsersQuery, FindManyUsersQueryVariables>;
+export const GetCookSignUpPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetCookSignUpPageData' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'languages' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'languageId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetCookSignUpPageDataQuery, GetCookSignUpPageDataQueryVariables>;
 export const GetIndividualRequestPageDataDocument = {
     kind: 'Document',
     definitions: [
@@ -2962,6 +3174,24 @@ export const GetIndividualRequestPageDataDocument = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'categories' },
@@ -3022,6 +3252,21 @@ export const GetIndividualRequestPageDataDocument = {
                             ],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
                 ],
             },
         },

@@ -8,4 +8,5 @@ export interface PEMenuCardProps {
     categories: string[];
     kitchen?: string;
     onClick?: () => void;
+    fullWidth?: boolean;
 }

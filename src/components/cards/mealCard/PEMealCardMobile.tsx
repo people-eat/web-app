@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { type ReactElement } from 'react';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
-import { type PEMealCardProps } from './PEMEalCardProps';
+import { type PEMealCardProps } from './PEMealCardProps';
 
 export default function PEMealCardMobile({ onClick, title, description, imageUrl }: PEMealCardProps): ReactElement {
     return (
