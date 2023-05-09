@@ -13,7 +13,6 @@ const meta: Meta<typeof IndividualRequestPageStep1> = {
         const [dateTime, setDateTime] = useState(moment());
         const [occasion, setOccasion] = useState('');
         const [budget, setBudget] = useState('');
-        const [message, setMessage] = useState('');
 
         const [addressSearchText, setAddressSearchText] = useState<string>('');
 
@@ -31,8 +30,6 @@ const meta: Meta<typeof IndividualRequestPageStep1> = {
                 setOccasion={setOccasion}
                 budget={budget}
                 setBudget={setBudget}
-                message={message}
-                setMessage={setMessage}
                 // eslint-disable-next-line no-alert
                 onContinue={(): void => alert('Continue')}
             />

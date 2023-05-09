@@ -12,6 +12,7 @@ import PEHeaderMobile from '../../header/PEHeaderMobile';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
 import IndividualRequestPageDialog from './dialog/IndividualRequestPageDialog';
+import { header, header02, header03, step1, step2, step3 } from './points.mock';
 import IndividualRequestPageStep1 from './step1/IndividualRequestPageStep1';
 import IndividualRequestPageStep2 from './step2/IndividualRequestPageStep2';
 import IndividualRequestPageStep3 from './step3/IndividualRequestPageStep3';
@@ -79,20 +80,22 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
             <HStack gap={32} className="w-full max-w-screen-xl" style={{ justifyContent: 'space-between' }}>
                 <VStack
                     gap={32}
-                    className="w-full relative max-w-[45%] lg:max-w-full lg:p-4 lg:box-border"
+                    className="w-full relative max-w-[48%] lg:max-w-full lg:p-4 lg:box-border"
                     style={{ alignItems: 'flex-start' }}
                 >
-                    <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg lg:text-heading-s">Individual Request in 3 steps</h1>
+                    <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg lg:text-heading-s">
+                        {header} <span className="text-orange">{header02}</span> {header03}
+                    </h1>
 
                     <Stepper activeStep={step}>
                         <Step>
-                            <StepLabel onClick={(): void => setStep(0)}>Step 1</StepLabel>
+                            <StepLabel onClick={(): void => setStep(0)}>{step1}</StepLabel>
                         </Step>
                         <Step>
-                            <StepLabel onClick={(): void => setStep(1)}>Step 2</StepLabel>
+                            <StepLabel onClick={(): void => setStep(1)}>{step2}</StepLabel>
                         </Step>
                         <Step>
-                            <StepLabel onClick={(): void => setStep(2)}>Step 3</StepLabel>
+                            <StepLabel onClick={(): void => setStep(2)}>{step3}</StepLabel>
                         </Step>
                     </Stepper>
 
@@ -110,8 +113,6 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
                             setOccasion={setOccasion}
                             budget={budget}
                             setBudget={setBudget}
-                            message={message}
-                            setMessage={setMessage}
                             onContinue={(): void => setStep(1)}
                         />
                     )}
@@ -146,6 +147,8 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
                             setAcceptedPrivacyPolicy={setAcceptedPrivacyPolicy}
                             acceptedTermsAndConditions={acceptedTermsAndConditions}
                             setAcceptedTermsAndConditions={setAcceptedTermsAndConditions}
+                            message={message}
+                            setMessage={setMessage}
                             onContinue={(): any => createOneAnonymousGlobalBookingRequest()}
                         />
                     )}

@@ -11,4 +11,5 @@ export interface PEChefCardProps {
     };
     categories: string[];
     kitchens: string[];
+    picturePosition?: string;
 }
