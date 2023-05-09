@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import PEReviewCardMenu from './PEReviewCardMenu';
 
 const meta: Meta<typeof PEReviewCardMenu> = {
-    title: 'Cards/PEReviewCardMenu',
+    title: 'Cards/Rating/PEReviewCardMenu',
     component: PEReviewCardMenu,
 };
 

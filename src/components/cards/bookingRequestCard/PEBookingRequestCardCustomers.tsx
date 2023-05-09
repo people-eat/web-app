@@ -35,7 +35,7 @@ export default function PEBookingRequestCardCustomers({
     address,
 }: PEBookingRequestCardCustomersProps): ReactElement {
     return (
-        <div className="flex md:w-[580px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
+        <div className="flex md:w-[580px] w-full max-w-1/2 gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
             <div className="flex w-full justify-between">
                 <PELineButton title={'Order Details'} onClick={onOrderDetailsClick} />
                 <span className="text-60black text-text-sm hidden md:block">{date}</span>

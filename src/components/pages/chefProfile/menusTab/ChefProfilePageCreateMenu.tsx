@@ -1,14 +1,18 @@
+import { useMutation } from '@apollo/client';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import { useState, type ReactElement } from 'react';
-import { type PEMealCardProps } from '../../../cards/mealCard/PEMealCardProps';
+import { CreateOneCookMenuDocument, type CurrencyCode } from '../../../../data-source/generated/graphql';
+import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import VStack from '../../../utility/vStack/VStack';
+import { type MealEntity } from './ChefProfilePageMenusTab';
 import ChefProfilePageCreateMenusStep1 from './createMenuStep1/ChefProfilePageCreateMenusStep1';
 import ChefProfilePageCreateMenusStep2 from './createMenuStep2/ChefProfilePageCreateMenuStep2';
 import ChefProfilePageCreateMenusPreviewStep2 from './createMenuStep2/ChefProfilePageCreateMenusPreviewStep2';
+import ChefProfilePageCreateMenusStep3 from './createMenuStep3/ChefProfilePageCreateMenuStep3';
 
 interface ChefProfilePageCreateMenuProps {
     cookId: string;
@@ -16,13 +20,34 @@ interface ChefProfilePageCreateMenuProps {
     onCancel: () => void;
 }
 
-export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProfilePageCreateMenuProps): ReactElement {
+// eslint-disable-next-line max-statements
+export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess }: ChefProfilePageCreateMenuProps): ReactElement {
     const [step, setStep] = useState(0);
-    const [selectedMeals, setSelectedMeals] = useState<PEMealCardProps[]>([]);
 
-    function handleOnSelectedMeals(meals: PEMealCardProps[]): void {
+    const [title, setTitle] = useState('');
+    const [description, _setDescription] = useState('');
+
+    // in cents: 10000 -> 100.00 EUR
+    const [basePrice, setBasePrice] = useState(10000);
+    const [basePriceCustomers, setBasePriceCustomers] = useState(2);
+    const [pricePerAdult, setPricePerAdult] = useState(5000);
+    const [pricePerChild, setPricePerChild] = useState<undefined | number>(undefined);
+    const [currencyCode] = useState<CurrencyCode>('EUR');
+
+    const [greetingFromKitchen, setGreetingFromKitchen] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const [preparationTime, _setPreparationTime] = useState(60);
+
+    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
+    const [selectedCategories, _setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
+
+    const [selectedMeals, setSelectedMeals] = useState<MealEntity[]>([]);
+
+    function handleOnSelectedMeals(meals: MealEntity[]): void {
         setSelectedMeals(meals);
     }
+
+    const [createMenu] = useMutation(CreateOneCookMenuDocument);
 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -47,11 +72,38 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProf
                         </Step>
                     </Stepper>
                 </VStack>
-                {step === 0 && <ChefProfilePageCreateMenusStep1 />}
+                {step === 0 && (
+                    <ChefProfilePageCreateMenusStep1
+                        title={title}
+                        setTitle={setTitle}
+                        selectedKitchen={selectedKitchen}
+                        setSelectedKitchen={setSelectedKitchen}
+                    />
+                )}
 
-                {step === 1 && <ChefProfilePageCreateMenusStep2 cookId={cookId} onSelectedMeals={handleOnSelectedMeals} />}
+                {step === 1 && (
+                    <ChefProfilePageCreateMenusStep2
+                        cookId={cookId}
+                        onSelectedMeals={handleOnSelectedMeals}
+                        greetingFromKitchen={greetingFromKitchen}
+                        setGreetingFromKitchen={setGreetingFromKitchen}
+                    />
+                )}
 
-                {step === 2 && <ChefProfilePageCreateMenusStep1 />}
+                {step === 2 && (
+                    <ChefProfilePageCreateMenusStep3
+                        basePrice={basePrice}
+                        setBasePrice={setBasePrice}
+                        basePriceCustomers={basePriceCustomers}
+                        setBasePriceCustomers={setBasePriceCustomers}
+                        pricePerAdult={pricePerAdult}
+                        setPricePerAdult={setPricePerAdult}
+                        pricePerChild={pricePerChild}
+                        setPricePerChild={setPricePerChild}
+                        isVisible={isVisible}
+                        setIsVisible={setIsVisible}
+                    />
+                )}
             </VStack>
 
             {step === 1 && (
@@ -62,6 +114,35 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProf
                     <ChefProfilePageCreateMenusPreviewStep2 selectedMeals={selectedMeals} />
                 </VStack>
             )}
+
+            <PEButton
+                title="Demo Create"
+                onClick={(): void => {
+                    onSuccess();
+                    void createMenu({
+                        variables: {
+                            cookId,
+                            menu: {
+                                title,
+                                description,
+                                basePrice,
+                                basePriceCustomers,
+                                pricePerAdult,
+                                pricePerChild,
+                                currencyCode,
+                                greetingFromKitchen,
+                                isVisible,
+                                preparationTime,
+                                kitchenId: selectedKitchen?.kitchenId,
+                                categoryIds: selectedCategories.map(({ categoryId }) => categoryId),
+
+                                // The big todo:
+                                courses: [],
+                            },
+                        },
+                    });
+                }}
+            />
         </VStack>
     );
 }

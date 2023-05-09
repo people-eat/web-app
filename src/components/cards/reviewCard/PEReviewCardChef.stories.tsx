@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import PEReviewCardChef from './PEReviewCardChef';
 
 const meta: Meta<typeof PEReviewCardChef> = {
-    title: 'Cards/PEReviewCardChef',
+    title: 'Cards/Rating/PEReviewCardChef',
     component: PEReviewCardChef,
 };
 

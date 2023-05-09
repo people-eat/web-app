@@ -1,14 +1,21 @@
+import classNames from 'classnames';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
-import { type PEMealCardProps } from './PEMEalCardProps';
+import { type PEMealCardProps } from './PEMealCardProps';
 
-export default function PEMealCard({ onClick, title, description, imageUrl }: PEMealCardProps): ReactElement {
+export default function PEMealCard({ onClick, title, description, imageUrl, active }: PEMealCardProps): ReactElement {
     return (
         <div
             onClick={onClick}
-            className="flex w-[380px] max-h-[144px] gap-3 flex-row p-3 box-border rounded-3 shadow-primary cursor-pointer active:shadow-orange hover:shadow-active"
+            className={classNames(
+                'flex min-w-[380px] box-border w-full max-w-[410px] max-h-[144px] gap-3 flex-row p-3 rounded-3 shadow-primary cursor-pointer active:shadow-orange',
+                {
+                    ['shadow-orange']: active,
+                    ['hover:shadow-active']: !active,
+                },
+            )}
         >
             <div className="flex rounded-3 overflow-hidden min-w-[120px] h-[120px] justify-center items-center bg-base">
                 {imageUrl ? (

@@ -53,7 +53,7 @@ export default function PEReviewCardPlatform({
                         <span className="text-orange text-text-sm-bold">{occasion}</span>
                         {location && (
                             <div className={'flex items-center gap-2 flex-row'}>
-                                <PEIcon icon={Icon.markerPinOrange} edgeLength={20} />
+                                <PEIcon icon={Icon.markerPin} edgeLength={20} />
                                 <span className="text-preBlack text-text-sm">{location}</span>
                             </div>
                         )}

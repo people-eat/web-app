@@ -1,9 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import classNames from 'classnames';
+import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     GetCookProfileQueryDocument,
+    UpdateCookIsVisibleDocument,
+    UpdateCookLocationDocument,
     UpdateCookMaximumParticipantsDocument,
     UpdateCookMaximumTravelDistanceDocument,
     UpdateCookTravelExpensesDocument,
@@ -25,7 +28,10 @@ import ChefProfileSection2 from './section2/ChefProfileSection2';
 import ChefProfileSection3 from './section3/ChefProfileSection3';
 import ChefProfileSection5 from './section5/ChefProfileSection5';
 
+// eslint-disable-next-line max-statements
 export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string }): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     const [biography, setBiography] = useState('');
 
     const [maximumParticipants, setMaximumParticipants] = useState<number | undefined>(undefined);
@@ -84,6 +90,9 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
         setEditOrderDetails(false);
     }
 
+    const [updateCookLocation] = useMutation(UpdateCookLocationDocument);
+    const [updateCookIsVisible] = useMutation(UpdateCookIsVisibleDocument);
+
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6 px-5 box-border">
             {chefProfile && (
@@ -94,10 +103,17 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         className="w-full bg-white shadow-primary box-border p-8 rounded-4"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
-                        <PECheckbox checked={chefProfile.isVisible} onCheckedChange={(): void => undefined} />
-                        <span className={classNames({ ['text-disabled']: !chefProfile.isVisible })}>Public</span>
+                        <PECheckbox
+                            checked={chefProfile.isVisible}
+                            onCheckedChange={(): void =>
+                                void updateCookIsVisible({ variables: { cookId, isVisible: !chefProfile.isVisible } }).then(
+                                    (res) => res.data?.cooks.success && void refetch(),
+                                )
+                            }
+                        />
+                        <span className={classNames({ ['text-disabled']: !chefProfile.isVisible })}>{t('section-public-visible')}</span>
                         &nbsp;/&nbsp;
-                        <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>not visible</span>
+                        <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>{t('section-public-no-visible')}</span>
                     </HStack>
 
                     <ChefProfileSection2 chefBiography={biography} cookId={cookId} />
@@ -106,7 +122,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         className="relative w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
-                        <p className="text-heading-ss w-full justify-start my-0">Order details</p>
+                        <p className="text-heading-ss w-full justify-start my-0">{t('section-order-details')}</p>
                         {editOrderDetails && (
                             <HStack className="absolute right-8 top-8 gap-3 w-full mb-4" style={{ justifyContent: 'flex-end' }}>
                                 <PEIconButton
@@ -129,7 +145,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                             <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
                                 <HStack className="w-full" style={{ justifyContent: 'flex-start' }}>
                                     <PEIcon icon={Icon.data} />
-                                    <p className="my-0">Travel costs per kilometer</p>
+                                    <p className="my-0">{t('section-order-details-travel-cost')}</p>
                                 </HStack>
                                 <p className="my-0 text-end w-full text-green text-ellipsis">{travelExpenses} EUR</p>
                             </HStack>
@@ -162,8 +178,8 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         <VStack className="w-full">
                             <HStack className="w-full" style={{ alignItems: 'center' }}>
                                 <VStack style={{ alignItems: 'flex-start' }}>
-                                    <span>Customers limit per event</span>
-                                    <span>(maximum 20)</span>
+                                    <span>{t('section-order-details-customers-limit')}</span>
+                                    <span>{t('section-order-details-customers-limit-max')}</span>
                                 </VStack>
                                 <Spacer />
                                 <PECounter
@@ -188,7 +204,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                            <p className="text-heading-ss w-full justify-start my-0">My Addresses</p>
+                            <p className="text-heading-ss w-full justify-start my-0">{t('section-event-address')}</p>
                             <PEIconButton
                                 icon={Icon.plus}
                                 iconSize={24}
@@ -217,7 +233,13 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                         isPinned:
                                             chefProfile.location.latitude === location.latitude &&
                                             chefProfile.location.longitude === location.longitude,
-                                        onPinClick: (): void => undefined,
+                                        onPinClick: (): void =>
+                                            void updateCookLocation({
+                                                variables: {
+                                                    cookId,
+                                                    location: { latitude: location.latitude, longitude: location.longitude },
+                                                },
+                                            }).then((res) => res.data?.cooks.success && void refetch()),
                                     }}
                                 />
                             ))}
@@ -226,7 +248,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
 
                     <ChefProfileSection3 />
 
-                    <ChefProfileSection5 />
+                    <ChefProfileSection5 chefProfile={chefProfile} />
 
                     {/* <VStack
                         className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-3"

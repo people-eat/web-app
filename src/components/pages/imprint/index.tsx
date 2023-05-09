@@ -1,18 +1,20 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
-import useResponsive from '../../../hooks/useResponsive';
+import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEHeaderMobile from '../../header/PEHeaderMobile';
 import VStack from '../../utility/vStack/VStack';
 
-export default function ImprintPage(): ReactElement {
+export interface ImprintPageProps {
+    signedInUser?: SignedInUser;
+}
+
+export default function ImprintPage({ signedInUser }: ImprintPageProps): ReactElement {
     const { t } = useTranslation('imprint');
-    const { isMobile } = useResponsive();
 
     return (
         <VStack className="w-full min-h-screen gap-16">
-            {isMobile ? <PEHeaderMobile /> : <PEHeader />}
+            <PEHeader signedInUser={signedInUser} />
 
             <VStack className="w-full max-w-screen-xl gap-4 lg:px-4 box-border" style={{ alignItems: 'flex-start' }}>
                 <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg">{t('imprint')}</h1>
