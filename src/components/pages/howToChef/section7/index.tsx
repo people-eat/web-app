@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import VStack from '../../../utility/vStack/VStack';
@@ -11,7 +12,9 @@ export default function HowToChefSection7(): ReactElement {
                     {section7Title}
                 </h2>
             </div>
-            <PEButton className="max-w-[400px] mt-8" onClick={(): void => undefined} title={register} />
+            <Link href="chef-sign-up" className="no-underline mt-8" style={{ width: '100%', maxWidth: 400 }}>
+                <PEButton onClick={(): void => undefined} title={register} />
+            </Link>
             <VStack className="absolute left-[-525px] -top-[540px] w-[830px] h-[830px] blur-[190px] bg-blurOrange" />
         </VStack>
     );

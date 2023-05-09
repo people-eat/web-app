@@ -7,11 +7,11 @@ import FormGroup from '@mui/material/FormGroup';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { CreateOneUserByEmailAddressDocument, type CookRank } from '../../../data-source/generated/graphql';
-import useResponsive from '../../../hooks/useResponsive';
+import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
+import { type SignedInUser } from '../../../shared/SignedInUser';
+import { cookRanks } from '../../../shared/cookRanks';
 import PEHeader from '../../header/PEHeader';
-import PEHeaderMobile from '../../header/PEHeaderMobile';
 import PEMap from '../../map/PEMap';
-import { type GoogleMapsPlacesResult } from '../../pages/home';
 import PEButton from '../../standard/buttons/PEButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
 import PECounter from '../../standard/counter/PECounter';
@@ -31,14 +31,12 @@ import VStack from '../../utility/vStack/VStack';
 import SignUpPageSuccessDialog from '../signUp/successDialog/SignUpPageSuccessDialog';
 
 export interface CookSignUpPageProps {
+    signedInUser?: SignedInUser;
     languages: { languageId: string; title: string }[];
 }
 
-const chefRanks: CookRank[] = ['HOBBY', 'PROFESSIONAL', 'MASTER'];
-
 // eslint-disable-next-line max-statements
-export default function CookSignUpPage({ languages }: CookSignUpPageProps): ReactElement {
-    const { isMobile } = useResponsive();
+export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPageProps): ReactElement {
     const { t: translateCommon } = useTranslation('common');
     const { t } = useTranslation('chef-sign-up');
 
@@ -46,7 +44,7 @@ export default function CookSignUpPage({ languages }: CookSignUpPageProps): Reac
     const [lastName, setLastName] = useState('');
 
     const [description, setDescription] = useState('');
-    const [maximumCustomers, setMaximumCustomers] = useState(12);
+    const [maximumParticipants, setMaximumParticipants] = useState(12);
 
     const [travelExpenses, setTravelExpenses] = useState(0.42);
     const [maximumTravelDistance, setMaximumTravelDistance] = useState(12);
@@ -54,8 +52,8 @@ export default function CookSignUpPage({ languages }: CookSignUpPageProps): Reac
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
     const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-    const [addressSearchText, setAddressSearchText] = useState('');
-    const [searchResults, setSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
+    const [address, setAddress] = useState('');
+    const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
     const [emailAddress, setEmailAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -66,26 +64,7 @@ export default function CookSignUpPage({ languages }: CookSignUpPageProps): Reac
     const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
     const [rank, setRank] = useState<CookRank>('HOBBY');
 
-    function handleAddressSearchTextChange(changedSearchText: string): void {
-        setAddressSearchText(changedSearchText);
-
-        if (!changedSearchText) {
-            setSearchResults([]);
-            return;
-        }
-
-        fetch(
-            encodeURI(
-                'google-places-api/place/textsearch/json?query="' +
-                    addressSearchText +
-                    '"&key=' +
-                    (process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''),
-            ),
-        )
-            .then((response) => response.json())
-            .then((body: { results: GoogleMapsPlacesResult[] }) => setSearchResults(body.results))
-            .catch((error) => console.error(error));
-    }
+    const disabled: boolean = firstName === '' || lastName === '' || password === '' || passwordRepeat !== password || emailAddress === '';
 
     const [createOneUserByEmailAddress, { data, loading, error }] = useMutation(CreateOneUserByEmailAddressDocument, {
         variables: {
@@ -95,9 +74,9 @@ export default function CookSignUpPage({ languages }: CookSignUpPageProps): Reac
                     biography: description,
                     isVisible: true,
                     location: selectedLocation ?? { latitude: 0, longitude: 0 },
-                    maximumParticipants: undefined,
+                    maximumParticipants,
                     maximumPrice: undefined,
-                    maximumTravelDistance: undefined,
+                    maximumTravelDistance,
                     minimumParticipants: undefined,
                     minimumPrice: undefined,
                     rank,
@@ -116,7 +95,7 @@ export default function CookSignUpPage({ languages }: CookSignUpPageProps): Reac
 
     return (
         <VStack className="w-full overflow-hidden">
-            {isMobile ? <PEHeaderMobile /> : <PEHeader />}
+            <PEHeader signedInUser={signedInUser} />
 
             <VStack className="w-full max-w-5xl mt-[80px] p-4 box-border" style={{ gap: 32, marginBottom: 64 }}>
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
@@ -147,7 +126,7 @@ export default function CookSignUpPage({ languages }: CookSignUpPageProps): Reac
                     <PEDropdown
                         title={translateCommon(rank)}
                         defaultExpanded
-                        options={chefRanks}
+                        options={cookRanks}
                         getOptionLabel={(rankOption): string => translateCommon(rankOption)}
                         onSelectedOptionsChange={(changedSelectedRanks): void => {
                             if (!changedSelectedRanks.length) return;
@@ -206,16 +185,19 @@ export default function CookSignUpPage({ languages }: CookSignUpPageProps): Reac
                         <span>(Maximum 20)</span>
                     </VStack>
                     <Spacer />
-                    <PECounter value={maximumCustomers} onValueChange={setMaximumCustomers} />
+                    <PECounter value={maximumParticipants} onValueChange={setMaximumParticipants} />
                 </HStack>
 
                 <VStack gap={16} className="w-full">
                     <p className="text-start w-full my-0">Address</p>
 
                     <PEAutoCompleteTextField
-                        searchText={addressSearchText}
-                        onSearchTextChange={handleAddressSearchTextChange}
-                        options={searchResults}
+                        searchText={address}
+                        onSearchTextChange={(changedAddressSearchText: string): void => {
+                            setAddress(changedAddressSearchText);
+                            searchAddress(changedAddressSearchText, setAddressSearchResults);
+                        }}
+                        options={addressSearchResults}
                         getOptionLabel={(searchResult): string => searchResult.formatted_address}
                         onOptionSelect={(selectedSearchResult): void =>
                             setSelectedLocation({
@@ -230,7 +212,7 @@ export default function CookSignUpPage({ languages }: CookSignUpPageProps): Reac
 
                     <PEMap
                         apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
-                        style={{ height: '500px', borderRadius: 16 }}
+                        style={{ height: '500px' }}
                         location={selectedLocation}
                     />
                 </VStack>
@@ -284,8 +266,8 @@ export default function CookSignUpPage({ languages }: CookSignUpPageProps): Reac
                 <PEButton
                     className="w-full max-w-[400px]"
                     title={'Complete'}
-                    onClick={(): any => createOneUserByEmailAddress()}
-                    disabled={false}
+                    onClick={(): void => void createOneUserByEmailAddress()}
+                    disabled={disabled}
                 />
 
                 {data && (

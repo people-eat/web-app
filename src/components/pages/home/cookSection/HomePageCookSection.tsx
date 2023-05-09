@@ -5,7 +5,7 @@ import PEChefCardMobile from '../../../cards/chefCard/PEChefCardMobile';
 import VStack from '../../../utility/vStack/VStack';
 import { mockPublicChefs } from './chefs.mock';
 
-export default function HomePageSection8(): ReactElement {
+export default function HomePageCookSection(): ReactElement {
     const { t } = useTranslation('home');
 
     return (

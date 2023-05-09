@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
-import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../standard/tabItem/PETabItem';
@@ -13,7 +12,7 @@ export interface ChefProfilePageMealsAndMenusTabProps {
     cookId: string;
 }
 
-export default function ChefProfilePageMealsAndMenusTab({}: ChefProfilePageMealsAndMenusTabProps): ReactElement {
+export default function ChefProfilePageMealsAndMenusTab({ cookId }: ChefProfilePageMealsAndMenusTabProps): ReactElement {
     const [selectedTab, setSelectedTab] = useState<'MEALS' | 'MENUS'>('MEALS');
     const router = useRouter();
 
@@ -69,11 +68,9 @@ export default function ChefProfilePageMealsAndMenusTab({}: ChefProfilePageMeals
                 </HStack>
             </HStack>
 
-            {selectedTab === 'MEALS' && editMode && <ChefProfilePageCreateMeal />}
+            {selectedTab === 'MEALS' && editMode && <ChefProfilePageCreateMeal cookId={cookId} />}
 
             {selectedTab === 'MENUS' && editMode && <ChefProfilePageCreateMenu />}
-
-            {editMode && <PEButton onClick={(): void => undefined} title="Add" className="w-full" />}
         </VStack>
     );
 }

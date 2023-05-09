@@ -1,0 +1,7 @@
+mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!) {
+    cooks {
+        meals(cookId: $cookId) {
+            success: createOne(meal: $meal)
+        }
+    }
+}

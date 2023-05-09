@@ -1,4 +1,9 @@
+import { useMutation } from '@apollo/client';
+import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import { useState, type ReactElement } from 'react';
+import { CreateOneCookMealDocument, type MealType } from '../../../../../data-source/generated/graphql';
+import { mealTypes } from '../../../../../shared/mealTypes';
+import PEButton from '../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
 import PETabItem from '../../../../standard/tabItem/PETabItem';
@@ -7,12 +12,28 @@ import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
 
-const DISHES_TABS = ['Starter', 'Main', 'Dessert', 'Intermediate'];
+export interface ChefProfilePageCreateMealProps {
+    cookId: string;
+}
 
-export default function ChefProfilePageCreateMeal(): ReactElement {
-    const [dishName, setDishName] = useState('');
-    const [dishDescription, setDishDescription] = useState('');
-    const [dishTab, setDishTab] = useState(0);
+export default function ChefProfilePageCreateMeal({ cookId }: ChefProfilePageCreateMealProps): ReactElement {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [type, setType] = useState<MealType>('MAIN_COURSE');
+
+    const disabled: boolean = title === '';
+
+    const [createOneCookMeal, { loading }] = useMutation(CreateOneCookMealDocument, {
+        variables: {
+            cookId,
+            meal: {
+                title,
+                description,
+                type: 'DESSERT',
+                imageUrl: undefined,
+            },
+        },
+    });
 
     return (
         <VStack
@@ -27,14 +48,14 @@ export default function ChefProfilePageCreateMeal(): ReactElement {
                     className="w-full max-w-screen-xl overflow-x-scroll"
                     style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
                 >
-                    {DISHES_TABS.map((dish, index) => (
+                    {mealTypes.map((mealType, index) => (
                         <PETabItem
-                            key={`${dish}_DishesPage`}
-                            title={dish}
+                            key={index}
+                            title={mealType}
                             onClick={(): void => {
-                                setDishTab(index);
+                                setType(mealType);
                             }}
-                            active={dishTab === index}
+                            active={mealType === type}
                         />
                     ))}
                 </HStack>
@@ -42,12 +63,12 @@ export default function ChefProfilePageCreateMeal(): ReactElement {
 
             <VStack className="w-full">
                 <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
-                <PETextField type={'text'} value={dishName} onChange={(value): void => setDishName(value)} />
+                <PETextField type={'text'} value={title} onChange={(value): void => setTitle(value)} />
             </VStack>
 
             <VStack className="w-full">
                 <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
-                <PEMultiLineTextField value={dishDescription} onChange={(value): void => setDishDescription(value)} />
+                <PEMultiLineTextField value={description} onChange={(value): void => setDescription(value)} />
             </VStack>
 
             <VStack className="w-full">
@@ -58,6 +79,16 @@ export default function ChefProfilePageCreateMeal(): ReactElement {
                     </VStack>
                 </VStack>
             </VStack>
+
+            {<PEButton onClick={(): void => void createOneCookMeal()} disabled={disabled} title="Add" className="w-full" />}
+
+            {loading && (
+                <Dialog open>
+                    <DialogContent>
+                        <CircularProgress />
+                    </DialogContent>
+                </Dialog>
+            )}
         </VStack>
     );
 }

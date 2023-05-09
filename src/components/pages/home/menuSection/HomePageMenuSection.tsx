@@ -7,7 +7,7 @@ import VStack from '../../../utility/vStack/VStack';
 import PEPointsCard from './PEPointsCard';
 import { mockPublicMenus } from './menus.mock';
 
-export default function HomePageSection6(): ReactElement {
+export default function HomePageMenuSection(): ReactElement {
     const { t } = useTranslation('home');
 
     return (

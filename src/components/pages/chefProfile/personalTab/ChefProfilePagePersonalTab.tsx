@@ -1,10 +1,12 @@
 import { useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import classNames from 'classnames';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
 import { GetCookProfileQueryDocument } from '../../../../data-source/generated/graphql';
+import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEMap from '../../../map/PEMap';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -18,82 +20,60 @@ import PEAutoCompleteTextField from '../../../standard/textFields/PEAutoComplete
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-import { type GoogleMapsPlacesResult } from '../../home';
-import { mockChefProfile, type ChefProfile } from './chef-profile.mock';
+import CreateAddressDialog from '../../profile/personalTab/CreateAddressDialog';
 
 export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string }): ReactElement {
-    const chefProfile: ChefProfile = mockChefProfile;
+    const { t: commonTranslate } = useTranslation('common');
 
     const [biography, setBiography] = useState('');
 
-    const [maximumCustomers, setMaximumCustomers] = useState(12);
+    const [maximumParticipants, setMaximumParticipants] = useState<number | undefined>(undefined);
 
-    const [travelExpenses, setTravelExpenses] = useState(0.42);
-    const [maximumTravelDistance, setMaximumTravelDistance] = useState(12);
+    const [travelExpenses, setTravelExpenses] = useState(0);
+    const [maximumTravelDistance, setMaximumTravelDistance] = useState<number | undefined>(undefined);
 
     const [addressSearchText, setAddressSearchText] = useState('');
-    const [searchResults, setSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
-
+    const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
     const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
-    function handleAddressSearchTextChange(changedSearchText: string): void {
-        setAddressSearchText(changedSearchText);
+    const [addAddressDialogOpen, setAddAddressDialogOpen] = useState(false);
 
-        if (!changedSearchText) {
-            setSearchResults([]);
-            return;
-        }
-
-        fetch(
-            encodeURI(
-                'google-places-api/place/textsearch/json?query="' +
-                    addressSearchText +
-                    '"&key=' +
-                    (process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''),
-            ),
-        )
-            .then((response) => response.json())
-            .then((body: { results: GoogleMapsPlacesResult[] }) => setSearchResults(body.results))
-            .catch((error) => console.error(error));
-    }
-
-    const { data, loading, error } = useQuery(GetCookProfileQueryDocument, {
+    const { data, loading, error, refetch } = useQuery(GetCookProfileQueryDocument, {
         variables: { cookId },
     });
 
-    const fetchedChefProfile = data?.cooks.findOne;
+    const chefProfile = data?.cooks.findOne;
 
     useEffect(() => {
-        if (fetchedChefProfile) setBiography(fetchedChefProfile.biography);
-        if (fetchedChefProfile) setTravelExpenses(fetchedChefProfile.travelExpenses / 100);
-        if (fetchedChefProfile) setMaximumTravelDistance(fetchedChefProfile.maximumTravelDistance ?? 0);
-    }, [fetchedChefProfile]);
+        if (chefProfile) setBiography(chefProfile.biography);
+        if (chefProfile) setTravelExpenses(chefProfile.travelExpenses / 100);
+        if (chefProfile) setMaximumTravelDistance(chefProfile.maximumTravelDistance ?? undefined);
+        if (chefProfile) setMaximumParticipants(chefProfile.maximumParticipants ?? undefined);
+        if (chefProfile) setSelectedLocation(chefProfile.location);
+    }, [chefProfile]);
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
-            {fetchedChefProfile && (
+            {chefProfile && (
                 <>
-                    <HStack
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4"
-                        style={{ alignItems: 'flex-start', justifyContent: 'space-between' }}
-                        gap={16}
-                    >
+                    <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
                         {chefProfile.user.profilePictureUrl && (
                             <Image
                                 style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                                 src={chefProfile.user.profilePictureUrl}
-                                alt={chefProfile.user.profilePictureUrl}
+                                alt={'Profile Picture'}
                                 width={120}
                                 height={120}
                             />
                         )}
+
                         {!chefProfile.user.profilePictureUrl && (
-                            <div className={classNames('bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]')}>
+                            <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
                                 <PEIcon edgeLength={32} icon={Icon.profileLight} />
                             </div>
                         )}
 
-                        <VStack style={{ alignItems: 'flex-start' }}>
+                        <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
                             <HStack className="gap-4" style={{ justifyContent: 'center', alignItems: 'center' }}>
                                 <VStack style={{ alignItems: 'flex-start' }}>
                                     <p className="text-heading-m my-0">{chefProfile.user.firstName}</p>
@@ -101,34 +81,38 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                 </VStack>
                                 <PEIconButton icon={Icon.editPencil} iconSize={24} withoutShadow />
                             </HStack>
-                            <HStack gap={2} className="flex-row mt-4">
-                                <PEIcon icon={Icon.star} edgeLength={20} />
-                                <span className="text-preBlack">{chefProfile.rating.average}</span>
-                                <span className="text-disabled">({chefProfile.rating.count})</span>
-                            </HStack>
+                            <span>{commonTranslate(chefProfile.rank)}</span>
                         </VStack>
 
                         <Spacer />
 
-                        <Link href="/profile" className="no-underline">
-                            <PEButton
-                                iconLeft={Icon.profileOrange}
-                                iconSize={16}
-                                type="secondary"
-                                onClick={(): void => undefined}
-                                title={'Customer Profile'}
-                            />
-                        </Link>
+                        <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                            <Link href="/profile" className="no-underline">
+                                <PEButton
+                                    iconLeft={Icon.profileOrange}
+                                    iconSize={16}
+                                    type="secondary"
+                                    onClick={(): void => undefined}
+                                    title={'Customer Profile'}
+                                />
+                            </Link>
+
+                            <HStack gap={2} className="flex-row mt-4">
+                                <PEIcon icon={Icon.star} edgeLength={20} />
+                                <span className="text-preBlack">{5.0}</span>
+                                <span className="text-disabled">({0})</span>
+                            </HStack>
+                        </VStack>
                     </HStack>
 
                     <HStack
                         className="w-full bg-white shadow-primary box-border p-8 rounded-4"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
-                        <PECheckbox checked={fetchedChefProfile.isVisible} onCheckedChange={(): void => undefined} />
-                        <span className={classNames({ ['text-disabled']: !fetchedChefProfile.isVisible })}>Public</span>
+                        <PECheckbox checked={chefProfile.isVisible} onCheckedChange={(): void => undefined} />
+                        <span className={classNames({ ['text-disabled']: !chefProfile.isVisible })}>Public</span>
                         &nbsp;/&nbsp;
-                        <span className={classNames({ ['text-disabled']: fetchedChefProfile.isVisible })}>not visible</span>
+                        <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>not visible</span>
                     </HStack>
 
                     <VStack
@@ -172,14 +156,29 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                            <p className="text-heading-ss w-full justify-start my-0">Event Address</p>
-                            <PEIconButton icon={Icon.plus} iconSize={24} withoutShadow />
+                            <p className="text-heading-ss w-full justify-start my-0">My Addresses</p>
+                            <PEIconButton
+                                icon={Icon.plus}
+                                iconSize={24}
+                                withoutShadow
+                                onClick={(): void => setAddAddressDialogOpen(!addAddressDialogOpen)}
+                            />
                         </HStack>
+
+                        <CreateAddressDialog
+                            open={addAddressDialogOpen}
+                            userId={chefProfile.cookId}
+                            onSuccess={(): void => {
+                                setAddAddressDialogOpen(false);
+                                void refetch();
+                            }}
+                            onCancel={(): void => setAddAddressDialogOpen(false)}
+                        />
+
                         <VStack className="w-full gap-3">
-                            <PEAddressCard address="New York 2" title="House 1" />
-                            <PEAddressCard address="New York 2" title="House 1" />
-                            <PEAddressCard address="New York 2" title="House 1" />
-                            <PEAddressCard address="New York 2" title="House 1" />
+                            {chefProfile.user.addresses.map(({ title, city, postCode, street, houseNumber }, index) => (
+                                <PEAddressCard key={index} address={`${postCode} ${city}, ${street} ${houseNumber}`} title={title} />
+                            ))}
                         </VStack>
                     </VStack>
 
@@ -207,16 +206,22 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                 </HStack>
                                 <p className="my-0 text-end w-full text-green text-ellipsis">{maximumTravelDistance} km</p>
                             </HStack>
-                            <PESlider min={0} max={200} step={1} value={maximumTravelDistance} onValueChange={setMaximumTravelDistance} />
+                            <PESlider
+                                min={0}
+                                max={200}
+                                step={1}
+                                value={maximumTravelDistance ?? 0}
+                                onValueChange={setMaximumTravelDistance}
+                            />
                         </VStack>
 
                         <HStack className="w-full" style={{ alignItems: 'center' }}>
                             <VStack style={{ alignItems: 'flex-start' }}>
-                                <span>Max. Customers per mission</span>
-                                <span>(Maximum 20)</span>
+                                <span>Customers limit per event</span>
+                                <span>(maximum 20)</span>
                             </VStack>
                             <Spacer />
-                            <PECounter value={maximumCustomers} onValueChange={setMaximumCustomers} />
+                            <PECounter value={maximumParticipants ?? 0} onValueChange={setMaximumParticipants} />
                         </HStack>
 
                         <VStack gap={16} className="w-full">
@@ -224,8 +229,11 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
 
                             <PEAutoCompleteTextField
                                 searchText={addressSearchText}
-                                onSearchTextChange={handleAddressSearchTextChange}
-                                options={searchResults}
+                                onSearchTextChange={(changedAddressSearchText: string): void => {
+                                    setAddressSearchText(changedAddressSearchText);
+                                    searchAddress(changedAddressSearchText, setAddressSearchResults);
+                                }}
+                                options={addressSearchResults}
                                 getOptionLabel={(searchResult): string => searchResult.formatted_address}
                                 onOptionSelect={(selectedSearchResult): void =>
                                     setSelectedLocation({

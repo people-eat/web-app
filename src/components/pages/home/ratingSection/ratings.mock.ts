@@ -1,6 +1,6 @@
 import { type CookRank } from '../../../../data-source/generated/graphql';
 
-export interface MockPublicReview {
+export interface MockPublicRating {
     customerName: string;
     chefName: string;
     rank?: CookRank;
@@ -9,7 +9,7 @@ export interface MockPublicReview {
     created: string;
 }
 
-export const mockPublicReviews: MockPublicReview[] = [
+export const mockPublicRatings: MockPublicRating[] = [
     {
         customerName: 'Felix, München',
         chefName: 'Christopher',
