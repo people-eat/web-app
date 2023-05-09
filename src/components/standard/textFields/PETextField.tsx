@@ -10,6 +10,7 @@ export default function PETextField({
     placeholder,
     disabled,
     type,
+    autocomplete,
     startContent,
     endContent,
     style,
@@ -24,6 +25,7 @@ export default function PETextField({
             placeholder={placeholder}
             disabled={disabled}
             type={type}
+            autoComplete={autocomplete}
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             InputProps={{
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access

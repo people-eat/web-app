@@ -19,10 +19,20 @@ export default function PEFooter(): ReactElement {
                             <Image src={'/people-eat-logo-title.png'} alt="" width={203} height={46} />
                         </Link>
                         <Link className="no-underline" href={'/how-to-chef'}>
-                            <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{t('how-to-become-a-chef')}</Button>
+                            <Button
+                                className="capitalize"
+                                style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'capitalize' }}
+                            >
+                                {t('how-to-become-a-chef')}
+                            </Button>
                         </Link>
                         <Link className="no-underline" href={'/about-us'}>
-                            <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{t('about-us')}</Button>
+                            <Button
+                                className="capitalize"
+                                style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'capitalize' }}
+                            >
+                                {t('about-us')}
+                            </Button>
                         </Link>
                     </div>
                     <div className="flex md:ml-2 md:mb-4 flex-row gap-4">
@@ -34,13 +44,28 @@ export default function PEFooter(): ReactElement {
                 </div>
                 <VStack style={{ alignItems: 'flex-start', gap: 4 }}>
                     <Link className="no-underline" href={'/terms-and-conditions'}>
-                        <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textAlign: 'left' }}>{t('terms-and-conditions')}</Button>
+                        <Button
+                            className="capitalize"
+                            style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'capitalize', textAlign: 'left' }}
+                        >
+                            {t('terms-and-conditions')}
+                        </Button>
                     </Link>
                     <Link className="no-underline" href={'/imprint'}>
-                        <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textAlign: 'left' }}>{t('imprint')}</Button>
+                        <Button
+                            className="capitalize"
+                            style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'capitalize', textAlign: 'left' }}
+                        >
+                            {t('imprint')}
+                        </Button>
                     </Link>
                     <Link className="no-underline" href={'/data-privacy-policy'}>
-                        <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textAlign: 'left' }}>{t('data-privacy-policy')}</Button>
+                        <Button
+                            className="capitalize"
+                            style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'capitalize', textAlign: 'left' }}
+                        >
+                            {t('data-privacy-policy')}
+                        </Button>
                     </Link>
                 </VStack>
             </div>

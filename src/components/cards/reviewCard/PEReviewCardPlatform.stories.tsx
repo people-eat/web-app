@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import PEReviewCardPlatform from './PEReviewCardPlatform';
 
 const meta: Meta<typeof PEReviewCardPlatform> = {
-    title: 'Cards/PEReviewCardPlatform',
+    title: 'Cards/Rating/PEReviewCardPlatform',
     component: PEReviewCardPlatform,
 };
 

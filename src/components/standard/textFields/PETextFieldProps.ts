@@ -7,9 +7,9 @@ export interface PETextFieldProps {
     placeholder?: string;
     disabled?: boolean;
     type: HTMLInputTypeAttribute;
+    autocomplete?: string;
     startContent?: ReactElement;
     endContent?: ReactElement;
-
     style?: CSSProperties;
     className?: string;
 }

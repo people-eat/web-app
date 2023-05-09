@@ -3,7 +3,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { type Moment } from 'moment';
+import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
 import { Icon } from '../../../standard/icon/Icon';
@@ -39,6 +39,9 @@ export default function HomePageSearch({
     onSearch,
 }: HomePageSearchProps): ReactElement {
     const { t } = useTranslation('home');
+
+    // change if search results become available
+    const disabled: boolean = false;
 
     function validateFirstZero(value: string | number): string {
         const result = String(value);
@@ -115,8 +118,9 @@ export default function HomePageSearch({
                 }}
                 slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
                 label={t('search-date-label')}
+                minDate={moment().add(7, 'days')}
             />
-            <IconButton size="large" style={{ backgroundColor: 'rgba(255, 100, 51, 1)' }} onClick={onSearch}>
+            <IconButton size="large" style={{ backgroundColor: 'rgba(255, 100, 51, 1)' }} onClick={onSearch} disabled={disabled}>
                 <PEIcon icon={Icon.searchBar} />
             </IconButton>
         </HStack>

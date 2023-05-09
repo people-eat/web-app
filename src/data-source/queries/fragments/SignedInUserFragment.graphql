@@ -3,4 +3,5 @@ fragment SignedInUser on User {
     firstName
     profilePictureUrl
     isCook
+    isAdmin
 }
