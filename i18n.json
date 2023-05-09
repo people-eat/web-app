@@ -4,6 +4,7 @@
     "pages": {
         "*": ["common"],
         "/": ["home"],
-        "/about-us": ["about-us"]
+        "/about-us": ["about-us"],
+        "/imprint": ["imprint"]
     }
 }
