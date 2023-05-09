@@ -2,13 +2,18 @@ import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
+import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import useResponsive from '../../../hooks/useResponsive';
+import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEHeaderMobile from '../../header/PEHeaderMobile';
 import HomePageSearchMobile from '../../pages/home/search/HomePageSearchMobile';
 import VStack from '../../utility/vStack/VStack';
+import HomePageCookSection from './cookSection/HomePageCookSection';
 import { headline01, headline02, headline03, subHeadline01, subHeadline02, subHeadline03 } from './index.mock';
+import HomePageMapSection from './mapSection/HomePageMapSection';
+import HomePageMenuSection from './menuSection/HomePageMenuSection';
+import HomePageRatingSection from './ratingSection/HomePageRatingSection';
 import HomePageSearch from './search/HomePageSearch';
 import HomePageSection1 from './section1/HomePageSection1';
 import HomePageSection10 from './section10/HomePageSection10';
@@ -16,64 +21,46 @@ import HomePageSection2 from './section2/HomePageSection2';
 import HomePageSection3 from './section3/HomePageSection3';
 import HomePageSection4 from './section4/HomePageSection4';
 import HomePageSection5 from './section5/HomePageSection5';
-import HomePageSection6 from './section6/HomePageSection6';
-import HomePageSection7 from './section7/HomePageSection7';
-import HomePageSection8 from './section8/HomePageSection8';
-import HomePageSection9 from './section9/HomePageSection9';
 
-export interface GoogleMapsPlacesResult {
-    formatted_address: string;
-    geometry: {
+export interface HomePageProps {
+    signedInUser?: SignedInUser;
+    searchParameters: {
         location: {
-            lat: number;
-            lng: number;
+            address: string;
+            latitude: number;
+            longitude: number;
         };
+        adults: number;
+        children: number;
+        date: string;
     };
 }
 
-export default function HomePage(): ReactElement {
+export default function HomePage({ signedInUser, searchParameters }: HomePageProps): ReactElement {
     const { isMobile } = useResponsive();
     const router = useRouter();
 
-    const [addressSearchText, setAddressSearchText] = useState('');
-    const [adultCount, setAdultCount] = useState(4);
-    const [childrenCount, setChildrenCount] = useState(0);
-    const [date, setDate] = useState(moment());
-    const [searchResults, setSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
+    const [address, setAddress] = useState(searchParameters.location.address);
+    const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
+    const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number }>(searchParameters.location);
 
-    const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
-
-    function handleAddressSearchTextChange(changedSearchText: string): void {
-        setAddressSearchText(changedSearchText);
-
-        if (!changedSearchText) {
-            setSearchResults([]);
-            return;
-        }
-
-        fetch(
-            encodeURI(
-                'google-places-api/place/textsearch/json?query="' +
-                    addressSearchText +
-                    '"&key=' +
-                    (process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''),
-            ),
-        )
-            .then((response) => response.json())
-            .then((body: { results: GoogleMapsPlacesResult[] }) => setSearchResults(body.results))
-            .catch((error) => console.error(error));
-    }
+    const [adults, setAdults] = useState(searchParameters.adults);
+    const [children, setChildren] = useState(searchParameters.children);
+    const [date, setDate] = useState(moment(searchParameters.date));
+    const formattedDate: string = date.format(moment.HTML5_FMT.DATE);
 
     function onSearch(): void {
-        router
-            .push({ pathname: '/individual-request', query: { addressSearchText, adultCount, childrenCount } })
-            .then()
-            .catch((error) => console.error(error));
+        const { latitude, longitude } = selectedLocation;
+
+        void router.push({
+            pathname: '/individual-request',
+            query: { address, latitude, longitude, adults, children, date: formattedDate },
+        });
     }
 
     return (
         <VStack gap={40} className="w-full overflow-hidden">
-            {isMobile ? <PEHeaderMobile /> : <PEHeader />}
+            <PEHeader signedInUser={signedInUser} />
 
             <VStack
                 className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4"
@@ -103,23 +90,26 @@ export default function HomePage(): ReactElement {
                         className="flex w-full lg:justify-center lg:mt-5 lg:mb-4 mt-[100px] leading-[80px] lg:leading-[34px]"
                         style={{ gap: 0 }}
                     >
-                        <h1 className="lg:max-w-[360px] max-w-[700px] text-white lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xxl m-0 p-0 lg:uppercase">
+                        <h1 className="lg:max-w-[360px] max-w-[720px] text-white lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xxl m-0 p-0 lg:uppercase">
                             {headline01}
-                            <span className="text-orange"> {headline02} </span>
+                            <span className="text-orange select-none"> {headline02} </span>
                             {headline03}
                         </h1>
                     </div>
 
                     <HomePageSearchMobile
-                        addressSearchText={addressSearchText}
-                        onAddressSearchTextChange={handleAddressSearchTextChange}
-                        adultCount={adultCount}
-                        onAdultsChange={setAdultCount}
-                        childrenCount={childrenCount}
-                        onChildrenChange={setChildrenCount}
+                        addressSearchText={address}
+                        onAddressSearchTextChange={(changedAddressSearchText: string): void => {
+                            setAddress(changedAddressSearchText);
+                            searchAddress(changedAddressSearchText, setAddressSearchResults);
+                        }}
+                        adultCount={adults}
+                        onAdultsChange={setAdults}
+                        childrenCount={children}
+                        onChildrenChange={setChildren}
                         date={date}
                         onDateChange={setDate}
-                        searchResults={searchResults.map(({ formatted_address, geometry: { location } }) => ({
+                        searchResults={addressSearchResults.map(({ formatted_address, geometry: { location } }) => ({
                             label: formatted_address,
                             location: { latitude: location.lat, longitude: location.lng },
                         }))}
@@ -142,15 +132,18 @@ export default function HomePage(): ReactElement {
 
                     <div className="lg:hidden">
                         <HomePageSearch
-                            addressSearchText={addressSearchText}
-                            onAddressSearchTextChange={handleAddressSearchTextChange}
-                            adultCount={adultCount}
-                            onAdultsChange={setAdultCount}
-                            childrenCount={childrenCount}
-                            onChildrenChange={setChildrenCount}
+                            addressSearchText={address}
+                            onAddressSearchTextChange={(changedAddressSearchText: string): void => {
+                                setAddress(changedAddressSearchText);
+                                searchAddress(changedAddressSearchText, setAddressSearchResults);
+                            }}
+                            adultCount={adults}
+                            onAdultsChange={setAdults}
+                            childrenCount={children}
+                            onChildrenChange={setChildren}
                             date={date}
                             onDateChange={setDate}
-                            searchResults={searchResults.map(({ formatted_address, geometry: { location } }) => ({
+                            searchResults={addressSearchResults.map(({ formatted_address, geometry: { location } }) => ({
                                 label: formatted_address,
                                 location: { latitude: location.lat, longitude: location.lng },
                             }))}
@@ -179,20 +172,23 @@ export default function HomePage(): ReactElement {
 
                 <HomePageSection5 />
 
-                <HomePageSection6 />
+                <HomePageMenuSection />
 
-                <HomePageSection7
-                    addressSearchText={addressSearchText}
-                    onAddressSearchTextChange={handleAddressSearchTextChange}
-                    searchResults={searchResults}
+                <HomePageMapSection
+                    addressSearchText={address}
+                    onAddressSearchTextChange={(changedAddressSearchText: string): void => {
+                        setAddress(changedAddressSearchText);
+                        searchAddress(changedAddressSearchText, setAddressSearchResults);
+                    }}
+                    searchResults={addressSearchResults}
                     selectedLocation={selectedLocation}
                     setSelectedLocation={setSelectedLocation}
                     onSearch={onSearch}
                 />
 
-                <HomePageSection8 />
+                <HomePageCookSection />
 
-                <HomePageSection9 />
+                <HomePageRatingSection />
 
                 <HomePageSection10 />
             </VStack>

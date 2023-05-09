@@ -1,0 +1,5 @@
+mutation UpdateCookIsLocked($cookId: String!, $isLocked: Boolean!) {
+    cooks {
+        success: updateIsLocked(cookId: $cookId, isLocked: $isLocked)
+    }
+}

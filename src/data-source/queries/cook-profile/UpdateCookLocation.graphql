@@ -1,0 +1,5 @@
+mutation UpdateCookLocation($cookId: String!, $location: LocationInput!) {
+    cooks {
+        success: updateLocation(cookId: $cookId, location: $location)
+    }
+}

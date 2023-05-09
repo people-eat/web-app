@@ -1,0 +1,5 @@
+mutation UpdateCookIsVisible($cookId: String!, $isVisible: Boolean!) {
+    cooks {
+        success: updateIsVisible(cookId: $cookId, isVisible: $isVisible)
+    }
+}

@@ -56,6 +56,10 @@ export type AdminMutation = {
     createOne: Scalars['Boolean'];
 };
 
+export type AdminMutationCreateOneArgs = {
+    request: CreateOneAdminRequest;
+};
+
 export type AdminQuery = {
     __typename?: 'AdminQuery';
     findMany: Array<Admin>;
@@ -542,6 +546,10 @@ export type CreateOneAddressRequest = {
     postCode: Scalars['String'];
     street: Scalars['String'];
     title: Scalars['String'];
+};
+
+export type CreateOneAdminRequest = {
+    adminId: Scalars['String'];
 };
 
 export type CreateOneAnonymousGlobalBookingRequestInput = {
@@ -1829,6 +1837,10 @@ export type FindLatestPublicPrivacyPolicyUpdateQueryVariables = Exact<{ [key: st
 
 export type FindLatestPublicPrivacyPolicyUpdateQuery = {
     __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
     publicPrivacyPolicyUpdates: {
         __typename?: 'PublicPrivacyPolicyUpdateQuery';
         findLatest?: {
@@ -1845,6 +1857,10 @@ export type FindLatestPublicTermsUpdateQueryVariables = Exact<{ [key: string]: n
 
 export type FindLatestPublicTermsUpdateQuery = {
     __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
     publicTermsUpdates: {
         __typename?: 'PublicTermsUpdateQuery';
         findLatest?: {
@@ -1940,22 +1956,155 @@ export type GetIndividualRequestPageDataQuery = {
     allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
 };
 
-export type GetProfileQueryQueryVariables = Exact<{ [key: string]: never }>;
+export type GetCookProfileQueryQueryVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
 
-export type GetProfileQueryQuery = {
+export type GetCookProfileQueryQuery = {
     __typename?: 'Query';
-    users: {
-        __typename?: 'UserQuery';
-        me?: {
-            __typename?: 'User';
-            userId: string;
-            firstName: string;
-            lastName: string;
-            profilePictureUrl?: string | null;
-            acceptedTerms: Date;
-            acceptedPrivacyPolicy: Date;
-            createdAt: Date;
+    cooks: {
+        __typename?: 'CookQuery';
+        findOne?: {
+            __typename?: 'Cook';
+            cookId: string;
+            isLocked: boolean;
+            isVisible: boolean;
+            biography: string;
+            maximumParticipants?: number | null;
+            maximumPrice?: number | null;
+            maximumTravelDistance?: number | null;
+            minimumParticipants?: number | null;
+            minimumPrice?: number | null;
+            rank: CookRank;
+            travelExpenses: number;
+            user: {
+                __typename?: 'User';
+                firstName: string;
+                lastName: string;
+                profilePictureUrl?: string | null;
+                addresses: Array<{
+                    __typename?: 'Address';
+                    addressId: string;
+                    title: string;
+                    country: string;
+                    city: string;
+                    postCode: string;
+                    street: string;
+                    houseNumber: string;
+                    createdAt: Date;
+                    location: { __typename?: 'Location'; latitude: number; longitude: number };
+                }>;
+            };
+            location: { __typename?: 'Location'; latitude: number; longitude: number };
         } | null;
+    };
+};
+
+export type UpdateCookBiographyMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    biography: Scalars['String'];
+}>;
+
+export type UpdateCookBiographyMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookIsLockedMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    isLocked: Scalars['Boolean'];
+}>;
+
+export type UpdateCookIsLockedMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookIsVisibleMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    isVisible: Scalars['Boolean'];
+}>;
+
+export type UpdateCookIsVisibleMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookLocationMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    location: LocationInput;
+}>;
+
+export type UpdateCookLocationMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookMaximumParticipantsMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    maximumParticipants?: InputMaybe<Scalars['UnsignedInt']>;
+}>;
+
+export type UpdateCookMaximumParticipantsMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookMaximumPriceMutationVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMaximumPriceMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookMaximumTravelDistanceMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    maximumTravelDistance?: InputMaybe<Scalars['UnsignedInt']>;
+}>;
+
+export type UpdateCookMaximumTravelDistanceMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookMinimumParticipantsMutationVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMinimumParticipantsMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookMinimumPriceMutationVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMinimumPriceMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookRankMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    rank: CookRank;
+}>;
+
+export type UpdateCookRankMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookTravelExpensesMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    travelExpenses: Scalars['UnsignedInt'];
+}>;
+
+export type UpdateCookTravelExpensesMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type CreateOneCookMealMutationVariables = Exact<{
+    meal: CreateOneMealRequest;
+    cookId: Scalars['String'];
+}>;
+
+export type CreateOneCookMealMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; meals: { __typename?: 'CookMealMutation'; success: boolean } };
+};
+
+export type FindCookMealsQueryVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type FindCookMealsQuery = {
+    __typename?: 'Query';
+    cooks: {
+        __typename?: 'CookQuery';
+        meals: {
+            __typename?: 'CookMealQuery';
+            findMany: Array<{
+                __typename?: 'Meal';
+                mealId: string;
+                cookId: string;
+                title: string;
+                type: MealType;
+                description: string;
+                imageUrl?: string | null;
+                createdAt: Date;
+            }>;
+        };
     };
 };
 
@@ -1985,7 +2134,65 @@ export type SignedInUserFragment = {
     firstName: string;
     profilePictureUrl?: string | null;
     isCook: boolean;
+    isAdmin: boolean;
 } & { ' $fragmentName'?: 'SignedInUserFragment' };
+
+export type CreateOneUserAddressMutationVariables = Exact<{
+    address: CreateOneAddressRequest;
+    userId: Scalars['String'];
+}>;
+
+export type CreateOneUserAddressMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; addresses: { __typename?: 'UserAddressMutation'; success: boolean } };
+};
+
+export type DeleteOneUserAddressMutationVariables = Exact<{
+    addressId: Scalars['String'];
+    userId: Scalars['String'];
+}>;
+
+export type DeleteOneUserAddressMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; addresses: { __typename?: 'UserAddressMutation'; success: boolean } };
+};
+
+export type GetProfileQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetProfileQueryQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        me?: {
+            __typename?: 'User';
+            userId: string;
+            firstName: string;
+            lastName: string;
+            profilePictureUrl?: string | null;
+            birthDate?: string | null;
+            gender: Gender;
+            acceptedTerms: Date;
+            acceptedPrivacyPolicy: Date;
+            emailAddress?: string | null;
+            phoneNumber?: string | null;
+            createdAt: Date;
+            isCook: boolean;
+            isAdmin: boolean;
+            addresses: Array<{
+                __typename?: 'Address';
+                addressId: string;
+                title: string;
+                country: string;
+                city: string;
+                postCode: string;
+                street: string;
+                houseNumber: string;
+                createdAt: Date;
+                location: { __typename?: 'Location'; latitude: number; longitude: number };
+            }>;
+        } | null;
+    };
+};
 
 export const SignedInUserFragmentDoc = {
     kind: 'Document',
@@ -2001,6 +2208,7 @@ export const SignedInUserFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
                 ],
             },
         },
@@ -2252,6 +2460,24 @@ export const FindLatestPublicPrivacyPolicyUpdateDocument = {
                 selections: [
                     {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'publicPrivacyPolicyUpdates' },
                         selectionSet: {
                             kind: 'SelectionSet',
@@ -2275,6 +2501,21 @@ export const FindLatestPublicPrivacyPolicyUpdateDocument = {
                 ],
             },
         },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
     ],
 } as unknown as DocumentNode<FindLatestPublicPrivacyPolicyUpdateQuery, FindLatestPublicPrivacyPolicyUpdateQueryVariables>;
 export const FindLatestPublicTermsUpdateDocument = {
@@ -2287,6 +2528,24 @@ export const FindLatestPublicTermsUpdateDocument = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'publicTermsUpdates' },
@@ -2309,6 +2568,21 @@ export const FindLatestPublicTermsUpdateDocument = {
                             ],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
                 ],
             },
         },
@@ -2657,35 +2931,110 @@ export const GetIndividualRequestPageDataDocument = {
         },
     ],
 } as unknown as DocumentNode<GetIndividualRequestPageDataQuery, GetIndividualRequestPageDataQueryVariables>;
-export const GetProfileQueryDocument = {
+export const GetCookProfileQueryDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'query',
-            name: { kind: 'Name', value: 'GetProfileQuery' },
+            name: { kind: 'Name', value: 'GetCookProfileQuery' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'users' },
+                        name: { kind: 'Name', value: 'cooks' },
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'me' },
+                                    name: { kind: 'Name', value: 'findOne' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedTerms' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedPrivacyPolicy' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'user' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'addresses' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'addressId' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'postCode' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'street' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'houseNumber' } },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'location' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'latitude' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'longitude' },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isLocked' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isVisible' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'biography' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'location' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maximumParticipants' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maximumPrice' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maximumTravelDistance' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'minimumParticipants' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'minimumPrice' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
                                         ],
                                     },
                                 },
@@ -2696,7 +3045,687 @@ export const GetProfileQueryDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<GetProfileQueryQuery, GetProfileQueryQueryVariables>;
+} as unknown as DocumentNode<GetCookProfileQueryQuery, GetCookProfileQueryQueryVariables>;
+export const UpdateCookBiographyDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookBiography' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'biography' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateBiography' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'biography' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'biography' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookBiographyMutation, UpdateCookBiographyMutationVariables>;
+export const UpdateCookIsLockedDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookIsLocked' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'isLocked' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateIsLocked' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'isLocked' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'isLocked' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookIsLockedMutation, UpdateCookIsLockedMutationVariables>;
+export const UpdateCookIsVisibleDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookIsVisible' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'isVisible' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateIsVisible' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'isVisible' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'isVisible' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookIsVisibleMutation, UpdateCookIsVisibleMutationVariables>;
+export const UpdateCookLocationDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookLocation' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'location' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'LocationInput' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateLocation' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'location' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'location' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookLocationMutation, UpdateCookLocationMutationVariables>;
+export const UpdateCookMaximumParticipantsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMaximumParticipants' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'maximumParticipants' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateMaximumParticipants' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'maximumParticipants' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'maximumParticipants' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMaximumParticipantsMutation, UpdateCookMaximumParticipantsMutationVariables>;
+export const UpdateCookMaximumPriceDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMaximumPrice' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateMaximumPrice' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMaximumPriceMutation, UpdateCookMaximumPriceMutationVariables>;
+export const UpdateCookMaximumTravelDistanceDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMaximumTravelDistance' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'maximumTravelDistance' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateMaximumTravelDistance' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'maximumTravelDistance' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'maximumTravelDistance' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMaximumTravelDistanceMutation, UpdateCookMaximumTravelDistanceMutationVariables>;
+export const UpdateCookMinimumParticipantsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMinimumParticipants' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateMinimumParticipants' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMinimumParticipantsMutation, UpdateCookMinimumParticipantsMutationVariables>;
+export const UpdateCookMinimumPriceDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMinimumPrice' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateMinimumPrice' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMinimumPriceMutation, UpdateCookMinimumPriceMutationVariables>;
+export const UpdateCookRankDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookRank' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'rank' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CookRank' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateRank' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'rank' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'rank' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookRankMutation, UpdateCookRankMutationVariables>;
+export const UpdateCookTravelExpensesDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookTravelExpenses' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'travelExpenses' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateTravelExpenses' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'travelExpenses' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'travelExpenses' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookTravelExpensesMutation, UpdateCookTravelExpensesMutationVariables>;
+export const CreateOneCookMealDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneCookMeal' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'meal' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateOneMealRequest' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'meals' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'createOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'meal' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'meal' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneCookMealMutation, CreateOneCookMealMutationVariables>;
+export const FindCookMealsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindCookMeals' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'meals' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'findMany' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'mealId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'imageUrl' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindCookMealsQuery, FindCookMealsQueryVariables>;
 export const ConfirmOneEmailAddressUpdateDocument = {
     kind: 'Document',
     definitions: [
@@ -2825,3 +3854,205 @@ export const CreateOneEmailAddressUpdateDocument = {
         },
     ],
 } as unknown as DocumentNode<CreateOneEmailAddressUpdateMutation, CreateOneEmailAddressUpdateMutationVariables>;
+export const CreateOneUserAddressDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneUserAddress' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'address' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateOneAddressRequest' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'addresses' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'createOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'address' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'address' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneUserAddressMutation, CreateOneUserAddressMutationVariables>;
+export const DeleteOneUserAddressDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'DeleteOneUserAddress' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'addressId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'addresses' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'deleteOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'addressId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'addressId' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DeleteOneUserAddressMutation, DeleteOneUserAddressMutationVariables>;
+export const GetProfileQueryDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetProfileQuery' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'birthDate' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'gender' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedTerms' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedPrivacyPolicy' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'addresses' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'addressId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'postCode' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'street' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'houseNumber' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'location' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetProfileQueryQuery, GetProfileQueryQueryVariables>;

@@ -1,10 +1,9 @@
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
-import useResponsive from '../../../hooks/useResponsive';
+import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEHeaderMobile from '../../header/PEHeaderMobile';
 import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
@@ -12,8 +11,11 @@ import ProfilePagePersonalTab from './personalTab/ProfilePagePersonalTab';
 
 const MENU_TABS = ['personal-information-label', 'bookings-label', 'ratings-label', 'favorite-chefs-label', 'chats-label'];
 
-export default function ProfilePage(): ReactElement {
-    const { isMobile } = useResponsive();
+export interface ProfilePageProps {
+    signedInUser?: SignedInUser;
+}
+
+export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactElement {
     const { t } = useTranslation('profile');
     const router = useRouter();
 
@@ -25,7 +27,7 @@ export default function ProfilePage(): ReactElement {
 
     return (
         <VStack className="w-full" gap={64}>
-            {isMobile ? <PEHeaderMobile /> : <PEHeader />}
+            <PEHeader signedInUser={signedInUser} />
 
             <HStack
                 gap={8}

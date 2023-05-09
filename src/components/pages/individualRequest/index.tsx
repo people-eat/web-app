@@ -1,52 +1,68 @@
 import { useMutation } from '@apollo/client';
+import { Button, DialogActions, DialogContentText, DialogTitle } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import { CreateOneAnonymousGlobalBookingRequestDocument } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
+import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEHeaderMobile from '../../header/PEHeaderMobile';
+import { Icon } from '../../standard/icon/Icon';
+import PEIcon from '../../standard/icon/PEIcon';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
-import IndividualRequestPageDialog from './dialog/IndividualRequestPageDialog';
 import { header, header02, header03 } from './points.mock';
 import IndividualRequestPageStep1 from './step1/IndividualRequestPageStep1';
 import IndividualRequestPageStep2 from './step2/IndividualRequestPageStep2';
 import IndividualRequestPageStep3 from './step3/IndividualRequestPageStep3';
 
 export interface IndividualRequestPageProps {
+    signedInUser?: SignedInUser;
+    searchParameters: {
+        location: {
+            address: string;
+            latitude: number;
+            longitude: number;
+        };
+        adults: number;
+        children: number;
+        date: string;
+    };
     categories: { categoryId: string; title: string }[];
     allergies: { allergyId: string; title: string }[];
     kitchens: { kitchenId: string; title: string }[];
 }
 
 // eslint-disable-next-line max-statements
-export default function IndividualRequestPage({ categories, allergies, kitchens }: IndividualRequestPageProps): ReactElement {
+export default function IndividualRequestPage({
+    signedInUser,
+    searchParameters,
+    categories,
+    allergies,
+    kitchens,
+}: IndividualRequestPageProps): ReactElement {
     const { t } = useTranslation('individual-request');
-    const { isMobile, isDesktop } = useResponsive();
-    const router = useRouter();
+    const { isDesktop } = useResponsive();
 
     const [step, setStep] = useState(0);
 
-    const adultCountFromQueryParams: number = Number(router.query.adultCount);
-    const childrenCountFromQueryParams: number = Number(router.query.childrenCount);
+    const [addressSearchText, setAddressSearchText] = useState<string>(searchParameters.location.address);
 
-    const [adultCount, setAdultCount] = useState(Number.isNaN(adultCountFromQueryParams) ? 4 : adultCountFromQueryParams);
-    const [childrenCount, setChildrenCount] = useState(Number.isNaN(childrenCountFromQueryParams) ? 0 : childrenCountFromQueryParams);
-    const [dateTime, setDateTime] = useState(moment().add(7, 'days').set('hours', 12).set('minutes', 0));
+    const [adults, setAdults] = useState(searchParameters.adults);
+    const [children, setChildren] = useState(searchParameters.children);
+    const [dateTime, setDateTime] = useState(moment(searchParameters.date).set('hours', 12).set('minutes', 0));
+
     const [occasion, setOccasion] = useState('');
     const [budget, setBudget] = useState('');
     const [message, setMessage] = useState('');
-
-    const [addressSearchText, setAddressSearchText] = useState<string>(
-        typeof router.query.addressSearchText === 'string' ? router.query.addressSearchText : '',
-    );
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -58,12 +74,12 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
     const [acceptedTermsAndConditions, setAcceptedTermsAndConditions] = useState(false);
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
 
-    const [createOneAnonymousGlobalBookingRequest, { data, loading }] = useMutation(CreateOneAnonymousGlobalBookingRequestDocument, {
+    const [createOneAnonymousGlobalBookingRequest, { data, loading, error }] = useMutation(CreateOneAnonymousGlobalBookingRequestDocument, {
         variables: {
             input: {
-                adults: adultCount,
+                adults: adults,
                 budget: budget,
-                children: childrenCount,
+                children: children,
                 customerEmailAddress: email,
                 customerFirstName: firstName,
                 customerLastName: lastName,
@@ -78,7 +94,7 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
 
     return (
         <VStack gap={32} className="w-full min-h-screen" style={{ justifyContent: 'space-between' }}>
-            {isMobile ? <PEHeaderMobile /> : <PEHeader />}
+            <PEHeader signedInUser={signedInUser} />
 
             <HStack gap={32} className="w-full max-w-screen-xl" style={{ justifyContent: 'space-between' }}>
                 <VStack
@@ -104,10 +120,10 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
 
                     {step === 0 && (
                         <IndividualRequestPageStep1
-                            adultCount={adultCount}
-                            setAdultCount={setAdultCount}
-                            childrenCount={childrenCount}
-                            setChildrenCount={setChildrenCount}
+                            adultCount={adults}
+                            setAdultCount={setAdults}
+                            childrenCount={children}
+                            setChildrenCount={setChildren}
                             addressSearchText={addressSearchText}
                             setAddressSearchText={setAddressSearchText}
                             dateTime={dateTime}
@@ -152,7 +168,7 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
                             setAcceptedTermsAndConditions={setAcceptedTermsAndConditions}
                             message={message}
                             setMessage={setMessage}
-                            onContinue={(): any => createOneAnonymousGlobalBookingRequest()}
+                            onContinue={(): void => void createOneAnonymousGlobalBookingRequest()}
                         />
                     )}
                 </VStack>
@@ -172,17 +188,37 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
                 )}
             </HStack>
 
-            <Dialog open={Boolean(data)}>
-                <IndividualRequestPageDialog
-                    state={loading ? 'LOADING' : data?.success ? 'SUCCESS' : 'ERROR'}
-                    onContinue={(): void => {
-                        router
-                            .push({ pathname: '/' })
-                            .then()
-                            .catch((err) => console.error(err));
-                    }}
-                />
-            </Dialog>
+            {data?.success && (
+                <Dialog open>
+                    <DialogTitle>Thank you! Your order was successfully submitted.</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            <HStack>
+                                <PEIcon icon={Icon.confetti} edgeLength={64} />
+                            </HStack>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Link href="/">
+                            <Button autoFocus>Back home</Button>
+                        </Link>
+                    </DialogActions>
+                </Dialog>
+            )}
+
+            {loading && (
+                <Dialog open>
+                    <DialogContent>
+                        <CircularProgress />
+                    </DialogContent>
+                </Dialog>
+            )}
+
+            {(error || (data && !data.success)) && (
+                <Dialog open>
+                    <DialogContent>An error ocurred</DialogContent>
+                </Dialog>
+            )}
 
             <PEFooter />
         </VStack>

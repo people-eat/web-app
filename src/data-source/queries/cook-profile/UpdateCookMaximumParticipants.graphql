@@ -1,0 +1,5 @@
+mutation UpdateCookMaximumParticipants($cookId: String!, $maximumParticipants: UnsignedInt) {
+    cooks {
+        success: updateMaximumParticipants(cookId: $cookId, maximumParticipants: $maximumParticipants)
+    }
+}

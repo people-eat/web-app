@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
 import PECarousel from '../../standard/carousel/PECarousel';
@@ -15,17 +16,24 @@ export default function PEMenuCard({
     categories,
     kitchen,
     onClick,
+    fullWidth,
 }: PEMenuCardProps): ReactElement {
     return (
         <div
             onClick={onClick}
-            className="relative flex w-[580px] big:w-[45%] overflow-hidden items-center gap-3 flex-row p-3 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active"
+            className={classNames(
+                'relative flex big:w-[45%] overflow-hidden items-center gap-3 flex-row p-3 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active',
+                {
+                    ['min-w-[625px] w-[calc(50%-16px)]']: fullWidth,
+                    ['w-[580px]']: !fullWidth,
+                },
+            )}
         >
             <div className="flex rounded-3 overflow-hidden w-[220px] min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] justify-center items-center bg-base">
                 {imageUrls.length < 1 && <PEIcon icon={Icon.food} edgeLength={52} />}
                 {imageUrls.length === 1 && (
                     <Image
-                        key={imageUrls[0]}
+                        draggable={false}
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                         src={imageUrls[0] as string}
                         alt={imageUrls[0] as string}
@@ -37,6 +45,7 @@ export default function PEMenuCard({
                     <PECarousel
                         images={imageUrls.map((picture, index) => (
                             <Image
+                                draggable={false}
                                 key={`${picture}__${index}`}
                                 style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                                 src={picture}
