@@ -2,17 +2,26 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import { useState, type ReactElement } from 'react';
+import { Icon } from '../../../../standard/icon/Icon';
+import PEIconButton from '../../../../standard/iconButton/PEIconButton';
 import VStack from '../../../../utility/vStack/VStack';
 import ChefProfilePageUploadMenusStep1 from './step1/ChefProfilePageUploadMenusStep1';
 
-export default function ChefProfilePageCreateMenu(): ReactElement {
+interface ChefProfilePageCreateMenuProps {
+    setCloseEditMode: () => void;
+}
+
+export default function ChefProfilePageCreateMenu({ setCloseEditMode }: ChefProfilePageCreateMenuProps): ReactElement {
     const [step, setStep] = useState(0);
 
     return (
         <VStack
-            className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6"
+            className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
+            <div className="absolute top-8 right-8">
+                <PEIconButton icon={Icon.close} onClick={setCloseEditMode} withoutShadow bg="white" iconSize={24} />
+            </div>
             <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
                 <p className="w-full text-heading-xl my-0 mb-2">Adding a new menu</p>
                 <Stepper activeStep={step}>
