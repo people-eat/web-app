@@ -25,14 +25,14 @@ export default function PEChefCardMobile({
                     <div className="absolute top-0 right-0">
                         <PEFavorite isFavorite={false} onIsFavoriteChange={(): void => undefined} />
                     </div>
-                    <div className={'rounded-3 overflow-hidden'}>
+                    <div className={'rounded-2 overflow-hidden max-h-[48px] '}>
                         {profilePictureUrl && (
                             <Image
-                                style={{ objectPosition: 'center', objectFit: 'cover' }}
+                                style={{ objectPosition: 'top', objectFit: 'cover' }}
                                 src={profilePictureUrl}
                                 alt={profilePictureUrl}
-                                width={45}
-                                height={45}
+                                width={48}
+                                height={48}
                             />
                         )}
                         {!profilePictureUrl && (
