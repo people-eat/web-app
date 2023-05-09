@@ -46,7 +46,7 @@ export default function HomePage(): ReactElement {
     const [date, setDate] = useState(moment());
     const [searchResults, setSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
-    const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
+    const [selectedLocation, _setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
     function handleBookNow(): void {
         return;
