@@ -25,7 +25,7 @@ export default function PEMenuCard({
                 {imageUrls.length < 1 && <PEIcon icon={Icon.food} edgeLength={52} />}
                 {imageUrls.length === 1 && (
                     <Image
-                        key={imageUrls[0]}
+                        draggable={false}
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                         src={imageUrls[0] as string}
                         alt={imageUrls[0] as string}
@@ -37,6 +37,7 @@ export default function PEMenuCard({
                     <PECarousel
                         images={imageUrls.map((picture, index) => (
                             <Image
+                                draggable={false}
                                 key={`${picture}__${index}`}
                                 style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                                 src={picture}

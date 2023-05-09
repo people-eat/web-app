@@ -33,6 +33,7 @@ export default function PEChefCard({
                 </div>
                 {profilePictureUrl && (
                     <Image
+                        draggable={false}
                         style={{ width: '100%', objectPosition: picturePosition, objectFit: 'cover' }}
                         src={profilePictureUrl}
                         alt={profilePictureUrl}

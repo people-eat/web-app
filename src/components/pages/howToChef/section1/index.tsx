@@ -22,8 +22,8 @@ export default function HowToChefSection1(): ReactElement {
                     <div className="flex mt-[120px] md:mt-[65%] md:px-8 box-border text-heading-xxl max-w-[1040px] leading-[80px] w-full lg:justify-center">
                         <h2 className="w-full text-white text-center text-heading-xl md:text-heading-s m-0 p-0">{header}</h2>
                     </div>
-                    <Link href={'chef-sign-up'} className="no-underline">
-                        <PEButton className="min-w-[300px]" onClick={(): void => undefined} title={signUpBtn} />
+                    <Link href="chef-sign-up" className="no-underline mt-8" style={{ width: '100%', maxWidth: 400 }}>
+                        <PEButton onClick={(): void => undefined} title={signUpBtn} />
                     </Link>
                 </VStack>
             </VStack>

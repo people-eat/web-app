@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { type ReactElement } from 'react';
 import useResponsive from '../../../../hooks/useResponsive';
 import ChefPromoCard from '../../../pages/howToChef/section4/ChefPromoCard';
@@ -19,8 +20,9 @@ export default function HowToChefSection4(): ReactElement {
                         {section4Title}
                     </h2>
                 </div>
-                <VStack className="w-full relative h-[400px] lg:h-[1400px]">
+                <VStack className="w-full relative h-[400px] lg:h-[1400px] select-none">
                     <Image
+                        draggable={false}
                         className="absolute z-20 w-[calc(100%-530px)] lg:hidden top-[50%]"
                         style={{ objectPosition: 'center', objectFit: 'contain' }}
                         src={'/video-connection-icon.svg'}
@@ -36,6 +38,7 @@ export default function HowToChefSection4(): ReactElement {
                                 </p>
                                 <HStack className="absolute z-20 top-[45%] overflow-hidden h-[120px] w-[120px] rounded-[60px]">
                                     <Image
+                                        draggable={false}
                                         className="mt-[-20px]"
                                         style={{ objectPosition: 'center', objectFit: 'contain' }}
                                         src={'/team/Daniel.jpeg'}
@@ -49,6 +52,7 @@ export default function HowToChefSection4(): ReactElement {
                                 <p className="absolute top-[49%] mr-[-35px] z-30 bg-base text-orange py-2 px-4 rotate-10 rounded-6">Chef</p>
                                 <HStack className="absolute z-20 top-[60%] overflow-hidden h-[155px] w-[155px] rounded-[80px]">
                                     <Image
+                                        draggable={false}
                                         className="mt-[-10px]"
                                         style={{ objectPosition: 'center', objectFit: 'contain' }}
                                         src={'/team/chris.png'}
@@ -80,6 +84,7 @@ export default function HowToChefSection4(): ReactElement {
                                     </p>
                                     <HStack className="absolute z-20 top-[25%] overflow-hidden h-[110px] w-[110px] rounded-[60px]">
                                         <Image
+                                            draggable={false}
                                             className="mt-[-20px]"
                                             style={{ objectPosition: 'center', objectFit: 'contain' }}
                                             src={'/team/Daniel.jpeg'}
@@ -95,6 +100,7 @@ export default function HowToChefSection4(): ReactElement {
                                     </p>
                                     <HStack className="absolute z-20 top-[35%] overflow-hidden h-[135px] w-[135px] rounded-[80px]">
                                         <Image
+                                            draggable={false}
                                             className="mt-[-10px]"
                                             style={{ objectPosition: 'center', objectFit: 'contain' }}
                                             src={'/team/chris.png'}
@@ -147,7 +153,9 @@ export default function HowToChefSection4(): ReactElement {
                         </VStack>
                     </HStack>
                 )}
-                <PEButton onClick={(): void => undefined} title={signUpBtn} className="max-w-[250px] lg:max-w-[400px] mt-10" />
+                <Link href="chef-sign-up" className="no-underline mt-8" style={{ width: '100%', maxWidth: 400 }}>
+                    <PEButton onClick={(): void => undefined} title={signUpBtn} />
+                </Link>
             </VStack>
         </VStack>
     );

@@ -104,9 +104,7 @@ export default function SignUpPage(): ReactElement {
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                         <p>Date of birth</p>
-                        <div
-                            className={'border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black'}
-                        >
+                        <div className="border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black">
                             <DatePicker
                                 sx={{ width: '100%' }}
                                 value={birthDate}
@@ -170,14 +168,14 @@ export default function SignUpPage(): ReactElement {
                     </VStack>
 
                     <PEButton
-                        className={'w-full'}
+                        className="w-full"
                         title={'Sign up'}
-                        onClick={(): any => createOneUserByEmailAddress()}
+                        onClick={(): void => void createOneUserByEmailAddress()}
                         disabled={disabled}
                     />
 
                     <HStack style={{ alignItems: 'center' }}>
-                        <p className={'text-disabled'}>You already have a profile? &nbsp;</p>
+                        <p className="text-disabled">You already have a profile? &nbsp;</p>
                         <Link href={'/sign-in'} className={'no-underline'}>
                             <PELineButton title={'Sign in here'} fontSize={'text-text-m'} />
                         </Link>
@@ -223,7 +221,11 @@ export default function SignUpPage(): ReactElement {
                 </Dialog>
             )}
 
-            {error && <Dialog open>An error ocurred</Dialog>}
+            {(error || (data && !data.users.success)) && (
+                <Dialog open>
+                    <DialogContent>An error ocurred</DialogContent>
+                </Dialog>
+            )}
         </HStack>
     );
 }

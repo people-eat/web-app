@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client';
+import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -36,10 +37,6 @@ export default function SignInPage(): ReactElement {
             },
         },
     });
-
-    if (loading) return <>Loading...</>;
-
-    if (error) return <>Error</>;
 
     if (data?.sessions.success) {
         router
@@ -113,7 +110,7 @@ export default function SignInPage(): ReactElement {
                     <PEButton
                         className="w-full max-w-[400px]"
                         title={'Sign in'}
-                        onClick={(): any => assignOneSessionByEmailAddress()}
+                        onClick={(): void => void assignOneSessionByEmailAddress()}
                         disabled={disabled}
                     />
 
@@ -125,6 +122,7 @@ export default function SignInPage(): ReactElement {
                     </HStack>
                 </VStack>
             </VStack>
+
             {isDesktop && (
                 <VStack
                     className={'p-5 box-border'}
@@ -144,6 +142,20 @@ export default function SignInPage(): ReactElement {
                         }}
                     ></VStack>
                 </VStack>
+            )}
+
+            {loading && (
+                <Dialog open>
+                    <DialogContent>
+                        <CircularProgress />
+                    </DialogContent>
+                </Dialog>
+            )}
+
+            {(error || (data && !data.sessions.success)) && (
+                <Dialog open>
+                    <DialogContent>An error ocurred</DialogContent>
+                </Dialog>
             )}
         </HStack>
     );

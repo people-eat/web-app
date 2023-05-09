@@ -1,6 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
-import { type GoogleMapsPlacesResult } from '..';
+import { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
 import PEMap from '../../../map/PEMap';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
@@ -12,7 +12,7 @@ export interface HomePageSection7Props {
     onAddressSearchTextChange: (changedAddressSearchText: string) => void;
     searchResults: GoogleMapsPlacesResult[];
     selectedLocation?: { latitude: number; longitude: number };
-    setSelectedLocation: (changedSelectedLocation?: { latitude: number; longitude: number }) => void;
+    setSelectedLocation: (changedSelectedLocation: { latitude: number; longitude: number }) => void;
     onSearch: () => void;
 }
 

@@ -10,7 +10,7 @@ import createApolloClient from '../data-source/createApolloClient';
 import 'moment/locale/de';
 import 'moment/locale/fr';
 import 'moment/locale/ru';
-import '~/styles/globals.css';
+import '../styles/globals.css';
 
 export const theme: Theme = createTheme({
     palette: {
