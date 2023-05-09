@@ -10,6 +10,10 @@ export default function PETabItem({ disabled = false, title, active, onClick }: 
                     borderRadius: '20px',
                     color: active ? 'white' : 'black',
                     padding: '8px 20px',
+                    whiteSpace: 'nowrap',
+                    '@media(max-width: 780px)': {
+                        fontSize: 12,
+                    },
                     '&:hover': {
                         color: 'white',
                         backgroundColor: 'rgba(255, 100, 51, .7)',

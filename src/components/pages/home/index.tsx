@@ -3,10 +3,15 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
 import PEChefCard from '../../cards/chefCard/PEChefCard';
+import PEChefCardMobile from '../../cards/chefCard/PEChefCardMobile';
 import PEMenuCard from '../../cards/menuCard/PEMenuCard';
+import PEMenuCardMobile from '../../cards/menuCard/PEMenuCardMobile';
+import PEPointsCard from '../../cards/pointsCard/PEPointsCard';
+import PEReviewCardChef from '../../cards/reviewCard/PEReviewCardChef';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEMap from '../../map/PEMap';
+import HomePageSearchMobile from '../../pages/home/search/HomePageSearchMobile';
 import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';
 import PEButton from '../../standard/buttons/PEButton';
 import { Icon } from '../../standard/icon/Icon';
@@ -41,8 +46,6 @@ export default function HomePage(): ReactElement {
     const [date, setDate] = useState(moment());
     const [searchResults, setSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
-    const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
-
     function handleBookNow(): void {
         return;
     }
@@ -59,166 +62,234 @@ export default function HomePage(): ReactElement {
         return;
     }
 
+    function handleAddressSearchTextChange(changedSearchText: string): void {
+        setAddressSearchText(changedSearchText);
+
+        if (!changedSearchText) {
+            setSearchResults([]);
+            return;
+        }
+
+        fetch(
+            encodeURI(
+                'google-places-api/place/textsearch/json?query="' +
+                    addressSearchText +
+                    '"&key=' +
+                    (process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''),
+            ),
+        )
+            .then((response) => response.json())
+            .then((body: { results: GoogleMapsPlacesResult[] }) => setSearchResults(body.results))
+            .catch((error) => console.error(error));
+    }
+
     return (
-        <VStack className="w-full">
+        <VStack className="w-full overflow-hidden">
             <PEHeader />
-            <VStack className="w-[calc(100%-32px)] max-w-screen-xl" style={{ margin: '32px', alignItems: 'flex-start', gap: 32 }}>
+            <VStack
+                className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4"
+                style={{ alignItems: 'flex-start', gap: 32 }}
+            >
                 <VStack
-                    className="w-full relative overflow-hidden"
+                    className="w-full relative pl-8 lg:pl-0 items-start max-w-screen-xl h-[602px] lg:h-[522px]"
                     style={{
-                        backgroundImage: 'url(/glass.png)',
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
-                        height: 602,
                         borderRadius: '16px',
-                        alignItems: 'flex-start',
-                        paddingLeft: '32px',
                         boxSizing: 'border-box',
+                        alignItems: 'flex-start',
                     }}
                 >
-                    <VStack style={{ alignItems: 'flex-start', gap: 0, maxWidth: '700px', lineHeight: '80px', marginTop: '100px' }}>
-                        <h1 className="text-white text-heading-xxl m-0 p-0">{t('headline')}</h1>
-                    </VStack>
-                    <p className="text-white text-heading-l mb-12">{t('sub-headline')}</p>
-                    <HomePageSearch
-                        addressSearchText={addressSearchText}
-                        onAddressSearchTextChange={(changedSearchText): void => {
-                            setAddressSearchText(changedSearchText);
-
-                            if (!changedSearchText) {
-                                setSearchResults([]);
-                                return;
-                            }
-
-                            fetch(
-                                encodeURI(
-                                    'google-places-api/place/textsearch/json?query="' +
-                                        addressSearchText +
-                                        '"&key=' +
-                                        (process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''),
-                                ),
-                            )
-                                .then((response) => response.json())
-                                .then((body: { results: GoogleMapsPlacesResult[] }) => setSearchResults(body.results))
-                                .catch((error) => console.error(error));
+                    <VStack
+                        className="absolute lg:w-full w-full h-[602px] lg:h-[202px] lg:bottom-0 max-w-screen-xl left-0 overflow-hidden -z-10"
+                        style={{
+                            backgroundImage: 'url(/glass.png)',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                            borderRadius: '16px',
+                            alignItems: 'flex-start',
+                            boxSizing: 'border-box',
                         }}
-                        adultCount={adultCount}
-                        onAdultsChange={setAdultCount}
-                        childrenCount={childrenCount}
-                        onChildrenChange={setChildrenCount}
-                        date={date}
-                        onDateChange={setDate}
+                    />
+                    <div
+                        className={'flex w-full lg:justify-center lg:mt-5 lg:mb-4 mt-[100px] leading-[80px] lg:leading-[34px]'}
+                        style={{ gap: 0 }}
+                    >
+                        <h1 className="lg:max-w-[360px] max-w-[700px] text-white lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xxl m-0 p-0 lg:uppercase">
+                            {t('headline')}
+                        </h1>
+                    </div>
+                    <HomePageSearchMobile
+                        addressSearchText={addressSearchText}
+                        onAddressSearchTextChange={handleAddressSearchTextChange}
                         searchResults={searchResults.map(({ formatted_address, geometry: { location } }) => ({
                             label: formatted_address,
                             location: { latitude: location.lat, longitude: location.lng },
                         }))}
-                        onSearchResultSelect={(selectedSearchResult): void => {
-                            setSelectedLocation(selectedSearchResult.location);
-                            console.log({ selectedSearchResult });
-                        }}
+                        onSearchResultSelect={(selectedSearchResult): void => console.log({ selectedSearchResult })}
                     />
-                    <div className="bottom-[-15px] left-0 absolute">
-                        <Image src={'/waves.svg'} width={1300} height={58} alt={`PeopleEat waves`} />
+                    <div className={'flex w-full lg:justify-center'}>
+                        <p className="text-white text-heading-l lg:my-8 mb-12 lg:text-60black lg:text-text-sm lg:max-w-[170px]">
+                            {t('sub-headline')}
+                        </p>
+                    </div>
+                    <VStack className={'lg:hidden'}>
+                        <HomePageSearch
+                            addressSearchText={addressSearchText}
+                            onAddressSearchTextChange={handleAddressSearchTextChange}
+                            adultCount={adultCount}
+                            onAdultsChange={setAdultCount}
+                            childrenCount={childrenCount}
+                            onChildrenChange={setChildrenCount}
+                            date={date}
+                            onDateChange={setDate}
+                            searchResults={searchResults.map(({ formatted_address, geometry: { location } }) => ({
+                                label: formatted_address,
+                                location: { latitude: location.lat, longitude: location.lng },
+                            }))}
+                            onSearchResultSelect={(selectedSearchResult): void => console.log({ selectedSearchResult })}
+                        />
+                    </VStack>
+                    <div className="bottom-[-15px] left-0 absolute lg:hidden">
+                        <Image src={'/icons/waves.svg'} width={1300} height={58} alt={`PeopleEat waves`} />
                     </div>
                 </VStack>
-                <HStack className="w-full mt-10" style={{ justifyContent: 'space-evenly' }}>
-                    <PEBulletPoint icon={Icon.dishes} text={t('section-1-selling-point-1')} />
-                    <PEBulletPoint icon={Icon.usersOrange} text={t('section-1-selling-point-2')} />
-                    <PEBulletPoint icon={Icon.chatDots} text={t('section-1-selling-point-3')} />
-                </HStack>
-                <HStack className={'w-full h-[700px] my-[100px]'} style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                    <VStack style={{ alignItems: 'flex-start' }}>
-                        <h2 className={'text-heading-xl leading-[60px] mb-12'}>
+                <div className="flex w-full lg:mt-8 mt-10 lg:flex-col gap-6 flex-row justify-center lg:items-center">
+                    <PEBulletPoint icon={Icon.createOrder} text={t('section-1-selling-point-1')} />
+                    <PEBulletPoint icon={Icon.support24} text={t('section-1-selling-point-2')} />
+                    <PEBulletPoint icon={Icon.communicationWithChef} text={t('section-1-selling-point-3')} />
+                </div>
+                <div className={'flex w-full min-h-[700px] lg:my-10 my-[100px] justify-between items-center lg:flex-col-reverse'}>
+                    <div className={'flex items-start lg:items-center flex-col'}>
+                        <h2 className={'text-heading-xl lg:text-heading-s leading-[60px] mb-12 lg:uppercase'}>
                             Every occasion as a unique <br /> experience moment
                         </h2>
-                        <HStack className={'gap-4 max-w-[580px] flex-wrap'} style={{ justifyContent: 'flex-start' }}>
+                        <HStack className={'lg:gap-2 gap-4 max-w-[580px] flex-wrap'} style={{ justifyContent: 'flex-start' }}>
                             {EVENTS.map((event) => (
-                                <span key={event} className={'shadow-primary px-5 py-3 rounded-8 hover:cursor-default'}>
+                                <span
+                                    key={`${event}_PE`}
+                                    className={'shadow-primary lg:text-text-s px-5 py-3 rounded-8 hover:cursor-default'}
+                                >
                                     {event}
                                 </span>
                             ))}
                         </HStack>
                         <PEButton className={'mt-12 max-w-[320px]'} onClick={handleBookNow} title={'Book now'} />
-                    </VStack>
+                    </div>
                     <VStack
-                        className={'rounded-t-[50%]'}
+                        className={
+                            'rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] sm_min:min-w-full lg:w-[75%] w-[50%] lg:w-full'
+                        }
+                        style={{
+                            backgroundImage: 'url(/friendsAtTheTable.png)',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                        }}
+                    />
+                </div>
+                <div className={'flex w-full min-h-[700px] lg:my-0 my-[100px] lg:flex-col'}>
+                    <VStack
+                        className={
+                            'rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full lg:w-[75%] w-[50%] lg:w-full'
+                        }
                         style={{
                             backgroundImage: 'url(/friendsAtTheTable.png)',
                             backgroundPosition: 'center',
                             backgroundSize: 'cover',
                             height: 602,
-                            width: '50%',
                         }}
                     />
-                </HStack>
-                <HStack className={'w-full h-[700px] my-[100px]'} style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                    <VStack
-                        className={'rounded-t-[50%]'}
-                        style={{
-                            backgroundImage: 'url(/friendsAtTheTable.png)',
-                            backgroundPosition: 'center',
-                            backgroundSize: 'cover',
-                            height: 602,
-                            width: '50%',
-                        }}
-                    />
-                    <VStack className={'gap-8'} style={{ alignItems: 'flex-start', width: '40%' }}>
-                        <h2 className={'text-heading-xl mb-12 leading-[60px]'}>
-                            Become a passionate <br /> host
+                    <div className={'flex ml-[100px] lg:m-0 lg:items-center flex-col'}>
+                        <h2 className={'text-heading-xl lg:text-heading-s leading-[60px] lg:leading-[30px] lg:my-6 mb-12 lg:uppercase'}>
+                            Become a passionate host
                         </h2>
-                        <PEBulletPoint icon={Icon.dishes} text={t('section-1-selling-point-1')} />
-                        <PEBulletPoint icon={Icon.usersOrange} text={t('section-1-selling-point-2')} />
-                        <PEBulletPoint icon={Icon.chatDots} text={t('section-1-selling-point-3')} />
-                    </VStack>
-                </HStack>
-                <VStack className={'w-full bg-yellowLight gap-8 py-15 rounded-4'}>
-                    <h2 className={'text-heading-xl mb-12 leading-[60px]'}>How it works</h2>
-                    <HStack className={'w-full gap-12'}>
+                        <div className="flex lg:mt-8 lg:mt-0 mt-10 lg:flex-col gap-6 flex-col justify-center lg:items-center">
+                            <PEBulletPoint
+                                icon={Icon.dishes}
+                                title={'food'}
+                                text={'Send your booking request and receive a response within 48 hours'}
+                            />
+                            <PEBulletPoint
+                                icon={Icon.dishes}
+                                title={'food'}
+                                text={'Send your booking request and receive a response within 48 hours'}
+                            />
+                            <PEBulletPoint
+                                icon={Icon.dishes}
+                                title={'food'}
+                                text={'Send your booking request and receive a response within 48 hours'}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <VStack className={'w-full bg-yellowLight gap-8 lg:py-6 py-15 rounded-4'}>
+                    <h2 className={'text-heading-xl lg:text-heading-s lg:mb-0 lg:leading-[34px] leading-[60px] mb-12 lg:uppercase'}>
+                        How it works
+                    </h2>
+                    <div className={'flex w-full gap-12 lg:flex-col flex-row justify-center'}>
                         <VStack>
                             <Image className={'object-contain'} src={'/chefs.png'} alt={'chefs'} width={200} height={160} />
                             <HStack className={'gap-4'}>
-                                <span className={'bg-orange text-white p-2 rounded-2 max-h-[34px] box-border'}>01</span>
+                                <span
+                                    className={
+                                        'flex justify-center items-center bg-orange text-white p-2 rounded-2 max-h-[34px] min-w-[34px] box-border'
+                                    }
+                                >
+                                    01
+                                </span>
                                 <span className={'max-w-[240px]'}>Choose a private chef or a menu in your area</span>
                             </HStack>
                         </VStack>
                         <VStack>
                             <Image className={'object-contain'} src={'/dishes.png'} alt={'chefs'} width={200} height={160} />
                             <HStack className={'gap-4'}>
-                                <span className={'bg-orange text-white p-2 rounded-2 max-h-[34px] box-border'}>01</span>
+                                <span
+                                    className={
+                                        'flex justify-center items-center bg-orange text-white p-2 rounded-2 max-h-[34px] min-w-[34px] box-border'
+                                    }
+                                >
+                                    02
+                                </span>
                                 <span className={'max-w-[240px]'}>Choose a private chef or a menu in your area</span>
                             </HStack>
                         </VStack>
                         <VStack>
                             <Image className={'object-cover'} src={'/customers.png'} alt={'chefs'} width={200} height={160} />
                             <HStack className={'gap-4'}>
-                                <span className={'bg-orange text-white p-2 rounded-2 max-h-[34px] box-border'}>01</span>
+                                <span
+                                    className={
+                                        'flex justify-center items-center bg-orange text-white p-2 rounded-2 max-h-[34px] min-w-[34px] box-border'
+                                    }
+                                >
+                                    03
+                                </span>
                                 <span className={'max-w-[240px]'}>Choose a private chef or a menu in your area</span>
                             </HStack>
                         </VStack>
-                    </HStack>
+                    </div>
                     <PEButton className={'mt-12 max-w-[320px]'} onClick={handleBookNow} title={'Sign in'} />
                 </VStack>
-                <VStack className={'w-full pt-[140px] pb-15 rounded-4 gap-4'}>
-                    <h2 className={'text-heading-xl my-0 font-manrope'}>Individual preferences</h2>
+                <VStack className={'w-full pt-[140px] lg:py-4 pb-15 rounded-4 gap-4'}>
+                    <h2 className={'text-heading-xl lg:text-heading-s my-0 lg:uppercase'}>Individual preferences</h2>
                     <p className={'my-0 text-center'}>
                         Sed tempus urn. Consecrate disciplining elite <br />
                         interpellates habitat morbid critique select et.
                     </p>
                     <VStack
+                        className={'w-full h-[300px] big:h-[220px] lg_min:h-[160px] md_min:h-[110px] minn:h-[80px]'}
                         style={{
                             backgroundImage: 'url(/dishes_02.png)',
                             backgroundPosition: 'center',
                             backgroundSize: 'cover',
-                            height: 300,
-                            width: '100%',
                         }}
                     />
                 </VStack>
                 <VStack className={'w-full'}>
-                    <VStack className={'relative w-full pt-[140px] pb-15 rounded-4 gap-4 max-w-[1190px]'}>
+                    <VStack className={'relative w-full sm:pt-0 pt-[140px] pb-15 rounded-4 gap-4 max-w-[1190px]'}>
+                        <div className={'hidden sm:block w-full mb-12'}>
+                            <PEPointsCard />
+                        </div>
                         <HStack className={'w-full'}>
-                            <h2 className={'text-heading-xl my-0 font-manrope leading-15'}>Most requested menus</h2>
-                            <HStack className={'absolute gap-4 right-0'}>
+                            <h2 className={'text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase'}>Most requested menus</h2>
+                            <HStack className={'absolute gap-4 right-0 lg:hidden'}>
                                 <PENextButton
                                     reverse
                                     onClick={(): void =>
@@ -235,15 +306,23 @@ export default function HomePage(): ReactElement {
                                 />
                             </HStack>
                         </HStack>
-                        <HStack className={'gap-2'}>
+                        <div
+                            className={'flex lg:justify-start justify-center gap-2 overflow-x-scroll w-full '}
+                            style={{ overflowY: 'initial' }}
+                        >
                             {MENU_TABS.map((menu) => (
-                                <PETabItem key={menu} title={menu} onClick={(): void => setTabItem(menu)} active={tabItem === menu} />
+                                <PETabItem
+                                    key={`${menu}_PEMenuCard`}
+                                    title={menu}
+                                    onClick={(): void => setTabItem(menu)}
+                                    active={tabItem === menu}
+                                />
                             ))}
-                        </HStack>
-                        <HStack className={'flex-wrap gap-5 mt-10'}>
+                        </div>
+                        <HStack className={'flex-wrap gap-5 mt-10 sm:hidden'}>
                             {[1, 2, 3, 4, 5].map((item) => (
                                 <PEMenuCard
-                                    key={item}
+                                    key={`${item}_PEMenuCard`}
                                     title={'Menu title placeholder'}
                                     imageUrls={['/dishes_02.png']}
                                     chefProfilePictureUrl={'/picture-1.png'}
@@ -252,44 +331,21 @@ export default function HomePage(): ReactElement {
                                     categories={[]}
                                 />
                             ))}
-                            <VStack
-                                style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}
-                                className="w-[580px] bg-yellowLight gap-3 p-6 box-border rounded-3 shadow-primary"
-                            >
-                                <h2 className={'text-heading-ss my-0 font-manrope leading-15'}>Can&apos;t find the right menu?</h2>
-                                <HStack className={'gap-4'}>
-                                    <HStack className={'gap-2'}>
-                                        <span className="justify-center items-center h-[38px] min-w-[38px] border-solid border-orange text-text-s text-orange p-[9px] rounded-2 box-border">
-                                            01
-                                        </span>
-                                        <span className={'max-w-[240px] text-preBlack text-text-s leading-5'}>
-                                            Set your budget and individual preferences
-                                        </span>
-                                    </HStack>
-                                    <HStack className={'gap-2'}>
-                                        <span className="justify-center items-center h-[38px] min-w-[38px] border-solid border-orange text-text-s text-orange p-[9px] rounded-2 box-border">
-                                            02
-                                        </span>
-                                        <span className={'max-w-[240px] text-preBlack text-text-s leading-5'}>
-                                            Confirm and vote directly with your PeopleEat boss via chat.
-                                        </span>
-                                    </HStack>
-                                </HStack>
-                                <HStack className={'gap-2'}>
-                                    <span className="justify-center items-center h-[38px] min-w-[38px] border-solid border-orange text-text-s text-orange p-[9px] rounded-2 box-border">
-                                        03
-                                    </span>
-                                    <span className={'max-w-[240px] text-preBlack text-text-s leading-5'}>
-                                        Receive a personalized menu suggestion
-                                    </span>
-                                </HStack>
-                                <PEButton
-                                    className={'mt-8 max-w-[270px] bg-transparent'}
-                                    type={'secondary'}
-                                    onClick={(): void => undefined}
-                                    title={'Send an individual request'}
+                            <PEPointsCard />
+                        </HStack>
+                        <HStack className={'flex-wrap gap-5 mt-10 sm:flex hidden'}>
+                            {[1, 2, 3].map((item) => (
+                                <PEMenuCardMobile
+                                    key={`${item}_PEMenuCardMobile`}
+                                    title={'Menu title placeholder'}
+                                    imageUrls={['/dishes_02.png']}
+                                    chefProfilePictureUrl={'/picture-1.png'}
+                                    pricePerPerson={120}
+                                    chefFirstName={'Locale'}
+                                    categories={['Vegetarian', 'Meat', 'Vegetarian']}
+                                    kitchen={'Europe'}
                                 />
-                            </VStack>
+                            ))}
                         </HStack>
                         <PEButton
                             className={'mt-10'}
@@ -315,10 +371,10 @@ export default function HomePage(): ReactElement {
                     <PEButton className={'mt-12 max-w-[320px]'} onClick={handleFindTheMenu} title={'Find menu'} />
                 </VStack>
                 <VStack className={'w-full'}>
-                    <VStack className={'relative w-full pt-[140px] pb-15 rounded-4 gap-4 max-w-[1190px]'}>
+                    <VStack className={'relative w-full pt-[140px] pb-15 lg:py-15 rounded-4 gap-4 max-w-[1190px]'}>
                         <HStack className={'w-full'}>
-                            <h2 className={'text-heading-xl my-0 font-manrope leading-15'}>Most Wanted Chefs</h2>
-                            <HStack className={'absolute gap-4 right-0'}>
+                            <h2 className={'text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase'}>Most Wanted Chefs</h2>
+                            <HStack className={'absolute gap-4 right-0 lg:hidden'}>
                                 <PENextButton
                                     reverse
                                     onClick={(): void => {
@@ -335,15 +391,23 @@ export default function HomePage(): ReactElement {
                                 />
                             </HStack>
                         </HStack>
-                        <HStack className={'gap-2'}>
+                        <div
+                            className={'flex lg:justify-start justify-center gap-2 overflow-x-scroll w-full '}
+                            style={{ overflowY: 'initial' }}
+                        >
                             {MENU_TABS.map((menu) => (
-                                <PETabItem key={menu} title={menu} onClick={(): void => setTabItem(menu)} active={tabItem === menu} />
+                                <PETabItem
+                                    key={`${menu}_PEChefCard`}
+                                    title={menu}
+                                    onClick={(): void => setTabItem(menu)}
+                                    active={tabItem === menu}
+                                />
                             ))}
-                        </HStack>
-                        <HStack className={'flex-wrap gap-5 mt-10'}>
+                        </div>
+                        <HStack className={'flex-wrap gap-5 mt-10 sm:hidden'}>
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
                                 <PEChefCard
-                                    key={item}
+                                    key={`${item}_PEChefCard`}
                                     firstName={'Locale'}
                                     profilePictureUrl={'/picture-1.png'}
                                     rank={'HOBBY'}
@@ -354,6 +418,20 @@ export default function HomePage(): ReactElement {
                                 />
                             ))}
                         </HStack>
+                        <VStack className={'w-full flex-wrap gap-5 mt-10 hidden sm:flex'}>
+                            {[1, 2, 3].map((item) => (
+                                <PEChefCardMobile
+                                    key={`${item}_PEChefCardMobile`}
+                                    firstName={'Locale'}
+                                    profilePictureUrl={'/picture-1.png'}
+                                    rank={'HOBBY'}
+                                    location={'Berlin'}
+                                    rating={{ average: 4.9, count: 25 }}
+                                    categories={['Vegetarian', 'Vegetarian']}
+                                    kitchens={['Vegetarian', 'Vegetarian']}
+                                />
+                            ))}
+                        </VStack>
                         <PEButton
                             className={'mt-10'}
                             onClick={handleGoToAllChefs}
@@ -363,6 +441,26 @@ export default function HomePage(): ReactElement {
                         />
                     </VStack>
                 </VStack>
+                <VStack className={'w-full'}>
+                    <h2 className={'text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase'}>Recent reviews</h2>
+                    <VStack className={'w-full flex-wrap gap-5 mt-10 hidden sm:flex'}>
+                        {[1, 2].map((item) => (
+                            <PEReviewCardChef
+                                key={`${item}_PEReviewCardPlatform`}
+                                userFirstName={'Locale'}
+                                customerFirstName={'Lolita, Mun-hen'}
+                                chefFirstName={'Maxim'}
+                                chefRank={'MASTER'}
+                                ratingValue={'4.9'}
+                                comment={
+                                    '"This is the first time we have booked a chef for a dinner with our friends at home. The booking was...'
+                                }
+                                createdAt={'June, 14 2023 '}
+                            />
+                        ))}
+                    </VStack>
+                </VStack>
+                <VStack></VStack>
             </VStack>
             <PEFooter />
         </VStack>

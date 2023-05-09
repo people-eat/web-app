@@ -1,6 +1,6 @@
 import { type ReactElement } from 'react';
+import VStack from '~/components/utility/vStack/VStack';
 import HStack from '../../utility/hStack/HStack';
-import VStack from '../../utility/vStack/VStack';
 import { type Icon } from '../icon/Icon';
 import PEIcon from '../icon/PEIcon';
 

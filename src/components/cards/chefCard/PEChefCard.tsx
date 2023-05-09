@@ -58,14 +58,17 @@ export default function PEChefCard({
                         </div>
                     </div>
                 </div>
-                <div className={'no-scrollbar overflow-x-scroll flex flex-row gap-2 mt-3 scrollbar-hide'}>
+                <div className={'no-scrollbar overflow-x-scroll flex flex-row gap-2 mt-3 scrollbar-hide'} style={{ overflowY: 'initial' }}>
                     {categories.map((category) => (
                         <div key={category} className={'rounded-4 text-preBlack text-text-s-height px-2 py-[2px] bg-base'}>
                             {category}
                         </div>
                     ))}
                 </div>
-                <div className={'no-scrollbar overflow-x-scroll items-center flex flex-row gap-2 mt-3 scrollbar-hide'}>
+                <div
+                    className={'no-scrollbar overflow-x-scroll items-center flex flex-row gap-2 mt-3 scrollbar-hide'}
+                    style={{ overflowY: 'initial' }}
+                >
                     {kitchens.length > 0 && <PEIcon icon={Icon.dishes} />}
                     {kitchens.map((kitchen) => (
                         <div key={kitchen} className={'text-orange text-text-s-height'}>

@@ -51,6 +51,8 @@ const config = {
                 'heading-ss-bold': ['18px', { fontWeight: '700' }],
                 'heading-s': ['20px', { fontWeight: '600', lineHeight: '24px' }],
                 'heading-m': ['24px', { fontWeight: '600' }],
+                'heading-xm': ['28px', { fontWeight: '600' }],
+                'rem-heading-xm': ['1.5rem', { fontWeight: '600' }],
                 'heading-l': ['32px', { fontWeight: '600' }],
                 'heading-xl': ['38px', { fontWeight: '600' }],
                 'heading-xxl': ['52px', { fontWeight: '600' }],
@@ -88,6 +90,29 @@ const config = {
                 15: '60px',
                 'icon-1': '24px',
                 'icon-2': '32px',
+            },
+            screens: {
+                big: { min: '1023px', max: '1279px' },
+                // => @media (max-width: 1279px) { ... }
+
+                lg: { max: '1023px' },
+                // => @media (max-width: 1023px) { ... }
+
+                lg_min: { min: '767px', max: '1023px' },
+
+                md: { max: '767px' },
+                // => @media (max-width: 767px) { ... }
+
+                md_min: { min: '639px', max: '767px' },
+
+                sm_max: { min: '640px' },
+
+                sm: { max: '639px' },
+
+                sm_min: { min: '518px', max: '639px' },
+
+                minn: { min: '318px', max: '518px' },
+                // => @media (max-width: 639px) { ... }
             },
             borderRadius: {
                 1: '2px',

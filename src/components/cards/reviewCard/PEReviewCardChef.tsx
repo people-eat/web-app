@@ -29,7 +29,7 @@ export default function PEReviewCardChef({
 }: PEReviewCardChefProps): ReactElement {
     return (
         <div
-            className="flex w-[340px] md:w-[380px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active duration-200 ease-in"
+            className="flex md:max-w-[340px] md:w-full w-[380px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active duration-200 ease-in"
             onClick={onClick}
         >
             <div className="flex items-center justify-between">

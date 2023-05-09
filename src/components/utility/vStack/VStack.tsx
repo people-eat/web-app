@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { type CSSProperties, type ReactElement } from 'react';
 
 export interface VStackProps {
@@ -7,7 +8,7 @@ export interface VStackProps {
 
 export default function VStack(props: React.PropsWithChildren<VStackProps>): ReactElement {
     return (
-        <div className={props.className} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', ...props.style }}>
+        <div className={classNames('flex', props.className)} style={{ flexDirection: 'column', alignItems: 'center', ...props.style }}>
             {props.children}
         </div>
     );
