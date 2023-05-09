@@ -53,7 +53,7 @@ export default function HomePageSearchMobile({
                     />
                 )}
             />
-            <PEIconButton bg={'bg-orange'} icon={Icon.filters} size={'40px'} iconSize={24} className={'rounded-4'} />
+            <PEIconButton bg="bg-orange" icon={Icon.filters} size={'40px'} iconSize={24} className="rounded-4" />
         </div>
     );
 }

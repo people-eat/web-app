@@ -450,7 +450,6 @@ export default function HomePage(): ReactElement {
                         {[1, 2].map((item) => (
                             <PEReviewCardChef
                                 key={`${item}_PEReviewCardPlatform`}
-                                userFirstName={'Locale'}
                                 customerFirstName={'Lolita, Mun-hen'}
                                 chefFirstName={'Maxim'}
                                 chefRank={'MASTER'}
