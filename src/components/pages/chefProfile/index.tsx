@@ -26,31 +26,33 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
     useEffect(() => setSelectedTab(queryParamTabIndex ? Number(queryParamTabIndex) : 0), [queryParamTabIndex]);
 
     return (
-        <VStack className="w-full" gap={64}>
-            <PEHeader signedInUser={signedInUser} />
+        <VStack className="w-full min-h-screen justify-between" gap={64}>
+            <VStack className="w-full" gap={64}>
+                <PEHeader signedInUser={signedInUser} />
 
-            <HStack
-                gap={8}
-                className="w-full max-w-screen-xl overflow-x-scroll"
-                style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
-            >
-                {MENU_TABS.map((menu, index) => (
-                    <PETabItem
-                        key={`${menu}_PEChefCard`}
-                        title={menu}
-                        onClick={(): void => {
-                            setSelectedTab(index);
-                            router.query.tab = String(index);
-                            void router.push(router);
-                        }}
-                        active={selectedTab === index}
-                    />
-                ))}
-            </HStack>
+                <HStack
+                    gap={8}
+                    className="w-full max-w-screen-xl overflow-x-scroll"
+                    style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
+                >
+                    {MENU_TABS.map((menu, index) => (
+                        <PETabItem
+                            key={`${menu}_PEChefCard`}
+                            title={menu}
+                            onClick={(): void => {
+                                setSelectedTab(index);
+                                router.query.tab = String(index);
+                                void router.push(router);
+                            }}
+                            active={selectedTab === index}
+                        />
+                    ))}
+                </HStack>
 
-            {selectedTab === 0 && signedInUser && <ChefProfilePagePersonalTab cookId={signedInUser.userId} />}
+                {selectedTab === 0 && signedInUser && <ChefProfilePagePersonalTab cookId={signedInUser.userId} />}
 
-            {selectedTab === 3 && signedInUser && <ChefProfilePageMealsAndMenusTab cookId={signedInUser.userId} />}
+                {selectedTab === 3 && signedInUser && <ChefProfilePageMealsAndMenusTab cookId={signedInUser.userId} />}
+            </VStack>
 
             <PEFooter />
         </VStack>

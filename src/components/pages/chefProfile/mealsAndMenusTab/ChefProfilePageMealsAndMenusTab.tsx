@@ -1,12 +1,16 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
+import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../standard/tabItem/PETabItem';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
+import { ARCHIVE_MENUS, MENUS } from './meals.mock';
 import ChefProfilePageCreateMeal from './mealsTab/ChefProfilePageCreateMeal';
+import ChefProfilePageMeal from './mealsTab/ChefProfilePageMeal';
 import ChefProfilePageCreateMenu from './menusTab/ChefProfilePageCreateMenu';
+import ChefProfilePageMenu from './menusTab/ChefProfilePageMenu';
 
 export interface ChefProfilePageMealsAndMenusTabProps {
     cookId: string;
@@ -26,7 +30,7 @@ export default function ChefProfilePageMealsAndMenusTab({ cookId }: ChefProfileP
 
     useEffect(() => {
         if (editMode) handleAddNewMenuOrDish(selectedTab);
-    }, [selectedTab]);
+    }, [editMode, selectedTab]);
 
     function handleAddNewMenuOrDish(actualTabValue: string): void {
         setEditMode(actualTabValue);
@@ -68,9 +72,17 @@ export default function ChefProfilePageMealsAndMenusTab({ cookId }: ChefProfileP
                 </HStack>
             </HStack>
 
-            {selectedTab === 'MEALS' && editMode && <ChefProfilePageCreateMeal cookId={cookId} />}
+            {selectedTab === 'MEALS' && !editMode && <ChefProfilePageMeal cookId={cookId} />}
 
-            {selectedTab === 'MENUS' && editMode && <ChefProfilePageCreateMenu />}
+            {selectedTab === 'MEALS' && editMode && (
+                <ChefProfilePageCreateMeal cookId={cookId} setCloseEditMode={(): void => setEditMode('')} />
+            )}
+
+            {selectedTab === 'MENUS' && !editMode && <ChefProfilePageMenu menus={MENUS} archive={ARCHIVE_MENUS} />}
+
+            {selectedTab === 'MENUS' && editMode && <ChefProfilePageCreateMenu setCloseEditMode={(): void => setEditMode('')} />}
+
+            {editMode && <PEButton onClick={(): void => undefined} title="Add" className="w-full" />}
         </VStack>
     );
 }
