@@ -62,8 +62,8 @@ export default function PEButton({
         );
 
     return (
-        <div
-            onClick={onClick}
+        <button
+            onClick={disabled ? undefined : onClick}
             className={classNames(baseClassNames, fontSize, color, height, opacity, className, {
                 [hover]: !disabled,
                 ['max-w-[49px]']: !title && size === 'm',
@@ -87,6 +87,6 @@ export default function PEButton({
                     {IconRight}
                 </>
             )}
-        </div>
+        </button>
     );
 }

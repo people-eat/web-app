@@ -16,15 +16,18 @@ import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 
 export default function SignInPage(): ReactElement {
-    const [emailAddress, setEmailAddress] = useState('');
+    const { isDesktop } = useResponsive();
+
+    const [emailAddress, setEmailAddress] = useState({ value: '', isValid: false });
     const [password, setPassword] = useState('');
     const [staySignedIn, setStaySignedIn] = useState(true);
-    const { isDesktop } = useResponsive();
+
+    const disabled = !emailAddress.isValid || password.length < 1;
 
     const [assignOneSessionByEmailAddress, { data, loading, error }] = useMutation(AssignOneSessionByEmailAddressDocument, {
         variables: {
             request: {
-                emailAddress,
+                emailAddress: emailAddress.value,
                 password,
                 platform: 'BROWSER',
                 title: '',
@@ -68,7 +71,11 @@ export default function SignInPage(): ReactElement {
 
                     <VStack style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
                         <p>Email</p>
-                        <PEEmailTextField email={emailAddress} onChange={setEmailAddress} placeholder={'Enter your email'} />
+                        <PEEmailTextField
+                            email={emailAddress.value}
+                            onChange={(changedEmailAddress, isValid): void => setEmailAddress({ value: changedEmailAddress, isValid })}
+                            placeholder={'Enter your email'}
+                        />
                     </VStack>
 
                     <VStack style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
@@ -96,7 +103,12 @@ export default function SignInPage(): ReactElement {
                         />
                     </div>
 
-                    <PEButton className="w-full max-w-[400px]" title={'Sign in'} onClick={(): any => assignOneSessionByEmailAddress()} />
+                    <PEButton
+                        className="w-full max-w-[400px]"
+                        title={'Sign in'}
+                        onClick={(): any => assignOneSessionByEmailAddress()}
+                        disabled={disabled}
+                    />
 
                     <HStack style={{ alignItems: 'center' }}>
                         <p className="text-disabled">No profile yet? &nbsp;</p>

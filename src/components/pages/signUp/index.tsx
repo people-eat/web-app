@@ -21,23 +21,33 @@ import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 
 export default function SignUpPage(): ReactElement {
+    const { isDesktop } = useResponsive();
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [birthDate, setBirthDate] = useState(moment());
-    const [emailAddress, setEmailAddress] = useState('');
+    const [emailAddress, setEmailAddress] = useState({ value: '', isValid: false });
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
     const [acceptedTerms, setAcceptedTerms] = useState(false);
-    const { isDesktop } = useResponsive();
+
+    const disabled =
+        !emailAddress.isValid ||
+        password.length < 1 ||
+        password !== passwordRepeat ||
+        firstName.length < 1 ||
+        lastName.length < 1 ||
+        !acceptedTerms ||
+        !acceptedPrivacyPolicy;
 
     const [createOneUserByEmailAddress, { data, loading, error }] = useMutation(CreateOneUserByEmailAddressDocument, {
         variables: {
             request: {
                 birthDate: undefined,
                 cook: undefined,
-                emailAddress,
+                emailAddress: emailAddress.value,
                 firstName,
                 gender: 'NO_INFORMATION',
                 language: 'GERMAN',
@@ -115,7 +125,11 @@ export default function SignUpPage(): ReactElement {
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                         <p>Email</p>
-                        <PEEmailTextField email={emailAddress} onChange={setEmailAddress} placeholder={'Email'} />
+                        <PEEmailTextField
+                            email={emailAddress.value}
+                            onChange={(changedEmailAddress, isValid): void => setEmailAddress({ value: changedEmailAddress, isValid })}
+                            placeholder={'Email'}
+                        />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
@@ -155,7 +169,12 @@ export default function SignUpPage(): ReactElement {
                         </FormGroup>
                     </VStack>
 
-                    <PEButton className={'w-full'} title={'Sign up'} onClick={(): any => createOneUserByEmailAddress()} />
+                    <PEButton
+                        className={'w-full'}
+                        title={'Sign up'}
+                        onClick={(): any => createOneUserByEmailAddress()}
+                        disabled={disabled}
+                    />
 
                     <HStack style={{ alignItems: 'center' }}>
                         <p className={'text-disabled'}>You already have a profile? &nbsp;</p>
@@ -165,6 +184,7 @@ export default function SignUpPage(): ReactElement {
                     </HStack>
                 </VStack>
             </VStack>
+
             {isDesktop && (
                 <VStack
                     className={'p-5 box-border'}
