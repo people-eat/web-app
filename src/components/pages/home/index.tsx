@@ -1,6 +1,7 @@
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import PEChefCard from '../../cards/chefCard/PEChefCard';
 import PEChefCardMobile from '../../cards/chefCard/PEChefCardMobile';
@@ -38,6 +39,7 @@ const MENU_TABS = ['All', 'in Hesse', 'North Rhine-Westphalia', 'Bavaria', 'Berl
 
 export default function HomePage(): ReactElement {
     const { t } = useTranslation('home');
+    const router = useRouter();
 
     const [addressSearchText, setAddressSearchText] = useState('');
     const [adultCount, setAdultCount] = useState(4);
@@ -82,6 +84,13 @@ export default function HomePage(): ReactElement {
         )
             .then((response) => response.json())
             .then((body: { results: GoogleMapsPlacesResult[] }) => setSearchResults(body.results))
+            .catch((error) => console.error(error));
+    }
+
+    function handleSearch(): void {
+        router
+            .push({ pathname: '/individual-request', query: { addressSearchText, adultCount, childrenCount } })
+            .then()
             .catch((error) => console.error(error));
     }
 
@@ -148,10 +157,11 @@ export default function HomePage(): ReactElement {
                                 location: { latitude: location.lat, longitude: location.lng },
                             }))}
                             onSearchResultSelect={(selectedSearchResult): void => console.log({ selectedSearchResult })}
+                            onSearch={handleSearch}
                         />
                     </VStack>
                     <div className="bottom-[-15px] left-0 absolute lg:hidden">
-                        <Image src="/icons/waves.svg" width={1300} height={58} alt="PeopleEat waves" />
+                        <Image src="/waves.svg" width={1300} height={58} alt="PeopleEat waves" />
                     </div>
                 </VStack>
                 <div className="flex w-full lg:mt-8 mt-10 lg:flex-col gap-6 flex-row justify-center lg:items-center">
