@@ -35,9 +35,9 @@ export default function PEMenuCard({
                 )}
                 {imageUrls.length > 1 && (
                     <PECarousel
-                        images={imageUrls.map((picture) => (
+                        images={imageUrls.map((picture, index) => (
                             <Image
-                                key={picture}
+                                key={`${picture}__${index}`}
                                 style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                                 src={picture}
                                 alt={picture}
@@ -56,8 +56,11 @@ export default function PEMenuCard({
                 </div>
                 <div className={'no-scrollbar overflow-x-scroll flex flex-row gap-2'} style={{ overflowY: 'initial' }}>
                     {categories.map(
-                        (category): ReactElement => (
-                            <div key={category} className={'rounded-4 text-preBlack text-text-s-height px-2 py-[2px] bg-base'}>
+                        (category, index): ReactElement => (
+                            <div
+                                key={`${category}__${index}`}
+                                className={'rounded-4 text-preBlack text-text-s-height px-2 py-[2px] bg-base'}
+                            >
                                 {category}
                             </div>
                         ),
@@ -78,9 +81,7 @@ export default function PEMenuCard({
                                 className={'no-scrollbar overflow-x-scroll items-center flex flex-row gap-2'}
                                 style={{ overflowY: 'initial' }}
                             >
-                                <div key={kitchen} className={'text-orange text-text-s-height '}>
-                                    {kitchen}
-                                </div>
+                                <div className={'text-orange text-text-s-height '}>{kitchen}</div>
                             </div>
                         </div>
                     )}

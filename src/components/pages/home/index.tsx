@@ -131,18 +131,25 @@ export default function HomePage(): ReactElement {
                     <HomePageSearchMobile
                         addressSearchText={addressSearchText}
                         onAddressSearchTextChange={handleAddressSearchTextChange}
+                        adultCount={adultCount}
+                        onAdultsChange={setAdultCount}
+                        childrenCount={childrenCount}
+                        onChildrenChange={setChildrenCount}
+                        date={date}
+                        onDateChange={setDate}
                         searchResults={searchResults.map(({ formatted_address, geometry: { location } }) => ({
                             label: formatted_address,
                             location: { latitude: location.lat, longitude: location.lng },
                         }))}
                         onSearchResultSelect={(selectedSearchResult): void => console.log({ selectedSearchResult })}
+                        onSearch={handleSearch}
                     />
                     <div className="flex w-full lg:justify-center">
                         <p className="text-white text-heading-l lg:my-8 mb-12 lg:text-60black lg:text-text-sm lg:max-w-[170px]">
                             {t('sub-headline')}
                         </p>
                     </div>
-                    <VStack className="lg:hidden">
+                    <div className="lg:hidden">
                         <HomePageSearch
                             addressSearchText={addressSearchText}
                             onAddressSearchTextChange={handleAddressSearchTextChange}
@@ -159,9 +166,9 @@ export default function HomePage(): ReactElement {
                             onSearchResultSelect={(selectedSearchResult): void => console.log({ selectedSearchResult })}
                             onSearch={handleSearch}
                         />
-                    </VStack>
+                    </div>
                     <div className="bottom-[-15px] left-0 absolute lg:hidden">
-                        <Image src="/waves.svg" width={1300} height={58} alt="PeopleEat waves" />
+                        <Image src={'/icons/waves.svg'} width={1300} height={58} alt={`PeopleEat waves`} />
                     </div>
                 </VStack>
                 <div className="flex w-full lg:mt-8 mt-10 lg:flex-col gap-6 flex-row justify-center lg:items-center">
@@ -174,17 +181,17 @@ export default function HomePage(): ReactElement {
                         <h2 className="text-heading-xl lg:text-heading-s leading-[60px] mb-12 lg:uppercase">
                             Every occasion as a unique <br /> experience moment
                         </h2>
-                        <HStack className="lg:gap-2 gap-4 max-w-[580px] flex-wrap" style={{ justifyContent: 'flex-start' }}>
+                        <HStack className="lg:gap-2 gap-4 lg:gap-2 max-w-[580px] flex-wrap" style={{ justifyContent: 'flex-start' }}>
                             {EVENTS.map((event) => (
                                 <span
                                     key={`${event}_PE`}
-                                    className="shadow-primary lg:text-text-s px-5 py-3 rounded-8 hover:cursor-default"
+                                    className="shadow-primary lg:text-text-s lg:py-2 lg:px-4 px-5 py-3 rounded-8 hover:cursor-default"
                                 >
                                     {event}
                                 </span>
                             ))}
                         </HStack>
-                        <PEButton className="mt-12 max-w-[320px]" onClick={handleBookNow} title="Book now" />
+                        <PEButton className="mt-12 max-w-[320px]" onClick={handleBookNow} title={'Book now'} />
                     </div>
                     <VStack
                         className="rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full lg:w-[75%] w-[50%] lg:w-full"
@@ -212,17 +219,17 @@ export default function HomePage(): ReactElement {
                         </h2>
                         <div className="flex lg:mt-8 lg:mt-0 mt-10 lg:flex-col gap-6 flex-col justify-center lg:items-center">
                             <PEBulletPoint
-                                icon={Icon.dishes}
+                                icon={Icon.foodBasket}
                                 title={'food'}
                                 text={'Send your booking request and receive a response within 48 hours'}
                             />
                             <PEBulletPoint
-                                icon={Icon.dishes}
+                                icon={Icon.kitchen}
                                 title={'food'}
                                 text={'Send your booking request and receive a response within 48 hours'}
                             />
                             <PEBulletPoint
-                                icon={Icon.dishes}
+                                icon={Icon.chefTiming}
                                 title={'food'}
                                 text={'Send your booking request and receive a response within 48 hours'}
                             />
@@ -235,7 +242,7 @@ export default function HomePage(): ReactElement {
                     </h2>
                     <div className="flex w-full gap-12 lg:flex-col flex-row justify-center">
                         <VStack>
-                            <Image className="object-contain" src="/chefs.png" alt="chefs" width={200} height={160} />
+                            <Image className="object-contain" src={'/chefs.png'} alt={'chefs'} width={200} height={160} />
                             <HStack className="gap-4">
                                 <span className="flex justify-center items-center bg-orange text-white p-2 rounded-2 max-h-[34px] min-w-[34px] box-border">
                                     01
@@ -244,7 +251,7 @@ export default function HomePage(): ReactElement {
                             </HStack>
                         </VStack>
                         <VStack>
-                            <Image className="object-contain" src="/dishes.png" alt="chefs" width={200} height={160} />
+                            <Image className="object-contain" src={'/dishes.png'} alt={'chefs'} width={200} height={160} />
                             <HStack className="gap-4">
                                 <span className="flex justify-center items-center bg-orange text-white p-2 rounded-2 max-h-[34px] min-w-[34px] box-border">
                                     02
@@ -253,7 +260,7 @@ export default function HomePage(): ReactElement {
                             </HStack>
                         </VStack>
                         <VStack>
-                            <Image className="object-cover" src="/customers.png" alt="chefs" width={200} height={160} />
+                            <Image className="object-cover" src={'/customers.png'} alt={'chefs'} width={200} height={160} />
                             <HStack className="gap-4">
                                 <span className="flex justify-center items-center bg-orange text-white p-2 rounded-2 max-h-[34px] min-w-[34px] box-border">
                                     03
@@ -286,7 +293,7 @@ export default function HomePage(): ReactElement {
                         </div>
                         <HStack className="w-full">
                             <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">Most requested menus</h2>
-                            <HStack className="absolute gap-4 right-0 lg:hidden">
+                            <div className="flex absolute gap-4 right-0 lg:hidden">
                                 <PENextButton
                                     reverse
                                     onClick={(): void =>
@@ -301,7 +308,7 @@ export default function HomePage(): ReactElement {
                                         setTabItem(MENU_TABS[(MENU_TABS.indexOf(tabItem) + 1) % MENU_TABS.length] ?? 'All')
                                     }
                                 />
-                            </HStack>
+                            </div>
                         </HStack>
                         <div
                             className="flex lg:justify-start justify-center gap-2 overflow-x-scroll w-full"
@@ -316,21 +323,22 @@ export default function HomePage(): ReactElement {
                                 />
                             ))}
                         </div>
-                        <HStack className="flex-wrap gap-5 mt-10 sm:hidden">
+                        <div className="flex flex-wrap gap-5 mt-10 sm:hidden">
                             {[1, 2, 3, 4, 5].map((item) => (
                                 <PEMenuCard
                                     key={`${item}_PEMenuCard`}
                                     title={'Menu title placeholder'}
-                                    imageUrls={['/dishes_02.png']}
+                                    imageUrls={['/dishes_02.png', '/dishes.png', '/dishes_02.png', '/dishes.png']}
                                     chefProfilePictureUrl={'/picture-1.png'}
                                     pricePerPerson={120}
                                     chefFirstName={'Locale'}
-                                    categories={[]}
+                                    description={'PEMenuCard description'}
+                                    categories={['Vegetarian', 'Meat', 'Vegetarian']}
                                 />
                             ))}
                             <PEPointsCard />
-                        </HStack>
-                        <HStack className="flex-wrap gap-5 mt-10 sm:flex hidden">
+                        </div>
+                        <div className="flex flex-wrap gap-5 mt-10 sm:flex hidden">
                             {[1, 2, 3].map((item) => (
                                 <PEMenuCardMobile
                                     key={`${item}_PEMenuCardMobile`}
@@ -343,11 +351,11 @@ export default function HomePage(): ReactElement {
                                     kitchen={'Europe'}
                                 />
                             ))}
-                        </HStack>
+                        </div>
                         <PEButton
                             className="mt-10"
                             onClick={handleGoToAllMenus}
-                            title="All menus"
+                            title={'All menus'}
                             iconRight={Icon.arrowNarrowWhite}
                             iconSize={16}
                         />
@@ -355,8 +363,8 @@ export default function HomePage(): ReactElement {
                 </VStack>
                 <VStack className="w-full">
                     <h2 className="text-heading-xl my-0 leading-15">PeopleEat Chefs in Germany</h2>
-                    <VStack className="my-8 w-[600px]">
-                        <PEInput type="text" placeholder="search" value={addressSearchText} onChange={setAddressSearchText} />
+                    <VStack className="my-8 w-[600px] md:w-full">
+                        <PEInput type={'text'} placeholder={'search'} value={addressSearchText} onChange={setAddressSearchText} />
                     </VStack>
                 </VStack>
                 <PEMap
@@ -369,9 +377,9 @@ export default function HomePage(): ReactElement {
                 </VStack>
                 <VStack className="w-full">
                     <VStack className="relative w-full pt-[140px] pb-15 lg:py-15 rounded-4 gap-4 max-w-[1190px]">
-                        <HStack className="w-full">
+                        <div className="flex justify-center w-full">
                             <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">Most Wanted Chefs</h2>
-                            <HStack className="absolute gap-4 right-0 lg:hidden">
+                            <div className="flex absolute gap-4 right-0 lg:hidden">
                                 <PENextButton
                                     reverse
                                     onClick={(): void => {
@@ -386,8 +394,8 @@ export default function HomePage(): ReactElement {
                                         setTabItem(MENU_TABS[(MENU_TABS.indexOf(tabItem) + 1) % MENU_TABS.length] ?? 'All');
                                     }}
                                 />
-                            </HStack>
-                        </HStack>
+                            </div>
+                        </div>
                         <div
                             className="flex lg:justify-start justify-center gap-2 overflow-x-scroll w-full"
                             style={{ overflowY: 'initial' }}
@@ -401,7 +409,7 @@ export default function HomePage(): ReactElement {
                                 />
                             ))}
                         </div>
-                        <HStack className="flex-wrap gap-5 mt-10 sm:hidden">
+                        <div className="flex flex-wrap gap-5 mt-10 sm:hidden">
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
                                 <PEChefCard
                                     key={`${item}_PEChefCard`}
@@ -414,8 +422,8 @@ export default function HomePage(): ReactElement {
                                     kitchens={[]}
                                 />
                             ))}
-                        </HStack>
-                        <VStack className="w-full flex-wrap gap-5 mt-10 hidden sm:flex">
+                        </div>
+                        <div className="flex justify-center w-full flex-wrap gap-5 mt-10 hidden sm:flex">
                             {[1, 2, 3].map((item) => (
                                 <PEChefCardMobile
                                     key={`${item}_PEChefCardMobile`}
@@ -424,11 +432,11 @@ export default function HomePage(): ReactElement {
                                     rank={'HOBBY'}
                                     location={'Berlin'}
                                     rating={{ average: 4.9, count: 25 }}
-                                    categories={['Vegetarian', 'Vegetarian']}
-                                    kitchens={['Vegetarian', 'Vegetarian']}
+                                    categories={['Vegetarian', 'Vegetarians']}
+                                    kitchens={['European', 'Vegetarian']}
                                 />
                             ))}
-                        </VStack>
+                        </div>
                         <PEButton
                             className="mt-10"
                             onClick={handleGoToAllChefs}
@@ -440,7 +448,7 @@ export default function HomePage(): ReactElement {
                 </VStack>
                 <VStack className="w-full">
                     <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">Recent reviews</h2>
-                    <VStack className="w-full flex-wrap gap-5 mt-10 hidden sm:flex">
+                    <div className="flex w-full flex-wrap gap-5 mt-10 justify-center sm:flex-col items-center">
                         {[1, 2].map((item) => (
                             <PEReviewCardChef
                                 key={`${item}_PEReviewCardPlatform`}
@@ -449,13 +457,26 @@ export default function HomePage(): ReactElement {
                                 chefRank={'MASTER'}
                                 ratingValue={'4.9'}
                                 comment={
-                                    'This is the first time we have booked a chef for a dinner with our friends at home. The booking was...'
+                                    '"This is the first time we have booked a chef for a dinner with our friends at home. The booking was...'
                                 }
-                                createdAt={'June, 14 2023'}
+                                createdAt={'June, 14 2023 '}
                             />
                         ))}
-                    </VStack>
+                    </div>
                 </VStack>
+                <VStack className="w-full my-[140px] sm:my-[40px]">
+                    <p className="text-heading-m lg:text-rem-heading-xm lg:uppercase">supported by:</p>
+                    <VStack
+                        className="w-full max-w-[900px] h-[181px] sm:h-[150px]"
+                        style={{
+                            width: '100%',
+                            backgroundImage: 'url(/supported.png)',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                        }}
+                    />
+                </VStack>
+                <VStack></VStack>
             </VStack>
             <PEFooter />
         </VStack>

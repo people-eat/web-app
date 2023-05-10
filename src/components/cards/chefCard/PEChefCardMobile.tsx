@@ -62,8 +62,8 @@ export default function PEChefCardMobile({
                     </div>
                 </div>
                 <div className={'no-scrollbar overflow-x-scroll flex flex-row gap-2 scrollbar-hide'} style={{ overflowY: 'initial' }}>
-                    {categories.map((category) => (
-                        <div key={category} className={'rounded-4 text-preBlack text-text-s-height px-2 py-[2px] bg-base'}>
+                    {categories.map((category, index) => (
+                        <div key={`${category}__${index}`} className={'rounded-4 text-preBlack text-text-s-height px-2 py-[2px] bg-base'}>
                             {category}
                         </div>
                     ))}
@@ -74,8 +74,8 @@ export default function PEChefCardMobile({
                         style={{ overflowY: 'initial' }}
                     >
                         {Boolean(kitchens.length) && <PEIcon icon={Icon.dishes} />}
-                        {kitchens.map((kitchen) => (
-                            <div key={kitchen} className={'text-orange text-text-s-height'}>
+                        {kitchens.map((kitchen, index) => (
+                            <div key={`${kitchen}__${index}`} className={'text-orange text-text-s-height'}>
                                 {kitchen}
                             </div>
                         ))}

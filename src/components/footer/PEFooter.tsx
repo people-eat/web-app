@@ -11,9 +11,9 @@ export default function PEFooter(): ReactElement {
     const { t } = useTranslation('common');
 
     return (
-        <div className={'w-full flex justify-center bg-footer py-15'}>
-            <div className={'flex max-w-screen-xl justify-between w-full'} style={{ padding: '8px' }}>
-                <div className="flex flex-row gap-[100px]">
+        <div className={'w-full md:p-15 box-border flex justify-center bg-footer py-15'}>
+            <div className={'flex md:flex-col max-w-screen-xl justify-between w-full'} style={{ padding: '8px' }}>
+                <div className="flex md:flex-col md:gap-4 flex-row gap-[100px]">
                     <div className="flex flex-col gap-4">
                         <Link href={'/'}>
                             <Image src={'/people-eat-logo-title.png'} alt="" width={203} height={46} />
@@ -25,7 +25,7 @@ export default function PEFooter(): ReactElement {
                             <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{t('about-us')}</Button>
                         </Link>
                     </div>
-                    <div className="flex flex-row gap-4">
+                    <div className="flex md:ml-2 md:mb-4 flex-row gap-4">
                         <Link href="https://www.instagram.com/_peopleeat_official">
                             <Image src={'/instagram.png'} alt="" width={35} height={35} />
                         </Link>
