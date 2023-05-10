@@ -15,6 +15,8 @@ import * as types from './graphql';
 const documents = {
     'mutation AssignOneSessionByEmailAddress($request: CreateOneSessionByEmailAddressRequest!) {\n  sessions {\n    success: assignOneByEmailAddress(request: $request)\n  }\n}':
         types.AssignOneSessionByEmailAddressDocument,
+    'mutation CreateOneAnonymousGlobalBookingRequest($input: CreateOneAnonymousGlobalBookingRequestInput!) {\n  success: createOneAnonymousGlobalBookingRequest(input: $input)\n}':
+        types.CreateOneAnonymousGlobalBookingRequestDocument,
     'mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!) {\n  users {\n    success: createOneByEmailAddress(request: $request)\n  }\n}':
         types.CreateOneUserByEmailAddressDocument,
     'query FindAllergies {\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}': types.FindAllergiesDocument,
@@ -30,6 +32,8 @@ const documents = {
         types.FindManyCooksDocument,
     'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}':
         types.FindManyUsersDocument,
+    'query GetIndividualRequestPageData {\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}':
+        types.GetIndividualRequestPageDataDocument,
     'query GetCookProfileQuery($cookId: String!) {\n  cooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        firstName\n        lastName\n        profilePictureUrl\n        addresses {\n          addressId\n          title\n          country\n          city\n          postCode\n          street\n          houseNumber\n          location {\n            latitude\n            longitude\n          }\n          createdAt\n        }\n      }\n      languages {\n        languageId\n        title\n      }\n      isLocked\n      isVisible\n      biography\n      location {\n        latitude\n        longitude\n      }\n      maximumParticipants\n      maximumPrice\n      maximumTravelDistance\n      minimumParticipants\n      minimumPrice\n      rank\n      travelExpenses\n      ratingAverage\n      ratingCount\n    }\n  }\n}':
         types.GetCookProfileQueryDocument,
     'mutation AddOneCookLanguage($cookId: String!, $languageId: String!) {\n  cooks {\n    success: addOneLanguage(cookId: $cookId, languageId: $languageId)\n  }\n}':
@@ -117,6 +121,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'mutation CreateOneAnonymousGlobalBookingRequest($input: CreateOneAnonymousGlobalBookingRequestInput!) {\n  success: createOneAnonymousGlobalBookingRequest(input: $input)\n}',
+): (typeof documents)['mutation CreateOneAnonymousGlobalBookingRequest($input: CreateOneAnonymousGlobalBookingRequestInput!) {\n  success: createOneAnonymousGlobalBookingRequest(input: $input)\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!) {\n  users {\n    success: createOneByEmailAddress(request: $request)\n  }\n}',
 ): (typeof documents)['mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!) {\n  users {\n    success: createOneByEmailAddress(request: $request)\n  }\n}'];
 /**
@@ -167,6 +177,12 @@ export function gql(
 export function gql(
     source: 'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}',
 ): (typeof documents)['query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query GetIndividualRequestPageData {\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}',
+): (typeof documents)['query GetIndividualRequestPageData {\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

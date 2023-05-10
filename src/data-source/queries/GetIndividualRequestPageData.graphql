@@ -1,0 +1,20 @@
+query GetIndividualRequestPageData {
+    categories {
+        findAll {
+            categoryId
+            title
+        }
+    }
+    kitchens {
+        findAll {
+            kitchenId
+            title
+        }
+    }
+    allergies {
+        findAll {
+            allergyId
+            title
+        }
+    }
+}
