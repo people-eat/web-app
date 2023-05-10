@@ -11,6 +11,7 @@
         "/chef-profile": ["chef-profile"],
         "/profile": ["profile"],
         "/about-us": ["about-us"],
-        "/imprint": ["imprint"]
+        "/imprint": ["imprint"],
+        "/individual-request": ["individual-request"]
     }
 }
