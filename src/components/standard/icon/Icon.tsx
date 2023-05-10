@@ -20,6 +20,7 @@ export enum Icon {
     close = '/icons/close.svg',
     coinsHand = '/icons/coins-hand.svg',
     communicationWithChef = '/icons/communication-with-chef.svg',
+    confetti = '/icons/confetti.svg',
     createOrder = '/icons/create-order.svg',
     creditCard = '/icons/credit-card.svg',
     data = '/icons/data.svg',
