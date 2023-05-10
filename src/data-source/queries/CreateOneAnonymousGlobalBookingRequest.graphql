@@ -1,0 +1,3 @@
+mutation CreateOneAnonymousGlobalBookingRequest($input: CreateOneAnonymousGlobalBookingRequestInput!) {
+    success: createOneAnonymousGlobalBookingRequest(input: $input)
+}
