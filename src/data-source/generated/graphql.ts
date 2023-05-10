@@ -543,6 +543,21 @@ export type CreateOneAddressRequest = {
     title: Scalars['String'];
 };
 
+export type CreateOneAnonymousGlobalBookingRequestInput = {
+    adults: Scalars['UnsignedInt'];
+    budget: Scalars['String'];
+    children: Scalars['UnsignedInt'];
+    customerEmailAddress: Scalars['EmailAddress'];
+    customerFirstName: Scalars['String'];
+    customerLastName: Scalars['String'];
+    customerPhoneNumber?: InputMaybe<Scalars['PhoneNumber']>;
+    dateTime: Scalars['DateTime'];
+    location?: InputMaybe<LocationInput>;
+    locationName: Scalars['String'];
+    message: Scalars['String'];
+    occasion?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateOneCookRequest = {
     biography: Scalars['String'];
     isVisible: Scalars['Boolean'];
@@ -974,6 +989,7 @@ export type Mutation = {
     categories: CategoryMutation;
     cookSpecificFees: CookSpecificFeeMutation;
     cooks: CookMutation;
+    createOneAnonymousGlobalBookingRequest: Scalars['Boolean'];
     customerFeeUpdates: CustomerFeeUpdateMutation;
     globalBookingRequests: GlobalBookingRequestMutation;
     kitchens: KitchenMutation;
@@ -983,6 +999,10 @@ export type Mutation = {
     sessions: SessionMutation;
     termsUpdates: TermsUpdateMutation;
     users: UserMutation;
+};
+
+export type MutationCreateOneAnonymousGlobalBookingRequestArgs = {
+    input: CreateOneAnonymousGlobalBookingRequestInput;
 };
 
 export type Notification = {
@@ -1187,6 +1207,7 @@ export type PublicTermsUpdate = {
 export type PublicTermsUpdateQuery = {
     __typename?: 'PublicTermsUpdateQuery';
     findAll: Array<PublicTermsUpdate>;
+    findLatest?: Maybe<PublicTermsUpdate>;
     findOne?: Maybe<PublicTermsUpdate>;
 };
 
@@ -1770,6 +1791,12 @@ export type AssignOneSessionByEmailAddressMutation = {
     sessions: { __typename?: 'SessionMutation'; success: boolean };
 };
 
+export type CreateOneAnonymousGlobalBookingRequestMutationVariables = Exact<{
+    input: CreateOneAnonymousGlobalBookingRequestInput;
+}>;
+
+export type CreateOneAnonymousGlobalBookingRequestMutation = { __typename?: 'Mutation'; success: boolean };
+
 export type CreateOneUserByEmailAddressMutationVariables = Exact<{
     request: CreateOneUserByEmailAddressRequest;
 }>;
@@ -1844,6 +1871,15 @@ export type FindManyUsersQuery = {
     };
 };
 
+export type GetIndividualRequestPageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetIndividualRequestPageDataQuery = {
+    __typename?: 'Query';
+    categories: { __typename?: 'CategoryQuery'; findAll: Array<{ __typename?: 'Category'; categoryId: string; title: string }> };
+    kitchens: { __typename?: 'KitchenQuery'; findAll: Array<{ __typename?: 'Kitchen'; kitchenId: string; title: string }> };
+    allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
+};
+
 export type GetProfileQueryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetProfileQueryQuery = {
@@ -1897,6 +1933,43 @@ export const AssignOneSessionByEmailAddressDocument = {
         },
     ],
 } as unknown as DocumentNode<AssignOneSessionByEmailAddressMutation, AssignOneSessionByEmailAddressMutationVariables>;
+export const CreateOneAnonymousGlobalBookingRequestDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneAnonymousGlobalBookingRequest' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateOneAnonymousGlobalBookingRequestInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        alias: { kind: 'Name', value: 'success' },
+                        name: { kind: 'Name', value: 'createOneAnonymousGlobalBookingRequest' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'input' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneAnonymousGlobalBookingRequestMutation, CreateOneAnonymousGlobalBookingRequestMutationVariables>;
 export const CreateOneUserByEmailAddressDocument = {
     kind: 'Document',
     definitions: [
@@ -2194,6 +2267,81 @@ export const FindManyUsersDocument = {
         },
     ],
 } as unknown as DocumentNode<FindManyUsersQuery, FindManyUsersQueryVariables>;
+export const GetIndividualRequestPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetIndividualRequestPageData' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'categories' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kitchens' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'allergies' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'allergyId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetIndividualRequestPageDataQuery, GetIndividualRequestPageDataQueryVariables>;
 export const GetProfileQueryDocument = {
     kind: 'Document',
     definitions: [
