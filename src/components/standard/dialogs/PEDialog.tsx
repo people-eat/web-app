@@ -9,9 +9,9 @@ import { type Moment } from 'moment/moment';
 import useTranslation from 'next-translate/useTranslation';
 import * as React from 'react';
 import { forwardRef, useEffect, useState, type ReactElement } from 'react';
-import PEButton from '~/components/standard/buttons/PEButton';
 import { type AddressSearchResult } from '../../pages/home/search/AddressSearchResult';
 import { type HomePageSearchProps } from '../../pages/home/search/HomePageSearch';
+import PEButton from '../../standard/buttons/PEButton';
 import { Icon } from '../../standard/icon/Icon';
 import PEIconButton from '../../standard/iconButton/PEIconButton';
 

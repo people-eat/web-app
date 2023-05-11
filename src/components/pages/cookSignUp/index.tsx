@@ -1,6 +1,7 @@
 import { Button, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material';
 import { useState, type ReactElement } from 'react';
 import PEHeader from '../../header/PEHeader';
+import PEHeaderMobile from '../../header/PEHeaderMobile';
 import PECounter from '../../standard/counter/PECounter';
 import PEDropdown from '../../standard/dropdown/PEDropdown';
 import PESlider from '../../standard/slider/PESlider';
@@ -21,6 +22,8 @@ export default function CookSignUpPage(): ReactElement {
     return (
         <VStack className="w-full">
             <PEHeader />
+            <PEHeaderMobile />
+
             <VStack className="w-full max-w-screen-xl" style={{ gap: 32, marginBottom: 64 }}>
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                     <h1>Chef Registration</h1>

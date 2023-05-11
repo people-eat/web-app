@@ -10,6 +10,7 @@ export default function PECheckbox({ disabled, checked, onCheckedChange }: PEChe
         borderRadius: 5,
         width: 24,
         height: 24,
+        maxHeight: 24,
         boxShadow: 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',
         backgroundColor: theme.palette.mode === 'dark' ? '#394b59' : '#f5f8fa',
         backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.05),hsla(0,0%,100%,0))',
@@ -27,8 +28,9 @@ export default function PECheckbox({ disabled, checked, onCheckedChange }: PEChe
     }));
 
     return (
-        <section className="w-11">
+        <section className="w-11 max-h-11">
             <Checkbox
+                sx={{ height: '44px' }}
                 icon={<BpIcon />}
                 checkedIcon={<PEIcon className="bg-orange rounded-md" icon={Icon.checkWhite} />}
                 checked={checked}

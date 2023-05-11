@@ -10,6 +10,7 @@ export enum Icon {
     arrowRight = '/icons/arrow-right.svg',
     arrowReload = '/icons/arrow-reload.svg',
     barChart = '/icons/bar-chart.svg',
+    burgerMenu = '/icons/burger-menu.svg',
     camera = '/icons/camera.svg',
     chatDots = '/icons/chat-dots.svg',
     check = '/icons/check.svg',

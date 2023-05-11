@@ -11,6 +11,7 @@ import PEPointsCard from '../../cards/pointsCard/PEPointsCard';
 import PEReviewCardChef from '../../cards/reviewCard/PEReviewCardChef';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
+import PEHeaderMobile from '../../header/PEHeaderMobile';
 import PEMap from '../../map/PEMap';
 import HomePageSearchMobile from '../../pages/home/search/HomePageSearchMobile';
 import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';
@@ -97,6 +98,8 @@ export default function HomePage(): ReactElement {
     return (
         <VStack className="w-full overflow-hidden">
             <PEHeader />
+            <PEHeaderMobile />
+
             <VStack
                 className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4"
                 style={{ alignItems: 'flex-start', gap: 32 }}
@@ -145,7 +148,7 @@ export default function HomePage(): ReactElement {
                         onSearch={handleSearch}
                     />
                     <div className="flex w-full lg:justify-center">
-                        <p className="text-white text-heading-l lg:my-8 mb-12 lg:text-60black lg:text-text-sm lg:max-w-[170px]">
+                        <p className="text-white text-heading-l lg:text-center lg:my-8 mb-12 lg:text-60black lg:text-text-sm lg:max-w-[170px]">
                             {t('sub-headline')}
                         </p>
                     </div>
@@ -168,7 +171,7 @@ export default function HomePage(): ReactElement {
                         />
                     </div>
                     <div className="bottom-[-15px] left-0 absolute lg:hidden">
-                        <Image src="/waves.svg" width={1300} height={58} alt="PeopleEat waves" />
+                        <Image src={'/waves.svg'} width={1300} height={58} alt="PeopleEat waves" />
                     </div>
                 </VStack>
                 <div className="flex w-full lg:mt-8 mt-10 lg:flex-col gap-6 flex-row justify-center lg:items-center">

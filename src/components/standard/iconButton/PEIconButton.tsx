@@ -7,13 +7,22 @@ import PEIcon from '../icon/PEIcon';
 export interface PEIconButtonProps {
     onClick?: () => void;
     icon: Icon;
+    withoutShadow?: boolean;
     size?: string;
     bg?: string;
     className?: string;
     iconSize?: number;
 }
 
-export default function PEIconButton({ onClick, bg, icon, size = '36px', iconSize, className }: PEIconButtonProps): ReactElement {
+export default function PEIconButton({
+    onClick,
+    bg,
+    withoutShadow,
+    icon,
+    size = '36px',
+    iconSize,
+    className,
+}: PEIconButtonProps): ReactElement {
     return (
         <IconButton
             sx={{
@@ -24,12 +33,12 @@ export default function PEIconButton({ onClick, bg, icon, size = '36px', iconSiz
                 height: size,
                 width: size,
                 minWidth: size,
-                boxShadow: '0px solid',
+                boxShadow: withoutShadow ? '0 0 0 rgba(0, 0, 0, 0)' : '',
                 '&:hover': {
                     backgroundColor: bg ?? 'rgba(245, 245, 245, 1)',
                 },
                 '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
-                    boxShadow: '0px solid',
+                    boxShadow: withoutShadow ? '0 0 0 rgba(0, 0, 0, 0)' : '',
                 },
                 backgroundColor: bg ?? 'rgba(245, 245, 245, 1)',
                 padding: 0,

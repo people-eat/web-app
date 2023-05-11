@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { type ReactElement } from 'react';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
+import PEHeaderMobile from '../../header/PEHeaderMobile';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 
@@ -10,6 +11,8 @@ export default function HowToChefPage(): ReactElement {
     return (
         <VStack className="w-full">
             <PEHeader />
+            <PEHeaderMobile />
+
             <VStack className="w-full max-w-screen-xl">
                 <VStack
                     className="w-full"

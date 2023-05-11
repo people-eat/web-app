@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import { CreateOneUserByEmailAddressDocument } from '../../../data-source/generated/graphql';
+import useResponsive from '../../../hooks/useResponsive';
 import PEButton from '../../standard/buttons/PEButton';
 import PELineButton from '../../standard/buttons/PELineButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
@@ -26,6 +27,7 @@ export default function SignUpPage(): ReactElement {
     const [passwordRepeat, setPasswordRepeat] = useState('');
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
     const [acceptedTerms, setAcceptedTerms] = useState(false);
+    const responsive = useResponsive();
 
     const [createOneUserByEmailAddress, { data, loading, error }] = useMutation(CreateOneUserByEmailAddressDocument, {
         variables: {
@@ -50,20 +52,20 @@ export default function SignUpPage(): ReactElement {
     if (data) console.log(data);
 
     return (
-        <HStack style={{ height: '100%' }}>
-            <VStack style={{ flex: 1, padding: '32px', overflowY: 'scroll' }}>
+        <HStack className="w-full" style={{ height: '100%' }}>
+            <VStack className="w-full" style={{ flex: 1, padding: '32px', overflowY: 'scroll' }}>
                 <VStack style={{ gap: '32px', width: '100%', maxWidth: '400px' }}>
                     <HStack style={{ width: '100%' }}>
                         <Image src={'/people-eat-logo-title.png'} alt="" width={203} height={46} />
                         <Spacer />
                     </HStack>
 
-                    <VStack style={{ width: '100%', alignItems: 'flex-start', marginTop: '100px' }}>
-                        <h2 className={'text-heading-xl my-1'}>Find a private chef!</h2>
-                        <p className={'text-preBlack my-1'}>Please enter your details</p>
+                    <VStack className="mt-[100px] lg:my-6" style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
+                        <h2 className="text-heading-xl lg:text-heading-s lg:mb-2 my-1">Find a private chef!</h2>
+                        <p className="text-preBlack my-1">Please enter your details</p>
                     </VStack>
 
-                    <HStack style={{ gap: '32px' }}>
+                    <HStack style={{ gap: '12px' }}>
                         <PEIconButton icon={Icon.appleWhiteIcon} size={'54px'} bg={'#000'} iconSize={24} />
                         <PEIconButton icon={Icon.facebook} size={'54px'} bg={'#3B5998'} iconSize={48} />
                         <PEIconButton icon={Icon.google} size={'54px'} bg={'#F5F5F5'} iconSize={24} />
@@ -134,12 +136,14 @@ export default function SignUpPage(): ReactElement {
                     >
                         <FormGroup>
                             <FormControlLabel
+                                sx={{ '& span': { fontSize: '14px' } }}
                                 control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
                                 label="I have read and accept the Privacy Policy"
                             />
                         </FormGroup>
                         <FormGroup>
                             <FormControlLabel
+                                sx={{ '& span': { fontSize: '14px' } }}
                                 control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
                                 label="I have read and accept the Terms and Conditions"
                             />
@@ -156,28 +160,35 @@ export default function SignUpPage(): ReactElement {
                     </HStack>
                 </VStack>
             </VStack>
-
-            <VStack className={'p-5 w-full'} style={{ flex: 1 }}>
-                <VStack
-                    className={'w-full rounded-tl-15'}
-                    style={{ flex: 1, backgroundImage: 'url(/picture-1.png)', backgroundPosition: 'center', backgroundSize: 'cover' }}
-                >
-                    <Spacer />
-                    <VStack
+            {responsive.isDesktop ? (
+                <div className={'flex flex-col items-center p-5 w-full min-w-[50%] box-border'}>
+                    <div
+                        className="flex w-full justify-center flex-col rounded-tl-15"
                         style={{
-                            width: 'calc(100% - 64px)',
-                            margin: '32px',
-                            backgroundColor: 'rgba(163, 163, 163, 0.5)',
-                            backdropFilter: 'blur(15px)',
-                            borderRadius: '16px',
-                            padding: '16px',
-                            height: '256px',
+                            flex: 1,
+                            backgroundImage: 'url(/picture-1.png)',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
                         }}
                     >
-                        <HStack></HStack>
-                    </VStack>
-                </VStack>
-            </VStack>
+                        <Spacer />
+                        <VStack
+                            className="box-border"
+                            style={{
+                                width: 'calc(100% - 64px)',
+                                margin: '32px',
+                                backgroundColor: 'rgba(163, 163, 163, 0.5)',
+                                backdropFilter: 'blur(15px)',
+                                borderRadius: '16px',
+                                padding: '16px',
+                                height: '256px',
+                            }}
+                        >
+                            <HStack></HStack>
+                        </VStack>
+                    </div>
+                </div>
+            ) : null}
         </HStack>
     );
 }
