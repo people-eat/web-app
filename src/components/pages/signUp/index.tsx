@@ -160,7 +160,7 @@ export default function SignUpPage(): ReactElement {
                     </HStack>
                 </VStack>
             </VStack>
-            {responsive.isDesktop ? (
+            {responsive.isDesktop && (
                 <div className={'flex flex-col items-center p-5 w-full min-w-[50%] box-border'}>
                     <div
                         className="flex w-full justify-center flex-col rounded-tl-15"
@@ -188,7 +188,7 @@ export default function SignUpPage(): ReactElement {
                         </VStack>
                     </div>
                 </div>
-            ) : null}
+            )}
         </HStack>
     );
 }

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { type ReactElement } from 'react';
 import useResponsive from '../../hooks/useResponsive';
+import PEHeaderMobile from '../header/PEHeaderMobile';
 import Spacer from '../utility/spacer/Spacer';
 
 export default function PEHeader(): ReactElement {
@@ -28,7 +29,9 @@ export default function PEHeader(): ReactElement {
                         <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{t('sign-in')}</Button>
                     </Link>
                 </div>
-            ) : null}
+            ) : (
+                <PEHeaderMobile />
+            )}
         </>
     );
 }

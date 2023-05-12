@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { type ReactElement } from 'react';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEHeaderMobile from '../../header/PEHeaderMobile';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
@@ -15,7 +14,6 @@ export default function AboutUsPage(): ReactElement {
     return (
         <VStack className="w-full" style={{ gap: 80 }}>
             <PEHeader />
-            <PEHeaderMobile />
 
             <VStack className="w-full max-w-screen-xl" style={{ gap: 64, alignItems: 'flex-start' }}>
                 <VStack style={{ alignItems: 'flex-start' }}>

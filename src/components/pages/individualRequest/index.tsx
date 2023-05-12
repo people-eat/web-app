@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEHeaderMobile from '../../header/PEHeaderMobile';
 import PEButton from '../../standard/buttons/PEButton';
 import PEDropdown from '../../standard/dropdown/PEDropdown';
 import VStack from '../../utility/vStack/VStack';
@@ -41,7 +40,6 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
     return (
         <VStack className="w-full" style={{ gap: 80 }}>
             <PEHeader />
-            <PEHeaderMobile />
 
             <VStack className="w-full max-w-screen-xl" style={{ gap: 32, alignItems: 'flex-start' }}>
                 <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg">{t('Individual Request in 3 steps')}</h1>

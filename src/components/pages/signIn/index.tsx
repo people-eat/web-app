@@ -78,8 +78,12 @@ export default function SignInPage(): ReactElement {
                             <PECheckbox checked={staySignedIn} onCheckedChange={setStaySignedIn} />
                             <p>Remember me</p>
                         </HStack>
-                        {responsive.isDesktop ? <Spacer /> : null}
-                        {responsive.isDesktop ? <div style={{ flex: 1 }}></div> : null}
+                        {responsive.isDesktop && (
+                            <>
+                                <Spacer />
+                                <Spacer />
+                            </>
+                        )}
                         <PELineButton
                             title={'Forgot password?'}
                             fontSize={'text-text-m'}
@@ -99,7 +103,7 @@ export default function SignInPage(): ReactElement {
                     </HStack>
                 </VStack>
             </VStack>
-            {responsive.isDesktop ? (
+            {responsive.isDesktop && (
                 <div
                     className="flex justify-center flex-col"
                     style={{
@@ -124,7 +128,7 @@ export default function SignInPage(): ReactElement {
                         <HStack></HStack>
                     </VStack>
                 </div>
-            ) : null}
+            )}
         </HStack>
     );
 }

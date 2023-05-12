@@ -11,7 +11,6 @@ import PEPointsCard from '../../cards/pointsCard/PEPointsCard';
 import PEReviewCardChef from '../../cards/reviewCard/PEReviewCardChef';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEHeaderMobile from '../../header/PEHeaderMobile';
 import PEMap from '../../map/PEMap';
 import HomePageSearchMobile from '../../pages/home/search/HomePageSearchMobile';
 import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';
@@ -98,7 +97,6 @@ export default function HomePage(): ReactElement {
     return (
         <VStack className="w-full overflow-hidden">
             <PEHeader />
-            <PEHeaderMobile />
 
             <VStack
                 className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4"
