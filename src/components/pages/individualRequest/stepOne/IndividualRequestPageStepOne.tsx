@@ -62,8 +62,8 @@ export default function IndividualRequestPageStepOne({
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>Event details</h3>
                 <HStack gap={4} className="w-full">
-                    <PEInput value={occasion} onChange={setOccasion} type="text" placeholder="Date" />
-                    <PEInput value={occasion} onChange={setOccasion} type="text" placeholder="Time" />
+                    <PEInput value={''} onChange={(): void => undefined} type="text" placeholder="Date" />
+                    <PEInput value={''} onChange={(): void => undefined} type="text" placeholder="Time" />
                 </HStack>
                 <PEInput value={occasion} onChange={setOccasion} type="text" placeholder="Occasion" />
             </VStack>

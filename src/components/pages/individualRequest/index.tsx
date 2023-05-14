@@ -1,9 +1,10 @@
+import { useMutation } from '@apollo/client';
 import { FormControlLabel, FormGroup, Step, StepLabel } from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import moment from 'moment';
-import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
+import { CreateOneAnonymousGlobalBookingRequestDocument } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
@@ -25,11 +26,11 @@ export interface IndividualRequestPageProps {
 
 // eslint-disable-next-line max-statements
 export default function IndividualRequestPage({ categories, allergies, kitchens }: IndividualRequestPageProps): ReactElement {
-    const { t } = useTranslation('common');
+    // const { t } = useTranslation('common');
     const { isMobile } = useResponsive();
     const { query } = useRouter();
 
-    const [step, setStep] = useState(2);
+    const [step, setStep] = useState(0);
 
     const adultCountFromQueryParams: number = Number(query.adultCount);
     const childrenCountFromQueryParams: number = Number(query.childrenCount);
@@ -53,12 +54,38 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
         typeof query.addressSearchText === 'string' ? query.addressSearchText : '',
     );
 
+    const [createOneAnonymousGlobalBookingRequest, { data, loading, error }] = useMutation(CreateOneAnonymousGlobalBookingRequestDocument, {
+        variables: {
+            input: {
+                adults: adultCount,
+                budget: budget,
+                children: childrenCount,
+                customerEmailAddress: email,
+                customerFirstName: firstName,
+                customerLastName: lastName,
+                customerPhoneNumber: null,
+                dateTime: new Date(),
+                locationName: addressSearchText,
+                message: message,
+                occasion: occasion,
+            },
+        },
+    });
+
+    if (loading) return <>Loading...</>;
+
+    // eslint-disable-next-line no-alert
+    if (error) alert('An error occurred');
+
+    // eslint-disable-next-line no-alert
+    if (data) alert(data.success ? 'Thank you! Your order was successfully submitted.' : 'An error occurred, please try again.');
+
     return (
         <VStack gap={64} className="w-full">
             {isMobile ? <PEHeaderMobile /> : <PEHeader />}
 
             <VStack gap={32} className="w-full max-w-screen-xl" style={{ alignItems: 'flex-start' }}>
-                <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg">{t('Individual Request in 3 steps')}</h1>
+                <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg">{'Individual Request in 3 steps'}</h1>
 
                 <Stepper activeStep={step}>
                     <Step>
@@ -142,7 +169,7 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
                             </FormGroup>
                         </VStack>
 
-                        <PEButton onClick={(): void => setStep(2)} title="Send Request" />
+                        <PEButton onClick={(): any => createOneAnonymousGlobalBookingRequest()} title="Send Request" />
                     </>
                 )}
             </VStack>
