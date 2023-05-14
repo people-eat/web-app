@@ -13,7 +13,7 @@ export default function PECounter({ value, onValueChange }: PECounterProps): Rea
     }
 
     return (
-        <section className="flex flex-row gap-3">
+        <section className="flex flex-row gap-3 w-[130px] justify-between">
             <section
                 onClick={handleDecreaseCount}
                 className={'flex active:opacity-70 justify-center items-center bg-base w-10 h-10 rounded-3'}

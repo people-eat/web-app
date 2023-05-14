@@ -59,9 +59,9 @@ export default function PEDropdown({ items, callBack, expanded, title }: PEDropd
     );
 
     return (
-        <Grid container spacing={2}>
-            <Grid item>
-                <Card sx={{ borderRadius: '12px', width: '690px', my: '16px' }}>
+        <Grid sx={{ width: '100%' }} container spacing={2}>
+            <Grid sx={{ width: '100%' }} item>
+                <Card sx={{ borderRadius: '12px', width: '100%', my: '16px' }}>
                     <CardHeader
                         onClick={(): void => setOpen(!isOpen)}
                         sx={{

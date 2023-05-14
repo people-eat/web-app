@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Slide from '@mui/material/Slide';
-import Typography from '@mui/material/Typography';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { Icon } from '../../standard/icon/Icon';
 import PEIconButton from '../../standard/iconButton/PEIconButton';
@@ -15,15 +14,15 @@ const style = {
     boxSizing: 'border-box',
     bgcolor: 'background.paper',
     boxShadow: 24,
-    p: 2,
 };
 
 export interface PEModalProps {
     openMenu: boolean;
     handleOpenMenu: (value: boolean) => void;
+    children: ReactElement;
 }
 
-export default function PEModal({ openMenu, handleOpenMenu }: PEModalProps): ReactElement {
+export default function PEModal({ openMenu, handleOpenMenu, children }: PEModalProps): ReactElement {
     const [open, setOpen] = useState(openMenu);
     const containerRef = useRef(null);
 
@@ -50,9 +49,7 @@ export default function PEModal({ openMenu, handleOpenMenu }: PEModalProps): Rea
                         <div className="absolute right-4 top-4">
                             <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={handleClose} iconSize={24} />
                         </div>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Text in a modal
-                        </Typography>
+                        {children}
                     </Box>
                 </Slide>
             </Modal>
