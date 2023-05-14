@@ -19,11 +19,14 @@ function intersection(a: readonly string[], b: readonly string[]): string[] {
 
 export interface PEDropdownProps {
     items: string[];
+    callBack?: (checked: readonly string[]) => void;
+    expanded?: boolean;
+    title?: string;
 }
 
-export default function PEDropdown({ items }: PEDropdownProps): ReactElement {
+export default function PEDropdown({ items, callBack, expanded, title }: PEDropdownProps): ReactElement {
     const [checked, setChecked] = useState<readonly string[]>([]);
-    const [isOpen, setOpen] = useState(true);
+    const [isOpen, setOpen] = useState(Boolean(expanded));
 
     const handleToggle = (value: string) => () => {
         const currentIndex = checked.indexOf(value);
@@ -32,13 +35,15 @@ export default function PEDropdown({ items }: PEDropdownProps): ReactElement {
         if (currentIndex === -1) newChecked.push(value);
         else newChecked.splice(currentIndex, 1);
 
+        callBack?.(checked);
+
         setChecked(newChecked);
     };
 
-    const Title = (title: string): ReactElement => (
+    const Title = (dropdownTitle: string): ReactElement => (
         <div className={'flex justify-between items-center'}>
             <div>
-                <span className="font-manrope text-text-m">{title} </span>
+                <span className="font-manrope text-text-m">{dropdownTitle} </span>
                 <span className="font-manrope text-60black text-text-m">({intersection(checked, items).length} selected)</span>
             </div>
             <div
@@ -67,7 +72,7 @@ export default function PEDropdown({ items }: PEDropdownProps): ReactElement {
                             border: isOpen ? '1px solid rgba(255, 100, 51, 1)' : '1px solid rgba(245, 245, 245, 1)',
                             borderRadius: isOpen ? '12px 12px 0 0' : '12px',
                         }}
-                        title={Title('Choices')}
+                        title={Title(title ?? 'Choices')}
                     />
                     {isOpen ? <Divider /> : null}
                     <Collapse in={isOpen}>
