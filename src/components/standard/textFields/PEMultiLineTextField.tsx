@@ -28,6 +28,8 @@ export default function PEMultiLineTextField({
                         },
                     },
                     borderRadius: '12px',
+                    minHeight: 128,
+                    alignItems: 'flex-start',
                 },
             }}
             style={style}
