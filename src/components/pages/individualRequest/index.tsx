@@ -41,7 +41,7 @@ export interface IndividualRequestPageProps {
 export default function IndividualRequestPage({ categories, allergies, kitchens }: IndividualRequestPageProps): ReactElement {
     const { t } = useTranslation('common');
     const { isMobile, isDesktop } = useResponsive();
-    const { query } = useRouter();
+    const router = useRouter();
 
     const [step, setStep] = useState(0);
 
