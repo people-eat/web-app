@@ -6,7 +6,13 @@ import PEHeader from '../../header/PEHeader';
 import PEHeaderMobile from '../../header/PEHeaderMobile';
 import VStack from '../../utility/vStack/VStack';
 
-export default function TermsAndConditionsPage(): ReactElement {
+export interface TermsAndConditionsPageProps {
+    termsUpdateId: string;
+    englishText: string;
+    createdAt: Date;
+}
+
+export default function TermsAndConditionsPage({ englishText }: TermsAndConditionsPageProps): ReactElement {
     const { t } = useTranslation('common');
     const { isMobile } = useResponsive();
 
@@ -16,6 +22,7 @@ export default function TermsAndConditionsPage(): ReactElement {
 
             <VStack className="w-full max-w-screen-xl" style={{ gap: 64, alignItems: 'flex-start' }}>
                 <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg">{t('terms-and-conditions')}</h1>
+                {englishText}
             </VStack>
 
             <PEFooter />
