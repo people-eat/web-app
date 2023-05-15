@@ -16,7 +16,7 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
-import { CreateOneAnonymousGlobalBookingRequestDocument } from '~/data-source/generated/graphql';
+import { CreateOneAnonymousGlobalBookingRequestDocument } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
@@ -68,26 +68,23 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
         typeof router.query.addressSearchText === 'string' ? router.query.addressSearchText : '',
     );
 
-    const [_createOneAnonymousGlobalBookingRequest, { data, loading, error }] = useMutation(
-        CreateOneAnonymousGlobalBookingRequestDocument,
-        {
-            variables: {
-                input: {
-                    adults: adultCount,
-                    budget: budget,
-                    children: childrenCount,
-                    customerEmailAddress: email,
-                    customerFirstName: firstName,
-                    customerLastName: lastName,
-                    customerPhoneNumber: null,
-                    dateTime: new Date(),
-                    locationName: addressSearchText,
-                    message: message,
-                    occasion: occasion,
-                },
+    const [createOneAnonymousGlobalBookingRequest, { data, loading, error }] = useMutation(CreateOneAnonymousGlobalBookingRequestDocument, {
+        variables: {
+            input: {
+                adults: adultCount,
+                budget: budget,
+                children: childrenCount,
+                customerEmailAddress: email,
+                customerFirstName: firstName,
+                customerLastName: lastName,
+                customerPhoneNumber: null,
+                dateTime: new Date(),
+                locationName: addressSearchText,
+                message: message,
+                occasion: occasion,
             },
         },
-    );
+    });
 
     return (
         <VStack gap={32} className="w-full min-h-screen">
@@ -188,7 +185,7 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
                                 </FormGroup>
                             </VStack>
 
-                            <PEButton onClick={(): void => setStep(2)} title="Send Request" />
+                            <PEButton onClick={(): any => createOneAnonymousGlobalBookingRequest()} title="Send Request" />
                         </>
                     )}
                 </VStack>
