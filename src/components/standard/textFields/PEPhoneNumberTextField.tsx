@@ -15,6 +15,7 @@ export default function PEPhoneNumberTextField({
             forceCallingCode
             focusOnSelectCountry
             onlyCountries={['DE', 'GB', 'US', 'FR', 'RU']}
+            defaultCountry="DE"
             value={phoneNumber}
             onChange={(changedPhoneNumber): void => onChange(changedPhoneNumber, matchIsValidTel(changedPhoneNumber))}
             placeholder={placeholder}

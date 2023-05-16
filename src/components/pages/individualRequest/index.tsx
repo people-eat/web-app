@@ -1,13 +1,12 @@
 import { useMutation } from '@apollo/client';
 import {
     Button,
+    CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    FormControlLabel,
-    FormGroup,
     Step,
     StepLabel,
 } from '@mui/material';
@@ -21,15 +20,11 @@ import useResponsive from '../../../hooks/useResponsive';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEHeaderMobile from '../../header/PEHeaderMobile';
-import PEButton from '../../standard/buttons/PEButton';
-import PECheckbox from '../../standard/checkbox/PECheckbox';
-import PEDropdown from '../../standard/dropdown/PEDropdown';
-import PEEmailTextField from '../../standard/textFields/PEEmailTextField';
-import PEPhoneNumberTextField from '../../standard/textFields/PEPhoneNumberTextField';
-import PETextField from '../../standard/textFields/PETextField';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
 import IndividualRequestPageStepOne from './stepOne/IndividualRequestPageStepOne';
+import IndividualRequestPageStepThree from './stepThree/IndividualRequestPageStepThree';
+import IndividualRequestPageStepTwo from './stepTwo/IndividualRequestPageStepTwo';
 
 export interface IndividualRequestPageProps {
     categories: { categoryId: string; title: string }[];
@@ -59,7 +54,9 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [emailIsValid, setEmailIsValid] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumberIsValid, setPhoneNumberIsValid] = useState(false);
 
     const [acceptedTermsAndConditions, setAcceptedTermsAndConditions] = useState(false);
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
@@ -77,7 +74,7 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
                 customerEmailAddress: email,
                 customerFirstName: firstName,
                 customerLastName: lastName,
-                customerPhoneNumber: null,
+                customerPhoneNumber: phoneNumber.length > 4 ? phoneNumber.replaceAll(' ', '') : null,
                 dateTime: new Date(),
                 locationName: addressSearchText,
                 message: message,
@@ -111,84 +108,65 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
                     </Stepper>
 
                     {step === 0 && (
-                        <>
-                            <IndividualRequestPageStepOne
-                                adultCount={adultCount}
-                                setAdultCount={setAdultCount}
-                                childrenCount={childrenCount}
-                                setChildrenCount={setChildrenCount}
-                                addressSearchText={addressSearchText}
-                                setAddressSearchText={setAddressSearchText}
-                                date={date}
-                                setDate={setDate}
-                                time={time}
-                                setTime={setTime}
-                                occasion={occasion}
-                                setOccasion={setOccasion}
-                                budget={budget}
-                                setBudget={setBudget}
-                                message={message}
-                                setMessage={setMessage}
-                                onContinue={(): void => setStep(1)}
-                            />
-                        </>
+                        <IndividualRequestPageStepOne
+                            adultCount={adultCount}
+                            setAdultCount={setAdultCount}
+                            childrenCount={childrenCount}
+                            setChildrenCount={setChildrenCount}
+                            addressSearchText={addressSearchText}
+                            setAddressSearchText={setAddressSearchText}
+                            date={date}
+                            setDate={setDate}
+                            time={time}
+                            setTime={setTime}
+                            occasion={occasion}
+                            setOccasion={setOccasion}
+                            budget={budget}
+                            setBudget={setBudget}
+                            message={message}
+                            setMessage={setMessage}
+                            onContinue={(): void => setStep(1)}
+                        />
                     )}
 
                     {step === 1 && (
-                        <>
-                            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
-                                <h3>Preferences</h3>
-                                <PEDropdown title="Category" items={categories.map(({ title }) => title)} />
-                                <PEDropdown title="Cuisine" items={kitchens.map(({ title }) => title)} />
-                                <PEDropdown title="Allergy" items={allergies.map(({ title }) => title)} />
-                            </VStack>
-
-                            <PEButton onClick={(): void => setStep(2)} title="Continue" />
-                        </>
+                        <IndividualRequestPageStepTwo
+                            categories={categories}
+                            selectedCategoryIds={[]}
+                            onSelectCategoryId={(): void => undefined}
+                            allergies={allergies}
+                            selectedAllergyIds={[]}
+                            onSelectAllergyId={(): void => undefined}
+                            kitchens={kitchens}
+                            selectedKitchenIds={[]}
+                            onSelectKitchenId={(): void => undefined}
+                            onContinue={(): void => setStep(2)}
+                        />
                     )}
 
                     {step === 2 && (
-                        <>
-                            <PETextField value={firstName} onChange={setFirstName} type="text" placeholder="First Name" />
-                            <PETextField value={lastName} onChange={setLastName} type="text" placeholder="Last Name" />
-                            <PEEmailTextField email={email} onChange={setEmail} placeholder="Email" />
-                            <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder="Phone Number" />
-
-                            <VStack
-                                className="w-full"
-                                style={{
-                                    alignItems: 'flex-start',
-                                    padding: '16px',
-                                    border: '1px solid rgba(31, 31, 31, 0.2)',
-                                    boxSizing: 'border-box',
-                                    borderRadius: '16px',
-                                }}
-                            >
-                                <FormGroup>
-                                    <FormControlLabel
-                                        sx={{ '& span': { fontSize: '14px' } }}
-                                        control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
-                                        label="I have read and accept the Privacy Policy"
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <FormControlLabel
-                                        sx={{ '& span': { fontSize: '14px' } }}
-                                        control={
-                                            <PECheckbox
-                                                checked={acceptedTermsAndConditions}
-                                                onCheckedChange={setAcceptedTermsAndConditions}
-                                            />
-                                        }
-                                        label="I have read and accept the Terms and Conditions"
-                                    />
-                                </FormGroup>
-                            </VStack>
-
-                            <PEButton onClick={(): any => createOneAnonymousGlobalBookingRequest()} title="Send Request" />
-                        </>
+                        <IndividualRequestPageStepThree
+                            firstName={firstName}
+                            setFirstName={setFirstName}
+                            lastName={lastName}
+                            setLastName={setLastName}
+                            email={email}
+                            setEmail={setEmail}
+                            emailIsValid={emailIsValid}
+                            setEmailIsValid={setEmailIsValid}
+                            phoneNumber={phoneNumber}
+                            setPhoneNumber={setPhoneNumber}
+                            phoneNumberIsValid={phoneNumberIsValid}
+                            setPhoneNumberIsValid={setPhoneNumberIsValid}
+                            acceptedPrivacyPolicy={acceptedPrivacyPolicy}
+                            setAcceptedPrivacyPolicy={setAcceptedPrivacyPolicy}
+                            acceptedTermsAndConditions={acceptedTermsAndConditions}
+                            setAcceptedTermsAndConditions={setAcceptedTermsAndConditions}
+                            onContinue={(): any => createOneAnonymousGlobalBookingRequest()}
+                        />
                     )}
                 </VStack>
+
                 {isDesktop && (
                     <VStack
                         className="w-full max-w-[45%] max-h-[660px]"
@@ -205,12 +183,20 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
             </HStack>
 
             <Dialog open={Boolean(data)}>
-                <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
+                <DialogTitle>
+                    {loading && <>Loading...</>}
+                    {(error || !data?.success) && <>An error occurred</>}
+                    {data?.success && <>Thank you! Your order was successfully submitted.</>}
+                </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        {loading && <>Loading...</>}
-                        {error && <>An error occurred</>}
-                        {data?.success ? 'Thank you! Your order was successfully submitted.' : 'An error occurred, please try again.'}
+                        {loading && (
+                            <HStack>
+                                <CircularProgress />
+                            </HStack>
+                        )}
+                        {(error || !data?.success) && <>Please try again.</>}
+                        {data?.success && <>Thank you! Your order was successfully submitted.</>}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
