@@ -55,15 +55,17 @@ export default function SignUpPage(): ReactElement {
     if (data) console.log(data);
 
     return (
-        <HStack className="w-full" style={{ height: '100%' }}>
+        <HStack className="w-full h-full relative" style={{ justifyContent: 'space-between' }}>
             <VStack className="w-full" style={{ flex: 1, padding: '32px', overflowY: 'scroll' }}>
                 <VStack style={{ gap: '32px', width: '100%', maxWidth: '400px' }}>
                     <HStack style={{ width: '100%' }}>
-                        <Image src={'/people-eat-logo-title.png'} alt="" width={203} height={46} />
+                        <Link href={'/'}>
+                            <Image src={'/logo.svg'} alt="" width={203} height={46} />
+                        </Link>
                         <Spacer />
                     </HStack>
 
-                    <VStack className="mt-[100px] lg:my-6" style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
+                    <VStack className="mt-[32px] lg:my-6" style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
                         <h2 className="text-heading-xl lg:text-heading-s lg:mb-2 my-1">Find a private chef!</h2>
                         <p className="text-preBlack my-1">Please enter your details</p>
                     </VStack>
@@ -90,26 +92,26 @@ export default function SignUpPage(): ReactElement {
                         <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={'Last name'} />
                     </VStack>
 
-                    <HStack style={{ gap: '16px', width: '100%', alignItems: 'flex-start' }}>
-                        <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                            <p>Date of birth</p>
-                            <div className={'border-solid border-[1px] border-disabled p-[11px] rounded-3 hover:border-black'}>
-                                <DatePicker
-                                    value={birthDate}
-                                    onChange={(changedDate: Moment | null): void => {
-                                        if (changedDate) setBirthDate(changedDate);
-                                    }}
-                                    format={'DD.MM.YYYY'}
-                                    slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
-                                />
-                            </div>
-                        </VStack>
+                    <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
+                        <p>Date of birth</p>
+                        <div
+                            className={'border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black'}
+                        >
+                            <DatePicker
+                                sx={{ width: '100%' }}
+                                value={birthDate}
+                                onChange={(changedDate: Moment | null): void => {
+                                    if (changedDate) setBirthDate(changedDate);
+                                }}
+                                slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
+                            />
+                        </div>
+                    </VStack>
 
-                        <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                            <p>Phone number</p>
-                            <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={'Phone Number'} />
-                        </VStack>
-                    </HStack>
+                    <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
+                        <p>Phone number</p>
+                        <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={'Phone Number'} />
+                    </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                         <p>Email</p>

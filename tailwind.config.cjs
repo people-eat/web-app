@@ -40,6 +40,7 @@ const config = {
             },
             backgroundImage: {
                 yellowLight: 'linear-gradient(180deg, #FFFCF3 0%, #FFFDF7 100%)',
+                blackGradient: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%)',
             },
             borderColor: {
                 orange: 'rgba(255, 100, 51, 1)',
@@ -53,6 +54,7 @@ const config = {
                 'heading-m': ['24px', { fontWeight: '600' }],
                 'heading-xm': ['28px', { fontWeight: '600' }],
                 'rem-heading-xm': ['1.5rem', { fontWeight: '600' }],
+                'rem-heading-s': ['1.2rem', { fontWeight: '600' }],
                 'heading-l': ['32px', { fontWeight: '600' }],
                 'heading-xl': ['38px', { fontWeight: '600' }],
                 'heading-xxl': ['52px', { fontWeight: '600' }],

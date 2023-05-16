@@ -84,7 +84,7 @@ export default function IndividualRequestPage({ categories, allergies, kitchens 
     });
 
     return (
-        <VStack gap={32} className="w-full min-h-screen">
+        <VStack gap={32} className="w-full min-h-screen" style={{ justifyContent: 'space-between' }}>
             {isMobile ? <PEHeaderMobile /> : <PEHeader />}
 
             <HStack gap={32} className="w-full max-w-screen-xl" style={{ justifyContent: 'space-between' }}>

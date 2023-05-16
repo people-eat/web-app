@@ -152,7 +152,7 @@ export default function HomePage(): ReactElement {
                         onSearch={handleSearch}
                     />
                     <div className="flex w-full lg:justify-center">
-                        <p className="text-white text-heading-l lg:text-center lg:my-8 mb-12 lg:text-60black lg:text-text-sm lg:max-w-[170px]">
+                        <p className="text-white text-heading-l lg:text-center lg:my-8 mb-12 lg:text-60black lg:text-text-sm lg:max-w-[180px]">
                             {t('sub-headline')}
                         </p>
                     </div>
@@ -190,7 +190,7 @@ export default function HomePage(): ReactElement {
                 </div>
                 <div className="flex w-full min-h-[700px] lg:my-10 my-[64px] justify-between items-center lg:flex-col-reverse">
                     <div className="flex items-start lg:items-center flex-col">
-                        <h2 className="text-heading-xl lg:text-heading-s leading-[60px] mb-12 lg:uppercase">
+                        <h2 className="text-heading-xl lg:text-heading-s lg:text-center leading-[60px] mb-12 lg:uppercase">
                             Every occasion as a unique <br /> experience moment
                         </h2>
                         <HStack className="lg:gap-2 gap-4 max-w-[580px] flex-wrap" style={{ justifyContent: 'flex-start' }}>
@@ -306,20 +306,8 @@ export default function HomePage(): ReactElement {
                         <HStack className="w-full">
                             <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">Most requested menus</h2>
                             <div className="flex absolute gap-4 right-0 lg:hidden">
-                                <PENextButton
-                                    reverse
-                                    onClick={(): void =>
-                                        setTabItem(
-                                            MENU_TABS[(MENU_TABS.indexOf(tabItem) - 1 + MENU_TABS.length) % MENU_TABS.length] ?? 'All',
-                                        )
-                                    }
-                                />
-                                <PENextButton
-                                    active
-                                    onClick={(): void =>
-                                        setTabItem(MENU_TABS[(MENU_TABS.indexOf(tabItem) + 1) % MENU_TABS.length] ?? 'All')
-                                    }
-                                />
+                                <PENextButton reverse onClick={(): void => undefined} />
+                                <PENextButton active onClick={(): void => undefined} />
                             </div>
                         </HStack>
                         <div
@@ -350,7 +338,7 @@ export default function HomePage(): ReactElement {
                             ))}
                             <PEPointsCard />
                         </div>
-                        <div className="flex flex-wrap gap-5 mt-10 sm:flex hidden">
+                        <div className="flex flex-wrap justify-center gap-5 mt-10 sm:flex hidden">
                             {[1, 2, 3].map((item) => (
                                 <PEMenuCardMobile
                                     key={`${item}_PEMenuCardMobile`}
@@ -375,7 +363,7 @@ export default function HomePage(): ReactElement {
                 </VStack>
 
                 <VStack gap={32} className="w-full">
-                    <span className="text-heading-xl lg:text-rem-heading-xm lg:uppercase">PeopleEat Chefs in your region</span>
+                    <span className="text-heading-xl lg:text-rem-heading-s text-center lg:uppercase">PeopleEat Chefs in your region</span>
 
                     <PEAutoCompleteTextField
                         searchText={addressSearchText}
@@ -406,20 +394,8 @@ export default function HomePage(): ReactElement {
                         <div className="flex justify-center w-full">
                             <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">Most Wanted Chefs</h2>
                             <div className="flex absolute gap-4 right-0 lg:hidden">
-                                <PENextButton
-                                    reverse
-                                    onClick={(): void => {
-                                        setTabItem(
-                                            MENU_TABS[(MENU_TABS.indexOf(tabItem) - 1 + MENU_TABS.length) % MENU_TABS.length] ?? 'All',
-                                        );
-                                    }}
-                                />
-                                <PENextButton
-                                    active
-                                    onClick={(): void => {
-                                        setTabItem(MENU_TABS[(MENU_TABS.indexOf(tabItem) + 1) % MENU_TABS.length] ?? 'All');
-                                    }}
-                                />
+                                <PENextButton reverse onClick={(): void => undefined} />
+                                <PENextButton active onClick={(): void => undefined} />
                             </div>
                         </div>
                         <div

@@ -42,12 +42,14 @@ export default function SignInPage(): ReactElement {
         <HStack style={{ height: '100%' }}>
             <VStack style={{ flex: 1, padding: '32px', overflowY: 'scroll' }}>
                 <VStack className="gap-8 lg:gap-4" style={{ width: '100%', maxWidth: '800px' }}>
-                    <HStack style={{ width: '100%', maxWidth: '400px' }}>
-                        <Image src={'/people-eat-logo-title.png'} alt="" width={203} height={46} />
+                    <HStack style={{ width: '100%' }}>
+                        <Link href={'/'}>
+                            <Image src={'/logo.svg'} alt="" width={203} height={46} />
+                        </Link>
                         <Spacer />
                     </HStack>
 
-                    <VStack className="mt-[100px] lg:my-6" style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
+                    <VStack className="mt-[32px] lg:my-6" style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
                         <h2 className="text-heading-xl lg:text-heading-s lg:mb-2 my-1">Find a private chef!</h2>
                         <p className="text-preBlack my-1">Please enter your details</p>
                     </VStack>

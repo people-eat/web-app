@@ -5,6 +5,7 @@ import PEButton from '../../../standard/buttons/PEButton';
 import PECounter from '../../../standard/counter/PECounter';
 import PEInput from '../../../standard/input/PEInput';
 import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextField';
+import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
@@ -67,7 +68,7 @@ export default function IndividualRequestPageStepOne({
             <VStack gap={16} className="w-full relative" style={{ alignItems: 'flex-start' }}>
                 <h3>Event details</h3>
                 <HStack gap={16} className="w-full box-border relative">
-                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-solid border-disabled rounded-4 px-4  py-2 box-border">
+                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4  py-2 box-border">
                         <DatePicker
                             sx={{ width: '100%' }}
                             value={date}
@@ -79,7 +80,7 @@ export default function IndividualRequestPageStepOne({
                             disablePast
                         />
                     </div>
-                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-solid border-disabled rounded-4 px-4  py-2 box-border">
+                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4  py-2 box-border">
                         <TimePicker
                             sx={{ width: '100%' }}
                             value={time}
@@ -102,7 +103,7 @@ export default function IndividualRequestPageStepOne({
 
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>Budget</h3>
-                <PEInput value={budget} onChange={setBudget} type="text" placeholder="Budget" />
+                <PETextField startContent={<p>€</p>} type={'number'} value={budget} onChange={setBudget} placeholder="Budget" />
             </VStack>
 
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>

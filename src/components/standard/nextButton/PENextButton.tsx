@@ -16,6 +16,9 @@ export default function PENextButton({ onClick, reverse, active }: PENextButtonP
                     backgroundColor: active ? 'rgba(255, 100, 51, 1)' : 'white',
                     boxShadow: '0',
                 },
+                '&:active': {
+                    boxShadow: '0px 5px 24px rgba(0, 0, 0, 0.08)',
+                },
                 borderRadius: '8px',
                 backgroundColor: active ? 'rgba(255, 100, 51, 1)' : 'white',
                 minWidth: '46px',
