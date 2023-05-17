@@ -72,8 +72,8 @@ export default function PEMenuCard({
                             <Image
                                 width={24}
                                 height={24}
-                                src={chefProfilePictureUrl ?? ''}
-                                alt={chefProfilePictureUrl ?? 'menu card'}
+                                src={chefProfilePictureUrl}
+                                alt={chefProfilePictureUrl}
                                 className="rounded-4 w-6 h-6 object-cover"
                             />
                         )}

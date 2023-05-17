@@ -125,7 +125,7 @@ export default function CookSignUpPage(): ReactElement {
 
                 <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                     <p>Language</p>
-                    <PEDropdown expanded title="Language" items={['English', 'Russian', 'Deutsch']} />
+                    <PEDropdown expanded title="Language" items={['English', 'Russian']} />
                 </VStack>
 
                 <VStack className="w-full">
@@ -219,14 +219,12 @@ export default function CookSignUpPage(): ReactElement {
                 >
                     <FormGroup>
                         <FormControlLabel
-                            sx={{ '& span': { fontSize: '14px' } }}
                             control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
                             label="I have read and accept the Privacy Policy"
                         />
                     </FormGroup>
                     <FormGroup>
                         <FormControlLabel
-                            sx={{ '& span': { fontSize: '14px' } }}
                             control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
                             label="I have read and accept the Terms and Conditions"
                         />
