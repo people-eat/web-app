@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { type ReactElement } from 'react';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
@@ -22,7 +23,13 @@ export default function PEMenuCardMobile({
             <div className="flex gap-3 flex-row box-border">
                 <div className="flex rounded-3 overflow-hidden min-w-[120px] h-[120px] justify-center items-center bg-base">
                     {imageUrls.length ? (
-                        <img src={imageUrls[0]} alt={imageUrls[0]} className="w-[120px] h-[120px] object-cover" />
+                        <Image
+                            width={120}
+                            height={120}
+                            src={imageUrls[0] ?? ''}
+                            alt={imageUrls[0] ?? 'menu card image'}
+                            className="w-[120px] h-[120px] object-cover"
+                        />
                     ) : (
                         <PEIcon icon={Icon.food} edgeLength={52} />
                     )}
@@ -45,7 +52,13 @@ export default function PEMenuCardMobile({
             <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center gap-2 overflow-hidden">
                     {chefProfilePictureUrl && (
-                        <img src={chefProfilePictureUrl} alt={chefProfilePictureUrl} className="rounded-4 w-6 h-6 object-cover" />
+                        <Image
+                            width={24}
+                            height={24}
+                            src={chefProfilePictureUrl ?? ''}
+                            alt={chefProfilePictureUrl ?? 'menu card image'}
+                            className="rounded-4 w-6 h-6 object-cover"
+                        />
                     )}
                     {!chefProfilePictureUrl && <PEIcon icon={Icon.profileLight} />}
                     <span className="text-preBlack">{chefFirstName}</span>

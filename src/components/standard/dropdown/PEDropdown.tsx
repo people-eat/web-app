@@ -22,9 +22,10 @@ export interface PEDropdownProps {
     callBack?: (checked: readonly string[]) => void;
     expanded?: boolean;
     title?: string;
+    singleSelector?: boolean;
 }
 
-export default function PEDropdown({ items, callBack, expanded, title }: PEDropdownProps): ReactElement {
+export default function PEDropdown({ items, callBack, expanded, title, singleSelector }: PEDropdownProps): ReactElement {
     const [checked, setChecked] = useState<readonly string[]>([]);
     const [isOpen, setOpen] = useState(Boolean(expanded));
 
@@ -44,7 +45,9 @@ export default function PEDropdown({ items, callBack, expanded, title }: PEDropd
         <div className={'flex justify-between items-center'}>
             <div>
                 <span className="font-manrope text-text-m">{dropdownTitle} </span>
-                <span className="font-manrope text-60black text-text-m">({intersection(checked, items).length} selected)</span>
+                {!singleSelector && (
+                    <span className="font-manrope text-60black text-text-m">({intersection(checked, items).length} selected)</span>
+                )}
             </div>
             <div
                 className={classNames('w-6 h-6 scroll flex items-start justify-center bg-base rounded-4', {
@@ -59,7 +62,7 @@ export default function PEDropdown({ items, callBack, expanded, title }: PEDropd
     );
 
     return (
-        <Grid sx={{ width: '100%' }} container spacing={2}>
+        <Grid sx={{ width: '100%' }} container>
             <Grid sx={{ width: '100%' }} item>
                 <Card sx={{ borderRadius: '12px', width: '100%', my: '16px' }}>
                     <CardHeader

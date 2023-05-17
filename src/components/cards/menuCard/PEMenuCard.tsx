@@ -69,7 +69,13 @@ export default function PEMenuCard({
                 <div className="flex flex-row justify-between w-full">
                     <div className="flex flex-row items-center gap-2 overflow-hidden">
                         {chefProfilePictureUrl && (
-                            <img src={chefProfilePictureUrl} alt={chefProfilePictureUrl} className="rounded-4 w-6 h-6 object-cover" />
+                            <Image
+                                width={24}
+                                height={24}
+                                src={chefProfilePictureUrl ?? ''}
+                                alt={chefProfilePictureUrl ?? 'menu card'}
+                                className="rounded-4 w-6 h-6 object-cover"
+                            />
                         )}
                         {!chefProfilePictureUrl && <PEIcon icon={Icon.profileLight} />}
                         <span className="text-preBlack">{chefFirstName}</span>
