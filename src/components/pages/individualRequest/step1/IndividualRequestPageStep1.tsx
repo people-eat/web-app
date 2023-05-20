@@ -86,7 +86,6 @@ export default function IndividualRequestPageStep1({
                             }}
                             slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
                             label={'Time'}
-                            disablePast
                         />
                     </div>
                 </HStack>

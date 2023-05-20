@@ -3,7 +3,7 @@ import PEButton from '../../standard/buttons/PEButton';
 
 export default function PEPointsCard(): ReactElement {
     return (
-        <div className="flex flex-col justify-start items-start lg:w-full w-[580px] sm_max:bg-yellowLight sm:bg-white gap-3 p-6 box-border rounded-3 shadow-primary">
+        <div className="flex flex-col big:w-[45%] justify-start items-start lg:w-full w-[580px] max-w-[580px] sm_max:bg-yellowLight sm:bg-white gap-3 p-6 box-border rounded-3 shadow-primary">
             <h2 className={'text-heading-ss my-0 font-manrope leading-15'}>Can&apos;t find the right menu?</h2>
             <div className={'flex gap-4 sm:flex-col w-full'}>
                 <div className={'flex gap-2 lg:border-disabled lg:items-start lg:border-solid rounded-2 lg:p-3 lg:w-full box-border'}>

@@ -19,7 +19,7 @@ export default function HomePageSection4(): ReactElement {
             </h2>
             <div className="flex w-full gap-12 lg:flex-col flex-row justify-center">
                 <VStack>
-                    <Image className="object-contain" src={'/chefs.png'} alt={'chefs'} width={200} height={160} />
+                    <Image className="object-contain" src={'/chefs-pic.png'} alt={'chefs'} width={260} height={160} />
                     <HStack className="gap-4">
                         <span className="flex justify-center items-center bg-orange text-white p-2 rounded-2 max-h-[34px] min-w-[34px] box-border">
                             01
@@ -37,7 +37,7 @@ export default function HomePageSection4(): ReactElement {
                     </HStack>
                 </VStack>
                 <VStack>
-                    <Image className="object-cover" src={'/customers.png'} alt={'chefs'} width={200} height={160} />
+                    <Image className="object-cover" src={'/customers-pic.png'} alt={'chefs'} width={200} height={160} />
                     <HStack className="gap-4">
                         <span className="flex justify-center items-center bg-orange text-white p-2 rounded-2 max-h-[34px] min-w-[34px] box-border">
                             03

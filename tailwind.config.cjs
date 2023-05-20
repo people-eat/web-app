@@ -62,7 +62,7 @@ const config = {
                 'text-s-height': ['12px', { lineHeight: '20px' }],
                 'text-sm': ['14px', { lineHeight: '18px' }],
                 'text-sm-bold': ['14px', { lineHeight: '18px', fontWeight: '700' }],
-                'text-m': ['16px', { lineHeight: '20px' }],
+                'text-m': ['16px', { lineHeight: '20px', fontWeight: '400' }],
                 'text-m-bold': ['16px', { fontWeight: '700' }],
                 'text-l': ['18px', { lineHeight: '22px' }],
                 'text-l-bold': ['18px', { fontWeight: '600' }],

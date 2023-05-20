@@ -1,4 +1,5 @@
 import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
 import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import HStack from '../../../utility/hStack/HStack';
@@ -29,10 +30,12 @@ export default function HomePageSection2(): ReactElement {
                         </span>
                     ))}
                 </HStack>
-                <PEButton className="mt-12 max-w-[320px]" onClick={handleBookNow} title={'Book now'} />
+                <Link href={'/individual-request'} className="no-underline">
+                    <PEButton className="mt-12 min-w-[320px]" onClick={handleBookNow} title={'Book now'} />
+                </Link>
             </div>
             <VStack
-                className="rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full w-[50%] lg:w-full"
+                className="rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full w-[50%] big:min-w-[460px] lg_min:min-w-[460px] lg:w-full lg:max-w-[540px]"
                 style={{
                     backgroundImage: 'url(/friendsAtTheTable.png)',
                     backgroundPosition: 'center',

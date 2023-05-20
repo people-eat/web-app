@@ -16,6 +16,7 @@ import { Icon } from '../icon/Icon';
 export interface PEDropdownProps<T> {
     title?: string;
     defaultExpanded?: boolean;
+    singleSelector?: boolean;
     options: T[];
     getOptionLabel: (option: T) => string;
     onSelectedOptionsChange?: (changedSelectedOptions: T[]) => void;
@@ -27,6 +28,7 @@ export default function PEDropdown<T>({
     options,
     getOptionLabel,
     onSelectedOptionsChange,
+    singleSelector,
 }: PEDropdownProps<T>): ReactElement {
     const [isOpen, setOpen] = useState(Boolean(defaultExpanded));
     const [selectedOptionIndices, setSelectedOptionIndices] = useState(new Set<number>());
@@ -52,7 +54,11 @@ export default function PEDropdown<T>({
                             <div className="flex justify-between items-center">
                                 <div>
                                     <span className="font-manrope text-text-m">{(title ?? 'Choices') + ' '}</span>
-                                    <span className="font-manrope text-60black text-text-m">({selectedOptionIndices.size} selected)</span>
+                                    {singleSelector && (
+                                        <span className="font-manrope text-60black text-text-m">
+                                            ({selectedOptionIndices.size} selected)
+                                        </span>
+                                    )}
                                 </div>
                                 <div
                                     className={classNames('w-6 h-6 scroll flex items-start justify-center bg-base rounded-4', {

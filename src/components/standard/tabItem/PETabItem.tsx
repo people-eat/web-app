@@ -18,6 +18,7 @@ export default function PETabItem({ disabled = false, title, active, onClick }: 
                         color: 'white',
                         backgroundColor: 'rgba(255, 100, 51, .7)',
                     },
+                    textTransform: 'capitalize',
                     backgroundColor: active ? 'rgba(255, 100, 51, 1)' : 'rgba(245, 245, 245, 0.5)',
                 }}
                 disabled={Boolean(disabled)}

@@ -23,6 +23,17 @@ import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 
+const HOBBY_CHEF = [
+    { hobbyId: 'Hobby Chef', title: 'Hobby Chef' },
+    { hobbyId: 'Chef', title: 'Chef' },
+    { hobbyId: 'Master Chef', title: 'Master Chef' },
+];
+
+const LANGUAGES = [
+    { languageId: 'English', title: 'English' },
+    { languageId: 'Russian', title: 'Russian' },
+];
+
 // eslint-disable-next-line max-statements
 export default function CookSignUpPage(): ReactElement {
     const router = useRouter();
@@ -80,7 +91,7 @@ export default function CookSignUpPage(): ReactElement {
     }
 
     return (
-        <VStack className="w-full">
+        <VStack className="w-full overflow-hidden">
             {isMobile ? <PEHeaderMobile /> : <PEHeader />}
 
             <VStack className="w-full max-w-5xl mt-[80px] p-4 box-border" style={{ gap: 32, marginBottom: 64 }}>
@@ -110,11 +121,12 @@ export default function CookSignUpPage(): ReactElement {
                 <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                     <p>PeopleEat Level</p>
                     <PEDropdown
-                        title="Rank"
+                        title="Hobby Chef"
                         defaultExpanded
-                        options={['Hobby Chef', 'Chef', 'Master Chef']}
-                        getOptionLabel={(option: string): string => option}
-                        // onSelectedOptionsChange={}
+                        options={HOBBY_CHEF}
+                        getOptionLabel={(hobby): string => hobby.title}
+                        onSelectedOptionsChange={undefined}
+                        singleSelector
                     />
                 </VStack>
 
@@ -122,7 +134,7 @@ export default function CookSignUpPage(): ReactElement {
                     <p>Profile Description</p>
                     <PEMultiLineTextField
                         value={description}
-                        onChange={setDescription}
+                        onChange={(value): void => setDescription(value)}
                         placeholder="Create a profile description. Tell us about your experience and skills."
                     />
                 </VStack>
@@ -132,9 +144,10 @@ export default function CookSignUpPage(): ReactElement {
                     <PEDropdown
                         title="Languages"
                         defaultExpanded
-                        options={['English', 'Russian']}
-                        getOptionLabel={(option: string): string => option}
-                        // onSelectedOptionsChange={}
+                        options={LANGUAGES}
+                        getOptionLabel={(language): string => language.title}
+                        onSelectedOptionsChange={undefined}
+                        singleSelector
                     />
                 </VStack>
 

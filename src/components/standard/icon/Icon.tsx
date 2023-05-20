@@ -61,6 +61,7 @@ export enum Icon {
     profile = '/icons/profile.svg',
     profileLight = '/icons/profile-light.svg',
     profileEmpty = '/icons/profile-empty.svg',
+    profileOrange = '/icons/profile-orange.svg',
     search = '/icons/search.svg',
     searchBar = '/icons/search-bar.svg',
     settings = '/icons/settings.svg',

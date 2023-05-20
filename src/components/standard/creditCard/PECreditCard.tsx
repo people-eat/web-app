@@ -7,7 +7,7 @@ import { type PECreditCardProps } from './PECreditCardProps';
 
 export default function PECreditCard({ disabled, label, number }: PECreditCardProps): ReactElement {
     const className = classNames(
-        'max-w-[400px] box-border hover:opacity-70 cursor-pointer border border-solid rounded-3 border-border flex flex-row gap-3 items-center justify-between px-4 py-3',
+        'w-full box-border hover:opacity-70 cursor-pointer border border-solid rounded-3 border-border flex flex-row gap-3 items-center justify-between px-4 py-3',
         { ['opacity-50 hover:opacity-50']: disabled },
     );
 
