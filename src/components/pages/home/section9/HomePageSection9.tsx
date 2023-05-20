@@ -4,23 +4,21 @@ import PEReviewCardChef from '../../../cards/reviewCard/PEReviewCardChef';
 import VStack from '../../../utility/vStack/VStack';
 
 export default function HomePageSection9(): ReactElement {
-    const { t } = useTranslation('home');
-
-    t;
+    const { t: cards } = useTranslation('common');
 
     return (
-        <VStack className="w-full">
+        <VStack className="w-full h-auto">
             <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">Recent reviews</h2>
-            <div className="flex w-full flex-wrap gap-5 mt-10 justify-center sm:flex-col items-center">
-                {[1, 2].map((item) => (
+            <div className="relative h-[350px] flex w-full flex-wrap gap-5 mt-10 justify-center sm:flex-col items-center">
+                {['-01', '-02', '-03'].map((item) => (
                     <PEReviewCardChef
-                        key={`${item}_PEReviewCardPlatform`}
-                        customerFirstName={'Lolita, Mun-hen'}
-                        chefFirstName={'Maxim'}
-                        chefRank={'MASTER'}
-                        ratingValue={'4.9'}
-                        comment={'"This is the first time we have booked a chef for a dinner with our friends at home. The booking was...'}
-                        createdAt={'June, 14 2023 '}
+                        key={`${cards(`chef${item}`)}_PEReviewCardPlatform`}
+                        customerFirstName={cards(`name${item}`)}
+                        chefFirstName={cards(`chef${item}`)}
+                        chefRank={cards(`rank${item}`)}
+                        ratingValue={cards(`rating${item}`)}
+                        comment={cards(`comment${item}`)}
+                        createdAt={cards(`created${item}`)}
                     />
                 ))}
             </div>
