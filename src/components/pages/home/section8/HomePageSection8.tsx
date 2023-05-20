@@ -7,15 +7,17 @@ import { Icon } from '../../../standard/icon/Icon';
 import PENextButton from '../../../standard/nextButton/PENextButton';
 import PETabItem from '../../../standard/tabItem/PETabItem';
 import VStack from '../../../utility/vStack/VStack';
+import { mockPublicChefs } from './chefs.mock';
 
 const MENU_TABS = ['All', 'in Hesse', 'North Rhine-Westphalia', 'Bavaria', 'Berlin'];
 
 export default function HomePageSection8(): ReactElement {
     const { t } = useTranslation('home');
-
     t;
 
-    const [tabItem, setTabItem] = useState('All');
+    const [publicChefs] = useState(mockPublicChefs);
+
+    const [selectedTabItem, setSelectedTabItem] = useState('All');
 
     function handleGoToAllChefs(): void {
         return;
@@ -36,36 +38,36 @@ export default function HomePageSection8(): ReactElement {
                         <PETabItem
                             key={`${menu}_PEChefCard`}
                             title={menu}
-                            onClick={(): void => setTabItem(menu)}
-                            active={tabItem === menu}
+                            onClick={(): void => setSelectedTabItem(menu)}
+                            active={selectedTabItem === menu}
                         />
                     ))}
                 </div>
                 <div className="flex flex-wrap gap-5 mt-10 sm:hidden">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+                    {publicChefs.map(({ rank, rating, user, location, categories, kitchens }, index) => (
                         <PEChefCard
-                            key={`${item}_PEChefCard`}
-                            firstName={'Locale'}
-                            profilePictureUrl={'/picture-1.png'}
-                            rank={'HOBBY'}
-                            location={'Berlin'}
-                            rating={{ average: 4.9, count: 25 }}
-                            categories={[]}
-                            kitchens={[]}
+                            key={index}
+                            firstName={user.firstName}
+                            profilePictureUrl={user.profilePictureUrl}
+                            rank={rank}
+                            location={location.city}
+                            rating={rating}
+                            categories={categories.map(({ title }) => title)}
+                            kitchens={kitchens.map(({ title }) => title)}
                         />
                     ))}
                 </div>
                 <div className="flex justify-center w-full flex-wrap gap-5 mt-10 hidden sm:flex">
-                    {[1, 2, 3].map((item) => (
+                    {publicChefs.slice(0, 3).map(({ rank, rating, user, location, categories, kitchens }, index) => (
                         <PEChefCardMobile
-                            key={`${item}_PEChefCardMobile`}
-                            firstName={'Locale'}
-                            profilePictureUrl={'/picture-1.png'}
-                            rank={'HOBBY'}
-                            location={'Berlin'}
-                            rating={{ average: 4.9, count: 25 }}
-                            categories={['Vegetarian', 'Vegetarians']}
-                            kitchens={['European', 'Vegetarian']}
+                            key={index}
+                            firstName={user.firstName}
+                            profilePictureUrl={user.profilePictureUrl}
+                            rank={rank}
+                            location={location.city}
+                            rating={rating}
+                            categories={categories.map(({ title }) => title)}
+                            kitchens={kitchens.map(({ title }) => title)}
                         />
                     ))}
                 </div>
