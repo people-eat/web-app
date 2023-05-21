@@ -8,7 +8,7 @@ import PEIcon from '../../standard/icon/PEIcon';
 export interface PEReviewCardChefProps {
     chefFirstName: string;
     chefProfilePictureUrl?: string;
-    chefRank: CookRank;
+    chefRank?: CookRank;
     customerFirstName: string;
     occasion?: string;
     ratingValue: string;
@@ -66,7 +66,8 @@ export default function PEReviewCardChef({
                     </div>
                 </div>
                 <div>
-                    <span className="m-0">{t(chefRank)}</span> <span className="text-orange text-text-m-bold">{chefFirstName}</span>
+                    <span className="m-0">{chefRank ? t(chefRank) : ''}</span>{' '}
+                    <span className="text-orange text-text-m-bold">{chefFirstName}</span>
                 </div>
                 <span className="text-text-m text-preBlack line-clamp-6 mb-8">{comment}</span>
             </div>

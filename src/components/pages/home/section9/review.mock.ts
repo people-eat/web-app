@@ -1,7 +1,9 @@
+import { type CookRank } from '~/data-source/generated/graphql';
+
 export interface MockPublicReview {
     customerName: string;
     chefName: string;
-    rank: string;
+    rank?: CookRank;
     rating: string;
     comment: string;
     created: string;
@@ -30,7 +32,7 @@ export const mockPublicReviews: MockPublicReview[] = [
     {
         customerName: 'Paulina, München',
         chefName: 'PeopleEat',
-        rank: '',
+        rank: undefined,
         rating: '4.9',
         comment:
             'Ich war auf der Suche nach einem Geburtstagsgeschenk und wurde hier schnell fündig. Meine Gutschein-Wünsche wurden berücksichtigt; der Kontakt war sehr freundlich! Ich freue mich schon auf das Abendessen!',
