@@ -4,6 +4,7 @@ import { chrisCategory, headline, pinoCategory, ruthCategory, salvatoreCategory 
 import PEChefCard from '../../../cards/chefCard/PEChefCard';
 import PEChefCardMobile from '../../../cards/chefCard/PEChefCardMobile';
 import VStack from '../../../utility/vStack/VStack';
+import {CookRank} from "~/data-source/generated/graphql";
 
 // const MENU_TABS = ['All', 'in Hesse', 'North Rhine-Westphalia', 'Bavaria', 'Berlin'];
 
@@ -12,7 +13,7 @@ const CHEFS = [
         name: 'chris',
         chefName: 'Christopher',
         chefPicture: '/team/chris.png',
-        chefRank: 'MASTER',
+        chefRank: 'MASTER' as CookRank,
         location: 'München',
         rating: 5.0,
         category: chrisCategory,
@@ -21,7 +22,7 @@ const CHEFS = [
         name: 'pino',
         chefName: 'Pino',
         chefPicture: '/menus/Pino.jpg',
-        chefRank: 'PROFESSIONAL',
+        chefRank: 'PROFESSIONAL' as CookRank,
         location: 'Köln',
         rating: 5.0,
         category: pinoCategory,
@@ -30,7 +31,7 @@ const CHEFS = [
         name: 'salvatore',
         chefName: 'Salvatore',
         chefPicture: '/menus/Salvatore.jpg',
-        chefRank: 'PROFESSIONAL',
+        chefRank: 'PROFESSIONAL' as CookRank,
         location: 'Köln',
         rating: 5.0,
         category: salvatoreCategory,
@@ -39,7 +40,7 @@ const CHEFS = [
         name: 'ruth',
         chefName: 'Ruth',
         chefPicture: '/menus/Ruth.jpg',
-        chefRank: 'PROFESSIONAL',
+        chefRank: 'PROFESSIONAL' as CookRank,
         location: 'Köln',
         rating: 5.0,
         category: ruthCategory,
