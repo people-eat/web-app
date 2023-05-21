@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import Image from 'next/image';
-import { type ReactElement } from 'react';
+import {type ReactElement, useState} from 'react';
 import PEFavorite from '../../standard/favorite/PEFavorite';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import { type PEChefCardProps } from './PEChefCardProps';
+import useTranslation from "next-translate/useTranslation";
 
 export default function PEChefCard({
     profilePictureUrl,
@@ -14,20 +15,25 @@ export default function PEChefCard({
     rating,
     categories,
     kitchens,
+    picturePosition = 'center',
 }: PEChefCardProps): ReactElement {
     const baseClassNames =
-        'flex flex-col active:shadow-active hover:shadow-primary overflow-hidden w-full border-solid border-border border-[1px] rounded-3 cursor-pointer';
-    const width = classNames('max-w-[280px]');
+        'flex flex-col active:shadow-active hover:shadow-primary overflow-hidden border-solid border-border border-[1px] rounded-3 cursor-pointer';
+    const width = classNames('w-[270px] max-w-[280px]');
+
+    const { t } = useTranslation('common');
+
+    const [liked, setLike] = useState(false);
 
     return (
         <div className={classNames(baseClassNames, width)}>
             <div className="relative">
                 <div className="absolute top-[12px] right-[12px]">
-                    <PEFavorite isFavorite={false} onIsFavoriteChange={(): void => undefined} />
+                    <PEFavorite isFavorite={liked} onIsFavoriteChange={(): void => setLike(!liked)} />
                 </div>
                 {profilePictureUrl && (
                     <Image
-                        style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                        style={{ width: '100%', objectPosition: picturePosition, objectFit: 'cover' }}
                         src={profilePictureUrl}
                         alt={profilePictureUrl}
                         width={280}
@@ -43,7 +49,7 @@ export default function PEChefCard({
             <div className="flex gap-2 flex-col p-4 box-border">
                 <span className="text-heading-m">{firstName}</span>
                 <div className={classNames('flex gap-2 justify-between flex-col items-start')}>
-                    <span className="text-text-m text-preBlack">{rank}</span>
+                    <span className="text-text-m text-preBlack">{t(rank)}</span>
                     <div className="flex items-center gap-2">
                         {location && (
                             <div className={'flex items-center gap-2 flex-row'}>

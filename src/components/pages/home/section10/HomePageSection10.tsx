@@ -9,7 +9,7 @@ export default function HomePageSection10(): ReactElement {
 
     return (
         <VStack className="w-full my-[140px] sm:my-[40px]">
-            <p className="text-heading-m lg:text-rem-heading-xm lg:uppercase">supported by:</p>
+            <p className="text-heading-m lg:text-rem-heading-xm lg:uppercase">Unterstützt von</p>
             <VStack
                 className="w-full max-w-[900px] h-[181px] sm:h-[150px]"
                 style={{

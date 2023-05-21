@@ -6,6 +6,7 @@ import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PEAutoCompleteTextField from '../../../standard/textFields/PEAutoCompleteTextField';
 import VStack from '../../../utility/vStack/VStack';
+import {headline} from "~/components/pages/home/section7/search.mock";
 
 export interface HomePageSection7Props {
     addressSearchText: string;
@@ -30,7 +31,7 @@ export default function HomePageSection7({
 
     return (
         <VStack gap={32} className="w-full">
-            <span className="text-heading-xl lg:text-rem-heading-s text-center lg:uppercase">PeopleEat Chefs in your region</span>
+            <span className="text-heading-xl lg:text-rem-heading-s text-center lg:uppercase">{headline}</span>
 
             <PEAutoCompleteTextField
                 searchText={addressSearchText}

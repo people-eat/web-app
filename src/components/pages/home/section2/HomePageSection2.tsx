@@ -4,8 +4,7 @@ import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
-
-const EVENTS = ['Family party', 'Customer meeting', 'Team-Event', 'Dinner', 'Candle Light dinner', 'Home party with friends', 'Lunch'];
+import {bookNow, EVENTS} from "~/components/pages/home/section2/events.mock";
 
 export default function HomePageSection2(): ReactElement {
     const { t } = useTranslation('home');
@@ -31,7 +30,7 @@ export default function HomePageSection2(): ReactElement {
                     ))}
                 </HStack>
                 <Link href={'/individual-request'} className="no-underline">
-                    <PEButton className="mt-12 min-w-[320px]" onClick={handleBookNow} title={'Book now'} />
+                    <PEButton className="mt-12 min-w-[320px]" onClick={handleBookNow} title={bookNow} />
                 </Link>
             </div>
             <VStack

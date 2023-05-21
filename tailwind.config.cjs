@@ -20,6 +20,9 @@ const config = {
                 darkBlue: 'rgba(7, 0, 48, 1)',
                 green: '#34A853',
             },
+            backgroundPosition: {
+                top_bg: 'top -60px',
+            },
             boxShadow: {
                 primary: '0px 1px 24px rgba(0, 0, 0, 0.08)',
                 active: '0px 5px 24px rgba(0, 0, 0, 0.16)',

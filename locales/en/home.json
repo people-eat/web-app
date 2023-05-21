@@ -1,5 +1,7 @@
 {
-    "headline": "Find a private chef for every occasion at your home",
+    "headline-01": "Find a private",
+    "headline-02": "chef",
+    "headline-03": "for every occasion at your home",
     "search-adults-label": "Number of people",
     "search-children-label": "Children",
     "search-city-label": "Your city",
@@ -10,5 +12,20 @@
     "section-2-header": "Use every occasion for unique moments of experience",
     "section-3-header": "Become a passionate host",
     "section-4-header": "How it works",
-    "sub-headline": "Culinary experiences await you here"
+    "section-5-header": "Menus with your individual preferences",
+    "section-5-sub-header": "Let PeopleEat Chefs surprise you with creative combinations and exquisite flavors and enjoy unforgettable culinary moments",
+    "sub-headline-01": "",
+    "sub-headline-02": "Culinary experiences",
+    "sub-headline-03": "await you here",
+    "section-3-selling-point-1": "Groceries",
+    "section-3-selling-point-description-1": "Get fresh, regional, high quality products delivered directly to your home",
+    "section-3-selling-point-2": "Serving the dishes",
+    "section-3-selling-point-description-2": "Lean back, let yourself be pampered with culinary delights and enjoy time with your loved ones ",
+    "section-3-selling-point-3": "Clean kitchen",
+    "section-3-selling-point-description-3": "Find a clean kitchen after your event and let the evening end relaxed","chris-menu-categories": "Bio, Glütenfrei",
+    "chris-menu-categories": "Bio, Glütenfrei",
+    "pino-menu-categories": "Bio, Glütenfrei",
+    "salvatore-menu-categories": "Bio, Glütenfrei",
+    "ruth-menu-categories": "Bio, Glütenfrei"
+
 }

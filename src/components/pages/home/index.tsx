@@ -91,8 +91,8 @@ export default function HomePage(): ReactElement {
                     <VStack
                         className="absolute lg:w-full w-full h-[602px] lg:h-[202px] lg:bottom-0 max-w-screen-xl left-0 overflow-hidden -z-10"
                         style={{
-                            backgroundImage: 'url(/glass.png)',
-                            backgroundPosition: 'center',
+                            backgroundImage: 'url(/background-home.jpg)',
+                            backgroundPosition: isMobile ? 'top' : '0 -60px',
                             backgroundSize: 'cover',
                             borderRadius: '16px',
                             alignItems: 'flex-start',
@@ -105,7 +105,9 @@ export default function HomePage(): ReactElement {
                         style={{ gap: 0 }}
                     >
                         <h1 className="lg:max-w-[360px] max-w-[700px] text-white lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xxl m-0 p-0 lg:uppercase">
-                            {t('headline')}
+                            {t('headline-01')}
+                            <span className="text-orange"> {t('headline-02')} </span>
+                            {t('headline-03')}
                         </h1>
                     </div>
 
@@ -133,7 +135,9 @@ export default function HomePage(): ReactElement {
 
                     <div className="flex w-full lg:justify-center">
                         <p className="text-white text-heading-l lg:text-center lg:my-8 mb-12 lg:text-60black lg:text-text-sm lg:max-w-[180px]">
-                            {t('sub-headline')}
+                            {t('sub-headline-01')}
+                            <span className="text-orange"> {t('sub-headline-02')} </span>
+                            {t('sub-headline-03')}
                         </p>
                     </div>
 
