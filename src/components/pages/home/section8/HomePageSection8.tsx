@@ -1,15 +1,11 @@
 import useTranslation from 'next-translate/useTranslation';
-import { useState, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
+import { chrisCategory, headline, pinoCategory, ruthCategory, salvatoreCategory } from '~/components/pages/home/section8/chefs.mock';
 import PEChefCard from '../../../cards/chefCard/PEChefCard';
 import PEChefCardMobile from '../../../cards/chefCard/PEChefCardMobile';
-import PEButton from '../../../standard/buttons/PEButton';
-import { Icon } from '../../../standard/icon/Icon';
-import PENextButton from '../../../standard/nextButton/PENextButton';
-import PETabItem from '../../../standard/tabItem/PETabItem';
 import VStack from '../../../utility/vStack/VStack';
-import {headline} from "~/components/pages/home/section8/chefs.mock";
 
-const MENU_TABS = ['All', 'in Hesse', 'North Rhine-Westphalia', 'Bavaria', 'Berlin'];
+// const MENU_TABS = ['All', 'in Hesse', 'North Rhine-Westphalia', 'Bavaria', 'Berlin'];
 
 const CHEFS = [
     {
@@ -19,6 +15,7 @@ const CHEFS = [
         chefRank: 'MASTER',
         location: 'München',
         rating: 5.0,
+        category: chrisCategory,
     },
     {
         name: 'pino',
@@ -27,6 +24,7 @@ const CHEFS = [
         chefRank: 'PROFESSIONAL',
         location: 'Köln',
         rating: 5.0,
+        category: pinoCategory,
     },
     {
         name: 'salvatore',
@@ -35,6 +33,7 @@ const CHEFS = [
         chefRank: 'PROFESSIONAL',
         location: 'Köln',
         rating: 5.0,
+        category: salvatoreCategory,
     },
     {
         name: 'ruth',
@@ -43,6 +42,7 @@ const CHEFS = [
         chefRank: 'PROFESSIONAL',
         location: 'Köln',
         rating: 5.0,
+        category: ruthCategory,
     },
 ];
 
@@ -87,7 +87,7 @@ export default function HomePageSection8(): ReactElement {
                             rank={item.chefRank}
                             location={item.location}
                             rating={{ average: item.rating, count: 25 }}
-                            categories={t(`${item.name}-menu-categories`).split(', ')}
+                            categories={item.category.split(', ')}
                             kitchens={[]}
                         />
                     ))}
@@ -102,7 +102,7 @@ export default function HomePageSection8(): ReactElement {
                             rank={item.chefRank}
                             location={item.location}
                             rating={{ average: item.rating, count: 25 }}
-                            categories={t(`${item.name}-menu-categories`).split(', ')}
+                            categories={item.category.split(', ')}
                             kitchens={[]}
                         />
                     ))}

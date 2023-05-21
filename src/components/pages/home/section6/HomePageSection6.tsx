@@ -1,11 +1,11 @@
 import useTranslation from 'next-translate/useTranslation';
-import { useState, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
+import { headline, mockPublicChefs } from '~/components/pages/home/section6/chef.mock';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import PEMenuCardMobile from '../../../cards/menuCard/PEMenuCardMobile';
 import PEPointsCard from '../../../cards/pointsCard/PEPointsCard';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
-import {mockPublicChefs, headline} from "~/components/pages/home/section6/chef.mock";
 
 // const MENU_TABS = ['All', 'in Hesse', 'North Rhine-Westphalia', 'Bavaria', 'Berlin'];
 

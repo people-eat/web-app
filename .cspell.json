@@ -1,4 +1,13 @@
 {
-    "ignorePaths": ["node_modules", "dist", "public", "locales/de", "locales/fr", "locales/ru", "src/components/pages/home/section10/HomePageSection10.tsx",  "src/**/*.mock.ts"],
+    "ignorePaths": [
+        "node_modules",
+        "dist",
+        "public",
+        "locales/de",
+        "locales/fr",
+        "locales/ru",
+        "src/components/pages/home/section10/HomePageSection10.tsx",
+        "src/**/*.mock.ts"
+    ],
     "words": ["codegen", "esnext", "minifiable", "nextjs", "tailwindcss", "textsearch", "validatorjs"]
 }

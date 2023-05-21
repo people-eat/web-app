@@ -9,6 +9,7 @@ import PEHeader from '../../header/PEHeader';
 import PEHeaderMobile from '../../header/PEHeaderMobile';
 import HomePageSearchMobile from '../../pages/home/search/HomePageSearchMobile';
 import VStack from '../../utility/vStack/VStack';
+import { headline01, headline02, headline03, subHeadline01, subHeadline02, subHeadline03 } from './index.mock';
 import HomePageSearch from './search/HomePageSearch';
 import HomePageSection1 from './section1/HomePageSection1';
 import HomePageSection10 from './section10/HomePageSection10';
@@ -105,9 +106,9 @@ export default function HomePage(): ReactElement {
                         style={{ gap: 0 }}
                     >
                         <h1 className="lg:max-w-[360px] max-w-[700px] text-white lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xxl m-0 p-0 lg:uppercase">
-                            {t('headline-01')}
-                            <span className="text-orange"> {t('headline-02')} </span>
-                            {t('headline-03')}
+                            {headline01}
+                            <span className="text-orange"> {headline02} </span>
+                            {headline03}
                         </h1>
                     </div>
 
@@ -135,9 +136,9 @@ export default function HomePage(): ReactElement {
 
                     <div className="flex w-full lg:justify-center">
                         <p className="text-white text-heading-l lg:text-center lg:my-8 mb-12 lg:text-60black lg:text-text-sm lg:max-w-[180px]">
-                            {t('sub-headline-01')}
-                            <span className="text-orange"> {t('sub-headline-02')} </span>
-                            {t('sub-headline-03')}
+                            {subHeadline01}
+                            <span className="text-orange"> {subHeadline02} </span>
+                            {subHeadline03}
                         </p>
                     </div>
 

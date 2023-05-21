@@ -10,7 +10,9 @@ export default function PEPointsCard(): ReactElement {
                     <span className="flex border-[1px] justify-center items-center h-[38px] min-w-[38px] border-solid border-orange text-text-s text-orange p-[9px] rounded-2 box-border">
                         01
                     </span>
-                    <span className={'max-w-[240px] text-preBlack text-text-s leading-5'}>Setze dein Budget sowie individuelle Präferenzen fest</span>
+                    <span className={'max-w-[240px] text-preBlack text-text-s leading-5'}>
+                        Setze dein Budget sowie individuelle Präferenzen fest
+                    </span>
                 </div>
                 <div className={'flex gap-2 lg:border-disabled lg:border-solid rounded-2 lg:p-3 lg:w-full box-border'}>
                     <span className="flex border-[1px] justify-center items-center h-[38px] min-w-[38px] border-solid border-orange text-text-s text-orange p-[9px] rounded-2 box-border">
@@ -25,7 +27,9 @@ export default function PEPointsCard(): ReactElement {
                 <span className="flex border-[1px] justify-center items-center h-[38px] min-w-[38px] border-solid border-orange text-text-s text-orange p-[9px] rounded-2 box-border">
                     03
                 </span>
-                <span className={'max-w-[240px] text-preBlack text-text-s leading-5'}>Bestätige und stimme dich direkt via Chat mit deinem PeopleEat Chef ab.</span>
+                <span className={'max-w-[240px] text-preBlack text-text-s leading-5'}>
+                    Bestätige und stimme dich direkt via Chat mit deinem PeopleEat Chef ab.
+                </span>
             </div>
             <PEButton
                 className={'mt-8 sm:max-w-full max-w-[270px] bg-transparent'}

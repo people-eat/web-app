@@ -1,7 +1,4 @@
 {
-    "headline-01": "Finde einen",
-    "headline-02": "Privatkoch",
-    "headline-03": "für jeden Anlass bei dir Zuhase",
     "search-adults-label": "Anzahl der Personen",
     "search-children-label": "Kinder",
     "search-city-label": "Deine Stadt",
@@ -11,20 +8,5 @@
     "section-1-selling-point-3": "Kommuniziere direkt mit deinem Koch",
     "section-2-header": "Nutze jeden Anlass für einzigartige Erlebnismomente",
     "section-3-header": "Werde Gastgeber aus Leidenschaft, wir kümmern uns um den Rest",
-    "section-4-header": "Wie es funktioniert",
-    "section-5-header": "Menüs nach deinen Individuelle Präferenzen",
-    "section-5-sub-header": "Lass dich von  PeopleEat Chefs,  kreativen Kombinationen und exquisiten Aromen überraschen und genieße  unvergessliche kulinarische Erlebnismomente",
-    "sub-headline-01": "Hier warten",
-    "sub-headline-02": "kulinarische Erlebnismomente",
-    "sub-headline-03": "auf dich",
-    "section-3-selling-point-1": "Einkauf Lebensmittel",
-    "section-3-selling-point-description-1": "Erhalte frische, regionale  und hochwertige Lebensmittel zu dir nachhause geliefert ",
-    "section-3-selling-point-2": "Servieren der Gerichte",
-    "section-3-selling-point-description-2": "Lehn dich zurück,  lass dich kulinarisch verwöhnen und genieße  mehr Zeit mit deinen Lieben  ",
-    "section-3-selling-point-3": "Saubere Küche",
-    "section-3-selling-point-description-3": "Finde eine saubere Küche nach deinem Event vor und lass den Abend entspannt ausklingen",
-    "chris-menu-categories": "Bio, Glütenfrei",
-    "pino-menu-categories": "Bio, Glütenfrei",
-    "salvatore-menu-categories": "Bio, Glütenfrei",
-    "ruth-menu-categories": "Bio, Glütenfrei"
+    "section-4-header": "Wie es funktioniert"
 }

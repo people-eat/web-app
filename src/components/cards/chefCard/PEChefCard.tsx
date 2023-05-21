@@ -1,11 +1,11 @@
 import classNames from 'classnames';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
-import {type ReactElement, useState} from 'react';
+import { useState, type ReactElement } from 'react';
 import PEFavorite from '../../standard/favorite/PEFavorite';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import { type PEChefCardProps } from './PEChefCardProps';
-import useTranslation from "next-translate/useTranslation";
 
 export default function PEChefCard({
     profilePictureUrl,
