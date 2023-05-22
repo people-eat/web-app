@@ -1,5 +1,4 @@
 import moment from 'moment';
-import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
@@ -33,7 +32,6 @@ export interface GoogleMapsPlacesResult {
 }
 
 export default function HomePage(): ReactElement {
-    const { t } = useTranslation('home');
     const { isMobile } = useResponsive();
     const router = useRouter();
 

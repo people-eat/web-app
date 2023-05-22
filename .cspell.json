@@ -6,7 +6,9 @@
         "locales/de",
         "locales/fr",
         "locales/ru",
+        "src/components/pages/home/section8/HomePageSection8.tsx",
         "src/components/pages/home/section10/HomePageSection10.tsx",
+        "src/components/cards/pointsCard/PEPointsCard.tsx",
         "src/**/*.mock.ts"
     ],
     "words": ["codegen", "esnext", "minifiable", "nextjs", "tailwindcss", "textsearch", "validatorjs"]
