@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react';
-import { headline, mockPublicReviews } from '~/components/pages/home/section9/review.mock';
 import PEReviewCardChef from '../../../cards/reviewCard/PEReviewCardChef';
 import VStack from '../../../utility/vStack/VStack';
+import { headline, mockPublicReviews } from './review.mock';
 
 export default function HomePageSection9(): ReactElement {
     return (

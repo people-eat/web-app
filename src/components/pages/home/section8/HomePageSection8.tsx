@@ -1,10 +1,10 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
-import { chrisCategory, headline, pinoCategory, ruthCategory, salvatoreCategory } from '~/components/pages/home/section8/chefs.mock';
+import { CookRank } from '../../../../data-source/generated/graphql';
 import PEChefCard from '../../../cards/chefCard/PEChefCard';
 import PEChefCardMobile from '../../../cards/chefCard/PEChefCardMobile';
 import VStack from '../../../utility/vStack/VStack';
-import {CookRank} from "~/data-source/generated/graphql";
+import { chrisCategory, headline, pinoCategory, ruthCategory, salvatoreCategory } from './chefs.mock';
 
 // const MENU_TABS = ['All', 'in Hesse', 'North Rhine-Westphalia', 'Bavaria', 'Berlin'];
 

@@ -1,12 +1,12 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
-import { headline } from '~/components/pages/home/section7/search.mock';
 import { type GoogleMapsPlacesResult } from '..';
 import PEMap from '../../../map/PEMap';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PEAutoCompleteTextField from '../../../standard/textFields/PEAutoCompleteTextField';
 import VStack from '../../../utility/vStack/VStack';
+import { headline } from './search.mock';
 
 export interface HomePageSection7Props {
     addressSearchText: string;

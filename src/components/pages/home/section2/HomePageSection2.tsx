@@ -1,10 +1,10 @@
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { type ReactElement } from 'react';
-import { bookNow, EVENTS } from '~/components/pages/home/section2/events.mock';
 import PEButton from '../../../standard/buttons/PEButton';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
+import { bookNow, EVENTS } from '../..//home/section2/events.mock';
 
 export default function HomePageSection2(): ReactElement {
     const { t } = useTranslation('home');

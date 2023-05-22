@@ -1,9 +1,9 @@
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
-import { point1, point2, point3 } from '~/components/pages/home/section4/howItWorks.mock';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
+import { point1, point2, point3 } from '../../home/section4/howItWorks.mock';
 
 export default function HomePageSection4(): ReactElement {
     const { t } = useTranslation('home');

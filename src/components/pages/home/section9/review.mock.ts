@@ -1,4 +1,4 @@
-import { type CookRank } from '~/data-source/generated/graphql';
+import { type CookRank } from '../../../../data-source/generated/graphql';
 
 export interface MockPublicReview {
     customerName: string;
