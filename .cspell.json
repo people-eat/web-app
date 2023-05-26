@@ -7,7 +7,8 @@
         "locales/fr",
         "locales/ru",
         "src/components/pages/home/section6/PEPointsCard.tsx",
-        "src/**/*.mock.ts"
+        "src/**/*.mock.ts",
+        "next.config.mjs"
     ],
     "words": ["codegen", "esnext", "minifiable", "nextjs", "tailwindcss", "textsearch", "validatorjs"]
 }
