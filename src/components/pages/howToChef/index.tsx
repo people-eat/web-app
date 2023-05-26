@@ -1,12 +1,17 @@
-import { Button } from '@mui/material';
-import Link from 'next/link';
 import { type ReactElement } from 'react';
 import useResponsive from '../../../hooks/useResponsive';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEHeaderMobile from '../../header/PEHeaderMobile';
-import Spacer from '../../utility/spacer/Spacer';
+import HowToChefSection6 from '../../pages/howToChef/section6';
 import VStack from '../../utility/vStack/VStack';
+import HowToChefSection1 from './section1';
+import HowToChefSection2 from './section2';
+import HowToChefSection3 from './section3';
+import HowToChefSection4 from './section4';
+import HowToChefSection5 from './section5';
+import HowToChefSection7 from './section7';
+import HowToChefSection8 from './section8';
 
 export default function HowToChefPage(): ReactElement {
     const { isMobile } = useResponsive();
@@ -15,27 +20,15 @@ export default function HowToChefPage(): ReactElement {
         <VStack className="w-full">
             {isMobile ? <PEHeaderMobile /> : <PEHeader />}
 
-            <VStack className="w-full max-w-screen-xl">
-                <VStack
-                    className="w-full"
-                    style={{
-                        backgroundImage: 'url(/picture-1.png)',
-                        backgroundPosition: 'center',
-                        backgroundSize: 'cover',
-                        height: 502,
-                        borderRadius: '16px',
-                    }}
-                >
-                    <Spacer />
-                    <VStack style={{ gap: 32 }}>
-                        <span className="text-white text-2xl font-semibold">Become part of the fastest growing</span>
-                        <span className="text-white text-2xl font-semibold">network in Germany</span>
-                        <Link href={'chef-sign-up'}>
-                            <Button variant="contained">Start now</Button>
-                        </Link>
-                    </VStack>
-                    <Spacer />
-                </VStack>
+            <VStack className="w-full max-w-screen-xl px-8 box-border mb-10">
+                <HowToChefSection1 />
+                <HowToChefSection2 />
+                <HowToChefSection3 />
+                <HowToChefSection4 />
+                <HowToChefSection5 />
+                <HowToChefSection6 />
+                <HowToChefSection7 />
+                <HowToChefSection8 />
             </VStack>
             <PEFooter />
         </VStack>

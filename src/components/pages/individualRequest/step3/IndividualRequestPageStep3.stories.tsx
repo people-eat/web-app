@@ -13,6 +13,7 @@ const meta: Meta<typeof IndividualRequestPageStep3> = {
         const [emailIsValid, setEmailIsValid] = useState(false);
         const [phoneNumber, setPhoneNumber] = useState('');
         const [phoneNumberIsValid, setPhoneNumberIsValid] = useState(false);
+        const [message, setMessage] = useState('');
 
         const [acceptedTermsAndConditions, setAcceptedTermsAndConditions] = useState(false);
         const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
@@ -29,6 +30,8 @@ const meta: Meta<typeof IndividualRequestPageStep3> = {
                 setEmailIsValid={setEmailIsValid}
                 phoneNumber={phoneNumber}
                 setPhoneNumber={setPhoneNumber}
+                message={message}
+                setMessage={setMessage}
                 phoneNumberIsValid={phoneNumberIsValid}
                 setPhoneNumberIsValid={setPhoneNumberIsValid}
                 acceptedPrivacyPolicy={acceptedPrivacyPolicy}

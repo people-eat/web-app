@@ -3,9 +3,11 @@ import { useState, type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';
 import PEEmailTextField from '../../../standard/textFields/PEEmailTextField';
+import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextField';
 import PEPhoneNumberTextField from '../../../standard/textFields/PEPhoneNumberTextField';
 import PETextField from '../../../standard/textFields/PETextField';
 import VStack from '../../../utility/vStack/VStack';
+import { firstNameTitle, lastNameTitle, messageTitle, phoneTitle, privacyPolicy, sendRequest, termsAndConditions } from '../points.mock';
 
 export interface IndividualRequestPageStepThreeProps {
     firstName: string;
@@ -20,6 +22,8 @@ export interface IndividualRequestPageStepThreeProps {
     setPhoneNumber: (changedPhoneNumber: string) => void;
     phoneNumberIsValid: boolean;
     setPhoneNumberIsValid: (changedPhoneNumberIsValid: boolean) => void;
+    message: string;
+    setMessage: (changedMessage: string) => void;
     acceptedPrivacyPolicy: boolean;
     setAcceptedPrivacyPolicy: (changedAcceptedPrivacyPolicy: boolean) => void;
     acceptedTermsAndConditions: boolean;
@@ -33,6 +37,8 @@ export default function IndividualRequestPageStep3({
     lastName,
     setLastName,
     email,
+    message,
+    setMessage,
     setEmail,
     // emailIsValid,
     // setEmailIsValid,
@@ -59,8 +65,8 @@ export default function IndividualRequestPageStep3({
 
     return (
         <>
-            <PETextField value={firstName} onChange={setFirstName} type="text" placeholder="First Name" />
-            <PETextField value={lastName} onChange={setLastName} type="text" placeholder="Last Name" />
+            <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={firstNameTitle} />
+            <PETextField value={lastName} onChange={setLastName} type="text" placeholder={lastNameTitle} />
             <PEEmailTextField
                 email={email}
                 onChange={(changedEmail, isValid): void => {
@@ -75,8 +81,13 @@ export default function IndividualRequestPageStep3({
                     setPhoneNumber(changedPhoneNumber);
                     setPhoneNumberIsValid(isValid);
                 }}
-                placeholder="Phone Number"
+                placeholder={phoneTitle}
             />
+
+            <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
+                <h3>{messageTitle}</h3>
+                <PEMultiLineTextField value={message} onChange={setMessage} placeholder={messageTitle} />
+            </VStack>
 
             <VStack
                 className="w-full"
@@ -92,19 +103,19 @@ export default function IndividualRequestPageStep3({
                     <FormControlLabel
                         sx={{ '& span': { fontSize: '14px' } }}
                         control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
-                        label="I have read and accept the Privacy Policy"
+                        label={privacyPolicy}
                     />
                 </FormGroup>
                 <FormGroup>
                     <FormControlLabel
                         sx={{ '& span': { fontSize: '14px' } }}
                         control={<PECheckbox checked={acceptedTermsAndConditions} onCheckedChange={setAcceptedTermsAndConditions} />}
-                        label="I have read and accept the Terms and Conditions"
+                        label={termsAndConditions}
                     />
                 </FormGroup>
             </VStack>
 
-            <PEButton onClick={onContinue} title="Send Request" disabled={disabled} />
+            <PEButton onClick={onContinue} title={sendRequest} disabled={disabled} />
         </>
     );
 }

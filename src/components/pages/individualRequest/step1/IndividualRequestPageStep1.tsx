@@ -3,11 +3,23 @@ import moment, { type Moment } from 'moment';
 import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECounter from '../../../standard/counter/PECounter';
-import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextField';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+import {
+    adults,
+    budgetTitle,
+    children,
+    continueBtn,
+    dateName,
+    eventDetails,
+    eventLocation,
+    location,
+    occasionName,
+    participants,
+    timeName,
+} from '../points.mock';
 
 export interface IndividualRequestPageStepOneProps {
     adultCount: number;
@@ -22,8 +34,6 @@ export interface IndividualRequestPageStepOneProps {
     setOccasion: (changedOccasion: string) => void;
     budget: string;
     setBudget: (changedBudget: string) => void;
-    message: string;
-    setMessage: (changedMessage: string) => void;
     onContinue: () => void;
 }
 
@@ -40,8 +50,6 @@ export default function IndividualRequestPageStep1({
     setOccasion,
     budget,
     setBudget,
-    message,
-    setMessage,
     onContinue,
 }: IndividualRequestPageStepOneProps): ReactElement {
     const disabled = adultCount < 1 || dateTime.diff(moment(), 'days') < 7;
@@ -49,21 +57,21 @@ export default function IndividualRequestPageStep1({
     return (
         <>
             <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
-                <h3>Participants</h3>
+                <h3>{participants}</h3>
                 <HStack className="w-full lg:items-center lg:my-4">
-                    <span>Adults</span>
+                    <span>{adults}</span>
                     <Spacer />
                     <PECounter value={adultCount} onValueChange={setAdultCount} />
                 </HStack>
                 <HStack className="w-full lg:items-center">
-                    <span>Children</span>
+                    <span>{children}</span>
                     <Spacer />
                     <PECounter value={childrenCount} onValueChange={setChildrenCount} />
                 </HStack>
             </VStack>
 
             <VStack gap={16} className="w-full relative" style={{ alignItems: 'flex-start' }}>
-                <h3>Event details</h3>
+                <h3>{eventDetails}</h3>
                 <HStack gap={16} className="w-full box-border relative">
                     <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4  py-2 box-border">
                         <DatePicker
@@ -73,7 +81,7 @@ export default function IndividualRequestPageStep1({
                                 if (changedDate) setDateTime(changedDate);
                             }}
                             slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
-                            label={'Date'}
+                            label={dateName}
                             disablePast
                         />
                     </div>
@@ -85,29 +93,24 @@ export default function IndividualRequestPageStep1({
                                 if (changedTime) setDateTime(changedTime);
                             }}
                             slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
-                            label={'Time'}
+                            label={timeName}
                         />
                     </div>
                 </HStack>
-                <PETextField value={occasion} onChange={setOccasion} type="text" placeholder="Occasion" />
+                <PETextField value={occasion} onChange={setOccasion} type="text" placeholder={occasionName} />
             </VStack>
             {/* {dateTime} */}
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
-                <h3>Event location</h3>
-                <PETextField value={addressSearchText} onChange={setAddressSearchText} type="text" placeholder="Location" />
+                <h3>{eventLocation}</h3>
+                <PETextField value={addressSearchText} onChange={setAddressSearchText} type="text" placeholder={location} />
             </VStack>
 
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
-                <h3>Budget</h3>
-                <PETextField startContent={<p>€</p>} type={'number'} value={budget} onChange={setBudget} placeholder="Budget" />
+                <h3>{budgetTitle}</h3>
+                <PETextField startContent={<p>€</p>} type={'number'} value={budget} onChange={setBudget} placeholder="Total" />
             </VStack>
 
-            <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
-                <h3>Message</h3>
-                <PEMultiLineTextField value={message} onChange={setMessage} placeholder="Message" />
-            </VStack>
-
-            <PEButton onClick={onContinue} title="Continue" disabled={disabled} />
+            <PEButton onClick={onContinue} title={continueBtn} disabled={disabled} />
         </>
     );
 }

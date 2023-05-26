@@ -37,6 +37,12 @@ export default function HomePageSearch({
 }: HomePageSearchProps): ReactElement {
     const { t } = useTranslation('home');
 
+    function validateFirstZero(value: string): number {
+        if (value[0] === '0' && value.length > 1) return Number(value.slice(1));
+
+        return Number(value);
+    }
+
     return (
         <HStack
             style={{
@@ -75,7 +81,7 @@ export default function HomePageSearch({
                 sx={{ maxWidth: '140px' }}
                 value={adultCount}
                 onChange={(event): void => {
-                    onAdultsChange(Number(event.target.value));
+                    onAdultsChange(validateFirstZero(event.target.value));
                 }}
                 variant="standard"
                 label={t('search-adults-label')}
@@ -88,7 +94,7 @@ export default function HomePageSearch({
                 sx={{ maxWidth: '140px' }}
                 value={childrenCount}
                 onChange={(event): void => {
-                    onChildrenChange(Number(event.target.value));
+                    onChildrenChange(validateFirstZero(event.target.value));
                 }}
                 variant="standard"
                 label={t('search-children-label')}
