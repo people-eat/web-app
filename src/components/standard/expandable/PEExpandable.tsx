@@ -10,10 +10,10 @@ export interface PEExpandableProps {
 }
 
 export default function PEExpandable({ title, description }: PEExpandableProps): ReactElement {
-    const [isOpen, setOpen] = useState(true);
+    const [isOpen, setOpen] = useState(false);
 
     return (
-        <div className="p-4">
+        <div className="">
             <div onClick={(): void => setOpen(!isOpen)} className="flex flex-row items-center justify-between mb-5 cursor-pointer">
                 <span
                     className={classNames({
@@ -22,7 +22,7 @@ export default function PEExpandable({ title, description }: PEExpandableProps):
                 >
                     {title}
                 </span>
-                <PEIconButton icon={isOpen ? Icon.minus : Icon.plus} />
+                <PEIconButton icon={isOpen ? Icon.minus : Icon.plus} withoutShadow />
             </div>
             <Collapse in={isOpen}>
                 <span>{description}</span>

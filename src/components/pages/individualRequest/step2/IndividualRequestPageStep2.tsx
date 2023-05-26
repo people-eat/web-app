@@ -2,6 +2,7 @@ import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import PEDropdown from '../../../standard/dropdown/PEDropdown';
 import VStack from '../../../utility/vStack/VStack';
+import { allergiesName, categoriesName, continueBtn, cuisinesName, preferences } from '../points.mock';
 
 export interface IndividualRequestPageStepTwoProps {
     categories: { categoryId: string; title: string }[];
@@ -28,23 +29,23 @@ export default function IndividualRequestPageStep2({
     return (
         <>
             <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
-                <h3>Preferences</h3>
+                <h3>{preferences}</h3>
                 <PEDropdown
-                    title="Categories"
+                    title={categoriesName}
                     defaultExpanded={true}
                     options={categories}
                     getOptionLabel={(category): string => category.title}
                     onSelectedOptionsChange={undefined}
                 />
                 <PEDropdown
-                    title="Cuisines"
+                    title={cuisinesName}
                     defaultExpanded={true}
                     options={kitchens}
                     getOptionLabel={(kitchen): string => kitchen.title}
                     onSelectedOptionsChange={undefined}
                 />
                 <PEDropdown
-                    title="Allergies"
+                    title={allergiesName}
                     defaultExpanded={true}
                     options={allergies}
                     getOptionLabel={(allergy): string => allergy.title}
@@ -52,7 +53,7 @@ export default function IndividualRequestPageStep2({
                 />
             </VStack>
 
-            <PEButton onClick={onContinue} title="Continue" />
+            <PEButton onClick={onContinue} title={continueBtn} />
         </>
     );
 }
