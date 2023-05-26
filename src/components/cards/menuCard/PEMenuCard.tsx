@@ -19,7 +19,7 @@ export default function PEMenuCard({
     return (
         <div
             onClick={onClick}
-            className="flex w-[580px] big:w-[45%] overflow-hidden items-center gap-3 flex-row p-3 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active"
+            className="relative flex w-[580px] big:w-[45%] overflow-hidden items-center gap-3 flex-row p-3 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active"
         >
             <div className="flex rounded-3 overflow-hidden w-[220px] min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] justify-center items-center bg-base">
                 {imageUrls.length < 1 && <PEIcon icon={Icon.food} edgeLength={52} />}
@@ -48,13 +48,13 @@ export default function PEMenuCard({
                     />
                 )}
             </div>
-            <div className="flex gap-3 flex-col box-border w-full">
+            <div className="max-w-[325px] relative flex gap-3 flex-col box-border">
                 <div className="flex flex-col gap-2 h-[148px] overflow-hidden">
                     <span className="text-text-sm-bold text-preBlack">{title}</span>
                     <span className="text-orange text-text-sm-bold">ab {pricePerPerson}€ pro Person</span>
-                    <span className="text-text-s text-preBlack line-clamp-6">{description}</span>
+                    <span className="w-full text-text-s text-preBlack line-clamp-6">{description}</span>
                 </div>
-                <div className={'max-w-full overflow-x-scroll flex flex-row gap-2'} style={{ overflowY: 'initial' }}>
+                <div className={'max-w-full overflow-auto flex flex-row gap-2'} style={{ overflowY: 'initial' }}>
                     {categories.map(
                         (category, index): ReactElement => (
                             <div

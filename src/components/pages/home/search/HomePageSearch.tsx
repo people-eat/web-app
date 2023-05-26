@@ -37,10 +37,12 @@ export default function HomePageSearch({
 }: HomePageSearchProps): ReactElement {
     const { t } = useTranslation('home');
 
-    function validateFirstZero(value: string): number {
-        if (value[0] === '0' && value.length > 1) return Number(value.slice(1));
+    function validateFirstZero(value: string | number): number {
+        const result = String(value);
+        if (result[0] === '0' && result.length > 1) return Number(result.slice(1));
+        else if (!result.length) return 0;
 
-        return Number(value);
+        return Number(result);
     }
 
     return (
@@ -79,7 +81,7 @@ export default function HomePageSearch({
             <Divider orientation="vertical" />
             <TextField
                 sx={{ maxWidth: '140px' }}
-                value={adultCount}
+                value={validateFirstZero(adultCount)}
                 onChange={(event): void => {
                     onAdultsChange(validateFirstZero(event.target.value));
                 }}
@@ -92,7 +94,7 @@ export default function HomePageSearch({
             <Divider orientation="vertical" />
             <TextField
                 sx={{ maxWidth: '140px' }}
-                value={childrenCount}
+                value={validateFirstZero(childrenCount)}
                 onChange={(event): void => {
                     onChildrenChange(validateFirstZero(event.target.value));
                 }}

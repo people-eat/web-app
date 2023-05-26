@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 
@@ -31,12 +32,14 @@ export default function PEPointsCard(): ReactElement {
                     Bestätige und stimme dich direkt via Chat mit deinem PeopleEat Chef ab.
                 </span>
             </div>
-            <PEButton
-                className={'mt-8 sm:max-w-full max-w-[270px] bg-transparent'}
-                type={'secondary'}
-                onClick={(): void => undefined}
-                title={'Individuelle Anfrage senden'}
-            />
+            <Link href={'/individual-request'} className="no-underline">
+                <PEButton
+                    className={'mt-8 sm:max-w-full max-w-[270px] bg-transparent'}
+                    type={'secondary'}
+                    onClick={(): void => undefined}
+                    title={'Individuelle Anfrage senden'}
+                />
+            </Link>
         </div>
     );
 }
