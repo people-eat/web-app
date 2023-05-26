@@ -30,7 +30,6 @@ export default function IndividualRequestPageDialog({ state, onContinue }: Indiv
                             <PEIcon icon={Icon.confetti} edgeLength={64} />
                         </HStack>
                     )}
-                    {state === 'SUCCESS' && <>Thank you! Your order was successfully submitted.</>}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
