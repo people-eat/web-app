@@ -32,6 +32,20 @@ const config = {
             destination: 'https://maps.googleapis.com/maps/api/:path*',
         },
     ],
+
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    redirects: async () => [
+        {
+            source: '/koch-finden',
+            destination: '/individual-request',
+            permanent: true,
+        },
+        {
+            source: '/impressum',
+            destination: '/imprint',
+            permanent: true,
+        },
+    ],
 };
 
 export default nextTranslate(config);
