@@ -1,6 +1,8 @@
+import { useQuery } from '@apollo/client';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { type ReactElement } from 'react';
+import { GetProfileQueryDocument } from '../../../../data-source/generated/graphql';
 import PEButton from '../../../standard/buttons/PEButton';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
@@ -9,6 +11,11 @@ import VStack from '../../../utility/vStack/VStack';
 
 export default function ProfilePagePersonalTab(): ReactElement {
     const { t } = useTranslation('common');
+
+    // loading, error,
+    const { data } = useQuery(GetProfileQueryDocument);
+
+    console.log(data);
 
     return (
         <VStack className="w-full max-w-screen-xl" style={{ gap: 16 }}>
