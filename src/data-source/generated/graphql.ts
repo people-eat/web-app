@@ -543,6 +543,21 @@ export type CreateOneAddressRequest = {
     title: Scalars['String'];
 };
 
+export type CreateOneAnonymousGlobalBookingRequestInput = {
+    adults: Scalars['UnsignedInt'];
+    budget: Scalars['String'];
+    children: Scalars['UnsignedInt'];
+    customerEmailAddress: Scalars['EmailAddress'];
+    customerFirstName: Scalars['String'];
+    customerLastName: Scalars['String'];
+    customerPhoneNumber?: InputMaybe<Scalars['PhoneNumber']>;
+    dateTime: Scalars['DateTime'];
+    location?: InputMaybe<LocationInput>;
+    locationName: Scalars['String'];
+    message: Scalars['String'];
+    occasion?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateOneCookRequest = {
     biography: Scalars['String'];
     isVisible: Scalars['Boolean'];
@@ -974,6 +989,7 @@ export type Mutation = {
     categories: CategoryMutation;
     cookSpecificFees: CookSpecificFeeMutation;
     cooks: CookMutation;
+    createOneAnonymousGlobalBookingRequest: Scalars['Boolean'];
     customerFeeUpdates: CustomerFeeUpdateMutation;
     globalBookingRequests: GlobalBookingRequestMutation;
     kitchens: KitchenMutation;
@@ -983,6 +999,10 @@ export type Mutation = {
     sessions: SessionMutation;
     termsUpdates: TermsUpdateMutation;
     users: UserMutation;
+};
+
+export type MutationCreateOneAnonymousGlobalBookingRequestArgs = {
+    input: CreateOneAnonymousGlobalBookingRequestInput;
 };
 
 export type Notification = {
@@ -1187,6 +1207,7 @@ export type PublicTermsUpdate = {
 export type PublicTermsUpdateQuery = {
     __typename?: 'PublicTermsUpdateQuery';
     findAll: Array<PublicTermsUpdate>;
+    findLatest?: Maybe<PublicTermsUpdate>;
     findOne?: Maybe<PublicTermsUpdate>;
 };
 
@@ -1851,6 +1872,26 @@ export type GetProfileQueryQuery = {
     users: { __typename?: 'UserQuery'; me?: { __typename?: 'User'; firstName: string } | null };
 };
 
+export type ConfirmOneEmailAddressUpdateMutationVariables = Exact<{
+    userId: Scalars['String'];
+    secret: Scalars['String'];
+}>;
+
+export type ConfirmOneEmailAddressUpdateMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; emailAddressUpdate: { __typename?: 'UserEmailAddressUpdateMutation'; success: boolean } };
+};
+
+export type CreateOneEmailAddressUpdateMutationVariables = Exact<{
+    emailAddress: Scalars['EmailAddress'];
+    userId: Scalars['String'];
+}>;
+
+export type CreateOneEmailAddressUpdateMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; emailAddressUpdate: { __typename?: 'UserEmailAddressUpdateMutation'; success: boolean } };
+};
+
 export const AssignOneSessionByEmailAddressDocument = {
     kind: 'Document',
     definitions: [
@@ -2226,3 +2267,131 @@ export const GetProfileQueryDocument = {
         },
     ],
 } as unknown as DocumentNode<GetProfileQueryQuery, GetProfileQueryQueryVariables>;
+export const ConfirmOneEmailAddressUpdateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'ConfirmOneEmailAddressUpdate' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'secret' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'emailAddressUpdate' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'confirm' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'secret' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'secret' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ConfirmOneEmailAddressUpdateMutation, ConfirmOneEmailAddressUpdateMutationVariables>;
+export const CreateOneEmailAddressUpdateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneEmailAddressUpdate' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'emailAddress' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'EmailAddress' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'emailAddressUpdate' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'createOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'emailAddress' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'emailAddress' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneEmailAddressUpdateMutation, CreateOneEmailAddressUpdateMutationVariables>;
