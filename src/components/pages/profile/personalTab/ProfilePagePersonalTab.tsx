@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
-import { type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { GetProfileQueryDocument } from '../../../../data-source/generated/graphql';
 import PEButton from '../../../standard/buttons/PEButton';
 import PETextField from '../../../standard/textFields/PETextField';
@@ -11,18 +11,19 @@ import VStack from '../../../utility/vStack/VStack';
 
 export default function ProfilePagePersonalTab(): ReactElement {
     const { t } = useTranslation('common');
+    const [profile, setProfile] = useState<{ userId: string; firstName: string; lastName: string } | undefined>();
 
     // loading, error,
-    const { data } = useQuery(GetProfileQueryDocument);
 
-    console.log(data);
+    const { data } = useQuery(GetProfileQueryDocument);
+    if (data?.users.me) setProfile(data.users.me);
 
     return (
         <VStack className="w-full max-w-screen-xl" style={{ gap: 16 }}>
             <HStack className="w-full bg-white shadow-md" style={{ padding: 16, alignItems: 'center', borderRadius: 16 }}>
                 <VStack style={{ alignItems: 'flex-start' }}>
-                    <span>{'First Name'}</span>
-                    <span>{'Last Name'}</span>
+                    <span>{profile?.firstName}</span>
+                    <span>{profile?.lastName}</span>
                 </VStack>
                 <Spacer />
                 <Link href="/chef-sign-up" className="no-underline">
