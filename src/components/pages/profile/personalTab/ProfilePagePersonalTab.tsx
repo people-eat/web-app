@@ -16,14 +16,14 @@ export default function ProfilePagePersonalTab(): ReactElement {
     // loading, error,
 
     const { data } = useQuery(GetProfileQueryDocument);
-    if (data?.users.me) setProfile(data.users.me);
+    if (data?.users?.me) setProfile(data.users.me);
 
     return (
         <VStack className="w-full max-w-screen-xl" style={{ gap: 16 }}>
             <HStack className="w-full bg-white shadow-md" style={{ padding: 16, alignItems: 'center', borderRadius: 16 }}>
                 <VStack style={{ alignItems: 'flex-start' }}>
-                    <span>{profile?.firstName}</span>
-                    <span>{profile?.lastName}</span>
+                    <span>{profile?.firstName ?? 'First name'}</span>
+                    <span>{profile?.lastName ?? 'Last name'}</span>
                 </VStack>
                 <Spacer />
                 <Link href="/chef-sign-up" className="no-underline">

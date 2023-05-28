@@ -11,7 +11,6 @@ import HowToChefSection3 from './section3';
 import HowToChefSection4 from './section4';
 import HowToChefSection5 from './section5';
 import HowToChefSection7 from './section7';
-import HowToChefSection8 from './section8';
 
 export default function HowToChefPage(): ReactElement {
     const { isMobile } = useResponsive();
@@ -28,7 +27,7 @@ export default function HowToChefPage(): ReactElement {
                 <HowToChefSection5 />
                 <HowToChefSection6 />
                 <HowToChefSection7 />
-                <HowToChefSection8 />
+                {/* <HowToChefSection8 /> */}
             </VStack>
             <PEFooter />
         </VStack>
