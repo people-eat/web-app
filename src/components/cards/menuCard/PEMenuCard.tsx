@@ -50,7 +50,7 @@ export default function PEMenuCard({
             </div>
             <div className="max-w-[325px] relative flex gap-3 flex-col box-border">
                 <div className="flex flex-col gap-2 h-[148px] overflow-hidden">
-                    <span className="text-text-sm-bold text-preBlack">{title}</span>
+                    <span className=" text-text-sm-bold text-preBlack">{title}</span>
                     <span className="text-orange text-text-sm-bold">ab {pricePerPerson}€ pro Person</span>
                     <span className="w-full text-text-s text-preBlack line-clamp-6">{description}</span>
                 </div>

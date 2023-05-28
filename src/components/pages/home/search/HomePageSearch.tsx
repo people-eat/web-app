@@ -37,12 +37,12 @@ export default function HomePageSearch({
 }: HomePageSearchProps): ReactElement {
     const { t } = useTranslation('home');
 
-    function validateFirstZero(value: string | number): number {
+    function validateFirstZero(value: string | number): string {
         const result = String(value);
-        if (result[0] === '0' && result.length > 1) return Number(result.slice(1));
-        else if (!result.length) return 0;
+        if (result.length > 1) return `${parseInt(result, 10)}`;
+        else if (!result.length) return '0';
 
-        return Number(result);
+        return `${parseInt(result, 10)}`;
     }
 
     return (
@@ -83,7 +83,7 @@ export default function HomePageSearch({
                 sx={{ maxWidth: '140px' }}
                 value={validateFirstZero(adultCount)}
                 onChange={(event): void => {
-                    onAdultsChange(validateFirstZero(event.target.value));
+                    onAdultsChange(Number(event.target.value));
                 }}
                 variant="standard"
                 label={t('search-adults-label')}
@@ -96,7 +96,7 @@ export default function HomePageSearch({
                 sx={{ maxWidth: '140px' }}
                 value={validateFirstZero(childrenCount)}
                 onChange={(event): void => {
-                    onChildrenChange(validateFirstZero(event.target.value));
+                    onChildrenChange(Number(event.target.value));
                 }}
                 variant="standard"
                 label={t('search-children-label')}
