@@ -1,0 +1,7 @@
+mutation CreateOneEmailAddressUpdate($emailAddress: EmailAddress!, $userId: String!) {
+    users {
+        emailAddressUpdate(userId: $userId) {
+            success: createOne(emailAddress: $emailAddress)
+        }
+    }
+}
