@@ -9,5 +9,5 @@
         "src/components/pages/home/section6/PEPointsCard.tsx",
         "src/**/*.mock.ts"
     ],
-    "words": ["codegen", "esnext", "minifiable", "nextjs", "tailwindcss", "textsearch", "validatorjs"]
+    "words": ["codegen", "esnext", "animejs", "minifiable", "nextjs", "tailwindcss", "textsearch", "validatorjs"]
 }
