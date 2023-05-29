@@ -18,9 +18,13 @@ import {
     qualification,
     travel,
 } from '../translations.mock';
+import { CalculatorRoulette } from './CalculatorRoulette';
 
 export default function HowToChefSection2(): ReactElement {
-    const [income, setIncome] = useState('2400');
+    const [income, setIncome] = useState({
+        prev: '0',
+        next: '2400',
+    });
     const [activeTab, setActiveTab] = useState('Master Chef');
     const [personsCount, setPersonsCount] = useState('4');
 
@@ -30,7 +34,7 @@ export default function HowToChefSection2(): ReactElement {
 
     function calculateCountPrice(): void {
         const price = activeTab === 'Master Chef' ? 500 : activeTab === 'Chef' ? 400 : 300;
-        setIncome(String(price * Number(personsCount)));
+        setIncome({ prev: income.next, next: String(price * Number(personsCount)) });
     }
 
     return (
@@ -76,7 +80,7 @@ export default function HowToChefSection2(): ReactElement {
                             style={{ alignItems: 'flex-start' }}
                             className="w-full justify-between relative bg-white h-[250px] shadow-primary rounded-2 py-11 px-8 box-border"
                         >
-                            <p className="absolute top-10 right-8 text-heading-xl md:text-text-m-bold my-0">{income}€</p>
+                            <CalculatorRoulette startValue={income.prev} endValue={income.next} />
                             <VStack style={{ alignItems: 'flex-start' }} className="w-full">
                                 <p className="text-heading-m my-0 text-left w-full md:text-text-m-bold">{perMonth}</p>
                                 <p className="text-disabled text-text-s w-[200px] my-2">{changePersonsCount(example, personsCount)}</p>

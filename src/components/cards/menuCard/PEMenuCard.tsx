@@ -54,7 +54,7 @@ export default function PEMenuCard({
                     <span className="text-orange text-text-sm-bold">ab {pricePerPerson}€ pro Person</span>
                     <span className="w-full text-text-s text-preBlack line-clamp-6">{description}</span>
                 </div>
-                <div className={'max-w-full overflow-auto flex flex-row gap-2'} style={{ overflowY: 'initial' }}>
+                <div className={'max-w-full overflow-auto flex flex-row gap-2 no-scrollbar'} style={{ overflowY: 'initial' }}>
                     {categories.map(
                         (category, index): ReactElement => (
                             <div
