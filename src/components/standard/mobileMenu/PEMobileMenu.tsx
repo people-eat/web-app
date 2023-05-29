@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import classNames from 'classnames';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';

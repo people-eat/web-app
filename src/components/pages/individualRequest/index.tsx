@@ -1,5 +1,7 @@
 import { useMutation } from '@apollo/client';
-import { Dialog, Step, StepLabel } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';

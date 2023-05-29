@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
-import { Button, CircularProgress } from '@mui/material';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import { type NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';

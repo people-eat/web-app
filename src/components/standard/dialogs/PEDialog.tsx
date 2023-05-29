@@ -1,7 +1,8 @@
-import { Autocomplete, TextField } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
 import Dialog from '@mui/material/Dialog';
 import List from '@mui/material/List';
 import Slide from '@mui/material/Slide';
+import TextField from '@mui/material/TextField';
 import { type TransitionProps } from '@mui/material/transitions';
 import { DatePicker } from '@mui/x-date-pickers';
 import classNames from 'classnames';

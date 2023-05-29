@@ -1,4 +1,5 @@
-import { FormControlLabel, FormGroup } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
