@@ -11,15 +11,15 @@ export default function HowToChefSection6(): ReactElement {
     const platform = isDesktop ? `${650 * 3}px` : `${400 * 3}px`;
 
     return (
-        <VStack className="w-full max-w-screen-xl box-border mb-15">
+        <VStack className="w-full max-w-screen-xl box-border mb-15 md:mb-0">
             <VStack className="w-full gap-8">
-                <div className="flex w-full lg:justify-center mt-[120px] mb-15">
-                    <h2 className="w-full text-center lg:text-black lg:text-center lg:text-heading-xm text-heading-xl m-0 p-0 lg:uppercase">
+                <div className="flex w-full lg:justify-center mt-[120px] mb-15 md:mt-10 md:mb-0">
+                    <h2 className="w-full text-center lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xl m-0 p-0">
                         {section6Title}
                     </h2>
                 </div>
-                <VStack style={{ alignItems: 'flex-start', overflowX: 'scroll' }} className="w-full">
-                    <HStack style={{ width: platform }} className="flex-wrap gap-5 h-[300px] py-10 box-border">
+                <VStack style={{ alignItems: 'flex-start', overflowX: 'scroll' }} className="w-full no-scrollbar">
+                    <HStack style={{ width: platform }} className="flex-wrap gap-5 h-[300px] py-10 box-border no-scrollbar">
                         {isDesktop && (
                             <>
                                 <PEReviewCardPlatformWeb

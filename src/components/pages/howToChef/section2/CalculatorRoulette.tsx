@@ -18,7 +18,7 @@ export function CalculatorRoulette({ startValue, endValue }: CalculatorRouletteP
     }, [startValue, endValue]);
 
     return (
-        <p className="absolute top-10 right-8 text-heading-xl md:text-text-m-bold my-0">
+        <p className="absolute top-10 md:top-6 right-8 text-heading-xl md:text-text-m-bold my-0">
             <span className="animeRouletteCount" />€
         </p>
     );

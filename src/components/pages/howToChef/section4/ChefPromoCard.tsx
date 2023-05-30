@@ -38,17 +38,17 @@ export default function ChefPromoCard(): ReactElement {
             </div>
             <div className="flex">
                 <div className="flex flex-col gap-1">
-                    <span className="text-gray text-text-sss md:text-text-m">
-                        {eventDate} <span className="text-black">1. Jan 2023</span>
+                    <span className="text-gray text-text-sss md:text-text-ss">
+                        {eventDate} <span className="text-black md:text-text-ss">1. Jan 2023</span>
                     </span>
-                    <span className="text-gray text-text-sss md:text-text-m">
-                        Time: <span className="text-black">18:00</span>
+                    <span className="text-gray text-text-sss md:text-text-ss">
+                        Time: <span className="text-black md:text-text-ss">18:00</span>
                     </span>
-                    <span className="text-gray text-text-sss md:text-text-m">
-                        {addressTitle} <span className="text-black">{address}</span>
+                    <span className="text-gray text-text-sss md:text-text-ss">
+                        {addressTitle} <span className="text-black md:text-text-ss">{address}</span>
                     </span>
-                    <span className="text-gray text-text-sss md:text-text-m">
-                        {persons} <span className="text-black">8</span>
+                    <span className="text-gray text-text-sss md:text-text-ss">
+                        {persons} <span className="text-black md:text-text-ss">8</span>
                     </span>
                 </div>
             </div>

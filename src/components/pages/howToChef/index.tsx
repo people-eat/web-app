@@ -19,7 +19,7 @@ export default function HowToChefPage(): ReactElement {
         <VStack className="w-full">
             {isMobile ? <PEHeaderMobile /> : <PEHeader />}
 
-            <VStack className="w-full max-w-screen-xl px-8 box-border mb-10">
+            <VStack className="w-full relative max-w-screen-xl px-8 md:px-4 box-border mb-10">
                 <HowToChefSection1 />
                 <HowToChefSection2 />
                 <HowToChefSection3 />

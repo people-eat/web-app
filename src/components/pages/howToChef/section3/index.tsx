@@ -12,8 +12,8 @@ export default function HowToChefSection3(): ReactElement {
     return (
         <VStack className="w-full max-w-screen-xl box-border">
             <VStack className="w-full gap-8">
-                <div className="flex w-full lg:justify-center mt-[160px] mb-15">
-                    <h2 className="w-full text-center lg:text-black lg:text-center lg:text-heading-xm text-heading-xl m-0 p-0 lg:uppercase">
+                <div className="flex w-full lg:justify-center mt-[160px] mb-15 md:my-10">
+                    <h2 className="w-full text-center lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xl m-0 p-0">
                         {section3Title}
                     </h2>
                 </div>
@@ -21,21 +21,21 @@ export default function HowToChefSection3(): ReactElement {
                     <VStack className="max-w-[510px] md:min-w-full gap-5 lg:mb-10">
                         <VStack
                             style={{ alignItems: 'flex-start' }}
-                            className="w-full py-6 px-4 bg-base md:bg-white md:shadow-primary rounded-4 gap-2"
+                            className="w-full py-6 px-4 box-border bg-base md:bg-white md:shadow-primary rounded-4 gap-2"
                         >
                             <p className="my-0 text-heading-m md:text-heading-ss text-orange">Master Chef</p>
                             <p className="my-0 text-heading-ss md:text-text-sm">{masterChefDescription}</p>
                         </VStack>
                         <VStack
                             style={{ alignItems: 'flex-start' }}
-                            className="w-full py-6 px-4 bg-base md:bg-white md:shadow-primary rounded-4 gap-2"
+                            className="w-full py-6 px-4 box-border bg-base md:bg-white md:shadow-primary rounded-4 gap-2"
                         >
                             <p className="my-0 text-heading-m md:text-heading-ss text-orange">Professional chef</p>
                             <p className="my-0 text-heading-ss md:text-text-sm">{ChefDescription}</p>
                         </VStack>
                         <VStack
                             style={{ alignItems: 'flex-start' }}
-                            className="w-full py-6 px-4 bg-base md:bg-white md:shadow-primary rounded-4 gap-2"
+                            className="w-full py-6 px-4 box-border bg-base md:bg-white md:shadow-primary rounded-4 gap-2"
                         >
                             <p className="my-0 text-heading-m md:text-heading-ss text-orange">Hobby chef</p>
                             <p className="my-0 text-heading-ss md:text-text-sm">{HobbyChefDescription}</p>
