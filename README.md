@@ -47,6 +47,7 @@ yarn dev
 | [Data privacy policy page](http://localhost:3000/data-privacy-policy)   | /data-privacy-policy  |
 | [Terms and conditions page](http://localhost:3000/terms-and-conditions) | /terms-and-conditions |
 | [Individual request page](http://localhost:3000/individual-request)     | /individual-request   |
+| [Search results](http://localhost:3000/search-results)                  | /search-results       |
 
 ### Storybook
 
@@ -72,6 +73,7 @@ yarn storybook:start
 | [Data privacy policy page](https://integration-people-eat.cem-yilmaz.de/data-privacy-policy)   | /data-privacy-policy  |
 | [Terms and conditions page](https://integration-people-eat.cem-yilmaz.de/terms-and-conditions) | /terms-and-conditions |
 | [Individual request page](https://integration-people-eat.cem-yilmaz.de/individual-request)     | /individual-request   |
+| [Search results](https://integration-people-eat.cem-yilmaz.de/search-results)                  | /search-results       |
 
 Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.de](https://storybook-integration-people-eat.cem-yilmaz.de)
 
@@ -90,7 +92,7 @@ Storybook in integration: [https://storybook-integration-people-eat.cem-yilmaz.d
 | [Imprint page](https://people-eat.cem-yilmaz.de/imprint)                           | /imprint              |
 | [Data privacy policy page](https://people-eat.cem-yilmaz.de/data-privacy-policy)   | /data-privacy-policy  |
 | [Terms and conditions page](https://people-eat.cem-yilmaz.de/terms-and-conditions) | /terms-and-conditions |
-| [Individual request page](https://people-eat.cem-yilmaz.de/individual-request)     | /individual-request   |
+| [Search results](https://people-eat.cem-yilmaz.de/search-results)                  | /search-results       |
 
 ## Design
 
