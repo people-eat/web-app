@@ -1909,6 +1909,31 @@ export type FindManyCooksQuery = {
     };
 };
 
+export type FindManyPublicCooksQueryVariables = Exact<{
+    request: FindManyPublicCooksRequest;
+}>;
+
+export type FindManyPublicCooksQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
+    publicCooks: {
+        __typename?: 'PublicCookQuery';
+        findMany: Array<{
+            __typename?: 'PublicCook';
+            cookId: string;
+            rank: CookRank;
+            biography: string;
+            travelExpenses: number;
+            createdAt: Date;
+            user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
+            location: { __typename?: 'Location'; latitude: number; longitude: number };
+        }>;
+    };
+};
+
 export type FindManyUsersQueryVariables = Exact<{
     request: FindManyRequest;
 }>;
@@ -2766,6 +2791,114 @@ export const FindManyCooksDocument = {
         },
     ],
 } as unknown as DocumentNode<FindManyCooksQuery, FindManyCooksQueryVariables>;
+export const FindManyPublicCooksDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindManyPublicCooks' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'FindManyPublicCooksRequest' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publicCooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findMany' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'request' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'user' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'biography' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'location' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindManyPublicCooksQuery, FindManyPublicCooksQueryVariables>;
 export const FindManyUsersDocument = {
     kind: 'Document',
     definitions: [
