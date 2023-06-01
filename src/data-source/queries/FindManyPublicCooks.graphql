@@ -1,0 +1,25 @@
+query FindManyPublicCooks($request: FindManyPublicCooksRequest!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    publicCooks {
+        findMany(request: $request) {
+            cookId
+            user {
+                userId
+                firstName
+                profilePictureUrl
+            }
+            rank
+            biography
+            location {
+                latitude
+                longitude
+            }
+            travelExpenses
+            createdAt
+        }
+    }
+}
