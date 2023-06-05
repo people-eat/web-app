@@ -6,7 +6,7 @@ import { Icon } from '../icon/Icon';
 import PEIcon from '../icon/PEIcon';
 
 interface PEImagePickerProps {
-    onDownloaded?: () => void;
+    onDownloaded?: (file: string) => void;
 }
 
 export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): ReactElement {
@@ -24,7 +24,7 @@ export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): Rea
     }
 
     useEffect(() => {
-        if (filesContent.length) onDownloaded?.();
+        if (filesContent.length) onDownloaded?.(filesContent[0].content);
     }, [filesContent, onDownloaded]);
 
     return (
