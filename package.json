@@ -38,6 +38,7 @@
         "next-translate": "^2.0.5",
         "react": "18.2.0",
         "react-dom": "18.2.0",
+        "use-file-picker": "^1.7.0",
         "validatorjs": "^3.22.1"
     },
     "devDependencies": {
