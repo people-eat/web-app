@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { type ReactElement } from 'react';
 import { Icon } from '../../standard/icon/Icon';
 import PEIconButton from '../../standard/iconButton/PEIconButton';
@@ -8,9 +9,10 @@ export interface PEAddressCardProps {
     onHouseClick?: () => void;
     onPinClick?: () => void;
     onEditClick?: () => void;
+    pinned?: boolean;
 }
 
-export default function PEAddressCard({ title, address, onHouseClick, onPinClick, onEditClick }: PEAddressCardProps): ReactElement {
+export default function PEAddressCard({ title, address, onHouseClick, onPinClick, onEditClick, pinned }: PEAddressCardProps): ReactElement {
     return (
         <div className="w-full flex flex-row justify-between">
             <div className="flex flex-row items-center gap-4">
@@ -21,7 +23,13 @@ export default function PEAddressCard({ title, address, onHouseClick, onPinClick
                 </div>
             </div>
             <div className="flex flex-row gap-4 items-center">
-                <PEIconButton size={'40px'} icon={Icon.pin} onClick={onPinClick} withoutShadow />
+                <PEIconButton
+                    className={classNames({ ['opacity-30']: !pinned })}
+                    size={'40px'}
+                    icon={Icon.pin}
+                    onClick={onPinClick}
+                    withoutShadow
+                />
                 <PEIconButton size={'40px'} icon={Icon.editPencil} onClick={onEditClick} iconSize={20} withoutShadow />
             </div>
         </div>

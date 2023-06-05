@@ -9,7 +9,6 @@ export interface PETextFieldProps {
     type: HTMLInputTypeAttribute;
     startContent?: ReactElement;
     endContent?: ReactElement;
-
     style?: CSSProperties;
     className?: string;
 }
