@@ -46,9 +46,9 @@ export default function PEDropdown<T>({
     }
 
     return (
-        <Grid sx={{ width: '100%' }} container spacing={2}>
+        <Grid sx={{ width: '100%' }} container>
             <Grid sx={{ width: '100%' }} item>
-                <Card sx={{ borderRadius: '12px', width: '100%', my: '16px' }}>
+                <Card sx={{ borderRadius: '12px', width: '100%' }}>
                     <CardHeader
                         title={
                             <div className="flex justify-between items-center">
@@ -74,7 +74,6 @@ export default function PEDropdown<T>({
                         onClick={(): void => setOpen(!isOpen)}
                         sx={{
                             cursor: 'pointer',
-                            px: 2,
                             py: 1,
                             fontFamily: 'Manrope',
                             border: isOpen ? '1px solid rgba(255, 100, 51, 1)' : '1px solid rgba(245, 245, 245, 1)',

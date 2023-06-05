@@ -8,6 +8,7 @@ export interface PEIconButtonProps {
     onClick?: () => void;
     icon: Icon;
     withoutShadow?: boolean;
+    border?: string;
     size?: string;
     bg?: string;
     className?: string;
@@ -19,6 +20,7 @@ export default function PEIconButton({
     bg,
     withoutShadow,
     icon,
+    border,
     size = '36px',
     iconSize,
     className,
@@ -27,11 +29,13 @@ export default function PEIconButton({
         <Button
             sx={{
                 display: 'flex',
+                cursor: 'pointer',
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: '12px',
                 height: size,
                 width: size,
+                border: border ?? '',
                 minWidth: size,
                 boxShadow: withoutShadow ? '0 0 0 rgba(0, 0, 0, 0)' : '',
                 '&:hover': {

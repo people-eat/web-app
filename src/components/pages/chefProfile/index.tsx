@@ -7,6 +7,7 @@ import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
 import ChefProfilePagePersonalTab from './personalTab/ChefProfilePagePersonalTab';
+import ChefProfilePageUploadDishesTab from './uploadDishesOrMenus/ChefProfilePageUploadDishesTab';
 
 const MENU_TABS = ['Personal details', 'Bookings', 'Ratings', 'Dishes/Menus', 'Statistic', 'Chats', 'Show public profile'];
 
@@ -48,6 +49,8 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
             </HStack>
 
             {selectedTab === 0 && signedInUser && <ChefProfilePagePersonalTab cookId={signedInUser.userId} />}
+
+            {selectedTab === 3 && <ChefProfilePageUploadDishesTab />}
 
             <PEFooter />
         </VStack>
