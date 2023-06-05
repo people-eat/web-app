@@ -25,7 +25,7 @@ export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): Rea
 
     useEffect(() => {
         if (filesContent.length) onDownloaded?.();
-    }, [filesContent]);
+    }, [filesContent, onDownloaded]);
 
     return (
         <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
