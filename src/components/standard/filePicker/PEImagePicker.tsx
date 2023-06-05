@@ -24,7 +24,7 @@ export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): Rea
     }
 
     useEffect(() => {
-        if (filesContent.length) onDownloaded?.(filesContent[0].content);
+        if (filesContent[0]) onDownloaded?.(filesContent[0].content);
     }, [filesContent, onDownloaded]);
 
     return (
@@ -33,7 +33,7 @@ export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): Rea
                 onClick={handleSelectFiles}
                 className="flex overflow-hidden items-center w-[200px] h-[200px] hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4"
             >
-                {filesContent.length && filesContent[0] ? (
+                {filesContent[0] ? (
                     <Image
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                         src={filesContent[0].content ?? ''}
