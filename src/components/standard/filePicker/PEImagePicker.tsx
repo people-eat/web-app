@@ -36,8 +36,8 @@ export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): Rea
                 {filesContent[0] ? (
                     <Image
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
-                        src={filesContent[0].content ?? ''}
-                        alt={filesContent[0].name ?? ''}
+                        src={filesContent[0].content}
+                        alt={filesContent[0].name}
                         width={200}
                         height={200}
                     />
