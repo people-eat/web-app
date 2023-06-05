@@ -1,15 +1,11 @@
 import { useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import classNames from 'classnames';
-import useTranslation from 'next-translate/useTranslation';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
 import { GetCookProfileQueryDocument } from '../../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEMap from '../../../map/PEMap';
-import PEButton from '../../../standard/buttons/PEButton';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';
 import PECounter from '../../../standard/counter/PECounter';
 import { Icon } from '../../../standard/icon/Icon';
@@ -20,11 +16,14 @@ import PEAutoCompleteTextField from '../../../standard/textFields/PEAutoComplete
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+import ChefProfileSection1 from './section1/ChefProfileSection1';
+import ChefProfileSection2 from './section2/ChefProfileSection2';
+import ChefProfileSection3 from './section3/ChefProfileSection3';
+import ChefProfileSection4 from './section4/ChefProfileSection4';
+import ChefProfileSection5 from './section5/ChefProfileSection5';
 import CreateAddressDialog from '../../profile/personalTab/CreateAddressDialog';
 
 export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string }): ReactElement {
-    const { t: commonTranslate } = useTranslation('common');
-
     const [biography, setBiography] = useState('');
 
     const [maximumParticipants, setMaximumParticipants] = useState<number | undefined>(undefined);
@@ -56,54 +55,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
             {chefProfile && (
                 <>
-                    <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
-                        {chefProfile.user.profilePictureUrl && (
-                            <Image
-                                style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
-                                src={chefProfile.user.profilePictureUrl}
-                                alt={'Profile Picture'}
-                                width={120}
-                                height={120}
-                            />
-                        )}
-
-                        {!chefProfile.user.profilePictureUrl && (
-                            <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
-                                <PEIcon edgeLength={32} icon={Icon.profileLight} />
-                            </div>
-                        )}
-
-                        <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                            <HStack className="gap-4" style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <VStack style={{ alignItems: 'flex-start' }}>
-                                    <p className="text-heading-m my-0">{chefProfile.user.firstName}</p>
-                                    <p className="text-start text-text-m text-disabled my-0">{chefProfile.user.lastName}</p>
-                                </VStack>
-                                <PEIconButton icon={Icon.editPencil} iconSize={24} withoutShadow />
-                            </HStack>
-                            <span>{commonTranslate(chefProfile.rank)}</span>
-                        </VStack>
-
-                        <Spacer />
-
-                        <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                            <Link href="/profile" className="no-underline">
-                                <PEButton
-                                    iconLeft={Icon.profileOrange}
-                                    iconSize={16}
-                                    type="secondary"
-                                    onClick={(): void => undefined}
-                                    title={'Customer Profile'}
-                                />
-                            </Link>
-
-                            <HStack gap={2} className="flex-row mt-4">
-                                <PEIcon icon={Icon.star} edgeLength={20} />
-                                <span className="text-preBlack">{5.0}</span>
-                                <span className="text-disabled">({0})</span>
-                            </HStack>
-                        </VStack>
-                    </HStack>
+                    <ChefProfileSection1 chefProfile={chefProfile} />
 
                     <HStack
                         className="w-full bg-white shadow-primary box-border p-8 rounded-4"
@@ -115,24 +67,18 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>not visible</span>
                     </HStack>
 
-                    <VStack
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4"
-                        style={{ alignItems: 'center', justifyContent: 'flex-start' }}
-                    >
-                        <p className="text-heading-ss w-full justify-start my-0">Bio</p>
-                        <VStack className="w-full gap-3">
-                            <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                                <p className="my-0 text-text-sm-bold">Everything the customer needs to know</p>
-                                <PEIconButton icon={Icon.editPencil} iconSize={24} withoutShadow />
-                            </HStack>
-                            <VStack
-                                className="border-solid border-disabled border-[1px] p-4 rounded-3 w-full box-border"
-                                style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}
-                            >
-                                <p className="text-start m-0">{biography}</p>
-                            </VStack>
-                        </VStack>
-                    </VStack>
+                    <ChefProfileSection2 chefBiography={biography} cookId={cookId} />
+
+                    <ChefProfileSection3 />
+
+                    <ChefProfileSection4
+                        chefProfile={chefProfile}
+                        cookId={cookId}
+                        maximumTravelDistance={maximumTravelDistance}
+                        selectedLocation={selectedLocation}
+                    />
+
+                    <ChefProfileSection5 />
 
                     {/* <VStack
                         className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-3"
@@ -250,6 +196,8 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
                                 style={{ height: '500px', borderRadius: 16 }}
                                 location={selectedLocation}
+                                markerRadius={(maximumTravelDistance ?? 0) * 50}
+                                renderMarker
                             />
                         </VStack>
                     </VStack>

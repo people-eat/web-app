@@ -14,6 +14,7 @@ export default function PETextField({
     endContent,
     style,
     className,
+    sx,
     ...params
 }: PETextFieldProps): ReactElement {
     return (
@@ -40,6 +41,7 @@ export default function PETextField({
                     borderRadius: '12px',
                 },
             }}
+            sx={sx}
             style={style}
             className={'w-full' + (className ? ' ' + className : '')}
         />

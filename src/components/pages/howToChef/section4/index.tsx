@@ -77,7 +77,7 @@ export default function HowToChefSection4(): ReactElement {
                             </VStack>
                         )}
                         {!isDesktop && (
-                            <VStack className="lg:h-[300px] relative bg-base w-[calc(110%)] max-w-[700px]">
+                            <VStack className="lg:h-[300px] relative bg-base w-[calc(100%+16px)] max-w-[700px]">
                                 <HStack className="ml-[-130px]">
                                     <p className="absolute z-30 top-[50%] ml-[-15px] bg-base text-green py-2 px-4 rotate-10 rounded-6">
                                         PeopleEat Team

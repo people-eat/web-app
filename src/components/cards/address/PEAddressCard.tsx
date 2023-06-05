@@ -8,9 +8,10 @@ export interface PEAddressCardProps {
     onHouseClick?: () => void;
     onPinClick?: () => void;
     onEditClick?: () => void;
+    pinned?: boolean;
 }
 
-export default function PEAddressCard({ title, address, onHouseClick, onPinClick, onEditClick }: PEAddressCardProps): ReactElement {
+export default function PEAddressCard({ title, address, onHouseClick, onPinClick, onEditClick, pinned }: PEAddressCardProps): ReactElement {
     return (
         <div className="w-full flex flex-row justify-between">
             <div className="flex flex-row items-center gap-4">
@@ -21,7 +22,7 @@ export default function PEAddressCard({ title, address, onHouseClick, onPinClick
                 </div>
             </div>
             <div className="flex flex-row gap-4 items-center">
-                <PEIconButton size={'40px'} icon={Icon.pin} onClick={onPinClick} withoutShadow />
+                <PEIconButton className={!pinned ? 'opacity-30' : ''} size={'40px'} icon={Icon.pin} onClick={onPinClick} withoutShadow />
                 <PEIconButton size={'40px'} icon={Icon.editPencil} onClick={onEditClick} iconSize={20} withoutShadow />
             </div>
         </div>
