@@ -16,12 +16,12 @@ import PEAutoCompleteTextField from '../../../standard/textFields/PEAutoComplete
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+import CreateAddressDialog from '../../profile/personalTab/CreateAddressDialog';
 import ChefProfileSection1 from './section1/ChefProfileSection1';
 import ChefProfileSection2 from './section2/ChefProfileSection2';
 import ChefProfileSection3 from './section3/ChefProfileSection3';
 import ChefProfileSection4 from './section4/ChefProfileSection4';
 import ChefProfileSection5 from './section5/ChefProfileSection5';
-import CreateAddressDialog from '../../profile/personalTab/CreateAddressDialog';
 
 export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string }): ReactElement {
     const [biography, setBiography] = useState('');
