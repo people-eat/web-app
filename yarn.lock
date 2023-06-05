@@ -6802,6 +6802,13 @@ file-entry-cache@^6.0.1:
   dependencies:
     flat-cache "^3.0.4"
 
+file-selector@0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.2.4.tgz#7b98286f9dbb9925f420130ea5ed0a69238d4d80"
+  integrity sha512-ZDsQNbrv6qRi1YTDOEWzf5J2KjZ9KMI1Q2SGeTkCJmNNW25Jg4TW4UMcmoqcg4WrAyKRcpBXdbWRxkfrOzVRbA==
+  dependencies:
+    tslib "^2.0.3"
+
 file-system-cache@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/file-system-cache/-/file-system-cache-2.0.2.tgz#6b51d58c5786302146fa883529e0d7f88896e948"
@@ -11403,6 +11410,13 @@ urlpattern-polyfill@^6.0.2:
   integrity sha512-5vZjFlH9ofROmuWmXM9yj2wljYKgWstGwe8YTyiqM7hVum/g9LyCizPZtb3UqsuppVwety9QJmfc42VggLpTgg==
   dependencies:
     braces "^3.0.2"
+
+use-file-picker@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/use-file-picker/-/use-file-picker-1.7.0.tgz#92a145de23018aee2dd7d84a8354947eda9a39c7"
+  integrity sha512-YjVbRuSL0eHPni5yCBuaHRo08txRs+LZXvM7V8UtmM450uEWqLWEEw2SLfwgdrcZorKTc5H9jTNvXziX846sjA==
+  dependencies:
+    file-selector "0.2.4"
 
 use-resize-observer@^9.1.0:
   version "9.1.0"

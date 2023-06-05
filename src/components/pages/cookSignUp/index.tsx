@@ -16,6 +16,7 @@ import PEButton from '../../standard/buttons/PEButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
 import PECounter from '../../standard/counter/PECounter';
 import PEDropdown from '../../standard/dropdown/PEDropdown';
+import PEImagePicker from '../../standard/filePicker/PEImagePicker';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import PESlider from '../../standard/slider/PESlider';
@@ -115,11 +116,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     </VStack>
                 </div>
 
-                <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                    <VStack className="w-[200px] h-[200px] hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4">
-                        <PEIcon icon={Icon.plus} />
-                    </VStack>
-                </VStack>
+                <PEImagePicker onDownloaded={(): void => undefined} />
 
                 <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                     <p>{t('rank-label')}</p>
