@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import { DatePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
@@ -6,7 +6,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
-import { GetProfileQueryDocument } from '../../../../data-source/generated/graphql';
+import { DeleteOneUserAddressDocument, GetProfileQueryDocument } from '../../../../data-source/generated/graphql';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECreditCard from '../../../standard/creditCard/PECreditCard';
@@ -25,9 +25,13 @@ export default function ProfilePagePersonalTab(): ReactElement {
     const { t } = useTranslation('profile');
 
     const [changedPassword, setChangedPassword] = useState('');
+
     const [addAddressDialogOpen, setAddAddressDialogOpen] = useState(false);
+    const [editAddresses, setEditAddresses] = useState(false);
 
     const { data, loading, error, refetch } = useQuery(GetProfileQueryDocument);
+
+    const [deleteOneUserAddress] = useMutation(DeleteOneUserAddressDocument);
 
     const userProfile = data?.users.me;
 
@@ -121,14 +125,19 @@ export default function ProfilePagePersonalTab(): ReactElement {
                     </VStack>
 
                     <VStack
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-3"
+                        gap={16}
+                        className="w-full bg-white shadow-primary box-border p-8 rounded-4"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
-                        <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+                        <HStack gap={8} className="w-full" style={{ alignItems: 'start' }}>
                             <p className="text-heading-ss w-full justify-start my-0">{t('addresses-label')}</p>
+
+                            <PEIconButton icon={Icon.editPencil} onClick={(): void => setEditAddresses(!editAddresses)} withoutShadow />
+
+                            <Spacer />
+
                             <PEIconButton
                                 icon={Icon.plus}
-                                iconSize={24}
                                 withoutShadow
                                 onClick={(): void => setAddAddressDialogOpen(!addAddressDialogOpen)}
                             />
@@ -144,9 +153,21 @@ export default function ProfilePagePersonalTab(): ReactElement {
                             onCancel={(): void => setAddAddressDialogOpen(false)}
                         />
 
-                        <VStack className="w-full gap-3">
-                            {userProfile.addresses.map(({ title, city, postCode, street, houseNumber }, index) => (
-                                <PEAddressCard key={index} address={`${postCode} ${city}, ${street} ${houseNumber}`} title={title} />
+                        <VStack gap={16} className="w-full">
+                            {userProfile.addresses.map(({ addressId, title, city, postCode, street, houseNumber }, index) => (
+                                <PEAddressCard
+                                    key={index}
+                                    address={`${postCode} ${city}, ${street} ${houseNumber}`}
+                                    title={title}
+                                    onDelete={
+                                        editAddresses
+                                            ? (): void =>
+                                                  void deleteOneUserAddress({ variables: { userId: userProfile.userId, addressId } }).then(
+                                                      (res) => res.data?.users.addresses.success && void refetch(),
+                                                  )
+                                            : undefined
+                                    }
+                                />
                             ))}
                         </VStack>
                     </VStack>
