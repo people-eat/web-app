@@ -65,7 +65,14 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
     const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
     const [rank, setRank] = useState<CookRank>('HOBBY');
 
-    const disabled: boolean = firstName === '' || lastName === '' || password === '' || passwordRepeat !== password || emailAddress === '';
+    const disabled: boolean =
+        firstName === '' ||
+        lastName === '' ||
+        password === '' ||
+        passwordRepeat !== password ||
+        emailAddress === '' ||
+        !acceptedPrivacyPolicy ||
+        !acceptedTerms;
 
     const [createOneUserByEmailAddress, { data, loading, error }] = useMutation(CreateOneUserByEmailAddressDocument, {
         variables: {

@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,42 +18,19 @@ export interface ChefProfileSection1Props {
         cookId: string;
         isLocked: boolean;
         isVisible: boolean;
-        biography: string;
-        maximumParticipants?: number | null;
-        maximumPrice?: number | null;
-        maximumTravelDistance?: number | null;
-        minimumParticipants?: number | null;
-        minimumPrice?: number | null;
         rank: CookRank;
-        travelExpenses: number;
         user: {
             firstName: string;
             lastName: string;
             profilePictureUrl?: string | null;
-            addresses: Address[];
         };
-    };
-}
-
-export interface Address {
-    addressId: string;
-    title: string;
-    country: string;
-    city: string;
-    postCode: string;
-    street: string;
-    houseNumber: string;
-    createdAt: Date;
-    location: {
-        latitude: number;
-        longitude: number;
     };
 }
 
 export default function ChefProfileSection1({ chefProfile }: ChefProfileSection1Props): ReactElement {
     const [edit, setEdit] = useState(false);
-    const [firstName, setFirstName] = useState(chefProfile.user.firstName);
-    const [lastName, setLastName] = useState(chefProfile.user.lastName);
+    const [_firstName, setFirstName] = useState(chefProfile.user.firstName);
+    const [_lastName, setLastName] = useState(chefProfile.user.lastName);
 
     const [editFirstName, setEditFirstName] = useState(chefProfile.user.firstName);
     const [editLastName, setEditLastName] = useState(chefProfile.user.lastName);
@@ -74,83 +50,72 @@ export default function ChefProfileSection1({ chefProfile }: ChefProfileSection1
     }
 
     return (
-        <HStack
-            className="w-full bg-white shadow-primary box-border p-8 rounded-4"
-            style={{ alignItems: 'flex-start', justifyContent: 'space-between' }}
-            gap={16}
-        >
-            {chefProfile.user.profilePictureUrl && (
-                <Image
-                    style={{
-                        minWidth: '130px',
-                        width: '130px',
-                        height: '130px',
-                        borderRadius: '8px',
-                        objectPosition: 'center',
-                        objectFit: 'cover',
-                    }}
-                    src={chefProfile.user.profilePictureUrl}
-                    alt={chefProfile.user.profilePictureUrl}
-                    width={130}
-                    height={130}
-                />
-            )}
-            {!chefProfile.user.profilePictureUrl && (
-                <div className={classNames('bg-base rounded-2 flex justify-center items-center min-h-[120px] min-w-[120px] w-[120px]')}>
-                    <PEIcon edgeLength={32} icon={Icon.profileLight} />
-                </div>
-            )}
+        <>
+            <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
+                {chefProfile.user.profilePictureUrl && (
+                    <Image
+                        style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                        src={chefProfile.user.profilePictureUrl}
+                        alt={'Profile Picture'}
+                        width={120}
+                        height={120}
+                    />
+                )}
 
-            <VStack className="relative w-full box-border" style={{ alignItems: 'flex-start' }}>
-                <PEModalPopUp openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
-                    <VStack className="w-[750px] px-10 py-15 box-border relative">
-                        <h2 className="m-0 pb-5">Change profile name</h2>
-                        <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
-                            <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
-                            <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
-                            <VStack className="w-[200px] h-[200px] hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4">
-                                <PEIcon icon={Icon.plus} />
-                            </VStack>
-                        </VStack>
-                        <VStack className="w-full">
-                            <p>Save profile data</p>
-                            <PEButton className="max-w-[250px]" onClick={handleSaveChefName} title="Save" />
-                        </VStack>
-                    </VStack>
-                </PEModalPopUp>
+                {!chefProfile.user.profilePictureUrl && (
+                    <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
+                        <PEIcon edgeLength={32} icon={Icon.profileLight} />
+                    </div>
+                )}
 
-                <VStack style={{ alignItems: 'flex-start' }}>
+                <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <HStack className="gap-4" style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <VStack style={{ alignItems: 'flex-start' }}>
-                            <p className="text-heading-m my-0">{firstName}</p>
-                            <p className="text-start text-text-m text-disabled my-0">{lastName}</p>
+                            <p className="text-heading-m my-0">{chefProfile.user.firstName}</p>
+                            <p className="text-start text-text-m text-disabled my-0">{chefProfile.user.lastName}</p>
                         </VStack>
-                        <PEIconButton onClick={(): void => setEdit(!edit)} icon={Icon.editPencil} iconSize={24} withoutShadow />
+                        <PEIconButton icon={Icon.editPencil} onClick={(): void => setEdit(!edit)} iconSize={24} withoutShadow />
                     </HStack>
                     <span>{commonTranslate(chefProfile.rank)}</span>
                 </VStack>
 
-                <HStack gap={2} className="flex-row mt-4">
-                    <PEIcon icon={Icon.star} edgeLength={20} />
-                    <span className="text-preBlack">5.0</span>
-                    <span className="text-disabled">(25)</span>
-                </HStack>
-            </VStack>
+                <Spacer />
 
-            <Spacer />
+                <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                    <Link href="/profile" className="no-underline">
+                        <PEButton
+                            iconLeft={Icon.profileOrange}
+                            iconSize={16}
+                            type="secondary"
+                            onClick={(): void => undefined}
+                            title={'Customer Profile'}
+                        />
+                    </Link>
 
-            <div>
-                <Link href="/profile" className="no-underline">
-                    <PEButton
-                        iconLeft={Icon.profileOrange}
-                        iconSize={16}
-                        type="secondary"
-                        className="min-w-[250px]"
-                        onClick={(): void => undefined}
-                        title={'Customer Profile'}
-                    />
-                </Link>
-            </div>
-        </HStack>
+                    <HStack gap={2} className="flex-row mt-4">
+                        <PEIcon icon={Icon.star} edgeLength={20} />
+                        <span className="text-preBlack">{5.0}</span>
+                        <span className="text-disabled">({0})</span>
+                    </HStack>
+                </VStack>
+            </HStack>
+
+            <PEModalPopUp openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
+                <VStack className="w-[750px] px-10 py-15 box-border relative">
+                    <h2 className="m-0 pb-5">Change profile name</h2>
+                    <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+                        <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
+                        <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
+                        <VStack className="w-[200px] h-[200px] hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4">
+                            <PEIcon icon={Icon.plus} />
+                        </VStack>
+                    </VStack>
+                    <VStack className="w-full">
+                        <p>Save profile data</p>
+                        <PEButton className="max-w-[250px]" onClick={handleSaveChefName} title="Save" />
+                    </VStack>
+                </VStack>
+            </PEModalPopUp>
+        </>
     );
 }

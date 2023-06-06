@@ -15,17 +15,18 @@ import VStack from '../../../../utility/vStack/VStack';
 
 export interface ChefProfilePageCreateMealProps {
     cookId: string;
-    setCloseEditMode: () => void;
+    onSuccess: () => void;
+    onCancel: () => void;
 }
 
-export default function ChefProfilePageCreateMeal({ cookId, setCloseEditMode }: ChefProfilePageCreateMealProps): ReactElement {
+export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel }: ChefProfilePageCreateMealProps): ReactElement {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState<MealType>('MAIN_COURSE');
 
     const disabled: boolean = title === '';
 
-    const [createOneCookMeal, { loading }] = useMutation(CreateOneCookMealDocument, {
+    const [createOneCookMeal, { data, loading }] = useMutation(CreateOneCookMealDocument, {
         variables: {
             cookId,
             meal: {
@@ -37,13 +38,15 @@ export default function ChefProfilePageCreateMeal({ cookId, setCloseEditMode }: 
         },
     });
 
+    if (data?.cooks.meals.success) onSuccess();
+
     return (
         <VStack
             className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
             <div className="absolute top-8 right-8">
-                <PEIconButton icon={Icon.close} onClick={setCloseEditMode} withoutShadow bg="white" iconSize={24} />
+                <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
             </div>
             <p className="w-full text-heading-xl my-0 mb-6">Adding a new dish</p>
             <VStack className="w-full">

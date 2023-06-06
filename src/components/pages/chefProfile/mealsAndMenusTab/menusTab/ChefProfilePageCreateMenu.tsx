@@ -8,10 +8,12 @@ import VStack from '../../../../utility/vStack/VStack';
 import ChefProfilePageUploadMenusStep1 from './step1/ChefProfilePageUploadMenusStep1';
 
 interface ChefProfilePageCreateMenuProps {
-    setCloseEditMode: () => void;
+    cookId: string;
+    onSuccess: () => void;
+    onCancel: () => void;
 }
 
-export default function ChefProfilePageCreateMenu({ setCloseEditMode }: ChefProfilePageCreateMenuProps): ReactElement {
+export default function ChefProfilePageCreateMenu({ onCancel }: ChefProfilePageCreateMenuProps): ReactElement {
     const [step, setStep] = useState(0);
 
     return (
@@ -20,7 +22,7 @@ export default function ChefProfilePageCreateMenu({ setCloseEditMode }: ChefProf
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
             <div className="absolute top-8 right-8">
-                <PEIconButton icon={Icon.close} onClick={setCloseEditMode} withoutShadow bg="white" iconSize={24} />
+                <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
             </div>
             <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
                 <p className="w-full text-heading-xl my-0 mb-2">Adding a new menu</p>
