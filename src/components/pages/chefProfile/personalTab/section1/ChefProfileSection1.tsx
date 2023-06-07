@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import { type CookRank } from '../../../../../data-source/generated/graphql';
 import PEButton from '../../../../standard/buttons/PEButton';
+import PEImagePicker from '../../../../standard/filePicker/PEImagePicker';
 import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
 import PEIconButton from '../../../../standard/iconButton/PEIconButton';
@@ -31,9 +32,11 @@ export default function ChefProfileSection1({ chefProfile }: ChefProfileSection1
     const [edit, setEdit] = useState(false);
     const [_firstName, setFirstName] = useState(chefProfile.user.firstName);
     const [_lastName, setLastName] = useState(chefProfile.user.lastName);
+    const [imageFile, setImageFile] = useState(chefProfile.user.profilePictureUrl);
 
     const [editFirstName, setEditFirstName] = useState(chefProfile.user.firstName);
     const [editLastName, setEditLastName] = useState(chefProfile.user.lastName);
+    const [editImageFile, setEditImageFile] = useState(chefProfile.user.profilePictureUrl);
 
     const { t: commonTranslate } = useTranslation('common');
 
@@ -41,6 +44,7 @@ export default function ChefProfileSection1({ chefProfile }: ChefProfileSection1
         setFirstName(editFirstName);
         setLastName(editLastName);
         setEdit(!edit);
+        setImageFile(editImageFile);
     }
 
     function handleUnSaveChefName(): void {
@@ -49,24 +53,42 @@ export default function ChefProfileSection1({ chefProfile }: ChefProfileSection1
         setEdit(!edit);
     }
 
+    function handleOnDownloadImage(imageContent: string): void {
+        setEditImageFile(imageContent);
+    }
+
+    function handleRemoveImage(event: React.MouseEvent<HTMLDivElement>): void {
+        event.stopPropagation();
+        setImageFile('');
+    }
+
     return (
         <>
             <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
-                {chefProfile.user.profilePictureUrl && (
-                    <Image
-                        style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
-                        src={chefProfile.user.profilePictureUrl}
-                        alt={'Profile Picture'}
-                        width={120}
-                        height={120}
-                    />
-                )}
-
-                {!chefProfile.user.profilePictureUrl && (
-                    <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
-                        <PEIcon edgeLength={32} icon={Icon.profileLight} />
-                    </div>
-                )}
+                <VStack className="w-[120px] h-[120px] relative">
+                    {imageFile && (
+                        <div
+                            onClick={(event): void => handleRemoveImage(event)}
+                            className="flex justify-center items-center opacity-50 hover:opacity-100 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                        >
+                            <PEIconButton icon={Icon.trash} withoutShadow />
+                        </div>
+                    )}
+                    {imageFile && (
+                        <Image
+                            style={{ width: '120px', borderRadius: 4, objectPosition: 'center', objectFit: 'cover' }}
+                            src={imageFile ?? ''}
+                            alt={'Profile Picture'}
+                            width={120}
+                            height={120}
+                        />
+                    )}
+                    {!imageFile && (
+                        <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
+                            <PEIcon edgeLength={32} icon={Icon.profileLight} />
+                        </div>
+                    )}
+                </VStack>
 
                 <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <HStack className="gap-4" style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -106,9 +128,7 @@ export default function ChefProfileSection1({ chefProfile }: ChefProfileSection1
                     <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
                         <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
                         <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
-                        <VStack className="w-[200px] h-[200px] hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4">
-                            <PEIcon icon={Icon.plus} />
-                        </VStack>
+                        <PEImagePicker onDownloaded={handleOnDownloadImage} />
                     </VStack>
                     <VStack className="w-full">
                         <p>Save profile data</p>
