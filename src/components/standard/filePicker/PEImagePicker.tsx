@@ -28,7 +28,7 @@ export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): Rea
     }, [filesContent, onDownloaded]);
 
     return (
-        <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+        <VStack style={{ alignItems: 'flex-start' }}>
             <div
                 onClick={handleSelectFiles}
                 className="flex overflow-hidden items-center w-[200px] h-[200px] hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4"

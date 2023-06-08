@@ -6,8 +6,8 @@ import PEHeader from '../../header/PEHeader';
 import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
-import ChefProfilePageMealsAndMenusTab from './mealsAndMenusTab/ChefProfilePageMealsAndMenusTab';
 import ChefProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
+import ChefProfilePageMenusTab from './menusTab/ChefProfilePageMenusTab';
 import ChefProfilePagePersonalTab from './personalTab/ChefProfilePagePersonalTab';
 
 const MENU_TABS = ['Personal details', 'Meals', 'Menus', 'Bookings', 'Ratings', 'Statistic', 'Chats', 'Show public profile'];
@@ -38,7 +38,7 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
                 >
                     {MENU_TABS.map((menu, index) => (
                         <PETabItem
-                            key={`${menu}_PEChefCard`}
+                            key={index}
                             title={menu}
                             onClick={(): void => {
                                 setSelectedTab(index);
@@ -54,7 +54,7 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
 
                 {selectedTab === 1 && signedInUser && <ChefProfilePageMealsTab cookId={signedInUser.userId} />}
 
-                {selectedTab === 2 && signedInUser && <ChefProfilePageMealsAndMenusTab cookId={signedInUser.userId} />}
+                {selectedTab === 2 && signedInUser && <ChefProfilePageMenusTab cookId={signedInUser.userId} />}
             </VStack>
 
             <PEFooter />

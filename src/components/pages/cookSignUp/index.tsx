@@ -5,9 +5,10 @@ import DialogContent from '@mui/material/DialogContent';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import useTranslation from 'next-translate/useTranslation';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { CreateOneUserByEmailAddressDocument, type CookRank } from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
+import useResponsive from '../../../hooks/useResponsive';
 import { type SignedInUser } from '../../../shared/SignedInUser';
 import { cookRanks } from '../../../shared/cookRanks';
 import PEHeader from '../../header/PEHeader';
@@ -20,9 +21,7 @@ import PEImagePicker from '../../standard/filePicker/PEImagePicker';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import PESlider from '../../standard/slider/PESlider';
-import PEAutoCompleteTextField from '../../standard/textFields/PEAutoCompleteTextField';
 import PEEmailTextField from '../../standard/textFields/PEEmailTextField';
-import PEMultiLineTextField from '../../standard/textFields/PEMultiLineTextField';
 import PEPasswordTextField from '../../standard/textFields/PEPasswordTextField';
 import PEPhoneNumberTextField from '../../standard/textFields/PEPhoneNumberTextField';
 import PETextField from '../../standard/textFields/PETextField';
@@ -41,10 +40,11 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
     const { t: translateCommon } = useTranslation('common');
     const { t } = useTranslation('chef-sign-up');
 
+    const { isMobile } = useResponsive();
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
-    const [description, setDescription] = useState('');
     const [maximumParticipants, setMaximumParticipants] = useState(12);
 
     const [travelExpenses, setTravelExpenses] = useState(0.42);
@@ -52,9 +52,6 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
     const [acceptedTerms, setAcceptedTerms] = useState(false);
-
-    const [address, setAddress] = useState('');
-    const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
     const [emailAddress, setEmailAddress] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -65,21 +62,43 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
     const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
     const [rank, setRank] = useState<CookRank>('HOBBY');
 
+    const [postCode, setPostCode] = useState('');
+    const [city, setCity] = useState('');
+    const [street, setStreet] = useState('');
+    const [houseNumber, setHouseNumber] = useState('');
+    const [country, setCountry] = useState('');
+
     const disabled: boolean =
         firstName === '' ||
         lastName === '' ||
         password === '' ||
         passwordRepeat !== password ||
         emailAddress === '' ||
+        !selectedLocation ||
         !acceptedPrivacyPolicy ||
         !acceptedTerms;
+
+    const addressAutocompleteDisabled: boolean = postCode === '' || city === '' || street === '' || houseNumber === '' || country === '';
+
+    useEffect(() => {
+        if (!addressAutocompleteDisabled) {
+            searchAddress(`${postCode} ${city}, ${street} ${houseNumber}, ${country}`, ([firstSearchResult]: GoogleMapsPlacesResult[]) => {
+                if (firstSearchResult) {
+                    setSelectedLocation({
+                        latitude: firstSearchResult.geometry.location.lat,
+                        longitude: firstSearchResult.geometry.location.lng,
+                    });
+                }
+            });
+        }
+    }, [postCode, city, street, houseNumber, country, addressAutocompleteDisabled]);
 
     const [createOneUserByEmailAddress, { data, loading, error }] = useMutation(CreateOneUserByEmailAddressDocument, {
         variables: {
             request: {
                 birthDate: undefined,
                 cook: {
-                    biography: description,
+                    biography: '',
                     isVisible: true,
                     location: selectedLocation ?? { latitude: 0, longitude: 0 },
                     maximumParticipants,
@@ -111,19 +130,17 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <p className="my-2">Please enter your details</p>
                 </VStack>
 
-                <div className="flex w-full gap-4 md:flex-col">
-                    <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>{t('first-name-label')}</p>
+                <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                    <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 400 }}>
+                        <span>{t('first-name-label')}</span>
                         <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name-label')} />
-                    </VStack>
 
-                    <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>{t('last-name-label')}</p>
+                        <span>{t('last-name-label')}</span>
                         <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name-label')} />
                     </VStack>
-                </div>
 
-                <PEImagePicker onDownloaded={(): void => undefined} />
+                    <PEImagePicker onDownloaded={(): void => undefined} />
+                </HStack>
 
                 <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                     <p>{t('rank-label')}</p>
@@ -142,15 +159,6 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                 </VStack>
 
                 <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                    <p>{t('profile-description-label')}</p>
-                    <PEMultiLineTextField
-                        value={description}
-                        onChange={setDescription}
-                        placeholder="Create a profile description. Tell us about your experience and skills."
-                    />
-                </VStack>
-
-                <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                     <p>{t('languages-label')}</p>
                     <PEDropdown
                         title={t('languages-label')}
@@ -160,6 +168,40 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         onSelectedOptionsChange={undefined}
                         singleSelector
                     />
+                </VStack>
+
+                <VStack gap={16} className="w-full">
+                    <p className="text-start w-full my-0">Address</p>
+
+                    <HStack className="w-full" gap={16} style={{ flexWrap: 'wrap' }}>
+                        <VStack style={{ flex: 1 }} gap={16}>
+                            <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" autocomplete="country" />
+                            <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" autocomplete="city" />
+                            <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
+                            <HStack gap={16} className="w-full">
+                                <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
+                                <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={'House Number'} type="text" />
+                            </HStack>
+                        </VStack>
+
+                        {!isMobile && (
+                            <PEMap
+                                apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
+                                style={{ flex: 1 }}
+                                location={selectedLocation}
+                                markerRadius={(maximumTravelDistance ?? 0) * 50}
+                            />
+                        )}
+
+                        {isMobile && (
+                            <PEMap
+                                apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
+                                style={{ height: 300 }}
+                                location={selectedLocation}
+                                markerRadius={(maximumTravelDistance ?? 0) * 50}
+                            />
+                        )}
+                    </HStack>
                 </VStack>
 
                 <VStack className="w-full">
@@ -191,35 +233,6 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <Spacer />
                     <PECounter value={maximumParticipants} onValueChange={setMaximumParticipants} />
                 </HStack>
-
-                <VStack gap={16} className="w-full">
-                    <p className="text-start w-full my-0">Address</p>
-
-                    <PEAutoCompleteTextField
-                        searchText={address}
-                        onSearchTextChange={(changedAddressSearchText: string): void => {
-                            setAddress(changedAddressSearchText);
-                            searchAddress(changedAddressSearchText, setAddressSearchResults);
-                        }}
-                        options={addressSearchResults}
-                        getOptionLabel={(searchResult): string => searchResult.formatted_address}
-                        onOptionSelect={(selectedSearchResult): void =>
-                            setSelectedLocation({
-                                latitude: selectedSearchResult.geometry.location.lat,
-                                longitude: selectedSearchResult.geometry.location.lng,
-                            })
-                        }
-                        placeholder={'Location'}
-                        disabled={false}
-                        startContent={undefined}
-                    />
-
-                    <PEMap
-                        apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
-                        style={{ height: '500px' }}
-                        location={selectedLocation}
-                    />
-                </VStack>
 
                 <div className="flex w-full gap-4 md:flex-col">
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>

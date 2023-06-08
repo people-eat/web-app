@@ -2,10 +2,10 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import { useState, type ReactElement } from 'react';
-import { Icon } from '../../../../standard/icon/Icon';
-import PEIconButton from '../../../../standard/iconButton/PEIconButton';
-import VStack from '../../../../utility/vStack/VStack';
-import ChefProfilePageUploadMenusStep1 from './step1/ChefProfilePageUploadMenusStep1';
+import { Icon } from '../../../standard/icon/Icon';
+import PEIconButton from '../../../standard/iconButton/PEIconButton';
+import VStack from '../../../utility/vStack/VStack';
+import ChefProfilePageCreateMenusStep1 from './createMenuStep1/ChefProfilePageCreateMenusStep1';
 
 interface ChefProfilePageCreateMenuProps {
     cookId: string;
@@ -39,11 +39,11 @@ export default function ChefProfilePageCreateMenu({ onCancel }: ChefProfilePageC
                 </Stepper>
             </VStack>
 
-            {step === 0 && <ChefProfilePageUploadMenusStep1 />}
+            {step === 0 && <ChefProfilePageCreateMenusStep1 />}
 
-            {step === 1 && <ChefProfilePageUploadMenusStep1 />}
+            {step === 1 && <ChefProfilePageCreateMenusStep1 />}
 
-            {step === 2 && <ChefProfilePageUploadMenusStep1 />}
+            {step === 2 && <ChefProfilePageCreateMenusStep1 />}
         </VStack>
     );
 }

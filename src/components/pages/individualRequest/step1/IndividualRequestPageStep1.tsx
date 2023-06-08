@@ -68,7 +68,7 @@ export default function IndividualRequestPageStep1({
             <VStack gap={16} className="w-full relative" style={{ alignItems: 'flex-start' }}>
                 <h3>{t('event-details-label')}</h3>
                 <HStack gap={16} className="w-full box-border relative">
-                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4  py-2 box-border">
+                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
                         <DatePicker
                             sx={{ width: '100%' }}
                             value={dateTime}
@@ -80,7 +80,7 @@ export default function IndividualRequestPageStep1({
                             minDate={moment().add(7, 'days')}
                         />
                     </div>
-                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4  py-2 box-border">
+                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
                         <TimePicker
                             sx={{ width: '100%' }}
                             value={dateTime}
