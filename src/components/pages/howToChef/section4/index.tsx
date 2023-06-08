@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type ReactElement } from 'react';
@@ -6,18 +7,18 @@ import ChefPromoCard from '../../../pages/howToChef/section4/ChefPromoCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
-import { section4Title, signUpBtn, step1, step1Title, step2, step2Title, step3, step3Title } from '../translations.mock';
 import ChefRegistrationCard from './ChefRegistrationCard';
 
 export default function HowToChefSection4(): ReactElement {
     const { isDesktop } = useResponsive();
+    const { t } = useTranslation('how-to-chef');
 
     return (
         <VStack className="w-full max-w-screen-xl box-border">
             <VStack className="w-full relative gap-8 lg:mb-4 mt-[100px]">
                 <div className="flex w-full lg:justify-center mt-[120px] lg:mt-0">
                     <h2 className="w-full text-center lg:text-black lg:text-center lg:text-heading-xm text-heading-xl m-0 p-0">
-                        {section4Title}
+                        {t('section-4-title')}
                     </h2>
                 </div>
                 <VStack className="w-full relative h-[400px] lg:h-[1400px] select-none">
@@ -72,8 +73,8 @@ export default function HowToChefSection4(): ReactElement {
                         </VStack>
                         {!isDesktop && (
                             <VStack>
-                                <p className="text-center w-[275px] text-heading-ss text-orange my-0">{step1}</p>
-                                <p className="text-center w-[275px] my-0">{step1Title}</p>
+                                <p className="text-center w-[275px] text-heading-ss text-orange my-0">{t('step-1')}</p>
+                                <p className="text-center w-[275px] my-0">{t('step-1-description')}</p>
                             </VStack>
                         )}
                         {!isDesktop && (
@@ -114,8 +115,8 @@ export default function HowToChefSection4(): ReactElement {
                         )}
                         {!isDesktop && (
                             <VStack>
-                                <p className="text-center w-[340px] text-heading-ss text-orange my-0">{step2}</p>
-                                <p className="text-center w-[340px] my-0">{step2Title}</p>
+                                <p className="text-center w-[340px] text-heading-ss text-orange my-0">{t('step-2')}</p>
+                                <p className="text-center w-[340px] my-0">{t('step-2-description')}</p>
                             </VStack>
                         )}
                         <VStack className="relative w-[275px] h-[290px] overflow-hidden bg-lightBlue rounded-4">
@@ -131,8 +132,8 @@ export default function HowToChefSection4(): ReactElement {
                         </VStack>
                         {!isDesktop && (
                             <VStack>
-                                <p className="text-center w-[275px] text-heading-ss text-orange my-0">{step3}</p>
-                                <p className="text-center w-[275px] my-0">{step3Title}</p>
+                                <p className="text-center w-[275px] text-heading-ss text-orange my-0">{t('step-3')}</p>
+                                <p className="text-center w-[275px] my-0">{t('step-3-description')}</p>
                             </VStack>
                         )}
                     </div>
@@ -140,21 +141,21 @@ export default function HowToChefSection4(): ReactElement {
                 {isDesktop && (
                     <HStack className="w-full pt-15" style={{ justifyContent: 'space-between' }}>
                         <VStack>
-                            <p className="text-center w-[275px] text-heading-ss text-orange my-0">{step1}</p>
-                            <p className="text-center w-[275px] my-0">{step1Title}</p>
+                            <p className="text-center w-[275px] text-heading-ss text-orange my-0">{t('step-1')}</p>
+                            <p className="text-center w-[275px] my-0">{t('step-1-description')}</p>
                         </VStack>
                         <VStack>
-                            <p className="text-center w-[340px] text-heading-ss text-orange my-0">{step2}</p>
-                            <p className="text-center w-[340px] my-2">{step2Title}</p>
+                            <p className="text-center w-[340px] text-heading-ss text-orange my-0">{t('step-2')}</p>
+                            <p className="text-center w-[340px] my-2">{t('step-2-description')}</p>
                         </VStack>
                         <VStack>
-                            <p className="text-center w-[275px] text-heading-ss text-orange my-0">{step3}</p>
-                            <p className="text-center w-[275px] my-0">{step3Title}</p>
+                            <p className="text-center w-[275px] text-heading-ss text-orange my-0">{t('step-3')}</p>
+                            <p className="text-center w-[275px] my-0">{t('step-3-description')}</p>
                         </VStack>
                     </HStack>
                 )}
                 <Link href="chef-sign-up" className="no-underline mt-8" style={{ width: '100%', maxWidth: 400 }}>
-                    <PEButton onClick={(): void => undefined} title={signUpBtn} />
+                    <PEButton onClick={(): void => undefined} title={t('sign-up-button')} />
                 </Link>
             </VStack>
         </VStack>
