@@ -8,9 +8,10 @@ import PEIconButton from '../iconButton/PEIconButton';
 
 interface PEImagePickerProps {
     onDownloaded?: (file: string) => void;
+    initImageFile?: string;
 }
 
-export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): ReactElement {
+export default function PEImagePicker({ onDownloaded, initImageFile }: PEImagePickerProps): ReactElement {
     const [openFileSelector, { filesContent }] = useFilePicker({
         readAs: 'DataURL',
         accept: 'image/*',
@@ -20,7 +21,7 @@ export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): Rea
         maxFileSize: 12,
     });
 
-    const [imageFile, setImageFile] = useState('');
+    const [imageFile, setImageFile] = useState<string | undefined>(initImageFile);
 
     function handleSelectFiles(): void {
         openFileSelector();
@@ -29,6 +30,7 @@ export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): Rea
     function handleRemoveImage(event: React.MouseEvent<HTMLDivElement>): void {
         event.stopPropagation();
         setImageFile('');
+        if (imageFile) onDownloaded?.('');
     }
 
     useEffect(() => {
@@ -53,8 +55,8 @@ export default function PEImagePicker({ onDownloaded }: PEImagePickerProps): Rea
                 {imageFile ? (
                     <Image
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
-                        src={filesContent[0].content}
-                        alt={filesContent[0].name}
+                        src={imageFile}
+                        alt={imageFile}
                         width={200}
                         height={200}
                     />
