@@ -9,6 +9,7 @@
         "/profile": ["profile"],
         "/about-us": ["about-us"],
         "/imprint": ["imprint"],
-        "/individual-request": ["individual-request"]
+        "/individual-request": ["individual-request"],
+        "/how-to-chef": ["how-to-chef"]
     }
 }
