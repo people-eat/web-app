@@ -7,9 +7,10 @@ import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
 import ChefProfilePageMealsAndMenusTab from './mealsAndMenusTab/ChefProfilePageMealsAndMenusTab';
+import ChefProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
 import ChefProfilePagePersonalTab from './personalTab/ChefProfilePagePersonalTab';
 
-const MENU_TABS = ['Personal details', 'Bookings', 'Ratings', 'Dishes/Menus', 'Statistic', 'Chats', 'Show public profile'];
+const MENU_TABS = ['Personal details', 'Meals', 'Menus', 'Bookings', 'Ratings', 'Statistic', 'Chats', 'Show public profile'];
 
 export interface ChefProfilePageProps {
     signedInUser?: SignedInUser;
@@ -51,7 +52,9 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
 
                 {selectedTab === 0 && signedInUser && <ChefProfilePagePersonalTab cookId={signedInUser.userId} />}
 
-                {selectedTab === 3 && signedInUser && <ChefProfilePageMealsAndMenusTab cookId={signedInUser.userId} />}
+                {selectedTab === 1 && signedInUser && <ChefProfilePageMealsTab cookId={signedInUser.userId} />}
+
+                {selectedTab === 2 && signedInUser && <ChefProfilePageMealsAndMenusTab cookId={signedInUser.userId} />}
             </VStack>
 
             <PEFooter />
