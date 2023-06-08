@@ -138,8 +138,18 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         />
 
                         <VStack className="w-full gap-3">
-                            {chefProfile.user.addresses.map(({ title, city, postCode, street, houseNumber }, index) => (
-                                <PEAddressCard key={index} address={`${postCode} ${city}, ${street} ${houseNumber}`} title={title} />
+                            {chefProfile.user.addresses.map(({ title, city, postCode, street, houseNumber, location }, index) => (
+                                <PEAddressCard
+                                    key={index}
+                                    address={`${postCode} ${city}, ${street} ${houseNumber}`}
+                                    title={title}
+                                    pin={{
+                                        isPinned:
+                                            chefProfile.location.latitude === location.latitude &&
+                                            chefProfile.location.longitude === location.longitude,
+                                        onPinClick: (): void => undefined,
+                                    }}
+                                />
                             ))}
                         </VStack>
                     </VStack>

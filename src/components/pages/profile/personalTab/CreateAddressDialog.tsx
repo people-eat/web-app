@@ -42,8 +42,8 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
                 houseNumber,
                 country,
                 location: {
-                    latitude: 49,
-                    longitude: 8,
+                    latitude: location?.latitude ?? 49,
+                    longitude: location?.longitude ?? 8,
                 },
             },
         },

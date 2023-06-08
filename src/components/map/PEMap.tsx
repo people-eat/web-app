@@ -30,7 +30,7 @@ export default function PEMap({ style, apiKey, location, markerRadius }: PEMapPr
                     ? { lat: location.latitude, lng: location.longitude }
                     : { lat: 50.11215679689394, lng: 8.676387649038587 };
 
-                new maps.Marker({ position, map, icon: '/icons/pin-icon.svg' });
+                new maps.Marker({ position, map });
 
                 circle = new maps.Circle({
                     center: { ...position },

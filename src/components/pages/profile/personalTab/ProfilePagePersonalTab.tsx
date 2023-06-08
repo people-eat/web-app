@@ -136,11 +136,7 @@ export default function ProfilePagePersonalTab(): ReactElement {
 
                             <Spacer />
 
-                            <PEIconButton
-                                icon={Icon.plus}
-                                withoutShadow
-                                onClick={(): void => setAddAddressDialogOpen(!addAddressDialogOpen)}
-                            />
+                            <PEIconButton icon={Icon.plus} withoutShadow onClick={(): void => setAddAddressDialogOpen(true)} />
                         </HStack>
 
                         <CreateAddressDialog
