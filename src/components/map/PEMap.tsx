@@ -35,7 +35,7 @@ export default function PEMap({ style, apiKey, location, markerRadius }: PEMapPr
                 circle = new maps.Circle({
                     center: { ...position },
                     radius: markerRadius,
-                    options: { strokeColor: 'transparent', fillColor: 'rgba(151, 71, 255, 0.7)' },
+                    options: { strokeColor: 'transparent', fillColor: 'rgba(255, 100, 51, 1)' },
                     map,
                 });
             }}
