@@ -7,24 +7,24 @@ import useResponsive from '../../../../hooks/useResponsive';
 import PEButton from '../../../standard/buttons/PEButton';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
-import { ChefDescription, HobbyChefDescription, masterChefDescription, promoTitle, register, section3Title } from '../translations.mock';
-
-const chefRankDescriptions: { rank: CookRank; description: string }[] = [
-    { rank: 'MASTER', description: masterChefDescription },
-    { rank: 'PROFESSIONAL', description: ChefDescription },
-    { rank: 'HOBBY', description: HobbyChefDescription },
-];
 
 export default function HowToChefSection3(): ReactElement {
     const { isMobile, isDesktop } = useResponsive();
     const { t: commonTranslation } = useTranslation('common');
+    const { t } = useTranslation('how-to-chef');
+
+    const chefRankDescriptions: { rank: CookRank; description: string }[] = [
+        { rank: 'MASTER', description: t('point-master-chef-description') },
+        { rank: 'PROFESSIONAL', description: t('point-chef-description') },
+        { rank: 'HOBBY', description: t('point-hobby-chef-description') },
+    ];
 
     return (
         <VStack className="w-full max-w-screen-xl box-border">
             <VStack className="w-full gap-8">
                 <div className="flex w-full lg:justify-center mt-[160px] mb-15 md:my-10">
                     <h2 className="w-full text-center lg:text-black lg:text-center lg:text-heading-xm text-heading-xl m-0 p-0">
-                        {section3Title}
+                        {t('section-3-title')}
                     </h2>
                 </div>
                 <HStack className="w-full relative lg:flex-wrap" style={{ justifyContent: !isDesktop ? 'center' : 'space-between' }}>
@@ -40,11 +40,11 @@ export default function HowToChefSection3(): ReactElement {
                             </VStack>
                         ))}
                     </VStack>
-                    <VStack className="max-w-[510px] md:min-w-full gap-5 lg:mb-10"></VStack>
+                    <VStack className="max-w-[510px] md:min-w-full gap-5 md:mb-10"></VStack>
                     <VStack className="w-full max-w-[500px] gap-8" style={{ alignItems: 'flex-start' }}>
-                        <p className="my-0 max-w-[500px] w-full md:text-text-sm">{promoTitle}</p>
-                        <Link href="chef-sign-up" className="no-underline mt-8 w-full">
-                            <PEButton onClick={(): void => undefined} title={register} />
+                        <p className="my-0 max-w-[500px] w-full md:text-text-sm">{t('promo-title')}</p>
+                        <Link href="chef-sign-up" className="no-underline lg:mt-8 w-full">
+                            <PEButton onClick={(): void => undefined} title={t('register-button')} />
                         </Link>
                         <Image
                             className="rounded-4"
