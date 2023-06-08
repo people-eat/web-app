@@ -2043,7 +2043,7 @@ export type UpdateCookMaximumPriceMutation = { __typename?: 'Mutation'; cooks: {
 
 export type UpdateCookMaximumTravelDistanceMutationVariables = Exact<{
     cookId: Scalars['String'];
-    maximumTravelDistance: Scalars['UnsignedInt'];
+    maximumTravelDistance?: InputMaybe<Scalars['UnsignedInt']>;
 }>;
 
 export type UpdateCookMaximumTravelDistanceMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
@@ -3370,7 +3370,7 @@ export const UpdateCookMaximumTravelDistanceDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'maximumTravelDistance' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } },
                 },
             ],
             selectionSet: {

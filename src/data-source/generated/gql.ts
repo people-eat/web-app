@@ -50,7 +50,7 @@ const documents = {
         types.UpdateCookMaximumParticipantsDocument,
     'mutation UpdateCookMaximumPrice($cookId: String!) {\n  cooks {\n    success: updateMaximumPrice(cookId: $cookId)\n  }\n}':
         types.UpdateCookMaximumPriceDocument,
-    'mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt!) {\n  cooks {\n    success: updateMaximumTravelDistance(\n      cookId: $cookId\n      maximumTravelDistance: $maximumTravelDistance\n    )\n  }\n}':
+    'mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt) {\n  cooks {\n    success: updateMaximumTravelDistance(\n      cookId: $cookId\n      maximumTravelDistance: $maximumTravelDistance\n    )\n  }\n}':
         types.UpdateCookMaximumTravelDistanceDocument,
     'mutation UpdateCookMinimumParticipants($cookId: String!) {\n  cooks {\n    success: updateMinimumParticipants(cookId: $cookId)\n  }\n}':
         types.UpdateCookMinimumParticipantsDocument,
@@ -215,8 +215,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt!) {\n  cooks {\n    success: updateMaximumTravelDistance(\n      cookId: $cookId\n      maximumTravelDistance: $maximumTravelDistance\n    )\n  }\n}',
-): (typeof documents)['mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt!) {\n  cooks {\n    success: updateMaximumTravelDistance(\n      cookId: $cookId\n      maximumTravelDistance: $maximumTravelDistance\n    )\n  }\n}'];
+    source: 'mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt) {\n  cooks {\n    success: updateMaximumTravelDistance(\n      cookId: $cookId\n      maximumTravelDistance: $maximumTravelDistance\n    )\n  }\n}',
+): (typeof documents)['mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt) {\n  cooks {\n    success: updateMaximumTravelDistance(\n      cookId: $cookId\n      maximumTravelDistance: $maximumTravelDistance\n    )\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
