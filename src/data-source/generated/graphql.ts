@@ -2030,6 +2030,7 @@ export type UpdateCookLocationMutation = { __typename?: 'Mutation'; cooks: { __t
 
 export type UpdateCookMaximumParticipantsMutationVariables = Exact<{
     cookId: Scalars['String'];
+    maximumParticipants?: InputMaybe<Scalars['UnsignedInt']>;
 }>;
 
 export type UpdateCookMaximumParticipantsMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
@@ -2042,6 +2043,7 @@ export type UpdateCookMaximumPriceMutation = { __typename?: 'Mutation'; cooks: {
 
 export type UpdateCookMaximumTravelDistanceMutationVariables = Exact<{
     cookId: Scalars['String'];
+    maximumTravelDistance: Scalars['UnsignedInt'];
 }>;
 
 export type UpdateCookMaximumTravelDistanceMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
@@ -3269,6 +3271,11 @@ export const UpdateCookMaximumParticipantsDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'maximumParticipants' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -3288,6 +3295,11 @@ export const UpdateCookMaximumParticipantsDocument = {
                                             kind: 'Argument',
                                             name: { kind: 'Name', value: 'cookId' },
                                             value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'maximumParticipants' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'maximumParticipants' } },
                                         },
                                     ],
                                 },
@@ -3355,6 +3367,11 @@ export const UpdateCookMaximumTravelDistanceDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'maximumTravelDistance' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -3374,6 +3391,11 @@ export const UpdateCookMaximumTravelDistanceDocument = {
                                             kind: 'Argument',
                                             name: { kind: 'Name', value: 'cookId' },
                                             value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'maximumTravelDistance' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'maximumTravelDistance' } },
                                         },
                                     ],
                                 },
