@@ -22,12 +22,6 @@ export default function PEHeaderDesktop({ signedInUser }: PEHeaderProps): ReactE
                 </Button>
             </Link>
 
-            <Link href={'/about-us'} className="no-underline">
-                <Button className="capitalize" style={{ color: 'rgba(31, 31, 31, 0.8)' }}>
-                    {t('about-us')}
-                </Button>
-            </Link>
-
             <Spacer />
 
             {!signedInUser && (
