@@ -1,5 +1,5 @@
-mutation UpdateCookMaximumTravelDistance($cookId: String!) {
+mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt) {
     cooks {
-        success: updateMaximumTravelDistance(cookId: $cookId)
+        success: updateMaximumTravelDistance(cookId: $cookId, maximumTravelDistance: $maximumTravelDistance)
     }
 }

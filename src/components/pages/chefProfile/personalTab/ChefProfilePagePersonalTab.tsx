@@ -1,8 +1,13 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import classNames from 'classnames';
 import { useEffect, useState, type ReactElement } from 'react';
-import { GetCookProfileQueryDocument } from '../../../../data-source/generated/graphql';
+import {
+    GetCookProfileQueryDocument,
+    UpdateCookMaximumParticipantsDocument,
+    UpdateCookMaximumTravelDistanceDocument,
+    UpdateCookTravelExpensesDocument,
+} from '../../../../data-source/generated/graphql';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEMap from '../../../map/PEMap';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';
@@ -25,10 +30,24 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
 
     const [maximumParticipants, setMaximumParticipants] = useState<number | undefined>(undefined);
 
-    const [travelExpenses, setTravelExpenses] = useState(0);
+    const [editOrderDetails, setEditOrderDetails] = useState(false);
+
+    const [travelExpenses, setTravelExpenses] = useState<number | undefined>(0);
     const [maximumTravelDistance, setMaximumTravelDistance] = useState<number | undefined>(undefined);
 
     const [addAddressDialogOpen, setAddAddressDialogOpen] = useState(false);
+
+    const [updateTravelExpenses] = useMutation(UpdateCookTravelExpensesDocument, {
+        variables: { cookId, travelExpenses: Number(travelExpenses) * 100 },
+    });
+
+    const [updateMaximumTravelDistance] = useMutation(UpdateCookMaximumTravelDistanceDocument, {
+        variables: { cookId, maximumTravelDistance: maximumTravelDistance ?? 0 },
+    });
+
+    const [updateMaximumParticipants] = useMutation(UpdateCookMaximumParticipantsDocument, {
+        variables: { cookId, maximumParticipants: maximumParticipants ?? 0 },
+    });
 
     const { data, loading, error, refetch } = useQuery(GetCookProfileQueryDocument, {
         variables: { cookId },
@@ -43,8 +62,30 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
         if (chefProfile) setMaximumParticipants(chefProfile.maximumParticipants ?? undefined);
     }, [chefProfile]);
 
+    function handleUpdateOrderDetails(
+        value: number,
+        updateValue: (value: ((prevState: number | undefined) => number | undefined) | number | undefined) => void,
+    ): void {
+        updateValue(value);
+        setEditOrderDetails(true);
+    }
+
+    function handleSaveOrderDetails(): void {
+        void updateMaximumTravelDistance();
+        void updateMaximumParticipants();
+        void updateTravelExpenses();
+        setEditOrderDetails(false);
+    }
+
+    function handleUnSaveOrderDetails(): void {
+        if (chefProfile) setMaximumTravelDistance(chefProfile.maximumTravelDistance ?? undefined);
+        if (chefProfile) setTravelExpenses(chefProfile.travelExpenses / 100);
+        if (chefProfile) setMaximumParticipants(chefProfile.maximumParticipants ?? undefined);
+        setEditOrderDetails(false);
+    }
+
     return (
-        <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
+        <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6 px-5 box-border">
             {chefProfile && (
                 <>
                     <ChefProfileSection1 chefProfile={chefProfile} />
@@ -62,10 +103,28 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                     <ChefProfileSection2 chefBiography={biography} cookId={cookId} />
 
                     <VStack
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6"
+                        className="relative w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <p className="text-heading-ss w-full justify-start my-0">Order details</p>
+                        {editOrderDetails && (
+                            <HStack className="absolute right-8 top-8 gap-3 w-full mb-4" style={{ justifyContent: 'flex-end' }}>
+                                <PEIconButton
+                                    onClick={(): void => handleSaveOrderDetails()}
+                                    icon={Icon.checkGreen}
+                                    border="1px solid green"
+                                    bg="white"
+                                    size={'36px'}
+                                />
+                                <PEIconButton
+                                    onClick={(): void => handleUnSaveOrderDetails()}
+                                    icon={Icon.closeRed}
+                                    border="1px solid red"
+                                    bg="white"
+                                    size={'36px'}
+                                />
+                            </HStack>
+                        )}
                         <VStack className="w-full">
                             <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
                                 <HStack className="w-full" style={{ justifyContent: 'flex-start' }}>
@@ -74,7 +133,13 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                 </HStack>
                                 <p className="my-0 text-end w-full text-green text-ellipsis">{travelExpenses} EUR</p>
                             </HStack>
-                            <PESlider min={0} max={1} step={0.01} value={travelExpenses} onValueChange={setTravelExpenses} />
+                            <PESlider
+                                min={0}
+                                max={1}
+                                step={0.01}
+                                value={Number(travelExpenses)}
+                                onValueChange={(value): void => handleUpdateOrderDetails(value, setTravelExpenses)}
+                            />
                         </VStack>
 
                         <VStack className="w-full">
@@ -90,18 +155,23 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                 max={200}
                                 step={1}
                                 value={maximumTravelDistance ?? 0}
-                                onValueChange={setMaximumTravelDistance}
+                                onValueChange={(value): void => handleUpdateOrderDetails(value, setMaximumTravelDistance)}
                             />
                         </VStack>
 
-                        <HStack className="w-full" style={{ alignItems: 'center' }}>
-                            <VStack style={{ alignItems: 'flex-start' }}>
-                                <span>Customers limit per event</span>
-                                <span>(maximum 20)</span>
-                            </VStack>
-                            <Spacer />
-                            <PECounter value={maximumParticipants ?? 0} onValueChange={setMaximumParticipants} />
-                        </HStack>
+                        <VStack className="w-full">
+                            <HStack className="w-full" style={{ alignItems: 'center' }}>
+                                <VStack style={{ alignItems: 'flex-start' }}>
+                                    <span>Customers limit per event</span>
+                                    <span>(maximum 20)</span>
+                                </VStack>
+                                <Spacer />
+                                <PECounter
+                                    value={maximumParticipants ?? 0}
+                                    onValueChange={(value): void => handleUpdateOrderDetails(value, setMaximumParticipants)}
+                                />
+                            </HStack>
+                        </VStack>
 
                         <VStack gap={16} className="w-full">
                             <PEMap

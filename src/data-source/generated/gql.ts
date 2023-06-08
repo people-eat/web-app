@@ -46,11 +46,11 @@ const documents = {
         types.UpdateCookIsVisibleDocument,
     'mutation UpdateCookLocation($cookId: String!, $location: LocationInput!) {\n  cooks {\n    success: updateLocation(cookId: $cookId, location: $location)\n  }\n}':
         types.UpdateCookLocationDocument,
-    'mutation UpdateCookMaximumParticipants($cookId: String!) {\n  cooks {\n    success: updateMaximumParticipants(cookId: $cookId)\n  }\n}':
+    'mutation UpdateCookMaximumParticipants($cookId: String!, $maximumParticipants: UnsignedInt) {\n  cooks {\n    success: updateMaximumParticipants(\n      cookId: $cookId\n      maximumParticipants: $maximumParticipants\n    )\n  }\n}':
         types.UpdateCookMaximumParticipantsDocument,
     'mutation UpdateCookMaximumPrice($cookId: String!) {\n  cooks {\n    success: updateMaximumPrice(cookId: $cookId)\n  }\n}':
         types.UpdateCookMaximumPriceDocument,
-    'mutation UpdateCookMaximumTravelDistance($cookId: String!) {\n  cooks {\n    success: updateMaximumTravelDistance(cookId: $cookId)\n  }\n}':
+    'mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt!) {\n  cooks {\n    success: updateMaximumTravelDistance(\n      cookId: $cookId\n      maximumTravelDistance: $maximumTravelDistance\n    )\n  }\n}':
         types.UpdateCookMaximumTravelDistanceDocument,
     'mutation UpdateCookMinimumParticipants($cookId: String!) {\n  cooks {\n    success: updateMinimumParticipants(cookId: $cookId)\n  }\n}':
         types.UpdateCookMinimumParticipantsDocument,
@@ -203,8 +203,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'mutation UpdateCookMaximumParticipants($cookId: String!) {\n  cooks {\n    success: updateMaximumParticipants(cookId: $cookId)\n  }\n}',
-): (typeof documents)['mutation UpdateCookMaximumParticipants($cookId: String!) {\n  cooks {\n    success: updateMaximumParticipants(cookId: $cookId)\n  }\n}'];
+    source: 'mutation UpdateCookMaximumParticipants($cookId: String!, $maximumParticipants: UnsignedInt) {\n  cooks {\n    success: updateMaximumParticipants(\n      cookId: $cookId\n      maximumParticipants: $maximumParticipants\n    )\n  }\n}',
+): (typeof documents)['mutation UpdateCookMaximumParticipants($cookId: String!, $maximumParticipants: UnsignedInt) {\n  cooks {\n    success: updateMaximumParticipants(\n      cookId: $cookId\n      maximumParticipants: $maximumParticipants\n    )\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -215,8 +215,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'mutation UpdateCookMaximumTravelDistance($cookId: String!) {\n  cooks {\n    success: updateMaximumTravelDistance(cookId: $cookId)\n  }\n}',
-): (typeof documents)['mutation UpdateCookMaximumTravelDistance($cookId: String!) {\n  cooks {\n    success: updateMaximumTravelDistance(cookId: $cookId)\n  }\n}'];
+    source: 'mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt!) {\n  cooks {\n    success: updateMaximumTravelDistance(\n      cookId: $cookId\n      maximumTravelDistance: $maximumTravelDistance\n    )\n  }\n}',
+): (typeof documents)['mutation UpdateCookMaximumTravelDistance($cookId: String!, $maximumTravelDistance: UnsignedInt!) {\n  cooks {\n    success: updateMaximumTravelDistance(\n      cookId: $cookId\n      maximumTravelDistance: $maximumTravelDistance\n    )\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
