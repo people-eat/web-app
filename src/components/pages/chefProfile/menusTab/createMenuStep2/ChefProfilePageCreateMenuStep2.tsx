@@ -10,7 +10,7 @@ import PENextButton from '../../../../standard/nextButton/PENextButton';
 import PETabItem from '../../../../standard/tabItem/PETabItem';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
-import { type MealEntity } from '../ChefProfilePageMenusTab';
+import { MealEntity } from '../ChefProfilePageMenusTab';
 import FilteredMealsList from '../filteredMenuList/FilteredMealsList';
 import FilteredMealsListWithMealFilter from '../filteredMenuList/FilteredMealsListWithMealFilter';
 

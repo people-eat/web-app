@@ -13,7 +13,7 @@ export default function ChefProfilePageCreateMenusPreviewStep2({
 }: ChefProfilePageCreateMenusPreviewStep2Props): ReactElement {
     return (
         <VStack className="w-full gap-6" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-            <HStack className="w-full gap-4" style={{ justifyContent: 'flex-start' }}>
+            <HStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
                 {selectedMeals.map((meal, index) => (
                     <div
                         key={index}
