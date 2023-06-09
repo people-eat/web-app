@@ -178,7 +178,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
                                 style={{ height: '500px', borderRadius: 16 }}
                                 location={chefProfile.location}
-                                markerRadius={(maximumTravelDistance ?? 0) * 50}
+                                markerRadius={(maximumTravelDistance ?? 0) * 1000}
                             />
                         </VStack>
                     </VStack>

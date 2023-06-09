@@ -90,7 +90,7 @@ export default function HomePage({ signedInUser, searchParameters }: HomePagePro
                         className="flex w-full lg:justify-center lg:mt-5 lg:mb-4 mt-[100px] leading-[80px] lg:leading-[34px]"
                         style={{ gap: 0 }}
                     >
-                        <h1 className="lg:max-w-[360px] max-w-[700px] text-white lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xxl m-0 p-0 lg:uppercase">
+                        <h1 className="lg:max-w-[360px] max-w-[720px] text-white lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xxl m-0 p-0 lg:uppercase">
                             {headline01}
                             <span className="text-orange select-none"> {headline02} </span>
                             {headline03}

@@ -4,27 +4,33 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { Icon } from '../../standard/icon/Icon';
 import PEIconButton from '../../standard/iconButton/PEIconButton';
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 750,
-    boxSizing: 'border-box',
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    borderRadius: 4,
-};
-
 export interface PEModalPopUpProps {
     openMenu: boolean;
     handleOpenMenu: () => void;
+    width?: number;
 }
 
-export default function PEModalPopUp({ openMenu, handleOpenMenu, children }: React.PropsWithChildren<PEModalPopUpProps>): ReactElement {
+export default function PEModalPopUp({
+    openMenu,
+    handleOpenMenu,
+    children,
+    width,
+}: React.PropsWithChildren<PEModalPopUpProps>): ReactElement {
     const [open, setOpen] = useState(openMenu);
     const containerRef = useRef(null);
     const contentRef = useRef(null);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: width ?? 750,
+        boxSizing: 'border-box',
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        borderRadius: 4,
+    };
 
     const handleClose = (): void => {
         setOpen(false);

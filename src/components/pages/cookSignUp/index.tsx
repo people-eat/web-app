@@ -189,7 +189,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
                                 style={{ flex: 1 }}
                                 location={selectedLocation}
-                                markerRadius={(maximumTravelDistance ?? 0) * 50}
+                                markerRadius={(maximumTravelDistance ?? 0) * 1000}
                             />
                         )}
 
@@ -198,7 +198,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
                                 style={{ height: 300 }}
                                 location={selectedLocation}
-                                markerRadius={(maximumTravelDistance ?? 0) * 50}
+                                markerRadius={(maximumTravelDistance ?? 0) * 1000}
                             />
                         )}
                     </HStack>
