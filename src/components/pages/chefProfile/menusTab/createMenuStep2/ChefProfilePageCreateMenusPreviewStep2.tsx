@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { type ReactElement } from 'react';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
-import { type MealEntity } from '../ChefProfilePageMenusTab';
+import { MealEntity } from '../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageCreateMenusPreviewStep2Props {
     selectedMeals: MealEntity[];
@@ -13,7 +13,7 @@ export default function ChefProfilePageCreateMenusPreviewStep2({
 }: ChefProfilePageCreateMenusPreviewStep2Props): ReactElement {
     return (
         <VStack className="w-full gap-6" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-            <HStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+            <HStack className="w-full gap-4" style={{ justifyContent: 'flex-start' }}>
                 {selectedMeals.map((meal, index) => (
                     <div
                         key={index}
