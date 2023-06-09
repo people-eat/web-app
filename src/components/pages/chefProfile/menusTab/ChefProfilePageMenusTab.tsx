@@ -2,7 +2,6 @@ import { useState, type ReactElement } from 'react';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
-import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
@@ -18,22 +17,17 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
-            <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6" style={{ alignItems: 'center' }}>
-                <HStack className="gap-4">
-                    <PETextField type="text" />
-                </HStack>
-
+            <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
                 <Spacer />
 
-                <HStack className="gap-4">
-                    <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
-                    <PEIconButton
-                        onClick={(): void => setSelectedTab('CREATE')}
-                        icon={Icon.plusWhite}
-                        bg="rgba(255, 100, 51, 1)"
-                        withoutShadow
-                    />
-                </HStack>
+                <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
+
+                <PEIconButton
+                    onClick={(): void => setSelectedTab('CREATE')}
+                    icon={Icon.plusWhite}
+                    bg="rgba(255, 100, 51, 1)"
+                    withoutShadow
+                />
             </HStack>
 
             {selectedTab === 'CREATE' && (

@@ -1,8 +1,11 @@
+import { useMutation } from '@apollo/client';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import { useState, type ReactElement } from 'react';
+import { CreateOneCookMenuDocument } from '../../../../data-source/generated/graphql';
 import { type PEMealCardProps } from '../../../cards/mealCard/PEMealCardProps';
+import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import VStack from '../../../utility/vStack/VStack';
@@ -23,6 +26,8 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProf
     function handleOnSelectedMeals(meals: PEMealCardProps[]): void {
         setSelectedMeals(meals);
     }
+
+    const [createMenu] = useMutation(CreateOneCookMenuDocument);
 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -62,6 +67,29 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProf
                     <ChefProfilePageCreateMenusPreviewStep2 selectedMeals={selectedMeals} />
                 </VStack>
             )}
+
+            <PEButton
+                title="Demo Create"
+                onClick={(): void =>
+                    void createMenu({
+                        variables: {
+                            cookId,
+                            menu: {
+                                title: '',
+                                description: '',
+                                basePrice: 10000,
+                                basePriceCustomers: 2,
+                                pricePerAdult: 5000,
+                                pricePerChild: undefined,
+                                currencyCode: 'EUR',
+                                greetingFromKitchen: false,
+                                isVisible: true,
+                                preparationTime: 60,
+                            },
+                        },
+                    })
+                }
+            />
         </VStack>
     );
 }
