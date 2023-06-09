@@ -1,5 +1,5 @@
 import { useState, type ReactElement } from 'react';
-import { MealType } from '../../../../data-source/generated/graphql';
+import { type MealType } from '../../../../data-source/generated/graphql';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';

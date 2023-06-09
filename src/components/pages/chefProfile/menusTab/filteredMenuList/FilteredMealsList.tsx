@@ -4,7 +4,7 @@ import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
-import { MealEntity } from '../ChefProfilePageMenusTab';
+import { type MealEntity } from '../ChefProfilePageMenusTab';
 
 export interface FilteredMenuListProps {
     meals: MealEntity[];

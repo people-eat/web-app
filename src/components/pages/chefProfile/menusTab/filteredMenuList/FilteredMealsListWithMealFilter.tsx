@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react';
 import PEMealCard from '../../../../cards/mealCard/PEMealCard';
 import HStack from '../../../../utility/hStack/HStack';
-import { MealEntity } from '../ChefProfilePageMenusTab';
+import { type MealEntity } from '../ChefProfilePageMenusTab';
 import { MEALS_CARD_COUNT } from '../createMenuStep2/ChefProfilePageCreateMenuStep2';
 
 export interface FilteredMealsListWithMealFilterProps {

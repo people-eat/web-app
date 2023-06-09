@@ -10,10 +10,10 @@ import PENextButton from '../../../../standard/nextButton/PENextButton';
 import PETabItem from '../../../../standard/tabItem/PETabItem';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
-import { MealEntity } from '../ChefProfilePageMenusTab';
+import { type MealEntity } from '../ChefProfilePageMenusTab';
 import FilteredMealsList from '../filteredMenuList/FilteredMealsList';
 import FilteredMealsListWithMealFilter from '../filteredMenuList/FilteredMealsListWithMealFilter';
-import {step2Button} from "../meals.mock";
+import { step2Button } from '../meals.mock';
 
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;

@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { type ReactElement } from 'react';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
-import { MealEntity } from '../ChefProfilePageMenusTab';
+import { type MealEntity } from '../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageCreateMenusPreviewStep2Props {
     selectedMeals: MealEntity[];
