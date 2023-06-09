@@ -21,6 +21,10 @@ query GetCookProfileQuery($cookId: String!) {
                     createdAt
                 }
             }
+            languages {
+                languageId
+                title
+            }
             isLocked
             isVisible
             biography
@@ -35,6 +39,8 @@ query GetCookProfileQuery($cookId: String!) {
             minimumPrice
             rank
             travelExpenses
+            ratingAverage
+            ratingCount
         }
     }
 }

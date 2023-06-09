@@ -169,6 +169,8 @@ export type Cook = {
     minimumParticipants?: Maybe<Scalars['UnsignedInt']>;
     minimumPrice?: Maybe<Scalars['UnsignedInt']>;
     rank: CookRank;
+    ratingAverage: Scalars['UnsignedInt'];
+    ratingCount: Scalars['UnsignedInt'];
     travelExpenses: Scalars['UnsignedInt'];
     user: User;
 };
@@ -291,6 +293,36 @@ export type CookMenuCourseQueryFindOneArgs = {
     courseId: Scalars['String'];
 };
 
+export type CookMenuMutation = {
+    __typename?: 'CookMenuMutation';
+    cookId: Scalars['String'];
+    createOne: Scalars['Boolean'];
+    deleteOne: Scalars['Boolean'];
+};
+
+export type CookMenuMutationCreateOneArgs = {
+    menu: CreateOneMenuRequest;
+};
+
+export type CookMenuMutationDeleteOneArgs = {
+    menuId: Scalars['String'];
+};
+
+export type CookMenuQuery = {
+    __typename?: 'CookMenuQuery';
+    cookId: Scalars['String'];
+    findMany: Array<Menu>;
+    findOne?: Maybe<Menu>;
+};
+
+export type CookMenuQueryFindManyArgs = {
+    request?: InputMaybe<FindManyRequest>;
+};
+
+export type CookMenuQueryFindOneArgs = {
+    menuId: Scalars['String'];
+};
+
 export type CookMenuVisitQuery = {
     __typename?: 'CookMenuVisitQuery';
     cookId: Scalars['String'];
@@ -303,10 +335,12 @@ export type CookMenuVisitQueryFindManyArgs = {
 
 export type CookMutation = {
     __typename?: 'CookMutation';
+    addOneLanguage: Scalars['Boolean'];
     bookingRequests: CookBookingRequestMutation;
     createOne: Scalars['Boolean'];
     meals: CookMealMutation;
-    menus: MenuMutation;
+    menus: CookMenuMutation;
+    removeOneLanguage: Scalars['Boolean'];
     updateBiography: Scalars['Boolean'];
     updateIsLocked: Scalars['Boolean'];
     updateIsVisible: Scalars['Boolean'];
@@ -318,6 +352,11 @@ export type CookMutation = {
     updateMinimumPrice: Scalars['Boolean'];
     updateRank: Scalars['Boolean'];
     updateTravelExpenses: Scalars['Boolean'];
+};
+
+export type CookMutationAddOneLanguageArgs = {
+    cookId: Scalars['String'];
+    languageId: Scalars['String'];
 };
 
 export type CookMutationBookingRequestsArgs = {
@@ -335,6 +374,11 @@ export type CookMutationMealsArgs = {
 
 export type CookMutationMenusArgs = {
     cookId: Scalars['String'];
+};
+
+export type CookMutationRemoveOneLanguageArgs = {
+    cookId: Scalars['String'];
+    languageId: Scalars['String'];
 };
 
 export type CookMutationUpdateBiographyArgs = {
@@ -402,7 +446,7 @@ export type CookQuery = {
     followers: CookFollowingQuery;
     meals: CookMealQuery;
     menuVisits: UserAddressQuery;
-    menus: MenuQuery;
+    menus: CookMenuQuery;
     userRatings: CookUserRatingQuery;
 };
 
@@ -581,6 +625,8 @@ export type CreateOneCookRequest = {
 };
 
 export type CreateOneCourseRequest = {
+    index: Scalars['UnsignedInt'];
+    mealOptions?: InputMaybe<Array<CreateOneMealOptionRequest>>;
     title: Scalars['String'];
 };
 
@@ -595,6 +641,11 @@ export type CreateOneGlobalBookingRequestRequest = {
     price: PriceInput;
 };
 
+export type CreateOneMealOptionRequest = {
+    index: Scalars['UnsignedInt'];
+    mealId: Scalars['String'];
+};
+
 export type CreateOneMealRequest = {
     description: Scalars['String'];
     imageUrl?: InputMaybe<Scalars['URL']>;
@@ -605,6 +656,7 @@ export type CreateOneMealRequest = {
 export type CreateOneMenuRequest = {
     basePrice: Scalars['UnsignedInt'];
     basePriceCustomers: Scalars['UnsignedInt'];
+    courses?: InputMaybe<Array<CreateOneCourseRequest>>;
     currencyCode: CurrencyCode;
     description: Scalars['String'];
     greetingFromKitchen: Scalars['Boolean'];
@@ -882,6 +934,10 @@ export type MealOptionMutation = {
     menuId: Scalars['String'];
 };
 
+export type MealOptionMutationCreateOneArgs = {
+    mealOption: CreateOneMealOptionRequest;
+};
+
 export type MealOptionQuery = {
     __typename?: 'MealOptionQuery';
     cookId: Scalars['String'];
@@ -948,36 +1004,19 @@ export type MenuConfigurationCourse = {
 
 export type MenuMutation = {
     __typename?: 'MenuMutation';
-    cookId: Scalars['String'];
     courses: CookMenuCourseMutation;
-    createOne: Scalars['Boolean'];
 };
 
 export type MenuMutationCoursesArgs = {
     menuId: Scalars['String'];
 };
 
-export type MenuMutationCreateOneArgs = {
-    menu: CreateOneMenuRequest;
-};
-
 export type MenuQuery = {
     __typename?: 'MenuQuery';
-    cookId: Scalars['String'];
     courses: CookMenuCourseQuery;
-    findMany: Array<Menu>;
-    findOne?: Maybe<Menu>;
 };
 
 export type MenuQueryCoursesArgs = {
-    menuId: Scalars['String'];
-};
-
-export type MenuQueryFindManyArgs = {
-    request?: InputMaybe<FindManyRequest>;
-};
-
-export type MenuQueryFindOneArgs = {
     menuId: Scalars['String'];
 };
 
@@ -1833,6 +1872,13 @@ export type FindKitchensQuery = {
     kitchens: { __typename?: 'KitchenQuery'; findAll: Array<{ __typename?: 'Kitchen'; kitchenId: string; title: string }> };
 };
 
+export type FindLanguagesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindLanguagesQuery = {
+    __typename?: 'Query';
+    languages: { __typename?: 'LanguageQuery'; findAll: Array<{ __typename?: 'Language'; languageId: string; title: string }> };
+};
+
 export type FindLatestPublicPrivacyPolicyUpdateQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindLatestPublicPrivacyPolicyUpdateQuery = {
@@ -1977,6 +2023,8 @@ export type GetCookProfileQueryQuery = {
             minimumPrice?: number | null;
             rank: CookRank;
             travelExpenses: number;
+            ratingAverage: number;
+            ratingCount: number;
             user: {
                 __typename?: 'User';
                 firstName: string;
@@ -1995,6 +2043,7 @@ export type GetCookProfileQueryQuery = {
                     location: { __typename?: 'Location'; latitude: number; longitude: number };
                 }>;
             };
+            languages: Array<{ __typename?: 'Language'; languageId: string; title: string }>;
             location: { __typename?: 'Location'; latitude: number; longitude: number };
         } | null;
     };
@@ -2073,6 +2122,20 @@ export type UpdateCookTravelExpensesMutationVariables = Exact<{
 }>;
 
 export type UpdateCookTravelExpensesMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type AddOneCookLanguageMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    languageId: Scalars['String'];
+}>;
+
+export type AddOneCookLanguageMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type RemoveOneCookLanguageMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    languageId: Scalars['String'];
+}>;
+
+export type RemoveOneCookLanguageMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
 
 export type CreateOneCookMealMutationVariables = Exact<{
     meal: CreateOneMealRequest;
@@ -2448,6 +2511,41 @@ export const FindKitchensDocument = {
         },
     ],
 } as unknown as DocumentNode<FindKitchensQuery, FindKitchensQueryVariables>;
+export const FindLanguagesDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindLanguages' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'languages' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'languageId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindLanguagesQuery, FindLanguagesQueryVariables>;
 export const FindLatestPublicPrivacyPolicyUpdateDocument = {
     kind: 'Document',
     definitions: [
@@ -3014,6 +3112,17 @@ export const GetCookProfileQueryDocument = {
                                                     ],
                                                 },
                                             },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'languages' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'languageId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                    ],
+                                                },
+                                            },
                                             { kind: 'Field', name: { kind: 'Name', value: 'isLocked' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'isVisible' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'biography' } },
@@ -3035,6 +3144,8 @@ export const GetCookProfileQueryDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'minimumPrice' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ratingAverage' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ratingCount' } },
                                         ],
                                     },
                                 },
@@ -3599,6 +3710,112 @@ export const UpdateCookTravelExpensesDocument = {
         },
     ],
 } as unknown as DocumentNode<UpdateCookTravelExpensesMutation, UpdateCookTravelExpensesMutationVariables>;
+export const AddOneCookLanguageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'AddOneCookLanguage' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'languageId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'addOneLanguage' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'languageId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'languageId' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<AddOneCookLanguageMutation, AddOneCookLanguageMutationVariables>;
+export const RemoveOneCookLanguageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'RemoveOneCookLanguage' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'languageId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'removeOneLanguage' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'languageId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'languageId' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<RemoveOneCookLanguageMutation, RemoveOneCookLanguageMutationVariables>;
 export const CreateOneCookMealDocument = {
     kind: 'Document',
     definitions: [
