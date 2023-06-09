@@ -13,6 +13,7 @@ import VStack from '../../../../utility/vStack/VStack';
 import { MealEntity } from '../ChefProfilePageMenusTab';
 import FilteredMealsList from '../filteredMenuList/FilteredMealsList';
 import FilteredMealsListWithMealFilter from '../filteredMenuList/FilteredMealsListWithMealFilter';
+import {step2Button} from "../meals.mock";
 
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;
@@ -186,7 +187,7 @@ export default function ChefProfilePageCreateMenusStep2({ cookId, onSelectedMeal
                     </HStack>
 
                     {Boolean(!selectedMeals.length) && (
-                        <PEButton className="max-w-[250px]" onClick={(): void => undefined} title={'Gang hinzufügen'} />
+                        <PEButton className="max-w-[250px]" onClick={(): void => undefined} title={step2Button} />
                     )}
                 </HStack>
             </VStack>
