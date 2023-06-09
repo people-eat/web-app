@@ -4,11 +4,11 @@ import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import { useState, type ReactElement } from 'react';
 import { CreateOneCookMenuDocument } from '../../../../data-source/generated/graphql';
-import { type PEMealCardProps } from '../../../cards/mealCard/PEMealCardProps';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import VStack from '../../../utility/vStack/VStack';
+import { MealEntity } from './ChefProfilePageMenusTab';
 import ChefProfilePageCreateMenusStep1 from './createMenuStep1/ChefProfilePageCreateMenusStep1';
 import ChefProfilePageCreateMenusStep2 from './createMenuStep2/ChefProfilePageCreateMenuStep2';
 import ChefProfilePageCreateMenusPreviewStep2 from './createMenuStep2/ChefProfilePageCreateMenusPreviewStep2';
@@ -21,9 +21,9 @@ interface ChefProfilePageCreateMenuProps {
 
 export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProfilePageCreateMenuProps): ReactElement {
     const [step, setStep] = useState(0);
-    const [selectedMeals, setSelectedMeals] = useState<PEMealCardProps[]>([]);
+    const [selectedMeals, setSelectedMeals] = useState<MealEntity[]>([]);
 
-    function handleOnSelectedMeals(meals: PEMealCardProps[]): void {
+    function handleOnSelectedMeals(meals: MealEntity[]): void {
         setSelectedMeals(meals);
     }
 

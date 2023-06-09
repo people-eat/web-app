@@ -1,4 +1,5 @@
 import { useState, type ReactElement } from 'react';
+import { MealType } from '../../../../data-source/generated/graphql';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
@@ -7,6 +8,16 @@ import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import ChefProfilePageCreateMenu from './ChefProfilePageCreateMenu';
 import { ARCHIVE_MENUS, MENUS } from './meals.mock';
+
+export interface MealEntity {
+    mealId: string;
+    cookId: string;
+    title: string;
+    type: MealType;
+    description: string;
+    imageUrl?: string | null;
+    createdAt: Date;
+}
 
 export interface ChefProfilePageMenusTabProps {
     cookId: string;
