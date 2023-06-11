@@ -44,6 +44,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [profilePicture, setProfilePicture] = useState<File | undefined>(undefined);
 
     const [maximumParticipants, setMaximumParticipants] = useState(12);
 
@@ -120,6 +121,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                 password,
                 profilePictureUrl: undefined,
             },
+            profilePicture,
         },
     });
 
@@ -142,7 +144,18 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name-label')} />
                     </VStack>
 
-                    <PEImagePicker onDownloaded={(): void => undefined} />
+                    <input
+                        type="file"
+                        required
+                        onChange={({ target: { files } }): void => {
+                            if (!files) return;
+                            const [file] = files;
+                            if (!file) return;
+                            setProfilePicture(file);
+                        }}
+                    />
+
+                    <PEImagePicker onDownloaded={(file): void => console.log(file)} />
                 </HStack>
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>

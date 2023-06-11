@@ -30,6 +30,7 @@ const config: CodegenConfig = {
                     UnsignedInt: 'number',
                     URL: 'string',
                     UUID: 'string',
+                    Upload: 'File',
                 },
             },
         },

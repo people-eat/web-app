@@ -30,6 +30,8 @@ export type Scalars = {
     UUID: string;
     /** Integers that will have a value of 0 or more. */
     UnsignedInt: number;
+    /** The `Upload` scalar type represents a file upload. */
+    Upload: File;
 };
 
 export type Address = {
@@ -1590,6 +1592,7 @@ export type UserMutationBookingRequestsArgs = {
 };
 
 export type UserMutationCreateOneByEmailAddressArgs = {
+    profilePicture?: InputMaybe<Scalars['Upload']>;
     request: CreateOneUserByEmailAddressRequest;
 };
 
@@ -1849,6 +1852,7 @@ export type CreateOneAnonymousGlobalBookingRequestMutation = { __typename?: 'Mut
 
 export type CreateOneUserByEmailAddressMutationVariables = Exact<{
     request: CreateOneUserByEmailAddressRequest;
+    profilePicture?: InputMaybe<Scalars['Upload']>;
 }>;
 
 export type CreateOneUserByEmailAddressMutation = { __typename?: 'Mutation'; users: { __typename?: 'UserMutation'; success: boolean } };
@@ -2444,6 +2448,11 @@ export const CreateOneUserByEmailAddressDocument = {
                         type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateOneUserByEmailAddressRequest' } },
                     },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'profilePicture' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'Upload' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -2463,6 +2472,11 @@ export const CreateOneUserByEmailAddressDocument = {
                                             kind: 'Argument',
                                             name: { kind: 'Name', value: 'request' },
                                             value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'profilePicture' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'profilePicture' } },
                                         },
                                     ],
                                 },
