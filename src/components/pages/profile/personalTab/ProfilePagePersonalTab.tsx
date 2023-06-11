@@ -19,6 +19,7 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import CreateAddressDialog from './CreateAddressDialog';
+import UpdateAddressDialog from './UpdateAddressDialog';
 
 export default function ProfilePagePersonalTab(): ReactElement {
     const { t: commonTranslation } = useTranslation('common');
@@ -27,6 +28,20 @@ export default function ProfilePagePersonalTab(): ReactElement {
     const [changedPassword, setChangedPassword] = useState('');
 
     const [addAddressDialogOpen, setAddAddressDialogOpen] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState<
+        | {
+              addressId: string;
+              title: string;
+              country: string;
+              city: string;
+              postCode: string;
+              street: string;
+              houseNumber: string;
+              createdAt: Date;
+              location: { latitude: number; longitude: number };
+          }
+        | undefined
+    >(undefined);
     const [editAddresses, setEditAddresses] = useState(false);
 
     const { data, loading, error, refetch } = useQuery(GetProfileQueryDocument);
@@ -149,18 +164,32 @@ export default function ProfilePagePersonalTab(): ReactElement {
                             onCancel={(): void => setAddAddressDialogOpen(false)}
                         />
 
+                        {selectedAddress && (
+                            <UpdateAddressDialog
+                                open={Boolean(selectedAddress)}
+                                userId={userProfile.userId}
+                                onSuccess={(): void => {
+                                    setSelectedAddress(undefined);
+                                    void refetch();
+                                }}
+                                onCancel={(): void => setSelectedAddress(undefined)}
+                                address={selectedAddress}
+                            />
+                        )}
+
                         <VStack gap={16} className="w-full">
-                            {userProfile.addresses.map(({ addressId, title, city, postCode, street, houseNumber }, index) => (
+                            {userProfile.addresses.map((address, index) => (
                                 <PEAddressCard
                                     key={index}
-                                    address={`${postCode} ${city}, ${street} ${houseNumber}`}
-                                    title={title}
+                                    address={`${address.postCode} ${address.city}, ${address.street} ${address.houseNumber}`}
+                                    title={address.title}
+                                    onHouseClick={(): void => setSelectedAddress(address)}
                                     onDelete={
                                         editAddresses
                                             ? (): void =>
-                                                  void deleteOneUserAddress({ variables: { userId: userProfile.userId, addressId } }).then(
-                                                      (res) => res.data?.users.addresses.success && void refetch(),
-                                                  )
+                                                  void deleteOneUserAddress({
+                                                      variables: { userId: userProfile.userId, addressId: address.addressId },
+                                                  }).then((res) => res.data?.users.addresses.success && void refetch())
                                             : undefined
                                     }
                                 />

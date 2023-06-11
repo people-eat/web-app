@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     GetCookProfileQueryDocument,
+    UpdateCookLocationDocument,
     UpdateCookMaximumParticipantsDocument,
     UpdateCookMaximumTravelDistanceDocument,
     UpdateCookTravelExpensesDocument,
@@ -25,6 +26,7 @@ import ChefProfileSection2 from './section2/ChefProfileSection2';
 import ChefProfileSection3 from './section3/ChefProfileSection3';
 import ChefProfileSection5 from './section5/ChefProfileSection5';
 
+// eslint-disable-next-line max-statements
 export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string }): ReactElement {
     const [biography, setBiography] = useState('');
 
@@ -83,6 +85,8 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
         if (chefProfile) setMaximumParticipants(chefProfile.maximumParticipants ?? undefined);
         setEditOrderDetails(false);
     }
+
+    const [updateCookLocation] = useMutation(UpdateCookLocationDocument);
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6 px-5 box-border">
@@ -217,7 +221,13 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                         isPinned:
                                             chefProfile.location.latitude === location.latitude &&
                                             chefProfile.location.longitude === location.longitude,
-                                        onPinClick: (): void => undefined,
+                                        onPinClick: (): void =>
+                                            void updateCookLocation({
+                                                variables: {
+                                                    cookId,
+                                                    location: { latitude: location.latitude, longitude: location.longitude },
+                                                },
+                                            }).then((res) => res.data?.cooks.success && void refetch()),
                                     }}
                                 />
                             ))}
