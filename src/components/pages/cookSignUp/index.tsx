@@ -119,7 +119,6 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                 language: 'GERMAN',
                 lastName,
                 password,
-                profilePictureUrl: undefined,
             },
             profilePicture,
         },

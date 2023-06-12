@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { useEffect, useState, type ReactElement } from 'react';
-import { CreateOneUserAddressDocument, DeleteOneUserAddressDocument } from '../../../../data-source/generated/graphql';
+import { DeleteOneUserAddressDocument, UpdateOneUserAddressTitleDocument } from '../../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
 import PEMap from '../../../map/PEMap';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -49,32 +49,16 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
         street === '' ||
         houseNumber === '' ||
         country === '' ||
-        title === address.title ||
-        postCode === address.postCode ||
-        city === address.city ||
-        street === address.street ||
-        houseNumber === address.houseNumber ||
-        country === address.country;
+        (title === address.title &&
+            postCode === address.postCode &&
+            city === address.city &&
+            street === address.street &&
+            houseNumber === address.houseNumber &&
+            country === address.country);
 
     const [deleteOneUserAddress] = useMutation(DeleteOneUserAddressDocument);
 
-    const [createOneUserAddress, { data, loading }] = useMutation(CreateOneUserAddressDocument, {
-        variables: {
-            userId,
-            address: {
-                title,
-                postCode,
-                city,
-                street,
-                houseNumber,
-                country,
-                location: {
-                    latitude: location?.latitude ?? 49,
-                    longitude: location?.longitude ?? 8,
-                },
-            },
-        },
-    });
+    const [updateOneUserAddressTitle, { data, loading }] = useMutation(UpdateOneUserAddressTitleDocument);
 
     if (data?.users.addresses.success) onSuccess();
 
@@ -130,7 +114,10 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                             />
                             <PEButton
                                 title="Save changes"
-                                onClick={(): void => void createOneUserAddress()}
+                                onClick={(): void => {
+                                    if (address.title !== title)
+                                        void updateOneUserAddressTitle({ variables: { userId, addressId: address.addressId, title } });
+                                }}
                                 disabled={disabled || !location}
                             />
                         </HStack>

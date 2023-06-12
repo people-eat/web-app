@@ -57,7 +57,7 @@ export default function ProfilePagePersonalTab(): ReactElement {
                     <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
                         {userProfile.profilePictureUrl && (
                             <Image
-                                style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                                style={{ width: '120px', height: '120px', borderRadius: 4, objectPosition: 'center', objectFit: 'cover' }}
                                 src={userProfile.profilePictureUrl}
                                 alt={"User's Profile Picture"}
                                 width={120}

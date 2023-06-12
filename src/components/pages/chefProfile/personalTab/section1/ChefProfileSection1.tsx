@@ -64,13 +64,14 @@ export default function ChefProfileSection1({ chefProfile }: ChefProfileSection1
             <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
                 {imageFile && (
                     <Image
-                        style={{ width: '120px', borderRadius: 4, objectPosition: 'center', objectFit: 'cover' }}
+                        style={{ width: '120px', height: '120px', borderRadius: 4, objectPosition: 'center', objectFit: 'cover' }}
                         src={imageFile}
                         alt={'Profile Picture'}
                         width={120}
                         height={120}
                     />
                 )}
+
                 {!imageFile && (
                     <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
                         <PEIcon edgeLength={32} icon={Icon.profileLight} />
