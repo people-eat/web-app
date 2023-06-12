@@ -1,0 +1,5 @@
+mutation UpdateUserProfilePicture($userId: String!, $profilePicture: Upload) {
+    users {
+        success: updateProfilePicture(userId: $userId, profilePicture: $profilePicture)
+    }
+}

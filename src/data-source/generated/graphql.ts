@@ -1644,7 +1644,7 @@ export type UserMutationUpdatePasswordArgs = {
 };
 
 export type UserMutationUpdateProfilePictureArgs = {
-    profilePictureUrl?: InputMaybe<Scalars['URL']>;
+    profilePicture?: InputMaybe<Scalars['Upload']>;
     userId: Scalars['String'];
 };
 
@@ -2328,6 +2328,27 @@ export type GetProfileQueryQuery = {
         } | null;
     };
 };
+
+export type UpdateUserGenderMutationVariables = Exact<{
+    userId: Scalars['String'];
+    gender: Gender;
+}>;
+
+export type UpdateUserGenderMutation = { __typename?: 'Mutation'; users: { __typename?: 'UserMutation'; success: boolean } };
+
+export type UpdateUserPasswordMutationVariables = Exact<{
+    userId: Scalars['String'];
+    password: Scalars['String'];
+}>;
+
+export type UpdateUserPasswordMutation = { __typename?: 'Mutation'; users: { __typename?: 'UserMutation'; success: boolean } };
+
+export type UpdateUserProfilePictureMutationVariables = Exact<{
+    userId: Scalars['String'];
+    profilePicture?: InputMaybe<Scalars['Upload']>;
+}>;
+
+export type UpdateUserProfilePictureMutation = { __typename?: 'Mutation'; users: { __typename?: 'UserMutation'; success: boolean } };
 
 export const SignedInUserFragmentDoc = {
     kind: 'Document',
@@ -4693,3 +4714,162 @@ export const GetProfileQueryDocument = {
         },
     ],
 } as unknown as DocumentNode<GetProfileQueryQuery, GetProfileQueryQueryVariables>;
+export const UpdateUserGenderDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateUserGender' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'gender' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Gender' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateGender' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'gender' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'gender' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateUserGenderMutation, UpdateUserGenderMutationVariables>;
+export const UpdateUserPasswordDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateUserPassword' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'password' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updatePassword' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'password' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'password' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateUserPasswordMutation, UpdateUserPasswordMutationVariables>;
+export const UpdateUserProfilePictureDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateUserProfilePicture' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'profilePicture' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'Upload' } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateProfilePicture' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'profilePicture' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'profilePicture' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateUserProfilePictureMutation, UpdateUserProfilePictureMutationVariables>;
