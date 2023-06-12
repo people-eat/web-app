@@ -1,0 +1,27 @@
+query FindOnePublicCook($cookId: String!) {
+    publicCooks {
+        findOne(cookId: $cookId) {
+            cookId
+            user {
+                firstName
+                profilePictureUrl
+            }
+            rank
+            biography
+            location {
+                latitude
+                longitude
+            }
+            maximumParticipants
+            maximumPrice
+            maximumTravelDistance
+            minimumParticipants
+            minimumPrice
+            travelExpenses
+            languages {
+                languageId
+                title
+            }
+        }
+    }
+}

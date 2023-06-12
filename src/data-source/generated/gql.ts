@@ -35,6 +35,8 @@ const documents = {
         types.FindManyPublicCooksDocument,
     'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}':
         types.FindManyUsersDocument,
+    'query FindOnePublicCook($cookId: String!) {\n  publicCooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        firstName\n        profilePictureUrl\n      }\n      rank\n      biography\n      location {\n        latitude\n        longitude\n      }\n      maximumParticipants\n      maximumPrice\n      maximumTravelDistance\n      minimumParticipants\n      minimumPrice\n      travelExpenses\n      languages {\n        languageId\n        title\n      }\n    }\n  }\n}':
+        types.FindOnePublicCookDocument,
     'query GetCookSignUpPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  languages {\n    findAll {\n      languageId\n      title\n    }\n  }\n}':
         types.GetCookSignUpPageDataDocument,
     'query GetIndividualRequestPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}':
@@ -190,6 +192,12 @@ export function gql(
 export function gql(
     source: 'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}',
 ): (typeof documents)['query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindOnePublicCook($cookId: String!) {\n  publicCooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        firstName\n        profilePictureUrl\n      }\n      rank\n      biography\n      location {\n        latitude\n        longitude\n      }\n      maximumParticipants\n      maximumPrice\n      maximumTravelDistance\n      minimumParticipants\n      minimumPrice\n      travelExpenses\n      languages {\n        languageId\n        title\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindOnePublicCook($cookId: String!) {\n  publicCooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        firstName\n        profilePictureUrl\n      }\n      rank\n      biography\n      location {\n        latitude\n        longitude\n      }\n      maximumParticipants\n      maximumPrice\n      maximumTravelDistance\n      minimumParticipants\n      minimumPrice\n      travelExpenses\n      languages {\n        languageId\n        title\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

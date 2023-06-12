@@ -1999,6 +1999,32 @@ export type FindManyUsersQuery = {
     };
 };
 
+export type FindOnePublicCookQueryVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type FindOnePublicCookQuery = {
+    __typename?: 'Query';
+    publicCooks: {
+        __typename?: 'PublicCookQuery';
+        findOne?: {
+            __typename?: 'PublicCook';
+            cookId: string;
+            rank: CookRank;
+            biography: string;
+            maximumParticipants?: number | null;
+            maximumPrice?: number | null;
+            maximumTravelDistance?: number | null;
+            minimumParticipants?: number | null;
+            minimumPrice?: number | null;
+            travelExpenses: number;
+            user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
+            location: { __typename?: 'Location'; latitude: number; longitude: number };
+            languages: Array<{ __typename?: 'Language'; languageId: string; title: string }>;
+        } | null;
+    };
+};
+
 export type GetCookSignUpPageDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetCookSignUpPageDataQuery = {
@@ -3068,6 +3094,95 @@ export const FindManyUsersDocument = {
         },
     ],
 } as unknown as DocumentNode<FindManyUsersQuery, FindManyUsersQueryVariables>;
+export const FindOnePublicCookDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindOnePublicCook' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publicCooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findOne' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'user' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'biography' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'location' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maximumParticipants' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maximumPrice' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'maximumTravelDistance' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'minimumParticipants' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'minimumPrice' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'languages' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'languageId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindOnePublicCookQuery, FindOnePublicCookQueryVariables>;
 export const GetCookSignUpPageDataDocument = {
     kind: 'Document',
     definitions: [
