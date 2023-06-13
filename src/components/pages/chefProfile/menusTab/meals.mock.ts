@@ -3,6 +3,13 @@ import { type PEMenuCardProps } from '../../../cards/menuCard/PEMenuCardProps';
 
 export const step2Button = 'Gang hinzufügen';
 
+export const textField01 = 'Basispreis';
+export const textField02 = 'Personen';
+export const textField02Bottom = '(Max.Personenanzahl 20)';
+export const textField03 = 'Für jede weitere Person';
+export const checkboxesTitle = 'Möchtest du einen Kinderrabatt anbieten?';
+export const textField04 = 'Menü veröffentlichen';
+
 export const MENUS: PEMenuCardProps[] = [
     {
         title: 'Чиабатта с пастрами из говядины и луковым джемом с вишней «Из Лавки»',
