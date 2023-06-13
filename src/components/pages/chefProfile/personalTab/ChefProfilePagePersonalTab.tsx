@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     GetCookProfileQueryDocument,
+    UpdateCookIsVisibleDocument,
     UpdateCookLocationDocument,
     UpdateCookMaximumParticipantsDocument,
     UpdateCookMaximumTravelDistanceDocument,
@@ -87,6 +88,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
     }
 
     const [updateCookLocation] = useMutation(UpdateCookLocationDocument);
+    const [updateCookIsVisible] = useMutation(UpdateCookIsVisibleDocument);
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6 px-5 box-border">
@@ -98,7 +100,14 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         className="w-full bg-white shadow-primary box-border p-8 rounded-4"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
-                        <PECheckbox checked={chefProfile.isVisible} onCheckedChange={(): void => undefined} />
+                        <PECheckbox
+                            checked={chefProfile.isVisible}
+                            onCheckedChange={(): void =>
+                                void updateCookIsVisible({ variables: { cookId, isVisible: !chefProfile.isVisible } }).then(
+                                    (res) => res.data?.cooks.success && void refetch(),
+                                )
+                            }
+                        />
                         <span className={classNames({ ['text-disabled']: !chefProfile.isVisible })}>Public</span>
                         &nbsp;/&nbsp;
                         <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>not visible</span>
