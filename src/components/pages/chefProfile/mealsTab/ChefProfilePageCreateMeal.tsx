@@ -4,9 +4,11 @@ import { useState, type ReactElement } from 'react';
 import { CreateOneCookMealDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
 import PEButton from '../../../standard/buttons/PEButton';
+import PEImagePicker from '../../../standard/filePicker/PEImagePicker';
 import { Icon } from '../../../standard/icon/Icon';
-import PEIcon from '../../../standard/icon/PEIcon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
+import PEImageClipper from '../../../standard/imageClipper/PEImageClipper';
+import PEModalPopUp from '../../../standard/modal/PEModalPopUp';
 import PETabItem from '../../../standard/tabItem/PETabItem';
 import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextField';
 import PETextField from '../../../standard/textFields/PETextField';
@@ -24,6 +26,18 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
     const [description, setDescription] = useState('');
     const [type, setType] = useState<MealType>('MAIN_COURSE');
     const [image, setImage] = useState<File | undefined>(undefined);
+
+    const [imageFile, setImageFile] = useState('');
+    const [editImageFile, setEditImageFile] = useState('');
+
+    function handleOnDownloadImage(imageContent: string): void {
+        setEditImageFile(imageContent);
+    }
+
+    function handleOnCropDownloadImage(imageContent: string): void {
+        setImageFile(imageContent);
+        setEditImageFile('');
+    }
 
     const disabled: boolean = title === '';
 
@@ -94,13 +108,22 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
                 <PEMultiLineTextField value={description} onChange={(value): void => setDescription(value)} />
             </VStack>
 
-            <VStack className="w-full">
+            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                 <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
-                <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                    <VStack className="w-[200px] h-[200px] hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4">
-                        <PEIcon icon={Icon.plus} />
-                    </VStack>
-                </VStack>
+                <PEImagePicker onDownloaded={handleOnDownloadImage} initImageFile={imageFile ?? ''} />
+                <PEModalPopUp openMenu={!!editImageFile} handleOpenMenu={(): void => setEditImageFile('')}>
+                    <PEImageClipper
+                        onDownloadCropImage={handleOnCropDownloadImage}
+                        pathToImage={editImageFile}
+                        cropParams={{
+                            x: 0,
+                            y: 0,
+                            width: 200,
+                            height: 100,
+                            unit: 'px',
+                        }}
+                    />
+                </PEModalPopUp>
             </VStack>
 
             {<PEButton onClick={(): void => void createOneCookMeal()} disabled={disabled} title="Add" className="w-full" />}

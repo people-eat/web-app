@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactElement } from 'react';
-import ReactCrop, { PixelCrop, type Crop } from 'react-image-crop';
+import ReactCrop, { type Crop, type PixelCrop } from 'react-image-crop';
 import useDebounce from '../../../hooks/useDebounce';
 import { Icon } from '../icon/Icon';
 import PEIcon from '../icon/PEIcon';
@@ -11,9 +11,10 @@ import PEButton from '../buttons/PEButton';
 export interface PEImageClipperProps {
     cropParams: PixelCrop;
     pathToImage: string;
+    onDownloadCropImage: (value: string) => void;
 }
 
-export default function PEImageClipper({ pathToImage, cropParams }: PEImageClipperProps): ReactElement {
+export default function PEImageClipper({ pathToImage, cropParams, onDownloadCropImage }: PEImageClipperProps): ReactElement {
     const [completedCrop, setCompletedCrop] = useState<PixelCrop>(cropParams);
     const [imageURL, _setImageURL] = useState(pathToImage);
     const [crop, setCrop] = useState<Crop>(cropParams);
@@ -38,7 +39,9 @@ export default function PEImageClipper({ pathToImage, cropParams }: PEImageClipp
 
                 if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
 
-                blobUrlRef.current = URL.createObjectURL(blob);
+                const result = URL.createObjectURL(blob);
+
+                onDownloadCropImage(result);
             });
         }
     }
@@ -59,13 +62,13 @@ export default function PEImageClipper({ pathToImage, cropParams }: PEImageClipp
                         style={{
                             border: '1px solid black',
                             objectFit: 'contain',
-                            width: completedCrop.width,
-                            height: completedCrop.height,
+                            width: 0,
+                            height: 0,
                         }}
                     />
-                    <PEButton className="max-w-[250px] mt-6" onClick={onDownloadCropClick} title={'Download'} />
                 </div>
             )}
+            <PEButton className="max-w-[250px] mt-6" onClick={onDownloadCropClick} title={'Download'} />
         </div>
     );
 }
