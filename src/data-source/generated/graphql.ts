@@ -239,6 +239,7 @@ export type CookMealMutation = {
 };
 
 export type CookMealMutationCreateOneArgs = {
+    image?: InputMaybe<Scalars['Upload']>;
     meal: CreateOneMealRequest;
 };
 
@@ -2083,6 +2084,7 @@ export type RemoveOneCookLanguageMutation = { __typename?: 'Mutation'; cooks: { 
 export type CreateOneCookMealMutationVariables = Exact<{
     meal: CreateOneMealRequest;
     cookId: Scalars['String'];
+    image?: InputMaybe<Scalars['Upload']>;
 }>;
 
 export type CreateOneCookMealMutation = {
@@ -3581,6 +3583,11 @@ export const CreateOneCookMealDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'image' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'Upload' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -3613,6 +3620,11 @@ export const CreateOneCookMealDocument = {
                                                         kind: 'Argument',
                                                         name: { kind: 'Name', value: 'meal' },
                                                         value: { kind: 'Variable', name: { kind: 'Name', value: 'meal' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'image' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'image' } },
                                                     },
                                                 ],
                                             },

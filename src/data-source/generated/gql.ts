@@ -47,7 +47,7 @@ const documents = {
         types.AddOneCookLanguageDocument,
     'mutation RemoveOneCookLanguage($cookId: String!, $languageId: String!) {\n  cooks {\n    success: removeOneLanguage(cookId: $cookId, languageId: $languageId)\n  }\n}':
         types.RemoveOneCookLanguageDocument,
-    'mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: createOne(meal: $meal)\n    }\n  }\n}':
+    'mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: createOne(meal: $meal, image: $image)\n    }\n  }\n}':
         types.CreateOneCookMealDocument,
     'query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}':
         types.FindCookMealsDocument,
@@ -232,8 +232,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: createOne(meal: $meal)\n    }\n  }\n}',
-): (typeof documents)['mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: createOne(meal: $meal)\n    }\n  }\n}'];
+    source: 'mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: createOne(meal: $meal, image: $image)\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: createOne(meal: $meal, image: $image)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -1,7 +1,7 @@
-mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!) {
+mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!, $image: Upload) {
     cooks {
         meals(cookId: $cookId) {
-            success: createOne(meal: $meal)
+            success: createOne(meal: $meal, image: $image)
         }
     }
 }

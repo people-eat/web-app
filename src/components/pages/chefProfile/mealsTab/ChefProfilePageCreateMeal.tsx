@@ -23,6 +23,7 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState<MealType>('MAIN_COURSE');
+    const [image, _setImage] = useState<File | undefined>(undefined);
 
     const disabled: boolean = title === '';
 
@@ -35,6 +36,7 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
                 type,
                 imageUrl: undefined,
             },
+            image,
         },
     });
 
@@ -48,7 +50,9 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
             <div className="absolute top-8 right-8">
                 <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
             </div>
+
             <p className="w-full text-heading-xl my-0 mb-6">Adding a new dish</p>
+
             <VStack className="w-full">
                 <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>
                 <HStack
