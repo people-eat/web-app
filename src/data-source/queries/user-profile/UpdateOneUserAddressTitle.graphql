@@ -1,7 +1,0 @@
-mutation UpdateOneUserAddressTitle($addressId: String!, $title: String!, $userId: String!) {
-    users {
-        addresses(userId: $userId) {
-            success: updateTitle(addressId: $addressId, title: $title)
-        }
-    }
-}

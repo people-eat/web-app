@@ -90,8 +90,8 @@ const documents = {
         types.DeleteOneUserAddressDocument,
     'query GetProfileQuery {\n  users {\n    me {\n      userId\n      firstName\n      lastName\n      profilePictureUrl\n      birthDate\n      gender\n      acceptedTerms\n      acceptedPrivacyPolicy\n      emailAddress\n      phoneNumber\n      createdAt\n      isCook\n      isAdmin\n      addresses {\n        addressId\n        title\n        country\n        city\n        postCode\n        street\n        houseNumber\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}':
         types.GetProfileQueryDocument,
-    'mutation UpdateOneUserAddressTitle($addressId: String!, $title: String!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: updateTitle(addressId: $addressId, title: $title)\n    }\n  }\n}':
-        types.UpdateOneUserAddressTitleDocument,
+    'mutation UpdateOneUserAddress($addressId: String!, $address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: update(addressId: $addressId, address: $address)\n    }\n  }\n}':
+        types.UpdateOneUserAddressDocument,
     'mutation UpdateUserGender($userId: String!, $gender: Gender!) {\n  users {\n    success: updateGender(userId: $userId, gender: $gender)\n  }\n}':
         types.UpdateUserGenderDocument,
     'mutation UpdateUserPassword($userId: String!, $password: String!) {\n  users {\n    success: updatePassword(userId: $userId, password: $password)\n  }\n}':
@@ -364,8 +364,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'mutation UpdateOneUserAddressTitle($addressId: String!, $title: String!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: updateTitle(addressId: $addressId, title: $title)\n    }\n  }\n}',
-): (typeof documents)['mutation UpdateOneUserAddressTitle($addressId: String!, $title: String!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: updateTitle(addressId: $addressId, title: $title)\n    }\n  }\n}'];
+    source: 'mutation UpdateOneUserAddress($addressId: String!, $address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: update(addressId: $addressId, address: $address)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateOneUserAddress($addressId: String!, $address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: update(addressId: $addressId, address: $address)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

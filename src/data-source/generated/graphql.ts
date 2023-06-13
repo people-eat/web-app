@@ -1394,12 +1394,7 @@ export type UserAddressMutation = {
     __typename?: 'UserAddressMutation';
     createOne: Scalars['Boolean'];
     deleteOne: Scalars['Boolean'];
-    updateCity: Scalars['Boolean'];
-    updateCountry: Scalars['Boolean'];
-    updateHouseNumber: Scalars['Boolean'];
-    updatePostCode: Scalars['Boolean'];
-    updateStreet: Scalars['Boolean'];
-    updateTitle: Scalars['Boolean'];
+    update: Scalars['Boolean'];
     userId: Scalars['String'];
 };
 
@@ -1411,34 +1406,9 @@ export type UserAddressMutationDeleteOneArgs = {
     addressId: Scalars['String'];
 };
 
-export type UserAddressMutationUpdateCityArgs = {
+export type UserAddressMutationUpdateArgs = {
+    address: CreateOneAddressRequest;
     addressId: Scalars['String'];
-    city: Scalars['String'];
-};
-
-export type UserAddressMutationUpdateCountryArgs = {
-    addressId: Scalars['String'];
-    country: Scalars['String'];
-};
-
-export type UserAddressMutationUpdateHouseNumberArgs = {
-    addressId: Scalars['String'];
-    houseNumber: Scalars['String'];
-};
-
-export type UserAddressMutationUpdatePostCodeArgs = {
-    addressId: Scalars['String'];
-    postCode: Scalars['String'];
-};
-
-export type UserAddressMutationUpdateStreetArgs = {
-    addressId: Scalars['String'];
-    street: Scalars['String'];
-};
-
-export type UserAddressMutationUpdateTitleArgs = {
-    addressId: Scalars['String'];
-    title: Scalars['String'];
 };
 
 export type UserAddressQuery = {
@@ -2355,13 +2325,13 @@ export type GetProfileQueryQuery = {
     };
 };
 
-export type UpdateOneUserAddressTitleMutationVariables = Exact<{
+export type UpdateOneUserAddressMutationVariables = Exact<{
     addressId: Scalars['String'];
-    title: Scalars['String'];
+    address: CreateOneAddressRequest;
     userId: Scalars['String'];
 }>;
 
-export type UpdateOneUserAddressTitleMutation = {
+export type UpdateOneUserAddressMutation = {
     __typename?: 'Mutation';
     users: { __typename?: 'UserMutation'; addresses: { __typename?: 'UserAddressMutation'; success: boolean } };
 };
@@ -4840,13 +4810,13 @@ export const GetProfileQueryDocument = {
         },
     ],
 } as unknown as DocumentNode<GetProfileQueryQuery, GetProfileQueryQueryVariables>;
-export const UpdateOneUserAddressTitleDocument = {
+export const UpdateOneUserAddressDocument = {
     kind: 'Document',
     definitions: [
         {
             kind: 'OperationDefinition',
             operation: 'mutation',
-            name: { kind: 'Name', value: 'UpdateOneUserAddressTitle' },
+            name: { kind: 'Name', value: 'UpdateOneUserAddress' },
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
@@ -4855,8 +4825,8 @@ export const UpdateOneUserAddressTitleDocument = {
                 },
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'title' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'address' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateOneAddressRequest' } } },
                 },
                 {
                     kind: 'VariableDefinition',
@@ -4889,7 +4859,7 @@ export const UpdateOneUserAddressTitleDocument = {
                                             {
                                                 kind: 'Field',
                                                 alias: { kind: 'Name', value: 'success' },
-                                                name: { kind: 'Name', value: 'updateTitle' },
+                                                name: { kind: 'Name', value: 'update' },
                                                 arguments: [
                                                     {
                                                         kind: 'Argument',
@@ -4898,8 +4868,8 @@ export const UpdateOneUserAddressTitleDocument = {
                                                     },
                                                     {
                                                         kind: 'Argument',
-                                                        name: { kind: 'Name', value: 'title' },
-                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'title' } },
+                                                        name: { kind: 'Name', value: 'address' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'address' } },
                                                     },
                                                 ],
                                             },
@@ -4913,7 +4883,7 @@ export const UpdateOneUserAddressTitleDocument = {
             },
         },
     ],
-} as unknown as DocumentNode<UpdateOneUserAddressTitleMutation, UpdateOneUserAddressTitleMutationVariables>;
+} as unknown as DocumentNode<UpdateOneUserAddressMutation, UpdateOneUserAddressMutationVariables>;
 export const UpdateUserGenderDocument = {
     kind: 'Document',
     definitions: [

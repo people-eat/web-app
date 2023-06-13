@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { useEffect, useState, type ReactElement } from 'react';
-import { DeleteOneUserAddressDocument, UpdateOneUserAddressTitleDocument } from '../../../../data-source/generated/graphql';
+import { DeleteOneUserAddressDocument, UpdateOneUserAddressDocument } from '../../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
 import PEMap from '../../../map/PEMap';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -49,6 +49,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
         street === '' ||
         houseNumber === '' ||
         country === '' ||
+        !location ||
         (title === address.title &&
             postCode === address.postCode &&
             city === address.city &&
@@ -58,7 +59,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
 
     const [deleteOneUserAddress] = useMutation(DeleteOneUserAddressDocument);
 
-    const [updateOneUserAddressTitle, { data, loading }] = useMutation(UpdateOneUserAddressTitleDocument);
+    const [updateOneUserAddress, { data, loading }] = useMutation(UpdateOneUserAddressDocument);
 
     if (data?.users.addresses.success) onSuccess();
 
@@ -115,10 +116,17 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                             <PEButton
                                 title="Save changes"
                                 onClick={(): void => {
-                                    if (address.title !== title)
-                                        void updateOneUserAddressTitle({ variables: { userId, addressId: address.addressId, title } });
+                                    if (!disabled && location) {
+                                        void updateOneUserAddress({
+                                            variables: {
+                                                userId,
+                                                addressId: address.addressId,
+                                                address: { title, postCode, city, street, houseNumber, country, location },
+                                            },
+                                        });
+                                    }
                                 }}
-                                disabled={disabled || !location}
+                                disabled={disabled}
                             />
                         </HStack>
                     </VStack>
