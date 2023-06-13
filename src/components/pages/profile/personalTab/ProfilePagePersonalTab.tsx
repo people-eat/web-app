@@ -51,7 +51,7 @@ export default function ProfilePagePersonalTab(): ReactElement {
     const userProfile = data?.users.me;
 
     return (
-        <VStack className="w-full max-w-screen-xl" style={{ gap: 16 }}>
+        <VStack className="w-full max-w-screen-xl gap-6">
             {userProfile && (
                 <>
                     <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
@@ -88,6 +88,7 @@ export default function ProfilePagePersonalTab(): ReactElement {
                                 <PEButton
                                     iconLeft={Icon.profileOrange}
                                     iconSize={16}
+                                    className="min-w-[250px]"
                                     type="secondary"
                                     onClick={(): void => undefined}
                                     title={'Chef Profile'}
@@ -102,23 +103,26 @@ export default function ProfilePagePersonalTab(): ReactElement {
                         )}
                     </HStack>
 
-                    <VStack className="w-full bg-white shadow-md" style={{ padding: 16, alignItems: 'center', borderRadius: 16 }}>
+                    <VStack
+                        className="w-full bg-white shadow-primary box-border px-8 py-4"
+                        style={{ alignItems: 'center', borderRadius: 16 }}
+                    >
                         <HStack className="w-full">
-                            <span>{t('personal-information-label')}</span>
+                            <p className="text-heading-ss w-full justify-start my-2 mb-6">{t('personal-information-label')}</p>
                             <Spacer />
                         </HStack>
                         <HStack className="w-full" style={{ justifyContent: 'center', flexWrap: 'wrap', gap: 16 }}>
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
-                                <span>{t('first-name-label')}</span>
+                                <p className="m-0 mb-3">{t('first-name-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.firstName} />
                             </VStack>
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
-                                <span>{t('last-name-label')}</span>
+                                <p className="m-0 mb-3">{t('last-name-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.lastName} />
                             </VStack>
 
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
-                                <span>{t('birthday-label')}</span>
+                                <p className="m-0 mb-3">{t('birthday-label')}</p>
 
                                 <DatePicker
                                     className="border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black"
@@ -129,11 +133,11 @@ export default function ProfilePagePersonalTab(): ReactElement {
                                 />
                             </VStack>
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
-                                <span>{t('email-address-label')}</span>
+                                <p className="m-0 mb-3">{t('email-address-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.emailAddress ?? undefined} />
                             </VStack>
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
-                                <span>{t('phone-number-label')}</span>
+                                <p className="m-0 mb-3">{t('phone-number-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.phoneNumber ?? undefined} />
                             </VStack>
                         </HStack>
@@ -147,7 +151,7 @@ export default function ProfilePagePersonalTab(): ReactElement {
                         <HStack gap={8} className="w-full" style={{ alignItems: 'start' }}>
                             <p className="text-heading-ss w-full justify-start my-0">{t('addresses-label')}</p>
 
-                            <PEIconButton icon={Icon.editPencil} onClick={(): void => setEditAddresses(!editAddresses)} withoutShadow />
+                            <PEIconButton icon={Icon.editPencil} iconSize={24} onClick={(): void => setEditAddresses(!editAddresses)} withoutShadow />
 
                             <Spacer />
 
