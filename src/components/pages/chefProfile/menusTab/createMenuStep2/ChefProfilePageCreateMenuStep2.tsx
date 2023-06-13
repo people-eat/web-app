@@ -5,7 +5,6 @@ import { mealTypes } from '../../../../../shared/mealTypes';
 import PEButton from '../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
-import PEImageClipper from '../../../../standard/imageClipper/PEImageClipper';
 import PEModalPopUp from '../../../../standard/modal/PEModalPopUp';
 import PENextButton from '../../../../standard/nextButton/PENextButton';
 import PETabItem from '../../../../standard/tabItem/PETabItem';
@@ -77,16 +76,6 @@ export default function ChefProfilePageCreateMenusStep2({ cookId, onSelectedMeal
 
     return (
         <VStack className="w-full gap-6" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-            <PEImageClipper
-                pathToImage={'/chefs.png'}
-                cropParams={{
-                    x: 0,
-                    y: 0,
-                    width: 200,
-                    height: 100,
-                    unit: 'px',
-                }}
-            />
             <PEModalPopUp openMenu={openPopUp} handleOpenMenu={handleUnSaveChooseMeals} width={850}>
                 <VStack className="w-[850px] h-[730px] px-8 py-15 box-border relative gap-5">
                     <h2 className="m-0 mt-[-40px] w-full text-heading-ss">Training</h2>
