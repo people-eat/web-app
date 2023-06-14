@@ -92,11 +92,11 @@ export default function PEBookingRequestCardClosed({
                     </span>
                 </div>
             </div>
-            <div className="flex flex-col gap-3 mt-3 md:flex-row">
+            <div className="flex flex-row gap-3 mt-3 md:flex-row">
                 <div className="basis-1/2">
                     <PEDownloadButton
                         className={'rounded-12 pl-4'}
-                        title={'Recurring .pDF'}
+                        title={'Recurring .pdf'}
                         downloadSize={'245 Mb'}
                         onClick={onDownloadDocumentsClick}
                     />

@@ -6,6 +6,7 @@ import PEHeader from '../../header/PEHeader';
 import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
+import ChefProfilePageBookingTab from './bookingTab/ChefProfilePageBookingTab';
 import ChefProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
 import ChefProfilePageMenusTab from './menusTab/ChefProfilePageMenusTab';
 import ChefProfilePagePersonalTab from './personalTab/ChefProfilePagePersonalTab';
@@ -55,6 +56,8 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
                 {selectedTab === 1 && signedInUser && <ChefProfilePageMealsTab cookId={signedInUser.userId} />}
 
                 {selectedTab === 2 && signedInUser && <ChefProfilePageMenusTab cookId={signedInUser.userId} />}
+
+                {selectedTab === 3 && signedInUser && <ChefProfilePageBookingTab cookId={signedInUser.userId} />}
             </VStack>
 
             <PEFooter />
