@@ -66,6 +66,8 @@ export default function ChefProfilePageBookingTab({ cookId }: { cookId: string }
                                             persons={persons}
                                             time={time}
                                             address={address}
+                                            onAcceptClick={(): void => undefined}
+                                            onDeclineClick={(): void => undefined}
                                         />
                                     </div>
                                 ),
@@ -106,6 +108,7 @@ export default function ChefProfilePageBookingTab({ cookId }: { cookId: string }
                                             persons={persons}
                                             time={time}
                                             address={address}
+                                            onAcceptAsSender={(): void => undefined}
                                         />
                                     </div>
                                 ),
@@ -146,6 +149,9 @@ export default function ChefProfilePageBookingTab({ cookId }: { cookId: string }
                                             persons={persons}
                                             time={time}
                                             address={address}
+                                            onDownloadDocumentsClick={(): void => undefined}
+                                            onSendInvoiceClick={(): void => undefined}
+                                            onShowReviewClick={(): void => undefined}
                                         />
                                     </div>
                                 ),
