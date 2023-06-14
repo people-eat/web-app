@@ -12,7 +12,7 @@ import { type MealEntity } from './ChefProfilePageMenusTab';
 import ChefProfilePageCreateMenusStep1 from './createMenuStep1/ChefProfilePageCreateMenusStep1';
 import ChefProfilePageCreateMenusStep2 from './createMenuStep2/ChefProfilePageCreateMenuStep2';
 import ChefProfilePageCreateMenusPreviewStep2 from './createMenuStep2/ChefProfilePageCreateMenusPreviewStep2';
-import ChefProfilePageCreateMenusStep3 from "./createMenuStep3/ChefProfilePageCreateMenuStep3";
+import ChefProfilePageCreateMenusStep3 from './createMenuStep3/ChefProfilePageCreateMenuStep3';
 
 interface ChefProfilePageCreateMenuProps {
     cookId: string;
