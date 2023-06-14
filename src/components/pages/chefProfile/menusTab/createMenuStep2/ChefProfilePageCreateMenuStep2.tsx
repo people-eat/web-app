@@ -18,6 +18,7 @@ import FilteredMealsListWithMealFilter from '../filteredMenuList/FilteredMealsLi
 
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;
+    menuId?: string;
     onSelectedMeals: (selectedMeals: MealEntity[]) => void;
     greetingFromKitchen: boolean;
     setGreetingFromKitchen: (changedGreetingFromKitchen: boolean) => void;

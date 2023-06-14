@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import classNames from 'classnames';
+import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     GetCookProfileQueryDocument,
@@ -29,6 +30,8 @@ import ChefProfileSection5 from './section5/ChefProfileSection5';
 
 // eslint-disable-next-line max-statements
 export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string }): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     const [biography, setBiography] = useState('');
 
     const [maximumParticipants, setMaximumParticipants] = useState<number | undefined>(undefined);
@@ -108,9 +111,9 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                 )
                             }
                         />
-                        <span className={classNames({ ['text-disabled']: !chefProfile.isVisible })}>Public</span>
+                        <span className={classNames({ ['text-disabled']: !chefProfile.isVisible })}>{t('section-public-visible')}</span>
                         &nbsp;/&nbsp;
-                        <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>not visible</span>
+                        <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>{t('section-public-no-visible')}</span>
                     </HStack>
 
                     <ChefProfileSection2 chefBiography={biography} cookId={cookId} />
@@ -119,7 +122,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         className="relative w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
-                        <p className="text-heading-ss w-full justify-start my-0">Order details</p>
+                        <p className="text-heading-ss w-full justify-start my-0">{t('section-order-details')}</p>
                         {editOrderDetails && (
                             <HStack className="absolute right-8 top-8 gap-3 w-full mb-4" style={{ justifyContent: 'flex-end' }}>
                                 <PEIconButton
@@ -142,7 +145,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                             <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
                                 <HStack className="w-full" style={{ justifyContent: 'flex-start' }}>
                                     <PEIcon icon={Icon.data} />
-                                    <p className="my-0">Travel costs per kilometer</p>
+                                    <p className="my-0">{t('section-order-details-travel-cost')}</p>
                                 </HStack>
                                 <p className="my-0 text-end w-full text-green text-ellipsis">{travelExpenses} EUR</p>
                             </HStack>
@@ -175,8 +178,8 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         <VStack className="w-full">
                             <HStack className="w-full" style={{ alignItems: 'center' }}>
                                 <VStack style={{ alignItems: 'flex-start' }}>
-                                    <span>Customers limit per event</span>
-                                    <span>(maximum 20)</span>
+                                    <span>{t('section-order-details-customers-limit')}</span>
+                                    <span>{t('section-order-details-customers-limit-max')}</span>
                                 </VStack>
                                 <Spacer />
                                 <PECounter
@@ -201,7 +204,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                            <p className="text-heading-ss w-full justify-start my-0">My Addresses</p>
+                            <p className="text-heading-ss w-full justify-start my-0">{t('section-event-address')}</p>
                             <PEIconButton
                                 icon={Icon.plus}
                                 iconSize={24}

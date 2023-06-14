@@ -6,5 +6,21 @@
     "max-count-persons": "(Максимальное {{count}} людей)",
     "no-button": "Нет",
     "person": "лица",
-    "publish-menu": "опубликовать меню"
+    "popup-training": "Обучение",
+    "popup-training-displayed-info": "Информация отображается в анкете после проверки",
+    "popup-training-field01": "Имя как в дипломе",
+    "popup-training-field02": "год начала",
+    "popup-training-photo": "диплом фото",
+    "popup-training-pre-title": "Если у вас несколько степеней, создайте отдельную запись для каждой из них.",
+    "popup-training-title": "Учебное заведение, факультет и специализация",
+    "publish-menu": "опубликовать меню",
+    "section-bio-description": "Все, что нужно знать покупателю",
+    "section-event-address": "адреса событий",
+    "section-order-details": "Информация для заказа",
+    "section-order-details-customers-limit": "Максимальное количество клиентов на миссию",
+    "section-order-details-customers-limit-max": "Максимальное количество клиентов (20)",
+    "section-order-details-travel-cost": "Стоимость проезда за километр",
+    "section-public-no-visible": "не видно",
+    "section-public-visible": "Общественный",
+    "tickets-button": "отлично"
 }
