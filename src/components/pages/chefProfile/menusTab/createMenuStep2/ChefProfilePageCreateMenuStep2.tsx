@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMealsDocument, type MealType } from '../../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../../shared/mealTypes';
@@ -14,7 +15,6 @@ import VStack from '../../../../utility/vStack/VStack';
 import { type MealEntity } from '../ChefProfilePageMenusTab';
 import FilteredMealsList from '../filteredMenuList/FilteredMealsList';
 import FilteredMealsListWithMealFilter from '../filteredMenuList/FilteredMealsListWithMealFilter';
-import { step2Button } from '../meals.mock';
 
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;
@@ -28,6 +28,8 @@ function selectMealByTypeAndSelected(meals: MealEntity[], mealType: MealType | '
 }
 
 export default function ChefProfilePageCreateMenusStep2({ cookId, onSelectedMeals }: ChefProfilePageCreateMenusStep2Props): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     const [openPopUp, setOpenPopUp] = useState(false);
     const [selectedTab, setSelectedTab] = useState<MealType | 'ALL' | 'CREATE'>('ALL');
     const [activeIndex, setActiveIndex] = useState(0);
@@ -201,7 +203,7 @@ export default function ChefProfilePageCreateMenusStep2({ cookId, onSelectedMeal
                     </HStack>
 
                     {Boolean(!selectedMeals.length) && (
-                        <PEButton className="max-w-[250px]" onClick={(): void => undefined} title={step2Button} />
+                        <PEButton className="max-w-[250px]" onClick={(): void => undefined} title={t('add-gear')} />
                     )}
                 </HStack>
             </VStack>

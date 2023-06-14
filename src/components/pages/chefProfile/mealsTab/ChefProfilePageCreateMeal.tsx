@@ -119,7 +119,7 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
                             x: 0,
                             y: 0,
                             width: 200,
-                            height: 100,
+                            height: 200,
                             unit: 'px',
                         }}
                     />
