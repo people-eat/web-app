@@ -20,7 +20,7 @@ interface ChefProfilePageCreateMenuProps {
 }
 
 // eslint-disable-next-line max-statements
-export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProfilePageCreateMenuProps): ReactElement {
+export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess }: ChefProfilePageCreateMenuProps): ReactElement {
     const [step, setStep] = useState(0);
 
     const [title, _setTitle] = useState('');
@@ -89,7 +89,8 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProf
 
             <PEButton
                 title="Demo Create"
-                onClick={(): void =>
+                onClick={(): void => {
+                    onSuccess();
                     void createMenu({
                         variables: {
                             cookId,
@@ -111,8 +112,8 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId }: ChefProf
                                 courses: [],
                             },
                         },
-                    })
-                }
+                    });
+                }}
             />
         </VStack>
     );

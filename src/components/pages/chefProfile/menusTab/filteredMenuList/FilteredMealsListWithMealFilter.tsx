@@ -25,7 +25,7 @@ export default function FilteredMealsListWithMealFilter({
                 <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                     {meals.map(({ title, description, imageUrl, mealId }, index) => (
                         <>
-                            {index >= activeIndex * MEALS_CARD_COUNT && index < (activeIndex + 1) * MEALS_CARD_COUNT ? (
+                            {index >= activeIndex * MEALS_CARD_COUNT && index < (activeIndex + 1) * MEALS_CARD_COUNT && (
                                 <div key={index} className="w-full basis-[380px]">
                                     <PEMealCard
                                         active={selectedMeals.includes(mealId)}
@@ -35,7 +35,7 @@ export default function FilteredMealsListWithMealFilter({
                                         imageUrl={imageUrl ?? undefined}
                                     />
                                 </div>
-                            ) : null}
+                            )}
                         </>
                     ))}
                 </HStack>
