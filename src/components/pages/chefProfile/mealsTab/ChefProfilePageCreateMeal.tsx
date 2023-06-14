@@ -23,7 +23,7 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState<MealType>('MAIN_COURSE');
-    const [image, _setImage] = useState<File | undefined>(undefined);
+    const [image, setImage] = useState<File | undefined>(undefined);
 
     const disabled: boolean = title === '';
 
@@ -72,6 +72,17 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
                     ))}
                 </HStack>
             </VStack>
+
+            <input
+                type="file"
+                required
+                onChange={({ target: { files } }): void => {
+                    if (!files) return;
+                    const [file] = files;
+                    if (!file) return;
+                    setImage(file);
+                }}
+            />
 
             <VStack className="w-full">
                 <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
