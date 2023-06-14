@@ -8,6 +8,7 @@ import PEIcon from '../../../../standard/icon/PEIcon';
 import PEModalPopUp from '../../../../standard/modal/PEModalPopUp';
 import PENextButton from '../../../../standard/nextButton/PENextButton';
 import PETabItem from '../../../../standard/tabItem/PETabItem';
+import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
 import { type MealEntity } from '../ChefProfilePageMenusTab';
@@ -32,6 +33,8 @@ export default function ChefProfilePageCreateMenusStep2({ cookId, onSelectedMeal
     const [activeIndex, setActiveIndex] = useState(0);
     const [selectedMeals, setSelectedMeals] = useState<string[]>([]);
     const [editSelectedMeals, setEditSelectedMeals] = useState<string[]>([]);
+    const [greetingFromKitchenDescription, setGreetingFromKitchenDescription] = useState('');
+    const [greetingFromKitchen, setGreetingFromKitchen] = useState(false);
 
     const { data } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
@@ -128,8 +131,19 @@ export default function ChefProfilePageCreateMenusStep2({ cookId, onSelectedMeal
             </PEModalPopUp>
 
             <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                <VStack className="w-full my-4">
+                    <p className="w-full text-text-m-bold my-0">Would you like to offer a greeting from the kitchen?</p>
+
+                    <HStack className="gap-2 w-full my-4" style={{ justifyContent: 'flex-start' }}>
+                        <PETabItem title="Yes" onClick={(): void => setGreetingFromKitchen(true)} active={greetingFromKitchen} />
+                        <PETabItem title="No" onClick={(): void => setGreetingFromKitchen(false)} active={!greetingFromKitchen} />
+                    </HStack>
+
+                    <PETextField type={'text'} value={greetingFromKitchenDescription} onChange={setGreetingFromKitchenDescription} />
+                </VStack>
+
                 <HStack className="w-full flex-wrap gap-4" style={{ justifyContent: 'flex-start' }}>
-                    {Boolean(!selectedMeals.length) && (
+                    {!selectedMeals.length && (
                         <div
                             onClick={(): void => setOpenPopUp(true)}
                             className="flex items-center w-[380px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4"
