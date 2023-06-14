@@ -151,7 +151,12 @@ export default function ProfilePagePersonalTab(): ReactElement {
                         <HStack gap={8} className="w-full" style={{ alignItems: 'start' }}>
                             <p className="text-heading-ss w-full justify-start my-0">{t('addresses-label')}</p>
 
-                            <PEIconButton icon={Icon.editPencil} iconSize={24} onClick={(): void => setEditAddresses(!editAddresses)} withoutShadow />
+                            <PEIconButton
+                                icon={Icon.editPencil}
+                                iconSize={24}
+                                onClick={(): void => setEditAddresses(!editAddresses)}
+                                withoutShadow
+                            />
 
                             <Spacer />
 
