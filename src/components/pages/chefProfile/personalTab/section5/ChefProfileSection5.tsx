@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { useState, type ReactElement } from 'react';
 import { FindLanguagesDocument, RemoveOneCookLanguageDocument } from '../../../../../data-source/generated/graphql';
+import PEChoice from '../../../../standard/choice/PEChoice';
 import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
 import PEIconButton from '../../../../standard/iconButton/PEIconButton';
 import PEAutoCompleteTextField from '../../../../standard/textFields/PEAutoCompleteTextField';
-import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
 
@@ -62,25 +62,23 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
                         placeholder={'Add language'}
                         className="mb-4"
                     />
-
-                    {chefProfile.languages.map(({ languageId, title }, index) => (
-                        <HStack key={index} className="w-full gap-4" style={{ alignItems: 'center' }}>
-                            <PETextField className="mb-4" value={title} type={'text'} />
-                            {edit && (
-                                <div className="mb-4">
-                                    <PEIconButton
-                                        icon={Icon.trash}
-                                        withoutShadow
-                                        size={'40px'}
-                                        iconSize={24}
-                                        onClick={(): void =>
-                                            void removeOneCookLanguage({ variables: { cookId: chefProfile.cookId, languageId } })
-                                        }
-                                    />
-                                </div>
-                            )}
-                        </HStack>
-                    ))}
+                    <HStack className="w-full gap-4" style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+                        {chefProfile.languages.map(({ languageId, title }, index) => (
+                            <HStack key={index} className="gap-4" style={{ alignItems: 'center' }}>
+                                <PEChoice
+                                    title={title}
+                                    onClose={(): void =>
+                                        void removeOneCookLanguage({
+                                            variables: {
+                                                cookId: chefProfile.cookId,
+                                                languageId,
+                                            },
+                                        })
+                                    }
+                                />
+                            </HStack>
+                        ))}
+                    </HStack>
                 </VStack>
             </VStack>
         </VStack>
