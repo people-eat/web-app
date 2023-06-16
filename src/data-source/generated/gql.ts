@@ -49,12 +49,16 @@ const documents = {
         types.RemoveOneCookLanguageDocument,
     'mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: createOne(meal: $meal, image: $image)\n    }\n  }\n}':
         types.CreateOneCookMealDocument,
+    'query FindCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findOne(mealId: $mealId) {\n        mealId\n        title\n        description\n        imageUrl\n        type\n        createdAt\n      }\n    }\n  }\n}':
+        types.FindCookMealDocument,
     'query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}':
         types.FindCookMealsDocument,
     'mutation CreateOneCookMenu($menu: CreateOneMenuRequest!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: createOne(menu: $menu)\n    }\n  }\n}':
         types.CreateOneCookMenuDocument,
     'mutation DeleteOneCookMenu($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: deleteOne(menuId: $menuId)\n    }\n  }\n}':
         types.DeleteOneCookMenuDocument,
+    'query FindCookMenu($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      findOne(menuId: $menuId) {\n        menuId\n        isVisible\n        title\n        description\n        basePrice\n        basePriceCustomers\n        pricePerAdult\n        pricePerChild\n        currencyCode\n        greetingFromKitchen\n        preparationTime\n        kitchen {\n          kitchenId\n          title\n        }\n        categories {\n          categoryId\n          title\n        }\n        createdAt\n      }\n    }\n  }\n}':
+        types.FindCookMenuDocument,
     'query FindCookMenus($cookId: String!) {\n  users {\n    me {\n      firstName\n      profilePictureUrl\n    }\n  }\n  cooks {\n    menus(cookId: $cookId) {\n      findMany {\n        menuId\n        title\n        description\n        basePrice\n        basePriceCustomers\n        createdAt\n        currencyCode\n        preparationTime\n        pricePerAdult\n        pricePerChild\n        isVisible\n        categories {\n          categoryId\n          title\n        }\n        kitchen {\n          kitchenId\n          title\n        }\n      }\n    }\n  }\n}':
         types.FindCookMenusDocument,
     'mutation UpdateCookBiography($cookId: String!, $biography: String!) {\n  cooks {\n    success: updateBiography(cookId: $cookId, biography: $biography)\n  }\n}':
@@ -238,6 +242,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'query FindCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findOne(mealId: $mealId) {\n        mealId\n        title\n        description\n        imageUrl\n        type\n        createdAt\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findOne(mealId: $mealId) {\n        mealId\n        title\n        description\n        imageUrl\n        type\n        createdAt\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}',
 ): (typeof documents)['query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}'];
 /**
@@ -252,6 +262,12 @@ export function gql(
 export function gql(
     source: 'mutation DeleteOneCookMenu($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: deleteOne(menuId: $menuId)\n    }\n  }\n}',
 ): (typeof documents)['mutation DeleteOneCookMenu($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: deleteOne(menuId: $menuId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindCookMenu($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      findOne(menuId: $menuId) {\n        menuId\n        isVisible\n        title\n        description\n        basePrice\n        basePriceCustomers\n        pricePerAdult\n        pricePerChild\n        currencyCode\n        greetingFromKitchen\n        preparationTime\n        kitchen {\n          kitchenId\n          title\n        }\n        categories {\n          categoryId\n          title\n        }\n        createdAt\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindCookMenu($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      findOne(menuId: $menuId) {\n        menuId\n        isVisible\n        title\n        description\n        basePrice\n        basePriceCustomers\n        pricePerAdult\n        pricePerChild\n        currencyCode\n        greetingFromKitchen\n        preparationTime\n        kitchen {\n          kitchenId\n          title\n        }\n        categories {\n          categoryId\n          title\n        }\n        createdAt\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
