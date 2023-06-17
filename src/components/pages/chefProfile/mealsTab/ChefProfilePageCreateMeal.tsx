@@ -4,11 +4,9 @@ import { useState, type ReactElement } from 'react';
 import { CreateOneCookMealDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
 import PEButton from '../../../standard/buttons/PEButton';
-import PEImagePicker from '../../../standard/filePicker/PEImagePicker';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
-import PEImageClipper from '../../../standard/imageClipper/PEImageClipper';
-import PEModalPopUp from '../../../standard/modal/PEModalPopUp';
+import PEImagePicker from '../../../standard/imagePicker/PEImagePicker';
 import PETabItem from '../../../standard/tabItem/PETabItem';
 import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextField';
 import PETextField from '../../../standard/textFields/PETextField';
@@ -27,18 +25,6 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
     const [type, setType] = useState<MealType>('MAIN_COURSE');
     const [image, setImage] = useState<File | undefined>(undefined);
 
-    const [imageFile, setImageFile] = useState('');
-    const [editImageFile, setEditImageFile] = useState('');
-
-    function handleOnDownloadImage(imageContent: string): void {
-        setEditImageFile(imageContent);
-    }
-
-    function handleOnCropDownloadImage(imageContent: string): void {
-        setImageFile(imageContent);
-        setEditImageFile('');
-    }
-
     const disabled: boolean = title === '';
 
     const [createOneCookMeal, { data, loading }] = useMutation(CreateOneCookMealDocument, {
@@ -48,7 +34,6 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
                 title,
                 description,
                 type,
-                imageUrl: undefined,
             },
             image,
         },
@@ -87,17 +72,6 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
                 </HStack>
             </VStack>
 
-            <input
-                type="file"
-                required
-                onChange={({ target: { files } }): void => {
-                    if (!files) return;
-                    const [file] = files;
-                    if (!file) return;
-                    setImage(file);
-                }}
-            />
-
             <VStack className="w-full">
                 <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
                 <PETextField type={'text'} value={title} onChange={(value): void => setTitle(value)} />
@@ -109,21 +83,8 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
             </VStack>
 
             <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
-                <PEImagePicker onDownloaded={handleOnDownloadImage} initImageFile={imageFile ?? ''} />
-                <PEModalPopUp openMenu={!!editImageFile} handleOpenMenu={(): void => setEditImageFile('')}>
-                    <PEImageClipper
-                        onDownloadCropImage={handleOnCropDownloadImage}
-                        pathToImage={editImageFile}
-                        cropParams={{
-                            x: 0,
-                            y: 0,
-                            width: 200,
-                            height: 200,
-                            unit: 'px',
-                        }}
-                    />
-                </PEModalPopUp>
+                <p className="w-full mb-4 text-text-m-bold my-0">Image</p>
+                <PEImagePicker onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
             </VStack>
 
             {<PEButton onClick={(): void => void createOneCookMeal()} disabled={disabled} title="Add" className="w-full" />}

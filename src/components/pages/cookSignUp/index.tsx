@@ -17,9 +17,9 @@ import PEButton from '../../standard/buttons/PEButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
 import PECounter from '../../standard/counter/PECounter';
 import PEDropdown from '../../standard/dropdown/PEDropdown';
-import PEImagePicker from '../../standard/filePicker/PEImagePicker';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
+import PEImagePicker from '../../standard/imagePicker/PEImagePicker';
 import PESlider from '../../standard/slider/PESlider';
 import PEEmailTextField from '../../standard/textFields/PEEmailTextField';
 import PEPasswordTextField from '../../standard/textFields/PEPasswordTextField';
@@ -143,18 +143,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name-label')} />
                     </VStack>
 
-                    <input
-                        type="file"
-                        required
-                        onChange={({ target: { files } }): void => {
-                            if (!files) return;
-                            const [file] = files;
-                            if (!file) return;
-                            setProfilePicture(file);
-                        }}
-                    />
-
-                    <PEImagePicker onDownloaded={(file): void => console.log(file)} />
+                    <PEImagePicker onPick={setProfilePicture} onRemoveDefaultImage={(): void => setProfilePicture(undefined)} />
                 </HStack>
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
