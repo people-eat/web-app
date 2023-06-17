@@ -1,7 +1,5 @@
 export const orders = [
     {
-        onOrderDetailsClick: (): void => undefined,
-        onCustomersButtonClick: (): void => undefined,
         date: '111',
         menuName: '111',
         clientName: '111',
@@ -13,8 +11,6 @@ export const orders = [
         address: '111',
     },
     {
-        onOrderDetailsClick: (): void => undefined,
-        onCustomersButtonClick: (): void => undefined,
         date: '111',
         menuName: '111',
         clientName: '111',
@@ -26,8 +22,6 @@ export const orders = [
         address: '111',
     },
     {
-        onOrderDetailsClick: (): void => undefined,
-        onCustomersButtonClick: (): void => undefined,
         date: '111',
         menuName: '111',
         clientName: '111',

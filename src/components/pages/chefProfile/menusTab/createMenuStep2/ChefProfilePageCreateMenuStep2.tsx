@@ -156,7 +156,7 @@ export default function ChefProfilePageCreateMenusStep2({
                     {!selectedMeals.length && (
                         <div
                             onClick={(): void => setOpenPopUp(true)}
-                            className="flex items-center w-[380px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4"
+                            className="flex items-center w-[380px] h-[140px] border-orange border-[1px] border-solid border-disabled hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition justify-center rounded-4"
                         >
                             <VStack>
                                 <PEIcon icon={Icon.plusOrange} />

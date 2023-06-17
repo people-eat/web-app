@@ -35,127 +35,73 @@ export default function ChefProfilePageBookingTab({ cookId }: { cookId: string }
                 <>
                     {selectedTab === 0 && (
                         <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
-                            {orders.map(
-                                (
-                                    {
-                                        onOrderDetailsClick,
-                                        onCustomersButtonClick,
-                                        date,
-                                        menuName,
-                                        clientName,
-                                        clientImage,
-                                        event,
-                                        eventDate,
-                                        persons,
-                                        time,
-                                        address,
-                                    },
-                                    index,
-                                ) => (
-                                    <div key={index} className="w-[calc(50%-20px)]">
-                                        <PEBookingRequestCardOpen
-                                            onOrderDetailsClick={onOrderDetailsClick}
-                                            onCustomersButtonClick={onCustomersButtonClick}
-                                            date={date}
-                                            menuName={menuName}
-                                            clientName={clientName}
-                                            clientImage={clientImage}
-                                            event={event}
-                                            price={'340€'}
-                                            eventDate={eventDate}
-                                            persons={persons}
-                                            time={time}
-                                            address={address}
-                                            onAcceptClick={(): void => undefined}
-                                            onDeclineClick={(): void => undefined}
-                                        />
-                                    </div>
-                                ),
-                            )}
+                            {orders.map(({ date, menuName, clientName, clientImage, event, eventDate, persons, time, address }, index) => (
+                                <div key={index} className="w-[calc(50%-20px)]">
+                                    <PEBookingRequestCardOpen
+                                        onOrderDetailsClick={(): void => undefined}
+                                        date={date}
+                                        menuName={menuName}
+                                        clientName={clientName}
+                                        clientImage={clientImage}
+                                        event={event}
+                                        price={'340€'}
+                                        eventDate={eventDate}
+                                        persons={persons}
+                                        time={time}
+                                        address={address}
+                                        onAcceptClick={(): void => undefined}
+                                        onDeclineClick={(): void => undefined}
+                                    />
+                                </div>
+                            ))}
                         </HStack>
                     )}
 
                     {selectedTab === 1 && (
                         <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
-                            {orders.map(
-                                (
-                                    {
-                                        onOrderDetailsClick,
-                                        onCustomersButtonClick,
-                                        date,
-                                        menuName,
-                                        clientName,
-                                        clientImage,
-                                        event,
-                                        eventDate,
-                                        persons,
-                                        time,
-                                        address,
-                                    },
-                                    index,
-                                ) => (
-                                    <div key={index} className="w-[calc(50%-20px)]">
-                                        <PEBookingRequestCardInProcess
-                                            onOrderDetailsClick={onOrderDetailsClick}
-                                            onCustomersButtonClick={onCustomersButtonClick}
-                                            date={date}
-                                            menuName={menuName}
-                                            clientName={clientName}
-                                            clientImage={clientImage}
-                                            event={event}
-                                            price={'340€'}
-                                            eventDate={eventDate}
-                                            persons={persons}
-                                            time={time}
-                                            address={address}
-                                            onAcceptAsSender={(): void => undefined}
-                                        />
-                                    </div>
-                                ),
-                            )}
+                            {orders.map(({ date, menuName, clientName, clientImage, event, eventDate, persons, time, address }, index) => (
+                                <div key={index} className="w-[calc(50%-20px)]">
+                                    <PEBookingRequestCardInProcess
+                                        onOrderDetailsClick={(): void => undefined}
+                                        date={date}
+                                        menuName={menuName}
+                                        clientName={clientName}
+                                        clientImage={clientImage}
+                                        event={event}
+                                        price={'340€'}
+                                        eventDate={eventDate}
+                                        persons={persons}
+                                        time={time}
+                                        address={address}
+                                        onAcceptAsSender={(): void => undefined}
+                                    />
+                                </div>
+                            ))}
                         </HStack>
                     )}
 
                     {selectedTab === 2 && (
                         <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
-                            {orders.map(
-                                (
-                                    {
-                                        onOrderDetailsClick,
-                                        onCustomersButtonClick,
-                                        date,
-                                        menuName,
-                                        clientName,
-                                        clientImage,
-                                        event,
-                                        eventDate,
-                                        persons,
-                                        time,
-                                        address,
-                                    },
-                                    index,
-                                ) => (
-                                    <div key={index} className="w-[calc(50%-20px)]">
-                                        <PEBookingRequestCardClosed
-                                            onOrderDetailsClick={onOrderDetailsClick}
-                                            onCustomersButtonClick={onCustomersButtonClick}
-                                            date={date}
-                                            menuName={menuName}
-                                            clientName={clientName}
-                                            clientImage={clientImage}
-                                            event={event}
-                                            price={'340€'}
-                                            eventDate={eventDate}
-                                            persons={persons}
-                                            time={time}
-                                            address={address}
-                                            onDownloadDocumentsClick={(): void => undefined}
-                                            onSendInvoiceClick={(): void => undefined}
-                                            onShowReviewClick={(): void => undefined}
-                                        />
-                                    </div>
-                                ),
-                            )}
+                            {orders.map(({ date, menuName, clientName, clientImage, event, eventDate, persons, time, address }, index) => (
+                                <div key={index} className="w-[calc(50%-20px)]">
+                                    <PEBookingRequestCardClosed
+                                        onOrderDetailsClick={(): void => undefined}
+                                        date={date}
+                                        menuName={menuName}
+                                        clientName={clientName}
+                                        clientImage={clientImage}
+                                        event={event}
+                                        price={'340€'}
+                                        eventDate={eventDate}
+                                        persons={persons}
+                                        time={time}
+                                        address={address}
+                                        onDownloadDocumentsClick={(): void => undefined}
+                                        onSendInvoiceClick={(): void => undefined}
+                                        onShowReviewClick={(): void => undefined}
+                                    />
+                                </div>
+                            ))}
                         </HStack>
                     )}
                 </>
