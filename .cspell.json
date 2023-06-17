@@ -11,5 +11,5 @@
         "src/**/*.mock.ts",
         "next.config.mjs"
     ],
-    "words": ["codegen", "esnext", "animejs", "minifiable", "nextjs", "tailwindcss", "textsearch", "validatorjs"]
+    "words": ["codegen", "esnext", "animejs", "minifiable", "nextjs", "tailwindcss", "textsearch", "validatorjs", "successfuly"]
 }
