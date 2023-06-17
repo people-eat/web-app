@@ -24,21 +24,21 @@ interface ChefProfilePageCreateMenuProps {
 export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess }: ChefProfilePageCreateMenuProps): ReactElement {
     const [step, setStep] = useState(0);
 
-    const [title, _setTitle] = useState('');
+    const [title, setTitle] = useState('');
     const [description, _setDescription] = useState('');
 
     // in cents: 10000 -> 100.00 EUR
-    const [basePrice, _setBasePrice] = useState(10000);
-    const [basePriceCustomers, _setBasePriceCustomers] = useState(2);
-    const [pricePerAdult, _setPricePerAdult] = useState(5000);
-    const [pricePerChild, _setPricePerChild] = useState<undefined | number>(undefined);
-    const [currencyCode, _setCurrencyCode] = useState<CurrencyCode>('EUR');
+    const [basePrice, setBasePrice] = useState(10000);
+    const [basePriceCustomers, setBasePriceCustomers] = useState(2);
+    const [pricePerAdult, setPricePerAdult] = useState(5000);
+    const [pricePerChild, setPricePerChild] = useState<undefined | number>(undefined);
+    const [currencyCode] = useState<CurrencyCode>('EUR');
 
-    const [greetingFromKitchen, _setGreetingFromKitchen] = useState(false);
-    const [isVisible, _setIsVisible] = useState(true);
+    const [greetingFromKitchen, setGreetingFromKitchen] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
     const [preparationTime, _setPreparationTime] = useState(60);
 
-    const [selectedKitchen, _setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
+    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
     const [selectedCategories, _setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
 
     const [selectedMeals, setSelectedMeals] = useState<MealEntity[]>([]);
@@ -72,11 +72,38 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                         </Step>
                     </Stepper>
                 </VStack>
-                {step === 0 && <ChefProfilePageCreateMenusStep1 />}
+                {step === 0 && (
+                    <ChefProfilePageCreateMenusStep1
+                        title={title}
+                        setTitle={setTitle}
+                        selectedKitchen={selectedKitchen}
+                        setSelectedKitchen={setSelectedKitchen}
+                    />
+                )}
 
-                {step === 1 && <ChefProfilePageCreateMenusStep2 cookId={cookId} onSelectedMeals={handleOnSelectedMeals} />}
+                {step === 1 && (
+                    <ChefProfilePageCreateMenusStep2
+                        cookId={cookId}
+                        onSelectedMeals={handleOnSelectedMeals}
+                        greetingFromKitchen={greetingFromKitchen}
+                        setGreetingFromKitchen={setGreetingFromKitchen}
+                    />
+                )}
 
-                {step === 2 && <ChefProfilePageCreateMenusStep3 />}
+                {step === 2 && (
+                    <ChefProfilePageCreateMenusStep3
+                        basePrice={basePrice}
+                        setBasePrice={setBasePrice}
+                        basePriceCustomers={basePriceCustomers}
+                        setBasePriceCustomers={setBasePriceCustomers}
+                        pricePerAdult={pricePerAdult}
+                        setPricePerAdult={setPricePerAdult}
+                        pricePerChild={pricePerChild}
+                        setPricePerChild={setPricePerChild}
+                        isVisible={isVisible}
+                        setIsVisible={setIsVisible}
+                    />
+                )}
             </VStack>
 
             {step === 1 && (
