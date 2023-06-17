@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import { type CookRank } from '../../../../../data-source/generated/graphql';
 import PEButton from '../../../../standard/buttons/PEButton';
-import PEImagePicker from '../../../../standard/filePicker/PEImagePicker';
 import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
 import PEIconButton from '../../../../standard/iconButton/PEIconButton';
+import PEImagePicker from '../../../../standard/imagePicker/PEImagePicker';
 import PEModalPopUp from '../../../../standard/modal/PEModalPopUp';
 import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
@@ -116,7 +116,7 @@ export default function ChefProfileSection1({ chefProfile }: ChefProfileSection1
                     <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
                         <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
                         <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
-                        <PEImagePicker onDownloaded={handleOnDownloadImage} initImageFile={imageFile ?? ''} />
+                        <PEImagePicker onPick={handleOnDownloadImage} defaultImage={imageFile ?? ''} />
                     </VStack>
                     <PEButton className="max-w-[250px] mt-10" onClick={handleSaveChefName} title="Save" />
                 </VStack>
