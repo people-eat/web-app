@@ -19,6 +19,8 @@ import FilteredMealsListWithMealFilter from '../filteredMenuList/FilteredMealsLi
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;
     onSelectedMeals: (selectedMeals: MealEntity[]) => void;
+    greetingFromKitchen: boolean;
+    setGreetingFromKitchen: (changedGreetingFromKitchen: boolean) => void;
 }
 
 export const MEALS_CARD_COUNT = 6;
@@ -27,7 +29,13 @@ function selectMealByTypeAndSelected(meals: MealEntity[], mealType: MealType | '
     return meals.filter(({ type, mealId }) => type === mealType && selectedMeals.includes(mealId));
 }
 
-export default function ChefProfilePageCreateMenusStep2({ cookId, onSelectedMeals }: ChefProfilePageCreateMenusStep2Props): ReactElement {
+// eslint-disable-next-line max-statements
+export default function ChefProfilePageCreateMenusStep2({
+    cookId,
+    onSelectedMeals,
+    greetingFromKitchen,
+    setGreetingFromKitchen,
+}: ChefProfilePageCreateMenusStep2Props): ReactElement {
     const { t } = useTranslation('chef-profile');
 
     const [openPopUp, setOpenPopUp] = useState(false);
@@ -36,7 +44,6 @@ export default function ChefProfilePageCreateMenusStep2({ cookId, onSelectedMeal
     const [selectedMeals, setSelectedMeals] = useState<string[]>([]);
     const [editSelectedMeals, setEditSelectedMeals] = useState<string[]>([]);
     const [greetingFromKitchenDescription, setGreetingFromKitchenDescription] = useState('');
-    const [greetingFromKitchen, setGreetingFromKitchen] = useState(false);
 
     const { data } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
