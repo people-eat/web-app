@@ -13,7 +13,7 @@ import PECheckbox from '../../../../standard/checkbox/PECheckbox';
 import PENumberTextField from '../../../../standard/textFields/PENumberTextField';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
-import { MenuEntity } from '../ChefProfilePageMenusTab';
+import { type MenuEntity } from '../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageEditMenusStep3Props {
     menu: MenuEntity | null | undefined;

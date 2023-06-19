@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useEffect, useState, type MouseEvent as MouseEventGen, type ReactElement } from 'react';
-import { CurrencyCode, FindCookMenusDocument, type MealType } from '../../../../data-source/generated/graphql';
+import { FindCookMenusDocument, type CurrencyCode, type MealType } from '../../../../data-source/generated/graphql';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -39,7 +39,7 @@ export interface MenuEntity {
     preparationTime: number;
     createdAt: Date;
     kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
-    categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
+    categories: { __typename?: 'Category'; categoryId: string; title: string }[];
 }
 
 export interface ChefProfilePageMenusTabProps {
