@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     FindCookMealDocument,
@@ -26,9 +27,9 @@ export interface ChefProfilePageCreateMealProps {
 }
 
 export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: ChefProfilePageCreateMealProps): ReactElement {
-    const { data } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
+    const { data, loading } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
 
-    const [meal] = useState(data?.cooks.meals.findOne);
+    const [meal, setMeal] = useState(data?.cooks.meals.findOne);
 
     const [title, setTitle] = useState(meal?.title ?? '');
     const [description, setDescription] = useState(meal?.description ?? '');
@@ -37,11 +38,13 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: Ch
     const [imageUrl, setImageUrl] = useState(meal?.imageUrl ?? '');
 
     useEffect(() => {
+        setMeal(data?.cooks.meals.findOne);
+
         setTitle(meal?.title ?? '');
         setDescription(meal?.description ?? '');
         setType(meal?.type ?? 'MAIN_COURSE');
         setImageUrl(meal?.imageUrl ?? '');
-    }, [meal, data]);
+    }, [meal, loading]);
 
     const [updateMealDescription] = useMutation(UpdateCookMealDescriptionDocument, {
         variables: { cookId, mealId, description },
@@ -72,48 +75,54 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: Ch
             className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
-            <div className="absolute top-8 right-8">
-                <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
-            </div>
+            {data && (
+                <>
+                    <div className="absolute top-8 right-8">
+                        <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
+                    </div>
 
-            <p className="w-full text-heading-xl my-0 mb-6">Adding a new dish</p>
+                    <p className="w-full text-heading-xl my-0 mb-6">Change the dish info</p>
 
-            <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>
-                <HStack
-                    gap={8}
-                    className="w-full max-w-screen-xl overflow-x-scroll"
-                    style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
-                >
-                    {mealTypes.map((mealType, index) => (
-                        <PETabItem
-                            key={index}
-                            title={mealType}
-                            onClick={(): void => {
-                                setType(mealType);
-                            }}
-                            active={mealType === type}
-                        />
-                    ))}
-                </HStack>
-            </VStack>
+                    <VStack className="w-full">
+                        <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>
+                        <HStack
+                            gap={8}
+                            className="w-full max-w-screen-xl overflow-x-scroll"
+                            style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
+                        >
+                            {mealTypes.map((mealType, index) => (
+                                <PETabItem
+                                    key={index}
+                                    title={mealType}
+                                    onClick={(): void => {
+                                        setType(mealType);
+                                    }}
+                                    active={mealType === type}
+                                />
+                            ))}
+                        </HStack>
+                    </VStack>
 
-            <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
-                <PETextField type={'text'} value={title} onChange={(value): void => setTitle(value)} />
-            </VStack>
+                    <VStack className="w-full">
+                        <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
+                        <PETextField type={'text'} value={title} onChange={(value): void => setTitle(value)} />
+                    </VStack>
 
-            <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
-                <PEMultiLineTextField value={description} onChange={(value): void => setDescription(value)} />
-            </VStack>
+                    <VStack className="w-full">
+                        <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
+                        <PEMultiLineTextField value={description} onChange={(value): void => setDescription(value)} />
+                    </VStack>
 
-            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                <p className="w-full mb-4 text-text-m-bold my-0">Image</p>
-                <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
-            </VStack>
+                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                        <p className="w-full mb-4 text-text-m-bold my-0">Image</p>
+                        <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
+                    </VStack>
 
-            <PEButton title="Save" onClick={handleSaveUpdates} />
+                    <PEButton title="Save" onClick={handleSaveUpdates} />
+                </>
+            )}
+
+            {loading && <CircularProgress />}
         </VStack>
     );
 }
