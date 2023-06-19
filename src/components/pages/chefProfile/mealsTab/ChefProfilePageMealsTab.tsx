@@ -1,9 +1,10 @@
 import { useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
-import { useEffect, useState, type MouseEvent as MouseEventGen, type ReactElement } from 'react';
+import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
 import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
+import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -36,31 +37,16 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
         setOpenDeleteMealDialog(false);
     }
 
-    function handleRightClick(event: MouseEventGen<HTMLDivElement>, mealId: string): void {
+    function handleRightClick(event: MouseEvent<HTMLDivElement>, mealId: string): void {
         if (event.button === 2) setEditMeal({ isOpen: true, x: event.clientX, y: event.clientY, mealId });
         else setEditMeal({ isOpen: false, x: 0, y: 0, mealId: '' });
-    }
-
-    function checkParentNodeHasClass(event: MouseEvent, targetClass: string): boolean {
-        let element = event.target as HTMLElement;
-
-        try {
-            while (element && element.classList) {
-                if (element.classList && element.classList?.contains(targetClass)) return true;
-                element = element.parentNode as HTMLElement;
-            }
-        } catch (e) {
-            console.error(e);
-        }
-
-        return false;
     }
 
     useEffect(() => {
         // remove default right click for that page, to use custom function
         document.addEventListener('contextmenu', (event) => event.preventDefault());
         document.addEventListener('click', (event) => {
-            if (!checkParentNodeHasClass(event, 'editMeal')) setEditMeal({ isOpen: false, x: 0, y: 0, mealId: '' });
+            if (!isParentNodeElementHasClass(event, 'editMeal')) setEditMeal({ isOpen: false, x: 0, y: 0, mealId: '' });
         });
     }, []);
 

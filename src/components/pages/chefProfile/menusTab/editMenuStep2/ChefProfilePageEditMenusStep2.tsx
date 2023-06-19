@@ -15,7 +15,7 @@ import VStack from '../../../../utility/vStack/VStack';
 import { type MealEntity, type MenuEntity } from '../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageEditMenusStep2Props {
-    menu: MenuEntity | null | undefined;
+    menu: MenuEntity;
     cookId: string;
     menuId?: string;
     onSelectedMeals?: (selectedMeals: MealEntity[]) => void;
@@ -37,7 +37,7 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu }: ChefProf
     const [selectedMeals] = useState<string[]>([]);
     // const [editSelectedMeals, setEditSelectedMeals] = useState<string[]>([]);
     // const [greetingFromKitchenDescription, setGreetingFromKitchenDescription] = useState('');
-    const [greetingFromKitchen, setGreetingFromKitchen] = useState(menu?.greetingFromKitchen ?? undefined);
+    const [greetingFromKitchen, setGreetingFromKitchen] = useState(menu.greetingFromKitchen ?? undefined);
 
     const [courses, setCourses] = useState<{ title: string; mealType: MealType }[]>([]);
     const [showCreateCourseDialog, setShowCreateCourseDialog] = useState(false);
@@ -47,11 +47,11 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu }: ChefProf
     // const { data } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
     const [updateGreetingFromKitchen] = useMutation(UpdateCookMenuGreetingFromKitchenDocument, {
-        variables: { cookId, menuId: menu?.menuId ?? '' },
+        variables: { cookId, menuId: menu.menuId },
     });
 
     useEffect(() => {
-        setGreetingFromKitchen(menu?.greetingFromKitchen ?? undefined);
+        setGreetingFromKitchen(menu.greetingFromKitchen ?? undefined);
         setCourses([]);
         setShowCreateCourseDialog(false);
         setNewCourseTitle('');
@@ -93,7 +93,11 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu }: ChefProf
     // }
 
     function handleSaveUpdates(): void {
-        void updateGreetingFromKitchen();
+        try {
+            void updateGreetingFromKitchen();
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     return (

@@ -22,29 +22,33 @@ const KITCHENS: { kitchenId: string; title: string }[] = [
 ];
 
 export interface ChefProfilePageEditMenusStep1Props {
-    menu: MenuEntity | null | undefined;
+    menu: MenuEntity;
     cookId: string;
 }
 
 export default function ChefProfilePageEditMenusStep1({ cookId, menu }: ChefProfilePageEditMenusStep1Props): ReactElement {
-    const [title, setTitle] = useState(menu?.title ?? '');
-    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(menu?.kitchen ?? undefined);
-    const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>(menu?.categories ?? []);
+    const [title, setTitle] = useState(menu.title ?? '');
+    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(menu.kitchen ?? undefined);
+    const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>(menu.categories ?? []);
 
-    const [updateTitle] = useMutation(UpdateCookMenuTitleDocument, { variables: { cookId, menuId: menu?.menuId ?? '', title } });
+    const [updateTitle] = useMutation(UpdateCookMenuTitleDocument, { variables: { cookId, menuId: menu.menuId, title } });
     const [updateKitchenId] = useMutation(UpdateCookMenuKitchenIdDocument, {
-        variables: { cookId, menuId: menu?.menuId ?? '', kitchenId: selectedKitchen?.kitchenId ?? '' },
+        variables: { cookId, menuId: menu.menuId, kitchenId: selectedKitchen?.kitchenId ?? undefined },
     });
 
     useEffect(() => {
-        setTitle(menu?.title ?? '');
-        setSelectedKitchen(menu?.kitchen ?? undefined);
-        setSelectedCategories(menu?.categories ?? []);
+        setTitle(menu.title ?? '');
+        setSelectedKitchen(menu.kitchen ?? undefined);
+        setSelectedCategories(menu.categories ?? []);
     }, [menu]);
 
     function handleSaveUpdates(): void {
-        void updateTitle();
-        void updateKitchenId();
+        try {
+            void updateTitle();
+            void updateKitchenId();
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     return (
