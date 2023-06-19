@@ -12,7 +12,7 @@ import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
 import Spacer from '../../../../utility/spacer/Spacer';
 import VStack from '../../../../utility/vStack/VStack';
-import { MenuEntity, type MealEntity } from '../ChefProfilePageMenusTab';
+import { type MealEntity, type MenuEntity } from '../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageEditMenusStep2Props {
     menu: MenuEntity | null | undefined;

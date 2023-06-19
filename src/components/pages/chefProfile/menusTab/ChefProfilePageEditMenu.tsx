@@ -38,8 +38,8 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: Ch
     // }
 
     useEffect((): void => {
-        void refetch().then(({ data }): void => {
-            setMenu(data?.cooks.menus.findOne);
+        void refetch().then(({ data: dataResolve }): void => {
+            setMenu(dataResolve?.cooks.menus.findOne);
         });
     }, [menuId]);
 
