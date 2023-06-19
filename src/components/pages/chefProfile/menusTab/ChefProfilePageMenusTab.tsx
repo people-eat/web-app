@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useEffect, useState, type MouseEvent as MouseEventGen, type ReactElement } from 'react';
-import { FindCookMenusDocument, type MealType } from '../../../../data-source/generated/graphql';
+import { CurrencyCode, FindCookMenusDocument, type MealType } from '../../../../data-source/generated/graphql';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -12,6 +12,7 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import ChefProfilePageCreateMenu from './ChefProfilePageCreateMenu';
+import ChefProfilePageEditMenu from './ChefProfilePageEditMenu';
 
 export interface MealEntity {
     mealId: string;
@@ -23,15 +24,40 @@ export interface MealEntity {
     createdAt: Date;
 }
 
+export interface MenuEntity {
+    menuId: string;
+    isVisible: boolean;
+    title: string;
+    description: string;
+    basePrice: number;
+    basePriceCustomers: number;
+    pricePerAdult: number;
+    pricePerChild?: number | null;
+    currencyCode: CurrencyCode;
+    greetingFromKitchen: boolean;
+    preparationTime: number;
+    createdAt: Date;
+    kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
+    categories: { __typename?: 'Category'; categoryId: string; title: string }[];
+}
+
 export interface ChefProfilePageMenusTabProps {
     cookId: string;
 }
 
 export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenusTabProps): ReactElement {
-    const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE'>('MENUS');
+    const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
-    const [editMenu, setEditMenu] = useState({ isOpen: false, x: 0, y: 0, menuId: '' });
+    const [selectedMenu, setSelectedMenu] = useState({
+        menuId: '',
+    });
+    const [editMenu, setEditMenu] = useState({
+        isOpen: false,
+        x: 0,
+        y: 0,
+        menuId: '',
+    });
 
     const { data, loading, refetch } = useQuery(FindCookMenusDocument, { variables: { cookId } });
 
@@ -49,6 +75,10 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
         setSelectedTab('MENUS');
         setOpenCreateNewMenuSuccess(true);
         void refetch();
+    }
+
+    function handleSaveMenuByMenuId(menuId: string): void {
+        setSelectedMenu({ menuId });
     }
 
     function handleRightClick(event: MouseEventGen<HTMLDivElement>, menuId: string): void {
@@ -85,6 +115,15 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                 <ChefProfilePageCreateMenu
                     cookId={cookId}
                     onSuccess={handleCreateNewMenuSuccess}
+                    onCancel={(): void => setSelectedTab('MENUS')}
+                />
+            )}
+
+            {selectedTab === 'EDIT' && (
+                <ChefProfilePageEditMenu
+                    menuId={selectedMenu.menuId}
+                    cookId={cookId}
+                    onSuccess={(): void => handleSaveMenuByMenuId(selectedMenu.menuId)}
                     onCancel={(): void => setSelectedTab('MENUS')}
                 />
             )}
@@ -221,7 +260,11 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                 >
                     <Button
                         style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMenuDialog(true)}
+                        onClick={(): void => {
+                            setSelectedTab('EDIT');
+                            setSelectedMenu({ menuId: editMenu.menuId });
+                            setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
+                        }}
                     >
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>
                     </Button>

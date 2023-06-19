@@ -20,6 +20,7 @@ export interface PEDropdownProps<T> {
     options: T[];
     getOptionLabel: (option: T) => string;
     onSelectedOptionsChange?: (changedSelectedOptions: T[]) => void;
+    selectedOptions?: T[];
 }
 
 export default function PEDropdown<T>({
@@ -29,9 +30,24 @@ export default function PEDropdown<T>({
     getOptionLabel,
     onSelectedOptionsChange,
     singleSelector,
+    selectedOptions,
 }: PEDropdownProps<T>): ReactElement {
     const [isOpen, setOpen] = useState(Boolean(defaultExpanded));
-    const [selectedOptionIndices, setSelectedOptionIndices] = useState(new Set<number>());
+    const [selectedOptionIndices, setSelectedOptionIndices] = useState(handleGetSelectedOptionsIndices(selectedOptions));
+
+    function handleGetSelectedOptionsIndices(selectedOptionsArray?: T[]): Set<number> {
+        if (selectedOptionsArray && Array.isArray(selectedOptionsArray)) {
+            const selectedOptionIndicesSet = new Set<number>();
+
+            options.map((option, index): void => {
+                if (selectedOptionsArray.includes(option)) selectedOptionIndicesSet.add(index);
+            });
+
+            return selectedOptionIndicesSet;
+        }
+
+        return new Set<number>();
+    }
 
     function handleOptionSelect(index: number): void {
         const isSelected: boolean = selectedOptionIndices.has(index);
@@ -41,8 +57,8 @@ export default function PEDropdown<T>({
             setSelectedOptionIndices(new Set(selectedOptionIndices));
         } else setSelectedOptionIndices(new Set(selectedOptionIndices.add(index)));
 
-        const selectedOptions: T[] = options.filter((_option, filterIndex): boolean => selectedOptionIndices.has(filterIndex));
-        onSelectedOptionsChange?.(selectedOptions);
+        const selectedOptionsArray: T[] = options.filter((_option, filterIndex): boolean => selectedOptionIndices.has(filterIndex));
+        onSelectedOptionsChange?.(selectedOptionsArray);
     }
 
     return (
