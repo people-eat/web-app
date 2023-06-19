@@ -25,6 +25,7 @@ export interface MealEntity {
 }
 
 export interface MenuEntity {
+    __typename?: 'Menu';
     menuId: string;
     isVisible: boolean;
     title: string;
@@ -34,11 +35,11 @@ export interface MenuEntity {
     pricePerAdult: number;
     pricePerChild?: number | null;
     currencyCode: CurrencyCode;
-    greetingFromKitchen: boolean;
+    greetingFromKitchen?: string | null;
     preparationTime: number;
     createdAt: Date;
     kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
-    categories: { __typename?: 'Category'; categoryId: string; title: string }[];
+    categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
 }
 
 export interface ChefProfilePageMenusTabProps {
