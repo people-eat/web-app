@@ -1,0 +1,7 @@
+mutation UpdateCookMealType($mealId: String!, $type: MealType!, $cookId: String!) {
+    cooks {
+        meals(cookId: $cookId) {
+            success: updateType(mealId: $mealId, type: $type)
+        }
+    }
+}

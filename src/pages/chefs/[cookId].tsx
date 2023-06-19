@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
 import PublicCookPage, { type PublicCookPageProps } from '../../components/pages/publicCook';
-import { FindOnePublicCookDocument } from '../../data-source/generated/graphql';
+import { GetPublicCookPageDataDocument } from '../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { cookId } = context.query;
@@ -15,14 +15,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         headers: { cookie: context.req.headers.cookie as string },
         cache: new InMemoryCache(),
         ssrMode: true,
-    }).query({ query: FindOnePublicCookDocument, variables: { cookId } });
+    }).query({ query: GetPublicCookPageDataDocument, variables: { cookId } });
 
     const publicCook = data.publicCooks.findOne;
 
     return {
         props: {
-            signedInUser: null,
-            // data.users.signedInUser,
+            signedInUser: data.users.signedInUser,
             publicCook,
         },
     };

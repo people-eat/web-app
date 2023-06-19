@@ -17,6 +17,7 @@ import PEButton from '../../standard/buttons/PEButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
 import PECounter from '../../standard/counter/PECounter';
 import PEDropdown from '../../standard/dropdown/PEDropdown';
+import PESingleSelectDropdown from '../../standard/dropdown/PESingleSelectDropdown';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import PEImagePicker from '../../standard/imagePicker/PEImagePicker';
@@ -148,17 +149,14 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                     <p>{t('rank-label')}</p>
-                    <PEDropdown
+                    <PESingleSelectDropdown
                         title={translateCommon(rank)}
-                        defaultExpanded
                         options={cookRanks}
                         getOptionLabel={(rankOption): string => translateCommon(rankOption)}
-                        onSelectedOptionsChange={(changedSelectedRanks): void => {
-                            if (!changedSelectedRanks.length) return;
-                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            setRank(changedSelectedRanks[0]!);
-                        }}
-                        singleSelector
+                        optionsEqual={(rankA, rankB): boolean => rankA === rankB}
+                        selectedOption={rank}
+                        setSelectedOption={(changedRank): void => changedRank && setRank(changedRank)}
+                        defaultExpanded
                     />
                 </VStack>
 
@@ -168,9 +166,11 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         title={t('languages-label')}
                         defaultExpanded
                         options={languages}
-                        getOptionLabel={({ title }): string => title}
-                        onSelectedOptionsChange={setSelectedLanguages}
-                        singleSelector
+                        getOptionLabel={(category): string => category.title}
+                        optionsEqual={(languageA, languageB): boolean => languageA.languageId === languageB.languageId}
+                        setSelectedOptions={setSelectedLanguages}
+                        showSelectedCount
+                        selectedOptions={selectedLanguages}
                     />
                 </VStack>
 

@@ -23,6 +23,7 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import CreateAddressDialog from '../../profile/personalTab/CreateAddressDialog';
+import UpdateAddressDialog from '../../profile/personalTab/UpdateAddressDialog';
 import ChefProfileSection1 from './section1/ChefProfileSection1';
 import ChefProfileSection2 from './section2/ChefProfileSection2';
 import ChefProfileSection3 from './section3/ChefProfileSection3';
@@ -42,6 +43,20 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
     const [maximumTravelDistance, setMaximumTravelDistance] = useState<number | undefined>(undefined);
 
     const [addAddressDialogOpen, setAddAddressDialogOpen] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState<
+        | {
+              addressId: string;
+              title: string;
+              country: string;
+              city: string;
+              postCode: string;
+              street: string;
+              houseNumber: string;
+              createdAt: Date;
+              location: { latitude: number; longitude: number };
+          }
+        | undefined
+    >(undefined);
 
     const [updateTravelExpenses] = useMutation(UpdateCookTravelExpensesDocument, {
         variables: { cookId, travelExpenses: Number(travelExpenses) * 100 },
@@ -213,31 +228,50 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                             />
                         </HStack>
 
-                        <CreateAddressDialog
-                            open={addAddressDialogOpen}
-                            userId={chefProfile.cookId}
-                            onSuccess={(): void => {
-                                setAddAddressDialogOpen(false);
-                                void refetch();
-                            }}
-                            onCancel={(): void => setAddAddressDialogOpen(false)}
-                        />
+                        {addAddressDialogOpen && (
+                            <CreateAddressDialog
+                                open={addAddressDialogOpen}
+                                userId={chefProfile.cookId}
+                                onSuccess={(): void => {
+                                    setAddAddressDialogOpen(false);
+                                    void refetch();
+                                }}
+                                onCancel={(): void => setAddAddressDialogOpen(false)}
+                            />
+                        )}
+
+                        {selectedAddress && (
+                            <UpdateAddressDialog
+                                open={Boolean(selectedAddress)}
+                                userId={chefProfile.cookId}
+                                onSuccess={(): void => {
+                                    setSelectedAddress(undefined);
+                                    void refetch();
+                                }}
+                                onCancel={(): void => setSelectedAddress(undefined)}
+                                address={selectedAddress}
+                            />
+                        )}
 
                         <VStack className="w-full gap-3">
-                            {chefProfile.user.addresses.map(({ title, city, postCode, street, houseNumber, location }, index) => (
+                            {chefProfile.user.addresses.map((address, index) => (
                                 <PEAddressCard
                                     key={index}
-                                    address={`${postCode} ${city}, ${street} ${houseNumber}`}
-                                    title={title}
+                                    address={`${address.postCode} ${address.city}, ${address.street} ${address.houseNumber}`}
+                                    title={address.title}
+                                    onHouseClick={(): void => setSelectedAddress(address)}
                                     pin={{
                                         isPinned:
-                                            chefProfile.location.latitude === location.latitude &&
-                                            chefProfile.location.longitude === location.longitude,
+                                            chefProfile.location.latitude === address.location.latitude &&
+                                            chefProfile.location.longitude === address.location.longitude,
                                         onPinClick: (): void =>
                                             void updateCookLocation({
                                                 variables: {
                                                     cookId,
-                                                    location: { latitude: location.latitude, longitude: location.longitude },
+                                                    location: {
+                                                        latitude: address.location.latitude,
+                                                        longitude: address.location.longitude,
+                                                    },
                                                 },
                                             }).then((res) => res.data?.cooks.success && void refetch()),
                                     }}

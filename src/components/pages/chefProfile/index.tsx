@@ -40,7 +40,7 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
                     {MENU_TABS.map((menu, index) => (
                         <PETabItem
                             key={index}
-                            title={menu}
+                            title={menu.toLowerCase()}
                             onClick={(): void => {
                                 setSelectedTab(index);
                                 router.query.tab = String(index);

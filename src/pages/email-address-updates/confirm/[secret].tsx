@@ -35,7 +35,7 @@ const Index: NextPage = () => {
                 {isMobile ? <PEHeaderMobile /> : <PEHeaderDesktop />}
 
                 <div style={{ margin: '64px' }}>
-                    {!data && <PEButton title="Confirm Email Address" onClick={(): any => confirmOneEmailAddressUpdate()} />}
+                    {!data && <PEButton title="Confirm Email Address" onClick={(): void => void confirmOneEmailAddressUpdate()} />}
 
                     {data?.users.emailAddressUpdate.success && (
                         <VStack>

@@ -1893,6 +1893,15 @@ export type CreateOneUserByEmailAddressMutationVariables = Exact<{
 
 export type CreateOneUserByEmailAddressMutation = { __typename?: 'Mutation'; users: { __typename?: 'UserMutation'; success: boolean } };
 
+export type ExpireCurrentSessionMutationVariables = Exact<{
+    userId: Scalars['String'];
+}>;
+
+export type ExpireCurrentSessionMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; sessions: { __typename?: 'UserSessionMutation'; success: boolean } };
+};
+
 export type FindAllergiesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindAllergiesQuery = {
@@ -2059,6 +2068,31 @@ export type GetIndividualRequestPageDataQuery = {
     allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
 };
 
+export type GetPublicCookPageDataQueryVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type GetPublicCookPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
+    publicCooks: {
+        __typename?: 'PublicCookQuery';
+        findOne?: {
+            __typename?: 'PublicCook';
+            cookId: string;
+            rank: CookRank;
+            biography: string;
+            travelExpenses: number;
+            createdAt: Date;
+            user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
+            location: { __typename?: 'Location'; latitude: number; longitude: number };
+        } | null;
+    };
+};
+
 export type GetAdministrationUsersPageDataQueryVariables = Exact<{
     request: FindManyRequest;
 }>;
@@ -2154,6 +2188,16 @@ export type CreateOneCookMealMutation = {
     cooks: { __typename?: 'CookMutation'; meals: { __typename?: 'CookMealMutation'; success: boolean } };
 };
 
+export type DeleteOneCookMealMutationVariables = Exact<{
+    mealId: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type DeleteOneCookMealMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; meals: { __typename?: 'CookMealMutation'; success: boolean } };
+};
+
 export type FindCookMealQueryVariables = Exact<{
     mealId: Scalars['String'];
     cookId: Scalars['String'];
@@ -2200,6 +2244,50 @@ export type FindCookMealsQuery = {
             }>;
         };
     };
+};
+
+export type UpdateCookMealDescriptionMutationVariables = Exact<{
+    mealId: Scalars['String'];
+    description: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMealDescriptionMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; meals: { __typename?: 'CookMealMutation'; success: boolean } };
+};
+
+export type UpdateCookMealImageMutationVariables = Exact<{
+    mealId: Scalars['String'];
+    cookId: Scalars['String'];
+    image?: InputMaybe<Scalars['Upload']>;
+}>;
+
+export type UpdateCookMealImageMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; meals: { __typename?: 'CookMealMutation'; success: boolean } };
+};
+
+export type UpdateCookMealTitleMutationVariables = Exact<{
+    mealId: Scalars['String'];
+    title: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMealTitleMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; meals: { __typename?: 'CookMealMutation'; success: boolean } };
+};
+
+export type UpdateCookMealTypeMutationVariables = Exact<{
+    mealId: Scalars['String'];
+    type: MealType;
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMealTypeMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; meals: { __typename?: 'CookMealMutation'; success: boolean } };
 };
 
 export type CreateOneCookMenuMutationVariables = Exact<{
@@ -2283,6 +2371,124 @@ export type FindCookMenusQuery = {
             }>;
         };
     };
+};
+
+export type UpdateCookMenuBasePriceMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    basePrice: Scalars['UnsignedInt'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuBasePriceMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuBasePriceCustomersMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    basePriceCustomers: Scalars['UnsignedInt'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuBasePriceCustomersMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuCurrencyCodeMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    currencyCode: CurrencyCode;
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuCurrencyCodeMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuDescriptionMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    description: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuDescriptionMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuGreetingFromKitchenMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuGreetingFromKitchenMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuIsVisibleMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    isVisible: Scalars['Boolean'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuIsVisibleMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuKitchenIdMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuKitchenIdMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuPreparationTimeMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    preparationTime: Scalars['UnsignedInt'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuPreparationTimeMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuPricePerAdultMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    pricePerAdult: Scalars['UnsignedInt'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuPricePerAdultMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuPricePerChildMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuPricePerChildMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type UpdateCookMenuTitleMutationVariables = Exact<{
+    menuId: Scalars['String'];
+    title: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookMenuTitleMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
 };
 
 export type UpdateCookBiographyMutationVariables = Exact<{
@@ -2636,6 +2842,58 @@ export const CreateOneUserByEmailAddressDocument = {
         },
     ],
 } as unknown as DocumentNode<CreateOneUserByEmailAddressMutation, CreateOneUserByEmailAddressMutationVariables>;
+export const ExpireCurrentSessionDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'ExpireCurrentSession' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sessions' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'expireCurrent' },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ExpireCurrentSessionMutation, ExpireCurrentSessionMutationVariables>;
 export const FindAllergiesDocument = {
     kind: 'Document',
     definitions: [
@@ -3125,6 +3383,7 @@ export const FindManyPublicCooksDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
                 ],
             },
         },
@@ -3359,6 +3618,114 @@ export const GetIndividualRequestPageDataDocument = {
         },
     ],
 } as unknown as DocumentNode<GetIndividualRequestPageDataQuery, GetIndividualRequestPageDataQueryVariables>;
+export const GetPublicCookPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetPublicCookPageData' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publicCooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findOne' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'user' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'biography' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'location' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetPublicCookPageDataQuery, GetPublicCookPageDataQueryVariables>;
 export const GetAdministrationUsersPageDataDocument = {
     kind: 'Document',
     definitions: [
@@ -3441,6 +3808,7 @@ export const GetAdministrationUsersPageDataDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
                 ],
             },
         },
@@ -3754,6 +4122,70 @@ export const CreateOneCookMealDocument = {
         },
     ],
 } as unknown as DocumentNode<CreateOneCookMealMutation, CreateOneCookMealMutationVariables>;
+export const DeleteOneCookMealDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'DeleteOneCookMeal' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'meals' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'deleteOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'mealId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DeleteOneCookMealMutation, DeleteOneCookMealMutationVariables>;
 export const FindCookMealDocument = {
     kind: 'Document',
     definitions: [
@@ -3891,6 +4323,302 @@ export const FindCookMealsDocument = {
         },
     ],
 } as unknown as DocumentNode<FindCookMealsQuery, FindCookMealsQueryVariables>;
+export const UpdateCookMealDescriptionDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMealDescription' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'description' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'meals' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateDescription' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'mealId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'description' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'description' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMealDescriptionMutation, UpdateCookMealDescriptionMutationVariables>;
+export const UpdateCookMealImageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMealImage' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'image' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'Upload' } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'meals' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateImage' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'mealId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'image' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'image' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMealImageMutation, UpdateCookMealImageMutationVariables>;
+export const UpdateCookMealTitleDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMealTitle' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'title' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'meals' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateTitle' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'mealId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'title' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'title' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMealTitleMutation, UpdateCookMealTitleMutationVariables>;
+export const UpdateCookMealTypeDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMealType' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'type' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'MealType' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'meals' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateType' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'mealId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'mealId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'type' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'type' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMealTypeMutation, UpdateCookMealTypeMutationVariables>;
 export const CreateOneCookMenuDocument = {
     kind: 'Document',
     definitions: [
@@ -4230,6 +4958,790 @@ export const FindCookMenusDocument = {
         },
     ],
 } as unknown as DocumentNode<FindCookMenusQuery, FindCookMenusQueryVariables>;
+export const UpdateCookMenuBasePriceDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuBasePrice' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'basePrice' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateBasePrice' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'basePrice' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'basePrice' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuBasePriceMutation, UpdateCookMenuBasePriceMutationVariables>;
+export const UpdateCookMenuBasePriceCustomersDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuBasePriceCustomers' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'basePriceCustomers' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateBasePriceCustomers' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'basePriceCustomers' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'basePriceCustomers' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuBasePriceCustomersMutation, UpdateCookMenuBasePriceCustomersMutationVariables>;
+export const UpdateCookMenuCurrencyCodeDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuCurrencyCode' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'currencyCode' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CurrencyCode' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateCurrencyCode' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'currencyCode' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'currencyCode' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuCurrencyCodeMutation, UpdateCookMenuCurrencyCodeMutationVariables>;
+export const UpdateCookMenuDescriptionDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuDescription' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'description' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateDescription' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'description' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'description' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuDescriptionMutation, UpdateCookMenuDescriptionMutationVariables>;
+export const UpdateCookMenuGreetingFromKitchenDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuGreetingFromKitchen' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateGreetingFromKitchen' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuGreetingFromKitchenMutation, UpdateCookMenuGreetingFromKitchenMutationVariables>;
+export const UpdateCookMenuIsVisibleDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuIsVisible' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'isVisible' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateIsVisible' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'isVisible' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'isVisible' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuIsVisibleMutation, UpdateCookMenuIsVisibleMutationVariables>;
+export const UpdateCookMenuKitchenIdDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuKitchenId' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateKitchenId' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuKitchenIdMutation, UpdateCookMenuKitchenIdMutationVariables>;
+export const UpdateCookMenuPreparationTimeDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuPreparationTime' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'preparationTime' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updatePreparationTime' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'preparationTime' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'preparationTime' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuPreparationTimeMutation, UpdateCookMenuPreparationTimeMutationVariables>;
+export const UpdateCookMenuPricePerAdultDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuPricePerAdult' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'pricePerAdult' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'UnsignedInt' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updatePricePerAdult' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'pricePerAdult' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'pricePerAdult' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuPricePerAdultMutation, UpdateCookMenuPricePerAdultMutationVariables>;
+export const UpdateCookMenuPricePerChildDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuPricePerChild' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updatePricePerChild' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuPricePerChildMutation, UpdateCookMenuPricePerChildMutationVariables>;
+export const UpdateCookMenuTitleDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookMenuTitle' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'title' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updateTitle' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'title' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'title' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookMenuTitleMutation, UpdateCookMenuTitleMutationVariables>;
 export const UpdateCookBiographyDocument = {
     kind: 'Document',
     definitions: [

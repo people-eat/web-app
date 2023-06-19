@@ -4,13 +4,11 @@ import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
 import { type MealEntity } from '../ChefProfilePageMenusTab';
 
-export interface ChefProfilePageCreateMenusPreviewStep2Props {
+export interface ChefProfilePageEditMenusPreviewStep2Props {
     selectedMeals: MealEntity[];
 }
 
-export default function ChefProfilePageCreateMenusPreviewStep2({
-    selectedMeals,
-}: ChefProfilePageCreateMenusPreviewStep2Props): ReactElement {
+export default function ChefProfilePageEditMenusPreviewStep2({ selectedMeals }: ChefProfilePageEditMenusPreviewStep2Props): ReactElement {
     return (
         <VStack className="w-full gap-6" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <HStack className="w-full gap-4" style={{ justifyContent: 'flex-start' }}>

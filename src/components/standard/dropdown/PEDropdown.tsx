@@ -16,10 +16,12 @@ import { Icon } from '../icon/Icon';
 export interface PEDropdownProps<T> {
     title?: string;
     defaultExpanded?: boolean;
-    singleSelector?: boolean;
+    showSelectedCount?: boolean;
     options: T[];
     getOptionLabel: (option: T) => string;
-    onSelectedOptionsChange?: (changedSelectedOptions: T[]) => void;
+    optionsEqual: (optionA: T, optionB: T) => boolean;
+    setSelectedOptions: (changedSelectedOptions: T[]) => void;
+    selectedOptions: T[];
 }
 
 export default function PEDropdown<T>({
@@ -27,22 +29,19 @@ export default function PEDropdown<T>({
     defaultExpanded,
     options,
     getOptionLabel,
-    onSelectedOptionsChange,
-    singleSelector,
+    optionsEqual,
+    setSelectedOptions,
+    showSelectedCount,
+    selectedOptions,
 }: PEDropdownProps<T>): ReactElement {
     const [isOpen, setOpen] = useState(Boolean(defaultExpanded));
-    const [selectedOptionIndices, setSelectedOptionIndices] = useState(new Set<number>());
 
-    function handleOptionSelect(index: number): void {
-        const isSelected: boolean = selectedOptionIndices.has(index);
+    function handleOptionSelect(selectedOption: T): void {
+        const isSelectedIndex: number = selectedOptions.findIndex((option): boolean => optionsEqual(option, selectedOption));
+        const isSelected: boolean = isSelectedIndex !== -1;
 
-        if (isSelected) {
-            selectedOptionIndices.delete(index);
-            setSelectedOptionIndices(new Set(selectedOptionIndices));
-        } else setSelectedOptionIndices(new Set(selectedOptionIndices.add(index)));
-
-        const selectedOptions: T[] = options.filter((_option, filterIndex): boolean => selectedOptionIndices.has(filterIndex));
-        onSelectedOptionsChange?.(selectedOptions);
+        if (isSelected) setSelectedOptions(selectedOptions.filter((_, index) => index !== isSelectedIndex));
+        else setSelectedOptions([...selectedOptions, selectedOption]);
     }
 
     return (
@@ -54,10 +53,8 @@ export default function PEDropdown<T>({
                             <div className="flex justify-between items-center">
                                 <div>
                                     <span className="font-manrope text-text-m">{(title ?? 'Choices') + ' '}</span>
-                                    {singleSelector && (
-                                        <span className="font-manrope text-60black text-text-m">
-                                            ({selectedOptionIndices.size} selected)
-                                        </span>
+                                    {showSelectedCount && (
+                                        <span className="font-manrope text-60black text-text-m">({selectedOptions.length} selected)</span>
                                     )}
                                 </div>
                                 <div
@@ -100,10 +97,13 @@ export default function PEDropdown<T>({
                                     }}
                                     key={index}
                                     role="listitem"
-                                    onClick={(): void => handleOptionSelect(index)}
+                                    onClick={(): void => handleOptionSelect(option)}
                                 >
                                     <ListItemIcon sx={{ minWidth: '42px', px: '3px' }}>
-                                        <PECheckbox checked={selectedOptionIndices.has(index)} onCheckedChange={(): void => undefined} />
+                                        <PECheckbox
+                                            checked={selectedOptions.findIndex((o): boolean => optionsEqual(option, o)) !== -1}
+                                            onCheckedChange={(): void => undefined}
+                                        />
                                     </ListItemIcon>
                                     <ListItemText sx={{ fontFamily: 'Manrope' }} id={`${index}`} primary={getOptionLabel(option)} />
                                 </ListItem>

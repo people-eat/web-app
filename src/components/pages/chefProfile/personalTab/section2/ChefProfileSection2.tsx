@@ -21,7 +21,6 @@ export default function ChefProfileSection2({ chefBiography, cookId }: ChefProfi
 
     function handleSaveChefBiography(): void {
         setEdit(!edit);
-        // ToDo: send request to update chefBiography from parent component
         void updateCookBiography();
     }
 

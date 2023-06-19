@@ -1,9 +1,10 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
-import { useEffect, useState, type MouseEvent as MouseEventGen, type ReactElement } from 'react';
-import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
+import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
+import { DeleteOneCookMealDocument, FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
+import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -13,123 +14,100 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import ChefProfilePageCreateMeal from './ChefProfilePageCreateMeal';
+import ChefProfilePageEditMeal from './ChefProfilePageEditMeal';
 
 export interface ChefProfilePageMealsTabProps {
     cookId: string;
 }
 
 export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMealsTabProps): ReactElement {
-    const [selectedTab, setSelectedTab] = useState<MealType | 'ALL' | 'CREATE'>('ALL');
+    const [selectedTab, setSelectedTab] = useState<MealType | 'ALL' | 'CREATE' | 'EDIT'>('ALL');
     const [openDeleteMealDialog, setOpenDeleteMealDialog] = useState(false);
-    const [editMeal, setEditMeal] = useState({
-        isOpen: false,
-        x: 0,
-        y: 0,
-        mealId: '',
-    });
+    const [editMeal, setEditMeal] = useState({ x: 0, y: 0, mealId: '' });
+    const [isEditMealOpen, setEditMealOpen] = useState(false);
 
     const { data, loading, refetch } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
     const meals = data?.cooks.meals.findMany ?? [];
 
-    function handleDeleteMealDialog(): void {
-        setOpenDeleteMealDialog(false);
-    }
+    const [deleteMeal] = useMutation(DeleteOneCookMealDocument);
 
-    function handleRightClick(event: MouseEventGen<HTMLDivElement>, mealId: string): void {
-        if (event.button === 2) setEditMeal({ isOpen: true, x: event.clientX, y: event.clientY, mealId });
-        else setEditMeal({ isOpen: false, x: 0, y: 0, mealId: '' });
-    }
-
-    function checkParentNodeHasClass(event: MouseEvent, targetClass: string): boolean {
-        let element = event.target as HTMLElement;
-
+    function handleDeleteMeal(): void {
         try {
-            while (element && element.classList) {
-                if (element.classList && element.classList?.contains(targetClass)) return true;
-                element = element.parentNode as HTMLElement;
-            }
+            void deleteMeal({
+                variables: {
+                    cookId,
+                    mealId: editMeal.mealId,
+                },
+            }).then((result): void => {
+                setOpenDeleteMealDialog(false);
+                if (result.data && result.data.cooks.meals.success) void refetch();
+            });
         } catch (e) {
             console.error(e);
+            setOpenDeleteMealDialog(false);
         }
+    }
 
-        return false;
+    function handleClickOnCard(event: MouseEvent<HTMLDivElement>, mealId: string): void {
+        if (event.button === 0) {
+            setEditMealOpen(true);
+            setEditMeal({ x: event.clientX, y: event.clientY, mealId });
+        } else setEditMealOpen(false);
     }
 
     useEffect(() => {
         // remove default right click for that page, to use custom function
         document.addEventListener('contextmenu', (event) => event.preventDefault());
         document.addEventListener('click', (event) => {
-            if (!checkParentNodeHasClass(event, 'editMeal')) setEditMeal({ isOpen: false, x: 0, y: 0, mealId: '' });
+            if (!isParentNodeElementHasClass(event, 'editMeal')) setEditMealOpen(false);
         });
     }, []);
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
-            <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
-                <PETabItem title="All" onClick={(): void => setSelectedTab('ALL')} active={selectedTab === 'ALL'} />
+            {selectedTab !== 'CREATE' && (
+                <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
+                    <PETabItem title="All" onClick={(): void => setSelectedTab('ALL')} active={selectedTab === 'ALL'} />
 
-                {mealTypes.map((mealType, index) => (
-                    <PETabItem
-                        key={index}
-                        title={mealType}
-                        onClick={(): void => setSelectedTab(mealType)}
-                        active={selectedTab === mealType}
+                    {mealTypes.map((mealType, index) => (
+                        <PETabItem
+                            key={index}
+                            title={mealType.toLowerCase()}
+                            onClick={(): void => setSelectedTab(mealType)}
+                            active={selectedTab === mealType}
+                        />
+                    ))}
+
+                    <Spacer />
+
+                    <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
+
+                    <PEIconButton
+                        onClick={(): void => setSelectedTab('CREATE')}
+                        icon={Icon.plusWhite}
+                        bg="rgba(255, 100, 51, 1)"
+                        withoutShadow
                     />
-                ))}
-
-                <Spacer />
-
-                <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
-
-                <PEIconButton
-                    onClick={(): void => setSelectedTab('CREATE')}
-                    icon={Icon.plusWhite}
-                    bg="rgba(255, 100, 51, 1)"
-                    withoutShadow
-                />
-            </HStack>
+                </HStack>
+            )}
 
             {selectedTab === 'ALL' && (
                 <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                     {meals.map(({ title, description, imageUrl, mealId }, index) => (
-                        <div className="editMeal" key={index} onMouseDown={(event): void => handleRightClick(event, mealId)}>
+                        <div className="editMeal" key={index} onMouseUp={(event): void => handleClickOnCard(event, mealId)}>
                             <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
                         </div>
                     ))}
                 </HStack>
             )}
 
-            {selectedTab === 'STARTER' && (
+            {selectedTab !== 'ALL' && selectedTab !== 'CREATE' && (
                 <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                     {meals
-                        .filter(({ type }) => type === 'STARTER')
+                        .filter(({ type }) => type === selectedTab)
                         .map(({ title, description, imageUrl, mealId }, index) => (
-                            <div className="editMeal" key={index} onMouseDown={(event): void => handleRightClick(event, mealId)}>
-                                <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
-                            </div>
-                        ))}
-                </HStack>
-            )}
-
-            {selectedTab === 'MAIN_COURSE' && (
-                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    {meals
-                        .filter(({ type }) => type === 'MAIN_COURSE')
-                        .map(({ title, description, imageUrl, mealId }, index) => (
-                            <div className="editMeal" key={index} onMouseDown={(event): void => handleRightClick(event, mealId)}>
-                                <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
-                            </div>
-                        ))}
-                </HStack>
-            )}
-
-            {selectedTab === 'DESSERT' && (
-                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    {meals
-                        .filter(({ type }) => type === 'DESSERT')
-                        .map(({ title, description, imageUrl, mealId }, index) => (
-                            <div className="editMeal" key={index} onMouseDown={(event): void => handleRightClick(event, mealId)}>
+                            <div className="editMeal" key={index} onMouseUp={(event): void => handleClickOnCard(event, mealId)}>
                                 <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
                             </div>
                         ))}
@@ -139,11 +117,26 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
             {selectedTab === 'CREATE' && (
                 <ChefProfilePageCreateMeal
                     cookId={cookId}
+                    defaultMealType={selectedTab !== 'CREATE' && selectedTab !== 'ALL' ? selectedTab : undefined}
                     onSuccess={(): void => {
                         setSelectedTab('ALL');
                         void refetch();
                     }}
                     onCancel={(): void => setSelectedTab('ALL')}
+                />
+            )}
+
+            {selectedTab === 'EDIT' && editMeal.mealId && (
+                <ChefProfilePageEditMeal
+                    mealId={editMeal.mealId}
+                    onCancel={(): void => {
+                        setSelectedTab('ALL');
+                    }}
+                    onSaveUpdates={(): void => {
+                        setSelectedTab('ALL');
+                        void refetch();
+                    }}
+                    cookId={cookId}
                 />
             )}
 
@@ -158,7 +151,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
             <Dialog
                 sx={{ width: '100%', '& .MuiPaper-root': { width: '750px', maxWidth: '750px' } }}
                 open={openDeleteMealDialog}
-                onClose={handleDeleteMealDialog}
+                onClose={(): void => setOpenDeleteMealDialog(false)}
             >
                 <DialogContent>
                     <VStack className="gap-8 relative box-border">
@@ -175,28 +168,28 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                         <p className="m-0 w-full text-start">Do you really want to delete the menu?</p>
                         <HStack className="w-full gap-4">
                             <PEButton onClick={(): void => setOpenDeleteMealDialog(false)} title="Cancel" type="secondary" />
-                            <PEButton onClick={(): void => setOpenDeleteMealDialog(false)} title="Delete" />
+                            <PEButton onClick={handleDeleteMeal} title="Delete" />
                         </HStack>
                     </VStack>
                 </DialogContent>
             </Dialog>
 
-            {editMeal.isOpen && (
+            {isEditMealOpen && (
                 <div
                     className="editMeal absolute w-[200px] box-border bg-white rounded-4 shadow-primary px-4 py-1"
                     style={{ top: editMeal.y, left: editMeal.x }}
                 >
                     <Button
                         style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMealDialog(true)}
+                        onClick={(): void => {
+                            setSelectedTab('EDIT');
+                            setEditMealOpen(false);
+                        }}
                     >
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>
                     </Button>
                     <div className="w-full h-[1px] bg-disabled" />
-                    <Button
-                        style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMealDialog(true)}
-                    >
+                    <Button style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }} onClick={(): void => undefined}>
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Publish</p>
                     </Button>
                     <div className="w-full h-[1px] bg-disabled" />

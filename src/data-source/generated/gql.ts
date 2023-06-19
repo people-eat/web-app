@@ -19,6 +19,8 @@ const documents = {
         types.CreateOneAnonymousGlobalBookingRequestDocument,
     'mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!, $profilePicture: Upload) {\n  users {\n    success: createOneByEmailAddress(\n      request: $request\n      profilePicture: $profilePicture\n    )\n  }\n}':
         types.CreateOneUserByEmailAddressDocument,
+    'mutation ExpireCurrentSession($userId: String!) {\n  users {\n    sessions(userId: $userId) {\n      success: expireCurrent\n    }\n  }\n}':
+        types.ExpireCurrentSessionDocument,
     'query FindAllergies {\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}': types.FindAllergiesDocument,
     'query FindCategories {\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n}': types.FindCategoriesDocument,
     'query FindKitchens {\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n}': types.FindKitchensDocument,
@@ -39,6 +41,8 @@ const documents = {
         types.GetCookSignUpPageDataDocument,
     'query GetIndividualRequestPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}':
         types.GetIndividualRequestPageDataDocument,
+    'query GetPublicCookPageData($cookId: String!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicCooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      rank\n      biography\n      location {\n        latitude\n        longitude\n      }\n      travelExpenses\n      createdAt\n    }\n  }\n}':
+        types.GetPublicCookPageDataDocument,
     'query GetAdministrationUsersPageData($request: FindManyRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  users {\n    findMany(request: $request) {\n      userId\n      isLocked\n      firstName\n      lastName\n      profilePictureUrl\n      isAdmin\n      isCook\n      createdAt\n    }\n  }\n}':
         types.GetAdministrationUsersPageDataDocument,
     'query GetCookProfileQuery($cookId: String!) {\n  cooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        firstName\n        lastName\n        profilePictureUrl\n        addresses {\n          addressId\n          title\n          country\n          city\n          postCode\n          street\n          houseNumber\n          location {\n            latitude\n            longitude\n          }\n          createdAt\n        }\n      }\n      languages {\n        languageId\n        title\n      }\n      isLocked\n      isVisible\n      biography\n      location {\n        latitude\n        longitude\n      }\n      maximumParticipants\n      maximumPrice\n      maximumTravelDistance\n      minimumParticipants\n      minimumPrice\n      rank\n      travelExpenses\n      ratingAverage\n      ratingCount\n    }\n  }\n}':
@@ -49,10 +53,20 @@ const documents = {
         types.RemoveOneCookLanguageDocument,
     'mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: createOne(meal: $meal, image: $image)\n    }\n  }\n}':
         types.CreateOneCookMealDocument,
+    'mutation DeleteOneCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: deleteOne(mealId: $mealId)\n    }\n  }\n}':
+        types.DeleteOneCookMealDocument,
     'query FindCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findOne(mealId: $mealId) {\n        mealId\n        title\n        description\n        imageUrl\n        type\n        createdAt\n      }\n    }\n  }\n}':
         types.FindCookMealDocument,
     'query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}':
         types.FindCookMealsDocument,
+    'mutation UpdateCookMealDescription($mealId: String!, $description: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateDescription(mealId: $mealId, description: $description)\n    }\n  }\n}':
+        types.UpdateCookMealDescriptionDocument,
+    'mutation UpdateCookMealImage($mealId: String!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateImage(mealId: $mealId, image: $image)\n    }\n  }\n}':
+        types.UpdateCookMealImageDocument,
+    'mutation UpdateCookMealTitle($mealId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateTitle(mealId: $mealId, title: $title)\n    }\n  }\n}':
+        types.UpdateCookMealTitleDocument,
+    'mutation UpdateCookMealType($mealId: String!, $type: MealType!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateType(mealId: $mealId, type: $type)\n    }\n  }\n}':
+        types.UpdateCookMealTypeDocument,
     'mutation CreateOneCookMenu($menu: CreateOneMenuRequest!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: createOne(menu: $menu)\n    }\n  }\n}':
         types.CreateOneCookMenuDocument,
     'mutation DeleteOneCookMenu($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: deleteOne(menuId: $menuId)\n    }\n  }\n}':
@@ -61,6 +75,28 @@ const documents = {
         types.FindCookMenuDocument,
     'query FindCookMenus($cookId: String!) {\n  users {\n    me {\n      firstName\n      profilePictureUrl\n    }\n  }\n  cooks {\n    menus(cookId: $cookId) {\n      findMany {\n        menuId\n        title\n        description\n        basePrice\n        basePriceCustomers\n        createdAt\n        currencyCode\n        preparationTime\n        pricePerAdult\n        pricePerChild\n        isVisible\n        categories {\n          categoryId\n          title\n        }\n        kitchen {\n          kitchenId\n          title\n        }\n      }\n    }\n  }\n}':
         types.FindCookMenusDocument,
+    'mutation UpdateCookMenuBasePrice($menuId: String!, $basePrice: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateBasePrice(menuId: $menuId, basePrice: $basePrice)\n    }\n  }\n}':
+        types.UpdateCookMenuBasePriceDocument,
+    'mutation UpdateCookMenuBasePriceCustomers($menuId: String!, $basePriceCustomers: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateBasePriceCustomers(\n        menuId: $menuId\n        basePriceCustomers: $basePriceCustomers\n      )\n    }\n  }\n}':
+        types.UpdateCookMenuBasePriceCustomersDocument,
+    'mutation UpdateCookMenuCurrencyCode($menuId: String!, $currencyCode: CurrencyCode!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateCurrencyCode(menuId: $menuId, currencyCode: $currencyCode)\n    }\n  }\n}':
+        types.UpdateCookMenuCurrencyCodeDocument,
+    'mutation UpdateCookMenuDescription($menuId: String!, $description: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateDescription(menuId: $menuId, description: $description)\n    }\n  }\n}':
+        types.UpdateCookMenuDescriptionDocument,
+    'mutation UpdateCookMenuGreetingFromKitchen($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateGreetingFromKitchen(menuId: $menuId)\n    }\n  }\n}':
+        types.UpdateCookMenuGreetingFromKitchenDocument,
+    'mutation UpdateCookMenuIsVisible($menuId: String!, $isVisible: Boolean!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateIsVisible(menuId: $menuId, isVisible: $isVisible)\n    }\n  }\n}':
+        types.UpdateCookMenuIsVisibleDocument,
+    'mutation UpdateCookMenuKitchenId($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateKitchenId(menuId: $menuId)\n    }\n  }\n}':
+        types.UpdateCookMenuKitchenIdDocument,
+    'mutation UpdateCookMenuPreparationTime($menuId: String!, $preparationTime: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updatePreparationTime(\n        menuId: $menuId\n        preparationTime: $preparationTime\n      )\n    }\n  }\n}':
+        types.UpdateCookMenuPreparationTimeDocument,
+    'mutation UpdateCookMenuPricePerAdult($menuId: String!, $pricePerAdult: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updatePricePerAdult(menuId: $menuId, pricePerAdult: $pricePerAdult)\n    }\n  }\n}':
+        types.UpdateCookMenuPricePerAdultDocument,
+    'mutation UpdateCookMenuPricePerChild($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updatePricePerChild(menuId: $menuId)\n    }\n  }\n}':
+        types.UpdateCookMenuPricePerChildDocument,
+    'mutation UpdateCookMenuTitle($menuId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateTitle(menuId: $menuId, title: $title)\n    }\n  }\n}':
+        types.UpdateCookMenuTitleDocument,
     'mutation UpdateCookBiography($cookId: String!, $biography: String!) {\n  cooks {\n    success: updateBiography(cookId: $cookId, biography: $biography)\n  }\n}':
         types.UpdateCookBiographyDocument,
     'mutation UpdateCookIsLocked($cookId: String!, $isLocked: Boolean!) {\n  cooks {\n    success: updateIsLocked(cookId: $cookId, isLocked: $isLocked)\n  }\n}':
@@ -140,6 +176,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'mutation ExpireCurrentSession($userId: String!) {\n  users {\n    sessions(userId: $userId) {\n      success: expireCurrent\n    }\n  }\n}',
+): (typeof documents)['mutation ExpireCurrentSession($userId: String!) {\n  users {\n    sessions(userId: $userId) {\n      success: expireCurrent\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'query FindAllergies {\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}',
 ): (typeof documents)['query FindAllergies {\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}'];
 /**
@@ -212,6 +254,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'query GetPublicCookPageData($cookId: String!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicCooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      rank\n      biography\n      location {\n        latitude\n        longitude\n      }\n      travelExpenses\n      createdAt\n    }\n  }\n}',
+): (typeof documents)['query GetPublicCookPageData($cookId: String!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicCooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      rank\n      biography\n      location {\n        latitude\n        longitude\n      }\n      travelExpenses\n      createdAt\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'query GetAdministrationUsersPageData($request: FindManyRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  users {\n    findMany(request: $request) {\n      userId\n      isLocked\n      firstName\n      lastName\n      profilePictureUrl\n      isAdmin\n      isCook\n      createdAt\n    }\n  }\n}',
 ): (typeof documents)['query GetAdministrationUsersPageData($request: FindManyRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  users {\n    findMany(request: $request) {\n      userId\n      isLocked\n      firstName\n      lastName\n      profilePictureUrl\n      isAdmin\n      isCook\n      createdAt\n    }\n  }\n}'];
 /**
@@ -242,6 +290,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'mutation DeleteOneCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: deleteOne(mealId: $mealId)\n    }\n  }\n}',
+): (typeof documents)['mutation DeleteOneCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: deleteOne(mealId: $mealId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'query FindCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findOne(mealId: $mealId) {\n        mealId\n        title\n        description\n        imageUrl\n        type\n        createdAt\n      }\n    }\n  }\n}',
 ): (typeof documents)['query FindCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findOne(mealId: $mealId) {\n        mealId\n        title\n        description\n        imageUrl\n        type\n        createdAt\n      }\n    }\n  }\n}'];
 /**
@@ -250,6 +304,30 @@ export function gql(
 export function gql(
     source: 'query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}',
 ): (typeof documents)['query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMealDescription($mealId: String!, $description: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateDescription(mealId: $mealId, description: $description)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMealDescription($mealId: String!, $description: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateDescription(mealId: $mealId, description: $description)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMealImage($mealId: String!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateImage(mealId: $mealId, image: $image)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMealImage($mealId: String!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateImage(mealId: $mealId, image: $image)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMealTitle($mealId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateTitle(mealId: $mealId, title: $title)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMealTitle($mealId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateTitle(mealId: $mealId, title: $title)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMealType($mealId: String!, $type: MealType!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateType(mealId: $mealId, type: $type)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMealType($mealId: String!, $type: MealType!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateType(mealId: $mealId, type: $type)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -274,6 +352,72 @@ export function gql(
 export function gql(
     source: 'query FindCookMenus($cookId: String!) {\n  users {\n    me {\n      firstName\n      profilePictureUrl\n    }\n  }\n  cooks {\n    menus(cookId: $cookId) {\n      findMany {\n        menuId\n        title\n        description\n        basePrice\n        basePriceCustomers\n        createdAt\n        currencyCode\n        preparationTime\n        pricePerAdult\n        pricePerChild\n        isVisible\n        categories {\n          categoryId\n          title\n        }\n        kitchen {\n          kitchenId\n          title\n        }\n      }\n    }\n  }\n}',
 ): (typeof documents)['query FindCookMenus($cookId: String!) {\n  users {\n    me {\n      firstName\n      profilePictureUrl\n    }\n  }\n  cooks {\n    menus(cookId: $cookId) {\n      findMany {\n        menuId\n        title\n        description\n        basePrice\n        basePriceCustomers\n        createdAt\n        currencyCode\n        preparationTime\n        pricePerAdult\n        pricePerChild\n        isVisible\n        categories {\n          categoryId\n          title\n        }\n        kitchen {\n          kitchenId\n          title\n        }\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuBasePrice($menuId: String!, $basePrice: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateBasePrice(menuId: $menuId, basePrice: $basePrice)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuBasePrice($menuId: String!, $basePrice: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateBasePrice(menuId: $menuId, basePrice: $basePrice)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuBasePriceCustomers($menuId: String!, $basePriceCustomers: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateBasePriceCustomers(\n        menuId: $menuId\n        basePriceCustomers: $basePriceCustomers\n      )\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuBasePriceCustomers($menuId: String!, $basePriceCustomers: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateBasePriceCustomers(\n        menuId: $menuId\n        basePriceCustomers: $basePriceCustomers\n      )\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuCurrencyCode($menuId: String!, $currencyCode: CurrencyCode!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateCurrencyCode(menuId: $menuId, currencyCode: $currencyCode)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuCurrencyCode($menuId: String!, $currencyCode: CurrencyCode!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateCurrencyCode(menuId: $menuId, currencyCode: $currencyCode)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuDescription($menuId: String!, $description: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateDescription(menuId: $menuId, description: $description)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuDescription($menuId: String!, $description: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateDescription(menuId: $menuId, description: $description)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuGreetingFromKitchen($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateGreetingFromKitchen(menuId: $menuId)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuGreetingFromKitchen($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateGreetingFromKitchen(menuId: $menuId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuIsVisible($menuId: String!, $isVisible: Boolean!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateIsVisible(menuId: $menuId, isVisible: $isVisible)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuIsVisible($menuId: String!, $isVisible: Boolean!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateIsVisible(menuId: $menuId, isVisible: $isVisible)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuKitchenId($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateKitchenId(menuId: $menuId)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuKitchenId($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateKitchenId(menuId: $menuId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuPreparationTime($menuId: String!, $preparationTime: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updatePreparationTime(\n        menuId: $menuId\n        preparationTime: $preparationTime\n      )\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuPreparationTime($menuId: String!, $preparationTime: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updatePreparationTime(\n        menuId: $menuId\n        preparationTime: $preparationTime\n      )\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuPricePerAdult($menuId: String!, $pricePerAdult: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updatePricePerAdult(menuId: $menuId, pricePerAdult: $pricePerAdult)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuPricePerAdult($menuId: String!, $pricePerAdult: UnsignedInt!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updatePricePerAdult(menuId: $menuId, pricePerAdult: $pricePerAdult)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuPricePerChild($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updatePricePerChild(menuId: $menuId)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuPricePerChild($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updatePricePerChild(menuId: $menuId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMenuTitle($menuId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateTitle(menuId: $menuId, title: $title)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMenuTitle($menuId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateTitle(menuId: $menuId, title: $title)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

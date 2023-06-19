@@ -71,6 +71,10 @@ export default function IndividualRequestPage({
     const [phoneNumber, setPhoneNumber] = useState('');
     const [phoneNumberIsValid, setPhoneNumberIsValid] = useState(false);
 
+    const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
+    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
+    const [selectedAllergies, setSelectedAllergies] = useState<{ allergyId: string; title: string }[]>([]);
+
     const [acceptedTermsAndConditions, setAcceptedTermsAndConditions] = useState(false);
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
 
@@ -139,11 +143,14 @@ export default function IndividualRequestPage({
                     {step === 1 && (
                         <IndividualRequestPageStep2
                             categories={categories}
-                            onSelectCategoryId={(): void => undefined}
-                            allergies={allergies}
-                            onSelectAllergyId={(): void => undefined}
+                            selectedCategories={selectedCategories}
+                            setSelectedCategories={setSelectedCategories}
                             kitchens={kitchens}
-                            onSelectKitchenId={(): void => undefined}
+                            selectedKitchen={selectedKitchen}
+                            setSelectedKitchen={setSelectedKitchen}
+                            allergies={allergies}
+                            selectedAllergies={selectedAllergies}
+                            setSelectedAllergies={setSelectedAllergies}
                             onContinue={(): void => setStep(2)}
                         />
                     )}

@@ -1,12 +1,19 @@
-import { useMutation } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent } from '@mui/material';
-import { useState, type ReactElement } from 'react';
-import { CreateOneCookMealDocument, type MealType } from '../../../../data-source/generated/graphql';
+import { useMutation, useQuery } from '@apollo/client';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useEffect, useState, type ReactElement } from 'react';
+import {
+    FindCookMealDocument,
+    UpdateCookMealDescriptionDocument,
+    UpdateCookMealImageDocument,
+    UpdateCookMealTitleDocument,
+    UpdateCookMealTypeDocument,
+    type MealType,
+} from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
-import PEIcon from '../../../standard/icon/PEIcon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
+import PEImagePicker from '../../../standard/imagePicker/PEImagePicker';
 import PETabItem from '../../../standard/tabItem/PETabItem';
 import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextField';
 import PETextField from '../../../standard/textFields/PETextField';
@@ -16,103 +23,115 @@ import VStack from '../../../utility/vStack/VStack';
 export interface ChefProfilePageCreateMealProps {
     cookId: string;
     mealId: string;
-    onSuccess: () => void;
     onCancel: () => void;
+    onSaveUpdates: () => void;
 }
 
-export default function ChefProfilePageEditMeal({ cookId, onSuccess, onCancel }: ChefProfilePageCreateMealProps): ReactElement {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [type, setType] = useState<MealType>('MAIN_COURSE');
+export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageCreateMealProps): ReactElement {
+    const { data, loading } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
+
+    const meal = data?.cooks.meals.findOne;
+
+    const [title, setTitle] = useState(meal?.title ?? '');
+    const [description, setDescription] = useState(meal?.description ?? '');
+    const [type, setType] = useState<MealType>(meal?.type ?? 'MAIN_COURSE');
     const [image, setImage] = useState<File | undefined>(undefined);
+    const [imageUrl, setImageUrl] = useState(meal?.imageUrl ?? '');
 
-    const disabled: boolean = title === '';
+    useEffect(() => {
+        setTitle(meal?.title ?? '');
+        setDescription(meal?.description ?? '');
+        setType(meal?.type ?? 'MAIN_COURSE');
+        setImageUrl(meal?.imageUrl ?? '');
+    }, [meal, loading, data]);
 
-    const [createOneCookMeal, { data, loading }] = useMutation(CreateOneCookMealDocument, {
-        variables: {
-            cookId,
-            meal: {
-                title,
-                description,
-                type,
-                imageUrl: undefined,
-            },
-            image,
-        },
+    useEffect(() => setImageUrl(meal?.imageUrl ?? ''), [imageUrl, meal?.imageUrl]);
+
+    const [updateMealDescription] = useMutation(UpdateCookMealDescriptionDocument, {
+        variables: { cookId, mealId, description },
+    });
+    const [updateMealImage] = useMutation(UpdateCookMealImageDocument, {
+        variables: { cookId, mealId, image },
+    });
+    const [updateMealTitle] = useMutation(UpdateCookMealTitleDocument, {
+        variables: { cookId, mealId, title },
+    });
+    const [updateMealType] = useMutation(UpdateCookMealTypeDocument, {
+        variables: { cookId, mealId, type },
     });
 
-    if (data?.cooks.meals.success) onSuccess();
+    function handleOnSaveUpdatesError(e: string): void {
+        console.error(e);
+    }
+
+    function handleSaveUpdates(): void {
+        void Promise.all<{ data: { cook: { success?: boolean } } }>([
+            new Promise((resolve) =>
+                meal?.description !== description ? void updateMealDescription() : resolve({ data: { cook: { success: false } } }),
+            ),
+            new Promise((resolve) => (meal?.title !== title ? void updateMealTitle() : resolve({ data: { cook: { success: false } } }))),
+            new Promise((resolve) => (meal?.type !== type ? void updateMealType() : resolve({ data: { cook: { success: false } } }))),
+            new Promise((resolve) => (image ? void updateMealImage() : resolve({ data: { cook: { success: false } } }))),
+        ])
+            .then((responses) => {
+                if (responses.some((item) => item.data.cook.success)) onSaveUpdates();
+            })
+            .catch(handleOnSaveUpdatesError);
+    }
 
     return (
         <VStack
             className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
-            <div className="absolute top-8 right-8">
-                <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
-            </div>
+            {data && (
+                <>
+                    <div className="absolute top-8 right-8">
+                        <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
+                    </div>
 
-            <p className="w-full text-heading-xl my-0 mb-6">Adding a new dish</p>
+                    <p className="w-full text-heading-xl my-0 mb-6">Change the dish info</p>
 
-            <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>
-                <HStack
-                    gap={8}
-                    className="w-full max-w-screen-xl overflow-x-scroll"
-                    style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
-                >
-                    {mealTypes.map((mealType, index) => (
-                        <PETabItem
-                            key={index}
-                            title={mealType}
-                            onClick={(): void => {
-                                setType(mealType);
-                            }}
-                            active={mealType === type}
-                        />
-                    ))}
-                </HStack>
-            </VStack>
-
-            <input
-                type="file"
-                required
-                onChange={({ target: { files } }): void => {
-                    if (!files) return;
-                    const [file] = files;
-                    if (!file) return;
-                    setImage(file);
-                }}
-            />
-
-            <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
-                <PETextField type={'text'} value={title} onChange={(value): void => setTitle(value)} />
-            </VStack>
-
-            <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
-                <PEMultiLineTextField value={description} onChange={(value): void => setDescription(value)} />
-            </VStack>
-
-            <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
-                <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                    <VStack className="w-[200px] h-[200px] hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 ease-linear transition border-solid border-[1px] border-disabled justify-center rounded-4">
-                        <PEIcon icon={Icon.plus} />
+                    <VStack className="w-full">
+                        <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>
+                        <HStack
+                            gap={8}
+                            className="w-full max-w-screen-xl overflow-x-scroll"
+                            style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
+                        >
+                            {mealTypes.map((mealType, index) => (
+                                <PETabItem
+                                    key={index}
+                                    title={mealType.toLowerCase()}
+                                    onClick={(): void => {
+                                        setType(mealType);
+                                    }}
+                                    active={mealType === type}
+                                />
+                            ))}
+                        </HStack>
                     </VStack>
-                </VStack>
-            </VStack>
 
-            {<PEButton onClick={(): void => void createOneCookMeal()} disabled={disabled} title="Add" className="w-full" />}
+                    <VStack className="w-full">
+                        <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
+                        <PETextField type={'text'} value={title} onChange={(value): void => setTitle(value)} />
+                    </VStack>
 
-            {loading && (
-                <Dialog open>
-                    <DialogContent>
-                        <CircularProgress />
-                    </DialogContent>
-                </Dialog>
+                    <VStack className="w-full">
+                        <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
+                        <PEMultiLineTextField value={description} onChange={(value): void => setDescription(value)} />
+                    </VStack>
+
+                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                        <p className="w-full mb-4 text-text-m-bold my-0">Image</p>
+                        <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
+                    </VStack>
+
+                    <PEButton title="Save" onClick={handleSaveUpdates} />
+                </>
             )}
+
+            {loading && <CircularProgress />}
         </VStack>
     );
 }

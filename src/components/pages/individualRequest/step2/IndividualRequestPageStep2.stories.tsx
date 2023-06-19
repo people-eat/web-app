@@ -28,11 +28,14 @@ const meta: Meta<typeof IndividualRequestPageStep2> = {
         return (
             <IndividualRequestPageStep2
                 categories={categories}
-                onSelectCategoryId={(): void => undefined}
-                allergies={allergies}
-                onSelectAllergyId={(): void => undefined}
+                selectedCategories={[]}
+                setSelectedCategories={(): void => undefined}
                 kitchens={kitchens}
-                onSelectKitchenId={(): void => undefined}
+                selectedKitchen={undefined}
+                setSelectedKitchen={(): void => undefined}
+                allergies={allergies}
+                selectedAllergies={[]}
+                setSelectedAllergies={(): void => undefined}
                 // eslint-disable-next-line no-alert
                 onContinue={(): void => alert('Continue')}
             />

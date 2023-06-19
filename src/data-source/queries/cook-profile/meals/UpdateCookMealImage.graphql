@@ -1,0 +1,7 @@
+mutation UpdateCookMealImage($mealId: String!, $cookId: String!, $image: Upload) {
+    cooks {
+        meals(cookId: $cookId) {
+            success: updateImage(mealId: $mealId, image: $image)
+        }
+    }
+}
