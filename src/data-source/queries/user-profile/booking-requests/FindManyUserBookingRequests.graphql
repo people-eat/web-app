@@ -1,0 +1,25 @@
+query FindManyUserBookingRequests($userId: String!) {
+    users {
+        bookingRequests(userId: $userId) {
+            findMany {
+                bookingRequestId
+                globalBookingRequestId
+                adultParticipants
+                children
+                dateTime
+                cookId
+                userAccepted
+                cookAccepted
+                kitchenId
+                occasion
+                preparationTime
+                price {
+                    amount
+                    currencyCode
+                }
+                duration
+                createdAt
+            }
+        }
+    }
+}

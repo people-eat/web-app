@@ -13,14 +13,13 @@ import { CalculatorRoulette } from './CalculatorRoulette';
 const incomePerParticipantMap: Record<CookRank, number> = {
     ['HOBBY']: 300,
     ['PROFESSIONAL']: 400,
-    ['MASTER']: 500,
 };
 
 export default function HowToChefSection2(): ReactElement {
     const { t: commonTranslation } = useTranslation('common');
     const { t } = useTranslation('how-to-chef');
 
-    const [selectedCookRank, setSelectedCookRank] = useState<CookRank>('MASTER');
+    const [selectedCookRank, setSelectedCookRank] = useState<CookRank>('PROFESSIONAL');
     const [participantCount, setParticipantCount] = useState(4);
     const [income, setIncome] = useState({ prev: 2000, next: 2000 });
 
@@ -43,9 +42,9 @@ export default function HowToChefSection2(): ReactElement {
                         style={{ alignItems: 'flex-start' }}
                     >
                         <h3 className="text-heading-ss-bold m-0 py-0 lg:text-center lg:uppercase">{t('calculate-title')}</h3>
-                        <VStack style={{ alignItems: 'flex-start' }}>
+                        <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                             <p className="py-0">{t('qualification')}</p>
-                            <HStack className=" gap-3">
+                            <HStack className="gap-3 md:flex-wrap md:w-full">
                                 {cookRanks.map((rank, index) => (
                                     <PETabItem
                                         key={index}

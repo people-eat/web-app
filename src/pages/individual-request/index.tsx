@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
-import IndividualRequestPage, { type IndividualRequestPageProps } from '../../components/pages/individualRequest';
+import GlobalBookingRequestPage, { type GlobalBookingRequestPageProps } from '../../components/pages/individualRequest';
 import { GetIndividualRequestPageDataDocument } from '../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
     };
 };
 
-const Index: NextPage<IndividualRequestPageProps> = ({ signedInUser, searchParameters, categories, allergies, kitchens }) => {
+const Index: NextPage<GlobalBookingRequestPageProps> = ({ signedInUser, searchParameters, categories, allergies, kitchens }) => {
     return (
         <>
             <Head>
@@ -44,7 +44,7 @@ const Index: NextPage<IndividualRequestPageProps> = ({ signedInUser, searchParam
                 <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <IndividualRequestPage
+            <GlobalBookingRequestPage
                 signedInUser={signedInUser}
                 searchParameters={searchParameters}
                 categories={categories}

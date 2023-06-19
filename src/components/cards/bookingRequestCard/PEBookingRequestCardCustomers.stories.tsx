@@ -18,7 +18,7 @@ export const Component: StoryObj<typeof PEBookingRequestCardCustomers> = {
         event: 'class: Bundestag',
         price: '340$',
         eventDate: '1. Jan 2023',
-        persons: '8',
+        persons: 8,
         time: '18:00',
         address: 'Weierstrass 42',
     },

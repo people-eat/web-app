@@ -6,13 +6,16 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
-import { DeleteOneUserAddressDocument, GetProfileQueryDocument } from '../../../../data-source/generated/graphql';
+import { GetProfileQueryDocument, UpdateUserProfilePictureDocument } from '../../../../data-source/generated/graphql';
+import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECreditCard from '../../../standard/creditCard/PECreditCard';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
+import PEImagePicker from '../../../standard/imagePicker/PEImagePicker';
+import PEModalPopUp from '../../../standard/modal/PEModalPopUp';
 import PEPasswordTextField from '../../../standard/textFields/PEPasswordTextField';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
@@ -21,9 +24,15 @@ import VStack from '../../../utility/vStack/VStack';
 import CreateAddressDialog from './CreateAddressDialog';
 import UpdateAddressDialog from './UpdateAddressDialog';
 
-export default function ProfilePagePersonalTab(): ReactElement {
+export interface ProfilePagePersonalTabProps {
+    userId: string;
+}
+
+// eslint-disable-next-line max-statements
+export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps): ReactElement {
     const { t: commonTranslation } = useTranslation('common');
     const { t } = useTranslation('profile');
+    const { isMobile } = useResponsive();
 
     const [changedPassword, setChangedPassword] = useState('');
 
@@ -42,69 +51,124 @@ export default function ProfilePagePersonalTab(): ReactElement {
           }
         | undefined
     >(undefined);
-    const [editAddresses, setEditAddresses] = useState(false);
 
     const { data, loading, error, refetch } = useQuery(GetProfileQueryDocument);
 
-    const [deleteOneUserAddress] = useMutation(DeleteOneUserAddressDocument);
-
     const userProfile = data?.users.me;
 
+    const [image] = useState<string | undefined>(userProfile?.profilePictureUrl ?? undefined);
+    const [edit, setEdit] = useState(false);
+    const [firstName, setFirstName] = useState(userProfile?.firstName);
+    const [lastName, setLastName] = useState(userProfile?.lastName);
+
+    const [editFirstName, setEditFirstName] = useState(userProfile?.firstName);
+    const [editLastName, setEditLastName] = useState(userProfile?.lastName);
+    const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined | null>(null);
+
+    function handleUnSaveChefName(): void {
+        setEditFirstName(userProfile?.firstName ?? '');
+        setEditLastName(userProfile?.lastName ?? '');
+        setEdit(!edit);
+    }
+
+    const [updateProfilePicture] = useMutation(UpdateUserProfilePictureDocument);
+
+    function handleSaveProfileInfo(): void {
+        if (editedProfilePicture !== null) {
+            void updateProfilePicture({
+                variables: { userId: userProfile?.userId ?? '', profilePicture: editedProfilePicture },
+            })
+                .then((result) => result.data?.users.success && void refetch())
+                .catch((e) => console.error(e));
+        }
+
+        setEditedProfilePicture(undefined);
+        setFirstName(editFirstName);
+        setLastName(editLastName);
+        setEdit(!edit);
+    }
+
     return (
-        <VStack className="w-full max-w-screen-xl gap-6">
+        <VStack className="w-full md:overflow-hidden relative max-w-screen-xl gap-6 lg:px-4 md:py-6 box-border">
             {userProfile && (
                 <>
-                    <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
+                    <HStack className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4" gap={16}>
                         {userProfile.profilePictureUrl && (
                             <Image
-                                style={{ width: '120px', height: '120px', borderRadius: 4, objectPosition: 'center', objectFit: 'cover' }}
+                                style={{
+                                    width: isMobile ? '60px' : '120px',
+                                    height: isMobile ? '60px' : '120px',
+                                    borderRadius: 4,
+                                    objectPosition: 'center',
+                                    objectFit: 'cover',
+                                }}
                                 src={userProfile.profilePictureUrl}
-                                alt={"User's Profile Picture"}
-                                width={120}
-                                height={120}
+                                alt={'Profile Picture'}
+                                width={isMobile ? 60 : 120}
+                                height={isMobile ? 60 : 120}
                             />
                         )}
 
                         {!userProfile.profilePictureUrl && (
-                            <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
+                            <div
+                                className="bg-base rounded-2 flex justify-center items-center"
+                                style={{
+                                    minHeight: isMobile ? '60px' : '120px',
+                                    height: isMobile ? '60px' : '120px',
+                                    minWidth: isMobile ? '60px' : '120px',
+                                }}
+                            >
                                 <PEIcon edgeLength={32} icon={Icon.profileLight} />
                             </div>
                         )}
 
-                        <VStack style={{ alignItems: 'flex-start' }}>
-                            <HStack className="gap-4" style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <VStack className="md:w-full" style={{ alignItems: 'flex-start' }}>
+                            <HStack
+                                className="gap-4 md:w-full"
+                                style={{ justifyContent: isMobile ? 'space-between' : 'center', alignItems: 'center' }}
+                            >
                                 <VStack style={{ alignItems: 'flex-start' }}>
-                                    <p className="text-heading-m my-0">{userProfile.firstName}</p>
-                                    <p className="text-start text-text-m text-disabled my-0">{userProfile.lastName}</p>
+                                    <p className="text-heading-m my-0">{firstName}</p>
+                                    <p className="text-start text-text-m text-disabled my-0">{lastName}</p>
                                 </VStack>
-                                <PEIconButton icon={Icon.editPencil} iconSize={24} withoutShadow />
+                                {isMobile && <Spacer />}
+                                <PEIconButton
+                                    icon={Icon.editPencil}
+                                    onClick={(): void => setEdit(!edit)}
+                                    iconSize={24}
+                                    withoutShadow
+                                />{' '}
                             </HStack>
                         </VStack>
 
-                        <Spacer />
+                        {!isMobile && (
+                            <>
+                                <Spacer />
 
-                        {userProfile.isCook && (
-                            <Link href="/chef-profile" className="no-underline">
-                                <PEButton
-                                    iconLeft={Icon.profileOrange}
-                                    iconSize={16}
-                                    className="min-w-[250px]"
-                                    type="secondary"
-                                    onClick={(): void => undefined}
-                                    title={'Chef Profile'}
-                                />
-                            </Link>
-                        )}
+                                {userProfile.isCook && (
+                                    <Link href="/chef-profile" className="no-underline">
+                                        <PEButton
+                                            iconLeft={Icon.profileOrange}
+                                            iconSize={16}
+                                            className="min-w-[250px]"
+                                            type="secondary"
+                                            onClick={(): void => undefined}
+                                            title={'Chef Profile'}
+                                        />
+                                    </Link>
+                                )}
 
-                        {!userProfile.isCook && (
-                            <Link href="/chef-sign-up" className="no-underline">
-                                <PEButton onClick={(): void => undefined} title={commonTranslation('how-to-become-a-chef')} />
-                            </Link>
+                                {!userProfile.isCook && (
+                                    <Link href="/chef-sign-up" className="no-underline">
+                                        <PEButton onClick={(): void => undefined} title={commonTranslation('how-to-become-a-chef')} />
+                                    </Link>
+                                )}
+                            </>
                         )}
                     </HStack>
 
                     <VStack
-                        className="w-full bg-white shadow-primary box-border px-8 py-4"
+                        className="w-full bg-white shadow-primary box-border px-8 md:px-4 py-4"
                         style={{ alignItems: 'center', borderRadius: 16 }}
                     >
                         <HStack className="w-full">
@@ -112,16 +176,16 @@ export default function ProfilePagePersonalTab(): ReactElement {
                             <Spacer />
                         </HStack>
                         <HStack className="w-full" style={{ justifyContent: 'center', flexWrap: 'wrap', gap: 16 }}>
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('first-name-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.firstName} />
                             </VStack>
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('last-name-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.lastName} />
                             </VStack>
 
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('birthday-label')}</p>
 
                                 <DatePicker
@@ -132,11 +196,11 @@ export default function ProfilePagePersonalTab(): ReactElement {
                                     slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
                                 />
                             </VStack>
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('email-address-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.emailAddress ?? undefined} />
                             </VStack>
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('phone-number-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.phoneNumber ?? undefined} />
                             </VStack>
@@ -145,33 +209,28 @@ export default function ProfilePagePersonalTab(): ReactElement {
 
                     <VStack
                         gap={16}
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4"
+                        className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <HStack gap={8} className="w-full" style={{ alignItems: 'start' }}>
                             <p className="text-heading-ss w-full justify-start my-0">{t('addresses-label')}</p>
-
-                            <PEIconButton
-                                icon={Icon.editPencil}
-                                iconSize={24}
-                                onClick={(): void => setEditAddresses(!editAddresses)}
-                                withoutShadow
-                            />
 
                             <Spacer />
 
                             <PEIconButton icon={Icon.plus} withoutShadow onClick={(): void => setAddAddressDialogOpen(true)} />
                         </HStack>
 
-                        <CreateAddressDialog
-                            open={addAddressDialogOpen}
-                            userId={userProfile.userId}
-                            onSuccess={(): void => {
-                                setAddAddressDialogOpen(false);
-                                void refetch();
-                            }}
-                            onCancel={(): void => setAddAddressDialogOpen(false)}
-                        />
+                        {addAddressDialogOpen && (
+                            <CreateAddressDialog
+                                open={addAddressDialogOpen}
+                                userId={userProfile.userId}
+                                onSuccess={(): void => {
+                                    setAddAddressDialogOpen(false);
+                                    void refetch();
+                                }}
+                                onCancel={(): void => setAddAddressDialogOpen(false)}
+                            />
+                        )}
 
                         {selectedAddress && (
                             <UpdateAddressDialog
@@ -186,27 +245,21 @@ export default function ProfilePagePersonalTab(): ReactElement {
                             />
                         )}
 
-                        <VStack gap={16} className="w-full">
-                            {userProfile.addresses.map((address, index) => (
-                                <PEAddressCard
-                                    key={index}
-                                    address={`${address.postCode} ${address.city}, ${address.street} ${address.houseNumber}`}
-                                    title={address.title}
-                                    onHouseClick={(): void => setSelectedAddress(address)}
-                                    onDelete={
-                                        editAddresses
-                                            ? (): void =>
-                                                  void deleteOneUserAddress({
-                                                      variables: { userId: userProfile.userId, addressId: address.addressId },
-                                                  }).then((res) => res.data?.users.addresses.success && void refetch())
-                                            : undefined
-                                    }
-                                />
-                            ))}
-                        </VStack>
+                        {Boolean(userProfile.addresses.length) && (
+                            <VStack gap={16} className="w-full">
+                                {userProfile.addresses.map((address, index) => (
+                                    <PEAddressCard
+                                        key={index}
+                                        address={`${address.postCode} ${address.city}, ${address.street} ${address.houseNumber}`}
+                                        title={address.title}
+                                        onHouseClick={(): void => setSelectedAddress(address)}
+                                    />
+                                ))}
+                            </VStack>
+                        )}
                     </VStack>
 
-                    <HStack className="w-full gap-6">
+                    <HStack className="w-full gap-6 md:flex-wrap">
                         <VStack
                             className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-3"
                             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
@@ -246,6 +299,22 @@ export default function ProfilePagePersonalTab(): ReactElement {
                             </HStack>
                         </VStack>
                     </HStack>
+
+                    <PEModalPopUp width={isMobile ? '100%' : 750} openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
+                        <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
+                            <h2 className="m-0 pb-5">Change profile info</h2>
+                            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+                                <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
+                                <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
+                                <PEImagePicker
+                                    onPick={setEditedProfilePicture}
+                                    defaultImage={image}
+                                    onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
+                                />
+                            </VStack>
+                            <PEButton className="max-w-[250px] mt-10" onClick={handleSaveProfileInfo} title="Save" />
+                        </VStack>
+                    </PEModalPopUp>
                 </>
             )}
 

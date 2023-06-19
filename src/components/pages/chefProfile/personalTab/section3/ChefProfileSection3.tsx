@@ -1,5 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
+import useResponsive from '../../../../../hooks/useResponsive';
 import PEButton from '../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
@@ -11,6 +12,7 @@ import VStack from '../../../../utility/vStack/VStack';
 
 export default function ChefProfileSection3(): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { isMobile } = useResponsive();
 
     const [openPopUp, setOpenPopUp] = useState(false);
     const [editMode, _setEditMode] = useState<null | number>(null);
@@ -36,11 +38,11 @@ export default function ChefProfileSection3(): ReactElement {
 
     return (
         <VStack
-            className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-3"
+            className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4 gap-3"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
-            <PEModalPopUp openMenu={openPopUp} handleOpenMenu={handleUnSaveChefName}>
-                <VStack className="w-[750px] px-10 py-15 box-border relative">
+            <PEModalPopUp width={isMobile ? '100%' : '750px'} openMenu={openPopUp} handleOpenMenu={handleUnSaveChefName}>
+                <VStack className="w-[750px] md:w-full px-10 md:p-4 py-15 box-border relative">
                     <h2 className="m-0 mt-[-40px] pb-5 w-full text-heading-ss">{t('popup-training')}</h2>
                     <VStack className="w-full gap-2 pb-5">
                         <h2 className="m-0 w-full text-heading-ss">{t('popup-training-title')}</h2>

@@ -110,25 +110,19 @@ export default function SearchResultsPage({ signedInUser, searchParameters, sear
                     }}
                 >
                     {searchResultKind === 'chefs' &&
-                        searchResults.publicCooks
-                            .concat(searchResults.publicCooks)
-                            .concat(searchResults.publicCooks)
-                            .concat(searchResults.publicCooks)
-                            .concat(searchResults.publicCooks)
-                            .concat(searchResults.publicCooks)
-                            .map((publicCook, index) => (
-                                <Link href={'chefs/' + publicCook.cookId} key={index} className="no-underline">
-                                    <PEChefCard
-                                        firstName={publicCook.user.firstName}
-                                        profilePictureUrl={publicCook.user.profilePictureUrl}
-                                        rank={publicCook.rank}
-                                        location={'Location'}
-                                        rating={{ average: 5, count: 12 }}
-                                        categories={[]}
-                                        kitchens={[]}
-                                    />
-                                </Link>
-                            ))}
+                        searchResults.publicCooks.map((publicCook, index) => (
+                            <Link href={'chefs/' + publicCook.cookId} key={index} className="no-underline">
+                                <PEChefCard
+                                    firstName={publicCook.user.firstName}
+                                    profilePictureUrl={publicCook.user.profilePictureUrl}
+                                    rank={publicCook.rank}
+                                    location={'Location'}
+                                    rating={{ average: 5, count: 12 }}
+                                    categories={[]}
+                                    kitchens={[]}
+                                />
+                            </Link>
+                        ))}
                 </HStack>
             </VStack>
 

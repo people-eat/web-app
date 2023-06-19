@@ -1,0 +1,7 @@
+mutation ExpireCurrentSession($userId: String!) {
+    users {
+        sessions(userId: $userId) {
+            success: expireCurrent
+        }
+    }
+}

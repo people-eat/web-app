@@ -10,6 +10,6 @@
         "/profile": ["profile"],
         "/about-us": ["about-us"],
         "/imprint": ["imprint"],
-        "/individual-request": ["individual-request"]
+        "/individual-request": ["individual-request", "home"]
     }
 }

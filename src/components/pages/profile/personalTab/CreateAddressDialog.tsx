@@ -3,6 +3,7 @@ import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/mater
 import { useEffect, useState, type ReactElement } from 'react';
 import { CreateOneUserAddressDocument } from '../../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
+import useResponsive from '../../../../hooks/useResponsive';
 import PEMap from '../../../map/PEMap';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -20,6 +21,8 @@ export interface CreateAddressDialogProps {
 }
 
 export default function CreateAddressDialog({ open, userId, onSuccess, onCancel }: CreateAddressDialogProps): ReactElement {
+    const { isMobile } = useResponsive();
+
     const [title, setTitle] = useState('');
     const [postCode, setPostCode] = useState('');
     const [city, setCity] = useState('');
@@ -66,7 +69,7 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
     }, [postCode, city, street, houseNumber, country, disabled]);
 
     return (
-        <Dialog open={open} onClose={onCancel}>
+        <Dialog open={open} onClose={onCancel} sx={{ width: '100%', '& .MuiPaper-root': { width: '750px', maxWidth: '750px' } }}>
             <DialogTitle>
                 <HStack>
                     <span>Add Address</span>
@@ -76,14 +79,18 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
             </DialogTitle>
             <DialogContent>
                 {!data && (
-                    <VStack gap={32} style={{ padding: '16px', width: '512px' }}>
-                        <VStack gap={8} style={{ width: '512px' }}>
+                    <VStack className="box-border p-4 md:p-0" gap={32} style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}>
+                        <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
                             <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
                             <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
-                            <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
-                            <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
-                            <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
-                            <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={'House Number'} type="text" />
+                            <div className="w-full flex flex-row gap-4 md:flex-col">
+                                <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
+                                <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
+                            </div>
+                            <div className="w-full flex flex-row gap-4 md:flex-col">
+                                <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
+                                <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={'House Number'} type="text" />
+                            </div>
                         </VStack>
 
                         <PEMap

@@ -1,6 +1,6 @@
 import { Dialog, DialogContent } from '@mui/material';
 import Image from 'next/image';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { useFilePicker } from 'use-file-picker';
 import VStack from '../../utility/vStack/VStack';
 import { Icon } from '../icon/Icon';
@@ -34,6 +34,11 @@ export default function PEImagePicker({ onPick, onRemoveDefaultImage, defaultIma
             setShowImageCropper(true);
         },
     });
+
+    useEffect(() => {
+        setBase64Image(defaultImage);
+        setBase64CroppedImage(defaultImage);
+    }, [defaultImage]);
 
     function handleRemoveImage(event: React.MouseEvent<HTMLDivElement>): void {
         event.stopPropagation();

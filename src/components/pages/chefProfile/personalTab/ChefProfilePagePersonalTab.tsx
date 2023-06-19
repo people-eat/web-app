@@ -11,6 +11,7 @@ import {
     UpdateCookMaximumTravelDistanceDocument,
     UpdateCookTravelExpensesDocument,
 } from '../../../../data-source/generated/graphql';
+import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEMap from '../../../map/PEMap';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';
@@ -23,6 +24,7 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import CreateAddressDialog from '../../profile/personalTab/CreateAddressDialog';
+import UpdateAddressDialog from '../../profile/personalTab/UpdateAddressDialog';
 import ChefProfileSection1 from './section1/ChefProfileSection1';
 import ChefProfileSection2 from './section2/ChefProfileSection2';
 import ChefProfileSection3 from './section3/ChefProfileSection3';
@@ -31,6 +33,7 @@ import ChefProfileSection5 from './section5/ChefProfileSection5';
 // eslint-disable-next-line max-statements
 export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string }): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { isMobile } = useResponsive();
 
     const [biography, setBiography] = useState('');
 
@@ -42,6 +45,20 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
     const [maximumTravelDistance, setMaximumTravelDistance] = useState<number | undefined>(undefined);
 
     const [addAddressDialogOpen, setAddAddressDialogOpen] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState<
+        | {
+              addressId: string;
+              title: string;
+              country: string;
+              city: string;
+              postCode: string;
+              street: string;
+              houseNumber: string;
+              createdAt: Date;
+              location: { latitude: number; longitude: number };
+          }
+        | undefined
+    >(undefined);
 
     const [updateTravelExpenses] = useMutation(UpdateCookTravelExpensesDocument, {
         variables: { cookId, travelExpenses: Number(travelExpenses) * 100 },
@@ -94,13 +111,13 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
     const [updateCookIsVisible] = useMutation(UpdateCookIsVisibleDocument);
 
     return (
-        <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6 px-5 box-border">
+        <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:my-2 gap-6 md:gap-3 box-border">
             {chefProfile && (
                 <>
-                    <ChefProfileSection1 chefProfile={chefProfile} />
+                    <ChefProfileSection1 chefProfile={chefProfile} refetch={(): void => void refetch()} />
 
                     <HStack
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4"
+                        className="w-full bg-white shadow-primary box-border p-8 md:p-2 rounded-4"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <PECheckbox
@@ -119,12 +136,15 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                     <ChefProfileSection2 chefBiography={biography} cookId={cookId} />
 
                     <VStack
-                        className="relative w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6"
+                        className="relative w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4 gap-6"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
-                        <p className="text-heading-ss w-full justify-start my-0">{t('section-order-details')}</p>
+                        <p className="text-heading-ss w-full justify-start my-0 md:mb-2">{t('section-order-details')}</p>
                         {editOrderDetails && (
-                            <HStack className="absolute right-8 top-8 gap-3 w-full mb-4" style={{ justifyContent: 'flex-end' }}>
+                            <HStack
+                                className="absolute right-8 top-8 md:top-4 md:right-2 gap-3 w-full mb-4"
+                                style={{ justifyContent: 'flex-end' }}
+                            >
                                 <PEIconButton
                                     onClick={(): void => handleSaveOrderDetails()}
                                     icon={Icon.checkGreen}
@@ -141,6 +161,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                 />
                             </HStack>
                         )}
+
                         <VStack className="w-full">
                             <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
                                 <HStack className="w-full" style={{ justifyContent: 'flex-start' }}>
@@ -192,7 +213,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         <VStack gap={16} className="w-full">
                             <PEMap
                                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
-                                style={{ height: '500px', borderRadius: 16 }}
+                                style={{ height: isMobile ? '300px' : '500px', borderRadius: 16 }}
                                 location={chefProfile.location}
                                 markerRadius={(maximumTravelDistance ?? 0) * 1000}
                             />
@@ -200,7 +221,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                     </VStack>
 
                     <VStack
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-3"
+                        className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4 gap-3"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
@@ -213,31 +234,50 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                             />
                         </HStack>
 
-                        <CreateAddressDialog
-                            open={addAddressDialogOpen}
-                            userId={chefProfile.cookId}
-                            onSuccess={(): void => {
-                                setAddAddressDialogOpen(false);
-                                void refetch();
-                            }}
-                            onCancel={(): void => setAddAddressDialogOpen(false)}
-                        />
+                        {addAddressDialogOpen && (
+                            <CreateAddressDialog
+                                open={addAddressDialogOpen}
+                                userId={chefProfile.cookId}
+                                onSuccess={(): void => {
+                                    setAddAddressDialogOpen(false);
+                                    void refetch();
+                                }}
+                                onCancel={(): void => setAddAddressDialogOpen(false)}
+                            />
+                        )}
+
+                        {selectedAddress && (
+                            <UpdateAddressDialog
+                                open={Boolean(selectedAddress)}
+                                userId={chefProfile.cookId}
+                                onSuccess={(): void => {
+                                    setSelectedAddress(undefined);
+                                    void refetch();
+                                }}
+                                onCancel={(): void => setSelectedAddress(undefined)}
+                                address={selectedAddress}
+                            />
+                        )}
 
                         <VStack className="w-full gap-3">
-                            {chefProfile.user.addresses.map(({ title, city, postCode, street, houseNumber, location }, index) => (
+                            {chefProfile.user.addresses.map((address, index) => (
                                 <PEAddressCard
                                     key={index}
-                                    address={`${postCode} ${city}, ${street} ${houseNumber}`}
-                                    title={title}
+                                    address={`${address.postCode} ${address.city}, ${address.street} ${address.houseNumber}`}
+                                    title={address.title}
+                                    onHouseClick={(): void => setSelectedAddress(address)}
                                     pin={{
                                         isPinned:
-                                            chefProfile.location.latitude === location.latitude &&
-                                            chefProfile.location.longitude === location.longitude,
+                                            chefProfile.location.latitude === address.location.latitude &&
+                                            chefProfile.location.longitude === address.location.longitude,
                                         onPinClick: (): void =>
                                             void updateCookLocation({
                                                 variables: {
                                                     cookId,
-                                                    location: { latitude: location.latitude, longitude: location.longitude },
+                                                    location: {
+                                                        latitude: address.location.latitude,
+                                                        longitude: address.location.longitude,
+                                                    },
                                                 },
                                             }).then((res) => res.data?.cooks.success && void refetch()),
                                     }}

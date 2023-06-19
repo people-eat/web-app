@@ -40,34 +40,51 @@ export default function PublicCookPage({ signedInUser, publicCook }: PublicCookP
                 style={{ alignItems: 'flex-start', gap: 16 }}
             >
                 {publicCook && (
-                    <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
-                        {publicCook.user.profilePictureUrl && (
-                            <Image
-                                style={{ width: '120px', height: '120px', borderRadius: 4, objectPosition: 'center', objectFit: 'cover' }}
-                                src={publicCook.user.profilePictureUrl}
-                                alt={'Profile Picture'}
-                                width={120}
-                                height={120}
-                            />
-                        )}
+                    <>
+                        <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
+                            {publicCook.user.profilePictureUrl && (
+                                <Image
+                                    style={{
+                                        width: '120px',
+                                        height: '120px',
+                                        borderRadius: 4,
+                                        objectPosition: 'center',
+                                        objectFit: 'cover',
+                                    }}
+                                    src={publicCook.user.profilePictureUrl}
+                                    alt={'Profile Picture'}
+                                    width={120}
+                                    height={120}
+                                />
+                            )}
 
-                        {!publicCook.user.profilePictureUrl && (
-                            <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
-                                <PEIcon edgeLength={32} icon={Icon.profileLight} />
-                            </div>
-                        )}
+                            {!publicCook.user.profilePictureUrl && (
+                                <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
+                                    <PEIcon edgeLength={32} icon={Icon.profileLight} />
+                                </div>
+                            )}
 
-                        <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                            <VStack style={{ alignItems: 'flex-start' }}>
-                                <p className="text-heading-m my-0">{publicCook.user.firstName}</p>
+                            <VStack gap={16} style={{ alignItems: 'flex-start' }}>
+                                <VStack style={{ alignItems: 'flex-start' }}>
+                                    <p className="text-heading-m my-0">{publicCook.user.firstName}</p>
+                                </VStack>
+                                <span>{publicCook.rank}</span>
                             </VStack>
-                            <span>{publicCook.rank}</span>
-                        </VStack>
 
-                        <Spacer />
-                    </HStack>
+                            <Spacer />
+                        </HStack>
+                        <HStack
+                            gap={16}
+                            className="w-full bg-white shadow-primary box-border p-8 rounded-4"
+                            style={{ justifyContent: 'flex-start' }}
+                        >
+                            <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p className="text-heading-m my-0">Bio</p>
+                                {publicCook.biography}
+                            </VStack>
+                        </HStack>
+                    </>
                 )}
-                {JSON.stringify(publicCook)}
             </VStack>
 
             <PEFooter />

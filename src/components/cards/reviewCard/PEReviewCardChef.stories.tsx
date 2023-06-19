@@ -12,7 +12,7 @@ export const Component: StoryObj<typeof PEReviewCardChef> = {
     args: {
         chefFirstName: 'Maximilian',
         chefProfilePictureUrl: 'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
-        chefRank: 'MASTER',
+        chefRank: 'PROFESSIONAL',
         customerFirstName: 'Alice',
         occasion: 'occasion',
         ratingValue: '4.9',
@@ -26,7 +26,7 @@ export const WithoutPicture: StoryObj<typeof PEReviewCardChef> = {
     args: {
         chefFirstName: 'Maximilian',
         chefProfilePictureUrl: undefined,
-        chefRank: 'MASTER',
+        chefRank: 'PROFESSIONAL',
         customerFirstName: 'Alice',
         occasion: 'occasion',
         ratingValue: '4.9',
@@ -40,7 +40,7 @@ export const WithLongText: StoryObj<typeof PEReviewCardChef> = {
     args: {
         chefFirstName: 'Maximilian',
         chefProfilePictureUrl: 'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
-        chefRank: 'MASTER',
+        chefRank: 'PROFESSIONAL',
         customerFirstName: 'Alice',
         occasion: 'occasion',
         ratingValue: '4.9',

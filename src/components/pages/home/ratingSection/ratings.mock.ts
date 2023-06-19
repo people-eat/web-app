@@ -13,7 +13,7 @@ export const mockPublicRatings: MockPublicRating[] = [
     {
         customerName: 'Felix, München',
         chefName: 'Christopher',
-        rank: 'MASTER',
+        rank: 'PROFESSIONAL',
         rating: '5.0',
         comment: 'Wir hatten einen hervorragenden Abend mit Chris, schwer zu toppen, was und mit welcher Hingabe er für uns gezaubert hat!',
         created: 'März, 2023',

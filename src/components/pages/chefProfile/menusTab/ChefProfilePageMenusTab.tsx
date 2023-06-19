@@ -1,9 +1,15 @@
-import { useQuery } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent } from '@mui/material';
-import Button from '@mui/material/Button';
-import { useEffect, useState, type MouseEvent as MouseEventGen, type ReactElement } from 'react';
-import { FindCookMenusDocument, type MealType } from '../../../../data-source/generated/graphql';
+import { useMutation, useQuery } from '@apollo/client';
+import { CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
+import { useState, type ReactElement } from 'react';
+import {
+    DeleteOneCookMenuDocument,
+    FindCookMenusDocument,
+    type CurrencyCode,
+    type MealType,
+} from '../../../../data-source/generated/graphql';
+import useResponsive from '../../../../hooks/useResponsive';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
+import PEMenuCardMobile from '../../../cards/menuCard/PEMenuCardMobile';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
@@ -11,7 +17,8 @@ import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-import ChefProfilePageCreateMenu from './ChefProfilePageCreateMenu';
+import ChefProfilePageCreateMenu from './createMenu/ChefProfilePageCreateMenu';
+import ChefProfilePageEditMenu from './editMenu/ChefProfilePageEditMenu';
 
 export interface MealEntity {
     mealId: string;
@@ -23,22 +30,40 @@ export interface MealEntity {
     createdAt: Date;
 }
 
+export interface MenuEntity {
+    __typename?: 'Menu';
+    menuId: string;
+    isVisible: boolean;
+    title: string;
+    description: string;
+    basePrice: number;
+    basePriceCustomers: number;
+    pricePerAdult: number;
+    pricePerChild?: number | null;
+    currencyCode: CurrencyCode;
+    greetingFromKitchen?: string | null;
+    preparationTime: number;
+    createdAt: Date;
+    kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
+    categories: { __typename?: 'Category'; categoryId: string; title: string }[];
+}
+
 export interface ChefProfilePageMenusTabProps {
     cookId: string;
 }
 
 export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenusTabProps): ReactElement {
-    const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE'>('MENUS');
+    const { isMobile } = useResponsive();
+
+    const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
-    const [editMenu, setEditMenu] = useState({
-        isOpen: false,
-        x: 0,
-        y: 0,
-        menuId: '',
-    });
+    const [selectedMenuId, setSelectedMenuId] = useState<string | undefined>(undefined);
 
-    const { data, loading } = useQuery(FindCookMenusDocument, { variables: { cookId } });
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const { data, loading, refetch } = useQuery(FindCookMenusDocument, { variables: { cookId } });
 
     const menus = data?.cooks.menus.findMany ?? [];
 
@@ -46,58 +71,30 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
 
     const invisibleMenus = menus.filter((menu) => !menu.isVisible);
 
-    function handleDeleteMenuDialog(): void {
-        setOpenDeleteMenuDialog(false);
+    const [deleteMenu] = useMutation(DeleteOneCookMenuDocument);
+
+    function handleDeleteMenu(): void {
+        if (!selectedMenuId) return;
+
+        try {
+            void deleteMenu({ variables: { cookId, menuId: selectedMenuId } }).then((result): void => {
+                setOpenDeleteMenuDialog(false);
+                if (result.data?.cooks.menus.success) void refetch();
+            });
+        } catch (e) {
+            console.error(e);
+            setOpenDeleteMenuDialog(false);
+        }
     }
 
     function handleCreateNewMenuSuccess(): void {
         setSelectedTab('MENUS');
         setOpenCreateNewMenuSuccess(true);
+        void refetch();
     }
-
-    function handleRightClick(event: MouseEventGen<HTMLDivElement>, menuId: string): void {
-        if (event.button === 2) setEditMenu({ isOpen: true, x: event.clientX, y: event.clientY, menuId });
-        else setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
-    }
-
-    function checkParentNodeHasClass(event: MouseEvent, targetClass: string): boolean {
-        let element = event.target as HTMLElement;
-
-        try {
-            while (element && element.classList) {
-                if (element.classList && element.classList?.contains(targetClass)) return true;
-                element = element.parentNode as HTMLElement;
-            }
-        } catch (e) {
-            console.error(e);
-        }
-
-        return false;
-    }
-
-    useEffect(() => {
-        // remove default right click for that page, to use custom function
-        document.addEventListener('contextmenu', (event) => event.preventDefault());
-        document.addEventListener('click', (event) => {
-            if (!checkParentNodeHasClass(event, 'editMenu')) setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
-        });
-    }, []);
 
     return (
-        <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
-            <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
-                <Spacer />
-
-                <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
-
-                <PEIconButton
-                    onClick={(): void => setSelectedTab('CREATE')}
-                    icon={Icon.plusWhite}
-                    bg="rgba(255, 100, 51, 1)"
-                    withoutShadow
-                />
-            </HStack>
-
+        <VStack className="relative w-full max-w-screen-xl mb-[80px] gap-6 box-border">
             {selectedTab === 'CREATE' && (
                 <ChefProfilePageCreateMenu
                     cookId={cookId}
@@ -106,58 +103,107 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                 />
             )}
 
-            {selectedTab === 'MENUS' && (
-                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    {visibleMenus.map((menu, index) => (
-                        <div
-                            onMouseDown={(event): void => handleRightClick(event, menu.menuId)}
-                            className="relative PEMenuCard"
-                            key={index}
-                        >
-                            <PEMenuCard
-                                title={menu.title}
-                                description={menu.description}
-                                imageUrls={[]}
-                                pricePerPerson={menu.pricePerAdult}
-                                chefFirstName={data?.users.me?.firstName ?? ''}
-                                chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
-                                categories={menu.categories.map(({ title }) => title)}
-                                kitchen={menu.kitchen?.title ?? undefined}
-                                fullWidth
-                            />
-                        </div>
-                    ))}
+            {selectedTab === 'EDIT' && selectedMenuId && (
+                <ChefProfilePageEditMenu
+                    onSaveUpdates={(): void => {
+                        setSelectedTab('MENUS');
+                        void refetch();
+                    }}
+                    menuId={selectedMenuId}
+                    cookId={cookId}
+                />
+            )}
 
-                    {Boolean(invisibleMenus.length) && (
-                        <>
-                            <p className="text-text-m-bold w-full">Archive</p>
-                            <HStack
-                                className="relative w-full gap-6 flex-wrap opacity-30"
-                                style={{ alignItems: 'center', justifyContent: 'flex-start' }}
+            {selectedTab === 'MENUS' && (
+                <>
+                    <HStack
+                        gap={8}
+                        className="w-full bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4"
+                        style={{ alignItems: 'center' }}
+                    >
+                        <Spacer />
+
+                        <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
+
+                        <PEIconButton
+                            onClick={(): void => setSelectedTab('CREATE')}
+                            icon={Icon.plusWhite}
+                            bg="rgba(255, 100, 51, 1)"
+                            withoutShadow
+                        />
+                    </HStack>
+
+                    <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
+                        {visibleMenus.map((menu, index) => (
+                            <div
+                                onClick={(event): void => {
+                                    setAnchorEl(event.currentTarget);
+                                    setSelectedMenuId(menu.menuId);
+                                }}
+                                className="relative PEMenuCard editMenu md:w-full"
+                                key={index}
                             >
-                                {invisibleMenus.map((menu, index) => (
-                                    <div
-                                        onMouseDown={(event): void => handleRightClick(event, menu.menuId)}
-                                        className="relative"
-                                        key={index}
-                                    >
-                                        <PEMenuCard
-                                            title={menu.title}
-                                            description={menu.description}
-                                            imageUrls={[]}
-                                            pricePerPerson={menu.pricePerAdult}
-                                            chefFirstName={data?.users.me?.firstName ?? ''}
-                                            chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
-                                            categories={menu.categories.map(({ title }) => title)}
-                                            kitchen={menu.kitchen?.title ?? undefined}
-                                            fullWidth
-                                        />
-                                    </div>
-                                ))}
-                            </HStack>
-                        </>
-                    )}
-                </HStack>
+                                {isMobile ? (
+                                    <PEMenuCardMobile
+                                        title={menu.title}
+                                        description={menu.description}
+                                        imageUrls={[]}
+                                        pricePerPerson={menu.pricePerAdult}
+                                        chefFirstName={data?.users.me?.firstName ?? ''}
+                                        chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                        categories={menu.categories.map(({ title }) => title)}
+                                        kitchen={menu.kitchen?.title ?? undefined}
+                                    />
+                                ) : (
+                                    <PEMenuCard
+                                        title={menu.title}
+                                        description={menu.description}
+                                        imageUrls={[]}
+                                        pricePerPerson={menu.pricePerAdult}
+                                        chefFirstName={data?.users.me?.firstName ?? ''}
+                                        chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                        categories={menu.categories.map(({ title }) => title)}
+                                        kitchen={menu.kitchen?.title ?? undefined}
+                                        fullWidth
+                                    />
+                                )}
+                            </div>
+                        ))}
+
+                        {Boolean(invisibleMenus.length) && (
+                            <>
+                                <p className="text-text-m-bold w-full">Archive</p>
+                                <HStack
+                                    className="relative w-full gap-6 flex-wrap opacity-30"
+                                    style={{ alignItems: 'center', justifyContent: 'flex-start' }}
+                                >
+                                    {invisibleMenus.map((menu, index) => (
+                                        <div
+                                            onClick={(event): void => {
+                                                setAnchorEl(event.currentTarget);
+                                                setSelectedMenuId(menu.menuId);
+                                            }}
+                                            className="relative editMenu"
+                                            key={index}
+                                        >
+                                            <PEMenuCard
+                                                title={menu.title}
+                                                description={menu.description}
+                                                imageUrls={[]}
+                                                pricePerPerson={menu.pricePerAdult}
+                                                chefFirstName={data?.users.me?.firstName ?? ''}
+                                                chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                                categories={menu.categories.map(({ title }) => title)}
+                                                kitchen={menu.kitchen?.title ?? undefined}
+                                                fullWidth
+                                            />
+                                        </div>
+                                    ))}
+                                </HStack>
+                            </>
+                        )}
+                    </HStack>
+                </>
             )}
 
             {loading && (
@@ -193,7 +239,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
             <Dialog
                 sx={{ width: '100%', '& .MuiPaper-root': { width: '750px', maxWidth: '750px' } }}
                 open={openDeleteMenuDialog}
-                onClose={handleDeleteMenuDialog}
+                onClose={(): void => setOpenDeleteMenuDialog(false)}
             >
                 <DialogContent>
                     <VStack className="gap-8 relative box-border">
@@ -210,38 +256,40 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                         <p className="m-0 w-full text-start">Do you really want to delete the menu?</p>
                         <HStack className="w-full gap-4">
                             <PEButton onClick={(): void => setOpenDeleteMenuDialog(false)} title="Cancel" type="secondary" />
-                            <PEButton onClick={(): void => setOpenDeleteMenuDialog(false)} title="Delete" />
+                            <PEButton onClick={handleDeleteMenu} title="Delete" />
                         </HStack>
                     </VStack>
                 </DialogContent>
             </Dialog>
 
-            {editMenu.isOpen && (
-                <div
-                    className="editMenu absolute w-[200px] box-border bg-white rounded-4 shadow-primary px-4 py-1"
-                    style={{ top: editMenu.y, left: editMenu.x }}
+            {open && selectedMenuId && (
+                <Menu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={(): void => setAnchorEl(null)}
+                    onClick={(): void => setAnchorEl(null)}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    sx={{ borderRadius: '12px', overflow: 'hidden' }}
                 >
-                    <Button
-                        style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMenuDialog(true)}
+                    <MenuItem
+                        sx={{ width: '200px' }}
+                        onClick={(): void => {
+                            setSelectedTab('EDIT');
+                            setSelectedMenuId(selectedMenuId);
+                        }}
                     >
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>
-                    </Button>
+                    </MenuItem>
                     <div className="w-full h-[1px] bg-disabled" />
-                    <Button
-                        style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMenuDialog(true)}
-                    >
+                    <MenuItem sx={{ width: '200px' }} onClick={(): void => undefined}>
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Publish</p>
-                    </Button>
+                    </MenuItem>
                     <div className="w-full h-[1px] bg-disabled" />
-                    <Button
-                        style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMenuDialog(true)}
-                    >
+                    <MenuItem sx={{ width: '200px' }} onClick={(): void => setOpenDeleteMenuDialog(true)}>
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Delete</p>
-                    </Button>
-                </div>
+                    </MenuItem>
+                </Menu>
             )}
         </VStack>
     );

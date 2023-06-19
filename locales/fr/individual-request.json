@@ -25,5 +25,8 @@
     "start-time-label": "début",
     "step-1-label": "Étape 1",
     "step-2-label": "étape 2",
-    "step-3-label": "étape 3"
+    "step-3-label": "étape 3",
+    "ind-request-budget-hint-1": "Menu de base : ⌀ 50-75€ par personne, min. dépenser 250€",
+    "ind-request-budget-hint-2": "Menu Gastronomie : ⌀ 80-150€ par personne, min. dépenser 400€",
+    "ind-request-budget-hint-3": "Menu Gourmet : à partir de 150€ par personne, min. dépenser 600€"
 }

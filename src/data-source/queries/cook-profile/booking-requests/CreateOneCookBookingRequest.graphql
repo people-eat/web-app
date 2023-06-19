@@ -1,0 +1,7 @@
+mutation CreateOneCookBookingRequest($cookId: String!, $globalBookingRequestId: String!) {
+    cooks {
+        bookingRequests(cookId: $cookId) {
+            success: createOne(globalBookingRequestId: $globalBookingRequestId)
+        }
+    }
+}

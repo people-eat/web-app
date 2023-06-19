@@ -6,7 +6,22 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Link from 'next/link';
 import { type ReactElement } from 'react';
 
-export default function SignUpPageSuccessDialog(): ReactElement {
+function retrieveEmailProviderFromEmailAddress(emailAddress?: string): 'GOOGLE' | undefined {
+    if (!emailAddress) return;
+    const domainAndTdl: string | undefined = emailAddress.split('@')[1];
+    if (!domainAndTdl) return;
+    const domain: string | undefined = domainAndTdl.split('.')[0];
+    if (!domain) return;
+    if (domain === 'gmail') return 'GOOGLE';
+}
+
+export interface SignUpPageSuccessDialogProps {
+    emailAddress?: string;
+}
+
+export default function SignUpPageSuccessDialog({ emailAddress }: SignUpPageSuccessDialogProps): ReactElement {
+    const emailProvider = retrieveEmailProviderFromEmailAddress(emailAddress);
+
     return (
         <>
             <DialogTitle>Your registration has been successful</DialogTitle>
@@ -17,9 +32,14 @@ export default function SignUpPageSuccessDialog(): ReactElement {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Link href="sign-in">
+                <Link className="no-underline" href="sign-in">
                     <Button autoFocus>To Sign In</Button>
                 </Link>
+                {emailProvider === 'GOOGLE' && (
+                    <Link className="no-underline" href="https://mail.google.com">
+                        <Button autoFocus>To Gmail</Button>
+                    </Link>
+                )}
             </DialogActions>
         </>
     );
