@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
 import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
+import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -22,7 +23,8 @@ export interface ChefProfilePageMealsTabProps {
 export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMealsTabProps): ReactElement {
     const [selectedTab, setSelectedTab] = useState<MealType | 'ALL' | 'CREATE' | 'EDIT'>('ALL');
     const [openDeleteMealDialog, setOpenDeleteMealDialog] = useState(false);
-    const [editMeal, setEditMeal] = useState({ isOpen: false, x: 0, y: 0, mealId: '' });
+    const [editMeal, setEditMeal] = useState({ x: 0, y: 0, mealId: '' });
+    const [isEditMealOpen, setEditMealOpen] = useState(false);
 
     const { data, loading, refetch } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
@@ -33,15 +35,17 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
     }
 
     function handleRightClick(event: MouseEvent<HTMLDivElement>, mealId: string): void {
-        if (event.button === 2) setEditMeal({ isOpen: true, x: event.clientX, y: event.clientY, mealId });
-        else setEditMeal({ ...editMeal, isOpen: false });
+        if (event.button === 2) {
+            setEditMealOpen(true);
+            setEditMeal({ x: event.clientX, y: event.clientY, mealId });
+        } else setEditMealOpen(false);
     }
 
     useEffect(() => {
         // remove default right click for that page, to use custom function
         document.addEventListener('contextmenu', (event) => event.preventDefault());
         document.addEventListener('click', (event) => {
-            // if (!isParentNodeElementHasClass(event, 'editMeal')) setEditMeal({ ...editMeal, isOpen: false });
+            if (!isParentNodeElementHasClass(event, 'editMeal')) setEditMealOpen(false);
         });
     }, []);
 
@@ -145,7 +149,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                 </DialogContent>
             </Dialog>
 
-            {editMeal.isOpen && (
+            {isEditMealOpen && (
                 <div
                     className="editMeal absolute w-[200px] box-border bg-white rounded-4 shadow-primary px-4 py-1"
                     style={{ top: editMeal.y, left: editMeal.x }}
@@ -154,7 +158,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                         style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
                         onClick={(): void => {
                             setSelectedTab('EDIT');
-                            setEditMeal({ ...editMeal, isOpen: false });
+                            setEditMealOpen(false);
                         }}
                     >
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>

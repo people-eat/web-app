@@ -41,6 +41,8 @@ export default function PEImagePicker({ onPick, onRemoveDefaultImage, defaultIma
         onRemoveDefaultImage?.();
     }
 
+    console.log('defaultImage', defaultImage);
+
     return (
         <VStack style={{ alignItems: 'flex-start' }}>
             <div
