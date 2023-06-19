@@ -4,7 +4,6 @@ import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import { useState, type ReactElement } from 'react';
 import { CreateOneCookMenuDocument, type CurrencyCode } from '../../../../data-source/generated/graphql';
-import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import VStack from '../../../utility/vStack/VStack';
@@ -47,7 +46,9 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
         setSelectedMeals(meals);
     }
 
-    const [createMenu] = useMutation(CreateOneCookMenuDocument);
+    const [createMenu, { data }] = useMutation(CreateOneCookMenuDocument);
+
+    if (data?.cooks.menus.success) onSuccess();
 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -58,6 +59,7 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                 <div className="absolute top-8 right-8">
                     <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
                 </div>
+
                 <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
                     <p className="w-full text-heading-xl my-0 mb-2">Adding a new menu</p>
                     <Stepper activeStep={step}>
@@ -72,12 +74,14 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                         </Step>
                     </Stepper>
                 </VStack>
+
                 {step === 0 && (
                     <ChefProfilePageCreateMenusStep1
                         title={title}
                         setTitle={setTitle}
                         selectedKitchen={selectedKitchen}
                         setSelectedKitchen={setSelectedKitchen}
+                        onContinue={(): void => setStep(1)}
                     />
                 )}
 
@@ -87,6 +91,7 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                         onSelectedMeals={handleOnSelectedMeals}
                         greetingFromKitchen={greetingFromKitchen}
                         setGreetingFromKitchen={setGreetingFromKitchen}
+                        onContinue={(): void => setStep(2)}
                     />
                 )}
 
@@ -102,6 +107,30 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                         setPricePerChild={setPricePerChild}
                         isVisible={isVisible}
                         setIsVisible={setIsVisible}
+                        onComplete={(): void =>
+                            void createMenu({
+                                variables: {
+                                    cookId,
+                                    menu: {
+                                        title,
+                                        description,
+                                        basePrice,
+                                        basePriceCustomers,
+                                        pricePerAdult,
+                                        pricePerChild,
+                                        currencyCode,
+                                        greetingFromKitchen,
+                                        isVisible,
+                                        preparationTime,
+                                        kitchenId: selectedKitchen?.kitchenId,
+                                        categoryIds: selectedCategories.map(({ categoryId }) => categoryId),
+
+                                        // The big todo:
+                                        courses: [],
+                                    },
+                                },
+                            })
+                        }
                     />
                 )}
             </VStack>
@@ -114,35 +143,6 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                     <ChefProfilePageCreateMenusPreviewStep2 selectedMeals={selectedMeals} />
                 </VStack>
             )}
-
-            <PEButton
-                title="Demo Create"
-                onClick={(): void => {
-                    onSuccess();
-                    void createMenu({
-                        variables: {
-                            cookId,
-                            menu: {
-                                title,
-                                description,
-                                basePrice,
-                                basePriceCustomers,
-                                pricePerAdult,
-                                pricePerChild,
-                                currencyCode,
-                                greetingFromKitchen,
-                                isVisible,
-                                preparationTime,
-                                kitchenId: selectedKitchen?.kitchenId,
-                                categoryIds: selectedCategories.map(({ categoryId }) => categoryId),
-
-                                // The big todo:
-                                courses: [],
-                            },
-                        },
-                    });
-                }}
-            />
         </VStack>
     );
 }

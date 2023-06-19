@@ -31,14 +31,9 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
-    const [editMenu, setEditMenu] = useState({
-        isOpen: false,
-        x: 0,
-        y: 0,
-        menuId: '',
-    });
+    const [editMenu, setEditMenu] = useState({ isOpen: false, x: 0, y: 0, menuId: '' });
 
-    const { data, loading } = useQuery(FindCookMenusDocument, { variables: { cookId } });
+    const { data, loading, refetch } = useQuery(FindCookMenusDocument, { variables: { cookId } });
 
     const menus = data?.cooks.menus.findMany ?? [];
 
@@ -53,6 +48,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     function handleCreateNewMenuSuccess(): void {
         setSelectedTab('MENUS');
         setOpenCreateNewMenuSuccess(true);
+        void refetch();
     }
 
     function handleRightClick(event: MouseEventGen<HTMLDivElement>, menuId: string): void {
@@ -85,19 +81,6 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
-            <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
-                <Spacer />
-
-                <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
-
-                <PEIconButton
-                    onClick={(): void => setSelectedTab('CREATE')}
-                    icon={Icon.plusWhite}
-                    bg="rgba(255, 100, 51, 1)"
-                    withoutShadow
-                />
-            </HStack>
-
             {selectedTab === 'CREATE' && (
                 <ChefProfilePageCreateMenu
                     cookId={cookId}
@@ -107,57 +90,72 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
             )}
 
             {selectedTab === 'MENUS' && (
-                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    {visibleMenus.map((menu, index) => (
-                        <div
-                            onMouseDown={(event): void => handleRightClick(event, menu.menuId)}
-                            className="relative PEMenuCard"
-                            key={index}
-                        >
-                            <PEMenuCard
-                                title={menu.title}
-                                description={menu.description}
-                                imageUrls={[]}
-                                pricePerPerson={menu.pricePerAdult}
-                                chefFirstName={data?.users.me?.firstName ?? ''}
-                                chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
-                                categories={menu.categories.map(({ title }) => title)}
-                                kitchen={menu.kitchen?.title ?? undefined}
-                                fullWidth
-                            />
-                        </div>
-                    ))}
+                <>
+                    <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
+                        <Spacer />
 
-                    {Boolean(invisibleMenus.length) && (
-                        <>
-                            <p className="text-text-m-bold w-full">Archive</p>
-                            <HStack
-                                className="relative w-full gap-6 flex-wrap opacity-30"
-                                style={{ alignItems: 'center', justifyContent: 'flex-start' }}
+                        <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />
+
+                        <PEIconButton
+                            onClick={(): void => setSelectedTab('CREATE')}
+                            icon={Icon.plusWhite}
+                            bg="rgba(255, 100, 51, 1)"
+                            withoutShadow
+                        />
+                    </HStack>
+
+                    <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
+                        {visibleMenus.map((menu, index) => (
+                            <div
+                                onMouseDown={(event): void => handleRightClick(event, menu.menuId)}
+                                className="relative PEMenuCard"
+                                key={index}
                             >
-                                {invisibleMenus.map((menu, index) => (
-                                    <div
-                                        onMouseDown={(event): void => handleRightClick(event, menu.menuId)}
-                                        className="relative"
-                                        key={index}
-                                    >
-                                        <PEMenuCard
-                                            title={menu.title}
-                                            description={menu.description}
-                                            imageUrls={[]}
-                                            pricePerPerson={menu.pricePerAdult}
-                                            chefFirstName={data?.users.me?.firstName ?? ''}
-                                            chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
-                                            categories={menu.categories.map(({ title }) => title)}
-                                            kitchen={menu.kitchen?.title ?? undefined}
-                                            fullWidth
-                                        />
-                                    </div>
-                                ))}
-                            </HStack>
-                        </>
-                    )}
-                </HStack>
+                                <PEMenuCard
+                                    title={menu.title}
+                                    description={menu.description}
+                                    imageUrls={[]}
+                                    pricePerPerson={menu.pricePerAdult}
+                                    chefFirstName={data?.users.me?.firstName ?? ''}
+                                    chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                    categories={menu.categories.map(({ title }) => title)}
+                                    kitchen={menu.kitchen?.title ?? undefined}
+                                    fullWidth
+                                />
+                            </div>
+                        ))}
+
+                        {Boolean(invisibleMenus.length) && (
+                            <>
+                                <p className="text-text-m-bold w-full">Archive</p>
+                                <HStack
+                                    className="relative w-full gap-6 flex-wrap opacity-30"
+                                    style={{ alignItems: 'center', justifyContent: 'flex-start' }}
+                                >
+                                    {invisibleMenus.map((menu, index) => (
+                                        <div
+                                            onMouseDown={(event): void => handleRightClick(event, menu.menuId)}
+                                            className="relative"
+                                            key={index}
+                                        >
+                                            <PEMenuCard
+                                                title={menu.title}
+                                                description={menu.description}
+                                                imageUrls={[]}
+                                                pricePerPerson={menu.pricePerAdult}
+                                                chefFirstName={data?.users.me?.firstName ?? ''}
+                                                chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                                categories={menu.categories.map(({ title }) => title)}
+                                                kitchen={menu.kitchen?.title ?? undefined}
+                                                fullWidth
+                                            />
+                                        </div>
+                                    ))}
+                                </HStack>
+                            </>
+                        )}
+                    </HStack>
+                </>
             )}
 
             {loading && (

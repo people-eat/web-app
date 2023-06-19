@@ -1,4 +1,5 @@
 import { type ReactElement } from 'react';
+import PEButton from '../../../../standard/buttons/PEButton';
 import PEDropdown from '../../../../standard/dropdown/PEDropdown';
 import PETextField from '../../../../standard/textFields/PETextField';
 import VStack from '../../../../utility/vStack/VStack';
@@ -23,9 +24,15 @@ export interface ChefProfilePageCreateMenusStep1Props {
 
     selectedKitchen?: { kitchenId: string; title: string };
     setSelectedKitchen: (changedSelectedKitchen?: { kitchenId: string; title: string }) => void;
+
+    onContinue: () => void;
 }
 
-export default function ChefProfilePageCreateMenusStep1({ title, setTitle }: ChefProfilePageCreateMenusStep1Props): ReactElement {
+export default function ChefProfilePageCreateMenusStep1({
+    title,
+    setTitle,
+    onContinue,
+}: ChefProfilePageCreateMenusStep1Props): ReactElement {
     return (
         <VStack className="w-full gap-6" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <VStack className="w-full">
@@ -36,6 +43,8 @@ export default function ChefProfilePageCreateMenusStep1({ title, setTitle }: Che
             <PEDropdown title={'Categories'} options={CATEGORIES} getOptionLabel={(category): string => category.title} defaultExpanded />
 
             <PEDropdown title={'Kitchen'} options={KITCHENS} getOptionLabel={(kitchen): string => kitchen.title} defaultExpanded />
+
+            <PEButton title="Continue" onClick={onContinue} />
         </VStack>
     );
 }

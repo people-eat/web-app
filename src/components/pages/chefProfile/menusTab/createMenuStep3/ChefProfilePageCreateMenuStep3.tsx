@@ -1,5 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
+import PEButton from '../../../../standard/buttons/PEButton';
 import PECheckbox from '../../../../standard/checkbox/PECheckbox';
 import PENumberTextField from '../../../../standard/textFields/PENumberTextField';
 import HStack from '../../../../utility/hStack/HStack';
@@ -20,6 +21,8 @@ export interface ChefProfilePageCreateMenusStep3Props {
 
     isVisible: boolean;
     setIsVisible: (changedIsVisible: boolean) => void;
+
+    onComplete: () => void;
 }
 
 export default function ChefProfilePageCreateMenusStep3({
@@ -33,68 +36,67 @@ export default function ChefProfilePageCreateMenusStep3({
     setPricePerChild,
     isVisible,
     setIsVisible,
+    onComplete,
 }: ChefProfilePageCreateMenusStep3Props): ReactElement {
     const { t } = useTranslation('chef-profile');
 
     return (
-        <VStack className="w-full gap-2" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-            <HStack className="w-full gap-4 md:flex-wrap">
+        <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+            <HStack gap={16} className="w-full md:flex-wrap">
                 <VStack className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                    <p className="text-text-m-bold m-0 my-3">{t('base-price')}</p>
-                    <PENumberTextField endContent={<p className="m-0 text-green">EUR</p>} onChange={setBasePrice} value={basePrice} />
+                    <p className="text-text-m-bold">{t('base-price')}</p>
+                    <PENumberTextField endContent={<p className="text-green">EUR</p>} onChange={setBasePrice} value={basePrice} />
                 </VStack>
                 <VStack className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                    <p className="text-text-m-bold m-0 my-3">für</p>
+                    <p className="text-text-m-bold">für</p>
                     <PENumberTextField
-                        endContent={<p className="m-0 text-disabled">{t('person')}</p>}
+                        endContent={<p className="text-disabled">{t('person')}</p>}
                         onChange={setBasePriceCustomers}
                         value={basePriceCustomers}
                     />
-                    <p className="text-text-sm text-disabled w-full m-0 my-2 text-right">{t('max-count-persons', { count: 20 })}</p>
+                    <p className="text-text-sm text-disabled w-full text-right">{t('max-count-persons', { count: 20 })}</p>
                 </VStack>
             </HStack>
+
             <VStack className="w-1/2 md:w-full">
                 <VStack className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                    <p className="text-text-m-bold m-0 my-3">{t('additional-person')}</p>
-                    <PENumberTextField
-                        endContent={<p className="m-0 text-green">EUR</p>}
-                        onChange={setPricePerAdult}
-                        value={pricePerAdult}
-                    />
+                    <p className="text-text-m-bold">{t('additional-person')}</p>
+                    <PENumberTextField endContent={<p className="text-green">EUR</p>} onChange={setPricePerAdult} value={pricePerAdult} />
                 </VStack>
-                <p className="text-text-m-bold text-orange m-0 mt-6 w-full text-left">{t('children-discount')}</p>
-                <HStack className="w-full gap-[150px] my-4" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+
+                <p className="text-text-m-bold text-orange w-full text-left">{t('children-discount')}</p>
+
+                <HStack className="w-full gap-[150px]" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                     <HStack style={{ alignItems: 'center' }}>
                         <PECheckbox checked={Boolean(pricePerChild)} onCheckedChange={(): void => setPricePerChild(2000)} />
-                        <p className="m-0">Ja</p>
+                        <span>Yes</span>
                     </HStack>
                     <HStack style={{ alignItems: 'center' }}>
                         <PECheckbox checked={!Boolean(pricePerChild)} onCheckedChange={(): void => setPricePerChild(undefined)} />
-                        <p className="m-0">{t('no-button')}</p>
+                        <span>{t('no-button')}</span>
                     </HStack>
                 </HStack>
+
                 <VStack className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                     {pricePerChild && (
                         <PENumberTextField
-                            endContent={<p className="m-0 text-disabled">%</p>}
+                            endContent={<p className="text-disabled">%</p>}
                             onChange={setPricePerChild}
                             value={pricePerChild}
                         />
                     )}
                     {!pricePerChild && (
-                        <PENumberTextField
-                            endContent={<p className="m-0 text-disabled">%</p>}
-                            onChange={setPricePerChild}
-                            value={0}
-                            disabled
-                        />
+                        <PENumberTextField endContent={<p className="text-disabled">%</p>} onChange={setPricePerChild} value={0} disabled />
                     )}
                 </VStack>
+
                 <HStack className="w-full mt-4" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                     <PECheckbox checked={isVisible} onCheckedChange={(): void => setIsVisible(!isVisible)} />
-                    <p className="text-text-m-bold m-0 my-3">{t('publish-menu')}</p>
+                    <p className="text-text-m-bold">{t('publish-menu')}</p>
                 </HStack>
             </VStack>
+
+            <PEButton title="Complete" onClick={onComplete} />
         </VStack>
     );
 }
