@@ -16,7 +16,7 @@ import VStack from '../../../../utility/vStack/VStack';
 import { MenuEntity } from '../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageEditMenusStep3Props {
-    menu?: MenuEntity;
+    menu: MenuEntity | null | undefined;
     cookId: string;
 }
 

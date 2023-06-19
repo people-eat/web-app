@@ -22,7 +22,7 @@ const KITCHENS: { kitchenId: string; title: string }[] = [
 ];
 
 export interface ChefProfilePageEditMenusStep1Props {
-    menu?: MenuEntity;
+    menu: MenuEntity | null | undefined;
     cookId: string;
 }
 
@@ -68,7 +68,7 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu }: ChefProf
                 onSelectedOptionsChange={(option): void => setSelectedKitchen(option[0] ?? undefined)}
                 title={'Kitchen'}
                 options={KITCHENS}
-                getOptionLabel={(kitchen): string => kitchen.title}
+                getOptionLabel={(kitchen): string => kitchen?.title ?? ''}
                 defaultExpanded
             />
 

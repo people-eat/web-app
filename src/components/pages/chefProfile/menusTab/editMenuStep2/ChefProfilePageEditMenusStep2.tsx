@@ -15,7 +15,7 @@ import VStack from '../../../../utility/vStack/VStack';
 import { MenuEntity, type MealEntity } from '../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageEditMenusStep2Props {
-    menu?: MenuEntity;
+    menu: MenuEntity | null | undefined;
     cookId: string;
     menuId?: string;
     onSelectedMeals?: (selectedMeals: MealEntity[]) => void;
@@ -37,7 +37,7 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu }: ChefProf
     const [selectedMeals] = useState<string[]>([]);
     // const [editSelectedMeals, setEditSelectedMeals] = useState<string[]>([]);
     // const [greetingFromKitchenDescription, setGreetingFromKitchenDescription] = useState('');
-    const [greetingFromKitchen, setGreetingFromKitchen] = useState(menu?.greetingFromKitchen ?? false);
+    const [greetingFromKitchen, setGreetingFromKitchen] = useState(menu?.greetingFromKitchen ?? undefined);
 
     const [courses, setCourses] = useState<{ title: string; mealType: MealType }[]>([]);
     const [showCreateCourseDialog, setShowCreateCourseDialog] = useState(false);
@@ -51,7 +51,7 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu }: ChefProf
     });
 
     useEffect(() => {
-        setGreetingFromKitchen(menu?.greetingFromKitchen ?? false);
+        setGreetingFromKitchen(menu?.greetingFromKitchen ?? undefined);
         setCourses([]);
         setShowCreateCourseDialog(false);
         setNewCourseTitle('');
@@ -311,7 +311,7 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu }: ChefProf
                 {/*            <PEButton className="max-w-[250px]" onClick={(): void => undefined} title={t('add-gear')} />*/}
                 {/*        )}*/}
                 {/*    </HStack>*/}
-                {/*</VStack>*/}
+                {/* </VStack>*/}
 
                 <PEButton title="Save" onClick={handleSaveUpdates} />
             </VStack>
