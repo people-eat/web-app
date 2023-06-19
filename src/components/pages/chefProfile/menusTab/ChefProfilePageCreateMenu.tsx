@@ -33,7 +33,7 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
     const [pricePerChild, setPricePerChild] = useState<undefined | number>(undefined);
     const [currencyCode] = useState<CurrencyCode>('EUR');
 
-    const [greetingFromKitchen, setGreetingFromKitchen] = useState(false);
+    const [greetingFromKitchen, setGreetingFromKitchen] = useState<string | undefined>();
     const [isVisible, setIsVisible] = useState(true);
     const [preparationTime, _setPreparationTime] = useState(60);
 

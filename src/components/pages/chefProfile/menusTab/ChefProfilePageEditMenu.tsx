@@ -32,7 +32,7 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId }: ChefProfil
     const [pricePerChild, setPricePerChild] = useState<undefined | number>(undefined);
     const [_currencyCode] = useState<CurrencyCode>('EUR');
 
-    const [greetingFromKitchen, setGreetingFromKitchen] = useState(false);
+    const [_greetingFromKitchen, _setGreetingFromKitchen] = useState(false);
     const [isVisible, setIsVisible] = useState(true);
     const [_preparationTime, _setPreparationTime] = useState(60);
 
@@ -84,8 +84,8 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId }: ChefProfil
                     <ChefProfilePageCreateMenusStep2
                         cookId={cookId}
                         onSelectedMeals={handleOnSelectedMeals}
-                        greetingFromKitchen={greetingFromKitchen}
-                        setGreetingFromKitchen={setGreetingFromKitchen}
+                        greetingFromKitchen={''}
+                        setGreetingFromKitchen={(): void => undefined}
                         onContinue={(): void => undefined}
                     />
                 )}

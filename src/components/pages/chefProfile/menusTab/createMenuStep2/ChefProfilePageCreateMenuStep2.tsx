@@ -17,8 +17,8 @@ export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;
     menuId?: string;
     onSelectedMeals: (selectedMeals: MealEntity[]) => void;
-    greetingFromKitchen: boolean;
-    setGreetingFromKitchen: (changedGreetingFromKitchen: boolean) => void;
+    greetingFromKitchen?: string;
+    setGreetingFromKitchen: (changedGreetingFromKitchen?: string) => void;
     onContinue: () => void;
 }
 
@@ -41,7 +41,6 @@ export default function ChefProfilePageCreateMenusStep2({
     // const [activeIndex, setActiveIndex] = useState(0);
     const [selectedMeals] = useState<string[]>([]);
     // const [editSelectedMeals, setEditSelectedMeals] = useState<string[]>([]);
-    const [greetingFromKitchenDescription, setGreetingFromKitchenDescription] = useState('');
 
     const [courses, setCourses] = useState<{ title: string; mealType: MealType }[]>([]);
     const [showCreateCourseDialog, setShowCreateCourseDialog] = useState(false);
@@ -147,14 +146,22 @@ export default function ChefProfilePageCreateMenusStep2({
                     <p className="w-full text-text-m-bold my-0">Would you like to offer a greeting from the kitchen?</p>
 
                     <HStack gap={16} className="w-full my-4" style={{ alignItems: 'center' }}>
-                        <PETabItem title="Yes" onClick={(): void => setGreetingFromKitchen(true)} active={greetingFromKitchen} />
-                        <PETabItem title="No" onClick={(): void => setGreetingFromKitchen(false)} active={!greetingFromKitchen} />
-                        <PETextField
-                            type={'text'}
-                            value={greetingFromKitchenDescription}
-                            onChange={setGreetingFromKitchenDescription}
-                            disabled={!greetingFromKitchen}
+                        <PETabItem
+                            title="Yes"
+                            onClick={(): void => setGreetingFromKitchen('')}
+                            active={greetingFromKitchen !== undefined}
                         />
+                        <PETabItem
+                            title="No"
+                            onClick={(): void => setGreetingFromKitchen(undefined)}
+                            active={greetingFromKitchen === undefined}
+                        />
+                        {greetingFromKitchen === undefined && (
+                            <PETextField type={'text'} value={greetingFromKitchen} onChange={(): void => undefined} disabled={true} />
+                        )}
+                        {greetingFromKitchen !== undefined && (
+                            <PETextField type={'text'} value={greetingFromKitchen} onChange={setGreetingFromKitchen} />
+                        )}
                     </HStack>
                 </VStack>
 

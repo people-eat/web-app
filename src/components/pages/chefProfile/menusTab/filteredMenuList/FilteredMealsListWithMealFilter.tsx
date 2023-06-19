@@ -1,8 +1,7 @@
 import { type ReactElement } from 'react';
-import PEMealCard from '../../../../cards/mealCard/PEMealCard';
 import HStack from '../../../../utility/hStack/HStack';
 import { type MealEntity } from '../ChefProfilePageMenusTab';
-import { MEALS_CARD_COUNT } from '../createMenuStep2/ChefProfilePageCreateMenuStep2';
+// import { MEALS_CARD_COUNT } from '../createMenuStep2/ChefProfilePageCreateMenuStep2';
 
 export interface FilteredMealsListWithMealFilterProps {
     meals: MealEntity[];
@@ -12,16 +11,10 @@ export interface FilteredMealsListWithMealFilterProps {
     activeIndex: number;
 }
 
-export default function FilteredMealsListWithMealFilter({
-    meals,
-    show = true,
-    clickOnMeal,
-    activeIndex,
-    selectedMeals,
-}: FilteredMealsListWithMealFilterProps): ReactElement {
+export default function FilteredMealsListWithMealFilter({ meals: _meals }: FilteredMealsListWithMealFilterProps): ReactElement {
     return (
         <HStack className="w-full flex-wrap gap-4" style={{ justifyContent: 'flex-start' }}>
-            {show && (
+            {/* {show && (
                 <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                     {meals.map(({ title, description, imageUrl, mealId }, index) => (
                         <>
@@ -39,7 +32,7 @@ export default function FilteredMealsListWithMealFilter({
                         </>
                     ))}
                 </HStack>
-            )}
+            )} */}
         </HStack>
     );
 }
