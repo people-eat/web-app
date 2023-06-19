@@ -70,7 +70,11 @@ export default function ChefProfilePageCreateMenusStep3({
             <HStack gap={16} className="w-full md:flex-wrap">
                 <VStack className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                     <p className="text-text-m-bold">{t('base-price')}</p>
-                    <PENumberTextField endContent={<p className="text-green">EUR (cent)</p>} onChange={setBasePrice} value={basePrice} />
+                    <PENumberTextField
+                        endContent={<p className="text-green">EUR</p>}
+                        onChange={(changedBasePrice): void => setBasePrice(changedBasePrice * 100)}
+                        value={basePrice / 100}
+                    />
                 </VStack>
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
@@ -90,9 +94,9 @@ export default function ChefProfilePageCreateMenusStep3({
                 <VStack className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                     <p className="text-text-m-bold">{t('additional-person')}</p>
                     <PENumberTextField
-                        endContent={<p className="text-green">EUR (cent)</p>}
-                        onChange={setPricePerAdult}
-                        value={pricePerAdult}
+                        endContent={<p className="text-green">EUR</p>}
+                        onChange={(changedPricePerAdult): void => setPricePerAdult(changedPricePerAdult * 100)}
+                        value={pricePerAdult / 100}
                     />
                 </VStack>
 
@@ -113,9 +117,9 @@ export default function ChefProfilePageCreateMenusStep3({
                 <VStack className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                     {pricePerChild && (
                         <PENumberTextField
-                            endContent={<p className="text-green">EUR (cent)</p>}
-                            onChange={setPricePerChild}
-                            value={pricePerChild}
+                            endContent={<p className="text-green">EUR</p>}
+                            onChange={(changedPricePerChild): void => setPricePerChild(changedPricePerChild * 100)}
+                            value={pricePerChild / 100}
                         />
                     )}
 
