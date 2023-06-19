@@ -44,16 +44,16 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: Ch
     }, [meal, data]);
 
     const [updateMealDescription] = useMutation(UpdateCookMealDescriptionDocument, {
-        variables: { cookId, mealId: meal?.mealId ?? '', description },
+        variables: { cookId, mealId, description },
     });
     const [updateMealImage] = useMutation(UpdateCookMealImageDocument, {
-        variables: { cookId, mealId: meal?.mealId ?? '', image },
+        variables: { cookId, mealId, image },
     });
     const [updateMealTitle] = useMutation(UpdateCookMealTitleDocument, {
-        variables: { cookId, mealId: meal?.mealId ?? '', title },
+        variables: { cookId, mealId, title },
     });
     const [updateMealType] = useMutation(UpdateCookMealTypeDocument, {
-        variables: { cookId, mealId: meal?.mealId ?? '', type },
+        variables: { cookId, mealId, type },
     });
 
     function handleSaveUpdates(): void {
