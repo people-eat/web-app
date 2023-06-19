@@ -58,6 +58,8 @@ export default function ChefProfilePageCreateMenusStep3({
 }: ChefProfilePageCreateMenusStep3Props): ReactElement {
     const { t } = useTranslation('chef-profile');
 
+    const [childrenDiscount, setChildrenDiscount] = useState(20);
+
     const [adults, setAdults] = useState(4);
     const [children, setChildren] = useState(0);
 
@@ -95,7 +97,10 @@ export default function ChefProfilePageCreateMenusStep3({
                     <p className="text-text-m-bold">{t('additional-person')}</p>
                     <PENumberTextField
                         endContent={<p className="text-green">EUR</p>}
-                        onChange={(changedPricePerAdult): void => setPricePerAdult(changedPricePerAdult * 100)}
+                        onChange={(changedPricePerAdult): void => {
+                            setPricePerAdult(changedPricePerAdult * 100);
+                            setPricePerChild(((100 - childrenDiscount) / 100) * changedPricePerAdult * 100);
+                        }}
                         value={pricePerAdult / 100}
                     />
                 </VStack>
@@ -116,22 +121,23 @@ export default function ChefProfilePageCreateMenusStep3({
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                     {pricePerChild && (
-                        <PENumberTextField
-                            endContent={<p className="text-green">EUR</p>}
-                            onChange={(changedPricePerChild): void => setPricePerChild(changedPricePerChild * 100)}
-                            value={pricePerChild / 100}
-                        />
+                        <>
+                            <PENumberTextField
+                                endContent={<>%</>}
+                                onChange={(changedChildrenDiscount): void => {
+                                    setChildrenDiscount(changedChildrenDiscount);
+                                    setPricePerChild(((100 - changedChildrenDiscount) / 100) * pricePerAdult);
+                                }}
+                                value={childrenDiscount}
+                            />
+                            <p className="text-text-sm text-disabled w-full text-right">{pricePerChild / 100} EUR</p>
+                        </>
                     )}
 
                     {!pricePerChild && (
                         <PENumberTextField endContent={<p className="text-disabled">%</p>} onChange={setPricePerChild} value={0} disabled />
                     )}
                 </VStack>
-
-                <HStack className="w-full mt-4" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    <PECheckbox checked={isVisible} onCheckedChange={(): void => setIsVisible(!isVisible)} />
-                    <p className="text-text-m-bold">{t('publish-menu')}</p>
-                </HStack>
             </VStack>
 
             <p className="w-full text-heading-l mb-2">Price Simulation</p>
@@ -158,6 +164,11 @@ export default function ChefProfilePageCreateMenusStep3({
                         endContent={<p className="text-green">EUR</p>}
                     />
                 </VStack>
+            </HStack>
+
+            <HStack className="w-full mt-4" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
+                <PECheckbox checked={isVisible} onCheckedChange={(): void => setIsVisible(!isVisible)} />
+                <p className="text-text-m-bold">{t('publish-menu')}</p>
             </HStack>
 
             <PEButton title="Complete" onClick={onComplete} />
