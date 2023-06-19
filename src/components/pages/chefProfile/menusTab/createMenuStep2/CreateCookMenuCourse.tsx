@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { type MealType } from '../../../../../data-source/generated/graphql';
@@ -35,7 +35,7 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
     const [selectedMeals] = useState<Map<string, MealEntity>>(new Map());
 
     return (
-        <Dialog open={open}>
+        <Dialog open={open} maxWidth="md">
             <DialogTitle>
                 <HStack>
                     <span>Add Course</span>
@@ -45,40 +45,47 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
             </DialogTitle>
 
             <DialogContent>
-                <VStack gap={16}>
-                    <PETextField value={title} onChange={setTitle} type="text" placeholder="Course Name" />
+                <DialogContentText>
+                    <VStack gap={32}>
+                        <PETextField value={title} onChange={setTitle} type="text" placeholder="Course Name" />
 
-                    <HStack>
-                        <PETabItem title={'ALL'} onClick={(): void => setSelectedMealType('ALL')} active={selectedMealType === 'ALL'} />
-                        {mealTypes.map((mealType, index) => (
-                            <PETabItem
-                                key={index}
-                                title={mealType}
-                                onClick={(): void => setSelectedMealType(mealType)}
-                                active={selectedMealType === mealType}
-                            />
-                        ))}
-                    </HStack>
+                        <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start', overflowX: 'scroll' }}>
+                            <PETabItem title={'ALL'} onClick={(): void => setSelectedMealType('ALL')} active={selectedMealType === 'ALL'} />
 
-                    <HStack gap={16} style={{ flexWrap: 'wrap' }}>
-                        {meals.map((meal, index) => (
-                            <PEMealCard
-                                key={index}
-                                onClick={(): void => {
-                                    if (selectedMeals.has(meal.mealId)) selectedMeals.delete(meal.mealId);
-                                    else selectedMeals.set(meal.mealId, meal);
-                                }}
-                                title={meal.title}
-                                description={meal.description}
-                                imageUrl={meal.imageUrl ?? undefined}
-                                active={selectedMeals.has(meal.mealId)}
-                            />
-                        ))}
-                    </HStack>
+                            {mealTypes.map((mealType, index) => (
+                                <PETabItem
+                                    key={index}
+                                    title={mealType}
+                                    onClick={(): void => setSelectedMealType(mealType)}
+                                    active={selectedMealType === mealType}
+                                />
+                            ))}
+                        </HStack>
 
-                    <PEButton title={t('add-gear')} onClick={(): void => onSuccess({ title, meals: Array.from(selectedMeals.values()) })} />
-                </VStack>
+                        <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                            {meals
+                                .filter(({ type }) => (selectedMealType === 'ALL' ? true : type === selectedMealType))
+                                .map((meal, index) => (
+                                    <PEMealCard
+                                        key={index}
+                                        onClick={(): void => {
+                                            if (selectedMeals.has(meal.mealId)) selectedMeals.delete(meal.mealId);
+                                            else selectedMeals.set(meal.mealId, meal);
+                                        }}
+                                        title={meal.title}
+                                        description={meal.description}
+                                        imageUrl={meal.imageUrl ?? undefined}
+                                        active={selectedMeals.has(meal.mealId)}
+                                    />
+                                ))}
+                        </HStack>
+                    </VStack>
+                </DialogContentText>
             </DialogContent>
+
+            <DialogActions>
+                <PEButton title={t('add-gear')} onClick={(): void => onSuccess({ title, meals: Array.from(selectedMeals.values()) })} />
+            </DialogActions>
         </Dialog>
     );
 }

@@ -94,10 +94,10 @@ export default function ChefProfilePageCreateMenusStep2({
                             />
                         </HStack>
 
-                        <HStack gap={16} style={{ overflowX: 'scroll', padding: '16px' }}>
+                        <HStack className="w-full" gap={16} style={{ flexWrap: 'wrap', padding: '16px', justifyContent: 'flex-start' }}>
                             <VStack
                                 onClick={(): void => undefined}
-                                className="items-center w-[380px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
+                                className="items-center w-[410px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
                             >
                                 <PEIcon icon={Icon.plusOrange} />
                                 <span className="text-orange text-text-sm">Add Dish</span>

@@ -83,34 +83,10 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                 </HStack>
             )}
 
-            {selectedTab === 'STARTER' && (
+            {selectedTab !== 'ALL' && selectedTab !== 'CREATE' && (
                 <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                     {meals
-                        .filter(({ type }) => type === 'STARTER')
-                        .map(({ title, description, imageUrl, mealId }, index) => (
-                            <div className="editMeal" key={index} onMouseDown={(event): void => handleRightClick(event, mealId)}>
-                                <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
-                            </div>
-                        ))}
-                </HStack>
-            )}
-
-            {selectedTab === 'MAIN_COURSE' && (
-                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    {meals
-                        .filter(({ type }) => type === 'MAIN_COURSE')
-                        .map(({ title, description, imageUrl, mealId }, index) => (
-                            <div className="editMeal" key={index} onMouseDown={(event): void => handleRightClick(event, mealId)}>
-                                <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
-                            </div>
-                        ))}
-                </HStack>
-            )}
-
-            {selectedTab === 'DESSERT' && (
-                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    {meals
-                        .filter(({ type }) => type === 'DESSERT')
+                        .filter(({ type }) => type === selectedTab)
                         .map(({ title, description, imageUrl, mealId }, index) => (
                             <div className="editMeal" key={index} onMouseDown={(event): void => handleRightClick(event, mealId)}>
                                 <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
