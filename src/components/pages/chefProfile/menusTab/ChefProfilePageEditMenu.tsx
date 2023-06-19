@@ -1,16 +1,15 @@
+import { useQuery } from '@apollo/client';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
-import { useState, type ReactElement } from 'react';
-import { type CurrencyCode } from '../../../../data-source/generated/graphql';
+import { useEffect, useState, type ReactElement } from 'react';
+import { FindCookMenuDocument } from '../../../../data-source/generated/graphql';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import VStack from '../../../utility/vStack/VStack';
-import { type MealEntity } from './ChefProfilePageMenusTab';
-import ChefProfilePageCreateMenusStep1 from './createMenuStep1/ChefProfilePageCreateMenusStep1';
-import ChefProfilePageCreateMenusStep2 from './createMenuStep2/ChefProfilePageCreateMenuStep2';
-import ChefProfilePageCreateMenusPreviewStep2 from './createMenuStep2/ChefProfilePageCreateMenusPreviewStep2';
-import ChefProfilePageCreateMenusStep3 from './createMenuStep3/ChefProfilePageCreateMenuStep3';
+import ChefProfilePageEditMenusStep1 from './editMenuStep1/ChefProfilePageEditMenusStep1';
+import ChefProfilePageEditMenusStep2 from './editMenuStep2/ChefProfilePageEditMenusStep2';
+import ChefProfilePageEditMenusStep3 from './editMenuStep3/ChefProfilePageEditMenusStep3';
 
 interface ChefProfilePageEditMenuProps {
     cookId: string;
@@ -19,31 +18,30 @@ interface ChefProfilePageEditMenuProps {
     onCancel: () => void;
 }
 
-export default function ChefProfilePageEditMenu({ onCancel, cookId }: ChefProfilePageEditMenuProps): ReactElement {
+// eslint-disable-next-line max-statements
+export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: ChefProfilePageEditMenuProps): ReactElement {
     const [step, setStep] = useState(0);
+    const { data, refetch } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
 
-    const [title, setTitle] = useState('');
-    const [_description, _setDescription] = useState('');
+    const [menu, setMenu] = useState(data?.cooks.menus.findOne);
 
-    // in cents: 10000 -> 100.00 EUR
-    const [basePrice, setBasePrice] = useState(10000);
-    const [basePriceCustomers, setBasePriceCustomers] = useState(2);
-    const [pricePerAdult, setPricePerAdult] = useState(5000);
-    const [pricePerChild, setPricePerChild] = useState<undefined | number>(undefined);
-    const [_currencyCode] = useState<CurrencyCode>('EUR');
+    // const [description, _setDescription] = useState(menu?.description ?? '');
 
-    const [_greetingFromKitchen, _setGreetingFromKitchen] = useState(false);
-    const [isVisible, setIsVisible] = useState(true);
-    const [_preparationTime, _setPreparationTime] = useState(60);
+    // const [currencyCode] = useState<CurrencyCode>('EUR');
 
-    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
-    const [_selectedCategories, _setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
+    // const [preparationTime, _setPreparationTime] = useState(menu?.preparationTime ?? 60);
 
-    const [selectedMeals, setSelectedMeals] = useState<MealEntity[]>([]);
+    // const [selectedMeals, setSelectedMeals] = useState<MealEntity[]>([]);
 
-    function handleOnSelectedMeals(meals: MealEntity[]): void {
-        setSelectedMeals(meals);
-    }
+    // function handleOnSelectedMeals(meals: MealEntity[]): void {
+    //     setSelectedMeals(meals);
+    // }
+
+    useEffect((): void => {
+        void refetch().then(({ data }): void => {
+            setMenu(data?.cooks.menus.findOne);
+        });
+    }, [menuId]);
 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -54,7 +52,6 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId }: ChefProfil
                 <div className="absolute top-8 right-8">
                     <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
                 </div>
-
                 <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
                     <p className="w-full text-heading-xl my-0 mb-2">Adding a new menu</p>
                     <Stepper activeStep={step}>
@@ -69,52 +66,12 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId }: ChefProfil
                         </Step>
                     </Stepper>
                 </VStack>
+                {step === 0 && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} />}
 
-                {step === 0 && (
-                    <ChefProfilePageCreateMenusStep1
-                        title={title}
-                        setTitle={setTitle}
-                        selectedKitchen={selectedKitchen}
-                        setSelectedKitchen={setSelectedKitchen}
-                        onContinue={(): void => undefined}
-                    />
-                )}
+                {step === 1 && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} />}
 
-                {step === 1 && (
-                    <ChefProfilePageCreateMenusStep2
-                        cookId={cookId}
-                        onSelectedMeals={handleOnSelectedMeals}
-                        greetingFromKitchen={''}
-                        setGreetingFromKitchen={(): void => undefined}
-                        onContinue={(): void => undefined}
-                    />
-                )}
-
-                {step === 2 && (
-                    <ChefProfilePageCreateMenusStep3
-                        basePrice={basePrice}
-                        setBasePrice={setBasePrice}
-                        basePriceCustomers={basePriceCustomers}
-                        setBasePriceCustomers={setBasePriceCustomers}
-                        pricePerAdult={pricePerAdult}
-                        setPricePerAdult={setPricePerAdult}
-                        pricePerChild={pricePerChild}
-                        setPricePerChild={setPricePerChild}
-                        isVisible={isVisible}
-                        setIsVisible={setIsVisible}
-                        onComplete={(): void => undefined}
-                    />
-                )}
+                {step === 2 && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} />}
             </VStack>
-
-            {step === 1 && (
-                <VStack
-                    className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
-                    style={{ alignItems: 'center', justifyContent: 'flex-start' }}
-                >
-                    <ChefProfilePageCreateMenusPreviewStep2 selectedMeals={selectedMeals} />
-                </VStack>
-            )}
         </VStack>
     );
 }
