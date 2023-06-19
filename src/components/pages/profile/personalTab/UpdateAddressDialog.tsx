@@ -88,13 +88,17 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
             <DialogContent>
                 {!data && (
                     <VStack gap={32} style={{ padding: '16px', width: '512px' }}>
-                        <VStack gap={8} style={{ width: '512px' }}>
+                        <VStack gap={16} style={{ width: '512px' }}>
                             <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
                             <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
-                            <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
-                            <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
-                            <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
-                            <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={'House Number'} type="text" />
+                            <HStack gap={16} className="w-full">
+                                <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
+                                <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
+                            </HStack>
+                            <HStack gap={16} className="w-full">
+                                <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
+                                <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={'House Number'} type="text" />
+                            </HStack>
                         </VStack>
 
                         <PEMap
