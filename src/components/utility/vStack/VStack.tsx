@@ -4,6 +4,7 @@ export interface VStackProps {
     className?: string;
     style?: CSSProperties;
     gap?: number;
+    onClick?: () => void;
 }
 
 export default function VStack(props: React.PropsWithChildren<VStackProps>): ReactElement {
@@ -11,6 +12,7 @@ export default function VStack(props: React.PropsWithChildren<VStackProps>): Rea
         <div
             className={props.className}
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: props.gap, ...props.style }}
+            onClick={props.onClick}
         >
             {props.children}
         </div>
