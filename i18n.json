@@ -8,10 +8,12 @@
         "/sign-up": ["chef-sign-up"],
         "/how-to-chef": ["how-to-chef"],
         "/chef-sign-up": ["chef-sign-up"],
-        "/chef-profile": ["chef-profile"],
+        "/chef-profile": ["chef-profile", "meal-types"],
         "/profile": ["profile"],
         "/about-us": ["about-us"],
         "/imprint": ["imprint"],
-        "/individual-request": ["individual-request"]
+        "/search-results": ["search-results", "search"],
+        "/global-booking-request": ["global-booking-request", "home"],
+        "/cook-booking-request": ["global-booking-request", "home"]
     }
 }

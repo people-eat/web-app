@@ -1,0 +1,7 @@
+mutation UpdateCookMenuBasePrice($menuId: String!, $basePrice: UnsignedInt!, $cookId: String!) {
+    cooks {
+        menus(cookId: $cookId) {
+            success: updateBasePrice(menuId: $menuId, basePrice: $basePrice)
+        }
+    }
+}

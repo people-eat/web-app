@@ -28,6 +28,9 @@ export const Component: StoryObj<typeof PENumberTextField> = {
         return (
             <HStack style={{ justifyContent: 'flex-start', gap: 32, alignItems: 'center' }}>
                 <PENumberTextField
+                    min={0}
+                    step={1}
+                    max={10000}
                     value={value}
                     onChange={(changedValue: number, changedIsValid: boolean): void => {
                         setValue(changedValue);

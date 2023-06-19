@@ -38,7 +38,7 @@ export default function HomePageSearch({
     onSearchResultSelect,
     onSearch,
 }: HomePageSearchProps): ReactElement {
-    const { t } = useTranslation('home');
+    const { t: translateSearch } = useTranslation('search');
 
     // change if search results become available
     const disabled: boolean = false;
@@ -78,7 +78,7 @@ export default function HomePageSearch({
                     <TextField
                         {...params}
                         variant="standard"
-                        label={t('search-city-label')}
+                        label={translateSearch('city-label')}
                         InputProps={{ disableUnderline: true, ...params.InputProps }}
                         InputLabelProps={{ shrink: true }}
                     />
@@ -92,7 +92,7 @@ export default function HomePageSearch({
                     onAdultsChange(Number(event.target.value));
                 }}
                 variant="standard"
-                label={t('search-adults-label')}
+                label={translateSearch('adults-label')}
                 type="number"
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 1 }}
                 InputProps={{ disableUnderline: true }}
@@ -105,7 +105,7 @@ export default function HomePageSearch({
                     onChildrenChange(Number(event.target.value));
                 }}
                 variant="standard"
-                label={t('search-children-label')}
+                label={translateSearch('children-label')}
                 type="number"
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 0 }}
                 InputProps={{ disableUnderline: true }}
@@ -117,7 +117,7 @@ export default function HomePageSearch({
                     if (changedDate) onDateChange(changedDate);
                 }}
                 slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
-                label={t('search-date-label')}
+                label={translateSearch('date-label')}
                 minDate={moment().add(7, 'days')}
             />
             <IconButton size="large" style={{ backgroundColor: 'rgba(255, 100, 51, 1)' }} onClick={onSearch} disabled={disabled}>

@@ -1,0 +1,28 @@
+query FindManyCookBookingRequests($cookId: String!) {
+    cooks {
+        bookingRequests(cookId: $cookId) {
+            findMany {
+                bookingRequestId
+                globalBookingRequestId
+                user {
+                    firstName
+                    profilePictureUrl
+                }
+                adultParticipants
+                children
+                dateTime
+                userAccepted
+                cookAccepted
+                kitchenId
+                occasion
+                preparationTime
+                price {
+                    amount
+                    currencyCode
+                }
+                duration
+                createdAt
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+mutation DeleteOneCookMeal($mealId: String!, $cookId: String!) {
+    cooks {
+        meals(cookId: $cookId) {
+            success: deleteOne(mealId: $mealId)
+        }
+    }
+}

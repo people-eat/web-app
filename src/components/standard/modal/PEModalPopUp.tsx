@@ -1,13 +1,14 @@
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
+import useResponsive from '../../../hooks/useResponsive';
 import { Icon } from '../../standard/icon/Icon';
 import PEIconButton from '../../standard/iconButton/PEIconButton';
 
 export interface PEModalPopUpProps {
     openMenu: boolean;
     handleOpenMenu: () => void;
-    width?: number;
+    width?: number | string;
 }
 
 export default function PEModalPopUp({
@@ -16,6 +17,7 @@ export default function PEModalPopUp({
     children,
     width,
 }: React.PropsWithChildren<PEModalPopUpProps>): ReactElement {
+    const { isMobile } = useResponsive();
     const [open, setOpen] = useState(openMenu);
     const containerRef = useRef(null);
     const contentRef = useRef(null);
@@ -26,6 +28,7 @@ export default function PEModalPopUp({
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: width ?? 750,
+        height: isMobile ? '100%' : 'auto',
         boxSizing: 'border-box',
         bgcolor: 'background.paper',
         boxShadow: 24,

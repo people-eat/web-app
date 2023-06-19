@@ -1,0 +1,30 @@
+query FindManyPublicMenus($request: FindManyPublicMenusRequest!) {
+    publicMenus {
+        findMany(request: $request) {
+            menuId
+            title
+            description
+            kitchen {
+                kitchenId
+                title
+            }
+            cook {
+                cookId
+                rank
+                user {
+                    firstName
+                    profilePictureUrl
+                }
+            }
+            categories {
+                categoryId
+                title
+            }
+            basePrice
+            basePriceCustomers
+            pricePerAdult
+            pricePerChild
+            currencyCode
+        }
+    }
+}

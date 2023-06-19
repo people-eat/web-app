@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -9,8 +10,6 @@ import useResponsive from '../../../hooks/useResponsive';
 import PEButton from '../../standard/buttons/PEButton';
 import PELineButton from '../../standard/buttons/PELineButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
-import { Icon } from '../../standard/icon/Icon';
-import PEIconButton from '../../standard/iconButton/PEIconButton';
 import PEEmailTextField from '../../standard/textFields/PEEmailTextField';
 import PEPasswordTextField from '../../standard/textFields/PEPasswordTextField';
 import HStack from '../../utility/hStack/HStack';
@@ -20,6 +19,7 @@ import VStack from '../../utility/vStack/VStack';
 export default function SignInPage(): ReactElement {
     const { isDesktop } = useResponsive();
     const router = useRouter();
+    const { t } = useTranslation('sign-in');
 
     const [emailAddress, setEmailAddress] = useState({ value: '', isValid: false });
     const [password, setPassword] = useState('');
@@ -57,11 +57,11 @@ export default function SignInPage(): ReactElement {
                     </HStack>
 
                     <VStack className="mt-[32px] lg:my-6" style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
-                        <h2 className="text-heading-xl lg:text-heading-s lg:mb-2 my-1">Find a private chef!</h2>
-                        <p className="text-preBlack my-1">Please enter your details</p>
+                        <h2 className="text-heading-xl lg:text-heading-s lg:mb-2 my-1">{t('headline')}</h2>
+                        <p className="text-preBlack my-1">{t('sub-headline')}</p>
                     </VStack>
 
-                    <HStack style={{ gap: '12px' }}>
+                    {/* <HStack style={{ gap: '12px' }}>
                         <PEIconButton icon={Icon.appleWhiteIcon} size={'54px'} bg={'#000'} iconSize={24} />
                         <PEIconButton icon={Icon.facebook} size={'54px'} bg={'#3B5998'} iconSize={48} />
                         <PEIconButton icon={Icon.google} size={'54px'} bg={'#F5F5F5'} iconSize={24} />
@@ -71,26 +71,26 @@ export default function SignInPage(): ReactElement {
                         <div style={{ height: '1px', backgroundColor: '#F5F5F5', flex: 1 }}></div>
                         <p className="lg:my-2">with</p>
                         <div style={{ height: '1px', backgroundColor: '#F5F5F5', flex: 1 }}></div>
-                    </HStack>
+                    </HStack> */}
 
                     <VStack style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
-                        <p>Email</p>
+                        <p>{t('email-address-label')}</p>
                         <PEEmailTextField
                             email={emailAddress.value}
                             onChange={(changedEmailAddress, isValid): void => setEmailAddress({ value: changedEmailAddress, isValid })}
-                            placeholder={'Enter your email'}
+                            placeholder={t('email-address-placeholder')}
                         />
                     </VStack>
 
                     <VStack style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
-                        <p>Password</p>
-                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={'Enter your password'} />
+                        <p>{t('password-label')}</p>
+                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={t('password-placeholder')} />
                     </VStack>
 
                     <div className="flex justify-between w-full max-w-[400px]">
                         <HStack className="items-center">
                             <PECheckbox checked={staySignedIn} onCheckedChange={setStaySignedIn} />
-                            <p>Remember me</p>
+                            <p>{t('stay-signed-in')}</p>
                         </HStack>
                         {isDesktop && (
                             <>
@@ -99,7 +99,7 @@ export default function SignInPage(): ReactElement {
                             </>
                         )}
                         <PELineButton
-                            title={'Forgot password?'}
+                            title={t('forgot-password-label')}
                             fontSize={'text-text-m'}
                             onClick={function (): void {
                                 throw new Error('Function not implemented.');
@@ -109,15 +109,15 @@ export default function SignInPage(): ReactElement {
 
                     <PEButton
                         className="w-full max-w-[400px]"
-                        title={'Sign in'}
+                        title={t('sign-in-button-label')}
                         onClick={(): void => void assignOneSessionByEmailAddress()}
                         disabled={disabled}
                     />
 
                     <HStack style={{ alignItems: 'center' }}>
-                        <p className="text-disabled">No profile yet? &nbsp;</p>
+                        <p className="text-disabled">{t('sign-up-label-1')} &nbsp;</p>
                         <Link href={'/sign-up'} className={'no-underline'}>
-                            <PELineButton title={'Register here'} fontSize={'text-text-m'} />
+                            <PELineButton title={t('sign-up-label-2')} fontSize={'text-text-m'} />
                         </Link>
                     </HStack>
                 </VStack>

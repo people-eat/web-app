@@ -3,6 +3,7 @@ import { type ReactElement } from 'react';
 import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
+import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 
 export interface ImprintPageProps {
@@ -37,6 +38,8 @@ export default function ImprintPage({ signedInUser }: ImprintPageProps): ReactEl
                     {t('point-6')}
                 </p>
             </VStack>
+
+            <Spacer />
 
             <PEFooter />
         </VStack>

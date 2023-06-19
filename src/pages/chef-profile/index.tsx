@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
 import { type PEHeaderProps } from '../../components/header/PEHeaderProps';
-import ChefProfilePage from '../../components/pages/chefProfile';
+import CookProfilePage from '../../components/pages/cookProfile';
 import { GetProfileQueryDocument } from '../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -29,7 +29,7 @@ const Index: NextPage = ({ signedInUser }: PEHeaderProps) => {
                 <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <ChefProfilePage signedInUser={signedInUser} />
+            <CookProfilePage signedInUser={signedInUser} />
         </>
     );
 };

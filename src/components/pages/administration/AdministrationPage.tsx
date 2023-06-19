@@ -23,6 +23,9 @@ export default function AdministrationPage({ signedInUser }: AdministrationPageP
         'Categories',
         'Languages',
         'Allergies',
+        'Terms and Conditions',
+        'Privacy Policy Statement',
+        'Global Booking Requests',
     ];
 
     const tileStyle: CSSProperties = {

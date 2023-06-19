@@ -1,0 +1,7 @@
+mutation UpdateCookMenuGreetingFromKitchen($menuId: String!, $cookId: String!, $greetingFromKitchen: String) {
+    cooks {
+        menus(cookId: $cookId) {
+            success: updateGreetingFromKitchen(menuId: $menuId, greetingFromKitchen: $greetingFromKitchen)
+        }
+    }
+}

@@ -1,0 +1,25 @@
+query GetPublicCookPageData($cookId: String!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    publicCooks {
+        findOne(cookId: $cookId) {
+            cookId
+            user {
+                userId
+                firstName
+                profilePictureUrl
+            }
+            rank
+            biography
+            location {
+                latitude
+                longitude
+            }
+            travelExpenses
+            createdAt
+        }
+    }
+}

@@ -6,6 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { DatePicker } from '@mui/x-date-pickers';
 import moment, { type Moment } from 'moment/moment';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
@@ -14,8 +15,6 @@ import useResponsive from '../../../hooks/useResponsive';
 import PEButton from '../../standard/buttons/PEButton';
 import PELineButton from '../../standard/buttons/PELineButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
-import { Icon } from '../../standard/icon/Icon';
-import PEIconButton from '../../standard/iconButton/PEIconButton';
 import PEEmailTextField from '../../standard/textFields/PEEmailTextField';
 import PEPasswordTextField from '../../standard/textFields/PEPasswordTextField';
 import PEPhoneNumberTextField from '../../standard/textFields/PEPhoneNumberTextField';
@@ -27,13 +26,14 @@ import SignUpPageSuccessDialog from './successDialog/SignUpPageSuccessDialog';
 
 // eslint-disable-next-line max-statements
 export default function SignUpPage(): ReactElement {
+    const { t } = useTranslation('chef-sign-up');
     const { isDesktop } = useResponsive();
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [birthDate, setBirthDate] = useState(moment().set('year', 2000).set('dayOfYear', 1));
     const [emailAddress, setEmailAddress] = useState({ value: '', isValid: false });
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState({ value: '', isValid: false });
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
@@ -41,6 +41,7 @@ export default function SignUpPage(): ReactElement {
 
     const disabled =
         !emailAddress.isValid ||
+        !phoneNumber.isValid ||
         password.length < 1 ||
         password !== passwordRepeat ||
         firstName.length < 1 ||
@@ -54,6 +55,7 @@ export default function SignUpPage(): ReactElement {
                 birthDate: birthDate.format(moment.HTML5_FMT.DATE),
                 cook: undefined,
                 emailAddress: emailAddress.value,
+                phoneNumber: phoneNumber.value.replaceAll(' ', ''),
                 firstName,
                 gender: 'NO_INFORMATION',
                 language: 'GERMAN',
@@ -80,7 +82,7 @@ export default function SignUpPage(): ReactElement {
                         <p className="text-preBlack my-1">Please enter your details</p>
                     </VStack>
 
-                    <HStack style={{ gap: '12px' }}>
+                    {/* <HStack style={{ gap: '12px' }}>
                         <PEIconButton icon={Icon.appleWhiteIcon} size={'54px'} bg={'#000'} iconSize={24} />
                         <PEIconButton icon={Icon.facebook} size={'54px'} bg={'#3B5998'} iconSize={48} />
                         <PEIconButton icon={Icon.google} size={'54px'} bg={'#F5F5F5'} iconSize={24} />
@@ -90,16 +92,16 @@ export default function SignUpPage(): ReactElement {
                         <div style={{ height: '1px', backgroundColor: '#F5F5F5', flex: 1 }}></div>
                         <p>with</p>
                         <div style={{ height: '1px', backgroundColor: '#F5F5F5', flex: 1 }}></div>
-                    </HStack>
+                    </HStack> */}
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>First Name</p>
-                        <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={'First name'} />
+                        <p>{t('first-name')}</p>
+                        <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name')} />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Last Name</p>
-                        <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={'Last name'} />
+                        <p>{t('last-name')}</p>
+                        <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name')} />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
@@ -117,27 +119,31 @@ export default function SignUpPage(): ReactElement {
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Phone number</p>
-                        <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={'Phone Number'} />
-                    </VStack>
-
-                    <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Email</p>
-                        <PEEmailTextField
-                            email={emailAddress.value}
-                            onChange={(changedEmailAddress, isValid): void => setEmailAddress({ value: changedEmailAddress, isValid })}
-                            placeholder={'Email'}
+                        <p>{t('phone-number')}</p>
+                        <PEPhoneNumberTextField
+                            phoneNumber={phoneNumber.value}
+                            onChange={(changedPhoneNumber, isValid): void => setPhoneNumber({ value: changedPhoneNumber, isValid })}
+                            placeholder={t('phone-number')}
                         />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Password</p>
-                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={'Password'} />
+                        <p>{t('email-address')}</p>
+                        <PEEmailTextField
+                            email={emailAddress.value}
+                            onChange={(changedEmailAddress, isValid): void => setEmailAddress({ value: changedEmailAddress, isValid })}
+                            placeholder={t('email-address')}
+                        />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Repeat Password</p>
-                        <PEPasswordTextField password={passwordRepeat} onChange={setPasswordRepeat} placeholder={'Repeat Password'} />
+                        <p>{t('password')}</p>
+                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={t('password')} />
+                    </VStack>
+
+                    <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
+                        <p>{t('password-repeat')}</p>
+                        <PEPasswordTextField password={passwordRepeat} onChange={setPasswordRepeat} placeholder={t('password-repeat')} />
                     </VStack>
 
                     <VStack
@@ -153,23 +159,29 @@ export default function SignUpPage(): ReactElement {
                     >
                         <FormGroup>
                             <FormControlLabel
-                                sx={{ '& span': { fontSize: '14px' } }}
                                 control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
-                                label="I have read and accept the Privacy Policy"
+                                label={
+                                    <Link className="no-underline" href={'/data-privacy-policy'} target="_blank">
+                                        {t('privacy-policy-label')}
+                                    </Link>
+                                }
                             />
                         </FormGroup>
                         <FormGroup>
                             <FormControlLabel
-                                sx={{ '& span': { fontSize: '14px' } }}
                                 control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
-                                label="I have read and accept the Terms and Conditions"
+                                label={
+                                    <Link className="no-underline" href={'/terms-and-conditions'} target="_blank">
+                                        {t('terms-and-conditions-label')}
+                                    </Link>
+                                }
                             />
                         </FormGroup>
                     </VStack>
 
                     <PEButton
                         className="w-full"
-                        title={'Sign up'}
+                        title={t('complete-button-label')}
                         onClick={(): void => void createOneUserByEmailAddress()}
                         disabled={disabled}
                     />

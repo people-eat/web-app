@@ -1,0 +1,25 @@
+query GetGlobalBookingRequestPageData {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    categories {
+        findAll {
+            categoryId
+            title
+        }
+    }
+    kitchens {
+        findAll {
+            kitchenId
+            title
+        }
+    }
+    allergies {
+        findAll {
+            allergyId
+            title
+        }
+    }
+}

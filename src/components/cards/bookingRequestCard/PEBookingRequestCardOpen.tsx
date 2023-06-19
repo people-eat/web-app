@@ -1,100 +1,117 @@
+import moment, { type Moment } from 'moment';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
 import PEButton from '../../standard/buttons/PEButton';
 import PELineButton from '../../standard/buttons/PELineButton';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
+import HStack from '../../utility/hStack/HStack';
+import Spacer from '../../utility/spacer/Spacer';
+import VStack from '../../utility/vStack/VStack';
 
 export interface PEBookingRequestCardOfferProps {
+    title: string;
+    name: string;
+    profilePictureUrl?: string;
+    occasion: string;
+    price?: string;
+    participants: number;
+    dateTime: Moment;
+    address: string;
+    createdAt: Moment;
     onOrderDetailsClick: () => void;
     onDeclineClick: () => void;
     onAcceptClick: () => void;
-    date: string;
-    menuName: string;
-    clientName: string;
-    clientImage: string;
-    event: string;
-    price?: string;
-    eventDate: string;
-    persons: string;
-    time: string;
-    address: string;
 }
 
 export default function PEBookingRequestCardOpen({
+    title,
+    name,
+    profilePictureUrl,
+    occasion,
+    price,
+    participants,
+    dateTime,
+    address,
+    createdAt,
     onOrderDetailsClick,
     onDeclineClick,
     onAcceptClick,
-    date,
-    menuName,
-    clientName,
-    clientImage,
-    event,
-    price,
-    eventDate,
-    persons,
-    time,
-    address,
 }: PEBookingRequestCardOfferProps): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     return (
-        <div className="flex md:w-[580px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
-            <div className="flex w-full justify-between">
+        <VStack
+            gap={32}
+            style={{ alignItems: 'stretch', padding: 32 }}
+            className="w-full box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active"
+        >
+            <HStack>
                 <PELineButton title={'Order Details'} onClick={onOrderDetailsClick} />
-                <span className="text-60black text-text-sm hidden md:block">{date}</span>
-            </div>
-            <span className="pt-4 text-heading-ss-bold">{menuName}</span>
-            <div className="flex gap-4">
-                <div className={'overflow-hidden rounded-3'}>
-                    {clientImage ? (
-                        <Image
-                            style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
-                            src={clientImage}
-                            alt={'client image'}
-                            width={45}
-                            height={45}
-                        />
-                    ) : (
-                        <div className="flex justify-center items-center w-11 h-11 bg-base">
-                            <PEIcon icon={Icon.profileLight} edgeLength={32} />
-                        </div>
-                    )}
-                </div>
-                <div className={'flex gap-1 flex-col'}>
-                    <span className={'text-heading-ss-bold'}>{clientName}</span>
-                    <span className={'text-text-sm'}>{event}</span>
-                </div>
-            </div>
-            <span className="text-text-sm flex items-center gap-2">
-                Price: <span className="text-green text-heading-ss-bold">{price}</span>
-            </span>
-            <div className="flex">
-                <div className="flex flex-col gap-3">
-                    <span className="text-gray text-text-s md:text-text-m">
-                        Event date: <span className="text-black">{eventDate}</span>
+                <Spacer />
+            </HStack>
+
+            <span className="text-heading-ss-bold md:text-text-m-bold">{title}</span>
+
+            <HStack gap={16}>
+                {profilePictureUrl && (
+                    <Image
+                        className="rounded-3"
+                        style={{ width: '45px', height: '45px', objectFit: 'cover' }}
+                        src={profilePictureUrl}
+                        alt={'client image'}
+                        width={45}
+                        height={45}
+                    />
+                )}
+                {!profilePictureUrl && (
+                    <div className="flex justify-center items-center w-11 h-11 bg-base rounded-3">
+                        <PEIcon icon={Icon.profileLight} edgeLength={32} />
+                    </div>
+                )}
+                <VStack style={{ alignItems: 'flex-start' }}>
+                    <span className={'text-heading-ss-bold md:text-text-sm-bold'}>{name}</span>
+                    <span className={'text-text-sm'}>{occasion}</span>
+                </VStack>
+                <Spacer />
+            </HStack>
+
+            <HStack gap={8} className="text-text-sm">
+                <span>{t('booking-price')}</span>
+                <span className="text-green text-heading-ss-bold md:text-text-m-bold">{price}</span>
+                <Spacer />
+            </HStack>
+
+            <HStack gap={16}>
+                <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1 }}>
+                    <span className="text-gray md:text-text-s text-text-m">
+                        Event date: <span className="text-black">{dateTime.format(moment.HTML5_FMT.DATE)}</span>
                     </span>
-                    <span className="text-gray text-text-s md:text-text-m">
-                        Persons: <span className="text-black">{persons}</span>
+                    <span className="text-gray md:text-text-s text-text-m">
+                        Persons: <span className="text-black">{participants}</span>
                     </span>
-                </div>
+                </VStack>
                 <span className="w-[1px] mx-3 md:mx-4 h-[52px] bg-separator rounded-1" />
-                <div className="flex flex-col gap-3">
-                    <span className="text-gray text-text-s md:text-text-m">
-                        Time: <span className="text-black">{time}</span>
+                <VStack gap={8} style={{ alignItems: 'flex-start', flex: 1 }}>
+                    <span className="text-gray md:text-text-s text-text-m">
+                        Time: <span className="text-black">{dateTime.format('LT')}</span>
                     </span>
-                    <span className="text-gray text-text-s md:text-text-m">
+                    <span className="text-gray md:text-text-s text-text-m">
                         Address: <span className="text-black">{address}</span>
                     </span>
-                </div>
-            </div>
-            <div className="flex flex-row gap-3 mt-3">
-                <div className="basis-1/2">
-                    <PEButton onClick={onDeclineClick} title={'Decline'} size={'s'} type={'secondary'} />
-                </div>
-                <div className="basis-1/2">
-                    <PEButton onClick={onAcceptClick} title={'Accept'} size={'s'} />
-                </div>
-            </div>
-            <span className="text-60black text-text-s block md:hidden w-full text-end">{date}</span>
-        </div>
+                </VStack>
+            </HStack>
+
+            <HStack gap={16}>
+                <PEButton onClick={onDeclineClick} title={'Decline'} size={'s'} type={'secondary'} />
+                <PEButton onClick={onAcceptClick} title={'Accept'} size={'s'} />
+            </HStack>
+
+            <HStack>
+                <Spacer />
+                <span className="text-60black text-text-s">{createdAt.format(moment.HTML5_FMT.DATE)}</span>
+            </HStack>
+        </VStack>
     );
 }

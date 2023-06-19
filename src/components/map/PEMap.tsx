@@ -1,21 +1,33 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment */
 import GoogleMapReact from 'google-map-react';
 import { useEffect, type CSSProperties, type ReactElement } from 'react';
+import { type Location } from '../../shared/Location';
 
 export interface PEMapProps {
     apiKey: string;
-    location?: {
-        latitude: number;
-        longitude: number;
-    };
+    location?: Location;
     markerRadius?: number;
     style?: CSSProperties;
 }
 
-let circle: { setRadius: (changedRadius: number | undefined) => void };
+let circle: {
+    setRadius: (changedRadius: number | undefined) => void;
+    setCenter: (changedCenter: { lat: number; lng: number } | undefined) => void;
+};
+
+let marker: {
+    setPosition: (changedCenter: { lat: number; lng: number } | undefined) => void;
+};
 
 export default function PEMap({ style, apiKey, location, markerRadius }: PEMapProps): ReactElement {
-    useEffect(() => circle && circle.setRadius(markerRadius), [markerRadius]);
+    useEffect(() => {
+        if (circle) {
+            circle.setRadius(markerRadius);
+            location && circle.setCenter({ lat: location.latitude, lng: location.longitude });
+        }
+
+        marker && location && marker.setPosition({ lat: location.latitude, lng: location.longitude });
+    }, [markerRadius, location]);
 
     return (
         <GoogleMapReact
@@ -30,7 +42,7 @@ export default function PEMap({ style, apiKey, location, markerRadius }: PEMapPr
                     ? { lat: location.latitude, lng: location.longitude }
                     : { lat: 50.11215679689394, lng: 8.676387649038587 };
 
-                new maps.Marker({ position, map });
+                marker = new maps.Marker({ position, map });
 
                 circle = new maps.Circle({
                     center: { ...position },

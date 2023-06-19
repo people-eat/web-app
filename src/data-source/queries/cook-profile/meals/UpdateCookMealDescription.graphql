@@ -1,0 +1,7 @@
+mutation UpdateCookMealDescription($mealId: String!, $description: String!, $cookId: String!) {
+    cooks {
+        meals(cookId: $cookId) {
+            success: updateDescription(mealId: $mealId, description: $description)
+        }
+    }
+}

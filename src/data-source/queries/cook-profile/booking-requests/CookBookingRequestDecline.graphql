@@ -1,0 +1,7 @@
+mutation CookBookingRequestDecline($bookingRequestId: String!, $cookId: String!) {
+    cooks {
+        bookingRequests(cookId: $cookId) {
+            success: declineBookingRequest(bookingRequestId: $bookingRequestId)
+        }
+    }
+}

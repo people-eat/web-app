@@ -47,12 +47,17 @@ const config = {
     redirects: async () => [
         {
             source: '/koch-finden',
-            destination: '/individual-request',
+            destination: '/global-booking-request',
+            permanent: true,
+        },
+        {
+            source: '/individual-request',
+            destination: '/global-booking-request',
             permanent: true,
         },
         {
             source: '/individuelle-anfrage',
-            destination: '/individual-request',
+            destination: '/global-booking-request',
             permanent: true,
         },
         {

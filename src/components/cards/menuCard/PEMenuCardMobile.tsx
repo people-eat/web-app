@@ -9,6 +9,7 @@ export default function PEMenuCardMobile({
     description,
     imageUrls,
     pricePerPerson,
+    currencyCode,
     chefFirstName,
     chefProfilePictureUrl,
     categories,
@@ -18,11 +19,11 @@ export default function PEMenuCardMobile({
     return (
         <div
             onClick={onClick}
-            className="flex w-[343px] gap-3 flex-col p-3 box-border rounded-3 shadow-primary cursor-pointer active:shadow-orange hover:shadow-active"
+            className="flex w-full min-w-[343px] max-w-[686px] gap-3 flex-col p-3 box-border rounded-3 shadow-primary cursor-pointer active:shadow-orange hover:shadow-active"
         >
             <div className="flex gap-3 flex-row box-border">
                 <div className="flex rounded-3 overflow-hidden min-w-[120px] h-[120px] justify-center items-center bg-base">
-                    {imageUrls.length && (
+                    {Boolean(imageUrls.length) && (
                         <Image
                             draggable={false}
                             src={imageUrls[0] as string}
@@ -32,11 +33,13 @@ export default function PEMenuCardMobile({
                             className="w-[120px] h-[120px] object-cover"
                         />
                     )}
-                    {!imageUrls.length && <PEIcon icon={Icon.food} edgeLength={52} />}
+                    {Boolean(!imageUrls.length) && <PEIcon icon={Icon.food} edgeLength={52} />}
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-text-sm-bold text-preBlack">{title}</span>
-                    {pricePerPerson ? <span className="text-orange text-text-sm-bold">${pricePerPerson} for each person</span> : null}
+                    <span className="text-orange text-text-sm-bold">
+                        ab {pricePerPerson / 100} {currencyCode} pro Person
+                    </span>
                     <span className="text-text-s text-preBlack line-clamp-4">{description}</span>
                 </div>
             </div>

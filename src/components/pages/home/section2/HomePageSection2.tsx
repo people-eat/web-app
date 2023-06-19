@@ -29,7 +29,7 @@ export default function HomePageSection2(): ReactElement {
                         </span>
                     ))}
                 </HStack>
-                <Link href={'/individual-request'} className="no-underline">
+                <Link href={'/global-booking-request'} className="no-underline">
                     <PEButton className="mt-12 min-w-[320px]" onClick={handleBookNow} title={bookNow} />
                 </Link>
             </div>

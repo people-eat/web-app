@@ -1,0 +1,14 @@
+query GetCreateMenuPageData {
+    categories {
+        findAll {
+            categoryId
+            title
+        }
+    }
+    kitchens {
+        findAll {
+            kitchenId
+            title
+        }
+    }
+}

@@ -18,6 +18,7 @@ query FindManyPublicCooks($request: FindManyPublicCooksRequest!) {
                 latitude
                 longitude
             }
+            city
             travelExpenses
             createdAt
         }

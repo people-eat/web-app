@@ -78,7 +78,6 @@ export default function HomePageSearchDialogMobile({
                 open={open}
                 onClose={handleClose}
                 TransitionComponent={Transition}
-                aria-labelledby="draggable-dialog-component"
             >
                 <List
                     sx={{

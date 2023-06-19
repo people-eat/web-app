@@ -30,6 +30,15 @@ query GetProfileQuery {
                 }
                 createdAt
             }
+
+            emailAddressUpdate {
+                emailAddress
+                createdAt
+            }
+            phoneNumberUpdate {
+                phoneNumber
+                createdAt
+            }
         }
     }
 }

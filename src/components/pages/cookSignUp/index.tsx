@@ -5,10 +5,17 @@ import DialogContent from '@mui/material/DialogContent';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
-import { CreateOneUserByEmailAddressDocument, type CookRank } from '../../../data-source/generated/graphql';
+import {
+    CreateOneCookDocument,
+    CreateOneUserAddressDocument,
+    CreateOneUserByEmailAddressDocument,
+    type CookRank,
+} from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import useResponsive from '../../../hooks/useResponsive';
+import { type Location } from '../../../shared/Location';
 import { type SignedInUser } from '../../../shared/SignedInUser';
 import { cookRanks } from '../../../shared/cookRanks';
 import PEHeader from '../../header/PEHeader';
@@ -17,9 +24,9 @@ import PEButton from '../../standard/buttons/PEButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
 import PECounter from '../../standard/counter/PECounter';
 import PEDropdown from '../../standard/dropdown/PEDropdown';
+import PESingleSelectDropdown from '../../standard/dropdown/PESingleSelectDropdown';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
-import PEImagePicker from '../../standard/imagePicker/PEImagePicker';
 import PESlider from '../../standard/slider/PESlider';
 import PEEmailTextField from '../../standard/textFields/PEEmailTextField';
 import PEPasswordTextField from '../../standard/textFields/PEPasswordTextField';
@@ -44,7 +51,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [profilePicture, setProfilePicture] = useState<File | undefined>(undefined);
+    // const [profilePicture, setProfilePicture] = useState<File | undefined>(undefined);
 
     const [maximumParticipants, setMaximumParticipants] = useState(12);
 
@@ -54,32 +61,36 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
     const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-    const [emailAddress, setEmailAddress] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [emailAddress, setEmailAddress] = useState({ value: '', isValid: false });
+    const [phoneNumber, setPhoneNumber] = useState({ value: '', isValid: false });
 
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
 
-    const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
-    const [rank, setRank] = useState<CookRank>('HOBBY');
+    const [selectedLocation, setSelectedLocation] = useState<Location | undefined>(undefined);
+    const [rank, setRank] = useState<CookRank | undefined>('HOBBY');
 
     const [postCode, setPostCode] = useState('');
     const [city, setCity] = useState('');
     const [street, setStreet] = useState('');
     const [houseNumber, setHouseNumber] = useState('');
-    const [country] = useState('Deutschland');
+    const [country, setCountry] = useState('Deutschland');
 
     const [selectedLanguages, setSelectedLanguages] = useState<{ languageId: string; title: string }[]>([]);
 
-    const disabled: boolean =
+    const disabledForNewUser: boolean =
         firstName === '' ||
         lastName === '' ||
         password === '' ||
         passwordRepeat !== password ||
-        emailAddress === '' ||
+        !emailAddress.isValid ||
+        !phoneNumber.isValid ||
+        !rank ||
         !selectedLocation ||
         !acceptedPrivacyPolicy ||
         !acceptedTerms;
+
+    const disabledForSignedInUser: boolean = !rank || !selectedLocation || !acceptedPrivacyPolicy || !acceptedTerms;
 
     const addressAutocompleteDisabled: boolean = postCode === '' || city === '' || street === '' || houseNumber === '' || country === '';
 
@@ -90,39 +101,86 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     setSelectedLocation({
                         latitude: firstSearchResult.geometry.location.lat,
                         longitude: firstSearchResult.geometry.location.lng,
+                        text: city,
                     });
                 }
             });
         }
     }, [postCode, city, street, houseNumber, country, addressAutocompleteDisabled]);
 
-    const [createOneUserByEmailAddress, { data, loading, error }] = useMutation(CreateOneUserByEmailAddressDocument, {
-        variables: {
-            request: {
-                birthDate: undefined,
-                cook: {
-                    biography: '',
-                    isVisible: true,
-                    location: selectedLocation ?? { latitude: 0, longitude: 0 },
-                    maximumParticipants,
-                    maximumPrice: undefined,
-                    maximumTravelDistance,
-                    minimumParticipants: undefined,
-                    minimumPrice: undefined,
-                    rank,
-                    travelExpenses: Math.floor(travelExpenses * 100),
-                    languageIds: selectedLanguages.map(({ languageId }) => languageId),
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    const [createOneUserByEmailAddress] = useMutation(CreateOneUserByEmailAddressDocument);
+
+    const [createCook] = useMutation(CreateOneCookDocument);
+
+    const [createAddress] = useMutation(CreateOneUserAddressDocument);
+
+    function handleClickCompleteButton(): void {
+        if (!selectedLocation || !rank) return;
+
+        const cook = {
+            biography: '',
+            isVisible: true,
+            location: selectedLocation,
+            maximumParticipants,
+            maximumPrice: undefined,
+            maximumTravelDistance,
+            minimumParticipants: undefined,
+            minimumPrice: undefined,
+            rank,
+            travelExpenses: Math.floor(travelExpenses * 100),
+            languageIds: selectedLanguages.map(({ languageId }) => languageId),
+        };
+
+        const address = {
+            title: 'Home',
+            city,
+            country,
+            postCode,
+            houseNumber,
+            street,
+            location: selectedLocation,
+        };
+
+        if (!signedInUser) {
+            setLoading(true);
+            void createOneUserByEmailAddress({
+                variables: {
+                    request: {
+                        birthDate: undefined,
+                        emailAddress: emailAddress.value,
+                        phoneNumber: phoneNumber.value.replaceAll(' ', ''),
+                        firstName,
+                        gender: 'NO_INFORMATION',
+                        language: 'GERMAN',
+                        lastName,
+                        password,
+                        cook,
+                        addresses: [address],
+                    },
                 },
-                emailAddress: emailAddress,
-                firstName,
-                gender: 'NO_INFORMATION',
-                language: 'GERMAN',
-                lastName,
-                password,
-            },
-            profilePicture,
-        },
-    });
+            })
+                .then((result): void => {
+                    if (result.data?.users.success) setSuccess(true);
+                })
+                .catch(() => setError(true))
+                .finally(() => setLoading(false));
+        }
+
+        if (signedInUser) {
+            setLoading(true);
+            void createCook({ variables: { cookId: signedInUser.userId, request: cook } })
+                .then((result): void => {
+                    if (result.data?.cooks.success) setSuccess(true);
+                })
+                .catch(() => setError(true))
+                .finally(() => setLoading(false));
+            void createAddress({ variables: { userId: signedInUser.userId, address } });
+        }
+    }
 
     return (
         <VStack className="w-full overflow-hidden">
@@ -131,61 +189,67 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
             <VStack className="w-full max-w-5xl mt-[80px] p-4 box-border" style={{ gap: 32, marginBottom: 64 }}>
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                     <h1 className="my-0">{t('headline')}</h1>
-                    <p className="my-2">Please enter your details</p>
+                    <p className="my-2">{t('sub-headline')}</p>
                 </VStack>
 
-                <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                    <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 400 }}>
-                        <span>{t('first-name-label')}</span>
-                        <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name-label')} />
+                {!signedInUser && (
+                    <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                        <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 300 }}>
+                            <span>{t('first-name')}</span>
+                            <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name')} />
+                        </VStack>
 
-                        <span>{t('last-name-label')}</span>
-                        <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name-label')} />
-                    </VStack>
+                        <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 300 }}>
+                            <span>{t('last-name')}</span>
+                            <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name')} />
+                        </VStack>
 
-                    <PEImagePicker onPick={setProfilePicture} onRemoveDefaultImage={(): void => setProfilePicture(undefined)} />
-                </HStack>
+                        {/* <PEImagePicker onPick={setProfilePicture} onRemoveDefaultImage={(): void => setProfilePicture(undefined)} /> */}
+                    </HStack>
+                )}
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                    <p>{t('rank-label')}</p>
-                    <PEDropdown
-                        title={translateCommon(rank)}
-                        defaultExpanded
+                    <p>{t('cook-rank')}</p>
+                    <PESingleSelectDropdown
+                        // Todo
+                        title={rank ? translateCommon(rank) : ''}
                         options={cookRanks}
                         getOptionLabel={(rankOption): string => translateCommon(rankOption)}
-                        onSelectedOptionsChange={(changedSelectedRanks): void => {
-                            if (!changedSelectedRanks.length) return;
-                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            setRank(changedSelectedRanks[0]!);
-                        }}
-                        singleSelector
+                        optionsEqual={(rankA, rankB): boolean => rankA === rankB}
+                        selectedOption={rank}
+                        setSelectedOption={(changedRank): void => changedRank && setRank(changedRank)}
+                        defaultExpanded
                     />
                 </VStack>
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                    <p>{t('languages-label')}</p>
+                    <p>{t('languages')}</p>
                     <PEDropdown
-                        title={t('languages-label')}
+                        title={t('languages')}
                         defaultExpanded
                         options={languages}
-                        getOptionLabel={({ title }): string => title}
-                        onSelectedOptionsChange={setSelectedLanguages}
-                        singleSelector
+                        getOptionLabel={(category): string => category.title}
+                        optionsEqual={(languageA, languageB): boolean => languageA.languageId === languageB.languageId}
+                        setSelectedOptions={setSelectedLanguages}
+                        showSelectedCount
+                        selectedOptions={selectedLanguages}
                     />
                 </VStack>
 
                 <VStack gap={16} className="w-full">
-                    <p className="text-start w-full my-0">Address</p>
+                    <p className="text-start w-full my-0">{t('address')}</p>
 
                     <HStack className="w-full" gap={16} style={{ flexWrap: 'wrap' }}>
                         <VStack style={{ flex: 1 }} gap={16}>
-                            {/* <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" autocomplete="country" /> */}
-                            <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" autocomplete="city" />
-                            <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
                             <HStack gap={16} className="w-full">
-                                <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
-                                <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={'House Number'} type="text" />
+                                <PETextField value={city} onChange={setCity} placeholder={t('city')} type="text" autocomplete="city" />
+                                <PETextField value={postCode} onChange={setPostCode} placeholder={t('post-code')} type="text" />
                             </HStack>
+                            <HStack gap={16} className="w-full">
+                                <PETextField value={street} onChange={setStreet} placeholder={t('street')} type="text" />
+                                <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={t('house-number')} type="text" />
+                            </HStack>
+                            <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" autocomplete="country" />
                         </VStack>
 
                         {!isMobile && (
@@ -212,7 +276,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
                         <HStack className="w-full" style={{ justifyContent: 'flex-start' }}>
                             <PEIcon icon={Icon.data} />
-                            <p className="my-0">Travel costs per kilometer</p>
+                            <p className="my-0">{t('travel-expenses')}</p>
                         </HStack>
                         <p className="my-0 text-end w-full text-green text-ellipsis">{travelExpenses} EUR</p>
                     </HStack>
@@ -222,7 +286,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
                         <HStack className="w-full" style={{ justifyContent: 'flex-start' }}>
                             <PEIcon icon={Icon.forward} />
-                            <p className="my-0">Radius</p>
+                            <p className="my-0">{t('travel-distance')}</p>
                         </HStack>
                         <p className="my-0 text-end w-full text-green text-ellipsis">{maximumTravelDistance} km</p>
                     </HStack>
@@ -231,36 +295,54 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
                 <HStack className="w-full" style={{ alignItems: 'center' }}>
                     <VStack style={{ alignItems: 'flex-start' }}>
-                        <span>Max. Customers per mission</span>
-                        <span>(Maximum 20)</span>
+                        <span>{t('maximum-customers-label')}</span>
+                        <span>{t('maximum-customers-limit', { count: 20 })}</span>
                     </VStack>
                     <Spacer />
                     <PECounter value={maximumParticipants} onValueChange={setMaximumParticipants} />
                 </HStack>
 
-                <HStack gap={8} className="w-full">
-                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>Email</p>
-                        <PEEmailTextField email={emailAddress} onChange={setEmailAddress} placeholder={'Email'} />
-                    </VStack>
+                {!signedInUser && (
+                    <>
+                        <HStack gap={8} className="w-full md:flex-wrap">
+                            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p>{t('email-address')}</p>
+                                <PEEmailTextField
+                                    email={emailAddress.value}
+                                    onChange={(changedEmailAddress, isValid): void =>
+                                        setEmailAddress({ value: changedEmailAddress, isValid })
+                                    }
+                                    placeholder={t('email-address')}
+                                />
+                            </VStack>
 
-                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>Phone number</p>
-                        <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={'Phone Number'} />
-                    </VStack>
-                </HStack>
+                            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p>{t('phone-number')}</p>
+                                <PEPhoneNumberTextField
+                                    phoneNumber={phoneNumber.value}
+                                    onChange={(changedPhoneNumber, isValid): void => setPhoneNumber({ value: changedPhoneNumber, isValid })}
+                                    placeholder={t('phone-number')}
+                                />
+                            </VStack>
+                        </HStack>
 
-                <HStack gap={8} className="w-full">
-                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>Password</p>
-                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={'Password'} />
-                    </VStack>
+                        <HStack gap={8} className="w-full md:flex-wrap">
+                            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p>{t('password')}</p>
+                                <PEPasswordTextField password={password} onChange={setPassword} placeholder={t('password')} />
+                            </VStack>
 
-                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>Repeat Password</p>
-                        <PEPasswordTextField password={passwordRepeat} onChange={setPasswordRepeat} placeholder={'Repeat Password'} />
-                    </VStack>
-                </HStack>
+                            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p>{t('password-repeat')}</p>
+                                <PEPasswordTextField
+                                    password={passwordRepeat}
+                                    onChange={setPasswordRepeat}
+                                    placeholder={t('password-repeat')}
+                                />
+                            </VStack>
+                        </HStack>
+                    </>
+                )}
 
                 <VStack
                     className="w-full"
@@ -275,28 +357,42 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <FormGroup>
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
-                            label="I have read and accept the Privacy Policy"
+                            label={
+                                <Link className="no-underline text-orange" href={'/data-privacy-policy'} target="_blank">
+                                    {t('privacy-policy-label')}
+                                </Link>
+                            }
                         />
                     </FormGroup>
                     <FormGroup>
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
-                            label="I have read and accept the Terms and Conditions"
+                            label={
+                                <Link className="no-underline text-orange" href={'/terms-and-conditions'} target="_blank">
+                                    {t('terms-and-conditions-label')}
+                                </Link>
+                            }
                         />
                     </FormGroup>
                 </VStack>
 
                 <PEButton
                     className="w-full max-w-[400px]"
-                    title={'Complete'}
-                    onClick={(): void => void createOneUserByEmailAddress()}
-                    disabled={disabled}
+                    title={t('complete-button-label')}
+                    onClick={handleClickCompleteButton}
+                    disabled={signedInUser ? disabledForSignedInUser : disabledForNewUser}
                 />
 
-                {data && (
+                {success && (
                     <Dialog open>
-                        {data.users.success && <SignUpPageSuccessDialog />}
-                        {!data.users.success && <>Something went wrong</>}
+                        {!signedInUser && <SignUpPageSuccessDialog emailAddress={emailAddress.value} />}
+                        {signedInUser && (
+                            <DialogContent>
+                                <Link href="chef-profile" className="no-underline">
+                                    To chef profile
+                                </Link>
+                            </DialogContent>
+                        )}
                     </Dialog>
                 )}
 

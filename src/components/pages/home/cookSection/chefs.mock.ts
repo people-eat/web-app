@@ -25,7 +25,7 @@ export const mockPublicChefs: MockPublicChef[] = [
         ],
     },
     {
-        rank: 'MASTER',
+        rank: 'PROFESSIONAL',
         rating: { average: 5.0, count: 12 },
         user: { firstName: 'Christopher', profilePictureUrl: '/team/chris.png' },
         location: { latitude: 49, longitude: 8, city: 'München' },

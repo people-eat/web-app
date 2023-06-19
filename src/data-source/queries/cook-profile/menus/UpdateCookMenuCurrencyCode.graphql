@@ -1,0 +1,7 @@
+mutation UpdateCookMenuCurrencyCode($menuId: String!, $currencyCode: CurrencyCode!, $cookId: String!) {
+    cooks {
+        menus(cookId: $cookId) {
+            success: updateCurrencyCode(menuId: $menuId, currencyCode: $currencyCode)
+        }
+    }
+}

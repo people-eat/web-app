@@ -1,0 +1,50 @@
+query GetCookBookingRequestPageData($cookId: String!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    publicCooks {
+        findOne(cookId: $cookId) {
+            cookId
+            languages {
+                languageId
+                title
+            }
+            location {
+                latitude
+                longitude
+            }
+            maximumTravelDistance
+            maximumPrice
+            minimumPrice
+            travelExpenses
+            rank
+            user {
+                firstName
+                profilePictureUrl
+            }
+            maximumParticipants
+            minimumParticipants
+            createdAt
+        }
+    }
+    categories {
+        findAll {
+            categoryId
+            title
+        }
+    }
+    kitchens {
+        findAll {
+            kitchenId
+            title
+        }
+    }
+    allergies {
+        findAll {
+            allergyId
+            title
+        }
+    }
+}

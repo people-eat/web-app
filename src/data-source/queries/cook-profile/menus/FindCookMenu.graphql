@@ -21,6 +21,22 @@ query FindCookMenu($menuId: String!, $cookId: String!) {
                     categoryId
                     title
                 }
+                courses {
+                    courseId
+                    index
+                    title
+                    mealOptions {
+                        index
+                        meal {
+                            mealId
+                            title
+                            description
+                            imageUrl
+                            type
+                            createdAt
+                        }
+                    }
+                }
                 createdAt
             }
         }
