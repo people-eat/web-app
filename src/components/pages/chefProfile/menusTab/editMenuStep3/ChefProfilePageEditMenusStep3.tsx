@@ -16,7 +16,7 @@ import VStack from '../../../../utility/vStack/VStack';
 import { type MenuEntity } from '../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageEditMenusStep3Props {
-    menu: MenuEntity | null | undefined;
+    menu: MenuEntity;
     cookId: string;
 }
 
@@ -24,43 +24,47 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu }: ChefProf
     const { t } = useTranslation('chef-profile');
 
     // in cents: 10000 -> 100.00 EUR
-    const [basePrice, setBasePrice] = useState(menu?.basePrice ?? 100);
-    const [basePriceCustomers, setBasePriceCustomers] = useState(menu?.basePriceCustomers ?? 2);
-    const [pricePerAdult, setPricePerAdult] = useState(menu?.pricePerAdult ?? 5000);
-    const [pricePerChild, setPricePerChild] = useState<undefined | number>(menu?.pricePerChild ?? 0);
+    const [basePrice, setBasePrice] = useState(menu.basePrice ?? 100);
+    const [basePriceCustomers, setBasePriceCustomers] = useState(menu.basePriceCustomers ?? 2);
+    const [pricePerAdult, setPricePerAdult] = useState(menu.pricePerAdult ?? 5000);
+    const [pricePerChild, setPricePerChild] = useState<undefined | number>(menu.pricePerChild ?? 0);
 
-    const [isVisible, setIsVisible] = useState(menu?.isVisible ?? true);
+    const [isVisible, setIsVisible] = useState(menu.isVisible ?? true);
 
     const [updateBasePrice] = useMutation(UpdateCookMenuBasePriceDocument, {
-        variables: { cookId, menuId: menu?.menuId ?? '', basePrice },
+        variables: { cookId, menuId: menu.menuId, basePrice },
     });
     const [updateBasePriceCustomers] = useMutation(UpdateCookMenuBasePriceCustomersDocument, {
-        variables: { cookId, menuId: menu?.menuId ?? '', basePriceCustomers },
+        variables: { cookId, menuId: menu.menuId, basePriceCustomers },
     });
     const [updatePricePerAdult] = useMutation(UpdateCookMenuPricePerAdultDocument, {
-        variables: { cookId, menuId: menu?.menuId ?? '', pricePerAdult },
+        variables: { cookId, menuId: menu.menuId, pricePerAdult },
     });
     const [updatePricePerChild] = useMutation(UpdateCookMenuPricePerChildDocument, {
-        variables: { cookId, menuId: menu?.menuId ?? '', pricePerChild },
+        variables: { cookId, menuId: menu.menuId, pricePerChild },
     });
     const [updateIsVisible] = useMutation(UpdateCookMenuIsVisibleDocument, {
-        variables: { cookId, menuId: menu?.menuId ?? '', isVisible },
+        variables: { cookId, menuId: menu.menuId, isVisible },
     });
 
     useEffect(() => {
-        setBasePrice(menu?.basePrice ?? 100);
-        setBasePriceCustomers(menu?.basePriceCustomers ?? 2);
-        setPricePerAdult(menu?.pricePerAdult ?? 5000);
-        setPricePerChild(menu?.pricePerChild ?? undefined);
-        setIsVisible(menu?.isVisible ?? true);
+        setBasePrice(menu.basePrice ?? 100);
+        setBasePriceCustomers(menu.basePriceCustomers ?? 2);
+        setPricePerAdult(menu.pricePerAdult ?? 5000);
+        setPricePerChild(menu.pricePerChild ?? undefined);
+        setIsVisible(menu.isVisible ?? true);
     }, [menu]);
 
     function handleSaveUpdates(): void {
-        void updateBasePrice();
-        void updateBasePriceCustomers();
-        void updatePricePerAdult();
-        void updatePricePerChild();
-        void updateIsVisible();
+        try {
+            void updateBasePrice();
+            void updateBasePriceCustomers();
+            void updatePricePerAdult();
+            void updatePricePerChild();
+            void updateIsVisible();
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     return (

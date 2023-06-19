@@ -1,8 +1,9 @@
 import { useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
-import { useEffect, useState, type MouseEvent as MouseEventGen, type ReactElement } from 'react';
+import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
 import { FindCookMenusDocument, type CurrencyCode, type MealType } from '../../../../data-source/generated/graphql';
+import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -50,9 +51,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
-    const [selectedMenu, setSelectedMenu] = useState({
-        menuId: '',
-    });
+    const [selectedMenu, setSelectedMenu] = useState<string | undefined>(undefined);
     const [editMenu, setEditMenu] = useState({
         isOpen: false,
         x: 0,
@@ -78,35 +77,16 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
         void refetch();
     }
 
-    function handleSaveMenuByMenuId(menuId: string): void {
-        setSelectedMenu({ menuId });
-    }
-
-    function handleRightClick(event: MouseEventGen<HTMLDivElement>, menuId: string): void {
+    function handleRightClick(event: MouseEvent<HTMLDivElement>, menuId: string): void {
         if (event.button === 2) setEditMenu({ isOpen: true, x: event.clientX, y: event.clientY, menuId });
         else setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
-    }
-
-    function checkParentNodeHasClass(event: MouseEvent, targetClass: string): boolean {
-        let element = event.target as HTMLElement;
-
-        try {
-            while (element && element.classList) {
-                if (element.classList && element.classList?.contains(targetClass)) return true;
-                element = element.parentNode as HTMLElement;
-            }
-        } catch (e) {
-            console.error(e);
-        }
-
-        return false;
     }
 
     useEffect(() => {
         // remove default right click for that page, to use custom function
         document.addEventListener('contextmenu', (event) => event.preventDefault());
         document.addEventListener('click', (event) => {
-            if (!checkParentNodeHasClass(event, 'editMenu')) setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
+            if (!isParentNodeElementHasClass(event, 'editMenu')) setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
         });
     }, []);
 
@@ -120,13 +100,8 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                 />
             )}
 
-            {selectedTab === 'EDIT' && (
-                <ChefProfilePageEditMenu
-                    menuId={selectedMenu.menuId}
-                    cookId={cookId}
-                    onSuccess={(): void => handleSaveMenuByMenuId(selectedMenu.menuId)}
-                    onCancel={(): void => setSelectedTab('MENUS')}
-                />
+            {selectedTab === 'EDIT' && selectedMenu && (
+                <ChefProfilePageEditMenu onCancel={(): void => setSelectedTab('MENUS')} menuId={selectedMenu} cookId={cookId} />
             )}
 
             {selectedTab === 'MENUS' && (
@@ -263,7 +238,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                         style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
                         onClick={(): void => {
                             setSelectedTab('EDIT');
-                            setSelectedMenu({ menuId: editMenu.menuId });
+                            setSelectedMenu(editMenu.menuId);
                             setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
                         }}
                     >

@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
-import { useEffect, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { FindCookMenuDocument } from '../../../../data-source/generated/graphql';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
@@ -14,16 +14,15 @@ import ChefProfilePageEditMenusStep3 from './editMenuStep3/ChefProfilePageEditMe
 interface ChefProfilePageEditMenuProps {
     cookId: string;
     menuId: string;
-    onSuccess: () => void;
     onCancel: () => void;
 }
 
 // eslint-disable-next-line max-statements
 export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: ChefProfilePageEditMenuProps): ReactElement {
     const [step, setStep] = useState(0);
-    const { data, refetch } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
+    const { data } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
 
-    const [menu, setMenu] = useState(data?.cooks.menus.findOne);
+    const [menu] = useState(data?.cooks.menus.findOne);
 
     // const [description, _setDescription] = useState(menu?.description ?? '');
 
@@ -36,12 +35,6 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: Ch
     // function handleOnSelectedMeals(meals: MealEntity[]): void {
     //     setSelectedMeals(meals);
     // }
-
-    useEffect((): void => {
-        void refetch().then(({ data: dataResolve }): void => {
-            setMenu(dataResolve?.cooks.menus.findOne);
-        });
-    }, [menuId]);
 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
@@ -66,11 +59,11 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: Ch
                         </Step>
                     </Stepper>
                 </VStack>
-                {step === 0 && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} />}
+                {step === 0 && menu && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} />}
 
-                {step === 1 && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} />}
+                {step === 1 && menu && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} />}
 
-                {step === 2 && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} />}
+                {step === 2 && menu && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} />}
             </VStack>
         </VStack>
     );
