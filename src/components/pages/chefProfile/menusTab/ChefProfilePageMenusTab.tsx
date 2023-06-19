@@ -25,6 +25,16 @@ export interface MealEntity {
     createdAt: Date;
 }
 
+export interface SelectedMealEntity {
+    __typename?: 'Meal';
+    mealId: string;
+    title: string;
+    description: string;
+    imageUrl?: string | null;
+    type: MealType;
+    createdAt: Date;
+}
+
 export interface MenuEntity {
     __typename?: 'Menu';
     menuId: string;
