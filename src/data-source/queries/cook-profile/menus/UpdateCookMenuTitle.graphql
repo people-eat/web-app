@@ -1,0 +1,7 @@
+mutation UpdateCookMenuTitle($menuId: String!, $title: String!, $cookId: String!) {
+    cooks {
+        menus(cookId: $cookId) {
+            success: updateTitle(menuId: $menuId, title: $title)
+        }
+    }
+}

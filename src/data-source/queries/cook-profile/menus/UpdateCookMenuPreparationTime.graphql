@@ -1,0 +1,7 @@
+mutation UpdateCookMenuPreparationTime($menuId: String!, $preparationTime: UnsignedInt!, $cookId: String!) {
+    cooks {
+        menus(cookId: $cookId) {
+            success: updatePreparationTime(menuId: $menuId, preparationTime: $preparationTime)
+        }
+    }
+}
