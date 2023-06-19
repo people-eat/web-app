@@ -22,6 +22,9 @@ export interface ChefProfilePageCreateMenusStep1Props {
     title: string;
     setTitle: (changedTitle: string) => void;
 
+    selectedCategories: { categoryId: string; title: string }[];
+    setSelectedCategories: (changedSelectedCategories: { categoryId: string; title: string }[]) => void;
+
     selectedKitchen?: { kitchenId: string; title: string };
     setSelectedKitchen: (changedSelectedKitchen?: { kitchenId: string; title: string }) => void;
 
@@ -31,6 +34,10 @@ export interface ChefProfilePageCreateMenusStep1Props {
 export default function ChefProfilePageCreateMenusStep1({
     title,
     setTitle,
+    selectedCategories,
+    setSelectedCategories,
+    selectedKitchen,
+    setSelectedKitchen,
     onContinue,
 }: ChefProfilePageCreateMenusStep1Props): ReactElement {
     return (
@@ -40,9 +47,25 @@ export default function ChefProfilePageCreateMenusStep1({
                 <PETextField type={'text'} value={title} onChange={setTitle} />
             </VStack>
 
-            <PEDropdown title={'Categories'} options={CATEGORIES} getOptionLabel={(category): string => category.title} defaultExpanded />
+            <PEDropdown
+                title={'Categories'}
+                options={CATEGORIES}
+                getOptionLabel={(category): string => category.title}
+                onSelectedOptionsChange={setSelectedCategories}
+                selectedOptions={selectedCategories}
+                defaultExpanded
+            />
 
-            <PEDropdown title={'Kitchen'} options={KITCHENS} getOptionLabel={(kitchen): string => kitchen.title} defaultExpanded />
+            <PEDropdown
+                title={'Kitchen'}
+                options={KITCHENS}
+                getOptionLabel={(kitchen): string => kitchen.title}
+                selectedOptions={selectedKitchen ? [selectedKitchen] : []}
+                onSelectedOptionsChange={(changedSelectedKitchens): void => {
+                    setSelectedKitchen(changedSelectedKitchens[0]);
+                }}
+                defaultExpanded
+            />
 
             <PEButton title="Continue" onClick={onContinue} />
         </VStack>

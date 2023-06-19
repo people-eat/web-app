@@ -7,10 +7,9 @@ import { CreateOneCookMenuDocument, type CurrencyCode } from '../../../../data-s
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import VStack from '../../../utility/vStack/VStack';
-import { type MealEntity } from './ChefProfilePageMenusTab';
 import ChefProfilePageCreateMenusStep1 from './createMenuStep1/ChefProfilePageCreateMenusStep1';
 import ChefProfilePageCreateMenusStep2 from './createMenuStep2/ChefProfilePageCreateMenuStep2';
-import ChefProfilePageCreateMenusPreviewStep2 from './createMenuStep2/ChefProfilePageCreateMenusPreviewStep2';
+import { type CreateCookMenuCourseDto } from './createMenuStep2/CreateCookMenuCourse';
 import ChefProfilePageCreateMenusStep3 from './createMenuStep3/ChefProfilePageCreateMenuStep3';
 
 interface ChefProfilePageCreateMenuProps {
@@ -24,7 +23,8 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
     const [step, setStep] = useState(0);
 
     const [title, setTitle] = useState('');
-    const [description, _setDescription] = useState('');
+    // currently not in use
+    const [description] = useState('');
 
     // in cents: 10000 -> 100.00 EUR
     const [basePrice, setBasePrice] = useState(10000);
@@ -35,16 +35,13 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
 
     const [greetingFromKitchen, setGreetingFromKitchen] = useState<string | undefined>();
     const [isVisible, setIsVisible] = useState(true);
-    const [preparationTime, _setPreparationTime] = useState(60);
+    // currently not in use
+    const [preparationTime] = useState(60);
 
     const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
-    const [selectedCategories, _setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
 
-    const [selectedMeals, setSelectedMeals] = useState<MealEntity[]>([]);
-
-    function handleOnSelectedMeals(meals: MealEntity[]): void {
-        setSelectedMeals(meals);
-    }
+    const [courses, setCourses] = useState<CreateCookMenuCourseDto[]>([]);
 
     const [createMenu, { data }] = useMutation(CreateOneCookMenuDocument);
 
@@ -79,6 +76,8 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                     <ChefProfilePageCreateMenusStep1
                         title={title}
                         setTitle={setTitle}
+                        selectedCategories={selectedCategories}
+                        setSelectedCategories={setSelectedCategories}
                         selectedKitchen={selectedKitchen}
                         setSelectedKitchen={setSelectedKitchen}
                         onContinue={(): void => setStep(1)}
@@ -88,9 +87,10 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                 {step === 1 && (
                     <ChefProfilePageCreateMenusStep2
                         cookId={cookId}
-                        onSelectedMeals={handleOnSelectedMeals}
                         greetingFromKitchen={greetingFromKitchen}
                         setGreetingFromKitchen={setGreetingFromKitchen}
+                        courses={courses}
+                        setCourses={setCourses}
                         onContinue={(): void => setStep(2)}
                     />
                 )}
@@ -124,9 +124,11 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                                         preparationTime,
                                         kitchenId: selectedKitchen?.kitchenId,
                                         categoryIds: selectedCategories.map(({ categoryId }) => categoryId),
-
-                                        // The big todo:
-                                        courses: [],
+                                        courses: courses.map((course, index) => ({
+                                            index,
+                                            title: course.title,
+                                            mealOptions: course.meals.map(({ mealId }, mealIndex) => ({ index: mealIndex, mealId })),
+                                        })),
                                     },
                                 },
                             })
@@ -134,15 +136,6 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                     />
                 )}
             </VStack>
-
-            {step === 1 && (
-                <VStack
-                    className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
-                    style={{ alignItems: 'center', justifyContent: 'flex-start' }}
-                >
-                    <ChefProfilePageCreateMenusPreviewStep2 selectedMeals={selectedMeals} />
-                </VStack>
-            )}
         </VStack>
     );
 }

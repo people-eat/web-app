@@ -15,28 +15,26 @@ import VStack from '../../../utility/vStack/VStack';
 
 export interface ChefProfilePageCreateMealProps {
     cookId: string;
+    defaultMealType?: MealType;
     onSuccess: () => void;
     onCancel: () => void;
 }
 
-export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel }: ChefProfilePageCreateMealProps): ReactElement {
+export default function ChefProfilePageCreateMeal({
+    cookId,
+    defaultMealType,
+    onSuccess,
+    onCancel,
+}: ChefProfilePageCreateMealProps): ReactElement {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [type, setType] = useState<MealType>('MAIN_COURSE');
+    const [type, setType] = useState<MealType>(defaultMealType ?? 'MAIN_COURSE');
     const [image, setImage] = useState<File | undefined>(undefined);
 
     const disabled: boolean = title === '';
 
     const [createOneCookMeal, { data, loading }] = useMutation(CreateOneCookMealDocument, {
-        variables: {
-            cookId,
-            meal: {
-                title,
-                description,
-                type,
-            },
-            image,
-        },
+        variables: { cookId, meal: { title, description, type }, image },
     });
 
     if (data?.cooks.meals.success) onSuccess();
@@ -54,20 +52,14 @@ export default function ChefProfilePageCreateMeal({ cookId, onSuccess, onCancel 
 
             <VStack className="w-full">
                 <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>
+
                 <HStack
                     gap={8}
                     className="w-full max-w-screen-xl overflow-x-scroll"
                     style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
                 >
                     {mealTypes.map((mealType, index) => (
-                        <PETabItem
-                            key={index}
-                            title={mealType}
-                            onClick={(): void => {
-                                setType(mealType);
-                            }}
-                            active={mealType === type}
-                        />
+                        <PETabItem key={index} title={mealType} onClick={(): void => setType(mealType)} active={mealType === type} />
                     ))}
                 </HStack>
             </VStack>

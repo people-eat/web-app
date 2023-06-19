@@ -22,12 +22,7 @@ export interface ChefProfilePageMealsTabProps {
 export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMealsTabProps): ReactElement {
     const [selectedTab, setSelectedTab] = useState<MealType | 'ALL' | 'CREATE'>('ALL');
     const [openDeleteMealDialog, setOpenDeleteMealDialog] = useState(false);
-    const [editMeal, setEditMeal] = useState({
-        isOpen: false,
-        x: 0,
-        y: 0,
-        mealId: '',
-    });
+    const [editMeal, setEditMeal] = useState({ isOpen: false, x: 0, y: 0, mealId: '' });
 
     const { data, loading, refetch } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
@@ -127,6 +122,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
             {selectedTab === 'CREATE' && (
                 <ChefProfilePageCreateMeal
                     cookId={cookId}
+                    defaultMealType={selectedTab !== 'CREATE' && selectedTab !== 'ALL' ? selectedTab : undefined}
                     onSuccess={(): void => {
                         setSelectedTab('ALL');
                         void refetch();
