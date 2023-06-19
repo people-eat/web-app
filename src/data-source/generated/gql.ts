@@ -49,10 +49,20 @@ const documents = {
         types.RemoveOneCookLanguageDocument,
     'mutation CreateOneCookMeal($meal: CreateOneMealRequest!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: createOne(meal: $meal, image: $image)\n    }\n  }\n}':
         types.CreateOneCookMealDocument,
+    'mutation DeleteOneCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: deleteOne(mealId: $mealId)\n    }\n  }\n}':
+        types.DeleteOneCookMealDocument,
     'query FindCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findOne(mealId: $mealId) {\n        mealId\n        title\n        description\n        imageUrl\n        type\n        createdAt\n      }\n    }\n  }\n}':
         types.FindCookMealDocument,
     'query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}':
         types.FindCookMealsDocument,
+    'mutation UpdateCookMealDescription($mealId: String!, $description: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateDescription(mealId: $mealId, description: $description)\n    }\n  }\n}':
+        types.UpdateCookMealDescriptionDocument,
+    'mutation UpdateCookMealImage($mealId: String!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateImage(mealId: $mealId, image: $image)\n    }\n  }\n}':
+        types.UpdateCookMealImageDocument,
+    'mutation UpdateCookMealTitle($mealId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateTitle(mealId: $mealId, title: $title)\n    }\n  }\n}':
+        types.UpdateCookMealTitleDocument,
+    'mutation UpdateCookMealType($mealId: String!, $type: MealType!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateType(mealId: $mealId, type: $type)\n    }\n  }\n}':
+        types.UpdateCookMealTypeDocument,
     'mutation CreateOneCookMenu($menu: CreateOneMenuRequest!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: createOne(menu: $menu)\n    }\n  }\n}':
         types.CreateOneCookMenuDocument,
     'mutation DeleteOneCookMenu($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: deleteOne(menuId: $menuId)\n    }\n  }\n}':
@@ -264,6 +274,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'mutation DeleteOneCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: deleteOne(mealId: $mealId)\n    }\n  }\n}',
+): (typeof documents)['mutation DeleteOneCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: deleteOne(mealId: $mealId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'query FindCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findOne(mealId: $mealId) {\n        mealId\n        title\n        description\n        imageUrl\n        type\n        createdAt\n      }\n    }\n  }\n}',
 ): (typeof documents)['query FindCookMeal($mealId: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findOne(mealId: $mealId) {\n        mealId\n        title\n        description\n        imageUrl\n        type\n        createdAt\n      }\n    }\n  }\n}'];
 /**
@@ -272,6 +288,30 @@ export function gql(
 export function gql(
     source: 'query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}',
 ): (typeof documents)['query FindCookMeals($cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      findMany {\n        mealId\n        cookId\n        title\n        type\n        description\n        imageUrl\n        createdAt\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMealDescription($mealId: String!, $description: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateDescription(mealId: $mealId, description: $description)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMealDescription($mealId: String!, $description: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateDescription(mealId: $mealId, description: $description)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMealImage($mealId: String!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateImage(mealId: $mealId, image: $image)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMealImage($mealId: String!, $cookId: String!, $image: Upload) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateImage(mealId: $mealId, image: $image)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMealTitle($mealId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateTitle(mealId: $mealId, title: $title)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMealTitle($mealId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateTitle(mealId: $mealId, title: $title)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookMealType($mealId: String!, $type: MealType!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateType(mealId: $mealId, type: $type)\n    }\n  }\n}',
+): (typeof documents)['mutation UpdateCookMealType($mealId: String!, $type: MealType!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateType(mealId: $mealId, type: $type)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
