@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { CreateOneCookMenuDocument, type CurrencyCode } from '../../../../data-source/generated/graphql';
 import { Icon } from '../../../standard/icon/Icon';
@@ -20,6 +21,8 @@ interface ChefProfilePageCreateMenuProps {
 
 // eslint-disable-next-line max-statements
 export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess }: ChefProfilePageCreateMenuProps): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     const [step, setStep] = useState(0);
 
     const [title, setTitle] = useState('');
@@ -58,16 +61,16 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                 </div>
 
                 <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
-                    <p className="w-full text-heading-xl my-0 mb-2">Adding a new menu</p>
+                    <p className="w-full text-heading-xl my-0 mb-2">{t('create-menu-headline')}</p>
                     <Stepper activeStep={step}>
                         <Step>
-                            <StepLabel onClick={(): void => setStep(0)}>Step 1</StepLabel>
+                            <StepLabel onClick={(): void => setStep(0)}>{t('create-menu-step-1')}</StepLabel>
                         </Step>
                         <Step>
-                            <StepLabel onClick={(): void => setStep(1)}>Step 2</StepLabel>
+                            <StepLabel onClick={(): void => setStep(1)}>{t('create-menu-step-2')}</StepLabel>
                         </Step>
                         <Step>
-                            <StepLabel onClick={(): void => setStep(2)}>Step 3</StepLabel>
+                            <StepLabel onClick={(): void => setStep(2)}>{t('create-menu-step-3')}</StepLabel>
                         </Step>
                     </Stepper>
                 </VStack>
@@ -97,6 +100,7 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
 
                 {step === 2 && (
                     <ChefProfilePageCreateMenusStep3
+                        currencyCode={currencyCode}
                         basePrice={basePrice}
                         setBasePrice={setBasePrice}
                         basePriceCustomers={basePriceCustomers}

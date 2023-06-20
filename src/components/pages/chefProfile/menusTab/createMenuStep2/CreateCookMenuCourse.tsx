@@ -38,7 +38,7 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
         <Dialog open={open} maxWidth="md">
             <DialogTitle>
                 <HStack>
-                    <span>Add Course</span>
+                    <span>{t('create-menu-courses-add-course')}</span>
                     <Spacer />
                     <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                 </HStack>

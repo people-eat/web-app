@@ -45,16 +45,16 @@ export default function ChefProfilePageCreateMenusStep2({
         <VStack gap={16} className="w-full" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <VStack className="w-full">
-                    <p className="w-full text-text-m-bold my-0">Would you like to offer a greeting from the kitchen?</p>
+                    <p className="w-full text-text-m-bold my-0">{t('create-menu-greeting-form-kitchen-label')}</p>
 
                     <HStack gap={16} className="w-full my-4" style={{ alignItems: 'center' }}>
                         <PETabItem
-                            title="Yes"
+                            title={t('create-menu-yes')}
                             onClick={(): void => setGreetingFromKitchen('')}
                             active={greetingFromKitchen !== undefined}
                         />
                         <PETabItem
-                            title="No"
+                            title={t('create-menu-no')}
                             onClick={(): void => setGreetingFromKitchen(undefined)}
                             active={greetingFromKitchen === undefined}
                         />
@@ -68,9 +68,13 @@ export default function ChefProfilePageCreateMenusStep2({
                 </VStack>
 
                 <HStack className="w-full">
-                    <span className="text-text-m-bold">Courses</span>
+                    <span className="text-text-m-bold">{t('create-menu-courses')}</span>
                     <Spacer />
-                    <PEButton className="max-w-[250px]" onClick={(): void => setShowCreateCourseDialog(true)} title={t('add-gear')} />
+                    <PEButton
+                        className="max-w-[250px]"
+                        onClick={(): void => setShowCreateCourseDialog(true)}
+                        title={t('create-menu-courses-add-course')}
+                    />
                 </HStack>
 
                 {courses.map((course, index) => (
@@ -122,7 +126,7 @@ export default function ChefProfilePageCreateMenusStep2({
                     />
                 )}
 
-                <PEButton title="Continue" onClick={onContinue} />
+                <PEButton title={t('create-menu-continue')} onClick={onContinue} />
             </VStack>
         </VStack>
     );
