@@ -33,7 +33,7 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
 
     const [addOneCookLanguage] = useMutation(AddOneCookLanguageDocument);
 
-    function handleAddNewLanguageById(languageId: string): void {
+    function handleAddNewLanguageById({ languageId }: { languageId: string; title: string }): void {
         try {
             void addOneCookLanguage({
                 variables: {
@@ -76,14 +76,10 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
                         <PEAutoCompleteTextField
                             startContent={<PEIcon icon={Icon.search} />}
                             searchText={languageSearchText}
-                            onSearchTextChange={(changedSearchText: string): void => {
-                                setLanguageSearchText(changedSearchText);
-                            }}
+                            onSearchTextChange={setLanguageSearchText}
                             options={languages}
                             getOptionLabel={({ title }): string => title}
-                            onOptionSelect={({ languageId }): void => {
-                                handleAddNewLanguageById(languageId);
-                            }}
+                            onOptionSelect={handleAddNewLanguageById}
                             placeholder={'Add language'}
                             className="mb-4"
                         />
