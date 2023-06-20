@@ -61,11 +61,11 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: Ch
                     </Stepper>
                 </VStack>
 
-                {step === 0 && menu && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} />}
+                {step === 0 && menu && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} onCancel={onCancel} />}
 
-                {step === 1 && menu && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} />}
+                {step === 1 && menu && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} onCancel={onCancel} />}
 
-                {step === 2 && menu && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} />}
+                {step === 2 && menu && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} onCancel={onCancel} />}
 
                 {loading && <CircularProgress />}
             </VStack>
