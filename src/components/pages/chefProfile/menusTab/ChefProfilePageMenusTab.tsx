@@ -1,8 +1,13 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
-import { FindCookMenusDocument, type CurrencyCode, type MealType } from '../../../../data-source/generated/graphql';
+import {
+    DeleteOneCookMenuDocument,
+    FindCookMenusDocument,
+    type CurrencyCode,
+    type MealType,
+} from '../../../../data-source/generated/graphql';
 import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -52,12 +57,8 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState<string | undefined>(undefined);
-    const [editMenu, setEditMenu] = useState({
-        isOpen: false,
-        x: 0,
-        y: 0,
-        menuId: '',
-    });
+    const [editMenu, setEditMenu] = useState({ x: 0, y: 0, menuId: '' });
+    const [isEditMenuOpen, setEditMenuOpen] = useState(false);
 
     const { data, loading, refetch } = useQuery(FindCookMenusDocument, { variables: { cookId } });
 
@@ -67,8 +68,20 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
 
     const invisibleMenus = menus.filter((menu) => !menu.isVisible);
 
-    function handleDeleteMenuDialog(): void {
-        setOpenDeleteMenuDialog(false);
+    const [deleteMenu] = useMutation(DeleteOneCookMenuDocument);
+
+    function handleDeleteMenu(): void {
+        try {
+            void deleteMenu({
+                variables: {
+                    cookId,
+                    menuId: editMenu.menuId,
+                },
+            }).then((): void => setOpenDeleteMenuDialog(false));
+        } catch (e) {
+            console.error(e);
+            setOpenDeleteMenuDialog(false);
+        }
     }
 
     function handleCreateNewMenuSuccess(): void {
@@ -78,15 +91,17 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     }
 
     function handleRightClick(event: MouseEvent<HTMLDivElement>, menuId: string): void {
-        if (event.button === 2) setEditMenu({ isOpen: true, x: event.clientX, y: event.clientY, menuId });
-        else setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
+        if (event.button === 2) {
+            setEditMenuOpen(true);
+            setEditMenu({ x: event.clientX, y: event.clientY, menuId });
+        } else setEditMenuOpen(false);
     }
 
     useEffect(() => {
         // remove default right click for that page, to use custom function
         document.addEventListener('contextmenu', (event) => event.preventDefault());
         document.addEventListener('click', (event) => {
-            if (!isParentNodeElementHasClass(event, 'editMenu')) setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
+            if (!isParentNodeElementHasClass(event, 'editMenu')) setEditMenuOpen(false);
         });
     }, []);
 
@@ -206,7 +221,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
             <Dialog
                 sx={{ width: '100%', '& .MuiPaper-root': { width: '750px', maxWidth: '750px' } }}
                 open={openDeleteMenuDialog}
-                onClose={handleDeleteMenuDialog}
+                onClose={(): void => setOpenDeleteMenuDialog(false)}
             >
                 <DialogContent>
                     <VStack className="gap-8 relative box-border">
@@ -223,13 +238,13 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                         <p className="m-0 w-full text-start">Do you really want to delete the menu?</p>
                         <HStack className="w-full gap-4">
                             <PEButton onClick={(): void => setOpenDeleteMenuDialog(false)} title="Cancel" type="secondary" />
-                            <PEButton onClick={(): void => setOpenDeleteMenuDialog(false)} title="Delete" />
+                            <PEButton onClick={handleDeleteMenu} title="Delete" />
                         </HStack>
                     </VStack>
                 </DialogContent>
             </Dialog>
 
-            {editMenu.isOpen && (
+            {isEditMenuOpen && (
                 <div
                     className="editMenu absolute w-[200px] box-border bg-white rounded-4 shadow-primary px-4 py-1"
                     style={{ top: editMenu.y, left: editMenu.x }}
@@ -239,7 +254,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                         onClick={(): void => {
                             setSelectedTab('EDIT');
                             setSelectedMenu(editMenu.menuId);
-                            setEditMenu({ isOpen: false, x: 0, y: 0, menuId: '' });
+                            setEditMenuOpen(false);
                         }}
                     >
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>
