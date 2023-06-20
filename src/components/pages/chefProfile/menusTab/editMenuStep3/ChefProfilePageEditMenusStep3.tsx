@@ -47,21 +47,13 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu }: ChefProf
         variables: { cookId, menuId: menu.menuId, isVisible },
     });
 
-    useEffect(() => {
-        setBasePrice(menu.basePrice ?? 100);
-        setBasePriceCustomers(menu.basePriceCustomers ?? 2);
-        setPricePerAdult(menu.pricePerAdult ?? 5000);
-        setPricePerChild(menu.pricePerChild ?? undefined);
-        setIsVisible(menu.isVisible ?? true);
-    }, [menu]);
-
     function handleSaveUpdates(): void {
         try {
-            void updateBasePrice();
-            void updateBasePriceCustomers();
-            void updatePricePerAdult();
-            void updatePricePerChild();
-            void updateIsVisible();
+            if (menu.basePrice !== basePrice) void updateBasePrice();
+            if (menu.basePriceCustomers !== basePriceCustomers) void updateBasePriceCustomers();
+            if (menu.pricePerAdult !== pricePerAdult) void updatePricePerAdult();
+            if (menu.pricePerChild !== pricePerChild) void updatePricePerChild();
+            if (menu.isVisible !== isVisible) void updateIsVisible();
         } catch (e) {
             console.error(e);
         }

@@ -50,14 +50,6 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu }: ChefProf
         variables: { cookId, menuId: menu.menuId },
     });
 
-    useEffect(() => {
-        setGreetingFromKitchen(menu.greetingFromKitchen ?? undefined);
-        setCourses([]);
-        setShowCreateCourseDialog(false);
-        setNewCourseTitle('');
-        setNewCourseMealType('STARTER');
-    }, [menu]);
-
     // function handleUnSaveChooseMeals(): void {
     //     setOpenPopUp(false);
     //     setEditSelectedMeals(selectedMeals);
@@ -94,7 +86,7 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu }: ChefProf
 
     function handleSaveUpdates(): void {
         try {
-            void updateGreetingFromKitchen();
+            if (menu.greetingFromKitchen !== greetingFromKitchen) void updateGreetingFromKitchen();
         } catch (e) {
             console.error(e);
         }

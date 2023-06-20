@@ -36,16 +36,10 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu }: ChefProf
         variables: { cookId, menuId: menu.menuId, kitchenId: selectedKitchen?.kitchenId ?? undefined },
     });
 
-    useEffect(() => {
-        setTitle(menu.title ?? '');
-        setSelectedKitchen(menu.kitchen ?? undefined);
-        setSelectedCategories(menu.categories ?? []);
-    }, [menu]);
-
     function handleSaveUpdates(): void {
         try {
-            void updateTitle();
-            void updateKitchenId();
+            if (menu.title !== title) void updateTitle();
+            if (menu.kitchen !== selectedKitchen) void updateKitchenId();
         } catch (e) {
             console.error(e);
         }
