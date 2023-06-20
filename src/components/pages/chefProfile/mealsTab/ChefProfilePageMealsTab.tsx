@@ -70,7 +70,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                     {mealTypes.map((mealType, index) => (
                         <PETabItem
                             key={index}
-                            title={mealType}
+                            title={mealType.toLowerCase()}
                             onClick={(): void => setSelectedTab(mealType)}
                             active={selectedTab === mealType}
                         />
