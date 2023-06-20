@@ -1902,6 +1902,15 @@ export type CreateOneUserByEmailAddressMutationVariables = Exact<{
 
 export type CreateOneUserByEmailAddressMutation = { __typename?: 'Mutation'; users: { __typename?: 'UserMutation'; success: boolean } };
 
+export type ExpireCurrentSessionMutationVariables = Exact<{
+    userId: Scalars['String'];
+}>;
+
+export type ExpireCurrentSessionMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; sessions: { __typename?: 'UserSessionMutation'; success: boolean } };
+};
+
 export type FindAllergiesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindAllergiesQuery = {
@@ -2819,6 +2828,58 @@ export const CreateOneUserByEmailAddressDocument = {
         },
     ],
 } as unknown as DocumentNode<CreateOneUserByEmailAddressMutation, CreateOneUserByEmailAddressMutationVariables>;
+export const ExpireCurrentSessionDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'ExpireCurrentSession' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sessions' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'expireCurrent' },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ExpireCurrentSessionMutation, ExpireCurrentSessionMutationVariables>;
 export const FindAllergiesDocument = {
     kind: 'Document',
     definitions: [
