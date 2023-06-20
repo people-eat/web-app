@@ -29,7 +29,7 @@ export interface ChefProfilePageCreateMealProps {
 export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: ChefProfilePageCreateMealProps): ReactElement {
     const { data, loading } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
 
-    const [meal, setMeal] = useState(data?.cooks.meals.findOne);
+    const meal = data?.cooks.meals.findOne;
 
     const [title, setTitle] = useState(meal?.title ?? '');
     const [description, setDescription] = useState(meal?.description ?? '');
@@ -38,13 +38,11 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: Ch
     const [imageUrl, setImageUrl] = useState(meal?.imageUrl ?? '');
 
     useEffect(() => {
-        setMeal(data?.cooks.meals.findOne);
-
         setTitle(meal?.title ?? '');
         setDescription(meal?.description ?? '');
         setType(meal?.type ?? 'MAIN_COURSE');
         setImageUrl(meal?.imageUrl ?? '');
-    }, [meal, loading]);
+    }, [meal, loading, data?.cooks.meals.findOne]);
 
     const [updateMealDescription] = useMutation(UpdateCookMealDescriptionDocument, {
         variables: { cookId, mealId, description },
