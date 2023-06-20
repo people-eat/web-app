@@ -18,10 +18,10 @@ import { type MenuEntity } from '../ChefProfilePageMenusTab';
 export interface ChefProfilePageEditMenusStep3Props {
     menu: MenuEntity;
     cookId: string;
-    onCancel: () => void;
+    onSaveUpdates: () => void;
 }
 
-export default function ChefProfilePageEditMenusStep3({ cookId, menu, onCancel }: ChefProfilePageEditMenusStep3Props): ReactElement {
+export default function ChefProfilePageEditMenusStep3({ cookId, menu, onSaveUpdates }: ChefProfilePageEditMenusStep3Props): ReactElement {
     const { t } = useTranslation('chef-profile');
 
     // in cents: 10000 -> 100.00 EUR
@@ -59,7 +59,7 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, onCancel }
             console.error(e);
         }
 
-        onCancel();
+        onSaveUpdates();
     }
 
     return (

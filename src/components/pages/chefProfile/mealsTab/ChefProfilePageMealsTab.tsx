@@ -128,6 +128,9 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                     mealId={editMeal.mealId}
                     onCancel={(): void => {
                         setSelectedTab('ALL');
+                    }}
+                    onSaveUpdates={(): void => {
+                        setSelectedTab('ALL');
                         void refetch();
                     }}
                     cookId={cookId}
