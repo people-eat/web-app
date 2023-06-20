@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import { CircularProgress } from '@mui/material';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
@@ -10,7 +11,6 @@ import VStack from '../../../utility/vStack/VStack';
 import ChefProfilePageEditMenusStep1 from './editMenuStep1/ChefProfilePageEditMenusStep1';
 import ChefProfilePageEditMenusStep2 from './editMenuStep2/ChefProfilePageEditMenusStep2';
 import ChefProfilePageEditMenusStep3 from './editMenuStep3/ChefProfilePageEditMenusStep3';
-import {CircularProgress, Dialog, DialogContent} from "@mui/material";
 
 interface ChefProfilePageEditMenuProps {
     cookId: string;
