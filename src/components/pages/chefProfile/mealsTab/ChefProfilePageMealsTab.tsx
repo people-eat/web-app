@@ -46,8 +46,8 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
         }
     }
 
-    function handleRightClick(event: MouseEvent<HTMLDivElement>, mealId: string): void {
-        if (event.button === 2) {
+    function handleClickOnCard(event: MouseEvent<HTMLDivElement>, mealId: string): void {
+        if (event.button === 0) {
             setEditMealOpen(true);
             setEditMeal({ x: event.clientX, y: event.clientY, mealId });
         } else setEditMealOpen(false);
@@ -92,7 +92,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
             {selectedTab === 'ALL' && (
                 <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                     {meals.map(({ title, description, imageUrl, mealId }, index) => (
-                        <div className="editMeal" key={index} onMouseDown={(event): void => handleRightClick(event, mealId)}>
+                        <div className="editMeal" key={index} onMouseUp={(event): void => handleClickOnCard(event, mealId)}>
                             <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
                         </div>
                     ))}
@@ -104,7 +104,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                     {meals
                         .filter(({ type }) => type === selectedTab)
                         .map(({ title, description, imageUrl, mealId }, index) => (
-                            <div className="editMeal" key={index} onMouseDown={(event): void => handleRightClick(event, mealId)}>
+                            <div className="editMeal" key={index} onMouseUp={(event): void => handleClickOnCard(event, mealId)}>
                                 <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
                             </div>
                         ))}
@@ -178,7 +178,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                     <div className="w-full h-[1px] bg-disabled" />
                     <Button
                         style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMealDialog(true)}
+                        onClick={(): void => undefined}
                     >
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Publish</p>
                     </Button>
