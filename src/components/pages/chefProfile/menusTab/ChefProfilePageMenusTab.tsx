@@ -90,8 +90,8 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
         void refetch();
     }
 
-    function handleRightClick(event: MouseEvent<HTMLDivElement>, menuId: string): void {
-        if (event.button === 2) {
+    function handleClickOnCard(event: MouseEvent<HTMLDivElement>, menuId: string): void {
+        if (event.button === 0) {
             setEditMenuOpen(true);
             setEditMenu({ x: event.clientX, y: event.clientY, menuId });
         } else setEditMenuOpen(false);
@@ -137,7 +137,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                     <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                         {visibleMenus.map((menu, index) => (
                             <div
-                                onMouseDown={(event): void => handleRightClick(event, menu.menuId)}
+                                onMouseUp={(event): void => handleClickOnCard(event, menu.menuId)}
                                 className="relative PEMenuCard"
                                 key={index}
                             >
@@ -164,7 +164,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                                 >
                                     {invisibleMenus.map((menu, index) => (
                                         <div
-                                            onMouseDown={(event): void => handleRightClick(event, menu.menuId)}
+                                            onMouseUp={(event): void => handleClickOnCard(event, menu.menuId)}
                                             className="relative"
                                             key={index}
                                         >
@@ -262,7 +262,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                     <div className="w-full h-[1px] bg-disabled" />
                     <Button
                         style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMenuDialog(true)}
+                        onClick={(): void => undefined}
                     >
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Publish</p>
                     </Button>
