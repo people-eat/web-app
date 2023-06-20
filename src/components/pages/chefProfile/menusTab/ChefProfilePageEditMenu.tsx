@@ -10,6 +10,7 @@ import VStack from '../../../utility/vStack/VStack';
 import ChefProfilePageEditMenusStep1 from './editMenuStep1/ChefProfilePageEditMenusStep1';
 import ChefProfilePageEditMenusStep2 from './editMenuStep2/ChefProfilePageEditMenusStep2';
 import ChefProfilePageEditMenusStep3 from './editMenuStep3/ChefProfilePageEditMenusStep3';
+import {CircularProgress, Dialog, DialogContent} from "@mui/material";
 
 interface ChefProfilePageEditMenuProps {
     cookId: string;
@@ -20,9 +21,9 @@ interface ChefProfilePageEditMenuProps {
 // eslint-disable-next-line max-statements
 export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: ChefProfilePageEditMenuProps): ReactElement {
     const [step, setStep] = useState(0);
-    const { data } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
+    const { data, loading } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
 
-    const [menu] = useState(data?.cooks.menus.findOne);
+    const menu = data?.cooks.menus.findOne;
 
     // const [description, _setDescription] = useState(menu?.description ?? '');
 
@@ -59,11 +60,14 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: Ch
                         </Step>
                     </Stepper>
                 </VStack>
+
                 {step === 0 && menu && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} />}
 
                 {step === 1 && menu && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} />}
 
                 {step === 2 && menu && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} />}
+
+                {loading && <CircularProgress />}
             </VStack>
         </VStack>
     );
