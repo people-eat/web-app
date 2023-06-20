@@ -59,7 +59,12 @@ export default function ChefProfilePageCreateMeal({
                     style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
                 >
                     {mealTypes.map((mealType, index) => (
-                        <PETabItem key={index} title={mealType.toLowerCase()} onClick={(): void => setType(mealType)} active={mealType === type} />
+                        <PETabItem
+                            key={index}
+                            title={mealType.toLowerCase()}
+                            onClick={(): void => setType(mealType)}
+                            active={mealType === type}
+                        />
                     ))}
                 </HStack>
             </VStack>
