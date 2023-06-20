@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { Dialog, DialogContent } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
-import { useEffect, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { UpdateCookMenuGreetingFromKitchenDocument, type MealType } from '../../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../../shared/mealTypes';
 import PEButton from '../../../../standard/buttons/PEButton';

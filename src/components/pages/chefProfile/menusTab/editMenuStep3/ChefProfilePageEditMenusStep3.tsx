@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import useTranslation from 'next-translate/useTranslation';
-import { useEffect, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import {
     UpdateCookMenuBasePriceCustomersDocument,
     UpdateCookMenuBasePriceDocument,

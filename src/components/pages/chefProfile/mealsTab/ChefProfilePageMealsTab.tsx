@@ -1,8 +1,8 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
-import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
+import { DeleteOneCookMealDocument, FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
 import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
@@ -30,8 +30,20 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
 
     const meals = data?.cooks.meals.findMany ?? [];
 
-    function handleDeleteMealDialog(): void {
-        setOpenDeleteMealDialog(false);
+    const [deleteMeal] = useMutation(DeleteOneCookMealDocument);
+
+    function handleDeleteMeal(): void {
+        try {
+            void deleteMeal({
+                variables: {
+                    cookId,
+                    mealId: editMeal.mealId,
+                },
+            }).then((): void => setOpenDeleteMealDialog(false));
+        } catch (e) {
+            console.error(e);
+            setOpenDeleteMealDialog(false);
+        }
     }
 
     function handleRightClick(event: MouseEvent<HTMLDivElement>, mealId: string): void {
@@ -126,7 +138,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
             <Dialog
                 sx={{ width: '100%', '& .MuiPaper-root': { width: '750px', maxWidth: '750px' } }}
                 open={openDeleteMealDialog}
-                onClose={handleDeleteMealDialog}
+                onClose={(): void => setOpenDeleteMealDialog(false)}
             >
                 <DialogContent>
                     <VStack className="gap-8 relative box-border">
@@ -143,7 +155,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                         <p className="m-0 w-full text-start">Do you really want to delete the menu?</p>
                         <HStack className="w-full gap-4">
                             <PEButton onClick={(): void => setOpenDeleteMealDialog(false)} title="Cancel" type="secondary" />
-                            <PEButton onClick={(): void => setOpenDeleteMealDialog(false)} title="Delete" />
+                            <PEButton onClick={handleDeleteMeal} title="Delete" />
                         </HStack>
                     </VStack>
                 </DialogContent>

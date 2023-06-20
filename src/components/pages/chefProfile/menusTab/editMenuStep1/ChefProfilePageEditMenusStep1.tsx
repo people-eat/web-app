@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { useEffect, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { UpdateCookMenuKitchenIdDocument, UpdateCookMenuTitleDocument } from '../../../../../data-source/generated/graphql';
 import PEButton from '../../../../standard/buttons/PEButton';
 import PEDropdown from '../../../../standard/dropdown/PEDropdown';
