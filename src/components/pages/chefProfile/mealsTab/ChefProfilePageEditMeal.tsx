@@ -60,9 +60,9 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: Ch
     function handleSaveUpdates(): void {
         try {
             if (meal?.description !== description) void updateMealDescription();
-            void updateMealImage();
-            void updateMealTitle();
-            void updateMealType();
+            if (meal?.title !== title) void updateMealTitle();
+            if (meal?.type !== type) void updateMealType();
+            if (image) void updateMealImage();
         } catch (e) {
             console.error(e);
         }
