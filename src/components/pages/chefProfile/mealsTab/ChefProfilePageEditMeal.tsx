@@ -96,7 +96,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                             {mealTypes.map((mealType, index) => (
                                 <PETabItem
                                     key={index}
-                                    title={mealType}
+                                    title={mealType.toLowerCase()}
                                     onClick={(): void => {
                                         setType(mealType);
                                     }}

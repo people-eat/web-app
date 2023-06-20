@@ -58,7 +58,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState<string | undefined>(undefined);
     const [editMenu, setEditMenu] = useState({ x: 0, y: 0, menuId: '' });
-    const [isEditMenuOpen, setEditMenuOpen] = useState(true);
+    const [isEditMenuOpen, setEditMenuOpen] = useState(false);
 
     const { data, loading, refetch } = useQuery(FindCookMenusDocument, { variables: { cookId } });
 
