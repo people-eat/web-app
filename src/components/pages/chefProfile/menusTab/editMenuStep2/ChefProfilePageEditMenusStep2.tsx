@@ -19,7 +19,7 @@ export interface ChefProfilePageEditMenusStep2Props {
     cookId: string;
     menuId?: string;
     onSelectedMeals?: (selectedMeals: MealEntity[]) => void;
-    onCancel: () => void;
+    onSaveUpdates: () => void;
 }
 
 // export const MEALS_CARD_COUNT = 6;
@@ -29,7 +29,7 @@ export interface ChefProfilePageEditMenusStep2Props {
 // }
 
 // eslint-disable-next-line max-statements
-export default function ChefProfilePageEditMenusStep2({ cookId, menu, onCancel }: ChefProfilePageEditMenusStep2Props): ReactElement {
+export default function ChefProfilePageEditMenusStep2({ cookId, menu, onSaveUpdates }: ChefProfilePageEditMenusStep2Props): ReactElement {
     const { t } = useTranslation('chef-profile');
 
     const [_openPopUp, setOpenPopUp] = useState(false);
@@ -92,7 +92,7 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, onCancel }
             console.error(e);
         }
 
-        onCancel();
+        onSaveUpdates();
     }
 
     return (

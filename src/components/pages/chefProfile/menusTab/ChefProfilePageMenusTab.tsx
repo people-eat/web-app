@@ -98,10 +98,6 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     }
 
     useEffect(() => {
-        console.log('isEditMenuOpen', isEditMenuOpen);
-    }, [isEditMenuOpen]);
-
-    useEffect(() => {
         // remove default right click for that page, to use custom function
         document.addEventListener('contextmenu', (event) => event.preventDefault());
         document.addEventListener('click', (event) => {
@@ -122,6 +118,9 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
             {selectedTab === 'EDIT' && selectedMenu && (
                 <ChefProfilePageEditMenu
                     onCancel={(): void => {
+                        setSelectedTab('MENUS');
+                    }}
+                    onSaveUpdates={(): void => {
                         setSelectedTab('MENUS');
                         void refetch();
                     }}

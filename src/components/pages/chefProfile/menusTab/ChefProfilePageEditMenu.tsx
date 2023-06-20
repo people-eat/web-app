@@ -16,10 +16,11 @@ interface ChefProfilePageEditMenuProps {
     cookId: string;
     menuId: string;
     onCancel: () => void;
+    onSaveUpdates: () => void;
 }
 
 // eslint-disable-next-line max-statements
-export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: ChefProfilePageEditMenuProps): ReactElement {
+export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId, onSaveUpdates }: ChefProfilePageEditMenuProps): ReactElement {
     const [step, setStep] = useState(0);
     const { data, loading } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
 
@@ -61,11 +62,11 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId }: Ch
                     </Stepper>
                 </VStack>
 
-                {step === 0 && menu && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} onCancel={onCancel} />}
+                {step === 0 && menu && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} onSaveUpdates={onSaveUpdates} />}
 
-                {step === 1 && menu && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} onCancel={onCancel} />}
+                {step === 1 && menu && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} onSaveUpdates={onSaveUpdates} />}
 
-                {step === 2 && menu && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} onCancel={onCancel} />}
+                {step === 2 && menu && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} onSaveUpdates={onSaveUpdates} />}
 
                 {loading && <CircularProgress />}
             </VStack>

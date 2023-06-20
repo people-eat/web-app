@@ -28,7 +28,7 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
     const { data, loading } = useQuery(FindLanguagesDocument);
 
     const languages = data?.languages.findAll ?? [];
-    const filteredLanguages = languages.filter((language) => language.title.includes(languageSearchText));
+    const filteredLanguages = languages.filter((language) => language.title.toLowerCase().includes(languageSearchText.toLowerCase()));
 
     const [removeOneCookLanguage] = useMutation(RemoveOneCookLanguageDocument);
 

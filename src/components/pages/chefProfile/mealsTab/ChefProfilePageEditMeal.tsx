@@ -24,9 +24,10 @@ export interface ChefProfilePageCreateMealProps {
     cookId: string;
     mealId: string;
     onCancel: () => void;
+    onSaveUpdates: () => void;
 }
 
-export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: ChefProfilePageCreateMealProps): ReactElement {
+export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageCreateMealProps): ReactElement {
     const { data, loading } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
 
     const meal = data?.cooks.meals.findOne;
@@ -69,7 +70,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: Ch
             console.error(e);
         }
 
-        onCancel();
+        onSaveUpdates();
     }
 
     return (
