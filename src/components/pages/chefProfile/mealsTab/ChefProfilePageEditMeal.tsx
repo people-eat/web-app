@@ -42,7 +42,9 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: Ch
         setDescription(meal?.description ?? '');
         setType(meal?.type ?? 'MAIN_COURSE');
         setImageUrl(meal?.imageUrl ?? '');
-    }, [meal, loading, data?.cooks.meals.findOne]);
+    }, [meal, loading, data]);
+
+    useEffect(() => setImageUrl(meal?.imageUrl ?? ''), [imageUrl, meal?.imageUrl]);
 
     const [updateMealDescription] = useMutation(UpdateCookMealDescriptionDocument, {
         variables: { cookId, mealId, description },
@@ -66,6 +68,8 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel }: Ch
         } catch (e) {
             console.error(e);
         }
+
+        onCancel();
     }
 
     return (

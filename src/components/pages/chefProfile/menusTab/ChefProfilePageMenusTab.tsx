@@ -58,7 +58,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState<string | undefined>(undefined);
     const [editMenu, setEditMenu] = useState({ x: 0, y: 0, menuId: '' });
-    const [isEditMenuOpen, setEditMenuOpen] = useState(false);
+    const [isEditMenuOpen, setEditMenuOpen] = useState(true);
 
     const { data, loading, refetch } = useQuery(FindCookMenusDocument, { variables: { cookId } });
 
@@ -98,6 +98,10 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     }
 
     useEffect(() => {
+        console.log('isEditMenuOpen', isEditMenuOpen);
+    }, [isEditMenuOpen]);
+
+    useEffect(() => {
         // remove default right click for that page, to use custom function
         document.addEventListener('contextmenu', (event) => event.preventDefault());
         document.addEventListener('click', (event) => {
@@ -116,7 +120,14 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
             )}
 
             {selectedTab === 'EDIT' && selectedMenu && (
-                <ChefProfilePageEditMenu onCancel={(): void => setSelectedTab('MENUS')} menuId={selectedMenu} cookId={cookId} />
+                <ChefProfilePageEditMenu
+                    onCancel={(): void => {
+                        setSelectedTab('MENUS');
+                        void refetch();
+                    }}
+                    menuId={selectedMenu}
+                    cookId={cookId}
+                />
             )}
 
             {selectedTab === 'MENUS' && (
@@ -138,7 +149,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                         {visibleMenus.map((menu, index) => (
                             <div
                                 onMouseUp={(event): void => handleClickOnCard(event, menu.menuId)}
-                                className="relative PEMenuCard"
+                                className="relative PEMenuCard editMenu"
                                 key={index}
                             >
                                 <PEMenuCard
@@ -165,7 +176,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                                     {invisibleMenus.map((menu, index) => (
                                         <div
                                             onMouseUp={(event): void => handleClickOnCard(event, menu.menuId)}
-                                            className="relative"
+                                            className="relative editMenu"
                                             key={index}
                                         >
                                             <PEMenuCard

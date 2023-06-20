@@ -24,9 +24,10 @@ const KITCHENS: { kitchenId: string; title: string }[] = [
 export interface ChefProfilePageEditMenusStep1Props {
     menu: MenuEntity;
     cookId: string;
+    onCancel: () => void;
 }
 
-export default function ChefProfilePageEditMenusStep1({ cookId, menu }: ChefProfilePageEditMenusStep1Props): ReactElement {
+export default function ChefProfilePageEditMenusStep1({ cookId, menu, onCancel }: ChefProfilePageEditMenusStep1Props): ReactElement {
     const [title, setTitle] = useState(menu.title ?? '');
     const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(menu.kitchen ?? undefined);
     const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>(menu.categories ?? []);
@@ -43,6 +44,8 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu }: ChefProf
         } catch (e) {
             console.error(e);
         }
+
+        onCancel();
     }
 
     return (
