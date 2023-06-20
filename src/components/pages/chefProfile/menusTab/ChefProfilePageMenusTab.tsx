@@ -260,10 +260,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>
                     </Button>
                     <div className="w-full h-[1px] bg-disabled" />
-                    <Button
-                        style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => undefined}
-                    >
+                    <Button style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }} onClick={(): void => undefined}>
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Publish</p>
                     </Button>
                     <div className="w-full h-[1px] bg-disabled" />
