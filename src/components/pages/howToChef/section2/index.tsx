@@ -45,7 +45,7 @@ export default function HowToChefSection2(): ReactElement {
                         <h3 className="text-heading-ss-bold m-0 py-0 lg:text-center lg:uppercase">{t('calculate-title')}</h3>
                         <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                             <p className="py-0">{t('qualification')}</p>
-                            <HStack className="gap-3 md:flex-wrap w-full">
+                            <HStack className="gap-3 md:flex-wrap md:w-full">
                                 {cookRanks.map((rank, index) => (
                                     <PETabItem
                                         key={index}

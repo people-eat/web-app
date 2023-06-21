@@ -91,10 +91,10 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, onSaveUpda
 
     function handleSaveUpdates(): void {
         void Promise.all<{ data: { cook: { success?: boolean } } }>([
-            new Promise(() =>
+            new Promise((resolve) =>
                 menu.greetingFromKitchen !== greetingFromKitchen
                     ? void updateGreetingFromKitchen()
-                    : { data: { cook: { success: false } } },
+                    : resolve({ data: { cook: { success: false } } }),
             ),
         ])
             .then((responses) => {

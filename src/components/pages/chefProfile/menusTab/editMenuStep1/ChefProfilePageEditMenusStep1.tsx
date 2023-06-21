@@ -43,8 +43,10 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu, onSaveUpda
 
     function handleSaveUpdates(): void {
         void Promise.all<{ data: { cook: { success?: boolean } } }>([
-            new Promise(() => (menu.title !== title ? void updateTitle() : { data: { cook: { success: false } } })),
-            new Promise(() => (menu.kitchen !== selectedKitchen ? void updateKitchenId() : { data: { cook: { success: false } } })),
+            new Promise((resolve) => (menu.title !== title ? void updateTitle() : resolve({ data: { cook: { success: false } } }))),
+            new Promise((resolve) =>
+                menu.kitchen !== selectedKitchen ? void updateKitchenId() : resolve({ data: { cook: { success: false } } }),
+            ),
         ])
             .then((responses) => {
                 if (responses.some((item) => item.data.cook.success)) onSaveUpdates();

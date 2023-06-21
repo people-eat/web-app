@@ -39,7 +39,10 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                     cookId,
                     mealId: editMeal.mealId,
                 },
-            }).then((): void => setOpenDeleteMealDialog(false));
+            }).then((): void => {
+                setOpenDeleteMealDialog(false);
+                void refetch();
+            });
         } catch (e) {
             console.error(e);
             setOpenDeleteMealDialog(false);

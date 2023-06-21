@@ -66,10 +66,12 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
 
     function handleSaveUpdates(): void {
         void Promise.all<{ data: { cook: { success?: boolean } } }>([
-            new Promise(() => (meal?.description !== description ? void updateMealDescription() : { data: { cook: { success: false } } })),
-            new Promise(() => (meal?.title !== title ? void updateMealTitle() : { data: { cook: { success: false } } })),
-            new Promise(() => (meal?.type !== type ? void updateMealType() : { data: { cook: { success: false } } })),
-            new Promise(() => (image ? void updateMealImage() : { data: { cook: { success: false } } })),
+            new Promise((resolve) =>
+                meal?.description !== description ? void updateMealDescription() : resolve({ data: { cook: { success: false } } }),
+            ),
+            new Promise((resolve) => (meal?.title !== title ? void updateMealTitle() : resolve({ data: { cook: { success: false } } }))),
+            new Promise((resolve) => (meal?.type !== type ? void updateMealType() : resolve({ data: { cook: { success: false } } }))),
+            new Promise((resolve) => (image ? void updateMealImage() : resolve({ data: { cook: { success: false } } }))),
         ])
             .then((responses) => {
                 if (responses.some((item) => item.data.cook.success)) onSaveUpdates();

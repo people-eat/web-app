@@ -77,7 +77,10 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                     cookId,
                     menuId: editMenu.menuId,
                 },
-            }).then((): void => setOpenDeleteMenuDialog(false));
+            }).then((): void => {
+                setOpenDeleteMenuDialog(false);
+                void refetch();
+            });
         } catch (e) {
             console.error(e);
             setOpenDeleteMenuDialog(false);
