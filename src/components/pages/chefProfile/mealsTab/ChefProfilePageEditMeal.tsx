@@ -60,17 +60,21 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
         variables: { cookId, mealId, type },
     });
 
-    function handleSaveUpdates(): void {
-        try {
-            if (meal?.description !== description) void updateMealDescription();
-            if (meal?.title !== title) void updateMealTitle();
-            if (meal?.type !== type) void updateMealType();
-            if (image) void updateMealImage();
+    function handleOnSaveUpdatesError(e: string): void {
+        console.error(e);
+    }
 
-            onSaveUpdates();
-        } catch (e) {
-            console.error(e);
-        }
+    function handleSaveUpdates(): void {
+        void Promise.all<{ data: { cook: { success?: boolean } } }>([
+            new Promise(() => (meal?.description !== description ? void updateMealDescription() : { data: { cook: { success: false } } })),
+            new Promise(() => (meal?.title !== title ? void updateMealTitle() : { data: { cook: { success: false } } })),
+            new Promise(() => (meal?.type !== type ? void updateMealType() : { data: { cook: { success: false } } })),
+            new Promise(() => (image ? void updateMealImage() : { data: { cook: { success: false } } })),
+        ])
+            .then((responses) => {
+                if (responses.some((item) => item.data.cook.success)) onSaveUpdates();
+            })
+            .catch(handleOnSaveUpdatesError);
     }
 
     return (
