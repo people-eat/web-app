@@ -88,11 +88,11 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, onSaveUpda
     function handleSaveUpdates(): void {
         try {
             if (menu.greetingFromKitchen !== greetingFromKitchen) void updateGreetingFromKitchen();
+
+            onSaveUpdates();
         } catch (e) {
             console.error(e);
         }
-
-        onSaveUpdates();
     }
 
     return (

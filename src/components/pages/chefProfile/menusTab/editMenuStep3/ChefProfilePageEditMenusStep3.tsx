@@ -55,11 +55,11 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, onSaveUpda
             if (menu.pricePerAdult !== pricePerAdult) void updatePricePerAdult();
             if (menu.pricePerChild !== pricePerChild) void updatePricePerChild();
             if (menu.isVisible !== isVisible) void updateIsVisible();
+
+            onSaveUpdates();
         } catch (e) {
             console.error(e);
         }
-
-        onSaveUpdates();
     }
 
     return (

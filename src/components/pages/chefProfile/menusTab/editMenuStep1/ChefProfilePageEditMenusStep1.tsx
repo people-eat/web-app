@@ -41,11 +41,11 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu, onSaveUpda
         try {
             if (menu.title !== title) void updateTitle();
             if (menu.kitchen !== selectedKitchen) void updateKitchenId();
+
+            onSaveUpdates();
         } catch (e) {
             console.error(e);
         }
-
-        onSaveUpdates();
     }
 
     return (
