@@ -9,9 +9,10 @@ import PEModal from '../modal/PEModal';
 export interface PEMobileMenuProps {
     openMenu: boolean;
     handleOpenMenu: (value: boolean) => void;
+    mobileMenuTabs?: { title: string; link: string }[];
 }
 
-export default function PEMobileMenu({ openMenu, handleOpenMenu }: PEMobileMenuProps): ReactElement {
+export default function PEMobileMenu({ openMenu, handleOpenMenu, mobileMenuTabs }: PEMobileMenuProps): ReactElement {
     const { t } = useTranslation('common');
 
     return (
@@ -27,16 +28,30 @@ export default function PEMobileMenu({ openMenu, handleOpenMenu }: PEMobileMenuP
 
             <div className="flex flex-col p-4">
                 <Link className="no-underline" href={'/how-to-chef'}>
-                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{t('how-to-become-a-chef')}</Button>
+                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'capitalize' }}>{t('how-to-become-a-chef')}</Button>
                 </Link>
 
                 <Link className="no-underline" href="/about-us">
-                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{t('about-us')}</Button>
+                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'capitalize' }}>{t('about-us')}</Button>
                 </Link>
 
                 <div className="w-full h-[1px] bg-disabled my-6"></div>
 
-                <Link className="no-underline" href="/sign-in">
+                {mobileMenuTabs &&
+                    mobileMenuTabs.map((menuTab) => (
+                        <Link
+                            onClick={(): void => handleOpenMenu(false)}
+                            key={`${menuTab.title}_${menuTab.link}`}
+                            className="no-underline"
+                            href={menuTab.link}
+                        >
+                            <Button sx={{ minWidth: 0 }} style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'capitalize' }}>
+                                {menuTab.title}
+                            </Button>
+                        </Link>
+                    ))}
+
+                <Link className="no-underline mt-4" href="/sign-in">
                     <PEButton onClick={(): void => undefined} title={t('sign-in')} />
                 </Link>
             </div>

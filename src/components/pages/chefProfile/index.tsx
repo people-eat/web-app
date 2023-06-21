@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
+import useResponsive from '../../../hooks/useResponsive';
 import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
@@ -11,7 +12,40 @@ import ChefProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
 import ChefProfilePageMenusTab from './menusTab/ChefProfilePageMenusTab';
 import ChefProfilePagePersonalTab from './personalTab/ChefProfilePagePersonalTab';
 
-const MENU_TABS = ['Personal details', 'Meals', 'Menus', 'Bookings', 'Ratings', 'Statistic', 'Chats', 'Show public profile'];
+const MENU_TABS = [
+    {
+        title: 'Personal details',
+        link: '/chef-profile?tab=0',
+    },
+    {
+        title: 'Meals',
+        link: '/chef-profile?tab=1',
+    },
+    {
+        title: 'Menus',
+        link: '/chef-profile?tab=2',
+    },
+    {
+        title: 'Bookings',
+        link: '/chef-profile?tab=3',
+    },
+    {
+        title: 'Ratings',
+        link: '/chef-profile?tab=4',
+    },
+    {
+        title: 'Statistic',
+        link: '/chef-profile?tab=5',
+    },
+    {
+        title: 'Chats',
+        link: '/chef-profile?tab=6',
+    },
+    {
+        title: 'Show public profile',
+        link: '/chef-profile?tab=7',
+    },
+];
 
 export interface ChefProfilePageProps {
     signedInUser?: SignedInUser;
@@ -19,6 +53,7 @@ export interface ChefProfilePageProps {
 
 export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps): ReactElement {
     // const { t } = useTranslation('chef-profile');
+    const { isMobile } = useResponsive();
     const router = useRouter();
 
     const queryParamTabIndex: string | undefined = typeof router.query.tab !== 'string' ? undefined : router.query.tab;
@@ -30,26 +65,28 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
     return (
         <VStack className="w-full min-h-screen justify-between" gap={64}>
             <VStack className="w-full" gap={64}>
-                <PEHeader signedInUser={signedInUser} />
+                <PEHeader signedInUser={signedInUser} mobileMenuTabs={MENU_TABS} />
 
-                <HStack
-                    gap={8}
-                    className="w-full max-w-screen-xl overflow-x-scroll"
-                    style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
-                >
-                    {MENU_TABS.map((menu, index) => (
-                        <PETabItem
-                            key={index}
-                            title={menu.toLowerCase()}
-                            onClick={(): void => {
-                                setSelectedTab(index);
-                                router.query.tab = String(index);
-                                void router.push(router);
-                            }}
-                            active={selectedTab === index}
-                        />
-                    ))}
-                </HStack>
+                {!isMobile && (
+                    <HStack
+                        gap={8}
+                        className="w-full max-w-screen-xl overflow-x-scroll"
+                        style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
+                    >
+                        {MENU_TABS.map(({ title }, index) => (
+                            <PETabItem
+                                key={index}
+                                title={title.toLowerCase()}
+                                onClick={(): void => {
+                                    setSelectedTab(index);
+                                    router.query.tab = String(index);
+                                    void router.push(router);
+                                }}
+                                active={selectedTab === index}
+                            />
+                        ))}
+                    </HStack>
+                )}
 
                 {selectedTab === 0 && signedInUser && <ChefProfilePagePersonalTab cookId={signedInUser.userId} />}
 

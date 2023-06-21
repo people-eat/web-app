@@ -2,17 +2,17 @@ import { useMutation } from '@apollo/client';
 import { Dialog, DialogContent } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
-import { UpdateCookMenuGreetingFromKitchenDocument, type MealType } from '../../../../../data-source/generated/graphql';
-import { mealTypes } from '../../../../../shared/mealTypes';
-import PEButton from '../../../../standard/buttons/PEButton';
-import { Icon } from '../../../../standard/icon/Icon';
-import PEIcon from '../../../../standard/icon/PEIcon';
-import PETabItem from '../../../../standard/tabItem/PETabItem';
-import PETextField from '../../../../standard/textFields/PETextField';
-import HStack from '../../../../utility/hStack/HStack';
-import Spacer from '../../../../utility/spacer/Spacer';
-import VStack from '../../../../utility/vStack/VStack';
-import { type MealEntity, type MenuEntity } from '../ChefProfilePageMenusTab';
+import { UpdateCookMenuGreetingFromKitchenDocument, type MealType } from '../../../../../../data-source/generated/graphql';
+import { mealTypes } from '../../../../../../shared/mealTypes';
+import PEButton from '../../../../../standard/buttons/PEButton';
+import { Icon } from '../../../../../standard/icon/Icon';
+import PEIcon from '../../../../../standard/icon/PEIcon';
+import PETabItem from '../../../../../standard/tabItem/PETabItem';
+import PETextField from '../../../../../standard/textFields/PETextField';
+import HStack from '../../../../../utility/hStack/HStack';
+import Spacer from '../../../../../utility/spacer/Spacer';
+import VStack from '../../../../../utility/vStack/VStack';
+import { type MealEntity, type MenuEntity } from '../../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageEditMenusStep2Props {
     menu: MenuEntity;

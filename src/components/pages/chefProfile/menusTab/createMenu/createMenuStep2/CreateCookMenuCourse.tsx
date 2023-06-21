@@ -1,18 +1,18 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
-import { type MealType } from '../../../../../data-source/generated/graphql';
-import { mealTypes } from '../../../../../shared/mealTypes';
-import PEMealCard from '../../../../cards/mealCard/PEMealCard';
-import PEButton from '../../../../standard/buttons/PEButton';
-import { Icon } from '../../../../standard/icon/Icon';
-import PEIconButton from '../../../../standard/iconButton/PEIconButton';
-import PETabItem from '../../../../standard/tabItem/PETabItem';
-import PETextField from '../../../../standard/textFields/PETextField';
-import HStack from '../../../../utility/hStack/HStack';
-import Spacer from '../../../../utility/spacer/Spacer';
-import VStack from '../../../../utility/vStack/VStack';
-import { type MealEntity } from '../ChefProfilePageMenusTab';
+import { type MealType } from '../../../../../../data-source/generated/graphql';
+import { mealTypes } from '../../../../../../shared/mealTypes';
+import PEMealCard from '../../../../../cards/mealCard/PEMealCard';
+import PEButton from '../../../../../standard/buttons/PEButton';
+import { Icon } from '../../../../../standard/icon/Icon';
+import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
+import PETabItem from '../../../../../standard/tabItem/PETabItem';
+import PETextField from '../../../../../standard/textFields/PETextField';
+import HStack from '../../../../../utility/hStack/HStack';
+import Spacer from '../../../../../utility/spacer/Spacer';
+import VStack from '../../../../../utility/vStack/VStack';
+import { type MealEntity } from '../../ChefProfilePageMenusTab';
 
 export interface CreateCookMenuCourseDto {
     title: string;
