@@ -67,7 +67,7 @@ export default function IndividualRequestPageStep3({
         !acceptedPrivacyPolicy;
 
     return (
-        <>
+        <VStack gap={32} className="w-full">
             <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name-label')} />
             <PETextField value={lastName} onChange={setLastName} type="text" placeholder={t('last-name-label')} />
             <PEEmailTextField
@@ -119,6 +119,6 @@ export default function IndividualRequestPageStep3({
             </VStack>
 
             <PEButton onClick={onContinue} title={t('send-request-label')} disabled={disabled} />
-        </>
+        </VStack>
     );
 }

@@ -18,6 +18,7 @@ import PEHeader from '../../header/PEHeader';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import HStack from '../../utility/hStack/HStack';
+import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import { header, header02, header03 } from './points.mock';
 import IndividualRequestPageStep1 from './step1/IndividualRequestPageStep1';
@@ -97,7 +98,7 @@ export default function IndividualRequestPage({
     });
 
     return (
-        <VStack gap={32} className="w-full min-h-screen" style={{ justifyContent: 'space-between' }}>
+        <VStack gap={32} className="w-full min-h-screen">
             <PEHeader signedInUser={signedInUser} />
 
             <HStack gap={32} className="w-full max-w-screen-xl" style={{ justifyContent: 'space-between' }}>
@@ -226,6 +227,8 @@ export default function IndividualRequestPage({
                     <DialogContent>An error ocurred</DialogContent>
                 </Dialog>
             )}
+
+            <Spacer />
 
             <PEFooter />
         </VStack>

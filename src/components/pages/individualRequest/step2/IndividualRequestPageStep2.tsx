@@ -37,7 +37,7 @@ export default function IndividualRequestPageStep2({
     const { t } = useTranslation('individual-request');
 
     return (
-        <>
+        <VStack gap={32} className="w-full">
             <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
                 <h3>{t('preferences-label')}</h3>
 
@@ -75,6 +75,6 @@ export default function IndividualRequestPageStep2({
             </VStack>
 
             <PEButton onClick={onContinue} title={t('continue-label')} />
-        </>
+        </VStack>
     );
 }

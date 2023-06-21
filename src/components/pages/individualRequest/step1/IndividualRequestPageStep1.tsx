@@ -50,7 +50,7 @@ export default function IndividualRequestPageStep1({
     const disabled = adultCount < 1 || budget === '';
 
     return (
-        <>
+        <VStack gap={32} className="w-full">
             <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>{t('participants-label')}</h3>
                 <HStack className="w-full lg:items-center lg:my-4">
@@ -126,6 +126,6 @@ export default function IndividualRequestPageStep1({
             </VStack>
 
             <PEButton onClick={onContinue} title={t('continue-label')} disabled={disabled} />
-        </>
+        </VStack>
     );
 }
