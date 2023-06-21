@@ -48,18 +48,24 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, onSaveUpda
         variables: { cookId, menuId: menu.menuId, isVisible },
     });
 
-    function handleSaveUpdates(): void {
-        try {
-            if (menu.basePrice !== basePrice) void updateBasePrice();
-            if (menu.basePriceCustomers !== basePriceCustomers) void updateBasePriceCustomers();
-            if (menu.pricePerAdult !== pricePerAdult) void updatePricePerAdult();
-            if (menu.pricePerChild !== pricePerChild) void updatePricePerChild();
-            if (menu.isVisible !== isVisible) void updateIsVisible();
+    function handleOnSaveUpdatesError(e: string): void {
+        console.error(e);
+    }
 
-            onSaveUpdates();
-        } catch (e) {
-            console.error(e);
-        }
+    function handleSaveUpdates(): void {
+        void Promise.all<{ data: { cook: { success?: boolean } } }>([
+            new Promise(() => (menu.basePrice !== basePrice ? void updateBasePrice() : { data: { cook: { success: false } } })),
+            new Promise(() =>
+                menu.basePriceCustomers !== basePriceCustomers ? void updateBasePriceCustomers() : { data: { cook: { success: false } } },
+            ),
+            new Promise(() => (menu.pricePerAdult !== pricePerAdult ? void updatePricePerAdult() : { data: { cook: { success: false } } })),
+            new Promise(() => (menu.pricePerChild !== pricePerChild ? void updatePricePerChild() : { data: { cook: { success: false } } })),
+            new Promise(() => (menu.isVisible !== isVisible ? void updateIsVisible() : { data: { cook: { success: false } } })),
+        ])
+            .then((responses) => {
+                if (responses.some((item) => item.data.cook.success)) onSaveUpdates();
+            })
+            .catch(handleOnSaveUpdatesError);
     }
 
     return (

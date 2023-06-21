@@ -85,14 +85,18 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, onSaveUpda
     //     setActiveIndex(Math.abs(Math.floor((activeIndex - 1) % Math.round(listOfMeals.length / 6 + 1))));
     // }
 
-    function handleSaveUpdates(): void {
-        try {
-            if (menu.greetingFromKitchen !== greetingFromKitchen) void updateGreetingFromKitchen();
+    function handleOnSaveUpdatesError(e: string): void {
+        console.error(e);
+    }
 
-            onSaveUpdates();
-        } catch (e) {
-            console.error(e);
-        }
+    function handleSaveUpdates(): void {
+        void Promise.all<{ data: { cook: { success?: boolean } } }>([
+            new Promise(() => (menu.greetingFromKitchen !== greetingFromKitchen ? void updateGreetingFromKitchen() : { data: { cook: { success: false } } })),
+        ])
+            .then((responses) => {
+                if (responses.some((item) => item.data.cook.success)) onSaveUpdates();
+            })
+            .catch(handleOnSaveUpdatesError);
     }
 
     return (
