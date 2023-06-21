@@ -66,11 +66,11 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
             if (meal?.title !== title) void updateMealTitle();
             if (meal?.type !== type) void updateMealType();
             if (image) void updateMealImage();
+
+            onSaveUpdates();
         } catch (e) {
             console.error(e);
         }
-
-        onSaveUpdates();
     }
 
     return (
