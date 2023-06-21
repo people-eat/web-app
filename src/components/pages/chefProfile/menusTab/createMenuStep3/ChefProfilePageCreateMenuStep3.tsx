@@ -95,7 +95,7 @@ export default function ChefProfilePageCreateMenusStep3({
 
             <HStack className="w-full" gap={32} style={{ flexWrap: 'wrap' }}>
                 <VStack style={{ flex: 1, alignItems: 'flex-start', minWidth: 512 }} gap={16}>
-                    <p className="w-full text-heading-l mb-2">{'Price Configuration'}</p>
+                    <p className="text-heading-l mb-2">{'Price Configuration'}</p>
 
                     <p className="text-text-m-bold">{t('create-menu-base-price')}</p>
                     <PENumberTextField
@@ -110,9 +110,7 @@ export default function ChefProfilePageCreateMenusStep3({
                         onChange={setBasePriceCustomers}
                         value={basePriceCustomers}
                     />
-                    <p className="text-text-sm text-disabled w-full text-right">
-                        {t('create-menu-maximum-participants-label', { count: 20 })}
-                    </p>
+                    <p className="text-text-sm text-disabled text-right">{t('create-menu-maximum-participants-label', { count: 20 })}</p>
 
                     <p className="text-text-m-bold">{t('create-menu-price-per-adult')}</p>
                     <PENumberTextField
@@ -124,7 +122,7 @@ export default function ChefProfilePageCreateMenusStep3({
                         value={pricePerAdult / 100}
                     />
 
-                    <p className="text-text-m-bold text-orange w-full text-left">{t('create-menu-children-discount-label')}</p>
+                    <p className="text-text-m-bold text-orange">{t('create-menu-children-discount-label')}</p>
 
                     <HStack className="w-full">
                         <VStack style={{ alignItems: 'flex-start', justifyContent: 'center', flex: 1 }} gap={20}>
@@ -180,7 +178,7 @@ export default function ChefProfilePageCreateMenusStep3({
                 </VStack>
 
                 <VStack style={{ flex: 1, alignItems: 'flex-start', minWidth: 512 }} gap={16}>
-                    <p className="w-full text-heading-l mb-2">{t('create-menu-price-simulation-headline')}</p>
+                    <p className="text-heading-l mb-2">{t('create-menu-price-simulation-headline')}</p>
 
                     <p className="text-text-m-bold">{t('create-menu-price-simulation-adult-participants')}</p>
                     <PENumberTextField onChange={setAdults} value={adults} />
