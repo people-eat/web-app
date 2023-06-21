@@ -41,7 +41,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                 },
             }).then((result): void => {
                 setOpenDeleteMealDialog(false);
-                if (result.data && result.data.cooks.menus.success) void refetch();
+                if (result.data && result.data.cooks.meals.success) void refetch();
             });
         } catch (e) {
             console.error(e);
