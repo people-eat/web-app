@@ -1,12 +1,12 @@
 import { Divider } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
-import { type CurrencyCode } from '../../../../../data-source/generated/graphql';
-import PEButton from '../../../../standard/buttons/PEButton';
-import PECheckbox from '../../../../standard/checkbox/PECheckbox';
-import PENumberTextField from '../../../../standard/textFields/PENumberTextField';
-import HStack from '../../../../utility/hStack/HStack';
-import VStack from '../../../../utility/vStack/VStack';
+import { type CurrencyCode } from '../../../../../../data-source/generated/graphql';
+import PEButton from '../../../../../standard/buttons/PEButton';
+import PECheckbox from '../../../../../standard/checkbox/PECheckbox';
+import PENumberTextField from '../../../../../standard/textFields/PENumberTextField';
+import HStack from '../../../../../utility/hStack/HStack';
+import VStack from '../../../../../utility/vStack/VStack';
 
 export function menuPriceCalculation(
     adultParticipants: number,

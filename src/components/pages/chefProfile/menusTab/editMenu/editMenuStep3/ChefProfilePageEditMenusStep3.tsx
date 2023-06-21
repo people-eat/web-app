@@ -7,13 +7,13 @@ import {
     UpdateCookMenuIsVisibleDocument,
     UpdateCookMenuPricePerAdultDocument,
     UpdateCookMenuPricePerChildDocument,
-} from '../../../../../data-source/generated/graphql';
-import PEButton from '../../../../standard/buttons/PEButton';
-import PECheckbox from '../../../../standard/checkbox/PECheckbox';
-import PENumberTextField from '../../../../standard/textFields/PENumberTextField';
-import HStack from '../../../../utility/hStack/HStack';
-import VStack from '../../../../utility/vStack/VStack';
-import { type MenuEntity } from '../ChefProfilePageMenusTab';
+} from '../../../../../../data-source/generated/graphql';
+import PEButton from '../../../../../standard/buttons/PEButton';
+import PECheckbox from '../../../../../standard/checkbox/PECheckbox';
+import PENumberTextField from '../../../../../standard/textFields/PENumberTextField';
+import HStack from '../../../../../utility/hStack/HStack';
+import VStack from '../../../../../utility/vStack/VStack';
+import { type MenuEntity } from '../../ChefProfilePageMenusTab';
 
 export interface ChefProfilePageEditMenusStep3Props {
     menu: MenuEntity;

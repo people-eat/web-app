@@ -1,10 +1,10 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
-import PEButton from '../../../../standard/buttons/PEButton';
-import PEDropdown from '../../../../standard/dropdown/PEDropdown';
-import PESingleSelectDropdown from '../../../../standard/dropdown/PESingleSelectDropdown';
-import PETextField from '../../../../standard/textFields/PETextField';
-import VStack from '../../../../utility/vStack/VStack';
+import PEButton from '../../../../../standard/buttons/PEButton';
+import PEDropdown from '../../../../../standard/dropdown/PEDropdown';
+import PESingleSelectDropdown from '../../../../../standard/dropdown/PESingleSelectDropdown';
+import PETextField from '../../../../../standard/textFields/PETextField';
+import VStack from '../../../../../utility/vStack/VStack';
 
 const CATEGORIES: { categoryId: string; title: string }[] = [
     { categoryId: 'A', title: 'Vegetarian' },

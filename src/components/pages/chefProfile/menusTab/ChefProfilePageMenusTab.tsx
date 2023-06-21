@@ -17,8 +17,8 @@ import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-import ChefProfilePageCreateMenu from './ChefProfilePageCreateMenu';
-import ChefProfilePageEditMenu from './ChefProfilePageEditMenu';
+import ChefProfilePageCreateMenu from './createMenu/ChefProfilePageCreateMenu';
+import ChefProfilePageEditMenu from './editMenu/ChefProfilePageEditMenu';
 
 export interface MealEntity {
     mealId: string;
@@ -109,7 +109,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     }, []);
 
     return (
-        <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
+        <VStack className="w-full max-w-screen-xl mb-[80px] gap-6">
             {selectedTab === 'CREATE' && (
                 <ChefProfilePageCreateMenu
                     cookId={cookId}
