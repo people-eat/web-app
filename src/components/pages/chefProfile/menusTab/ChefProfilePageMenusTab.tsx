@@ -203,10 +203,8 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                                                 description={menu.description}
                                                 imageUrls={[]}
                                                 pricePerPerson={menu.pricePerAdult}
-                                                // chefFirstName={data?.users.me?.firstName ?? ''}
-                                                // chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
-                                                chefFirstName={'Mark'}
-                                                chefProfilePictureUrl={undefined}
+                                                chefFirstName={data?.users.me?.firstName ?? ''}
+                                                chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
                                                 categories={menu.categories.map(({ title }) => title)}
                                                 kitchen={menu.kitchen?.title ?? undefined}
                                                 fullWidth
