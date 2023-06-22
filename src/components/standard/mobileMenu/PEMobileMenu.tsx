@@ -38,13 +38,8 @@ export default function PEMobileMenu({ openMenu, handleOpenMenu, mobileMenuTabs 
                 <div className="w-full h-[1px] bg-disabled my-6"></div>
 
                 {mobileMenuTabs &&
-                    mobileMenuTabs.map((menuTab) => (
-                        <Link
-                            onClick={(): void => handleOpenMenu(false)}
-                            key={`${menuTab.title}_${menuTab.link}`}
-                            className="no-underline"
-                            href={menuTab.link}
-                        >
+                    mobileMenuTabs.map((menuTab, index) => (
+                        <Link onClick={(): void => handleOpenMenu(false)} key={index} className="no-underline" href={menuTab.link}>
                             <Button sx={{ minWidth: 0 }} style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'capitalize' }}>
                                 {menuTab.title}
                             </Button>

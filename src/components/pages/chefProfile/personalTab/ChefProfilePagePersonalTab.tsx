@@ -11,6 +11,7 @@ import {
     UpdateCookMaximumTravelDistanceDocument,
     UpdateCookTravelExpensesDocument,
 } from '../../../../data-source/generated/graphql';
+import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEMap from '../../../map/PEMap';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';
@@ -32,6 +33,7 @@ import ChefProfileSection5 from './section5/ChefProfileSection5';
 // eslint-disable-next-line max-statements
 export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string }): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { isMobile } = useResponsive();
 
     const [biography, setBiography] = useState('');
 
@@ -73,7 +75,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
     const { data, loading, error, refetch } = useQuery(GetCookProfileQueryDocument, {
         variables: { cookId },
     });
-
+    //
     const chefProfile = data?.cooks.findOne;
 
     useEffect(() => {
@@ -109,13 +111,13 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
     const [updateCookIsVisible] = useMutation(UpdateCookIsVisibleDocument);
 
     return (
-        <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6 px-5 box-border">
+        <VStack className="w-full max-w-screen-xl mb-[80px] lg_min::my-10 md:my-2 gap-6 md:gap-3 px-5 box-border">
             {chefProfile && (
                 <>
                     <ChefProfileSection1 chefProfile={chefProfile} />
 
                     <HStack
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4"
+                        className="w-full bg-white shadow-primary box-border p-8 md:p-2 rounded-4"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <PECheckbox
@@ -134,12 +136,15 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                     <ChefProfileSection2 chefBiography={biography} cookId={cookId} />
 
                     <VStack
-                        className="relative w-full bg-white shadow-primary box-border p-8 rounded-4 gap-6"
+                        className="relative w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4 gap-6"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
-                        <p className="text-heading-ss w-full justify-start my-0">{t('section-order-details')}</p>
+                        <p className="text-heading-ss w-full justify-start my-0 md:mb-2">{t('section-order-details')}</p>
                         {editOrderDetails && (
-                            <HStack className="absolute right-8 top-8 gap-3 w-full mb-4" style={{ justifyContent: 'flex-end' }}>
+                            <HStack
+                                className="absolute right-8 top-8 md:top-4 md:right-2 gap-3 w-full mb-4"
+                                style={{ justifyContent: 'flex-end' }}
+                            >
                                 <PEIconButton
                                     onClick={(): void => handleSaveOrderDetails()}
                                     icon={Icon.checkGreen}
@@ -156,6 +161,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                                 />
                             </HStack>
                         )}
+
                         <VStack className="w-full">
                             <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
                                 <HStack className="w-full" style={{ justifyContent: 'flex-start' }}>
@@ -207,7 +213,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         <VStack gap={16} className="w-full">
                             <PEMap
                                 apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
-                                style={{ height: '500px', borderRadius: 16 }}
+                                style={{ height: isMobile ? '300px' : '500px', borderRadius: 16 }}
                                 location={chefProfile.location}
                                 markerRadius={(maximumTravelDistance ?? 0) * 1000}
                             />
@@ -215,7 +221,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                     </VStack>
 
                     <VStack
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-3"
+                        className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4 gap-3"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>

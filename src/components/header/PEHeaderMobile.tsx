@@ -8,7 +8,7 @@ import PEIconButton from '../standard/iconButton/PEIconButton';
 import PEMobileMenu from '../standard/mobileMenu/PEMobileMenu';
 import { type PEHeaderProps } from './PEHeaderProps';
 
-export default function PEHeaderMobile({ mobileMenuTabs }: PEHeaderProps): ReactElement {
+export default function PEHeaderMobile({ mobileMenuTabs, isMobileMenuOpen, setOpenMobileMenu }: PEHeaderProps): ReactElement {
     const [openMenu, setOpenMenu] = useState(false);
     const [sticky, setSticky] = useState(false);
 
@@ -18,6 +18,15 @@ export default function PEHeaderMobile({ mobileMenuTabs }: PEHeaderProps): React
             else if (window.pageYOffset <= 160) setSticky(false);
         });
     }, []);
+
+    useEffect((): void => {
+        if (isMobileMenuOpen !== undefined) setOpenMenu(isMobileMenuOpen);
+    }, [isMobileMenuOpen]);
+
+    function handleCloseMobileMenu(value: boolean): void {
+        setOpenMobileMenu?.(value);
+        setOpenMenu(value);
+    }
 
     return (
         <>
@@ -29,7 +38,7 @@ export default function PEHeaderMobile({ mobileMenuTabs }: PEHeaderProps): React
                     <Image src={'/logo.svg'} alt="" width={203} height={46} style={{ marginTop: 8 }} />
                 </Link>
 
-                <PEMobileMenu openMenu={openMenu} handleOpenMenu={setOpenMenu} />
+                <PEMobileMenu openMenu={openMenu} handleOpenMenu={handleCloseMobileMenu} />
 
                 <PEIconButton iconSize={24} icon={Icon.burgerMenu} onClick={(): void => setOpenMenu(!openMenu)} bg="white" withoutShadow />
             </div>
@@ -49,7 +58,7 @@ export default function PEHeaderMobile({ mobileMenuTabs }: PEHeaderProps): React
                         <Image src={'/logo.svg'} alt="" width={203} height={46} style={{ marginTop: 8 }} />
                     </Link>
 
-                    <PEMobileMenu openMenu={openMenu} handleOpenMenu={setOpenMenu} mobileMenuTabs={mobileMenuTabs} />
+                    <PEMobileMenu openMenu={openMenu} handleOpenMenu={handleCloseMobileMenu} mobileMenuTabs={mobileMenuTabs} />
 
                     <PEIconButton
                         iconSize={24}

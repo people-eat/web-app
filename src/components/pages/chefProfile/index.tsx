@@ -53,8 +53,11 @@ export interface ChefProfilePageProps {
 
 export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps): ReactElement {
     // const { t } = useTranslation('chef-profile');
+
     const { isMobile } = useResponsive();
     const router = useRouter();
+
+    const [isMobileMenuOpen, setOpenMobileMenu] = useState(false);
 
     const queryParamTabIndex: string | undefined = typeof router.query.tab !== 'string' ? undefined : router.query.tab;
 
@@ -63,11 +66,22 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
     useEffect(() => setSelectedTab(queryParamTabIndex ? Number(queryParamTabIndex) : 0), [queryParamTabIndex]);
 
     return (
-        <VStack className="w-full min-h-screen justify-between" gap={64}>
-            <VStack className="w-full" gap={64}>
-                <PEHeader signedInUser={signedInUser} mobileMenuTabs={MENU_TABS} />
+        <VStack className="w-full min-h-screen justify-between gap-[64px] md:gap-4 overflow-hidden">
+            <VStack className="w-full gap-[64px] md:gap-4">
+                <PEHeader
+                    signedInUser={signedInUser}
+                    mobileMenuTabs={MENU_TABS}
+                    isMobileMenuOpen={isMobileMenuOpen}
+                    setOpenMobileMenu={setOpenMobileMenu}
+                />
 
-                {!isMobile && (
+                {isMobile ? (
+                    <HStack className="w-full px-8 box-border" style={{ justifyContent: 'flex-start' }}>
+                        <p onClick={(): void => setOpenMobileMenu(true)} className="text-orange text-text-s">
+                            Menu &gt; <span className="text-black">{MENU_TABS[selectedTab]?.title}</span>
+                        </p>
+                    </HStack>
+                ) : (
                     <HStack
                         gap={8}
                         className="w-full max-w-screen-xl overflow-x-scroll"
@@ -88,13 +102,13 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
                     </HStack>
                 )}
 
-                {selectedTab === 0 && signedInUser && <ChefProfilePagePersonalTab cookId={signedInUser.userId} />}
+                {selectedTab === 0 && <ChefProfilePagePersonalTab cookId={'120301'} />}
 
-                {selectedTab === 1 && signedInUser && <ChefProfilePageMealsTab cookId={signedInUser.userId} />}
+                {selectedTab === 1 && <ChefProfilePageMealsTab cookId={'120301'} />}
 
-                {selectedTab === 2 && signedInUser && <ChefProfilePageMenusTab cookId={signedInUser.userId} />}
+                {selectedTab === 2 && <ChefProfilePageMenusTab cookId={'120301'} />}
 
-                {selectedTab === 3 && signedInUser && <ChefProfilePageBookingTab cookId={signedInUser.userId} />}
+                {selectedTab === 3 && <ChefProfilePageBookingTab cookId={'120301'} />}
             </VStack>
 
             <PEFooter />

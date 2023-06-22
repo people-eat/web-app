@@ -36,7 +36,7 @@ export default function ChefProfileSection3(): ReactElement {
 
     return (
         <VStack
-            className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-3"
+            className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4 gap-3"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
             <PEModalPopUp openMenu={openPopUp} handleOpenMenu={handleUnSaveChefName}>
