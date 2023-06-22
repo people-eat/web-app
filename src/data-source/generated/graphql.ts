@@ -2337,6 +2337,7 @@ export type FindCookMenuQuery = {
                 createdAt: Date;
                 kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
                 categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
+                courses: Array<{ __typename?: 'Course'; index: number; title: string }>;
             } | null;
         };
     };
@@ -4830,6 +4831,17 @@ export const FindCookMenuDocument = {
                                                                 kind: 'SelectionSet',
                                                                 selections: [
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'courses' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'index' } },
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                                                                 ],
                                                             },

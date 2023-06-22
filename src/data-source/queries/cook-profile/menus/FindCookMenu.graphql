@@ -21,6 +21,10 @@ query FindCookMenu($menuId: String!, $cookId: String!) {
                     categoryId
                     title
                 }
+                courses {
+                    index
+                    title
+                }
                 createdAt
             }
         }
