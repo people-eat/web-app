@@ -1,0 +1,19 @@
+query GetAdministrationUsersPageData($request: FindManyRequest!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    users {
+        findMany(request: $request) {
+            userId
+            isLocked
+            firstName
+            lastName
+            profilePictureUrl
+            isAdmin
+            isCook
+            createdAt
+        }
+    }
+}
