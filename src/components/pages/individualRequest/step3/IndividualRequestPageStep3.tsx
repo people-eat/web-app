@@ -62,7 +62,7 @@ export default function IndividualRequestPageStep3({
         firstName.length < 1 ||
         lastName.length < 1 ||
         !emailIsValid ||
-        // (!phoneNumberIsValid && phoneNumber.length > 2) ||
+        phoneNumber.length < 2 ||
         !acceptedTermsAndConditions ||
         !acceptedPrivacyPolicy;
 

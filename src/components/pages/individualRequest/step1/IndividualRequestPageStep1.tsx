@@ -125,6 +125,12 @@ export default function IndividualRequestPageStep1({
                 />
             </VStack>
 
+            <VStack gap={16}>
+                <span className="text-text-sm text-disabled">{t('ind-request-budget-hint-1')}</span>
+                <span className="text-text-sm text-disabled">{t('ind-request-budget-hint-2')}</span>
+                <span className="text-text-sm text-disabled">{t('ind-request-budget-hint-3')}</span>
+            </VStack>
+
             <PEButton onClick={onContinue} title={t('continue-label')} disabled={disabled} />
         </VStack>
     );

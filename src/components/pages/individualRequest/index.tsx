@@ -8,6 +8,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import { CreateOneAnonymousGlobalBookingRequestDocument } from '../../../data-source/generated/graphql';
@@ -15,6 +16,7 @@ import useResponsive from '../../../hooks/useResponsive';
 import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
+import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import HStack from '../../utility/hStack/HStack';
@@ -51,6 +53,7 @@ export default function IndividualRequestPage({
     kitchens,
 }: IndividualRequestPageProps): ReactElement {
     const { t } = useTranslation('individual-request');
+    const { t: homeTranslations } = useTranslation('home');
     const { isDesktop } = useResponsive();
 
     const [step, setStep] = useState(0);
@@ -101,7 +104,7 @@ export default function IndividualRequestPage({
         <VStack gap={32} className="w-full min-h-screen">
             <PEHeader signedInUser={signedInUser} />
 
-            <HStack gap={32} className="w-full max-w-screen-xl" style={{ justifyContent: 'space-between' }}>
+            <HStack gap={64} className="w-full max-w-screen-xl" style={{ justifyContent: 'space-between' }}>
                 <VStack
                     gap={32}
                     className="w-full relative max-w-[48%] lg:max-w-full lg:p-4 lg:box-border"
@@ -182,17 +185,45 @@ export default function IndividualRequestPage({
                 </VStack>
 
                 {isDesktop && (
-                    <VStack
-                        className="w-full max-w-[45%] max-h-[660px]"
-                        style={{
-                            backgroundImage: 'url(/picture-1.png)',
-                            backgroundPosition: 'center',
-                            backgroundSize: 'cover',
-                            borderRadius: '16px',
-                            alignItems: 'flex-start',
-                            boxSizing: 'border-box',
-                        }}
-                    />
+                    <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
+                        <Image
+                            className="w-full"
+                            src={'/picture-1.png'}
+                            alt=""
+                            width={512}
+                            height={512}
+                            style={{
+                                height: '100%',
+                                backgroundPosition: 'center',
+                                backgroundSize: 'cover',
+                                borderRadius: '16px',
+                                alignItems: 'flex-start',
+                                boxSizing: 'border-box',
+                                maxHeight: '660px',
+                            }}
+                        />
+                        <VStack gap={32} style={{ alignItems: 'flex-start' }}>
+                            <h3>In Price included</h3>
+                            <PEBulletPoint
+                                icon={Icon.foodBasket}
+                                title={homeTranslations('section-3-bullet-point-1-title')}
+                                text=""
+                                maxWidth={'530px'}
+                            />
+                            <PEBulletPoint
+                                icon={Icon.dinner}
+                                title={homeTranslations('section-3-bullet-point-2-title')}
+                                text=""
+                                maxWidth={'530px'}
+                            />
+                            <PEBulletPoint
+                                icon={Icon.cleanKitchen}
+                                title={homeTranslations('section-3-bullet-point-3-title')}
+                                text=""
+                                maxWidth={'530px'}
+                            />
+                        </VStack>
+                    </VStack>
                 )}
             </HStack>
 
