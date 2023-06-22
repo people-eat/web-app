@@ -67,7 +67,7 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
 
     return (
         <VStack
-            className="w-full bg-white shadow-primary box-border p-8 rounded-4"
+            className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
             <p className="text-heading-ss w-full justify-start my-0">Language</p>
@@ -84,8 +84,32 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
                             placeholder={'Add language'}
                             className="mb-4"
                         />
-                        <HStack className="w-full gap-4" style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-                            {chefProfile.languages.map(({ languageId, title }, index) => (
+                        <HStack
+                            className="w-full gap-4 overflow-x-scroll"
+                            style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}
+                        >
+                            {[
+                                {
+                                    languageId: '23e1',
+                                    title: 'French',
+                                },
+                                {
+                                    languageId: '321',
+                                    title: 'French',
+                                },
+                                {
+                                    languageId: '233123e1',
+                                    title: 'French',
+                                },
+                                {
+                                    languageId: '2413e1',
+                                    title: 'French',
+                                },
+                                {
+                                    languageId: '231423e1',
+                                    title: 'French',
+                                },
+                            ].map(({ languageId, title }, index) => (
                                 <HStack key={index} className="gap-4" style={{ alignItems: 'center' }}>
                                     <PEChoice title={title} onClose={(): void => handleRemoveLanguageById(languageId)} />
                                 </HStack>

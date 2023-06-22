@@ -8,8 +8,10 @@ import {
     type CurrencyCode,
     type MealType,
 } from '../../../../data-source/generated/graphql';
+import useResponsive from '../../../../hooks/useResponsive';
 import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
+import PEMenuCardMobile from '../../../cards/menuCard/PEMenuCardMobile';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
@@ -53,6 +55,8 @@ export interface ChefProfilePageMenusTabProps {
 }
 
 export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenusTabProps): ReactElement {
+    const { isMobile } = useResponsive();
+
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
@@ -109,7 +113,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     }, []);
 
     return (
-        <VStack className="w-full max-w-screen-xl mb-[80px] gap-6">
+        <VStack className="relative w-full max-w-screen-xl mb-[80px] gap-6 md:px-4 box-border">
             {selectedTab === 'CREATE' && (
                 <ChefProfilePageCreateMenu
                     cookId={cookId}
@@ -151,20 +155,37 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                         {visibleMenus.map((menu, index) => (
                             <div
                                 onMouseUp={(event): void => handleClickOnCard(event, menu.menuId)}
-                                className="relative PEMenuCard editMenu"
+                                className="relative PEMenuCard editMenu md:w-full"
                                 key={index}
                             >
-                                <PEMenuCard
-                                    title={menu.title}
-                                    description={menu.description}
-                                    imageUrls={[]}
-                                    pricePerPerson={menu.pricePerAdult}
-                                    chefFirstName={data?.users.me?.firstName ?? ''}
-                                    chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
-                                    categories={menu.categories.map(({ title }) => title)}
-                                    kitchen={menu.kitchen?.title ?? undefined}
-                                    fullWidth
-                                />
+                                {isMobile ? (
+                                    <PEMenuCardMobile
+                                        title={menu.title}
+                                        description={menu.description}
+                                        imageUrls={[]}
+                                        pricePerPerson={menu.pricePerAdult}
+                                        // chefFirstName={data?.users.me?.firstName ?? ''}
+                                        // chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                        chefFirstName={'Mark'}
+                                        chefProfilePictureUrl={undefined}
+                                        categories={menu.categories.map(({ title }) => title)}
+                                        kitchen={menu.kitchen?.title ?? undefined}
+                                    />
+                                ) : (
+                                    <PEMenuCard
+                                        title={menu.title}
+                                        description={menu.description}
+                                        imageUrls={[]}
+                                        pricePerPerson={menu.pricePerAdult}
+                                        // chefFirstName={data?.users.me?.firstName ?? ''}
+                                        // chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                        chefFirstName={'Mark'}
+                                        chefProfilePictureUrl={undefined}
+                                        categories={menu.categories.map(({ title }) => title)}
+                                        kitchen={menu.kitchen?.title ?? undefined}
+                                        fullWidth
+                                    />
+                                )}
                             </div>
                         ))}
 
@@ -186,8 +207,10 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                                                 description={menu.description}
                                                 imageUrls={[]}
                                                 pricePerPerson={menu.pricePerAdult}
-                                                chefFirstName={data?.users.me?.firstName ?? ''}
-                                                chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                                // chefFirstName={data?.users.me?.firstName ?? ''}
+                                                // chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
+                                                chefFirstName={'Mark'}
+                                                chefProfilePictureUrl={undefined}
                                                 categories={menu.categories.map(({ title }) => title)}
                                                 kitchen={menu.kitchen?.title ?? undefined}
                                                 fullWidth
@@ -259,7 +282,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
 
             {isEditMenuOpen && (
                 <div
-                    className="editMenu absolute w-[200px] box-border bg-white rounded-4 shadow-primary px-4 py-1"
+                    className="editMenu absolute z-30 w-[200px] box-border bg-white rounded-4 shadow-primary px-4 py-1"
                     style={{ top: editMenu.y, left: editMenu.x }}
                 >
                     <Button
