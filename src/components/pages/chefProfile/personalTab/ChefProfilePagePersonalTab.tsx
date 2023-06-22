@@ -75,7 +75,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
     const { data, loading, error, refetch } = useQuery(GetCookProfileQueryDocument, {
         variables: { cookId },
     });
-    //
+
     const chefProfile = data?.cooks.findOne;
 
     useEffect(() => {

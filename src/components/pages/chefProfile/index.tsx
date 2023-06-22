@@ -102,13 +102,13 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
                     </HStack>
                 )}
 
-                {selectedTab === 0 && <ChefProfilePagePersonalTab cookId={'120301'} />}
+                {selectedTab === 0 && signedInUser && <ChefProfilePagePersonalTab cookId={signedInUser.userId} />}
 
-                {selectedTab === 1 && <ChefProfilePageMealsTab cookId={'120301'} />}
+                {selectedTab === 1 && signedInUser && <ChefProfilePageMealsTab cookId={signedInUser.userId} />}
 
-                {selectedTab === 2 && <ChefProfilePageMenusTab cookId={'120301'} />}
+                {selectedTab === 2 && signedInUser && <ChefProfilePageMenusTab cookId={signedInUser.userId} />}
 
-                {selectedTab === 3 && <ChefProfilePageBookingTab cookId={'120301'} />}
+                {selectedTab === 3 && signedInUser && <ChefProfilePageBookingTab cookId={signedInUser.userId} />}
             </VStack>
 
             <PEFooter />
