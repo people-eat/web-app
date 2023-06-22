@@ -28,7 +28,7 @@ export interface ChefProfilePageCreateMealProps {
 }
 
 export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageCreateMealProps): ReactElement {
-    const { data, loading } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
+    const { data, loading, refetch } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
 
     const meal = data?.cooks.meals.findOne;
 
@@ -37,6 +37,8 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
     const [type, setType] = useState<MealType>(meal?.type ?? 'MAIN_COURSE');
     const [image, setImage] = useState<File | undefined>(undefined);
     const [imageUrl, setImageUrl] = useState(meal?.imageUrl ?? '');
+
+    const [changesHaveBeenApplied, setChangesHaveBeenApplied] = useState(false);
 
     useEffect(() => {
         setTitle(meal?.title ?? '');
@@ -60,23 +62,36 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
         variables: { cookId, mealId, type },
     });
 
-    function handleOnSaveUpdatesError(e: string): void {
-        console.error(e);
-    }
-
     function handleSaveUpdates(): void {
-        void Promise.all<{ data: { cook: { success?: boolean } } }>([
-            new Promise((resolve) =>
-                meal?.description !== description ? void updateMealDescription() : resolve({ data: { cook: { success: false } } }),
-            ),
-            new Promise((resolve) => (meal?.title !== title ? void updateMealTitle() : resolve({ data: { cook: { success: false } } }))),
-            new Promise((resolve) => (meal?.type !== type ? void updateMealType() : resolve({ data: { cook: { success: false } } }))),
-            new Promise((resolve) => (image ? void updateMealImage() : resolve({ data: { cook: { success: false } } }))),
-        ])
-            .then((responses) => {
-                if (responses.some((item) => item.data.cook.success)) onSaveUpdates();
-            })
-            .catch(handleOnSaveUpdatesError);
+        if (!meal) return;
+
+        if (meal.title !== title) {
+            setChangesHaveBeenApplied(true);
+            void updateMealTitle()
+                .then((result) => result.data?.cooks.meals.success && void refetch())
+                .catch((e) => console.error(e));
+        }
+
+        if (meal.description !== description) {
+            setChangesHaveBeenApplied(true);
+            void updateMealDescription()
+                .then((result) => result.data?.cooks.meals.success && void refetch())
+                .catch((e) => console.error(e));
+        }
+
+        if (meal.type !== type) {
+            setChangesHaveBeenApplied(true);
+            void updateMealType()
+                .then((result) => result.data?.cooks.meals.success && void refetch())
+                .catch((e) => console.error(e));
+        }
+
+        if (image) {
+            setChangesHaveBeenApplied(true);
+            void updateMealImage()
+                .then((result) => result.data?.cooks.meals.success && void refetch())
+                .catch((e) => console.error(e));
+        }
     }
 
     return (
@@ -84,10 +99,16 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
             className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
-            {data && (
+            {meal && (
                 <>
                     <div className="absolute top-8 right-8">
-                        <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
+                        <PEIconButton
+                            icon={Icon.close}
+                            onClick={changesHaveBeenApplied ? onSaveUpdates : onCancel}
+                            withoutShadow
+                            bg="white"
+                            iconSize={24}
+                        />
                     </div>
 
                     <p className="w-full text-heading-xl my-0 mb-6">Change the dish info</p>
@@ -127,7 +148,11 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                         <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
                     </VStack>
 
-                    <PEButton title="Save" onClick={handleSaveUpdates} />
+                    <PEButton
+                        title="Save"
+                        onClick={handleSaveUpdates}
+                        disabled={meal.title === title && meal.description === description && meal.type === type && !image}
+                    />
                 </>
             )}
 
