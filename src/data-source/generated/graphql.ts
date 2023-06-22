@@ -232,8 +232,9 @@ export type CookMealMutation = {
     __typename?: 'CookMealMutation';
     cookId: Scalars['String'];
     createOne: Scalars['Boolean'];
+    deleteOne: Scalars['Boolean'];
     updateDescription: Scalars['Boolean'];
-    updateImageUrl: Scalars['Boolean'];
+    updateImage: Scalars['Boolean'];
     updateTitle: Scalars['Boolean'];
     updateType: Scalars['Boolean'];
 };
@@ -243,19 +244,27 @@ export type CookMealMutationCreateOneArgs = {
     meal: CreateOneMealRequest;
 };
 
-export type CookMealMutationUpdateDescriptionArgs = {
-    description: Scalars['String'];
+export type CookMealMutationDeleteOneArgs = {
+    mealId: Scalars['String'];
 };
 
-export type CookMealMutationUpdateImageUrlArgs = {
-    imageUrl?: InputMaybe<Scalars['URL']>;
+export type CookMealMutationUpdateDescriptionArgs = {
+    description: Scalars['String'];
+    mealId: Scalars['String'];
+};
+
+export type CookMealMutationUpdateImageArgs = {
+    image?: InputMaybe<Scalars['Upload']>;
+    mealId: Scalars['String'];
 };
 
 export type CookMealMutationUpdateTitleArgs = {
+    mealId: Scalars['String'];
     title: Scalars['String'];
 };
 
 export type CookMealMutationUpdateTypeArgs = {
+    mealId: Scalars['String'];
     type: MealType;
 };
 
@@ -274,10 +283,39 @@ export type CookMealQueryFindOneArgs = {
     mealId: Scalars['String'];
 };
 
+export type CookMenuCourseMealOptionMutation = {
+    __typename?: 'CookMenuCourseMealOptionMutation';
+    cookId: Scalars['String'];
+    createOne: Scalars['Boolean'];
+    menuId: Scalars['String'];
+};
+
+export type CookMenuCourseMealOptionMutationCreateOneArgs = {
+    mealOption: CreateOneMealOptionRequest;
+};
+
+export type CookMenuCourseMealOptionQuery = {
+    __typename?: 'CookMenuCourseMealOptionQuery';
+    cookId: Scalars['String'];
+    findMany: Array<MealOption>;
+    findOne?: Maybe<MealOption>;
+    menuId: Scalars['String'];
+};
+
+export type CookMenuCourseMealOptionQueryFindManyArgs = {
+    request?: InputMaybe<FindManyRequest>;
+};
+
+export type CookMenuCourseMealOptionQueryFindOneArgs = {
+    mealOptionId: Scalars['String'];
+};
+
 export type CookMenuCourseMutation = {
     __typename?: 'CookMenuCourseMutation';
+    cookId: Scalars['String'];
     createOne: Scalars['Boolean'];
     deleteOne: Scalars['Boolean'];
+    mealOptions: CookMenuCourseMealOptionMutation;
     menuId: Scalars['String'];
 };
 
@@ -285,22 +323,48 @@ export type CookMenuCourseMutationCreateOneArgs = {
     request: CreateOneCourseRequest;
 };
 
+export type CookMenuCourseMutationDeleteOneArgs = {
+    courseId: Scalars['String'];
+};
+
+export type CookMenuCourseMutationMealOptionsArgs = {
+    courseId: Scalars['String'];
+};
+
 export type CookMenuCourseQuery = {
     __typename?: 'CookMenuCourseQuery';
+    cookId: Scalars['String'];
     findAll: Array<Course>;
-    findOne?: Maybe<Course>;
+    mealOptions: CookMenuCourseMealOptionQuery;
     menuId: Scalars['String'];
 };
 
-export type CookMenuCourseQueryFindOneArgs = {
+export type CookMenuCourseQueryMealOptionsArgs = {
     courseId: Scalars['String'];
 };
 
 export type CookMenuMutation = {
     __typename?: 'CookMenuMutation';
     cookId: Scalars['String'];
+    courses: CookMenuCourseMutation;
     createOne: Scalars['Boolean'];
     deleteOne: Scalars['Boolean'];
+    updateBasePrice: Scalars['Boolean'];
+    updateBasePriceCustomers: Scalars['Boolean'];
+    updateCurrencyCode: Scalars['Boolean'];
+    updateDescription: Scalars['Boolean'];
+    updateGreetingFromKitchen: Scalars['Boolean'];
+    updateIsVisible: Scalars['Boolean'];
+    updateKitchenId: Scalars['Boolean'];
+    updatePreparationTime: Scalars['Boolean'];
+    updatePricePerAdult: Scalars['Boolean'];
+    updatePricePerChild: Scalars['Boolean'];
+    updateTitle: Scalars['Boolean'];
+};
+
+export type CookMenuMutationCoursesArgs = {
+    cookId: Scalars['String'];
+    menuId: Scalars['String'];
 };
 
 export type CookMenuMutationCreateOneArgs = {
@@ -311,11 +375,72 @@ export type CookMenuMutationDeleteOneArgs = {
     menuId: Scalars['String'];
 };
 
+export type CookMenuMutationUpdateBasePriceArgs = {
+    basePrice: Scalars['UnsignedInt'];
+    menuId: Scalars['String'];
+};
+
+export type CookMenuMutationUpdateBasePriceCustomersArgs = {
+    basePriceCustomers: Scalars['UnsignedInt'];
+    menuId: Scalars['String'];
+};
+
+export type CookMenuMutationUpdateCurrencyCodeArgs = {
+    currencyCode: CurrencyCode;
+    menuId: Scalars['String'];
+};
+
+export type CookMenuMutationUpdateDescriptionArgs = {
+    description: Scalars['String'];
+    menuId: Scalars['String'];
+};
+
+export type CookMenuMutationUpdateGreetingFromKitchenArgs = {
+    greetingFromKitchen?: InputMaybe<Scalars['String']>;
+    menuId: Scalars['String'];
+};
+
+export type CookMenuMutationUpdateIsVisibleArgs = {
+    isVisible: Scalars['Boolean'];
+    menuId: Scalars['String'];
+};
+
+export type CookMenuMutationUpdateKitchenIdArgs = {
+    kitchenId?: InputMaybe<Scalars['String']>;
+    menuId: Scalars['String'];
+};
+
+export type CookMenuMutationUpdatePreparationTimeArgs = {
+    menuId: Scalars['String'];
+    preparationTime: Scalars['UnsignedInt'];
+};
+
+export type CookMenuMutationUpdatePricePerAdultArgs = {
+    menuId: Scalars['String'];
+    pricePerAdult: Scalars['UnsignedInt'];
+};
+
+export type CookMenuMutationUpdatePricePerChildArgs = {
+    menuId: Scalars['String'];
+    pricePerChild?: InputMaybe<Scalars['UnsignedInt']>;
+};
+
+export type CookMenuMutationUpdateTitleArgs = {
+    menuId: Scalars['String'];
+    title: Scalars['String'];
+};
+
 export type CookMenuQuery = {
     __typename?: 'CookMenuQuery';
     cookId: Scalars['String'];
+    courses: CookMenuCourseQuery;
     findMany: Array<Menu>;
     findOne?: Maybe<Menu>;
+};
+
+export type CookMenuQueryCoursesArgs = {
+    cookId: Scalars['String'];
+    menuId: Scalars['String'];
 };
 
 export type CookMenuQueryFindManyArgs = {
@@ -546,28 +671,13 @@ export type CookVisit = {
 
 export type Course = {
     __typename?: 'Course';
+    cookId: Scalars['String'];
     courseId: Scalars['String'];
+    index: Scalars['UnsignedInt'];
     mealOptionCount: Scalars['UnsignedInt'];
     mealOptions: Array<MealOption>;
-    user: PublicUser;
-};
-
-export type CourseMutation = {
-    __typename?: 'CourseMutation';
-    mealOptions: MealOptionMutation;
-};
-
-export type CourseMutationMealOptionsArgs = {
-    cookId: Scalars['String'];
-};
-
-export type CourseQuery = {
-    __typename?: 'CourseQuery';
-    mealOptions: MealOptionQuery;
-};
-
-export type CourseQueryMealOptionsArgs = {
-    cookId: Scalars['String'];
+    menuId: Scalars['String'];
+    title: Scalars['String'];
 };
 
 export type CreateBookingRequestRequest = {
@@ -652,7 +762,6 @@ export type CreateOneMealOptionRequest = {
 
 export type CreateOneMealRequest = {
     description: Scalars['String'];
-    imageUrl?: InputMaybe<Scalars['URL']>;
     title: Scalars['String'];
     type: MealType;
 };
@@ -664,7 +773,7 @@ export type CreateOneMenuRequest = {
     courses?: InputMaybe<Array<CreateOneCourseRequest>>;
     currencyCode: CurrencyCode;
     description: Scalars['String'];
-    greetingFromKitchen: Scalars['Boolean'];
+    greetingFromKitchen?: InputMaybe<Scalars['String']>;
     isVisible: Scalars['Boolean'];
     kitchenId?: InputMaybe<Scalars['String']>;
     preparationTime: Scalars['UnsignedInt'];
@@ -927,39 +1036,12 @@ export type Meal = {
 
 export type MealOption = {
     __typename?: 'MealOption';
+    index: Scalars['UnsignedInt'];
     meal: Meal;
     mealId: Scalars['String'];
-    mealOptionId: Scalars['String'];
 };
 
-export type MealOptionMutation = {
-    __typename?: 'MealOptionMutation';
-    cookId: Scalars['String'];
-    createOne: Scalars['Boolean'];
-    menuId: Scalars['String'];
-};
-
-export type MealOptionMutationCreateOneArgs = {
-    mealOption: CreateOneMealOptionRequest;
-};
-
-export type MealOptionQuery = {
-    __typename?: 'MealOptionQuery';
-    cookId: Scalars['String'];
-    findMany: Array<MealOption>;
-    findOne?: Maybe<MealOption>;
-    menuId: Scalars['String'];
-};
-
-export type MealOptionQueryFindManyArgs = {
-    request?: InputMaybe<FindManyRequest>;
-};
-
-export type MealOptionQueryFindOneArgs = {
-    mealOptionId: Scalars['String'];
-};
-
-export type MealType = 'DESSERT' | 'MAIN_COURSE' | 'STARTER';
+export type MealType = 'DESSERT' | 'MAIN_COURSE' | 'OTHER' | 'SALAD' | 'SOUP' | 'STARTER';
 
 export type Menu = {
     __typename?: 'Menu';
@@ -973,7 +1055,7 @@ export type Menu = {
     createdAt: Scalars['DateTime'];
     currencyCode: CurrencyCode;
     description: Scalars['String'];
-    greetingFromKitchen: Scalars['Boolean'];
+    greetingFromKitchen?: Maybe<Scalars['String']>;
     isVisible: Scalars['Boolean'];
     kitchen?: Maybe<Kitchen>;
     kitchenId?: Maybe<Scalars['String']>;
@@ -1005,24 +1087,6 @@ export type MenuConfigurationCourse = {
     mealImageUrl: Scalars['URL'];
     mealTitle: Scalars['String'];
     mealType: MealType;
-};
-
-export type MenuMutation = {
-    __typename?: 'MenuMutation';
-    courses: CookMenuCourseMutation;
-};
-
-export type MenuMutationCoursesArgs = {
-    menuId: Scalars['String'];
-};
-
-export type MenuQuery = {
-    __typename?: 'MenuQuery';
-    courses: CookMenuCourseQuery;
-};
-
-export type MenuQueryCoursesArgs = {
-    menuId: Scalars['String'];
 };
 
 export type MenuVisit = {
@@ -1290,7 +1354,7 @@ export type Query = {
     languages: LanguageQuery;
     privacyPolicyUpdates: PrivacyPolicyUpdateQuery;
     publicCooks: PublicCookQuery;
-    publicMenus: MenuQuery;
+    publicMenus: PublicMenuQuery;
     publicPrivacyPolicyUpdates: PublicPrivacyPolicyUpdateQuery;
     publicTermsUpdates: PublicTermsUpdateQuery;
     termsUpdates: TermsUpdateQuery;
@@ -1784,6 +1848,7 @@ export type UserSessionMutation = {
     expireCurrent: Scalars['Boolean'];
     expireMany: Scalars['Boolean'];
     expireOne: Scalars['Boolean'];
+    userId: Scalars['String'];
 };
 
 export type UserSessionMutationExpireManyArgs = {
@@ -1963,6 +2028,29 @@ export type GetIndividualRequestPageDataQuery = {
     allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
 };
 
+export type GetAdministrationUsersPageDataQueryVariables = Exact<{
+    request: FindManyRequest;
+}>;
+
+export type GetAdministrationUsersPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+        findMany?: Array<{
+            __typename?: 'User';
+            userId: string;
+            isLocked: boolean;
+            firstName: string;
+            lastName: string;
+            profilePictureUrl?: string | null;
+            isAdmin: boolean;
+            isCook: boolean;
+            createdAt: Date;
+        }> | null;
+    };
+};
+
 export type GetCookProfileQueryQueryVariables = Exact<{
     cookId: Scalars['String'];
 }>;
@@ -2125,7 +2213,7 @@ export type FindCookMenuQuery = {
                 pricePerAdult: number;
                 pricePerChild?: number | null;
                 currencyCode: CurrencyCode;
-                greetingFromKitchen: boolean;
+                greetingFromKitchen?: string | null;
                 preparationTime: number;
                 createdAt: Date;
                 kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
@@ -2893,7 +2981,6 @@ export const FindManyPublicCooksDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
                 ],
             },
         },
@@ -3027,6 +3114,93 @@ export const GetIndividualRequestPageDataDocument = {
         },
     ],
 } as unknown as DocumentNode<GetIndividualRequestPageDataQuery, GetIndividualRequestPageDataQueryVariables>;
+export const GetAdministrationUsersPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetAdministrationUsersPageData' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'FindManyRequest' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findMany' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'request' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isLocked' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetAdministrationUsersPageDataQuery, GetAdministrationUsersPageDataQueryVariables>;
 export const GetCookProfileQueryDocument = {
     kind: 'Document',
     definitions: [
