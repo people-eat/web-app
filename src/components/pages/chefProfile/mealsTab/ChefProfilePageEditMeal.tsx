@@ -50,9 +50,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
         setDescription(meal?.description ?? '');
         setType(meal?.type ?? 'MAIN_COURSE');
         setImageUrl(meal?.imageUrl ?? '');
-    }, [meal, loading, data]);
-
-    useEffect(() => setImageUrl(meal?.imageUrl ?? ''), [imageUrl, meal?.imageUrl]);
+    }, [meal]);
 
     const [updateMealDescription] = useMutation(UpdateCookMealDescriptionDocument, {
         variables: { cookId, mealId, description },
@@ -94,7 +92,12 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
         if (image) {
             setChangesHaveBeenApplied(true);
             void updateMealImage()
-                .then((result) => result.data?.cooks.meals.success && void refetch())
+                .then((result) => {
+                    if (result.data?.cooks.meals.success) {
+                        setImage(undefined);
+                        void refetch();
+                    }
+                })
                 .catch((e) => console.error(e));
         }
     }
@@ -129,9 +132,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                                 <PETabItem
                                     key={index}
                                     title={mealType.toLowerCase()}
-                                    onClick={(): void => {
-                                        setType(mealType);
-                                    }}
+                                    onClick={(): void => setType(mealType)}
                                     active={mealType === type}
                                 />
                             ))}
@@ -140,12 +141,12 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
 
                     <VStack className="w-full">
                         <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
-                        <PETextField type={'text'} value={title} onChange={(value): void => setTitle(value)} />
+                        <PETextField type={'text'} value={title} onChange={setTitle} />
                     </VStack>
 
                     <VStack className="w-full">
                         <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
-                        <PEMultiLineTextField value={description} onChange={(value): void => setDescription(value)} />
+                        <PEMultiLineTextField value={description} onChange={setDescription} />
                     </VStack>
 
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
@@ -156,7 +157,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                     <HStack gap={16} className="w-full">
                         <PEButton title="Delete" onClick={(): void => setShowDeleteDialog(true)} type="secondary" />
                         <PEButton
-                            title="Save"
+                            title="Save Changes"
                             onClick={handleSaveUpdates}
                             disabled={meal.title === title && meal.description === description && meal.type === type && !image}
                         />
