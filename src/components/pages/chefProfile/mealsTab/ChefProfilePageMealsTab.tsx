@@ -1,12 +1,9 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
-import Button from '@mui/material/Button';
-import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
-import { DeleteOneCookMealDocument, FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
+import { useState, type ReactElement } from 'react';
+import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
-import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
-import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../standard/tabItem/PETabItem';
@@ -21,57 +18,23 @@ export interface ChefProfilePageMealsTabProps {
 }
 
 export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMealsTabProps): ReactElement {
-    const [selectedTab, setSelectedTab] = useState<MealType | 'ALL' | 'CREATE' | 'EDIT'>('ALL');
-    const [openDeleteMealDialog, setOpenDeleteMealDialog] = useState(false);
-    const [editMeal, setEditMeal] = useState({ x: 0, y: 0, mealId: '' });
-    const [isEditMealOpen, setEditMealOpen] = useState(false);
+    const [selectedTab, setSelectedTab] = useState<MealType | 'CREATE' | undefined>();
+    const [selectedMealId, setSelectedMealId] = useState<undefined | string>();
 
     const { data, loading, refetch } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
     const meals = data?.cooks.meals.findMany ?? [];
 
-    const [deleteMeal] = useMutation(DeleteOneCookMealDocument);
-
-    function handleDeleteMeal(): void {
-        try {
-            void deleteMeal({
-                variables: {
-                    cookId,
-                    mealId: editMeal.mealId,
-                },
-            }).then((result): void => {
-                setOpenDeleteMealDialog(false);
-                if (result.data && result.data.cooks.meals.success) void refetch();
-            });
-        } catch (e) {
-            console.error(e);
-            setOpenDeleteMealDialog(false);
-        }
-    }
-
-    function handleClickOnCard(event: MouseEvent<HTMLDivElement>, mealId: string): void {
-        if (event.button === 0) {
-            setEditMealOpen(true);
-            setEditMeal({ x: event.clientX, y: event.clientY, mealId });
-        } else setEditMealOpen(false);
-    }
-
-    useEffect(() => {
-        document.addEventListener('click', (event) => {
-            if (!isParentNodeElementHasClass(event, 'editMeal')) setEditMealOpen(false);
-        });
-    }, []);
-
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:px-4 box-border gap-6">
-            {selectedTab !== 'CREATE' && (
+            {selectedTab !== 'CREATE' && !selectedMealId && (
                 <HStack
                     gap={8}
                     className="w-full bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4"
                     style={{ alignItems: 'center' }}
                 >
                     <HStack className="overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
-                        <PETabItem title="All" onClick={(): void => setSelectedTab('ALL')} active={selectedTab === 'ALL'} />
+                        <PETabItem title="All" onClick={(): void => setSelectedTab(undefined)} active={selectedTab === undefined} />
 
                         {mealTypes.map((mealType, index) => (
                             <PETabItem
@@ -96,56 +59,59 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                 </HStack>
             )}
 
-            {selectedTab === 'ALL' && (
-                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    {meals.map(({ title, description, imageUrl, mealId }, index) => (
-                        <div
-                            className="editMeal md:w-full basis-[410px]"
-                            key={index}
-                            onMouseUp={(event): void => handleClickOnCard(event, mealId)}
-                        >
-                            <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
-                        </div>
-                    ))}
-                </HStack>
-            )}
-
-            {selectedTab !== 'ALL' && selectedTab !== 'CREATE' && (
-                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    {meals
-                        .filter(({ type }) => type === selectedTab)
-                        .map(({ title, description, imageUrl, mealId }, index) => (
-                            <div className="editMeal" key={index} onMouseUp={(event): void => handleClickOnCard(event, mealId)}>
-                                <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
-                            </div>
-                        ))}
-                </HStack>
-            )}
-
-            {selectedTab === 'CREATE' && (
-                <ChefProfilePageCreateMeal
-                    cookId={cookId}
-                    defaultMealType={selectedTab !== 'CREATE' && selectedTab !== 'ALL' ? selectedTab : undefined}
-                    onSuccess={(): void => {
-                        setSelectedTab('ALL');
-                        void refetch();
-                    }}
-                    onCancel={(): void => setSelectedTab('ALL')}
-                />
-            )}
-
-            {selectedTab === 'EDIT' && editMeal.mealId && (
+            {selectedMealId && (
                 <ChefProfilePageEditMeal
-                    mealId={editMeal.mealId}
+                    cookId={cookId}
+                    mealId={selectedMealId}
                     onCancel={(): void => {
-                        setSelectedTab('ALL');
+                        setSelectedMealId(undefined);
+                        setSelectedTab(undefined);
                     }}
                     onSaveUpdates={(): void => {
-                        setSelectedTab('ALL');
+                        setSelectedMealId(undefined);
+                        setSelectedTab(undefined);
                         void refetch();
                     }}
-                    cookId={cookId}
                 />
+            )}
+
+            {!selectedMealId && selectedTab === 'CREATE' && (
+                <ChefProfilePageCreateMeal
+                    cookId={cookId}
+                    defaultMealType={undefined}
+                    onCancel={(): void => setSelectedTab(undefined)}
+                    onSuccess={(): void => {
+                        setSelectedTab(undefined);
+                        void refetch();
+                    }}
+                />
+            )}
+
+            {!selectedMealId && selectedTab !== 'CREATE' && (
+                <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
+                    {selectedTab !== undefined &&
+                        meals
+                            .filter(({ type }) => type === selectedTab)
+                            .map(({ title, description, imageUrl, mealId }, index) => (
+                                <PEMealCard
+                                    key={index}
+                                    title={title}
+                                    description={description}
+                                    imageUrl={imageUrl ?? undefined}
+                                    onClick={(): void => setSelectedMealId(mealId)}
+                                />
+                            ))}
+                    {selectedTab === undefined &&
+                        meals.map(({ title, description, imageUrl, mealId }, index) => (
+                            <PEMealCard
+                                key={index}
+                                title={title}
+                                description={description}
+                                imageUrl={imageUrl ?? undefined}
+                                onClick={(): void => setSelectedMealId(mealId)}
+                            />
+                        ))}
+                </HStack>
             )}
 
             {loading && (
@@ -154,60 +120,6 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                         <CircularProgress />
                     </DialogContent>
                 </Dialog>
-            )}
-
-            <Dialog
-                sx={{ width: '100%', '& .MuiPaper-root': { width: '750px', maxWidth: '750px' } }}
-                open={openDeleteMealDialog}
-                onClose={(): void => setOpenDeleteMealDialog(false)}
-            >
-                <DialogContent>
-                    <VStack className="gap-8 relative box-border">
-                        <VStack className="absolute top-0 right-0">
-                            <PEIconButton
-                                iconSize={24}
-                                icon={Icon.close}
-                                onClick={(): void => setOpenDeleteMealDialog(false)}
-                                withoutShadow
-                                bg="white"
-                            />
-                        </VStack>
-                        <p className="m-0 mt-2 text-text-m-bold w-full text-start">Delete the menu</p>
-                        <p className="m-0 w-full text-start">Do you really want to delete the menu?</p>
-                        <HStack className="w-full gap-4">
-                            <PEButton onClick={(): void => setOpenDeleteMealDialog(false)} title="Cancel" type="secondary" />
-                            <PEButton onClick={handleDeleteMeal} title="Delete" />
-                        </HStack>
-                    </VStack>
-                </DialogContent>
-            </Dialog>
-
-            {isEditMealOpen && (
-                <div
-                    className="editMeal absolute w-[200px] box-border bg-white rounded-4 shadow-primary px-4 py-1"
-                    style={{ top: editMeal.y, left: editMeal.x }}
-                >
-                    <Button
-                        style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => {
-                            setSelectedTab('EDIT');
-                            setEditMealOpen(false);
-                        }}
-                    >
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>
-                    </Button>
-                    <div className="w-full h-[1px] bg-disabled" />
-                    <Button style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }} onClick={(): void => undefined}>
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Publish</p>
-                    </Button>
-                    <div className="w-full h-[1px] bg-disabled" />
-                    <Button
-                        style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMealDialog(true)}
-                    >
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Delete</p>
-                    </Button>
-                </div>
             )}
         </VStack>
     );

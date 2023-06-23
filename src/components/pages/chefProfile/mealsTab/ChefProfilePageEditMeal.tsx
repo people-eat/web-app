@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
+    DeleteOneCookMealDocument,
     FindCookMealDocument,
     UpdateCookMealDescriptionDocument,
     UpdateCookMealImageDocument,
@@ -27,6 +28,7 @@ export interface ChefProfilePageCreateMealProps {
     onSaveUpdates: () => void;
 }
 
+// eslint-disable-next-line max-statements
 export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageCreateMealProps): ReactElement {
     const { data, loading, refetch } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
 
@@ -61,6 +63,8 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
     const [updateMealType] = useMutation(UpdateCookMealTypeDocument, {
         variables: { cookId, mealId, type },
     });
+
+    const [deleteMeal] = useMutation(DeleteOneCookMealDocument, { variables: { cookId, mealId } });
 
     function handleSaveUpdates(): void {
         if (!meal) return;
@@ -148,11 +152,18 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                         <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
                     </VStack>
 
-                    <PEButton
-                        title="Save"
-                        onClick={handleSaveUpdates}
-                        disabled={meal.title === title && meal.description === description && meal.type === type && !image}
-                    />
+                    <HStack gap={16} className="w-full">
+                        <PEButton
+                            title="Delete"
+                            onClick={(): void => void deleteMeal().then((result) => result.data?.cooks.meals.success && onSaveUpdates())}
+                            type="secondary"
+                        />
+                        <PEButton
+                            title="Save"
+                            onClick={handleSaveUpdates}
+                            disabled={meal.title === title && meal.description === description && meal.type === type && !image}
+                        />
+                    </HStack>
                 </>
             )}
 
