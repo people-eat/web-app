@@ -22,7 +22,7 @@ export default function PEMenuCardMobile({
         >
             <div className="flex gap-3 flex-row box-border">
                 <div className="flex rounded-3 overflow-hidden min-w-[120px] h-[120px] justify-center items-center bg-base">
-                    {imageUrls.length ? (
+                    {Boolean(imageUrls.length) && (
                         <Image
                             draggable={false}
                             src={imageUrls[0] as string}
@@ -31,8 +31,8 @@ export default function PEMenuCardMobile({
                             height={120}
                             className="w-[120px] h-[120px] object-cover"
                         />
-                    ) : null}
-                    {!imageUrls.length ? <PEIcon icon={Icon.food} edgeLength={52} /> : null}
+                    )}
+                    {Boolean(!imageUrls.length) && <PEIcon icon={Icon.food} edgeLength={52} />}
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-text-sm-bold text-preBlack">{title}</span>
