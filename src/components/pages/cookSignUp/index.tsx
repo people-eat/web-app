@@ -295,7 +295,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
                 {data && (
                     <Dialog open>
-                        {data.users.success && <SignUpPageSuccessDialog />}
+                        {data.users.success && <SignUpPageSuccessDialog emailAddress={emailAddress} />}
                         {!data.users.success && <>Something went wrong</>}
                     </Dialog>
                 )}
