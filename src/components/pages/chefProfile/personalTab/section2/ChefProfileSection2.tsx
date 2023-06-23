@@ -46,9 +46,9 @@ export default function ChefProfileSection2({ chefBiography, cookId }: ChefProfi
         >
             <HStack className="w-full md:mb-2">
                 <p className="text-heading-ss w-full justify-start my-0">Bio</p>
-                {isMobile ? (
+                {isMobile && (
                     <>
-                        {edit ? (
+                        {edit && (
                             <HStack className="gap-3">
                                 <PEIconButton
                                     onClick={(): void => handleSaveChefBiography()}
@@ -65,18 +65,18 @@ export default function ChefProfileSection2({ chefBiography, cookId }: ChefProfi
                                     size={'36px'}
                                 />
                             </HStack>
-                        ) : (
-                            <PEIconButton onClick={(): void => setEdit(!edit)} icon={Icon.editPencil} iconSize={24} withoutShadow />
                         )}
+                        {!edit && <PEIconButton onClick={(): void => setEdit(!edit)} icon={Icon.editPencil} iconSize={24} withoutShadow />}
                     </>
-                ) : null}
+                )}
             </HStack>
+
             <VStack className="w-full gap-3">
                 <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
                     <p className="my-0 text-text-sm-bold">{t('section-bio-description')}</p>
-                    {!isMobile ? (
+                    {!isMobile && (
                         <>
-                            {edit ? (
+                            {edit && (
                                 <HStack className="gap-3">
                                     <PEIconButton
                                         onClick={(): void => handleSaveChefBiography()}
@@ -93,15 +93,17 @@ export default function ChefProfileSection2({ chefBiography, cookId }: ChefProfi
                                         size={'36px'}
                                     />
                                 </HStack>
-                            ) : (
+                            )}
+                            {!edit && (
                                 <PEIconButton onClick={(): void => setEdit(!edit)} icon={Icon.editPencil} iconSize={24} withoutShadow />
                             )}
                         </>
-                    ) : null}
+                    )}
                 </HStack>
-                {edit ? (
-                    <PEMultiLineTextField value={biography} onChange={(value): void => setBiography(value)} />
-                ) : (
+
+                {edit && <PEMultiLineTextField value={biography} onChange={(value): void => setBiography(value)} />}
+
+                {!edit && (
                     <VStack
                         className="border-solid min-h-[128px] border-disabled border-[1px] py-4 px-[14px] rounded-3 w-full box-border"
                         style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}
