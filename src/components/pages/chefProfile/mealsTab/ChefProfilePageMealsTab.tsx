@@ -3,6 +3,7 @@ import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
 import { DeleteOneCookMealDocument, FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
+import useResponsive from '../../../../hooks/useResponsive';
 import { mealTypes } from '../../../../shared/mealTypes';
 import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
@@ -21,6 +22,8 @@ export interface ChefProfilePageMealsTabProps {
 }
 
 export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMealsTabProps): ReactElement {
+    const { isMobile } = useResponsive();
+
     const [selectedTab, setSelectedTab] = useState<MealType | 'ALL' | 'CREATE' | 'EDIT'>('ALL');
     const [openDeleteMealDialog, setOpenDeleteMealDialog] = useState(false);
     const [editMeal, setEditMeal] = useState({ x: 0, y: 0, mealId: '' });
@@ -57,27 +60,31 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
     }
 
     useEffect(() => {
-        // remove default right click for that page, to use custom function
-        document.addEventListener('contextmenu', (event) => event.preventDefault());
         document.addEventListener('click', (event) => {
             if (!isParentNodeElementHasClass(event, 'editMeal')) setEditMealOpen(false);
         });
     }, []);
 
     return (
-        <VStack className="w-full max-w-screen-xl mb-[80px] lg:my-10 gap-6">
+        <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:px-4 box-border gap-6">
             {selectedTab !== 'CREATE' && (
-                <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
-                    <PETabItem title="All" onClick={(): void => setSelectedTab('ALL')} active={selectedTab === 'ALL'} />
+                <HStack
+                    gap={8}
+                    className="w-full bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4"
+                    style={{ alignItems: 'center' }}
+                >
+                    <HStack className="overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
+                        <PETabItem title="All" onClick={(): void => setSelectedTab('ALL')} active={selectedTab === 'ALL'} />
 
-                    {mealTypes.map((mealType, index) => (
-                        <PETabItem
-                            key={index}
-                            title={mealType.toLowerCase()}
-                            onClick={(): void => setSelectedTab(mealType)}
-                            active={selectedTab === mealType}
-                        />
-                    ))}
+                        {mealTypes.map((mealType, index) => (
+                            <PETabItem
+                                key={index}
+                                title={mealType.toLowerCase()}
+                                onClick={(): void => setSelectedTab(mealType)}
+                                active={selectedTab === mealType}
+                            />
+                        ))}
+                    </HStack>
 
                     <Spacer />
 
@@ -95,7 +102,11 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
             {selectedTab === 'ALL' && (
                 <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                     {meals.map(({ title, description, imageUrl, mealId }, index) => (
-                        <div className="editMeal" key={index} onMouseUp={(event): void => handleClickOnCard(event, mealId)}>
+                        <div
+                            className="editMeal md:w-full basis-[410px]"
+                            key={index}
+                            onMouseUp={(event): void => handleClickOnCard(event, mealId)}
+                        >
                             <PEMealCard key={index} title={title} description={description} imageUrl={imageUrl ?? undefined} />
                         </div>
                     ))}

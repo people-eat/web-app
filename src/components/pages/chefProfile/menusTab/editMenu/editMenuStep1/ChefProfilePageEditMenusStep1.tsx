@@ -1,6 +1,10 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, type ApolloQueryResult } from '@apollo/client';
 import { useState, type ReactElement } from 'react';
-import { UpdateCookMenuKitchenIdDocument, UpdateCookMenuTitleDocument } from '../../../../../../data-source/generated/graphql';
+import {
+    UpdateCookMenuKitchenIdDocument,
+    UpdateCookMenuTitleDocument,
+    type FindCookMenuQuery,
+} from '../../../../../../data-source/generated/graphql';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import PEDropdown from '../../../../../standard/dropdown/PEDropdown';
 import PESingleSelectDropdown from '../../../../../standard/dropdown/PESingleSelectDropdown';
@@ -25,10 +29,10 @@ const KITCHENS: { kitchenId: string; title: string }[] = [
 export interface ChefProfilePageEditMenusStep1Props {
     menu: MenuEntity;
     cookId: string;
-    onSaveUpdates: () => void;
+    refetchMenus: (variables?: Partial<{ menuId: string; cookId: string }> | undefined) => Promise<ApolloQueryResult<FindCookMenuQuery>>;
 }
 
-export default function ChefProfilePageEditMenusStep1({ cookId, menu, onSaveUpdates }: ChefProfilePageEditMenusStep1Props): ReactElement {
+export default function ChefProfilePageEditMenusStep1({ cookId, menu, refetchMenus }: ChefProfilePageEditMenusStep1Props): ReactElement {
     const [title, setTitle] = useState(menu.title ?? '');
     const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(menu.kitchen ?? undefined);
     const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>(menu.categories ?? []);
@@ -38,21 +42,18 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu, onSaveUpda
         variables: { cookId, menuId: menu.menuId, kitchenId: selectedKitchen?.kitchenId ?? undefined },
     });
 
-    function handleOnSaveUpdatesError(e: string): void {
-        console.error(e);
-    }
-
     function handleSaveUpdates(): void {
-        void Promise.all<{ data: { cook: { success?: boolean } } }>([
-            new Promise((resolve) => (menu.title !== title ? void updateTitle() : resolve({ data: { cook: { success: false } } }))),
-            new Promise((resolve) =>
-                menu.kitchen !== selectedKitchen ? void updateKitchenId() : resolve({ data: { cook: { success: false } } }),
-            ),
-        ])
-            .then((responses) => {
-                if (responses.some((item) => item.data.cook.success)) onSaveUpdates();
-            })
-            .catch(handleOnSaveUpdatesError);
+        if (menu.title !== title) {
+            void updateTitle()
+                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .catch((e) => console.error(e));
+        }
+
+        if (menu.kitchen !== selectedKitchen) {
+            void updateKitchenId()
+                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .catch((e) => console.error(e));
+        }
     }
 
     return (
@@ -83,7 +84,7 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu, onSaveUpda
                 defaultExpanded
             />
 
-            <PEButton title="Save" onClick={handleSaveUpdates} />
+            <PEButton title="Save" onClick={handleSaveUpdates} disabled={menu.title === title && menu.kitchen === selectedKitchen} />
         </VStack>
     );
 }

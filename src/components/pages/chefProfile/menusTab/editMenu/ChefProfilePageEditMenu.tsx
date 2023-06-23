@@ -15,14 +15,13 @@ import ChefProfilePageEditMenusStep3 from './editMenuStep3/ChefProfilePageEditMe
 interface ChefProfilePageEditMenuProps {
     cookId: string;
     menuId: string;
-    onCancel: () => void;
     onSaveUpdates: () => void;
 }
 
 // eslint-disable-next-line max-statements
-export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId, onSaveUpdates }: ChefProfilePageEditMenuProps): ReactElement {
+export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates }: ChefProfilePageEditMenuProps): ReactElement {
     const [step, setStep] = useState(0);
-    const { data, loading } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
+    const { data, loading, refetch } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
 
     const menu = data?.cooks.menus.findOne;
 
@@ -41,14 +40,15 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId, onSa
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <VStack
-                className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
+                className="w-full relative bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4 gap-6"
                 style={{ alignItems: 'center', justifyContent: 'flex-start' }}
             >
-                <div className="absolute top-8 right-8">
-                    <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
+                <div className="absolute top-8 right-8 md:top-2 md:right-0">
+                    <PEIconButton icon={Icon.close} onClick={onSaveUpdates} withoutShadow bg="white" iconSize={24} />
                 </div>
+
                 <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
-                    <p className="w-full text-heading-xl my-0 mb-2">Adding a new menu</p>
+                    <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">Adding a new menu</p>
                     <Stepper activeStep={step}>
                         <Step>
                             <StepLabel onClick={(): void => setStep(0)}>Step 1</StepLabel>
@@ -62,11 +62,11 @@ export default function ChefProfilePageEditMenu({ onCancel, cookId, menuId, onSa
                     </Stepper>
                 </VStack>
 
-                {step === 0 && menu && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} onSaveUpdates={onSaveUpdates} />}
+                {step === 0 && menu && <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} refetchMenus={refetch} />}
 
-                {step === 1 && menu && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} onSaveUpdates={onSaveUpdates} />}
+                {step === 1 && menu && <ChefProfilePageEditMenusStep2 menu={menu} cookId={cookId} refetchMenus={refetch} />}
 
-                {step === 2 && menu && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} onSaveUpdates={onSaveUpdates} />}
+                {step === 2 && menu && <ChefProfilePageEditMenusStep3 menu={menu} cookId={cookId} refetchMenus={refetch} />}
 
                 {loading && <CircularProgress />}
             </VStack>

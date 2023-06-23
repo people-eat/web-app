@@ -96,12 +96,12 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
 
     return (
         <VStack
-            className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
+            className="w-full relative bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4 gap-6"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
             {meal && (
                 <>
-                    <div className="absolute top-8 right-8">
+                    <div className="absolute top-8 right-8 md:top-2 md:right-0">
                         <PEIconButton
                             icon={Icon.close}
                             onClick={changesHaveBeenApplied ? onSaveUpdates : onCancel}
@@ -111,7 +111,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                         />
                     </div>
 
-                    <p className="w-full text-heading-xl my-0 mb-6">Change the dish info</p>
+                    <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">Change the dish info</p>
 
                     <VStack className="w-full">
                         <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>

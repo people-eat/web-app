@@ -105,8 +105,6 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     }
 
     useEffect(() => {
-        // remove default right click for that page, to use custom function
-        document.addEventListener('contextmenu', (event) => event.preventDefault());
         document.addEventListener('click', (event) => {
             if (!isParentNodeElementHasClass(event, 'editMenu')) setEditMenuOpen(false);
         });
@@ -124,9 +122,6 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
 
             {selectedTab === 'EDIT' && selectedMenu && (
                 <ChefProfilePageEditMenu
-                    onCancel={(): void => {
-                        setSelectedTab('MENUS');
-                    }}
                     onSaveUpdates={(): void => {
                         setSelectedTab('MENUS');
                         void refetch();
@@ -138,7 +133,11 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
 
             {selectedTab === 'MENUS' && (
                 <>
-                    <HStack gap={8} className="w-full bg-white shadow-primary box-border p-8 rounded-4" style={{ alignItems: 'center' }}>
+                    <HStack
+                        gap={8}
+                        className="w-full bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4"
+                        style={{ alignItems: 'center' }}
+                    >
                         <Spacer />
 
                         <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow />

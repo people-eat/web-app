@@ -52,15 +52,15 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <VStack
-                className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
+                className="w-full relative bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4 gap-6"
                 style={{ alignItems: 'center', justifyContent: 'flex-start' }}
             >
-                <div className="absolute top-8 right-8">
+                <div className="absolute top-8 right-8 md:top-2 md:right-0">
                     <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
                 </div>
 
                 <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
-                    <p className="w-full text-heading-xl my-0 mb-2">{t('create-menu-headline')}</p>
+                    <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">{t('create-menu-headline')}</p>
                     <Stepper activeStep={step}>
                         <Step>
                             <StepLabel onClick={(): void => setStep(0)}>{t('create-menu-step-1')}</StepLabel>
