@@ -88,28 +88,7 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
                             className="w-full gap-4 overflow-x-scroll"
                             style={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}
                         >
-                            {[
-                                {
-                                    languageId: '23e1',
-                                    title: 'French',
-                                },
-                                {
-                                    languageId: '321',
-                                    title: 'French',
-                                },
-                                {
-                                    languageId: '233123e1',
-                                    title: 'French',
-                                },
-                                {
-                                    languageId: '2413e1',
-                                    title: 'French',
-                                },
-                                {
-                                    languageId: '231423e1',
-                                    title: 'French',
-                                },
-                            ].map(({ languageId, title }, index) => (
+                            {chefProfile.languages.map(({ languageId, title }, index) => (
                                 <HStack key={index} className="gap-4" style={{ alignItems: 'center' }}>
                                     <PEChoice title={title} onClose={(): void => handleRemoveLanguageById(languageId)} />
                                 </HStack>
