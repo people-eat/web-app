@@ -49,7 +49,7 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu, refetchMen
                 .catch((e) => console.error(e));
         }
 
-        if (menu.kitchen !== selectedKitchen) {
+        if (menu.kitchen?.kitchenId !== selectedKitchen?.kitchenId) {
             void updateKitchenId()
                 .then((result) => result.data?.cooks.menus.success && void refetchMenus())
                 .catch((e) => console.error(e));
