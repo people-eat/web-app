@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import { GetProfileQueryDocument } from '../../../../data-source/generated/graphql';
+import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECreditCard from '../../../standard/creditCard/PECreditCard';
@@ -24,6 +25,7 @@ import UpdateAddressDialog from './UpdateAddressDialog';
 export default function ProfilePagePersonalTab(): ReactElement {
     const { t: commonTranslation } = useTranslation('common');
     const { t } = useTranslation('profile');
+    const { isMobile } = useResponsive();
 
     const [changedPassword, setChangedPassword] = useState('');
 
@@ -48,60 +50,81 @@ export default function ProfilePagePersonalTab(): ReactElement {
     const userProfile = data?.users.me;
 
     return (
-        <VStack className="w-full max-w-screen-xl gap-6">
+        <VStack className="w-full md:overflow-hidden relative max-w-screen-xl gap-6 lg:px-4 md:py-6 box-border">
             {userProfile && (
                 <>
-                    <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
+                    <HStack className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4" gap={16}>
                         {userProfile.profilePictureUrl && (
                             <Image
-                                style={{ width: '120px', height: '120px', borderRadius: 4, objectPosition: 'center', objectFit: 'cover' }}
+                                style={{
+                                    width: isMobile ? '60px' : '120px',
+                                    height: isMobile ? '60px' : '120px',
+                                    borderRadius: 4,
+                                    objectPosition: 'center',
+                                    objectFit: 'cover',
+                                }}
                                 src={userProfile.profilePictureUrl}
-                                alt={"User's Profile Picture"}
-                                width={120}
-                                height={120}
+                                alt={'Profile Picture'}
+                                width={isMobile ? 60 : 120}
+                                height={isMobile ? 60 : 120}
                             />
                         )}
 
                         {!userProfile.profilePictureUrl && (
-                            <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
+                            <div
+                                className="bg-base rounded-2 flex justify-center items-center"
+                                style={{
+                                    minHeight: isMobile ? '60px' : '120px',
+                                    height: isMobile ? '60px' : '120px',
+                                    minWidth: isMobile ? '60px' : '120px',
+                                }}
+                            >
                                 <PEIcon edgeLength={32} icon={Icon.profileLight} />
                             </div>
                         )}
 
-                        <VStack style={{ alignItems: 'flex-start' }}>
-                            <HStack className="gap-4" style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <VStack className="md:w-full" style={{ alignItems: 'flex-start' }}>
+                            <HStack
+                                className="gap-4 md:w-full"
+                                style={{ justifyContent: isMobile ? 'space-between' : 'center', alignItems: 'center' }}
+                            >
                                 <VStack style={{ alignItems: 'flex-start' }}>
                                     <p className="text-heading-m my-0">{userProfile.firstName}</p>
                                     <p className="text-start text-text-m text-disabled my-0">{userProfile.lastName}</p>
                                 </VStack>
+                                {isMobile && <Spacer />}
                                 <PEIconButton icon={Icon.editPencil} iconSize={24} withoutShadow />
                             </HStack>
                         </VStack>
 
-                        <Spacer />
+                        {!isMobile && (
+                            <>
+                                <Spacer />
 
-                        {userProfile.isCook && (
-                            <Link href="/chef-profile" className="no-underline">
-                                <PEButton
-                                    iconLeft={Icon.profileOrange}
-                                    iconSize={16}
-                                    className="min-w-[250px]"
-                                    type="secondary"
-                                    onClick={(): void => undefined}
-                                    title={'Chef Profile'}
-                                />
-                            </Link>
-                        )}
+                                {userProfile.isCook && (
+                                    <Link href="/chef-profile" className="no-underline">
+                                        <PEButton
+                                            iconLeft={Icon.profileOrange}
+                                            iconSize={16}
+                                            className="min-w-[250px]"
+                                            type="secondary"
+                                            onClick={(): void => undefined}
+                                            title={'Chef Profile'}
+                                        />
+                                    </Link>
+                                )}
 
-                        {!userProfile.isCook && (
-                            <Link href="/chef-sign-up" className="no-underline">
-                                <PEButton onClick={(): void => undefined} title={commonTranslation('how-to-become-a-chef')} />
-                            </Link>
+                                {!userProfile.isCook && (
+                                    <Link href="/chef-sign-up" className="no-underline">
+                                        <PEButton onClick={(): void => undefined} title={commonTranslation('how-to-become-a-chef')} />
+                                    </Link>
+                                )}
+                            </>
                         )}
                     </HStack>
 
                     <VStack
-                        className="w-full bg-white shadow-primary box-border px-8 py-4"
+                        className="w-full bg-white shadow-primary box-border px-8 md:px-4 py-4"
                         style={{ alignItems: 'center', borderRadius: 16 }}
                     >
                         <HStack className="w-full">
@@ -109,16 +132,16 @@ export default function ProfilePagePersonalTab(): ReactElement {
                             <Spacer />
                         </HStack>
                         <HStack className="w-full" style={{ justifyContent: 'center', flexWrap: 'wrap', gap: 16 }}>
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('first-name-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.firstName} />
                             </VStack>
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('last-name-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.lastName} />
                             </VStack>
 
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('birthday-label')}</p>
 
                                 <DatePicker
@@ -129,11 +152,11 @@ export default function ProfilePagePersonalTab(): ReactElement {
                                     slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
                                 />
                             </VStack>
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('email-address-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.emailAddress ?? undefined} />
                             </VStack>
-                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: 420 }}>
+                            <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('phone-number-label')}</p>
                                 <PETextField disabled type="text" value={userProfile.phoneNumber ?? undefined} />
                             </VStack>
@@ -142,7 +165,7 @@ export default function ProfilePagePersonalTab(): ReactElement {
 
                     <VStack
                         gap={16}
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4"
+                        className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <HStack gap={8} className="w-full" style={{ alignItems: 'start' }}>
@@ -178,19 +201,21 @@ export default function ProfilePagePersonalTab(): ReactElement {
                             />
                         )}
 
-                        <VStack gap={16} className="w-full">
-                            {userProfile.addresses.map((address, index) => (
-                                <PEAddressCard
-                                    key={index}
-                                    address={`${address.postCode} ${address.city}, ${address.street} ${address.houseNumber}`}
-                                    title={address.title}
-                                    onHouseClick={(): void => setSelectedAddress(address)}
-                                />
-                            ))}
-                        </VStack>
+                        {Boolean(userProfile.addresses.length) && (
+                            <VStack gap={16} className="w-full">
+                                {userProfile.addresses.map((address, index) => (
+                                    <PEAddressCard
+                                        key={index}
+                                        address={`${address.postCode} ${address.city}, ${address.street} ${address.houseNumber}`}
+                                        title={address.title}
+                                        onHouseClick={(): void => setSelectedAddress(address)}
+                                    />
+                                ))}
+                            </VStack>
+                        )}
                     </VStack>
 
-                    <HStack className="w-full gap-6">
+                    <HStack className="w-full gap-6 md:flex-wrap">
                         <VStack
                             className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-3"
                             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
