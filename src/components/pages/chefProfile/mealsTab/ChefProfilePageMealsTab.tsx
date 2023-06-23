@@ -3,7 +3,6 @@ import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
 import { DeleteOneCookMealDocument, FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
-import useResponsive from '../../../../hooks/useResponsive';
 import { mealTypes } from '../../../../shared/mealTypes';
 import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
@@ -22,8 +21,6 @@ export interface ChefProfilePageMealsTabProps {
 }
 
 export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMealsTabProps): ReactElement {
-    const { isMobile } = useResponsive();
-
     const [selectedTab, setSelectedTab] = useState<MealType | 'ALL' | 'CREATE' | 'EDIT'>('ALL');
     const [openDeleteMealDialog, setOpenDeleteMealDialog] = useState(false);
     const [editMeal, setEditMeal] = useState({ x: 0, y: 0, mealId: '' });
