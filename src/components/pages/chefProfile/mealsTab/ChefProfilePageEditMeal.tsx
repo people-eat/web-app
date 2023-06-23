@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { Dialog, DialogContent } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
@@ -31,7 +32,6 @@ export interface ChefProfilePageCreateMealProps {
 // eslint-disable-next-line max-statements
 export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageCreateMealProps): ReactElement {
     const { data, loading, refetch } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
-
     const meal = data?.cooks.meals.findOne;
 
     const [title, setTitle] = useState(meal?.title ?? '');
@@ -41,6 +41,9 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
     const [imageUrl, setImageUrl] = useState(meal?.imageUrl ?? '');
 
     const [changesHaveBeenApplied, setChangesHaveBeenApplied] = useState(false);
+
+    const [deleteMeal] = useMutation(DeleteOneCookMealDocument, { variables: { cookId, mealId } });
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
     useEffect(() => {
         setTitle(meal?.title ?? '');
@@ -63,8 +66,6 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
     const [updateMealType] = useMutation(UpdateCookMealTypeDocument, {
         variables: { cookId, mealId, type },
     });
-
-    const [deleteMeal] = useMutation(DeleteOneCookMealDocument, { variables: { cookId, mealId } });
 
     function handleSaveUpdates(): void {
         if (!meal) return;
@@ -153,17 +154,43 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                     </VStack>
 
                     <HStack gap={16} className="w-full">
-                        <PEButton
-                            title="Delete"
-                            onClick={(): void => void deleteMeal().then((result) => result.data?.cooks.meals.success && onSaveUpdates())}
-                            type="secondary"
-                        />
+                        <PEButton title="Delete" onClick={(): void => setShowDeleteDialog(true)} type="secondary" />
                         <PEButton
                             title="Save"
                             onClick={handleSaveUpdates}
                             disabled={meal.title === title && meal.description === description && meal.type === type && !image}
                         />
                     </HStack>
+
+                    <Dialog open={showDeleteDialog} onClose={(): void => setShowDeleteDialog(false)}>
+                        <DialogContent>
+                            <VStack className="gap-8 relative box-border">
+                                <VStack className="absolute top-0 right-0">
+                                    <PEIconButton
+                                        iconSize={24}
+                                        icon={Icon.close}
+                                        onClick={(): void => setShowDeleteDialog(false)}
+                                        withoutShadow
+                                        bg="white"
+                                    />
+                                </VStack>
+
+                                <p className="m-0 mt-2 text-text-m-bold w-full text-start">Delete &ldquo;{meal.title}&ldquo;</p>
+
+                                <p className="m-0 w-full text-start">Do you really want to delete your dish &ldquo;{meal.title}&ldquo;?</p>
+
+                                <HStack className="w-full gap-4">
+                                    <PEButton onClick={(): void => setShowDeleteDialog(false)} title="Cancel" type="secondary" />
+                                    <PEButton
+                                        onClick={(): void =>
+                                            void deleteMeal().then((result) => result.data?.cooks.meals.success && onSaveUpdates())
+                                        }
+                                        title="Delete"
+                                    />
+                                </HStack>
+                            </VStack>
+                        </DialogContent>
+                    </Dialog>
                 </>
             )}
 
