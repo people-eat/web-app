@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, type ApolloQueryResult } from '@apollo/client';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import {
@@ -7,6 +7,7 @@ import {
     UpdateCookMenuIsVisibleDocument,
     UpdateCookMenuPricePerAdultDocument,
     UpdateCookMenuPricePerChildDocument,
+    type FindCookMenuQuery,
 } from '../../../../../../data-source/generated/graphql';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import PECheckbox from '../../../../../standard/checkbox/PECheckbox';
@@ -18,10 +19,10 @@ import { type MenuEntity } from '../../ChefProfilePageMenusTab';
 export interface ChefProfilePageEditMenusStep3Props {
     menu: MenuEntity;
     cookId: string;
-    onSaveUpdates: () => void;
+    refetchMenus: (variables?: Partial<{ menuId: string; cookId: string }> | undefined) => Promise<ApolloQueryResult<FindCookMenuQuery>>;
 }
 
-export default function ChefProfilePageEditMenusStep3({ cookId, menu, onSaveUpdates }: ChefProfilePageEditMenusStep3Props): ReactElement {
+export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMenus }: ChefProfilePageEditMenusStep3Props): ReactElement {
     const { t } = useTranslation('chef-profile');
 
     // in cents: 10000 -> 100.00 EUR
@@ -48,34 +49,36 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, onSaveUpda
         variables: { cookId, menuId: menu.menuId, isVisible },
     });
 
-    function handleOnSaveUpdatesError(e: string): void {
-        console.error(e);
-    }
-
     function handleSaveUpdates(): void {
-        void Promise.all<{ data: { cook: { success?: boolean } } }>([
-            new Promise((resolve) =>
-                menu.basePrice !== basePrice ? void updateBasePrice() : resolve({ data: { cook: { success: false } } }),
-            ),
-            new Promise((resolve) =>
-                menu.basePriceCustomers !== basePriceCustomers
-                    ? void updateBasePriceCustomers()
-                    : resolve({ data: { cook: { success: false } } }),
-            ),
-            new Promise((resolve) =>
-                menu.pricePerAdult !== pricePerAdult ? void updatePricePerAdult() : resolve({ data: { cook: { success: false } } }),
-            ),
-            new Promise((resolve) =>
-                menu.pricePerChild !== pricePerChild ? void updatePricePerChild() : resolve({ data: { cook: { success: false } } }),
-            ),
-            new Promise((resolve) =>
-                menu.isVisible !== isVisible ? void updateIsVisible() : resolve({ data: { cook: { success: false } } }),
-            ),
-        ])
-            .then((responses) => {
-                if (responses.some((item) => item.data.cook.success)) onSaveUpdates();
-            })
-            .catch(handleOnSaveUpdatesError);
+        if (menu.basePrice !== basePrice) {
+            void updateBasePrice()
+                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .catch((e) => console.error(e));
+        }
+
+        if (menu.basePriceCustomers !== basePriceCustomers) {
+            void updateBasePriceCustomers()
+                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .catch((e) => console.error(e));
+        }
+
+        if (menu.pricePerAdult !== pricePerAdult) {
+            void updatePricePerAdult()
+                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .catch((e) => console.error(e));
+        }
+
+        if (menu.pricePerChild !== pricePerChild) {
+            void updatePricePerChild()
+                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .catch((e) => console.error(e));
+        }
+
+        if (menu.isVisible !== isVisible) {
+            void updateIsVisible()
+                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .catch((e) => console.error(e));
+        }
     }
 
     return (
@@ -138,7 +141,17 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, onSaveUpda
                 </HStack>
             </VStack>
 
-            <PEButton title="Save" onClick={handleSaveUpdates} />
+            <PEButton
+                title="Save"
+                onClick={handleSaveUpdates}
+                disabled={
+                    menu.basePrice === basePrice &&
+                    menu.basePriceCustomers === basePriceCustomers &&
+                    menu.pricePerAdult === pricePerAdult &&
+                    menu.pricePerChild === pricePerChild &&
+                    menu.isVisible === isVisible
+                }
+            />
         </VStack>
     );
 }

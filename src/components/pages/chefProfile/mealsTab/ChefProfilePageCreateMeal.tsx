@@ -41,14 +41,14 @@ export default function ChefProfilePageCreateMeal({
 
     return (
         <VStack
-            className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-6"
+            className="w-full relative bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4 gap-6"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
-            <div className="absolute top-8 right-8">
+            <div className="absolute top-8 right-8 md:top-2 md:right-0">
                 <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
             </div>
 
-            <p className="w-full text-heading-xl my-0 mb-6">Adding a new dish</p>
+            <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">Adding a new dish</p>
 
             <VStack className="w-full">
                 <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>

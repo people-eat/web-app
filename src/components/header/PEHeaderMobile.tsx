@@ -31,7 +31,7 @@ export default function PEHeaderMobile({ mobileMenuTabs, isMobileMenuOpen, setOp
     return (
         <>
             <div
-                className="flex mt-0 bg-white z-50 top-0 left-0 h-[80px] w-full justify-between px-4 box-border max-w-screen-xl border-y-1 border-solid border-b-disabled border-transparent"
+                className="flex mt-0 bg-white z-50 top-0 left-0 h-[80px] w-full justify-between px-4 box-border max-w-screen-xl border-y-[1px] border-solid border-b-disabled border-transparent"
                 style={{ alignItems: 'center', padding: '0px 16px', gap: 16 }}
             >
                 <Link href={'/'}>
@@ -46,7 +46,7 @@ export default function PEHeaderMobile({ mobileMenuTabs, isMobileMenuOpen, setOp
             <Slide direction="down" in={sticky}>
                 <div
                     className={classNames(
-                        'flex mt-0 bg-white z-50 top-0 left-0 w-full justify-between px-4 box-border max-w-screen-xl border-y-1 border-solid border-b-disabled border-transparent',
+                        'flex mt-0 bg-white z-50 top-0 left-0 w-full justify-between px-4 box-border max-w-screen-xl border-y-[1px] border-solid border-b-disabled border-transparent',
                         {
                             ['h-0 hidden']: !sticky,
                             ['lg:fixed h-[80px]']: sticky,

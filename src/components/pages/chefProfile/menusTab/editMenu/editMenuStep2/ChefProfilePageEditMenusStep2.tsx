@@ -1,8 +1,12 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, type ApolloQueryResult } from '@apollo/client';
 import { Dialog, DialogContent } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
-import { UpdateCookMenuGreetingFromKitchenDocument, type MealType } from '../../../../../../data-source/generated/graphql';
+import {
+    UpdateCookMenuGreetingFromKitchenDocument,
+    type FindCookMenuQuery,
+    type MealType,
+} from '../../../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../../../shared/mealTypes';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../../standard/icon/Icon';
@@ -19,7 +23,7 @@ export interface ChefProfilePageEditMenusStep2Props {
     cookId: string;
     menuId?: string;
     onSelectedMeals?: (selectedMeals: MealEntity[]) => void;
-    onSaveUpdates: () => void;
+    refetchMenus: (variables?: Partial<{ menuId: string; cookId: string }> | undefined) => Promise<ApolloQueryResult<FindCookMenuQuery>>;
 }
 
 // export const MEALS_CARD_COUNT = 6;
@@ -29,7 +33,7 @@ export interface ChefProfilePageEditMenusStep2Props {
 // }
 
 // eslint-disable-next-line max-statements
-export default function ChefProfilePageEditMenusStep2({ cookId, menu, onSaveUpdates }: ChefProfilePageEditMenusStep2Props): ReactElement {
+export default function ChefProfilePageEditMenusStep2({ cookId, menu, refetchMenus }: ChefProfilePageEditMenusStep2Props): ReactElement {
     const { t } = useTranslation('chef-profile');
 
     const [_openPopUp, setOpenPopUp] = useState(false);
@@ -85,22 +89,12 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, onSaveUpda
     //     setActiveIndex(Math.abs(Math.floor((activeIndex - 1) % Math.round(listOfMeals.length / 6 + 1))));
     // }
 
-    function handleOnSaveUpdatesError(e: string): void {
-        console.error(e);
-    }
-
     function handleSaveUpdates(): void {
-        void Promise.all<{ data: { cook: { success?: boolean } } }>([
-            new Promise((resolve) =>
-                menu.greetingFromKitchen !== greetingFromKitchen
-                    ? void updateGreetingFromKitchen()
-                    : resolve({ data: { cook: { success: false } } }),
-            ),
-        ])
-            .then((responses) => {
-                if (responses.some((item) => item.data.cook.success)) onSaveUpdates();
-            })
-            .catch(handleOnSaveUpdatesError);
+        if (menu.greetingFromKitchen !== greetingFromKitchen) {
+            void updateGreetingFromKitchen()
+                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .catch((e) => console.error(e));
+        }
     }
 
     return (
@@ -320,7 +314,7 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, onSaveUpda
                 {/*    </HStack>*/}
                 {/* </VStack>*/}
 
-                <PEButton title="Save" onClick={handleSaveUpdates} />
+                <PEButton title="Save" onClick={handleSaveUpdates} disabled={menu.greetingFromKitchen === greetingFromKitchen} />
             </VStack>
         </VStack>
     );
