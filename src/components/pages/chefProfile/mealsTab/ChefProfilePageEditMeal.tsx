@@ -176,7 +176,9 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                         <PEButton
                             title="Save Changes"
                             onClick={handleSaveUpdates}
-                            disabled={meal.title === title && meal.description === description && meal.type === type && imageNotChanged}
+                            disabled={
+                                meal.title === title && meal.description === description && meal.type === type && imageNotChanged && !image
+                            }
                         />
                     </HStack>
 
