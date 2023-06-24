@@ -13,6 +13,7 @@ import HStack from '../../../../../utility/hStack/HStack';
 import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
 import CreateCookMenuCourse, { type CreateCookMenuCourseDto } from './CreateCookMenuCourse';
+import Divider from "@mui/material/Divider";
 
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;
@@ -47,35 +48,28 @@ export default function ChefProfilePageCreateMenusStep2({
                 <VStack className="w-full">
                     <p className="w-full text-text-m-bold my-0">{t('create-menu-greeting-form-kitchen-label')}</p>
 
-                    <HStack gap={16} className="w-full my-4" style={{ alignItems: 'center' }}>
-                        <PETabItem
-                            title={t('create-menu-yes')}
-                            onClick={(): void => setGreetingFromKitchen('')}
-                            active={greetingFromKitchen !== undefined}
-                        />
-                        <PETabItem
-                            title={t('create-menu-no')}
-                            onClick={(): void => setGreetingFromKitchen(undefined)}
-                            active={greetingFromKitchen === undefined}
-                        />
-                        {greetingFromKitchen === undefined && (
-                            <PETextField type={'text'} value={greetingFromKitchen} onChange={(): void => undefined} disabled={true} />
-                        )}
+                    <div className="flex w-full my-4 gap-4 md:flex-col" style={{ alignItems: 'center' }}>
+                        <HStack className="gap-4 w-full" style={{ justifyContent: 'flex-start' }}>
+                            <PETabItem
+                                title={t('create-menu-yes')}
+                                onClick={(): void => setGreetingFromKitchen('')}
+                                active={greetingFromKitchen !== undefined}
+                            />
+                            <PETabItem
+                                title={t('create-menu-no')}
+                                onClick={(): void => setGreetingFromKitchen(undefined)}
+                                active={greetingFromKitchen === undefined}
+                            />
+                        </HStack>
                         {greetingFromKitchen !== undefined && (
                             <PETextField type={'text'} value={greetingFromKitchen} onChange={setGreetingFromKitchen} />
                         )}
-                    </HStack>
+                    </div>
                 </VStack>
 
-                <HStack className="w-full">
+                <VStack className="w-full gap-2" style={{ alignItems: 'flex-start' }}>
                     <span className="text-text-m-bold">{t('create-menu-courses')}</span>
-                    <Spacer />
-                    <PEButton
-                        className="max-w-[250px]"
-                        onClick={(): void => setShowCreateCourseDialog(true)}
-                        title={t('create-menu-courses-add-course')}
-                    />
-                </HStack>
+                </VStack>
 
                 {courses.map((course, index) => (
                     <VStack key={index} className="w-full" gap={16} style={{ alignItems: 'flex-start' }}>
@@ -98,7 +92,11 @@ export default function ChefProfilePageCreateMenusStep2({
                             />
                         </HStack>
 
-                        <HStack className="w-full" gap={16} style={{ flexWrap: 'wrap', padding: '16px', justifyContent: 'flex-start' }}>
+                        <HStack
+                            className="w-full p-8 md:p-0 box-border"
+                            gap={16}
+                            style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}
+                        >
                             <VStack
                                 onClick={(): void => undefined}
                                 className="items-center w-[410px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
@@ -114,6 +112,13 @@ export default function ChefProfilePageCreateMenusStep2({
                     </VStack>
                 ))}
 
+                <PEButton
+                    type="secondary"
+                    className="max-w-[250px]"
+                    onClick={(): void => setShowCreateCourseDialog(true)}
+                    title={t('create-menu-courses-add-course')}
+                />
+
                 {showCreateCourseDialog && (
                     <CreateCookMenuCourse
                         open={showCreateCourseDialog}
@@ -125,6 +130,8 @@ export default function ChefProfilePageCreateMenusStep2({
                         onCancel={(): void => setShowCreateCourseDialog(false)}
                     />
                 )}
+
+                <Divider className="w-full" />
 
                 <PEButton title={t('create-menu-continue')} onClick={onContinue} />
             </VStack>

@@ -11,6 +11,7 @@ import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+import useResponsive from "../../../../hooks/useResponsive";
 
 export interface UpdateAddressDialogProps {
     // consider removing open, parent should decide
@@ -33,6 +34,8 @@ export interface UpdateAddressDialogProps {
 }
 
 export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel, address }: UpdateAddressDialogProps): ReactElement {
+    const { isMobile } = useResponsive();
+
     const [title, setTitle] = useState(address.title);
     const [postCode, setPostCode] = useState(address.postCode);
     const [city, setCity] = useState(address.city);
@@ -87,8 +90,8 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
             </DialogTitle>
             <DialogContent>
                 {!data && (
-                    <VStack gap={32} style={{ padding: '16px', width: '512px' }}>
-                        <VStack gap={16} style={{ width: '512px' }}>
+                    <VStack className="box-border p-4 md:p-0" gap={32} style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}>
+                        <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
                             <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
                             <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
                             <HStack gap={16} className="w-full">

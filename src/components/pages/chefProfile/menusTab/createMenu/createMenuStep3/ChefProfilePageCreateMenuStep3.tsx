@@ -2,6 +2,7 @@ import { Divider } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { type CurrencyCode } from '../../../../../../data-source/generated/graphql';
+import useResponsive from '../../../../../../hooks/useResponsive';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import PECheckbox from '../../../../../standard/checkbox/PECheckbox';
 import PENumberTextField from '../../../../../standard/textFields/PENumberTextField';
@@ -66,6 +67,7 @@ export default function ChefProfilePageCreateMenusStep3({
     setIsVisible,
     onComplete,
 }: ChefProfilePageCreateMenusStep3Props): ReactElement {
+    const { isMobile } = useResponsive();
     const { t } = useTranslation('chef-profile');
 
     const [childrenDiscount, setChildrenDiscount] = useState(20);
@@ -79,32 +81,32 @@ export default function ChefProfilePageCreateMenusStep3({
 
     return (
         <VStack gap={32} className="w-full" style={{ justifyContent: 'flex-end' }}>
-            <HStack className="w-full" gap={32} style={{ alignItems: 'flex-end', flexWrap: 'wrap' }}>
-                <VStack className="h-full" style={{ flex: 1, alignItems: 'flex-start', minWidth: 512 }}>
+            <HStack className="w-full gap-8 md:gap-0" style={{ alignItems: 'flex-end', flexWrap: 'wrap' }}>
+                <VStack className="h-full" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
                     <p className="text-text-m-bold">{'Preparation Time'}</p>
                     <PENumberTextField onChange={setPreparationTime} value={preparationTime} endContent={<>min</>} />
                 </VStack>
 
-                <HStack style={{ alignItems: 'center', justifyContent: 'flex-start', flex: 1, minWidth: 512 }}>
+                <HStack style={{ alignItems: 'center', justifyContent: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 512 }}>
                     <PECheckbox checked={isVisible} onCheckedChange={(): void => setIsVisible(!isVisible)} />
                     <p className="text-text-m-bold">{'Publish menu immediately after creation'}</p>
                 </HStack>
             </HStack>
 
-            <Divider className="w-full mt-4" />
+            <Divider className="w-full mt-4 md:mt-0" />
 
-            <HStack className="w-full" gap={32} style={{ flexWrap: 'wrap' }}>
-                <VStack style={{ flex: 1, alignItems: 'flex-start', minWidth: 512 }} gap={16}>
-                    <p className="text-heading-l mb-2">{'Price Configuration'}</p>
+            <HStack className="w-full gap-8 md:gap-4" style={{ flexWrap: 'wrap' }}>
+                <VStack className="gap-4 md:gap-2" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
+                    <p className="text-heading-l mb-2 md:text-text-m-bold">{'Price Configuration'}</p>
 
-                    <p className="text-text-m-bold">{t('create-menu-base-price')}</p>
+                    <p className="text-text-sm-bold">{t('create-menu-base-price')}</p>
                     <PENumberTextField
                         endContent={<p className="text-green">{currencyCode}</p>}
                         onChange={(changedBasePrice): void => setBasePrice(changedBasePrice * 100)}
                         value={basePrice / 100}
                     />
 
-                    <p className="text-text-m-bold">{t('create-menu-base-price-customers')}</p>
+                    <p className="text-text-sm-bold">{t('create-menu-base-price-customers')}</p>
                     <PENumberTextField
                         endContent={<p className="text-disabled">{t('create-menu-participants')}</p>}
                         onChange={setBasePriceCustomers}
@@ -112,7 +114,7 @@ export default function ChefProfilePageCreateMenusStep3({
                     />
                     <p className="text-text-sm text-disabled text-right">{t('create-menu-maximum-participants-label', { count: 20 })}</p>
 
-                    <p className="text-text-m-bold">{t('create-menu-price-per-adult')}</p>
+                    <p className="text-text-sm-bold">{t('create-menu-price-per-adult')}</p>
                     <PENumberTextField
                         endContent={<p className="text-green">{currencyCode}</p>}
                         onChange={(changedPricePerAdult): void => {
@@ -122,7 +124,7 @@ export default function ChefProfilePageCreateMenusStep3({
                         value={pricePerAdult / 100}
                     />
 
-                    <p className="text-text-m-bold text-orange">{t('create-menu-children-discount-label')}</p>
+                    <p className="text-text-sm-bold text-orange">{t('create-menu-children-discount-label')}</p>
 
                     <HStack className="w-full">
                         <VStack style={{ alignItems: 'flex-start', justifyContent: 'center', flex: 1 }} gap={20}>
@@ -137,7 +139,7 @@ export default function ChefProfilePageCreateMenusStep3({
                             </HStack>
                         </VStack>
 
-                        <VStack style={{ flex: 1 }} gap={16}>
+                        <VStack style={{ flex: 1 }} className="gap-4">
                             {pricePerChild && (
                                 <>
                                     <PENumberTextField
@@ -177,16 +179,16 @@ export default function ChefProfilePageCreateMenusStep3({
                     </HStack>
                 </VStack>
 
-                <VStack style={{ flex: 1, alignItems: 'flex-start', minWidth: 512 }} gap={16}>
-                    <p className="text-heading-l mb-2">{t('create-menu-price-simulation-headline')}</p>
+                <VStack style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }} className="gap-4 md:gap-0">
+                    <p className="text-heading-l mb-2 md:text-text-m-bold">{t('create-menu-price-simulation-headline')}</p>
 
-                    <p className="text-text-m-bold">{t('create-menu-price-simulation-adult-participants')}</p>
+                    <p className="text-text-sm-bold">{t('create-menu-price-simulation-adult-participants')}</p>
                     <PENumberTextField onChange={setAdults} value={adults} />
 
-                    <p className="text-text-m-bold">{t('create-menu-price-simulation-children')}</p>
+                    <p className="text-text-sm-bold">{t('create-menu-price-simulation-children')}</p>
                     <PENumberTextField onChange={setChildren} value={children} />
 
-                    <p className="text-text-m-bold">{t('create-menu-price-simulation-cook-payment')}</p>
+                    <p className="text-text-sm-bold">{t('create-menu-price-simulation-cook-payment')}</p>
                     <PENumberTextField
                         onChange={(): void => undefined}
                         value={cookPrice / 100}
