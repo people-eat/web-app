@@ -25,12 +25,6 @@ export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates 
 
     const menu = data?.cooks.menus.findOne;
 
-    // const [description, _setDescription] = useState(menu?.description ?? '');
-
-    // const [currencyCode] = useState<CurrencyCode>('EUR');
-
-    // const [preparationTime, _setPreparationTime] = useState(menu?.preparationTime ?? 60);
-
     // const [selectedMeals, setSelectedMeals] = useState<MealEntity[]>([]);
 
     // function handleOnSelectedMeals(meals: MealEntity[]): void {

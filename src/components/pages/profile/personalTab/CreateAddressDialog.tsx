@@ -11,6 +11,7 @@ import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+import useResponsive from "../../../../hooks/useResponsive";
 
 export interface CreateAddressDialogProps {
     open: boolean;
@@ -20,6 +21,8 @@ export interface CreateAddressDialogProps {
 }
 
 export default function CreateAddressDialog({ open, userId, onSuccess, onCancel }: CreateAddressDialogProps): ReactElement {
+    const { isMobile } = useResponsive();
+
     const [title, setTitle] = useState('');
     const [postCode, setPostCode] = useState('');
     const [city, setCity] = useState('');
@@ -66,7 +69,7 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
     }, [postCode, city, street, houseNumber, country, disabled]);
 
     return (
-        <Dialog open={open} onClose={onCancel}>
+        <Dialog open={open} onClose={onCancel} sx={{ width: '100%', '& .MuiPaper-root': { width: '750px', maxWidth: '750px' } }}>
             <DialogTitle>
                 <HStack>
                     <span>Add Address</span>
@@ -76,18 +79,18 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
             </DialogTitle>
             <DialogContent>
                 {!data && (
-                    <VStack gap={32} style={{ padding: '16px', width: '512px' }}>
-                        <VStack gap={16} style={{ width: '512px' }}>
+                    <VStack className="box-border p-4 md:p-0" gap={32} style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}>
+                        <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
                             <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
                             <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
-                            <HStack gap={16} className="w-full">
+                            <div className="w-full flex flex-row gap-4 md:flex-col">
                                 <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
                                 <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
-                            </HStack>
-                            <HStack gap={16} className="w-full">
+                            </div>
+                            <div className="w-full flex flex-row gap-4 md:flex-col">
                                 <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
                                 <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={'House Number'} type="text" />
-                            </HStack>
+                            </div>
                         </VStack>
 
                         <PEMap

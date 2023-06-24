@@ -38,6 +38,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
     const [description, setDescription] = useState(meal?.description ?? '');
     const [type, setType] = useState<MealType>(meal?.type ?? 'MAIN_COURSE');
     const [image, setImage] = useState<File | undefined>(undefined);
+    const [imageNotChanged, setImageNotChanged] = useState(true);
     const [imageUrl, setImageUrl] = useState(meal?.imageUrl ?? '');
 
     const [changesHaveBeenApplied, setChangesHaveBeenApplied] = useState(false);
@@ -89,7 +90,8 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                 .catch((e) => console.error(e));
         }
 
-        if (image) {
+        if (!imageNotChanged || image) {
+            setImageNotChanged(false);
             setChangesHaveBeenApplied(true);
             void updateMealImage()
                 .then((result) => {
@@ -100,6 +102,21 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                 })
                 .catch((e) => console.error(e));
         }
+    }
+
+    function handleRemoveImage(): void {
+        setImage(undefined);
+        setImageNotChanged(false);
+
+        setChangesHaveBeenApplied(true);
+        void updateMealImage()
+            .then((result) => {
+                if (result.data?.cooks.meals.success) {
+                    setImage(undefined);
+                    void refetch();
+                }
+            })
+            .catch((e) => console.error(e));
     }
 
     return (
@@ -151,7 +168,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
 
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                         <p className="w-full mb-4 text-text-m-bold my-0">Image</p>
-                        <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
+                        <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={handleRemoveImage} />
                     </VStack>
 
                     <HStack gap={16} className="w-full">
@@ -159,7 +176,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                         <PEButton
                             title="Save Changes"
                             onClick={handleSaveUpdates}
-                            disabled={meal.title === title && meal.description === description && meal.type === type && !image}
+                            disabled={meal.title === title && meal.description === description && meal.type === type && imageNotChanged}
                         />
                     </HStack>
 

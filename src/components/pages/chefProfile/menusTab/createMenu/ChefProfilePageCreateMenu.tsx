@@ -55,7 +55,7 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                 className="w-full relative bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4 gap-6"
                 style={{ alignItems: 'center', justifyContent: 'flex-start' }}
             >
-                <div className="absolute top-8 right-8 md:top-2 md:right-0">
+                <div className="absolute top-8 right-8 md:top-0 md:right-0">
                     <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
                 </div>
 

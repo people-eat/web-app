@@ -13,6 +13,7 @@ import HStack from '../../../../../utility/hStack/HStack';
 import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
 import { type MealEntity } from '../../ChefProfilePageMenusTab';
+import useResponsive from "../../../../../../hooks/useResponsive";
 
 export interface CreateCookMenuCourseDto {
     title: string;
@@ -27,6 +28,7 @@ export interface CreateCookMenuCourseProps {
 }
 
 export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel }: CreateCookMenuCourseProps): ReactElement {
+    const { isMobile } = useResponsive();
     const { t } = useTranslation('chef-profile');
 
     const [title, setTitle] = useState('');
@@ -35,7 +37,7 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
     const [selectedMeals, setSelectedMeals] = useState<Map<string, MealEntity>>(new Map());
 
     return (
-        <Dialog open={open} maxWidth="md">
+        <Dialog open={open} maxWidth="md" sx={{ margin: 0, '& .MuiPaper-root': { margin: 0 } }}>
             <DialogTitle>
                 <HStack>
                     <span>{t('create-menu-courses-add-course')}</span>
@@ -43,7 +45,7 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
                     <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                 </HStack>
             </DialogTitle>
-            <DialogContent>
+            <DialogContent sx={{ margin: 0, padding: isMobile ? '8px' : '16px', boxSizing: 'border-box' }}>
                 <DialogContentText>
                     <VStack gap={32}>
                         <PETextField value={title} onChange={setTitle} type="text" placeholder="Course Name" />
