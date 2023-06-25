@@ -12,10 +12,24 @@ export interface PEMapProps {
     style?: CSSProperties;
 }
 
-let circle: { setRadius: (changedRadius: number | undefined) => void };
+let circle: {
+    setRadius: (changedRadius: number | undefined) => void;
+    setCenter: (changedCenter: { lat: number; lng: number } | undefined) => void;
+};
+
+let marker: {
+    setPosition: (changedCenter: { lat: number; lng: number } | undefined) => void;
+};
 
 export default function PEMap({ style, apiKey, location, markerRadius }: PEMapProps): ReactElement {
-    useEffect(() => circle && circle.setRadius(markerRadius), [markerRadius]);
+    useEffect(() => {
+        if (circle) {
+            circle.setRadius(markerRadius);
+            location && circle.setCenter({ lat: location.latitude, lng: location.longitude });
+        }
+
+        marker && location && marker.setPosition({ lat: location.latitude, lng: location.longitude });
+    }, [markerRadius, location]);
 
     return (
         <GoogleMapReact
@@ -30,7 +44,7 @@ export default function PEMap({ style, apiKey, location, markerRadius }: PEMapPr
                     ? { lat: location.latitude, lng: location.longitude }
                     : { lat: 50.11215679689394, lng: 8.676387649038587 };
 
-                new maps.Marker({ position, map });
+                marker = new maps.Marker({ position, map });
 
                 circle = new maps.Circle({
                     center: { ...position },
