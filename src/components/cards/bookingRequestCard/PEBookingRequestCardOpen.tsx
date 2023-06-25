@@ -44,10 +44,10 @@ export default function PEBookingRequestCardOpen({
             </div>
             <span className="pt-4 md:pt-2 text-heading-ss-bold md:text-text-m-bold">{menuName}</span>
             <div className="flex gap-4">
-                <div className={'overflow-hidden rounded-3'}>
+                <div className={'overflow-hidden h-[45px] w-[45px] rounded-3'}>
                     {clientImage ? (
                         <Image
-                            style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                            style={{ width: '45px', height: '45px', objectFit: 'cover' }}
                             src={clientImage}
                             alt={'client image'}
                             width={45}

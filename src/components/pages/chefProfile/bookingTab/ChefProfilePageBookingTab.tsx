@@ -2,7 +2,8 @@ import { useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState, type ReactElement } from 'react';
 import { GetCookProfileQueryDocument } from '../../../../data-source/generated/graphql';
-import useResponsive from '../../../../hooks/useResponsive';
+import PEBookingRequestCardClosed from '../../../cards/bookingRequestCard/PEBookingRequestCardClosed';
+import PEBookingRequestCardInProcess from '../../../cards/bookingRequestCard/PEBookingRequestCardInProcess';
 import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
 import PETabItem from '../../../standard/tabItem/PETabItem';
 import HStack from '../../../utility/hStack/HStack';
@@ -13,8 +14,6 @@ import { orders } from './orders.mock';
 const BOOKING_TABS = ['Open', 'In process', 'Completed'];
 
 export default function ChefProfilePageBookingTab({ cookId }: { cookId: string }): ReactElement {
-    const { isMobile } = useResponsive();
-
     const { data, loading, error } = useQuery(GetCookProfileQueryDocument, {
         variables: { cookId },
     });
@@ -42,39 +41,21 @@ export default function ChefProfilePageBookingTab({ cookId }: { cookId: string }
                         <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
                             {orders.map(({ date, menuName, clientName, clientImage, event, eventDate, persons, time, address }, index) => (
                                 <div key={index} className="w-[calc(50%-20px)] md:w-full">
-                                    {isMobile ? (
-                                        <PEBookingRequestCardOpen
-                                            onOrderDetailsClick={(): void => undefined}
-                                            date={date}
-                                            menuName={menuName}
-                                            clientName={clientName}
-                                            clientImage={clientImage}
-                                            event={event}
-                                            price={'340€'}
-                                            eventDate={eventDate}
-                                            persons={persons}
-                                            time={time}
-                                            address={address}
-                                            onAcceptClick={(): void => undefined}
-                                            onDeclineClick={(): void => undefined}
-                                        />
-                                    ) : (
-                                        <PEBookingRequestCardOpen
-                                            onOrderDetailsClick={(): void => undefined}
-                                            date={date}
-                                            menuName={menuName}
-                                            clientName={clientName}
-                                            clientImage={clientImage}
-                                            event={event}
-                                            price={'340€'}
-                                            eventDate={eventDate}
-                                            persons={persons}
-                                            time={time}
-                                            address={address}
-                                            onAcceptClick={(): void => undefined}
-                                            onDeclineClick={(): void => undefined}
-                                        />
-                                    )}
+                                    <PEBookingRequestCardOpen
+                                        onOrderDetailsClick={(): void => undefined}
+                                        date={date}
+                                        menuName={menuName}
+                                        clientName={clientName}
+                                        clientImage={clientImage}
+                                        event={event}
+                                        price={'340€'}
+                                        eventDate={eventDate}
+                                        persons={persons}
+                                        time={time}
+                                        address={address}
+                                        onAcceptClick={(): void => undefined}
+                                        onDeclineClick={(): void => undefined}
+                                    />
                                 </div>
                             ))}
                         </HStack>
@@ -84,39 +65,20 @@ export default function ChefProfilePageBookingTab({ cookId }: { cookId: string }
                         <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
                             {orders.map(({ date, menuName, clientName, clientImage, event, eventDate, persons, time, address }, index) => (
                                 <div key={index} className="w-[calc(50%-20px)] md:w-full">
-                                    {isMobile ? (
-                                        <PEBookingRequestCardOpen
-                                            onOrderDetailsClick={(): void => undefined}
-                                            date={date}
-                                            menuName={menuName}
-                                            clientName={clientName}
-                                            clientImage={clientImage}
-                                            event={event}
-                                            price={'340€'}
-                                            eventDate={eventDate}
-                                            persons={persons}
-                                            time={time}
-                                            address={address}
-                                            onAcceptClick={(): void => undefined}
-                                            onDeclineClick={(): void => undefined}
-                                        />
-                                    ) : (
-                                        <PEBookingRequestCardOpen
-                                            onOrderDetailsClick={(): void => undefined}
-                                            date={date}
-                                            menuName={menuName}
-                                            clientName={clientName}
-                                            clientImage={clientImage}
-                                            event={event}
-                                            price={'340€'}
-                                            eventDate={eventDate}
-                                            persons={persons}
-                                            time={time}
-                                            address={address}
-                                            onAcceptClick={(): void => undefined}
-                                            onDeclineClick={(): void => undefined}
-                                        />
-                                    )}
+                                    <PEBookingRequestCardInProcess
+                                        onOrderDetailsClick={(): void => undefined}
+                                        date={date}
+                                        menuName={menuName}
+                                        clientName={clientName}
+                                        clientImage={clientImage}
+                                        event={event}
+                                        price={'340€'}
+                                        eventDate={eventDate}
+                                        persons={persons}
+                                        time={time}
+                                        address={address}
+                                        onAcceptAsSender={(): void => undefined}
+                                    />
                                 </div>
                             ))}
                         </HStack>
@@ -126,39 +88,22 @@ export default function ChefProfilePageBookingTab({ cookId }: { cookId: string }
                         <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
                             {orders.map(({ date, menuName, clientName, clientImage, event, eventDate, persons, time, address }, index) => (
                                 <div key={index} className="w-[calc(50%-20px)] md:w-full">
-                                    {isMobile ? (
-                                        <PEBookingRequestCardOpen
-                                            onOrderDetailsClick={(): void => undefined}
-                                            date={date}
-                                            menuName={menuName}
-                                            clientName={clientName}
-                                            clientImage={clientImage}
-                                            event={event}
-                                            price={'340€'}
-                                            eventDate={eventDate}
-                                            persons={persons}
-                                            time={time}
-                                            address={address}
-                                            onAcceptClick={(): void => undefined}
-                                            onDeclineClick={(): void => undefined}
-                                        />
-                                    ) : (
-                                        <PEBookingRequestCardOpen
-                                            onOrderDetailsClick={(): void => undefined}
-                                            date={date}
-                                            menuName={menuName}
-                                            clientName={clientName}
-                                            clientImage={clientImage}
-                                            event={event}
-                                            price={'340€'}
-                                            eventDate={eventDate}
-                                            persons={persons}
-                                            time={time}
-                                            address={address}
-                                            onAcceptClick={(): void => undefined}
-                                            onDeclineClick={(): void => undefined}
-                                        />
-                                    )}
+                                    <PEBookingRequestCardClosed
+                                        onOrderDetailsClick={(): void => undefined}
+                                        date={date}
+                                        menuName={menuName}
+                                        clientName={clientName}
+                                        clientImage={clientImage}
+                                        event={event}
+                                        price={'340€'}
+                                        eventDate={eventDate}
+                                        persons={persons}
+                                        time={time}
+                                        address={address}
+                                        onDownloadDocumentsClick={(): void => undefined}
+                                        onSendInvoiceClick={(): void => undefined}
+                                        onShowReviewClick={(): void => undefined}
+                                    />
                                 </div>
                             ))}
                         </HStack>
