@@ -1,5 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
+import useResponsive from '../../../../../hooks/useResponsive';
 import PEButton from '../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
@@ -8,7 +9,6 @@ import PEModalPopUp from '../../../../standard/modal/PEModalPopUp';
 import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
-import useResponsive from "../../../../../hooks/useResponsive";
 
 export default function ChefProfileSection3(): ReactElement {
     const { t } = useTranslation('chef-profile');

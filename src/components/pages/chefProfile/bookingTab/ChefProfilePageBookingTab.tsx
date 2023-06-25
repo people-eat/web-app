@@ -3,8 +3,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useState, type ReactElement } from 'react';
 import { GetCookProfileQueryDocument } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
-import PEBookingRequestCardClosed from '../../../cards/bookingRequestCard/PEBookingRequestCardClosed';
-import PEBookingRequestCardInProcess from '../../../cards/bookingRequestCard/PEBookingRequestCardInProcess';
 import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
 import PETabItem from '../../../standard/tabItem/PETabItem';
 import HStack from '../../../utility/hStack/HStack';

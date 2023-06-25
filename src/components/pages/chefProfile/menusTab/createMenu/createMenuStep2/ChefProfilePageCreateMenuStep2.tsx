@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import Divider from '@mui/material/Divider';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMealsDocument } from '../../../../../../data-source/generated/graphql';
@@ -10,10 +11,8 @@ import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../../../standard/tabItem/PETabItem';
 import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
-import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
 import CreateCookMenuCourse, { type CreateCookMenuCourseDto } from './CreateCookMenuCourse';
-import Divider from "@mui/material/Divider";
 
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;

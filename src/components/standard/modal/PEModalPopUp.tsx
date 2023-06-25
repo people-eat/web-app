@@ -1,9 +1,9 @@
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
+import useResponsive from '../../../hooks/useResponsive';
 import { Icon } from '../../standard/icon/Icon';
 import PEIconButton from '../../standard/iconButton/PEIconButton';
-import useResponsive from "../../../hooks/useResponsive";
 
 export interface PEModalPopUpProps {
     openMenu: boolean;

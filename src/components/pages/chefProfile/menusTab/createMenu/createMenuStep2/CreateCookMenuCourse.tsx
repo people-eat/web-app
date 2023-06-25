@@ -2,6 +2,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { type MealType } from '../../../../../../data-source/generated/graphql';
+import useResponsive from '../../../../../../hooks/useResponsive';
 import { mealTypes } from '../../../../../../shared/mealTypes';
 import PEMealCard from '../../../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../../../standard/buttons/PEButton';
@@ -13,7 +14,6 @@ import HStack from '../../../../../utility/hStack/HStack';
 import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
 import { type MealEntity } from '../../ChefProfilePageMenusTab';
-import useResponsive from "../../../../../../hooks/useResponsive";
 
 export interface CreateCookMenuCourseDto {
     title: string;
