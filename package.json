@@ -34,6 +34,7 @@
         "animejs": "^3.2.1",
         "apollo-upload-client": "^17.0.0",
         "classnames": "^2.3.2",
+        "dayjs": "^1.11.8",
         "google-map-react": "^2.2.0",
         "graphql": "^16.6.0",
         "moment": "^2.29.4",

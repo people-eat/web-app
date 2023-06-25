@@ -42,10 +42,10 @@ export default function PEBookingRequestCardInProcess({
             </div>
             <span className="pt-4 text-heading-ss-bold">{menuName}</span>
             <div className="flex gap-4">
-                <div className={'overflow-hidden rounded-3'}>
+                <div className={'overflow-hidden h-[45px] w-[45px] rounded-3'}>
                     {clientImage ? (
                         <Image
-                            style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                            style={{ width: '45px', height: '45px', objectFit: 'cover' }}
                             src={clientImage}
                             alt={'client image'}
                             width={45}
@@ -67,19 +67,19 @@ export default function PEBookingRequestCardInProcess({
             </span>
             <div className="flex">
                 <div className="flex flex-col gap-3">
-                    <span className="text-gray text-text-s md:text-text-m">
+                    <span className="text-gray md:text-text-s text-text-m">
                         Event date: <span className="text-black">{eventDate}</span>
                     </span>
-                    <span className="text-gray text-text-s md:text-text-m">
+                    <span className="text-gray md:text-text-s text-text-m">
                         Persons: <span className="text-black">{persons}</span>
                     </span>
                 </div>
                 <span className="w-[1px] mx-3 md:mx-4 h-[52px] bg-separator rounded-1" />
                 <div className="flex flex-col gap-3">
-                    <span className="text-gray text-text-s md:text-text-m">
+                    <span className="text-gray md:text-text-s text-text-m">
                         Time: <span className="text-black">{time}</span>
                     </span>
-                    <span className="text-gray text-text-s md:text-text-m">
+                    <span className="text-gray md:text-text-s text-text-m">
                         Address: <span className="text-black">{address}</span>
                     </span>
                 </div>
