@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import { DatePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
@@ -6,7 +6,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
-import { GetProfileQueryDocument } from '../../../../data-source/generated/graphql';
+import { GetProfileQueryDocument, UpdateUserProfilePictureDocument } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -14,6 +14,8 @@ import PECreditCard from '../../../standard/creditCard/PECreditCard';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
+import PEImagePicker from '../../../standard/imagePicker/PEImagePicker';
+import PEModalPopUp from '../../../standard/modal/PEModalPopUp';
 import PEPasswordTextField from '../../../standard/textFields/PEPasswordTextField';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
@@ -48,6 +50,38 @@ export default function ProfilePagePersonalTab(): ReactElement {
     const { data, loading, error, refetch } = useQuery(GetProfileQueryDocument);
 
     const userProfile = data?.users.me;
+
+    const [image] = useState<string | undefined>(userProfile?.profilePictureUrl ?? undefined);
+    const [edit, setEdit] = useState(false);
+    const [firstName, setFirstName] = useState(userProfile?.firstName);
+    const [lastName, setLastName] = useState(userProfile?.lastName);
+
+    const [editFirstName, setEditFirstName] = useState(userProfile?.firstName);
+    const [editLastName, setEditLastName] = useState(userProfile?.lastName);
+    const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined>(undefined);
+
+    function handleUnSaveChefName(): void {
+        setEditFirstName(userProfile?.firstName ?? '');
+        setEditLastName(userProfile?.lastName ?? '');
+        setEdit(!edit);
+    }
+
+    const [updateProfilePicture] = useMutation(UpdateUserProfilePictureDocument);
+
+    function handleSaveProfileInfo(): void {
+        if (editedProfilePicture || editedProfilePicture !== image) {
+            void updateProfilePicture({
+                variables: { userId: userProfile?.userId ?? '', profilePicture: editedProfilePicture },
+            })
+                .then((result) => result.data?.users.success && void refetch())
+                .catch((e) => console.error(e));
+        }
+
+        setEditedProfilePicture(undefined);
+        setFirstName(editFirstName);
+        setLastName(editLastName);
+        setEdit(!edit);
+    }
 
     return (
         <VStack className="w-full md:overflow-hidden relative max-w-screen-xl gap-6 lg:px-4 md:py-6 box-border">
@@ -89,11 +123,16 @@ export default function ProfilePagePersonalTab(): ReactElement {
                                 style={{ justifyContent: isMobile ? 'space-between' : 'center', alignItems: 'center' }}
                             >
                                 <VStack style={{ alignItems: 'flex-start' }}>
-                                    <p className="text-heading-m my-0">{userProfile.firstName}</p>
-                                    <p className="text-start text-text-m text-disabled my-0">{userProfile.lastName}</p>
+                                    <p className="text-heading-m my-0">{firstName}</p>
+                                    <p className="text-start text-text-m text-disabled my-0">{lastName}</p>
                                 </VStack>
                                 {isMobile && <Spacer />}
-                                <PEIconButton icon={Icon.editPencil} iconSize={24} withoutShadow />
+                                <PEIconButton
+                                    icon={Icon.editPencil}
+                                    onClick={(): void => setEdit(!edit)}
+                                    iconSize={24}
+                                    withoutShadow
+                                />{' '}
                             </HStack>
                         </VStack>
 
@@ -255,6 +294,18 @@ export default function ProfilePagePersonalTab(): ReactElement {
                             </HStack>
                         </VStack>
                     </HStack>
+
+                    <PEModalPopUp openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
+                        <VStack className="w-[750px] px-10 py-15 box-border relative">
+                            <h2 className="m-0 pb-5">Change profile info</h2>
+                            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+                                <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
+                                <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
+                                <PEImagePicker onPick={setEditedProfilePicture} defaultImage={image} />
+                            </VStack>
+                            <PEButton className="max-w-[250px] mt-10" onClick={handleSaveProfileInfo} title="Save" />
+                        </VStack>
+                    </PEModalPopUp>
                 </>
             )}
 
