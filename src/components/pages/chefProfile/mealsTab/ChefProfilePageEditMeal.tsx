@@ -107,16 +107,6 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
     function handleRemoveImage(): void {
         setImage(undefined);
         setImageNotChanged(false);
-
-        setChangesHaveBeenApplied(true);
-        void updateMealImage()
-            .then((result) => {
-                if (result.data?.cooks.meals.success) {
-                    setImage(undefined);
-                    void refetch();
-                }
-            })
-            .catch((e) => console.error(e));
     }
 
     return (

@@ -3,6 +3,7 @@ import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/mater
 import { useEffect, useState, type ReactElement } from 'react';
 import { DeleteOneUserAddressDocument, UpdateOneUserAddressDocument } from '../../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
+import useResponsive from '../../../../hooks/useResponsive';
 import PEMap from '../../../map/PEMap';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -11,7 +12,6 @@ import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-import useResponsive from "../../../../hooks/useResponsive";
 
 export interface UpdateAddressDialogProps {
     // consider removing open, parent should decide
