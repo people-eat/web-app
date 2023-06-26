@@ -299,8 +299,8 @@ export default function ProfilePagePersonalTab(): ReactElement {
                         <VStack className="w-[750px] px-10 py-15 box-border relative">
                             <h2 className="m-0 pb-5">Change profile info</h2>
                             <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
-                                <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
-                                <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
+                                <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
+                                <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
                                 <PEImagePicker
                                     onPick={setEditedProfilePicture}
                                     defaultImage={image}
