@@ -13,6 +13,7 @@ import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextFi
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
+import { mealTypeTranslations } from '../mealTypeTranslations';
 
 export interface ChefProfilePageCreateMealProps {
     cookId: string;
@@ -34,15 +35,6 @@ export default function ChefProfilePageCreateMeal({
     const [image, setImage] = useState<File | undefined>(undefined);
 
     const disabled: boolean = title === '';
-
-    const mealTypesTranslates = {
-        DESSERT: t('label-dessert'),
-        STARTER: t('label-starter'),
-        MAIN_COURSE: t('label-main'),
-        OTHER: 'other',
-        SALAD: 'salad',
-        SOUP: 'soup',
-    };
 
     const [createOneCookMeal, { data, loading }] = useMutation(CreateOneCookMealDocument, {
         variables: { cookId, meal: { title, description, type }, image },
@@ -72,7 +64,7 @@ export default function ChefProfilePageCreateMeal({
                     {mealTypes.map((mealType, index) => (
                         <PETabItem
                             key={index}
-                            title={mealTypesTranslates?.[mealType] ?? mealType.toLowerCase()}
+                            title={t(mealTypeTranslations[mealType])}
                             onClick={(): void => setType(mealType)}
                             active={mealType === type}
                         />

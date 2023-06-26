@@ -22,6 +22,7 @@ import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextFi
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
+import { mealTypeTranslations } from '../mealTypeTranslations';
 
 export interface ChefProfilePageCreateMealProps {
     cookId: string;
@@ -35,15 +36,6 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
     const { t } = useTranslation('chef-profile');
     const { data, loading, refetch } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
     const meal = data?.cooks.meals.findOne;
-
-    const mealTypesTranslates = {
-        DESSERT: t('label-dessert'),
-        STARTER: t('label-starter'),
-        MAIN_COURSE: t('label-main'),
-        OTHER: 'other',
-        SALAD: 'salad',
-        SOUP: 'soup',
-    };
 
     const [title, setTitle] = useState(meal?.title ?? '');
     const [description, setDescription] = useState(meal?.description ?? '');
@@ -143,7 +135,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                             {mealTypes.map((mealType, index) => (
                                 <PETabItem
                                     key={index}
-                                    title={mealTypesTranslates?.[mealType] ?? mealType.toLowerCase()}
+                                    title={t(mealTypeTranslations[mealType])}
                                     onClick={(): void => setType(mealType)}
                                     active={mealType === type}
                                 />
