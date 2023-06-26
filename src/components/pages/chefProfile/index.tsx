@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
 import useResponsive from '../../../hooks/useResponsive';
@@ -12,47 +13,47 @@ import ChefProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
 import ChefProfilePageMenusTab from './menusTab/ChefProfilePageMenusTab';
 import ChefProfilePagePersonalTab from './personalTab/ChefProfilePagePersonalTab';
 
-const MENU_TABS = [
-    {
-        title: 'Personal details',
-        link: '/chef-profile?tab=0',
-    },
-    {
-        title: 'Meals',
-        link: '/chef-profile?tab=1',
-    },
-    {
-        title: 'Menus',
-        link: '/chef-profile?tab=2',
-    },
-    {
-        title: 'Bookings',
-        link: '/chef-profile?tab=3',
-    },
-    {
-        title: 'Ratings',
-        link: '/chef-profile?tab=4',
-    },
-    {
-        title: 'Statistic',
-        link: '/chef-profile?tab=5',
-    },
-    {
-        title: 'Chats',
-        link: '/chef-profile?tab=6',
-    },
-    {
-        title: 'Show public profile',
-        link: '/chef-profile?tab=7',
-    },
-];
-
 export interface ChefProfilePageProps {
     signedInUser?: SignedInUser;
 }
 
 export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps): ReactElement {
-    // const { t } = useTranslation('chef-profile');
+    const { t } = useTranslation('chef-profile');
+
+    const MENU_TABS = [
+        {
+            title: t('tab-personal-info'),
+            link: '/chef-profile?tab=0',
+        },
+        {
+            title: t('tab-meals'),
+            link: '/chef-profile?tab=1',
+        },
+        {
+            title: t('tab-menus'),
+            link: '/chef-profile?tab=2',
+        },
+        {
+            title: t('tab-bookings'),
+            link: '/chef-profile?tab=3',
+        },
+        {
+            title: t('tab-ratings'),
+            link: '/chef-profile?tab=4',
+        },
+        {
+            title: t('tab-statistic'),
+            link: '/chef-profile?tab=5',
+        },
+        {
+            title: t('tab-chats'),
+            link: '/chef-profile?tab=6',
+        },
+        {
+            title: t('tab-show-profile'),
+            link: '/chef-profile?tab=7',
+        },
+    ];
 
     const { isMobile } = useResponsive();
     const router = useRouter();

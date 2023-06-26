@@ -34,6 +34,7 @@ export interface ChefProfileSection1Props {
 }
 
 export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfileSection1Props): ReactElement {
+    const { t } = useTranslation('chef-profile');
     const { isMobile } = useResponsive();
 
     const [image] = useState<string | undefined>(chefProfile.user.profilePictureUrl ?? undefined);
@@ -135,7 +136,7 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                                     iconSize={16}
                                     type="secondary"
                                     onClick={(): void => undefined}
-                                    title={'Customer Profile'}
+                                    title={t('role-switch-button-customer')}
                                 />
                             </Link>
 

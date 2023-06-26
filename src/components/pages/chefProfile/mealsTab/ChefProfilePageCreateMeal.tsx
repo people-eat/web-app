@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { CreateOneCookMealDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
@@ -26,12 +27,19 @@ export default function ChefProfilePageCreateMeal({
     onSuccess,
     onCancel,
 }: ChefProfilePageCreateMealProps): ReactElement {
+    const { t } = useTranslation('chef-profile');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState<MealType>(defaultMealType ?? 'MAIN_COURSE');
     const [image, setImage] = useState<File | undefined>(undefined);
 
     const disabled: boolean = title === '';
+
+    const mealTypesTranslates = {
+        DESSERT: t('label-dessert'),
+        STARTER: t('label-starter'),
+        MAIN_COURSE: t('label-main'),
+    };
 
     const [createOneCookMeal, { data, loading }] = useMutation(CreateOneCookMealDocument, {
         variables: { cookId, meal: { title, description, type }, image },
@@ -48,10 +56,10 @@ export default function ChefProfilePageCreateMeal({
                 <PEIconButton icon={Icon.close} onClick={onCancel} withoutShadow bg="white" iconSize={24} />
             </div>
 
-            <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">Adding a new dish</p>
+            <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">{t('create-meal-headline')}</p>
 
             <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>
+                <p className="w-full mb-4 text-text-m-bold my-0">{t('create-meal-course')}</p>
 
                 <HStack
                     gap={8}
@@ -61,7 +69,7 @@ export default function ChefProfilePageCreateMeal({
                     {mealTypes.map((mealType, index) => (
                         <PETabItem
                             key={index}
-                            title={mealType.toLowerCase()}
+                            title={mealTypesTranslates?.[mealType] ?? mealType.toLowerCase()}
                             onClick={(): void => setType(mealType)}
                             active={mealType === type}
                         />
@@ -70,21 +78,28 @@ export default function ChefProfilePageCreateMeal({
             </VStack>
 
             <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
+                <p className="w-full mb-4 text-text-m-bold my-0">{t('create-meal-title')}</p>
                 <PETextField type={'text'} value={title} onChange={(value): void => setTitle(value)} />
             </VStack>
 
             <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
+                <p className="w-full mb-4 text-text-m-bold my-0">{t('create-meal-description')}</p>
                 <PEMultiLineTextField value={description} onChange={(value): void => setDescription(value)} />
             </VStack>
 
             <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                <p className="w-full mb-4 text-text-m-bold my-0">Image</p>
+                <p className="w-full mb-4 text-text-m-bold my-0">{t('create-meal-image')}</p>
                 <PEImagePicker onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
             </VStack>
 
-            {<PEButton onClick={(): void => void createOneCookMeal()} disabled={disabled} title="Add" className="w-full" />}
+            {
+                <PEButton
+                    onClick={(): void => void createOneCookMeal()}
+                    disabled={disabled}
+                    title={t('create-meal-button')}
+                    className="w-full"
+                />
+            }
 
             {loading && (
                 <Dialog open>
