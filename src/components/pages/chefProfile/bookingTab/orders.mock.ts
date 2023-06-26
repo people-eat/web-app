@@ -1,8 +1,8 @@
-import dayjs from 'dayjs';
+import moment from 'moment';
 
 export const orders = [
     {
-        date: dayjs().format('DD/MM/YYYY'),
+        date: moment().format('DD/MM/YYYY'),
         menuName: 'Herbstmenü',
         clientName: 'Bernd',
         clientImage: '',
@@ -13,7 +13,7 @@ export const orders = [
         address: 'Waldstrasse 42',
     },
     {
-        date: dayjs().format('DD/MM/YYYY'),
+        date: moment().format('DD/MM/YYYY'),
         menuName: 'Herbstmenü',
         clientName: 'Bernd',
         clientImage: '/team/dirk.png',
@@ -24,7 +24,7 @@ export const orders = [
         address: 'Waldstrasse 42',
     },
     {
-        date: dayjs().format('DD/MM/YYYY'),
+        date: moment().format('DD/MM/YYYY'),
         menuName: 'Herbstmenü',
         clientName: 'Bernd',
         clientImage: '',
