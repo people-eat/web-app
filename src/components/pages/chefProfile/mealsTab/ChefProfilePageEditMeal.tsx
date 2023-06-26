@@ -37,8 +37,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
     const [title, setTitle] = useState(meal?.title ?? '');
     const [description, setDescription] = useState(meal?.description ?? '');
     const [type, setType] = useState<MealType>(meal?.type ?? 'MAIN_COURSE');
-    const [image, setImage] = useState<File | undefined>(undefined);
-    const [imageNotChanged, setImageNotChanged] = useState(true);
+    const [image, setImage] = useState<File | undefined | null>(null);
     const [imageUrl, setImageUrl] = useState(meal?.imageUrl ?? '');
 
     const [changesHaveBeenApplied, setChangesHaveBeenApplied] = useState(false);
@@ -57,7 +56,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
         variables: { cookId, mealId, description },
     });
     const [updateMealImage] = useMutation(UpdateCookMealImageDocument, {
-        variables: { cookId, mealId, image },
+        variables: { cookId, mealId, image: image ?? undefined },
     });
     const [updateMealTitle] = useMutation(UpdateCookMealTitleDocument, {
         variables: { cookId, mealId, title },
@@ -90,8 +89,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                 .catch((e) => console.error(e));
         }
 
-        if (!imageNotChanged || image) {
-            setImageNotChanged(false);
+        if (image !== null) {
             setChangesHaveBeenApplied(true);
             void updateMealImage()
                 .then((result) => {
@@ -102,11 +100,6 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                 })
                 .catch((e) => console.error(e));
         }
-    }
-
-    function handleRemoveImage(): void {
-        setImage(undefined);
-        setImageNotChanged(false);
     }
 
     return (
@@ -158,7 +151,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
 
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                         <p className="w-full mb-4 text-text-m-bold my-0">Image</p>
-                        <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={handleRemoveImage} />
+                        <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
                     </VStack>
 
                     <HStack gap={16} className="w-full">
@@ -166,9 +159,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                         <PEButton
                             title="Save Changes"
                             onClick={handleSaveUpdates}
-                            disabled={
-                                meal.title === title && meal.description === description && meal.type === type && imageNotChanged && !image
-                            }
+                            disabled={meal.title === title && meal.description === description && meal.type === type && !image}
                         />
                     </HStack>
 
