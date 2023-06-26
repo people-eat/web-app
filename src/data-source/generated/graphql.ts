@@ -614,7 +614,7 @@ export type CookQueryUserRatingsArgs = {
     cookId: Scalars['String'];
 };
 
-export type CookRank = 'HOBBY' | 'MASTER' | 'PROFESSIONAL';
+export type CookRank = 'HOBBY' | 'PROFESSIONAL';
 
 export type CookRating = {
     __typename?: 'CookRating';

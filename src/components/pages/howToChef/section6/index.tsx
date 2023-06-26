@@ -29,7 +29,7 @@ export default function HowToChefSection6(): ReactElement {
                                     userProfilePictureUrl={'/team/dirk.png'}
                                     userFirstName="Sam"
                                     ratingValue="4.9"
-                                    occasion="Master Chef"
+                                    occasion="Professional Chef"
                                     comment={platformComment}
                                 />
                                 <PEReviewCardPlatformWeb
@@ -37,7 +37,7 @@ export default function HowToChefSection6(): ReactElement {
                                     userProfilePictureUrl={'/team/dirk.png'}
                                     userFirstName="Sam"
                                     ratingValue="4.9"
-                                    occasion="Master Chef"
+                                    occasion="Professional Chef"
                                     comment={platformComment}
                                 />
                                 <PEReviewCardPlatformWeb
@@ -45,7 +45,7 @@ export default function HowToChefSection6(): ReactElement {
                                     userProfilePictureUrl={'/team/dirk.png'}
                                     userFirstName="Sam"
                                     ratingValue="4.9"
-                                    occasion="Master Chef"
+                                    occasion="Professional Chef"
                                     comment={platformComment}
                                 />
                             </>
@@ -57,7 +57,7 @@ export default function HowToChefSection6(): ReactElement {
                                     userProfilePictureUrl={'/team/dirk.png'}
                                     userFirstName="Sam"
                                     ratingValue="4.9"
-                                    occasion="Master Chef"
+                                    occasion="Professional Chef"
                                     comment={platformComment}
                                 />
                                 <PEReviewCardPlatform
@@ -65,7 +65,7 @@ export default function HowToChefSection6(): ReactElement {
                                     userProfilePictureUrl={'/team/dirk.png'}
                                     userFirstName="Sam"
                                     ratingValue="4.9"
-                                    occasion="Master Chef"
+                                    occasion="Professional Chef"
                                     comment={platformComment}
                                 />
                                 <PEReviewCardPlatform
@@ -73,7 +73,7 @@ export default function HowToChefSection6(): ReactElement {
                                     userProfilePictureUrl={'/team/dirk.png'}
                                     userFirstName="Sam"
                                     ratingValue="4.9"
-                                    occasion="Master Chef"
+                                    occasion="Professional Chef"
                                     comment={platformComment}
                                 />
                             </>

@@ -12,7 +12,7 @@ export const Component: StoryObj<typeof PEChefCardMobile> = {
     args: {
         firstName: 'Maximilian',
         profilePictureUrl: 'https://prykoly.ru/wp-content/uploads/2019/11/Chef9.jpg',
-        rank: 'MASTER',
+        rank: 'PROFESSIONAL',
         location: 'Berlin',
         rating: { count: 25, average: 4.9 },
         kitchens: [],

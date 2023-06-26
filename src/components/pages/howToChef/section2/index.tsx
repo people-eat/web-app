@@ -13,14 +13,13 @@ import { CalculatorRoulette } from './CalculatorRoulette';
 const incomePerParticipantMap: Record<CookRank, number> = {
     ['HOBBY']: 300,
     ['PROFESSIONAL']: 400,
-    ['MASTER']: 500,
 };
 
 export default function HowToChefSection2(): ReactElement {
     const { t: commonTranslation } = useTranslation('common');
     const { t } = useTranslation('how-to-chef');
 
-    const [selectedCookRank, setSelectedCookRank] = useState<CookRank>('MASTER');
+    const [selectedCookRank, setSelectedCookRank] = useState<CookRank>('PROFESSIONAL');
     const [participantCount, setParticipantCount] = useState(4);
     const [income, setIncome] = useState({ prev: 2000, next: 2000 });
 

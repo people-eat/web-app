@@ -14,7 +14,6 @@ export default function HowToChefSection3(): ReactElement {
     const { t } = useTranslation('how-to-chef');
 
     const chefRankDescriptions: { rank: CookRank; description: string }[] = [
-        { rank: 'MASTER', description: t('point-master-chef-description') },
         { rank: 'PROFESSIONAL', description: t('point-chef-description') },
         { rank: 'HOBBY', description: t('point-hobby-chef-description') },
     ];
