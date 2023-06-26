@@ -132,23 +132,23 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
             <VStack className="w-full max-w-5xl mt-[80px] p-4 box-border" style={{ gap: 32, marginBottom: 64 }}>
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                     <h1 className="my-0">{t('headline')}</h1>
-                    <p className="my-2">Please enter your details</p>
+                    <p className="my-2">{t('sub-headline')}</p>
                 </VStack>
 
                 <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
                     <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 400 }}>
-                        <span>{t('first-name-label')}</span>
-                        <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name-label')} />
+                        <span>{t('first-name')}</span>
+                        <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name')} />
 
-                        <span>{t('last-name-label')}</span>
-                        <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name-label')} />
+                        <span>{t('last-name')}</span>
+                        <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name')} />
                     </VStack>
 
                     <PEImagePicker onPick={setProfilePicture} onRemoveDefaultImage={(): void => setProfilePicture(undefined)} />
                 </HStack>
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                    <p>{t('rank-label')}</p>
+                    <p>{t('cook-rank')}</p>
                     <PESingleSelectDropdown
                         title={translateCommon(rank)}
                         options={cookRanks}
@@ -161,9 +161,9 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                 </VStack>
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                    <p>{t('languages-label')}</p>
+                    <p>{t('languages')}</p>
                     <PEDropdown
-                        title={t('languages-label')}
+                        title={t('languages')}
                         defaultExpanded
                         options={languages}
                         getOptionLabel={(category): string => category.title}
@@ -175,16 +175,16 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                 </VStack>
 
                 <VStack gap={16} className="w-full">
-                    <p className="text-start w-full my-0">Address</p>
+                    <p className="text-start w-full my-0">{t('address')}</p>
 
                     <HStack className="w-full" gap={16} style={{ flexWrap: 'wrap' }}>
                         <VStack style={{ flex: 1 }} gap={16}>
                             {/* <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" autocomplete="country" /> */}
-                            <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" autocomplete="city" />
-                            <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
+                            <PETextField value={city} onChange={setCity} placeholder={t('city')} type="text" autocomplete="city" />
+                            <PETextField value={postCode} onChange={setPostCode} placeholder={t('post-code')} type="text" />
                             <HStack gap={16} className="w-full">
-                                <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
-                                <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={'House Number'} type="text" />
+                                <PETextField value={street} onChange={setStreet} placeholder={t('street')} type="text" />
+                                <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={t('house-number')} type="text" />
                             </HStack>
                         </VStack>
 
@@ -212,7 +212,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
                         <HStack className="w-full" style={{ justifyContent: 'flex-start' }}>
                             <PEIcon icon={Icon.data} />
-                            <p className="my-0">Travel costs per kilometer</p>
+                            <p className="my-0">{t('travel-expenses')}</p>
                         </HStack>
                         <p className="my-0 text-end w-full text-green text-ellipsis">{travelExpenses} EUR</p>
                     </HStack>
@@ -222,7 +222,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
                         <HStack className="w-full" style={{ justifyContent: 'flex-start' }}>
                             <PEIcon icon={Icon.forward} />
-                            <p className="my-0">Radius</p>
+                            <p className="my-0">{t('travel-distance')}</p>
                         </HStack>
                         <p className="my-0 text-end w-full text-green text-ellipsis">{maximumTravelDistance} km</p>
                     </HStack>
@@ -231,8 +231,8 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
                 <HStack className="w-full" style={{ alignItems: 'center' }}>
                     <VStack style={{ alignItems: 'flex-start' }}>
-                        <span>Max. Customers per mission</span>
-                        <span>(Maximum 20)</span>
+                        <span>{t('maximum-customers-label')}</span>
+                        <span>{t('maximum-customers-limit', { count: 20 })}</span>
                     </VStack>
                     <Spacer />
                     <PECounter value={maximumParticipants} onValueChange={setMaximumParticipants} />
@@ -240,25 +240,25 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
                 <HStack gap={8} className="w-full">
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>Email</p>
-                        <PEEmailTextField email={emailAddress} onChange={setEmailAddress} placeholder={'Email'} />
+                        <p>{t('email-address')}</p>
+                        <PEEmailTextField email={emailAddress} onChange={setEmailAddress} placeholder={t('email-address')} />
                     </VStack>
 
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>Phone number</p>
-                        <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={'Phone Number'} />
+                        <p>{t('phone-number')}</p>
+                        <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={t('phone-number')} />
                     </VStack>
                 </HStack>
 
                 <HStack gap={8} className="w-full">
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>Password</p>
-                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={'Password'} />
+                        <p>{t('password')}</p>
+                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={t('password')} />
                     </VStack>
 
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>Repeat Password</p>
-                        <PEPasswordTextField password={passwordRepeat} onChange={setPasswordRepeat} placeholder={'Repeat Password'} />
+                        <p>{t('password-repeat')}</p>
+                        <PEPasswordTextField password={passwordRepeat} onChange={setPasswordRepeat} placeholder={t('password-repeat')} />
                     </VStack>
                 </HStack>
 
@@ -275,20 +275,20 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <FormGroup>
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
-                            label="I have read and accept the Privacy Policy"
+                            label={t('privacy-policy-label')}
                         />
                     </FormGroup>
                     <FormGroup>
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
-                            label="I have read and accept the Terms and Conditions"
+                            label={t('terms-and-conditions-label')}
                         />
                     </FormGroup>
                 </VStack>
 
                 <PEButton
                     className="w-full max-w-[400px]"
-                    title={'Complete'}
+                    title={t('complete-button-label')}
                     onClick={(): void => void createOneUserByEmailAddress()}
                     disabled={disabled}
                 />
