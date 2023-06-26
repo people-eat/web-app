@@ -39,6 +39,9 @@ export default function ChefProfilePageCreateMeal({
         DESSERT: t('label-dessert'),
         STARTER: t('label-starter'),
         MAIN_COURSE: t('label-main'),
+        OTHER: 'other',
+        SALAD: 'salad',
+        SOUP: 'soup',
     };
 
     const [createOneCookMeal, { data, loading }] = useMutation(CreateOneCookMealDocument, {
