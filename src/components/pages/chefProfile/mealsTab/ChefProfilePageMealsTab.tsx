@@ -11,6 +11,7 @@ import PETabItem from '../../../standard/tabItem/PETabItem';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+import { mealTypeTranslations } from '../mealTypeTranslations';
 import ChefProfilePageCreateMeal from './ChefProfilePageCreateMeal';
 import ChefProfilePageEditMeal from './ChefProfilePageEditMeal';
 
@@ -26,15 +27,6 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
     const { data, loading, refetch } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
     const meals = data?.cooks.meals.findMany ?? [];
-
-    const mealTypesTranslates = {
-        DESSERT: t('label-dessert'),
-        STARTER: t('label-starter'),
-        MAIN_COURSE: t('label-main'),
-        OTHER: 'other',
-        SALAD: 'salad',
-        SOUP: 'soup',
-    };
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:px-4 box-border gap-6">
@@ -54,7 +46,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                         {mealTypes.map((mealType, index) => (
                             <PETabItem
                                 key={index}
-                                title={mealTypesTranslates?.[mealType] ?? mealType.toLowerCase()}
+                                title={t(mealTypeTranslations[mealType])}
                                 onClick={(): void => setSelectedTab(mealType)}
                                 active={selectedTab === mealType}
                             />
