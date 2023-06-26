@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypes } from '../../../../shared/mealTypes';
@@ -18,12 +19,19 @@ export interface ChefProfilePageMealsTabProps {
 }
 
 export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMealsTabProps): ReactElement {
+    const { t } = useTranslation('chef-profile');
     const [selectedTab, setSelectedTab] = useState<MealType | 'CREATE' | undefined>();
     const [selectedMealId, setSelectedMealId] = useState<undefined | string>();
 
     const { data, loading, refetch } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
     const meals = data?.cooks.meals.findMany ?? [];
+
+    const mealTypesTranslates = {
+        DESSERT: t('label-dessert'),
+        STARTER: t('label-starter'),
+        MAIN_COURSE: t('label-main'),
+    };
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:px-4 box-border gap-6">
@@ -34,12 +42,16 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                     style={{ alignItems: 'center' }}
                 >
                     <HStack className="overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
-                        <PETabItem title="All" onClick={(): void => setSelectedTab(undefined)} active={selectedTab === undefined} />
+                        <PETabItem
+                            title={t('label-all')}
+                            onClick={(): void => setSelectedTab(undefined)}
+                            active={selectedTab === undefined}
+                        />
 
                         {mealTypes.map((mealType, index) => (
                             <PETabItem
                                 key={index}
-                                title={mealType.toLowerCase()}
+                                title={mealTypesTranslates?.[mealType] ?? mealType.toLowerCase()}
                                 onClick={(): void => setSelectedTab(mealType)}
                                 active={selectedTab === mealType}
                             />

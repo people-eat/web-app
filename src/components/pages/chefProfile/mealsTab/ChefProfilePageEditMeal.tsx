@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Dialog, DialogContent } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     DeleteOneCookMealDocument,
@@ -31,8 +32,15 @@ export interface ChefProfilePageCreateMealProps {
 
 // eslint-disable-next-line max-statements
 export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageCreateMealProps): ReactElement {
+    const { t } = useTranslation('chef-profile');
     const { data, loading, refetch } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
     const meal = data?.cooks.meals.findOne;
+
+    const mealTypesTranslates = {
+        DESSERT: t('label-dessert'),
+        STARTER: t('label-starter'),
+        MAIN_COURSE: t('label-main'),
+    };
 
     const [title, setTitle] = useState(meal?.title ?? '');
     const [description, setDescription] = useState(meal?.description ?? '');
@@ -122,7 +130,8 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                     <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">Change the dish info</p>
 
                     <VStack className="w-full">
-                        <p className="w-full mb-4 text-text-m-bold my-0">Gang</p>
+                        <p className="w-full mb-4 text-text-m-bold my-0">{t('create-meal-course')}</p>
+
                         <HStack
                             gap={8}
                             className="w-full max-w-screen-xl overflow-x-scroll"
@@ -131,7 +140,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                             {mealTypes.map((mealType, index) => (
                                 <PETabItem
                                     key={index}
-                                    title={mealType.toLowerCase()}
+                                    title={mealTypesTranslates?.[mealType] ?? mealType.toLowerCase()}
                                     onClick={(): void => setType(mealType)}
                                     active={mealType === type}
                                 />
@@ -140,17 +149,17 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                     </VStack>
 
                     <VStack className="w-full">
-                        <p className="w-full mb-4 text-text-m-bold my-0">Name</p>
-                        <PETextField type={'text'} value={title} onChange={setTitle} />
+                        <p className="w-full mb-4 text-text-m-bold my-0">{t('create-meal-title')}</p>
+                        <PETextField type={'text'} value={title} onChange={(value): void => setTitle(value)} />
                     </VStack>
 
                     <VStack className="w-full">
-                        <p className="w-full mb-4 text-text-m-bold my-0">Description</p>
-                        <PEMultiLineTextField value={description} onChange={setDescription} />
+                        <p className="w-full mb-4 text-text-m-bold my-0">{t('create-meal-description')}</p>
+                        <PEMultiLineTextField value={description} onChange={(value): void => setDescription(value)} />
                     </VStack>
 
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p className="w-full mb-4 text-text-m-bold my-0">Image</p>
+                        <p className="w-full mb-4 text-text-m-bold my-0">{t('create-meal-image')}</p>
                         <PEImagePicker defaultImage={imageUrl} onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
                     </VStack>
 

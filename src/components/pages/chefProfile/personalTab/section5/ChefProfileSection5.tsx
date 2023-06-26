@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import {
     AddOneCookLanguageDocument,
@@ -21,6 +22,7 @@ export interface ChefProfileSection5Props {
 }
 
 export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5Props): ReactElement {
+    const { t } = useTranslation('chef-profile');
     const [languageSearchText, setLanguageSearchText] = useState('');
 
     const { refetch: chefRefetch } = useQuery(GetCookProfileQueryDocument, { variables: { cookId: chefProfile.cookId } });
@@ -81,7 +83,7 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
                             options={filteredLanguages}
                             getOptionLabel={({ title }): string => title}
                             onOptionSelect={handleAddNewLanguageById}
-                            placeholder={'Add language'}
+                            placeholder={t('section-languages-search')}
                             className="mb-4"
                         />
                         <HStack
