@@ -1,13 +1,9 @@
-import { ApolloQueryResult, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
-import {
-    UpdateUserProfilePictureDocument,
-    type CookRank,
-    type GetCookProfileQueryQuery,
-} from '../../../../../data-source/generated/graphql';
+import { UpdateUserProfilePictureDocument, type CookRank } from '../../../../../data-source/generated/graphql';
 import useResponsive from '../../../../../hooks/useResponsive';
 import PEButton from '../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../standard/icon/Icon';
@@ -34,10 +30,10 @@ export interface ChefProfileSection1Props {
         ratingAverage: number;
         ratingCount: number;
     };
-    refetchChefData: (variables?: Partial<{ cookId: string }> | undefined) => Promise<ApolloQueryResult<GetCookProfileQueryQuery>>;
+    refetch: () => void;
 }
 
-export default function ChefProfileSection1({ chefProfile, refetchChefData }: ChefProfileSection1Props): ReactElement {
+export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfileSection1Props): ReactElement {
     const { isMobile } = useResponsive();
 
     const [image] = useState<string | undefined>(chefProfile.user.profilePictureUrl ?? undefined);
@@ -47,7 +43,7 @@ export default function ChefProfileSection1({ chefProfile, refetchChefData }: Ch
 
     const [editFirstName, setEditFirstName] = useState(chefProfile.user.firstName);
     const [editLastName, setEditLastName] = useState(chefProfile.user.lastName);
-    const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined>(undefined);
+    const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined | null>(null);
 
     const { t: commonTranslate } = useTranslation('common');
 
@@ -60,11 +56,11 @@ export default function ChefProfileSection1({ chefProfile, refetchChefData }: Ch
     const [updateProfilePicture] = useMutation(UpdateUserProfilePictureDocument);
 
     function handleSaveProfileInfo(): void {
-        if (editedProfilePicture || editedProfilePicture !== image) {
+        if (editedProfilePicture !== null) {
             void updateProfilePicture({
                 variables: { userId: chefProfile.cookId, profilePicture: editedProfilePicture },
             })
-                .then((result) => result.data?.users.success && void refetchChefData())
+                .then((result) => result.data?.users.success && void refetch())
                 .catch((e) => console.error(e));
         }
 
@@ -172,7 +168,11 @@ export default function ChefProfileSection1({ chefProfile, refetchChefData }: Ch
                     <VStack className="w-full gap-4" style={{ alignItems: 'flex-start', justifyContent: 'center' }}>
                         <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
                         <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
-                        <PEImagePicker onPick={setEditedProfilePicture} defaultImage={image} />
+                        <PEImagePicker
+                            onPick={setEditedProfilePicture}
+                            defaultImage={image}
+                            onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
+                        />
                     </VStack>
                     <PEButton className="max-w-[250px] mt-10" onClick={handleSaveProfileInfo} title="Save" />
                 </VStack>

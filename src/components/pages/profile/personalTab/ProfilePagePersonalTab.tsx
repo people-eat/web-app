@@ -58,7 +58,7 @@ export default function ProfilePagePersonalTab(): ReactElement {
 
     const [editFirstName, setEditFirstName] = useState(userProfile?.firstName);
     const [editLastName, setEditLastName] = useState(userProfile?.lastName);
-    const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined>(undefined);
+    const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined | null>(null);
 
     function handleUnSaveChefName(): void {
         setEditFirstName(userProfile?.firstName ?? '');
@@ -69,7 +69,7 @@ export default function ProfilePagePersonalTab(): ReactElement {
     const [updateProfilePicture] = useMutation(UpdateUserProfilePictureDocument);
 
     function handleSaveProfileInfo(): void {
-        if (editedProfilePicture || editedProfilePicture !== image) {
+        if (editedProfilePicture !== null) {
             void updateProfilePicture({
                 variables: { userId: userProfile?.userId ?? '', profilePicture: editedProfilePicture },
             })
@@ -301,7 +301,11 @@ export default function ProfilePagePersonalTab(): ReactElement {
                             <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
                                 <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
                                 <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
-                                <PEImagePicker onPick={setEditedProfilePicture} defaultImage={image} />
+                                <PEImagePicker
+                                    onPick={setEditedProfilePicture}
+                                    defaultImage={image}
+                                    onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
+                                />
                             </VStack>
                             <PEButton className="max-w-[250px] mt-10" onClick={handleSaveProfileInfo} title="Save" />
                         </VStack>
