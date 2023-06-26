@@ -40,6 +40,9 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
         DESSERT: t('label-dessert'),
         STARTER: t('label-starter'),
         MAIN_COURSE: t('label-main'),
+        OTHER: 'other',
+        SALAD: 'salad',
+        SOUP: 'soup',
     };
 
     const [title, setTitle] = useState(meal?.title ?? '');
