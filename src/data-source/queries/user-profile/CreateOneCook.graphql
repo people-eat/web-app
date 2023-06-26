@@ -1,0 +1,5 @@
+mutation CreateOneCook($cookId: String!, $request: CreateOneCookRequest!) {
+    cooks {
+        success: createOne(cookId: $cookId, request: $request)
+    }
+}
