@@ -1,5 +1,9 @@
+import Dialog from '@mui/material/Dialog';
+import List from '@mui/material/List';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
 import useTranslation from 'next-translate/useTranslation';
-import { useState, type ReactElement } from 'react';
+import React, { forwardRef, useState, type ReactElement } from 'react';
 import useResponsive from '../../../../../hooks/useResponsive';
 import PEButton from '../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../standard/icon/Icon';
@@ -9,12 +13,6 @@ import PEModalPopUp from '../../../../standard/modal/PEModalPopUp';
 import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
-import Dialog from "@mui/material/Dialog";
-import List from "@mui/material/List";
-import PEImagePicker from "../../../../standard/imagePicker/PEImagePicker";
-import useResponsive from "../../../../../hooks/useResponsive";
-import {TransitionProps} from "@mui/material/transitions";
-import Slide from "@mui/material/Slide";
 
 const Transition = forwardRef(function Transition(props: TransitionProps & { children: ReactElement }, ref: React.Ref<unknown>) {
     return (
