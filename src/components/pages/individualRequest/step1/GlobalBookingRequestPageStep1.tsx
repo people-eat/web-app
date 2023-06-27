@@ -11,13 +11,15 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 
-export interface IndividualRequestPageStepOneProps {
+export interface GlobalBookingRequestPageStep1Props {
     adultCount: number;
     setAdultCount: (changedAdultCount: number) => void;
     childrenCount: number;
     setChildrenCount: (changeChildrenCount: number) => void;
     addressSearchText: string;
     setAddressSearchText: (changedAddressSearchText: string) => void;
+    selectedLocation?: { latitude: number; longitude: number };
+    setSelectedLocation: (changedSelectedLocation?: { latitude: number; longitude: number }) => void;
     dateTime: Moment;
     setDateTime: (changedDateTime: Moment) => void;
     occasion: string;
@@ -27,13 +29,15 @@ export interface IndividualRequestPageStepOneProps {
     onContinue: () => void;
 }
 
-export default function IndividualRequestPageStep1({
+export default function GlobalBookingRequestPageStep1({
     adultCount,
     setAdultCount,
     childrenCount,
     setChildrenCount,
     addressSearchText,
     setAddressSearchText,
+    // selectedLocation,
+    setSelectedLocation,
     dateTime,
     setDateTime,
     occasion,
@@ -41,11 +45,10 @@ export default function IndividualRequestPageStep1({
     budget,
     setBudget,
     onContinue,
-}: IndividualRequestPageStepOneProps): ReactElement {
+}: GlobalBookingRequestPageStep1Props): ReactElement {
     const { t } = useTranslation('individual-request');
 
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
-    const [_selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
     const disabled = adultCount < 1 || budget === '';
 

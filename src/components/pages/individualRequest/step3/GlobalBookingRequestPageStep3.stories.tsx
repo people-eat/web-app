@@ -1,39 +1,33 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import IndividualRequestPageStep3 from './IndividualRequestPageStep3';
+import GlobalBookingRequestPageStep3 from './GlobalBookingRequestPageStep3';
 
-const meta: Meta<typeof IndividualRequestPageStep3> = {
-    title: 'Individual Request Page/Step 3',
-    component: IndividualRequestPageStep3,
+const meta: Meta<typeof GlobalBookingRequestPageStep3> = {
+    title: 'Global Booking Request Page/Step 3',
+    component: GlobalBookingRequestPageStep3,
     render: () => {
         const [firstName, setFirstName] = useState('');
         const [lastName, setLastName] = useState('');
         const [email, setEmail] = useState('');
-        const [emailIsValid, setEmailIsValid] = useState(false);
         const [phoneNumber, setPhoneNumber] = useState('');
-        const [phoneNumberIsValid, setPhoneNumberIsValid] = useState(false);
         const [message, setMessage] = useState('');
 
         const [acceptedTermsAndConditions, setAcceptedTermsAndConditions] = useState(false);
         const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
 
         return (
-            <IndividualRequestPageStep3
+            <GlobalBookingRequestPageStep3
                 firstName={firstName}
                 setFirstName={setFirstName}
                 lastName={lastName}
                 setLastName={setLastName}
                 email={email}
                 setEmail={setEmail}
-                emailIsValid={emailIsValid}
-                setEmailIsValid={setEmailIsValid}
                 phoneNumber={phoneNumber}
                 setPhoneNumber={setPhoneNumber}
                 message={message}
                 setMessage={setMessage}
-                phoneNumberIsValid={phoneNumberIsValid}
-                setPhoneNumberIsValid={setPhoneNumberIsValid}
                 acceptedPrivacyPolicy={acceptedPrivacyPolicy}
                 setAcceptedPrivacyPolicy={setAcceptedPrivacyPolicy}
                 acceptedTermsAndConditions={acceptedTermsAndConditions}
@@ -47,4 +41,4 @@ const meta: Meta<typeof IndividualRequestPageStep3> = {
 
 export default meta;
 
-export const Component: StoryObj<typeof IndividualRequestPageStep3> = {};
+export const Component: StoryObj<typeof GlobalBookingRequestPageStep3> = {};

@@ -8,6 +8,7 @@ import PEHeader from '../../header/PEHeader';
 import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
+import ProfilePageBookingsTab from './bookingsTab/ProfilePageBookingsTab';
 import ProfilePagePersonalTab from './personalTab/ProfilePagePersonalTab';
 
 const MENU_TABS = [
@@ -86,7 +87,9 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
                 </HStack>
             )}
 
-            {selectedTab === 0 && <ProfilePagePersonalTab />}
+            {selectedTab === 0 && signedInUser && <ProfilePagePersonalTab userId={signedInUser.userId} />}
+
+            {selectedTab === 1 && signedInUser && <ProfilePageBookingsTab userId={signedInUser.userId} />}
 
             <PEFooter />
         </VStack>

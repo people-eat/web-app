@@ -5,7 +5,7 @@ import PEDropdown from '../../../standard/dropdown/PEDropdown';
 import PESingleSelectDropdown from '../../../standard/dropdown/PESingleSelectDropdown';
 import VStack from '../../../utility/vStack/VStack';
 
-export interface IndividualRequestPageStepTwoProps {
+export interface GlobalBookingRequestPageStep2Props {
     categories: { categoryId: string; title: string }[];
     selectedCategories: { categoryId: string; title: string }[];
     setSelectedCategories: (changedSelectedCategories: { categoryId: string; title: string }[]) => void;
@@ -22,7 +22,7 @@ export interface IndividualRequestPageStepTwoProps {
     onContinue: () => void;
 }
 
-export default function IndividualRequestPageStep2({
+export default function GlobalBookingRequestPageStep2({
     categories,
     selectedCategories,
     setSelectedCategories,
@@ -33,7 +33,7 @@ export default function IndividualRequestPageStep2({
     selectedAllergies,
     setSelectedAllergies,
     onContinue,
-}: IndividualRequestPageStepTwoProps): ReactElement {
+}: GlobalBookingRequestPageStep2Props): ReactElement {
     const { t } = useTranslation('individual-request');
 
     return (

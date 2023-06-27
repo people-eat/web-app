@@ -1,0 +1,7 @@
+mutation CreateOneUserGlobalBookingRequest($userId: String!, $request: CreateOneGlobalBookingRequestRequest!) {
+    users {
+        globalBookingRequests(userId: $userId) {
+            success: createOne(request: $request)
+        }
+    }
+}

@@ -2,11 +2,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import moment from 'moment';
 import { useState } from 'react';
-import IndividualRequestPageStep1 from './IndividualRequestPageStep1';
+import GlobalBookingRequestPageStep1 from './GlobalBookingRequestPageStep1';
 
-const meta: Meta<typeof IndividualRequestPageStep1> = {
-    title: 'Individual Request Page/Step 1',
-    component: IndividualRequestPageStep1,
+const meta: Meta<typeof GlobalBookingRequestPageStep1> = {
+    title: 'Global Booking Request Page/Step 1',
+    component: GlobalBookingRequestPageStep1,
     render: () => {
         const [adultCount, setAdultCount] = useState(4);
         const [childrenCount, setChildrenCount] = useState(0);
@@ -17,13 +17,14 @@ const meta: Meta<typeof IndividualRequestPageStep1> = {
         const [addressSearchText, setAddressSearchText] = useState<string>('');
 
         return (
-            <IndividualRequestPageStep1
+            <GlobalBookingRequestPageStep1
                 adultCount={adultCount}
                 setAdultCount={setAdultCount}
                 childrenCount={childrenCount}
                 setChildrenCount={setChildrenCount}
                 addressSearchText={addressSearchText}
                 setAddressSearchText={setAddressSearchText}
+                setSelectedLocation={(): void => undefined}
                 dateTime={dateTime}
                 setDateTime={setDateTime}
                 occasion={occasion}
@@ -39,4 +40,4 @@ const meta: Meta<typeof IndividualRequestPageStep1> = {
 
 export default meta;
 
-export const Component: StoryObj<typeof IndividualRequestPageStep1> = {};
+export const Component: StoryObj<typeof GlobalBookingRequestPageStep1> = {};

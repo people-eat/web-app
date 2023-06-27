@@ -11,7 +11,11 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
-import { CreateOneAnonymousGlobalBookingRequestDocument } from '../../../data-source/generated/graphql';
+import {
+    CreateOneUserByEmailAddressDocument,
+    CreateOneUserGlobalBookingRequestDocument,
+    type CreateOneGlobalBookingRequestRequest,
+} from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
 import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
@@ -23,11 +27,11 @@ import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import { header, header02, header03 } from './points.mock';
-import IndividualRequestPageStep1 from './step1/IndividualRequestPageStep1';
-import IndividualRequestPageStep2 from './step2/IndividualRequestPageStep2';
-import IndividualRequestPageStep3 from './step3/IndividualRequestPageStep3';
+import GlobalBookingRequestPageStep1 from './step1/GlobalBookingRequestPageStep1';
+import GlobalBookingRequestPageStep2 from './step2/GlobalBookingRequestPageStep2';
+import GlobalBookingRequestPageStep3 from './step3/GlobalBookingRequestPageStep3';
 
-export interface IndividualRequestPageProps {
+export interface GlobalBookingRequestPageProps {
     signedInUser?: SignedInUser;
     searchParameters: {
         location: {
@@ -45,13 +49,13 @@ export interface IndividualRequestPageProps {
 }
 
 // eslint-disable-next-line max-statements
-export default function IndividualRequestPage({
+export default function GlobalBookingRequestPage({
     signedInUser,
     searchParameters,
     categories,
     allergies,
     kitchens,
-}: IndividualRequestPageProps): ReactElement {
+}: GlobalBookingRequestPageProps): ReactElement {
     const { t } = useTranslation('individual-request');
     const { t: homeTranslations } = useTranslation('home');
     const { isDesktop } = useResponsive();
@@ -59,6 +63,7 @@ export default function IndividualRequestPage({
     const [step, setStep] = useState(0);
 
     const [addressSearchText, setAddressSearchText] = useState<string>(searchParameters.location.address);
+    const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
     const [adults, setAdults] = useState(searchParameters.adults);
     const [children, setChildren] = useState(searchParameters.children);
@@ -71,9 +76,7 @@ export default function IndividualRequestPage({
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [emailIsValid, setEmailIsValid] = useState(false);
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [phoneNumberIsValid, setPhoneNumberIsValid] = useState(false);
 
     const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
     const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
@@ -82,20 +85,47 @@ export default function IndividualRequestPage({
     const [acceptedTermsAndConditions, setAcceptedTermsAndConditions] = useState(false);
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
 
-    const [createOneAnonymousGlobalBookingRequest, { data, loading, error }] = useMutation(CreateOneAnonymousGlobalBookingRequestDocument, {
+    const [loading, setLoading] = useState(false);
+    const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'FAILED'>(undefined);
+
+    const globalBookingRequest: CreateOneGlobalBookingRequestRequest = {
+        adultParticipants: adults,
+        children,
+        dateTime: dateTime.toDate(),
+        duration: 120,
+        location: {
+            latitude: selectedLocation?.latitude ?? 0,
+            longitude: selectedLocation?.latitude ?? 0,
+        },
+        occasion,
+        price: {
+            amount: Number(budget),
+            currencyCode: 'EUR',
+        },
+        allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
+        categoryIds: selectedCategories.map(({ categoryId }) => categoryId),
+        kitchenId: selectedKitchen?.kitchenId,
+        message,
+    };
+
+    const [createGlobalBookingRequest] = useMutation(CreateOneUserGlobalBookingRequestDocument, {
         variables: {
-            input: {
-                adults: adults,
-                budget: budget,
-                children: children,
-                customerEmailAddress: email,
-                customerFirstName: firstName,
-                customerLastName: lastName,
-                customerPhoneNumber: phoneNumber.length > 4 ? phoneNumber.replaceAll(' ', '') : null,
-                dateTime: dateTime.toDate(),
-                locationName: addressSearchText,
-                message: message,
-                occasion: occasion,
+            userId: signedInUser?.userId ?? '',
+            request: globalBookingRequest,
+        },
+    });
+
+    const [createUserWithGlobalBookingRequest] = useMutation(CreateOneUserByEmailAddressDocument, {
+        variables: {
+            profilePicture: undefined,
+            request: {
+                firstName: firstName,
+                lastName: lastName,
+                emailAddress: email,
+                gender: 'NO_INFORMATION',
+                language: 'GERMAN',
+                password: '',
+                globalBookingRequest: globalBookingRequest,
             },
         },
     });
@@ -127,13 +157,15 @@ export default function IndividualRequestPage({
                     </Stepper>
 
                     {step === 0 && (
-                        <IndividualRequestPageStep1
+                        <GlobalBookingRequestPageStep1
                             adultCount={adults}
                             setAdultCount={setAdults}
                             childrenCount={children}
                             setChildrenCount={setChildren}
                             addressSearchText={addressSearchText}
                             setAddressSearchText={setAddressSearchText}
+                            selectedLocation={selectedLocation}
+                            setSelectedLocation={setSelectedLocation}
                             dateTime={dateTime}
                             setDateTime={setDateTime}
                             occasion={occasion}
@@ -145,7 +177,7 @@ export default function IndividualRequestPage({
                     )}
 
                     {step === 1 && (
-                        <IndividualRequestPageStep2
+                        <GlobalBookingRequestPageStep2
                             categories={categories}
                             selectedCategories={selectedCategories}
                             setSelectedCategories={setSelectedCategories}
@@ -160,26 +192,36 @@ export default function IndividualRequestPage({
                     )}
 
                     {step === 2 && (
-                        <IndividualRequestPageStep3
+                        <GlobalBookingRequestPageStep3
+                            signedInUser={signedInUser}
                             firstName={firstName}
                             setFirstName={setFirstName}
                             lastName={lastName}
                             setLastName={setLastName}
                             email={email}
                             setEmail={setEmail}
-                            emailIsValid={emailIsValid}
-                            setEmailIsValid={setEmailIsValid}
                             phoneNumber={phoneNumber}
                             setPhoneNumber={setPhoneNumber}
-                            phoneNumberIsValid={phoneNumberIsValid}
-                            setPhoneNumberIsValid={setPhoneNumberIsValid}
                             acceptedPrivacyPolicy={acceptedPrivacyPolicy}
                             setAcceptedPrivacyPolicy={setAcceptedPrivacyPolicy}
                             acceptedTermsAndConditions={acceptedTermsAndConditions}
                             setAcceptedTermsAndConditions={setAcceptedTermsAndConditions}
                             message={message}
                             setMessage={setMessage}
-                            onContinue={(): void => void createOneAnonymousGlobalBookingRequest()}
+                            onContinue={(): void => {
+                                setLoading(true);
+                                signedInUser
+                                    ? void createGlobalBookingRequest()
+                                          .then(({ data }) =>
+                                              setCompletionState(data?.users.globalBookingRequests.success ? 'SUCCESSFUL' : 'FAILED'),
+                                          )
+                                          .catch(() => setCompletionState('FAILED'))
+                                          .finally(() => setLoading(false))
+                                    : void createUserWithGlobalBookingRequest()
+                                          .then(({ data }) => setCompletionState(data?.users.success ? 'SUCCESSFUL' : 'FAILED'))
+                                          .catch(() => setCompletionState('FAILED'))
+                                          .finally(() => setLoading(false));
+                            }}
                         />
                     )}
                 </VStack>
@@ -227,7 +269,7 @@ export default function IndividualRequestPage({
                 )}
             </HStack>
 
-            {data?.success && (
+            {completionState === 'SUCCESSFUL' && (
                 <Dialog open>
                     <DialogTitle>Thank you! Your order was successfully submitted.</DialogTitle>
                     <DialogContent>
@@ -238,7 +280,7 @@ export default function IndividualRequestPage({
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Link href="/">
+                        <Link href="/" className="no-underline">
                             <Button autoFocus>Back home</Button>
                         </Link>
                     </DialogActions>
@@ -253,7 +295,7 @@ export default function IndividualRequestPage({
                 </Dialog>
             )}
 
-            {(error || (data && !data.success)) && (
+            {completionState === 'FAILED' && (
                 <Dialog open>
                     <DialogContent>An error ocurred</DialogContent>
                 </Dialog>

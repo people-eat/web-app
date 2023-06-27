@@ -1,0 +1,24 @@
+query FindUserProfileGlobalBookingRequests($userId: String!) {
+    users {
+        globalBookingRequests(userId: $userId) {
+            findMany {
+                globalBookingRequestId
+                children
+                adultParticipants
+                occasion
+                message
+                dateTime
+                duration
+                price {
+                    amount
+                    currencyCode
+                }
+                location {
+                    latitude
+                    longitude
+                }
+                createdAt
+            }
+        }
+    }
+}

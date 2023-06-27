@@ -24,7 +24,12 @@ import VStack from '../../../utility/vStack/VStack';
 import CreateAddressDialog from './CreateAddressDialog';
 import UpdateAddressDialog from './UpdateAddressDialog';
 
-export default function ProfilePagePersonalTab(): ReactElement {
+export interface ProfilePagePersonalTabProps {
+    userId: string;
+}
+
+// eslint-disable-next-line max-statements
+export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps): ReactElement {
     const { t: commonTranslation } = useTranslation('common');
     const { t } = useTranslation('profile');
     const { isMobile } = useResponsive();

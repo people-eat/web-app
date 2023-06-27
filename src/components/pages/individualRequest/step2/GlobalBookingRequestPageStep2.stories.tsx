@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from '@storybook/react';
-import IndividualRequestPageStep2 from './IndividualRequestPageStep2';
+import GlobalBookingRequestPageStep2 from './GlobalBookingRequestPageStep2';
 
-const meta: Meta<typeof IndividualRequestPageStep2> = {
-    title: 'Individual Request Page/Step 2',
-    component: IndividualRequestPageStep2,
+const meta: Meta<typeof GlobalBookingRequestPageStep2> = {
+    title: 'Global Booking Request Page/Step 2',
+    component: GlobalBookingRequestPageStep2,
     render: () => {
         const categories: { categoryId: string; title: string }[] = [
             { categoryId: 'A', title: 'category 1' },
@@ -26,7 +26,7 @@ const meta: Meta<typeof IndividualRequestPageStep2> = {
         ];
 
         return (
-            <IndividualRequestPageStep2
+            <GlobalBookingRequestPageStep2
                 categories={categories}
                 selectedCategories={[]}
                 setSelectedCategories={(): void => undefined}
@@ -45,4 +45,4 @@ const meta: Meta<typeof IndividualRequestPageStep2> = {
 
 export default meta;
 
-export const Component: StoryObj<typeof IndividualRequestPageStep2> = {};
+export const Component: StoryObj<typeof GlobalBookingRequestPageStep2> = {};
