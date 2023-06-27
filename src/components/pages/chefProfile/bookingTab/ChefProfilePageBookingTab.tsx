@@ -37,7 +37,7 @@ export default function ChefProfilePageBookingTab({ cookId }: ChefProfilePageBoo
     const [createBookingRequest] = useMutation(CreateOneCookBookingRequestDocument);
 
     return (
-        <VStack className="w-full relative max-w-screen-xl mb-[80px] lg:my-10 gap-6 px-5 box-border">
+        <VStack className="w-full relative max-w-screen-xl mb-[80px] lg:my-10 gap-6 box-border">
             <HStack
                 gap={8}
                 className="w-full bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4 md:overflow-x-auto"

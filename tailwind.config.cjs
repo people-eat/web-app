@@ -108,6 +108,7 @@ const config = {
                 'icon-2': '32px',
             },
             screens: {
+                large: { min: '1279px', max: '1311px' },
                 big: { min: '1023px', max: '1279px' },
                 // => @media (max-width: 1279px) { ... }
 

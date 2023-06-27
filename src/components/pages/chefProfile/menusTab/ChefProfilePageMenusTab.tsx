@@ -1,7 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent } from '@mui/material';
-import Button from '@mui/material/Button';
-import { useEffect, useState, type MouseEvent, type ReactElement } from 'react';
+import { CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
+import { useState, type ReactElement } from 'react';
 import {
     DeleteOneCookMenuDocument,
     FindCookMenusDocument,
@@ -9,7 +8,6 @@ import {
     type MealType,
 } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
-import { isParentNodeElementHasClass } from '../../../../utils/isParentNodeElementHasClass';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import PEMenuCardMobile from '../../../cards/menuCard/PEMenuCardMobile';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -60,9 +58,10 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
-    const [selectedMenu, setSelectedMenu] = useState<string | undefined>(undefined);
-    const [editMenu, setEditMenu] = useState({ x: 0, y: 0, menuId: '' });
-    const [isEditMenuOpen, setEditMenuOpen] = useState(false);
+    const [selectedMenuId, setSelectedMenuId] = useState<string | undefined>(undefined);
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
 
     const { data, loading, refetch } = useQuery(FindCookMenusDocument, { variables: { cookId } });
 
@@ -75,15 +74,12 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     const [deleteMenu] = useMutation(DeleteOneCookMenuDocument);
 
     function handleDeleteMenu(): void {
+        if (!selectedMenuId) return;
+
         try {
-            void deleteMenu({
-                variables: {
-                    cookId,
-                    menuId: editMenu.menuId,
-                },
-            }).then((result): void => {
+            void deleteMenu({ variables: { cookId, menuId: selectedMenuId } }).then((result): void => {
                 setOpenDeleteMenuDialog(false);
-                if (result.data && result.data.cooks.menus.success) void refetch();
+                if (result.data?.cooks.menus.success) void refetch();
             });
         } catch (e) {
             console.error(e);
@@ -97,21 +93,8 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
         void refetch();
     }
 
-    function handleClickOnCard(event: MouseEvent<HTMLDivElement>, menuId: string): void {
-        if (event.button === 0) {
-            setEditMenuOpen(true);
-            setEditMenu({ x: event.clientX, y: event.clientY, menuId });
-        } else setEditMenuOpen(false);
-    }
-
-    useEffect(() => {
-        document.addEventListener('click', (event) => {
-            if (!isParentNodeElementHasClass(event, 'editMenu')) setEditMenuOpen(false);
-        });
-    }, []);
-
     return (
-        <VStack className="relative w-full max-w-screen-xl mb-[80px] gap-6 md:px-4 box-border">
+        <VStack className="relative w-full max-w-screen-xl mb-[80px] gap-6 box-border">
             {selectedTab === 'CREATE' && (
                 <ChefProfilePageCreateMenu
                     cookId={cookId}
@@ -120,13 +103,13 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                 />
             )}
 
-            {selectedTab === 'EDIT' && selectedMenu && (
+            {selectedTab === 'EDIT' && selectedMenuId && (
                 <ChefProfilePageEditMenu
                     onSaveUpdates={(): void => {
                         setSelectedTab('MENUS');
                         void refetch();
                     }}
-                    menuId={selectedMenu}
+                    menuId={selectedMenuId}
                     cookId={cookId}
                 />
             )}
@@ -153,7 +136,10 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                     <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                         {visibleMenus.map((menu, index) => (
                             <div
-                                onMouseUp={(event): void => handleClickOnCard(event, menu.menuId)}
+                                onClick={(event): void => {
+                                    setAnchorEl(event.currentTarget);
+                                    setSelectedMenuId(menu.menuId);
+                                }}
                                 className="relative PEMenuCard editMenu md:w-full"
                                 key={index}
                             >
@@ -193,7 +179,10 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                                 >
                                     {invisibleMenus.map((menu, index) => (
                                         <div
-                                            onMouseUp={(event): void => handleClickOnCard(event, menu.menuId)}
+                                            onClick={(event): void => {
+                                                setAnchorEl(event.currentTarget);
+                                                setSelectedMenuId(menu.menuId);
+                                            }}
                                             className="relative editMenu"
                                             key={index}
                                         >
@@ -273,33 +262,34 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                 </DialogContent>
             </Dialog>
 
-            {isEditMenuOpen && (
-                <div
-                    className="editMenu absolute z-30 w-[200px] box-border bg-white rounded-4 shadow-primary px-4 py-1"
-                    style={{ top: editMenu.y, left: editMenu.x }}
+            {open && selectedMenuId && (
+                <Menu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={(): void => setAnchorEl(null)}
+                    onClick={(): void => setAnchorEl(null)}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    sx={{ borderRadius: '12px', overflow: 'hidden' }}
                 >
-                    <Button
-                        style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
+                    <MenuItem
+                        sx={{ width: '200px' }}
                         onClick={(): void => {
                             setSelectedTab('EDIT');
-                            setSelectedMenu(editMenu.menuId);
-                            setEditMenuOpen(false);
+                            setSelectedMenuId(selectedMenuId);
                         }}
                     >
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>
-                    </Button>
+                    </MenuItem>
                     <div className="w-full h-[1px] bg-disabled" />
-                    <Button style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }} onClick={(): void => undefined}>
+                    <MenuItem sx={{ width: '200px' }} onClick={(): void => undefined}>
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Publish</p>
-                    </Button>
+                    </MenuItem>
                     <div className="w-full h-[1px] bg-disabled" />
-                    <Button
-                        style={{ width: '100%', textTransform: 'capitalize', margin: '10px 0' }}
-                        onClick={(): void => setOpenDeleteMenuDialog(true)}
-                    >
+                    <MenuItem sx={{ width: '200px' }} onClick={(): void => setOpenDeleteMenuDialog(true)}>
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Delete</p>
-                    </Button>
-                </div>
+                    </MenuItem>
+                </Menu>
             )}
         </VStack>
     );

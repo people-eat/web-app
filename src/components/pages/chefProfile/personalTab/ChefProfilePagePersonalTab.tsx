@@ -111,7 +111,7 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
     const [updateCookIsVisible] = useMutation(UpdateCookIsVisibleDocument);
 
     return (
-        <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:my-2 gap-6 md:gap-3 lg:px-5 box-border">
+        <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:my-2 gap-6 md:gap-3 box-border">
             {chefProfile && (
                 <>
                     <ChefProfileSection1 chefProfile={chefProfile} refetch={(): void => void refetch()} />
