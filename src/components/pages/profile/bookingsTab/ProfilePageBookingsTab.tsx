@@ -1,8 +1,13 @@
 import { useQuery } from '@apollo/client';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import moment from 'moment';
 import { useState, type ReactElement } from 'react';
-import { FindUserProfileGlobalBookingRequestsDocument } from '../../../../data-source/generated/graphql';
+import {
+    FindManyUserBookingRequestsDocument,
+    FindUserProfileGlobalBookingRequestsDocument,
+} from '../../../../data-source/generated/graphql';
+import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
 import PETabItem from '../../../standard/tabItem/PETabItem';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
@@ -19,6 +24,10 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
 
     const { data, loading, error } = useQuery(FindUserProfileGlobalBookingRequestsDocument, { variables: { userId } });
     const globalBookingRequests = data?.users.globalBookingRequests.findMany;
+
+    const bookingRequestsResult = useQuery(FindManyUserBookingRequestsDocument, { variables: { userId } });
+    const bookingRequests = bookingRequestsResult.data?.users.bookingRequests.findMany ?? [];
+    const openBookingRequests = bookingRequests.filter((bookingRequest) => !bookingRequest.cookAccepted && !bookingRequest.userAccepted);
 
     return (
         <VStack className="w-full md:overflow-hidden relative max-w-screen-xl gap-6 lg:px-4 md:py-6 box-border">
@@ -42,6 +51,30 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                         {globalBookingRequest.occasion}
                     </Button>
                 ))}
+
+            {selectedTab === 0 && (
+                <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
+                    {openBookingRequests.map((openBookingRequest) => (
+                        <div key={openBookingRequest.bookingRequestId} className="w-[calc(50%-20px)] md:w-full">
+                            <PEBookingRequestCardOpen
+                                onOrderDetailsClick={(): void => undefined}
+                                date={moment(openBookingRequest.createdAt).format(moment.HTML5_FMT.DATE)}
+                                menuName={'Menu name'}
+                                clientName={'My name'}
+                                clientImage={undefined}
+                                event={openBookingRequest.occasion}
+                                price={`${openBookingRequest.price.amount} ${openBookingRequest.price.currencyCode}`}
+                                eventDate={moment(openBookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
+                                participants={openBookingRequest.adultParticipants + openBookingRequest.children}
+                                time={moment(openBookingRequest.dateTime).format('LT')}
+                                address={'Location'}
+                                onAcceptClick={(): void => undefined}
+                                onDeclineClick={(): void => undefined}
+                            />
+                        </div>
+                    ))}
+                </HStack>
+            )}
 
             {loading && <CircularProgress />}
 
