@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import { Menu, MenuItem } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
@@ -13,6 +14,7 @@ import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
 import CreateCookMenuCourse, { type CreateCookMenuCourseDto } from './CreateCookMenuCourse';
+import UpdateCookMenuCourse from './UpdateCookMenuCourse';
 
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;
@@ -37,6 +39,11 @@ export default function ChefProfilePageCreateMenusStep2({
     const { t } = useTranslation('chef-profile');
 
     const [showCreateCourseDialog, setShowCreateCourseDialog] = useState(false);
+    const [showUpdateCourseDialog, setShowUpdateCourseDialog] = useState(false);
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [selectedMealId, setSelectedMealId] = useState<string | undefined>(undefined);
+    const open = Boolean(anchorEl);
 
     const { data } = useQuery(FindCookMealsDocument, { variables: { cookId } });
     const meals = data?.cooks.meals.findMany ?? [];
@@ -48,7 +55,7 @@ export default function ChefProfilePageCreateMenusStep2({
                     <p className="w-full text-text-m-bold my-0">{t('create-menu-greeting-form-kitchen-label')}</p>
 
                     <div className="flex w-full my-4 gap-4 md:flex-col" style={{ alignItems: 'center' }}>
-                        <HStack className="gap-4 w-full" style={{ justifyContent: 'flex-start' }}>
+                        <HStack className="gap-4 w-full h-14" style={{ justifyContent: 'flex-start' }}>
                             <PETabItem
                                 title={t('create-menu-yes')}
                                 onClick={(): void => setGreetingFromKitchen('')}
@@ -91,23 +98,69 @@ export default function ChefProfilePageCreateMenusStep2({
                             />
                         </HStack>
 
-                        <HStack
-                            className="w-full p-8 md:p-0 box-border"
-                            gap={16}
-                            style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}
-                        >
+                        <HStack className="w-full py-4 box-border" gap={16} style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                             <VStack
-                                onClick={(): void => undefined}
-                                className="items-center w-[410px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
+                                onClick={(): void => setShowUpdateCourseDialog(true)}
+                                className="items-center w-[400px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
                             >
                                 <PEIcon icon={Icon.plusOrange} />
                                 <span className="text-orange text-text-sm">Add Dish</span>
                             </VStack>
 
                             {course.meals.map((meal) => (
-                                <PEMealCard key={meal.mealId} title={meal.title} description={meal.description} />
+                                <div
+                                    key={meal.mealId}
+                                    className="flex w-[390px] relative"
+                                    onClick={(event): void => {
+                                        setAnchorEl(event.currentTarget);
+                                        setSelectedMealId(meal.mealId);
+                                    }}
+                                >
+                                    <PEMealCard title={meal.title} description={meal.description} />
+                                </div>
                             ))}
                         </HStack>
+
+                        {showUpdateCourseDialog && (
+                            <UpdateCookMenuCourse
+                                open={showUpdateCourseDialog}
+                                meals={meals.filter((meal) => !course.meals.find((courseMeal) => courseMeal.mealId === meal.mealId))}
+                                courseIndex={index}
+                                onSuccess={(updatedCourse): void => {
+                                    setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
+                                    setShowUpdateCourseDialog(false);
+                                }}
+                                onCancel={(): void => {
+                                    setShowUpdateCourseDialog(false);
+                                }}
+                                selectedCourseMeals={new Map(course.meals.map((item) => [item.mealId, item]))}
+                            />
+                        )}
+
+                        {open && selectedMealId && (
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={(): void => setAnchorEl(null)}
+                                onClick={(): void => setAnchorEl(null)}
+                                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                sx={{ borderRadius: '12px', overflow: 'hidden' }}
+                            >
+                                <MenuItem
+                                    sx={{ width: '200px' }}
+                                    onClick={(): void => {
+                                        setCourses([
+                                            ...courses.slice(0, index),
+                                            { title: course.title, meals: course.meals.filter((meal) => meal.mealId !== selectedMealId) },
+                                            ...courses.slice(index + 1),
+                                        ]);
+                                    }}
+                                >
+                                    Delete
+                                </MenuItem>
+                            </Menu>
+                        )}
                     </VStack>
                 ))}
 
