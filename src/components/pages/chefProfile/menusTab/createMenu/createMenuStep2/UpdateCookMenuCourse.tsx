@@ -15,33 +15,37 @@ import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
 import { type MealEntity } from '../../ChefProfilePageMenusTab';
 
-export interface CreateCookMenuCourseDto {
+export interface UpdateCookMenuCourseDto {
     title: string;
     meals: MealEntity[];
 }
 
-export interface CreateCookMenuCourseProps {
+export interface UpdateCookMenuCourseProps {
     meals: MealEntity[];
     open: boolean;
-    onSuccess: (course: CreateCookMenuCourseDto) => void;
+    courseIndex: number;
+    onSuccess: (course: UpdateCookMenuCourseDto, index?: number) => void;
     onCancel: () => void;
+    selectedCourseMeals: Map<string, MealEntity>;
 }
 
-export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel }: CreateCookMenuCourseProps): ReactElement {
+export default function UpdateCookMenuCourse({
+    open,
+    meals,
+    onSuccess,
+    onCancel,
+    selectedCourseMeals,
+}: UpdateCookMenuCourseProps): ReactElement {
     const { isMobile } = useResponsive();
     const { t } = useTranslation('chef-profile');
 
     const [title, setTitle] = useState('');
     const [selectedMealType, setSelectedMealType] = useState<MealType | 'ALL'>('ALL');
 
-    const [selectedMeals, setSelectedMeals] = useState<Map<string, MealEntity>>(new Map());
+    const [selectedMeals, setSelectedMeals] = useState<Map<string, MealEntity>>(selectedCourseMeals);
 
     return (
-        <Dialog
-            open={open}
-            maxWidth="md"
-            sx={{ margin: 0, '& .MuiPaper-root': { margin: 0, maxWidth: '728px', minHeight: '613px', overflow: 'hidden' } }}
-        >
+        <Dialog open={open} maxWidth="md" sx={{ margin: 0, '& .MuiPaper-root': { margin: 0 } }}>
             <DialogTitle>
                 <HStack>
                     <span>{t('create-menu-courses-add-course')}</span>
@@ -67,15 +71,11 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
                             ))}
                         </HStack>
 
-                        <HStack
-                            gap={16}
-                            className="w-full"
-                            style={{ flexWrap: 'wrap', justifyContent: isMobile ? 'center' : 'flex-start' }}
-                        >
+                        <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                             {meals
                                 .filter(({ type }) => (selectedMealType === 'ALL' ? true : type === selectedMealType))
                                 .map((meal, index) => (
-                                    <div key={index} className="flex basis-[330px]">
+                                    <div key={index} className="flex basis-[340px]">
                                         <PEMealCard
                                             onClick={(): void => {
                                                 if (selectedMeals.has(meal.mealId)) selectedMeals.delete(meal.mealId);
