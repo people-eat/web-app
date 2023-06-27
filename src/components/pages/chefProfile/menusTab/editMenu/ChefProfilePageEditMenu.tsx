@@ -36,7 +36,7 @@ export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates 
                 </div>
 
                 <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
-                    <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">Adding a new menu</p>
+                    <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">Edit menu info</p>
                     <Stepper activeStep={step}>
                         <Step>
                             <StepLabel onClick={(): void => setStep(0)}>Step 1</StepLabel>
