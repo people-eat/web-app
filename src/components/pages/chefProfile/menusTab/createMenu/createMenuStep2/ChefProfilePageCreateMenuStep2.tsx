@@ -41,8 +41,8 @@ export default function ChefProfilePageCreateMenusStep2({
     const [showCreateCourseDialog, setShowCreateCourseDialog] = useState(false);
     const [showUpdateCourseDialog, setShowUpdateCourseDialog] = useState(false);
 
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [selectedMealId, setSelectedMealId] = useState<string | undefined>(undefined);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
     const { data } = useQuery(FindCookMealsDocument, { variables: { cookId } });

@@ -67,7 +67,7 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
     useEffect(() => setSelectedTab(queryParamTabIndex ? Number(queryParamTabIndex) : 0), [queryParamTabIndex]);
 
     return (
-        <VStack className="w-full min-h-screen justify-between gap-[64px] md:gap-4 overflow-hidden">
+        <VStack className="w-full min-h-screen justify-between gap-[64px] md:gap-4 big:px-4 lg:px-4 large:px-4 box-border overflow-hidden">
             <VStack className="w-full gap-[64px] md:gap-4">
                 <PEHeader
                     signedInUser={signedInUser}
