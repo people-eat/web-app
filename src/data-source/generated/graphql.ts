@@ -115,18 +115,17 @@ export type BookingRequest = {
     bookingRequestId: Scalars['String'];
     children: Scalars['UnsignedInt'];
     cook: PublicCook;
-    cookAccepted: Scalars['String'];
-    cookFee: Scalars['UnsignedInt'];
+    cookAccepted: Scalars['Boolean'];
     cookId: Scalars['String'];
     createdAt: Scalars['DateTime'];
-    customerFee: Scalars['UnsignedInt'];
     dateTime: Scalars['DateTime'];
-    duration?: Maybe<Scalars['UnsignedInt']>;
+    duration: Scalars['UnsignedInt'];
     globalBookingRequestId?: Maybe<Scalars['String']>;
-    latitude: Scalars['Latitude'];
-    longitude: Scalars['Longitude'];
+    kitchenId?: Maybe<Scalars['String']>;
+    location: Location;
+    message: Scalars['String'];
     occasion: Scalars['String'];
-    preparationTime?: Maybe<Scalars['UnsignedInt']>;
+    preparationTime: Scalars['UnsignedInt'];
     price: Price;
     user: PublicUser;
     userAccepted: Scalars['Boolean'];
@@ -181,11 +180,16 @@ export type CookBookingRequestMutation = {
     __typename?: 'CookBookingRequestMutation';
     acceptBookingRequest: Scalars['Boolean'];
     cookId: Scalars['String'];
+    createOne: Scalars['Boolean'];
     declineBookingRequest: Scalars['Boolean'];
 };
 
 export type CookBookingRequestMutationAcceptBookingRequestArgs = {
     bookingRequestId: Scalars['String'];
+};
+
+export type CookBookingRequestMutationCreateOneArgs = {
+    globalBookingRequestId: Scalars['String'];
 };
 
 export type CookBookingRequestMutationDeclineBookingRequestArgs = {
@@ -195,7 +199,7 @@ export type CookBookingRequestMutationDeclineBookingRequestArgs = {
 export type CookBookingRequestQuery = {
     __typename?: 'CookBookingRequestQuery';
     cookId: Scalars['String'];
-    findMany: Array<BookingRequest>;
+    findMany?: Maybe<Array<BookingRequest>>;
     findOne?: Maybe<BookingRequest>;
 };
 
@@ -226,16 +230,6 @@ export type CookCookVisitQueryFindManyArgs = {
 export type CookFollowingQuery = {
     __typename?: 'CookFollowingQuery';
     findAll: Array<Following>;
-};
-
-export type CookGlobalBookingRequestMutation = {
-    __typename?: 'CookGlobalBookingRequestMutation';
-    accept: Scalars['Boolean'];
-    cookId: Scalars['String'];
-};
-
-export type CookGlobalBookingRequestMutationAcceptArgs = {
-    globalBookingRequestId: Scalars['String'];
 };
 
 export type CookGlobalBookingRequestQuery = {
@@ -491,7 +485,6 @@ export type CookMutation = {
     addOneLanguage: Scalars['Boolean'];
     bookingRequests: CookBookingRequestMutation;
     createOne: Scalars['Boolean'];
-    globalBookingRequests: CookGlobalBookingRequestMutation;
     meals: CookMealMutation;
     menus: CookMenuMutation;
     removeOneLanguage: Scalars['Boolean'];
@@ -520,10 +513,6 @@ export type CookMutationBookingRequestsArgs = {
 export type CookMutationCreateOneArgs = {
     cookId: Scalars['String'];
     request: CreateOneCookRequest;
-};
-
-export type CookMutationGlobalBookingRequestsArgs = {
-    cookId: Scalars['String'];
 };
 
 export type CookMutationMealsArgs = {
@@ -720,14 +709,13 @@ export type CreateBookingRequestRequest = {
     children: Scalars['UnsignedInt'];
     cookId: Scalars['String'];
     dateTime: Scalars['DateTime'];
-    duration?: InputMaybe<Scalars['UnsignedInt']>;
-    globalBookingRequestId?: InputMaybe<Scalars['String']>;
-    latitude: Scalars['Latitude'];
-    longitude: Scalars['Longitude'];
+    duration: Scalars['UnsignedInt'];
+    kitchenId?: InputMaybe<Scalars['String']>;
+    location: LocationInput;
+    message: Scalars['String'];
     occasion: Scalars['String'];
-    preparationTime?: InputMaybe<Scalars['UnsignedInt']>;
+    preparationTime: Scalars['UnsignedInt'];
     price: PriceInput;
-    userId: Scalars['String'];
 };
 
 export type CreateOneAddressRequest = {
@@ -1505,6 +1493,7 @@ export type UserAddressQueryFindManyArgs = {
 export type UserBookingRequestMutation = {
     __typename?: 'UserBookingRequestMutation';
     acceptBookingRequest: Scalars['Boolean'];
+    createOne: Scalars['Boolean'];
     declineBookingRequest: Scalars['Boolean'];
     userId: Scalars['String'];
 };
@@ -1513,13 +1502,17 @@ export type UserBookingRequestMutationAcceptBookingRequestArgs = {
     bookingRequestId: Scalars['String'];
 };
 
+export type UserBookingRequestMutationCreateOneArgs = {
+    request: CreateBookingRequestRequest;
+};
+
 export type UserBookingRequestMutationDeclineBookingRequestArgs = {
     bookingRequestId: Scalars['String'];
 };
 
 export type UserBookingRequestQuery = {
     __typename?: 'UserBookingRequestQuery';
-    findMany: Array<BookingRequest>;
+    findMany?: Maybe<Array<BookingRequest>>;
     findOne?: Maybe<BookingRequest>;
     userId: Scalars['String'];
 };
@@ -1592,11 +1585,40 @@ export type UserFollowingQuery = {
 export type UserGlobalBookingRequestMutation = {
     __typename?: 'UserGlobalBookingRequestMutation';
     createOne: Scalars['Boolean'];
+    expireOne: Scalars['Boolean'];
+    updateDateTime: Scalars['Boolean'];
+    updateMessage: Scalars['Boolean'];
+    updateOccasion: Scalars['Boolean'];
+    updatePrice: Scalars['Boolean'];
     userId: Scalars['String'];
 };
 
 export type UserGlobalBookingRequestMutationCreateOneArgs = {
     request: CreateOneGlobalBookingRequestRequest;
+};
+
+export type UserGlobalBookingRequestMutationExpireOneArgs = {
+    globalBookingRequestId: Scalars['String'];
+};
+
+export type UserGlobalBookingRequestMutationUpdateDateTimeArgs = {
+    dateTime: Scalars['DateTime'];
+    globalBookingRequestId: Scalars['String'];
+};
+
+export type UserGlobalBookingRequestMutationUpdateMessageArgs = {
+    globalBookingRequestId: Scalars['String'];
+    message: Scalars['String'];
+};
+
+export type UserGlobalBookingRequestMutationUpdateOccasionArgs = {
+    globalBookingRequestId: Scalars['String'];
+    occasion: Scalars['String'];
+};
+
+export type UserGlobalBookingRequestMutationUpdatePriceArgs = {
+    globalBookingRequestId: Scalars['String'];
+    price: PriceInput;
 };
 
 export type UserGlobalBookingRequestQuery = {
@@ -2205,6 +2227,16 @@ export type GetCookProfileQueryQuery = {
     };
 };
 
+export type CreateOneCookBookingRequestMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    globalBookingRequestId: Scalars['String'];
+}>;
+
+export type CreateOneCookBookingRequestMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; bookingRequests: { __typename?: 'CookBookingRequestMutation'; success: boolean } };
+};
+
 export type FindCookProfileGlobalBookingRequestsQueryVariables = Exact<{
     cookId: Scalars['String'];
 }>;
@@ -2227,6 +2259,37 @@ export type FindCookProfileGlobalBookingRequestsQuery = {
                 createdAt: Date;
                 price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
                 location: { __typename?: 'Location'; latitude: number; longitude: number };
+            }> | null;
+        };
+    };
+};
+
+export type FindManyCookBookingRequestsQueryVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type FindManyCookBookingRequestsQuery = {
+    __typename?: 'Query';
+    cooks: {
+        __typename?: 'CookQuery';
+        bookingRequests: {
+            __typename?: 'CookBookingRequestQuery';
+            findMany?: Array<{
+                __typename?: 'BookingRequest';
+                bookingRequestId: string;
+                globalBookingRequestId?: string | null;
+                adultParticipants: number;
+                children: number;
+                dateTime: Date;
+                cookId: string;
+                userAccepted: boolean;
+                cookAccepted: boolean;
+                kitchenId?: string | null;
+                occasion: string;
+                preparationTime: number;
+                duration: number;
+                createdAt: Date;
+                price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
             }> | null;
         };
     };
@@ -2691,33 +2754,6 @@ export type DeleteOneUserAddressMutation = {
     users: { __typename?: 'UserMutation'; addresses: { __typename?: 'UserAddressMutation'; success: boolean } };
 };
 
-export type FindUserProfileGlobalBookingRequestsQueryVariables = Exact<{
-    userId: Scalars['String'];
-}>;
-
-export type FindUserProfileGlobalBookingRequestsQuery = {
-    __typename?: 'Query';
-    users: {
-        __typename?: 'UserQuery';
-        globalBookingRequests: {
-            __typename?: 'UserGlobalBookingRequestQuery';
-            findMany?: Array<{
-                __typename?: 'GlobalBookingRequest';
-                globalBookingRequestId: string;
-                children: number;
-                adultParticipants: number;
-                occasion: string;
-                message: string;
-                dateTime: Date;
-                duration?: number | null;
-                createdAt: Date;
-                price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
-                location: { __typename?: 'Location'; latitude: number; longitude: number };
-            }> | null;
-        };
-    };
-};
-
 export type GetProfileQueryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetProfileQueryQuery = {
@@ -2786,6 +2822,74 @@ export type UpdateUserProfilePictureMutationVariables = Exact<{
 }>;
 
 export type UpdateUserProfilePictureMutation = { __typename?: 'Mutation'; users: { __typename?: 'UserMutation'; success: boolean } };
+
+export type CreateOneUserBookingRequestMutationVariables = Exact<{
+    request: CreateBookingRequestRequest;
+    userId: Scalars['String'];
+}>;
+
+export type CreateOneUserBookingRequestMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; bookingRequests: { __typename?: 'UserBookingRequestMutation'; success: boolean } };
+};
+
+export type FindManyUserBookingRequestsQueryVariables = Exact<{
+    userId: Scalars['String'];
+}>;
+
+export type FindManyUserBookingRequestsQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        bookingRequests: {
+            __typename?: 'UserBookingRequestQuery';
+            findMany?: Array<{
+                __typename?: 'BookingRequest';
+                bookingRequestId: string;
+                globalBookingRequestId?: string | null;
+                adultParticipants: number;
+                children: number;
+                dateTime: Date;
+                cookId: string;
+                userAccepted: boolean;
+                cookAccepted: boolean;
+                kitchenId?: string | null;
+                occasion: string;
+                preparationTime: number;
+                duration: number;
+                createdAt: Date;
+                price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+            }> | null;
+        };
+    };
+};
+
+export type FindUserProfileGlobalBookingRequestsQueryVariables = Exact<{
+    userId: Scalars['String'];
+}>;
+
+export type FindUserProfileGlobalBookingRequestsQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        globalBookingRequests: {
+            __typename?: 'UserGlobalBookingRequestQuery';
+            findMany?: Array<{
+                __typename?: 'GlobalBookingRequest';
+                globalBookingRequestId: string;
+                children: number;
+                adultParticipants: number;
+                occasion: string;
+                message: string;
+                dateTime: Date;
+                duration?: number | null;
+                createdAt: Date;
+                price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+                location: { __typename?: 'Location'; latitude: number; longitude: number };
+            }> | null;
+        };
+    };
+};
 
 export const SignedInUserFragmentDoc = {
     kind: 'Document',
@@ -4113,6 +4217,73 @@ export const GetCookProfileQueryDocument = {
         },
     ],
 } as unknown as DocumentNode<GetCookProfileQueryQuery, GetCookProfileQueryQueryVariables>;
+export const CreateOneCookBookingRequestDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneCookBookingRequest' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'globalBookingRequestId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'createOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'globalBookingRequestId' },
+                                                        value: {
+                                                            kind: 'Variable',
+                                                            name: { kind: 'Name', value: 'globalBookingRequestId' },
+                                                        },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneCookBookingRequestMutation, CreateOneCookBookingRequestMutationVariables>;
 export const FindCookProfileGlobalBookingRequestsDocument = {
     kind: 'Document',
     definitions: [
@@ -4199,6 +4370,86 @@ export const FindCookProfileGlobalBookingRequestsDocument = {
         },
     ],
 } as unknown as DocumentNode<FindCookProfileGlobalBookingRequestsQuery, FindCookProfileGlobalBookingRequestsQueryVariables>;
+export const FindManyCookBookingRequestsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindManyCookBookingRequests' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'findMany' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'globalBookingRequestId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'adultParticipants' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'children' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'dateTime' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'userAccepted' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookAccepted' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'occasion' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'preparationTime' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'price' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindManyCookBookingRequestsQuery, FindManyCookBookingRequestsQueryVariables>;
 export const AddOneCookLanguageDocument = {
     kind: 'Document',
     definitions: [
@@ -6872,92 +7123,6 @@ export const DeleteOneUserAddressDocument = {
         },
     ],
 } as unknown as DocumentNode<DeleteOneUserAddressMutation, DeleteOneUserAddressMutationVariables>;
-export const FindUserProfileGlobalBookingRequestsDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FindUserProfileGlobalBookingRequests' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'users' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'globalBookingRequests' },
-                                    arguments: [
-                                        {
-                                            kind: 'Argument',
-                                            name: { kind: 'Name', value: 'userId' },
-                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
-                                        },
-                                    ],
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'findMany' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'globalBookingRequestId' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'children' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'adultParticipants' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'occasion' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'message' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'dateTime' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'price' },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
-                                                                ],
-                                                            },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'location' },
-                                                            selectionSet: {
-                                                                kind: 'SelectionSet',
-                                                                selections: [
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-                                                                ],
-                                                            },
-                                                        },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                                                    ],
-                                                },
-                                            },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FindUserProfileGlobalBookingRequestsQuery, FindUserProfileGlobalBookingRequestsQueryVariables>;
 export const GetProfileQueryDocument = {
     kind: 'Document',
     definitions: [
@@ -7265,3 +7430,236 @@ export const UpdateUserProfilePictureDocument = {
         },
     ],
 } as unknown as DocumentNode<UpdateUserProfilePictureMutation, UpdateUserProfilePictureMutationVariables>;
+export const CreateOneUserBookingRequestDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneUserBookingRequest' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateBookingRequestRequest' } },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'createOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'request' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneUserBookingRequestMutation, CreateOneUserBookingRequestMutationVariables>;
+export const FindManyUserBookingRequestsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindManyUserBookingRequests' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'findMany' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'globalBookingRequestId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'adultParticipants' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'children' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'dateTime' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'userAccepted' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookAccepted' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'occasion' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'preparationTime' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'price' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindManyUserBookingRequestsQuery, FindManyUserBookingRequestsQueryVariables>;
+export const FindUserProfileGlobalBookingRequestsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindUserProfileGlobalBookingRequests' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'globalBookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'findMany' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'globalBookingRequestId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'children' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'adultParticipants' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'occasion' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'dateTime' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'price' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'location' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindUserProfileGlobalBookingRequestsQuery, FindUserProfileGlobalBookingRequestsQueryVariables>;

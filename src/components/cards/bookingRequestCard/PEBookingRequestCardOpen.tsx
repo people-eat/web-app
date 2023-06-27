@@ -12,11 +12,11 @@ export interface PEBookingRequestCardOfferProps {
     date: string;
     menuName: string;
     clientName: string;
-    clientImage: string;
+    clientImage?: string;
     event: string;
     price?: string;
     eventDate: string;
-    persons: string;
+    participants: number;
     time: string;
     address: string;
 }
@@ -32,7 +32,7 @@ export default function PEBookingRequestCardOpen({
     event,
     price,
     eventDate,
-    persons,
+    participants,
     time,
     address,
 }: PEBookingRequestCardOfferProps): ReactElement {
@@ -73,7 +73,7 @@ export default function PEBookingRequestCardOpen({
                         Event date: <span className="text-black">{eventDate}</span>
                     </span>
                     <span className="text-gray md:text-text-s text-text-m">
-                        Persons: <span className="text-black">{persons}</span>
+                        Persons: <span className="text-black">{participants}</span>
                     </span>
                 </div>
                 <span className="w-[1px] mx-3 md:mx-4 h-[52px] bg-separator rounded-1" />

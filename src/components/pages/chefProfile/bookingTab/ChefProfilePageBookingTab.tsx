@@ -1,9 +1,13 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Button, Paper } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import { useState, type ReactElement } from 'react';
-import { FindCookProfileGlobalBookingRequestsDocument } from '../../../../data-source/generated/graphql';
+import {
+    CreateOneCookBookingRequestDocument,
+    FindCookProfileGlobalBookingRequestsDocument,
+    FindManyCookBookingRequestsDocument,
+} from '../../../../data-source/generated/graphql';
 import PEBookingRequestCardClosed from '../../../cards/bookingRequestCard/PEBookingRequestCardClosed';
 import PEBookingRequestCardInProcess from '../../../cards/bookingRequestCard/PEBookingRequestCardInProcess';
 import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
@@ -25,6 +29,13 @@ export default function ChefProfilePageBookingTab({ cookId }: ChefProfilePageBoo
     const { data, loading, error } = useQuery(FindCookProfileGlobalBookingRequestsDocument, { variables: { cookId } });
     const globalBookingRequests = data?.cooks.globalBookingRequests.findMany;
 
+    const bookingRequestsResult = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
+    const bookingRequests = bookingRequestsResult.data?.cooks.bookingRequests.findMany ?? [];
+    const openBookingRequests = bookingRequests.filter((bookingRequest) => !bookingRequest.cookAccepted && !bookingRequest.userAccepted);
+    // const completedBookingRequests = bookingRequests.filter((bookingRequest) => bookingRequest.cookAccepted && bookingRequest.userAccepted);
+
+    const [createBookingRequest] = useMutation(CreateOneCookBookingRequestDocument);
+
     return (
         <VStack className="w-full relative max-w-screen-xl mb-[80px] lg:my-10 gap-6 px-5 box-border">
             <HStack
@@ -43,20 +54,20 @@ export default function ChefProfilePageBookingTab({ cookId }: ChefProfilePageBoo
 
             {selectedTab === 0 && (
                 <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
-                    {orders.map(({ date, menuName, clientName, clientImage, event, eventDate, persons, time, address }, index) => (
-                        <div key={index} className="w-[calc(50%-20px)] md:w-full">
+                    {openBookingRequests.map((openBookingRequest) => (
+                        <div key={openBookingRequest.bookingRequestId} className="w-[calc(50%-20px)] md:w-full">
                             <PEBookingRequestCardOpen
                                 onOrderDetailsClick={(): void => undefined}
-                                date={date}
-                                menuName={menuName}
-                                clientName={clientName}
-                                clientImage={clientImage}
-                                event={event}
-                                price={'340€'}
-                                eventDate={eventDate}
-                                persons={persons}
-                                time={time}
-                                address={address}
+                                date={moment(openBookingRequest.createdAt).format(moment.HTML5_FMT.DATE)}
+                                menuName={'Menu name'}
+                                clientName={'My name'}
+                                clientImage={undefined}
+                                event={openBookingRequest.occasion}
+                                price={`${openBookingRequest.price.amount} ${openBookingRequest.price.currencyCode}`}
+                                eventDate={moment(openBookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
+                                participants={openBookingRequest.adultParticipants + openBookingRequest.children}
+                                time={moment(openBookingRequest.dateTime).format('LT')}
+                                address={'Location'}
                                 onAcceptClick={(): void => undefined}
                                 onDeclineClick={(): void => undefined}
                             />
@@ -125,7 +136,19 @@ export default function ChefProfilePageBookingTab({ cookId }: ChefProfilePageBoo
 
                             <Spacer />
 
-                            <Button className="w-full" variant="contained">
+                            <Button
+                                className="w-full"
+                                variant="contained"
+                                onClick={(): void =>
+                                    void createBookingRequest({
+                                        variables: { cookId, globalBookingRequestId: globalBookingRequest.globalBookingRequestId },
+                                    }).then(({ data: successData }) => {
+                                        if (!successData?.cooks.bookingRequests.success) return;
+                                        void bookingRequestsResult.refetch();
+                                        setSelectedTab(0);
+                                    })
+                                }
+                            >
                                 Accept
                             </Button>
                         </VStack>

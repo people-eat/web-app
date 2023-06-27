@@ -49,8 +49,12 @@ const documents = {
         types.GetAdministrationUsersPageDataDocument,
     'query GetCookProfileQuery($cookId: String!) {\n  cooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        firstName\n        lastName\n        profilePictureUrl\n        addresses {\n          addressId\n          title\n          country\n          city\n          postCode\n          street\n          houseNumber\n          location {\n            latitude\n            longitude\n          }\n          createdAt\n        }\n      }\n      languages {\n        languageId\n        title\n      }\n      isLocked\n      isVisible\n      biography\n      location {\n        latitude\n        longitude\n      }\n      maximumParticipants\n      maximumPrice\n      maximumTravelDistance\n      minimumParticipants\n      minimumPrice\n      rank\n      travelExpenses\n      ratingAverage\n      ratingCount\n    }\n  }\n}':
         types.GetCookProfileQueryDocument,
+    'mutation CreateOneCookBookingRequest($cookId: String!, $globalBookingRequestId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: createOne(globalBookingRequestId: $globalBookingRequestId)\n    }\n  }\n}':
+        types.CreateOneCookBookingRequestDocument,
     'query FindCookProfileGlobalBookingRequests($cookId: String!) {\n  cooks {\n    globalBookingRequests(cookId: $cookId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}':
         types.FindCookProfileGlobalBookingRequestsDocument,
+    'query FindManyCookBookingRequests($cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        cookId\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n      }\n    }\n  }\n}':
+        types.FindManyCookBookingRequestsDocument,
     'mutation AddOneCookLanguage($cookId: String!, $languageId: String!) {\n  cooks {\n    success: addOneLanguage(cookId: $cookId, languageId: $languageId)\n  }\n}':
         types.AddOneCookLanguageDocument,
     'mutation RemoveOneCookLanguage($cookId: String!, $languageId: String!) {\n  cooks {\n    success: removeOneLanguage(cookId: $cookId, languageId: $languageId)\n  }\n}':
@@ -134,8 +138,6 @@ const documents = {
         types.CreateOneUserAddressDocument,
     'mutation DeleteOneUserAddress($addressId: String!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: deleteOne(addressId: $addressId)\n    }\n  }\n}':
         types.DeleteOneUserAddressDocument,
-    'query FindUserProfileGlobalBookingRequests($userId: String!) {\n  users {\n    globalBookingRequests(userId: $userId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}':
-        types.FindUserProfileGlobalBookingRequestsDocument,
     'query GetProfileQuery {\n  users {\n    me {\n      userId\n      firstName\n      lastName\n      profilePictureUrl\n      birthDate\n      gender\n      acceptedTerms\n      acceptedPrivacyPolicy\n      emailAddress\n      phoneNumber\n      createdAt\n      isCook\n      isAdmin\n      addresses {\n        addressId\n        title\n        country\n        city\n        postCode\n        street\n        houseNumber\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}':
         types.GetProfileQueryDocument,
     'mutation UpdateOneUserAddress($addressId: String!, $address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: update(addressId: $addressId, address: $address)\n    }\n  }\n}':
@@ -146,6 +148,12 @@ const documents = {
         types.UpdateUserPasswordDocument,
     'mutation UpdateUserProfilePicture($userId: String!, $profilePicture: Upload) {\n  users {\n    success: updateProfilePicture(userId: $userId, profilePicture: $profilePicture)\n  }\n}':
         types.UpdateUserProfilePictureDocument,
+    'mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: createOne(request: $request)\n    }\n  }\n}':
+        types.CreateOneUserBookingRequestDocument,
+    'query FindManyUserBookingRequests($userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        cookId\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n      }\n    }\n  }\n}':
+        types.FindManyUserBookingRequestsDocument,
+    'query FindUserProfileGlobalBookingRequests($userId: String!) {\n  users {\n    globalBookingRequests(userId: $userId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}':
+        types.FindUserProfileGlobalBookingRequestsDocument,
 };
 
 /**
@@ -286,8 +294,20 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'mutation CreateOneCookBookingRequest($cookId: String!, $globalBookingRequestId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: createOne(globalBookingRequestId: $globalBookingRequestId)\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOneCookBookingRequest($cookId: String!, $globalBookingRequestId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: createOne(globalBookingRequestId: $globalBookingRequestId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'query FindCookProfileGlobalBookingRequests($cookId: String!) {\n  cooks {\n    globalBookingRequests(cookId: $cookId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}',
 ): (typeof documents)['query FindCookProfileGlobalBookingRequests($cookId: String!) {\n  cooks {\n    globalBookingRequests(cookId: $cookId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindManyCookBookingRequests($cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        cookId\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindManyCookBookingRequests($cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        cookId\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -544,12 +564,6 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query FindUserProfileGlobalBookingRequests($userId: String!) {\n  users {\n    globalBookingRequests(userId: $userId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}',
-): (typeof documents)['query FindUserProfileGlobalBookingRequests($userId: String!) {\n  users {\n    globalBookingRequests(userId: $userId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}'];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(
     source: 'query GetProfileQuery {\n  users {\n    me {\n      userId\n      firstName\n      lastName\n      profilePictureUrl\n      birthDate\n      gender\n      acceptedTerms\n      acceptedPrivacyPolicy\n      emailAddress\n      phoneNumber\n      createdAt\n      isCook\n      isAdmin\n      addresses {\n        addressId\n        title\n        country\n        city\n        postCode\n        street\n        houseNumber\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}',
 ): (typeof documents)['query GetProfileQuery {\n  users {\n    me {\n      userId\n      firstName\n      lastName\n      profilePictureUrl\n      birthDate\n      gender\n      acceptedTerms\n      acceptedPrivacyPolicy\n      emailAddress\n      phoneNumber\n      createdAt\n      isCook\n      isAdmin\n      addresses {\n        addressId\n        title\n        country\n        city\n        postCode\n        street\n        houseNumber\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}'];
 /**
@@ -576,6 +590,24 @@ export function gql(
 export function gql(
     source: 'mutation UpdateUserProfilePicture($userId: String!, $profilePicture: Upload) {\n  users {\n    success: updateProfilePicture(userId: $userId, profilePicture: $profilePicture)\n  }\n}',
 ): (typeof documents)['mutation UpdateUserProfilePicture($userId: String!, $profilePicture: Upload) {\n  users {\n    success: updateProfilePicture(userId: $userId, profilePicture: $profilePicture)\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: createOne(request: $request)\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: createOne(request: $request)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindManyUserBookingRequests($userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        cookId\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindManyUserBookingRequests($userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        cookId\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindUserProfileGlobalBookingRequests($userId: String!) {\n  users {\n    globalBookingRequests(userId: $userId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindUserProfileGlobalBookingRequests($userId: String!) {\n  users {\n    globalBookingRequests(userId: $userId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}'];
 
 export function gql(source: string) {
     return (documents as any)[source] ?? {};

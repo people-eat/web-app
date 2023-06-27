@@ -18,7 +18,7 @@ export interface PEBookingRequestCardClosedProps {
     event: string;
     price?: string;
     eventDate: string;
-    persons: string;
+    persons: number;
     time: string;
     address: string;
 }
