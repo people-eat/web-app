@@ -61,11 +61,13 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
             void updateProfilePicture({
                 variables: { userId: chefProfile.cookId, profilePicture: editedProfilePicture },
             })
-                .then((result) => result.data?.users.success && void refetch())
+                .then((result) => {
+                    result.data?.users.success && void refetch();
+                })
                 .catch((e) => console.error(e));
         }
 
-        setEditedProfilePicture(undefined);
+        setEditedProfilePicture(null);
         setFirstName(editFirstName);
         setLastName(editLastName);
         setEdit(!edit);
@@ -175,7 +177,12 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
                         />
                     </VStack>
-                    <PEButton className="max-w-[250px] mt-10" onClick={handleSaveProfileInfo} title="Save" />
+                    <PEButton
+                        className="max-w-[250px] mt-10"
+                        onClick={handleSaveProfileInfo}
+                        title="Save"
+                        disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
+                    />
                 </VStack>
             </PEModalPopUp>
         </>
