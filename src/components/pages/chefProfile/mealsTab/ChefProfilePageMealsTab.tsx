@@ -29,7 +29,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
     const meals = data?.cooks.meals.findMany ?? [];
 
     return (
-        <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:px-4 box-border gap-6">
+        <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 box-border gap-6">
             {selectedTab !== 'CREATE' && !selectedMealId && (
                 <HStack
                     gap={8}

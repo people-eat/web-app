@@ -25,12 +25,6 @@ export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates 
 
     const menu = data?.cooks.menus.findOne;
 
-    // const [selectedMeals, setSelectedMeals] = useState<MealEntity[]>([]);
-
-    // function handleOnSelectedMeals(meals: MealEntity[]): void {
-    //     setSelectedMeals(meals);
-    // }
-
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <VStack

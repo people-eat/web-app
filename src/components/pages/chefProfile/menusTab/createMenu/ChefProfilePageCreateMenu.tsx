@@ -52,7 +52,7 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <VStack
-                className="w-full relative bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4 gap-6"
+                className="w-full relative bg-white shadow-primary md:shadow-none p-8 md:p-0 rounded-4 gap-6"
                 style={{ alignItems: 'center', justifyContent: 'flex-start' }}
             >
                 <div className="absolute top-8 right-8 md:top-0 md:right-0">
