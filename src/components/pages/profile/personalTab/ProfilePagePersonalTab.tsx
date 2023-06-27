@@ -300,8 +300,8 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                         </VStack>
                     </HStack>
 
-                    <PEModalPopUp openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
-                        <VStack className="w-[750px] px-10 py-15 box-border relative">
+                    <PEModalPopUp width={isMobile ? '100%' : 750} openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
+                        <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
                             <h2 className="m-0 pb-5">Change profile info</h2>
                             <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
                                 <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
