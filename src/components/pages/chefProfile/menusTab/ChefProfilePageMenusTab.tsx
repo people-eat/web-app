@@ -58,7 +58,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
-    const [editMenuId, setEditMenuId] = useState<string | undefined>(undefined);
+    const [selectedMenuId, setSelectedMenuId] = useState<string | undefined>(undefined);
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -74,15 +74,12 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
     const [deleteMenu] = useMutation(DeleteOneCookMenuDocument);
 
     function handleDeleteMenu(): void {
+        if (!selectedMenuId) return;
+
         try {
-            void deleteMenu({
-                variables: {
-                    cookId,
-                    menuId: editMenuId ?? '',
-                },
-            }).then((result): void => {
+            void deleteMenu({ variables: { cookId, menuId: selectedMenuId } }).then((result): void => {
                 setOpenDeleteMenuDialog(false);
-                if (result.data && result.data.cooks.menus.success) void refetch();
+                if (result.data?.cooks.menus.success) void refetch();
             });
         } catch (e) {
             console.error(e);
@@ -106,13 +103,13 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                 />
             )}
 
-            {selectedTab === 'EDIT' && editMenuId && (
+            {selectedTab === 'EDIT' && selectedMenuId && (
                 <ChefProfilePageEditMenu
                     onSaveUpdates={(): void => {
                         setSelectedTab('MENUS');
                         void refetch();
                     }}
-                    menuId={editMenuId}
+                    menuId={selectedMenuId}
                     cookId={cookId}
                 />
             )}
@@ -141,7 +138,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                             <div
                                 onClick={(event): void => {
                                     setAnchorEl(event.currentTarget);
-                                    setEditMenuId(menu.menuId);
+                                    setSelectedMenuId(menu.menuId);
                                 }}
                                 className="relative PEMenuCard editMenu md:w-full"
                                 key={index}
@@ -184,7 +181,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                                         <div
                                             onClick={(event): void => {
                                                 setAnchorEl(event.currentTarget);
-                                                setEditMenuId(menu.menuId);
+                                                setSelectedMenuId(menu.menuId);
                                             }}
                                             className="relative editMenu"
                                             key={index}
@@ -265,7 +262,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                 </DialogContent>
             </Dialog>
 
-            {open && editMenuId && (
+            {open && selectedMenuId && (
                 <Menu
                     anchorEl={anchorEl}
                     open={open}
@@ -279,7 +276,7 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                         sx={{ width: '200px' }}
                         onClick={(): void => {
                             setSelectedTab('EDIT');
-                            setEditMenuId(editMenuId);
+                            setSelectedMenuId(selectedMenuId);
                         }}
                     >
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>
