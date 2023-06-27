@@ -5,7 +5,7 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, type ReactElement, useEffect} from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { GetProfileQueryDocument, UpdateUserProfilePictureDocument } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
