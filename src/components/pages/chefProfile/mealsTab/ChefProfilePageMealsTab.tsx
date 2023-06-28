@@ -11,16 +11,16 @@ import PETabItem from '../../../standard/tabItem/PETabItem';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-import { mealTypeTranslations } from '../mealTypeTranslations';
 import ChefProfilePageCreateMeal from './ChefProfilePageCreateMeal';
 import ChefProfilePageEditMeal from './ChefProfilePageEditMeal';
+import { mealTypeTranslations } from './mealTypeTranslations';
 
 export interface ChefProfilePageMealsTabProps {
     cookId: string;
 }
 
 export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMealsTabProps): ReactElement {
-    const { t } = useTranslation('chef-profile');
+    const { t: translateMealType } = useTranslation('meal-types');
     const [selectedTab, setSelectedTab] = useState<MealType | 'CREATE' | undefined>();
     const [selectedMealId, setSelectedMealId] = useState<undefined | string>();
 
@@ -38,7 +38,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                 >
                     <HStack className="overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
                         <PETabItem
-                            title={t('label-all')}
+                            title={translateMealType('meal-type-all')}
                             onClick={(): void => setSelectedTab(undefined)}
                             active={selectedTab === undefined}
                         />
@@ -46,7 +46,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
                         {mealTypes.map((mealType, index) => (
                             <PETabItem
                                 key={index}
-                                title={t(mealTypeTranslations[mealType])}
+                                title={translateMealType(mealTypeTranslations[mealType])}
                                 onClick={(): void => setSelectedTab(mealType)}
                                 active={selectedTab === mealType}
                             />
@@ -85,7 +85,7 @@ export default function ChefProfilePageMealsTab({ cookId }: ChefProfilePageMeals
             {!selectedMealId && selectedTab === 'CREATE' && (
                 <ChefProfilePageCreateMeal
                     cookId={cookId}
-                    defaultMealType={undefined}
+                    defaultMealType={'VEGETARIAN'}
                     onCancel={(): void => setSelectedTab(undefined)}
                     onSuccess={(): void => {
                         setSelectedTab(undefined);

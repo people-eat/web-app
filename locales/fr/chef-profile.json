@@ -51,11 +51,6 @@
     "tab-ratings": "Commentaires",
     "tab-show-profile": "Afficher le profil public",
     "tab-statistic": "statistiques",
-    "label-all": "Tous",
-    "label-dessert": "Dessert",
-    "label-intermediate": "Intermédiaire",
-    "label-main": "Principal",
-    "label-starter": "Entrée",
     "create-meal-button": "Ajouter",
     "create-meal-course": "Cours",
     "create-meal-description": "Description",
@@ -63,10 +58,6 @@
     "create-meal-dropdown-edit": "Modifier",
     "create-meal-headline": "Ajouter un nouveau plat",
     "create-meal-image": "Image",
-    "create-meal-meal-type1": "Entrée",
-    "create-meal-meal-type2": "Principal",
-    "create-meal-meal-type3": "Dessert",
-    "create-meal-meal-type4": "Intermédiaire",
     "create-meal-title": "Nom",
     "popup-meal-image-upload-button": "Ajouter"
 }

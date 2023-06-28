@@ -22,9 +22,9 @@ import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextFi
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
-import { mealTypeTranslations } from '../mealTypeTranslations';
+import { mealTypeTranslations } from './mealTypeTranslations';
 
-export interface ChefProfilePageCreateMealProps {
+export interface ChefProfilePageEditMealProps {
     cookId: string;
     mealId: string;
     onCancel: () => void;
@@ -32,14 +32,15 @@ export interface ChefProfilePageCreateMealProps {
 }
 
 // eslint-disable-next-line max-statements
-export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageCreateMealProps): ReactElement {
+export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageEditMealProps): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { t: translateMealType } = useTranslation('meal-types');
     const { data, loading, refetch } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
     const meal = data?.cooks.meals.findOne;
 
     const [title, setTitle] = useState(meal?.title ?? '');
     const [description, setDescription] = useState(meal?.description ?? '');
-    const [type, setType] = useState<MealType>(meal?.type ?? 'MAIN_COURSE');
+    const [type, setType] = useState<MealType>(meal?.type ?? 'VEGETARIAN');
     const [image, setImage] = useState<File | undefined | null>(null);
     const [imageUrl, setImageUrl] = useState(meal?.imageUrl ?? '');
 
@@ -51,7 +52,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
     useEffect(() => {
         setTitle(meal?.title ?? '');
         setDescription(meal?.description ?? '');
-        setType(meal?.type ?? 'MAIN_COURSE');
+        setType(meal?.type ?? 'VEGETARIAN');
         setImageUrl(meal?.imageUrl ?? '');
     }, [meal]);
 
@@ -135,7 +136,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                             {mealTypes.map((mealType, index) => (
                                 <PETabItem
                                     key={index}
-                                    title={t(mealTypeTranslations[mealType])}
+                                    title={translateMealType(mealTypeTranslations[mealType])}
                                     onClick={(): void => setType(mealType)}
                                     active={mealType === type}
                                 />

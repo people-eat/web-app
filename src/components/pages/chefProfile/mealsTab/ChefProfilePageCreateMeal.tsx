@@ -13,11 +13,11 @@ import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextFi
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
-import { mealTypeTranslations } from '../mealTypeTranslations';
+import { mealTypeTranslations } from './mealTypeTranslations';
 
 export interface ChefProfilePageCreateMealProps {
     cookId: string;
-    defaultMealType?: MealType;
+    defaultMealType: MealType;
     onSuccess: () => void;
     onCancel: () => void;
 }
@@ -29,9 +29,10 @@ export default function ChefProfilePageCreateMeal({
     onCancel,
 }: ChefProfilePageCreateMealProps): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { t: translateMealType } = useTranslation('meal-types');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [type, setType] = useState<MealType>(defaultMealType ?? 'MAIN_COURSE');
+    const [type, setType] = useState<MealType>(defaultMealType);
     const [image, setImage] = useState<File | undefined>(undefined);
 
     const disabled: boolean = title === '';
@@ -64,7 +65,7 @@ export default function ChefProfilePageCreateMeal({
                     {mealTypes.map((mealType, index) => (
                         <PETabItem
                             key={index}
-                            title={t(mealTypeTranslations[mealType])}
+                            title={translateMealType(mealTypeTranslations[mealType])}
                             onClick={(): void => setType(mealType)}
                             active={mealType === type}
                         />

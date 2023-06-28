@@ -732,21 +732,6 @@ export type CreateOneAdminRequest = {
     adminId: Scalars['String'];
 };
 
-export type CreateOneAnonymousGlobalBookingRequestInput = {
-    adults: Scalars['UnsignedInt'];
-    budget: Scalars['String'];
-    children: Scalars['UnsignedInt'];
-    customerEmailAddress: Scalars['EmailAddress'];
-    customerFirstName: Scalars['String'];
-    customerLastName: Scalars['String'];
-    customerPhoneNumber?: InputMaybe<Scalars['PhoneNumber']>;
-    dateTime: Scalars['DateTime'];
-    location?: InputMaybe<LocationInput>;
-    locationName: Scalars['String'];
-    message: Scalars['String'];
-    occasion?: InputMaybe<Scalars['String']>;
-};
-
 export type CreateOneCookRequest = {
     biography: Scalars['String'];
     isVisible: Scalars['Boolean'];
@@ -1047,7 +1032,7 @@ export type MealOption = {
     mealId: Scalars['String'];
 };
 
-export type MealType = 'DESSERT' | 'MAIN_COURSE' | 'OTHER' | 'SALAD' | 'SOUP' | 'STARTER';
+export type MealType = 'DESSERT' | 'FISH' | 'MEAT' | 'SOUP' | 'SPECIAL' | 'VEGAN' | 'VEGETARIAN';
 
 export type Menu = {
     __typename?: 'Menu';
@@ -1112,7 +1097,6 @@ export type Mutation = {
     categories: CategoryMutation;
     cookSpecificFees: CookSpecificFeeMutation;
     cooks: CookMutation;
-    createOneAnonymousGlobalBookingRequest: Scalars['Boolean'];
     customerFeeUpdates: CustomerFeeUpdateMutation;
     kitchens: KitchenMutation;
     languages: LanguageMutation;
@@ -1121,10 +1105,6 @@ export type Mutation = {
     sessions: SessionMutation;
     termsUpdates: TermsUpdateMutation;
     users: UserMutation;
-};
-
-export type MutationCreateOneAnonymousGlobalBookingRequestArgs = {
-    input: CreateOneAnonymousGlobalBookingRequestInput;
 };
 
 export type Notification = {

@@ -51,11 +51,6 @@
     "tab-ratings": "обзоры",
     "tab-show-profile": "Показать публичный профиль",
     "tab-statistic": "статистика",
-    "label-all": "Все",
-    "label-dessert": "Десерт",
-    "label-intermediate": "Средний",
-    "label-main": "Основной",
-    "label-starter": "Стартер",
     "create-meal-button": "Добавлять",
     "create-meal-course": "Курс",
     "create-meal-description": "Описание",
@@ -63,10 +58,6 @@
     "create-meal-dropdown-edit": "Редактировать",
     "create-meal-headline": "Добавить новое блюдо",
     "create-meal-image": "Изображение",
-    "create-meal-meal-type1": "Стартер",
-    "create-meal-meal-type2": "Основной",
-    "create-meal-meal-type3": "Десерт",
-    "create-meal-meal-type4": "Средний",
     "create-meal-title": "Имя",
     "popup-meal-image-upload-button": "Добавлять"
 }
