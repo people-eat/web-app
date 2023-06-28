@@ -111,7 +111,7 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
             <Divider className="w-full mt-4 md:mt-0" />
 
             <HStack className="w-full gap-8 md:gap-4" style={{ flexWrap: 'wrap' }}>
-                <VStack className="gap-4 md:gap-0" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
+                <VStack className="gap-4 md:gap-2" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
                     <p className="text-heading-l mb-2 md:text-text-m-bold">{'Price Configuration'}</p>
 
                     <p className="text-text-sm-bold">{t('create-menu-base-price')}</p>
@@ -154,7 +154,7 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
                             </HStack>
                         </VStack>
 
-                        <VStack style={{ flex: 1 }} className="gap-4 md:gap-0">
+                        <VStack style={{ flex: 1 }} className="gap-4">
                             {pricePerChild !== undefined && (
                                 <>
                                     <PENumberTextField

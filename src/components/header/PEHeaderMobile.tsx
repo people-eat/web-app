@@ -8,7 +8,13 @@ import PEIconButton from '../standard/iconButton/PEIconButton';
 import PEMobileMenu from '../standard/mobileMenu/PEMobileMenu';
 import { type PEHeaderProps } from './PEHeaderProps';
 
-export default function PEHeaderMobile({ mobileMenuTabs, isMobileMenuOpen, setOpenMobileMenu }: PEHeaderProps): ReactElement {
+export default function PEHeaderMobile({
+    mobileMenuTabs,
+    isMobileMenuOpen,
+    setOpenMobileMenu,
+    menuButtonLink,
+    menuButtonText,
+}: PEHeaderProps): ReactElement {
     const [openMenu, setOpenMenu] = useState(false);
     const [sticky, setSticky] = useState(false);
 
@@ -58,7 +64,13 @@ export default function PEHeaderMobile({ mobileMenuTabs, isMobileMenuOpen, setOp
                         <Image src={'/logo.svg'} alt="" width={203} height={46} style={{ marginTop: 8 }} />
                     </Link>
 
-                    <PEMobileMenu openMenu={openMenu} handleOpenMenu={handleCloseMobileMenu} mobileMenuTabs={mobileMenuTabs} />
+                    <PEMobileMenu
+                        openMenu={openMenu}
+                        handleOpenMenu={handleCloseMobileMenu}
+                        mobileMenuTabs={mobileMenuTabs}
+                        menuButtonLink={menuButtonLink}
+                        menuButtonText={menuButtonText}
+                    />
 
                     <PEIconButton
                         iconSize={24}

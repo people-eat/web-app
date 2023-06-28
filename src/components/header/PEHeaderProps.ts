@@ -5,4 +5,6 @@ export interface PEHeaderProps {
     mobileMenuTabs?: { title: string; link: string }[];
     isMobileMenuOpen?: boolean;
     setOpenMobileMenu?: (value: boolean) => void;
+    menuButtonLink?: string;
+    menuButtonText?: string;
 }
