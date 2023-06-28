@@ -38,6 +38,7 @@ export default function PEAutoCompleteTextField<T>({
             renderInput={(params): ReactElement => (
                 <PETextField
                     {...params}
+                    inputProps={{}}
                     value={undefined}
                     onChange={undefined}
                     validationRule={undefined}
