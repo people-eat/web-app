@@ -26,8 +26,7 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
     const [step, setStep] = useState(0);
 
     const [title, setTitle] = useState('');
-    // currently not in use
-    const [description] = useState('');
+    const [description, setDescription] = useState('');
 
     // in cents: 10000 -> 100.00 EUR
     const [basePrice, setBasePrice] = useState(10000);
@@ -96,6 +95,8 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
                 {step === 1 && (
                     <ChefProfilePageCreateMenusStep2
                         cookId={cookId}
+                        description={description}
+                        setDescription={setDescription}
                         greetingFromKitchen={greetingFromKitchen}
                         setGreetingFromKitchen={setGreetingFromKitchen}
                         courses={courses}

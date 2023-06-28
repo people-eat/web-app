@@ -10,6 +10,7 @@ import { Icon } from '../../../../../standard/icon/Icon';
 import PEIcon from '../../../../../standard/icon/PEIcon';
 import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../../../standard/tabItem/PETabItem';
+import PEMultiLineTextField from '../../../../../standard/textFields/PEMultiLineTextField';
 import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
@@ -18,6 +19,9 @@ import UpdateCookMenuCourse from './UpdateCookMenuCourse';
 
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;
+
+    description: string;
+    setDescription: (changedDescription: string) => void;
 
     greetingFromKitchen?: string;
     setGreetingFromKitchen: (changedGreetingFromKitchen?: string) => void;
@@ -30,6 +34,8 @@ export interface ChefProfilePageCreateMenusStep2Props {
 
 export default function ChefProfilePageCreateMenusStep2({
     cookId,
+    description,
+    setDescription,
     greetingFromKitchen,
     setGreetingFromKitchen,
     courses,
@@ -72,7 +78,6 @@ export default function ChefProfilePageCreateMenusStep2({
                         )}
                     </div>
                 </VStack>
-
                 <VStack className="w-full gap-2" style={{ alignItems: 'flex-start' }}>
                     <span className="text-text-m-bold">{t('create-menu-courses')}</span>
                 </VStack>
@@ -184,6 +189,12 @@ export default function ChefProfilePageCreateMenusStep2({
                 )}
 
                 <Divider className="w-full" />
+
+                <VStack style={{ alignItems: 'flex-start' }} className="w-full">
+                    <p className="text-text-sm-bold">{t('Description')}</p>
+
+                    <PEMultiLineTextField value={description} onChange={setDescription} />
+                </VStack>
 
                 <PEButton title={t('create-menu-continue')} onClick={onContinue} />
             </VStack>
