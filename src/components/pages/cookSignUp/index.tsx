@@ -136,7 +136,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                 </VStack>
 
                 <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                    <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 400 }}>
+                    <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 300 }}>
                         <span>{t('first-name')}</span>
                         <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name')} />
 
@@ -238,7 +238,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <PECounter value={maximumParticipants} onValueChange={setMaximumParticipants} />
                 </HStack>
 
-                <HStack gap={8} className="w-full">
+                <HStack gap={8} className="w-full md:flex-wrap">
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                         <p>{t('email-address')}</p>
                         <PEEmailTextField email={emailAddress} onChange={setEmailAddress} placeholder={t('email-address')} />
@@ -250,7 +250,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     </VStack>
                 </HStack>
 
-                <HStack gap={8} className="w-full">
+                <HStack gap={8} className="w-full md:flex-wrap">
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                         <p>{t('password')}</p>
                         <PEPasswordTextField password={password} onChange={setPassword} placeholder={t('password')} />
