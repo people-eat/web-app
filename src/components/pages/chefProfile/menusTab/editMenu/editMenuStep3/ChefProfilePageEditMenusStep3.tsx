@@ -99,7 +99,14 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
             <HStack className="w-full gap-8 md:gap-0" style={{ alignItems: 'flex-end', flexWrap: 'wrap' }}>
                 <VStack className="h-full" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
                     <p className="text-text-m-bold">{'Preparation Time'}</p>
-                    <PENumberTextField onChange={setPreparationTime} value={preparationTime} endContent={<>min</>} />
+                    <PENumberTextField
+                        min={0}
+                        step={15}
+                        max={240}
+                        onChange={setPreparationTime}
+                        value={preparationTime}
+                        endContent={<>min</>}
+                    />
                 </VStack>
 
                 <HStack style={{ alignItems: 'center', justifyContent: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 512 }}>
@@ -116,6 +123,9 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
 
                     <p className="text-text-sm-bold">{t('create-menu-base-price')}</p>
                     <PENumberTextField
+                        min={25}
+                        step={10}
+                        max={10000}
                         endContent={<p className="text-green">{currencyCode}</p>}
                         onChange={(changedBasePrice): void => setBasePrice(changedBasePrice * 100)}
                         value={basePrice / 100}
@@ -123,6 +133,9 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
 
                     <p className="text-text-sm-bold">{t('create-menu-base-price-customers')}</p>
                     <PENumberTextField
+                        min={1}
+                        step={1}
+                        max={100}
                         endContent={<p className="text-disabled">{t('create-menu-participants')}</p>}
                         onChange={setBasePriceCustomers}
                         value={basePriceCustomers}
@@ -131,6 +144,9 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
 
                     <p className="text-text-sm-bold">{t('create-menu-price-per-adult')}</p>
                     <PENumberTextField
+                        min={25}
+                        step={10}
+                        max={10000}
                         endContent={<p className="text-green">{currencyCode}</p>}
                         onChange={(changedPricePerAdult): void => {
                             setPricePerAdult(changedPricePerAdult * 100);
@@ -158,6 +174,9 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
                             {pricePerChild !== undefined && (
                                 <>
                                     <PENumberTextField
+                                        min={1}
+                                        step={1}
+                                        max={100}
                                         endContent={<>%</>}
                                         onChange={(changedChildrenDiscount): void => {
                                             setChildrenDiscount(changedChildrenDiscount);
@@ -166,6 +185,9 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
                                         value={childrenDiscount}
                                     />
                                     <PENumberTextField
+                                        min={0}
+                                        step={0}
+                                        max={0}
                                         endContent={<p className="text-green">{currencyCode}</p>}
                                         onChange={(): void => undefined}
                                         value={pricePerChild / 100}
@@ -177,12 +199,18 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
                             {pricePerChild === undefined && (
                                 <>
                                     <PENumberTextField
+                                        min={1}
+                                        step={1}
+                                        max={100}
                                         endContent={<p className="text-disabled">%</p>}
                                         onChange={setPricePerChild}
                                         value={0}
                                         disabled
                                     />
                                     <PENumberTextField
+                                        min={0}
+                                        step={0}
+                                        max={0}
                                         endContent={<p className="text-green">{currencyCode}</p>}
                                         onChange={(): void => undefined}
                                         value={0}
@@ -198,13 +226,16 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
                     <p className="text-heading-l mb-2 md:text-text-m-bold">{t('create-menu-price-simulation-headline')}</p>
 
                     <p className="text-text-sm-bold">{t('create-menu-price-simulation-adult-participants')}</p>
-                    <PENumberTextField onChange={setAdults} value={adults} />
+                    <PENumberTextField min={1} step={1} max={10000} onChange={setAdults} value={adults} />
 
                     <p className="text-text-sm-bold">{t('create-menu-price-simulation-children')}</p>
-                    <PENumberTextField onChange={setChildren} value={children} />
+                    <PENumberTextField min={0} step={1} max={10000} onChange={setChildren} value={children} />
 
                     <p className="text-text-sm-bold">{t('create-menu-price-simulation-cook-payment')}</p>
                     <PENumberTextField
+                        min={0}
+                        step={0}
+                        max={0}
                         onChange={(): void => undefined}
                         value={cookPrice / 100}
                         disabled

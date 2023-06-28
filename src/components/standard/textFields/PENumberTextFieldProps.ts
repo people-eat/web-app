@@ -6,9 +6,9 @@ export interface PENumberTextFieldProps {
     placeholder?: string;
     disabled?: boolean;
     endContent?: ReactElement;
-    min?: number;
-    max?: number;
-    step?: number;
+    min: number;
+    max: number;
+    step: number;
     style?: CSSProperties;
     className?: string;
 }

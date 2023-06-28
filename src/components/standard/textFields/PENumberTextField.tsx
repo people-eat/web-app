@@ -8,9 +8,9 @@ export default function PENumberTextField({
     placeholder,
     disabled,
     endContent,
-    min = 0,
-    max = 1000,
-    step = 1,
+    min,
+    max,
+    step,
     style,
     className,
 }: PENumberTextFieldProps): ReactElement {
