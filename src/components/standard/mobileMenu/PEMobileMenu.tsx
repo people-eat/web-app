@@ -10,9 +10,17 @@ export interface PEMobileMenuProps {
     openMenu: boolean;
     handleOpenMenu: (value: boolean) => void;
     mobileMenuTabs?: { title: string; link: string }[];
+    menuButtonText?: string;
+    menuButtonLink?: string;
 }
 
-export default function PEMobileMenu({ openMenu, handleOpenMenu, mobileMenuTabs }: PEMobileMenuProps): ReactElement {
+export default function PEMobileMenu({
+    openMenu,
+    handleOpenMenu,
+    mobileMenuTabs,
+    menuButtonText,
+    menuButtonLink,
+}: PEMobileMenuProps): ReactElement {
     const { t } = useTranslation('common');
 
     return (
@@ -46,8 +54,8 @@ export default function PEMobileMenu({ openMenu, handleOpenMenu, mobileMenuTabs 
                         </Link>
                     ))}
 
-                <Link className="no-underline mt-4" href="/sign-in">
-                    <PEButton onClick={(): void => undefined} title={t('sign-in')} />
+                <Link className="no-underline mt-4" href={menuButtonLink ?? '/sign-in'}>
+                    <PEButton onClick={(): void => undefined} title={menuButtonText ?? t('sign-in')} />
                 </Link>
             </div>
         </PEModal>

@@ -74,6 +74,8 @@ export default function ChefProfilePage({ signedInUser }: ChefProfilePageProps):
                     mobileMenuTabs={MENU_TABS}
                     isMobileMenuOpen={isMobileMenuOpen}
                     setOpenMobileMenu={setOpenMobileMenu}
+                    menuButtonLink="/profile"
+                    menuButtonText={t('role-switch-button-customer')}
                 />
 
                 {isMobile ? (
