@@ -37,7 +37,7 @@ export default function PEHeaderDesktop({ signedInUser }: PEHeaderProps): ReactE
 
             {!signedInUser && (
                 <Link href="/sign-in" className="mr-4 no-underline">
-                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{t('sign-in')}</Button>
+                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('sign-in')}</Button>
                 </Link>
             )}
 

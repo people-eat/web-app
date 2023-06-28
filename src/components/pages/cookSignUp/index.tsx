@@ -5,8 +5,9 @@ import DialogContent from '@mui/material/DialogContent';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
-import { CreateOneUserByEmailAddressDocument, type CookRank } from '../../../data-source/generated/graphql';
+import { CreateOneCookDocument, CreateOneUserByEmailAddressDocument, type CookRank } from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import useResponsive from '../../../hooks/useResponsive';
 import { type SignedInUser } from '../../../shared/SignedInUser';
@@ -71,7 +72,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
     const [selectedLanguages, setSelectedLanguages] = useState<{ languageId: string; title: string }[]>([]);
 
-    const disabled: boolean =
+    const disabledForNewUser: boolean =
         firstName === '' ||
         lastName === '' ||
         password === '' ||
@@ -80,6 +81,8 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
         !selectedLocation ||
         !acceptedPrivacyPolicy ||
         !acceptedTerms;
+
+    const disabledForSignedInUser: boolean = !selectedLocation || !acceptedPrivacyPolicy || !acceptedTerms;
 
     const addressAutocompleteDisabled: boolean = postCode === '' || city === '' || street === '' || houseNumber === '' || country === '';
 
@@ -96,33 +99,62 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
         }
     }, [postCode, city, street, houseNumber, country, addressAutocompleteDisabled]);
 
-    const [createOneUserByEmailAddress, { data, loading, error }] = useMutation(CreateOneUserByEmailAddressDocument, {
-        variables: {
-            request: {
-                birthDate: undefined,
-                cook: {
-                    biography: '',
-                    isVisible: true,
-                    location: selectedLocation ?? { latitude: 0, longitude: 0 },
-                    maximumParticipants,
-                    maximumPrice: undefined,
-                    maximumTravelDistance,
-                    minimumParticipants: undefined,
-                    minimumPrice: undefined,
-                    rank,
-                    travelExpenses: Math.floor(travelExpenses * 100),
-                    languageIds: selectedLanguages.map(({ languageId }) => languageId),
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    const [createOneUserByEmailAddress] = useMutation(CreateOneUserByEmailAddressDocument);
+
+    const [createCook] = useMutation(CreateOneCookDocument);
+
+    function handleClickCompleteButton(): void {
+        const cook = {
+            biography: '',
+            isVisible: true,
+            location: selectedLocation ?? { latitude: 0, longitude: 0 },
+            maximumParticipants,
+            maximumPrice: undefined,
+            maximumTravelDistance,
+            minimumParticipants: undefined,
+            minimumPrice: undefined,
+            rank,
+            travelExpenses: Math.floor(travelExpenses * 100),
+            languageIds: selectedLanguages.map(({ languageId }) => languageId),
+        };
+
+        if (!signedInUser) {
+            void createOneUserByEmailAddress({
+                variables: {
+                    request: {
+                        birthDate: undefined,
+                        cook,
+                        emailAddress: emailAddress,
+                        firstName,
+                        gender: 'NO_INFORMATION',
+                        language: 'GERMAN',
+                        lastName,
+                        password,
+                    },
                 },
-                emailAddress: emailAddress,
-                firstName,
-                gender: 'NO_INFORMATION',
-                language: 'GERMAN',
-                lastName,
-                password,
-            },
-            // profilePicture,
-        },
-    });
+            })
+                .then((result): void => {
+                    setLoading(true);
+                    if (result.data?.users.success) setSuccess(true);
+                })
+                .catch(() => setError(true))
+                .finally(() => setLoading(false));
+        }
+
+        if (signedInUser) {
+            void createCook({ variables: { cookId: signedInUser.userId, request: cook } })
+                .then((result): void => {
+                    setLoading(true);
+                    if (result.data?.cooks.success) setSuccess(true);
+                })
+                .catch(() => setError(true))
+                .finally(() => setLoading(false));
+        }
+    }
 
     return (
         <VStack className="w-full overflow-hidden">
@@ -134,19 +166,21 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <p className="my-2">{t('sub-headline')}</p>
                 </VStack>
 
-                <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                    <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 300 }}>
-                        <span>{t('first-name')}</span>
-                        <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name')} />
-                    </VStack>
+                {!signedInUser && (
+                    <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                        <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 300 }}>
+                            <span>{t('first-name')}</span>
+                            <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name')} />
+                        </VStack>
 
-                    <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 300 }}>
-                        <span>{t('last-name')}</span>
-                        <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name')} />
-                    </VStack>
+                        <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 300 }}>
+                            <span>{t('last-name')}</span>
+                            <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name')} />
+                        </VStack>
 
-                    {/* <PEImagePicker onPick={setProfilePicture} onRemoveDefaultImage={(): void => setProfilePicture(undefined)} /> */}
-                </HStack>
+                        {/* <PEImagePicker onPick={setProfilePicture} onRemoveDefaultImage={(): void => setProfilePicture(undefined)} /> */}
+                    </HStack>
+                )}
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                     <p>{t('cook-rank')}</p>
@@ -239,29 +273,41 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <PECounter value={maximumParticipants} onValueChange={setMaximumParticipants} />
                 </HStack>
 
-                <HStack gap={8} className="w-full md:flex-wrap">
-                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>{t('email-address')}</p>
-                        <PEEmailTextField email={emailAddress} onChange={setEmailAddress} placeholder={t('email-address')} />
-                    </VStack>
+                {!signedInUser && (
+                    <>
+                        <HStack gap={8} className="w-full md:flex-wrap">
+                            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p>{t('email-address')}</p>
+                                <PEEmailTextField email={emailAddress} onChange={setEmailAddress} placeholder={t('email-address')} />
+                            </VStack>
 
-                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>{t('phone-number')}</p>
-                        <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={t('phone-number')} />
-                    </VStack>
-                </HStack>
+                            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p>{t('phone-number')}</p>
+                                <PEPhoneNumberTextField
+                                    phoneNumber={phoneNumber}
+                                    onChange={setPhoneNumber}
+                                    placeholder={t('phone-number')}
+                                />
+                            </VStack>
+                        </HStack>
 
-                <HStack gap={8} className="w-full md:flex-wrap">
-                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>{t('password')}</p>
-                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={t('password')} />
-                    </VStack>
+                        <HStack gap={8} className="w-full md:flex-wrap">
+                            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p>{t('password')}</p>
+                                <PEPasswordTextField password={password} onChange={setPassword} placeholder={t('password')} />
+                            </VStack>
 
-                    <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p>{t('password-repeat')}</p>
-                        <PEPasswordTextField password={passwordRepeat} onChange={setPasswordRepeat} placeholder={t('password-repeat')} />
-                    </VStack>
-                </HStack>
+                            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p>{t('password-repeat')}</p>
+                                <PEPasswordTextField
+                                    password={passwordRepeat}
+                                    onChange={setPasswordRepeat}
+                                    placeholder={t('password-repeat')}
+                                />
+                            </VStack>
+                        </HStack>
+                    </>
+                )}
 
                 <VStack
                     className="w-full"
@@ -290,14 +336,20 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                 <PEButton
                     className="w-full max-w-[400px]"
                     title={t('complete-button-label')}
-                    onClick={(): void => void createOneUserByEmailAddress()}
-                    disabled={disabled}
+                    onClick={handleClickCompleteButton}
+                    disabled={signedInUser ? disabledForSignedInUser : disabledForNewUser}
                 />
 
-                {data && (
+                {success && (
                     <Dialog open>
-                        {data.users.success && <SignUpPageSuccessDialog emailAddress={emailAddress} />}
-                        {!data.users.success && <>Something went wrong</>}
+                        {!signedInUser && <SignUpPageSuccessDialog emailAddress={emailAddress} />}
+                        {signedInUser && (
+                            <DialogContent>
+                                <Link href="chef-profile" className="no-underline">
+                                    To chef profile
+                                </Link>
+                            </DialogContent>
+                        )}
                     </Dialog>
                 )}
 

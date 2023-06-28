@@ -60,7 +60,7 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
                             {mealTypes.map((mealType, index) => (
                                 <PETabItem
                                     key={index}
-                                    title={mealType.toLowerCase()}
+                                    title={mealType}
                                     onClick={(): void => setSelectedMealType(mealType)}
                                     active={selectedMealType === mealType}
                                 />
