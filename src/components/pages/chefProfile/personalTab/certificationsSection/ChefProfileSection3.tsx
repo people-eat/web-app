@@ -10,7 +10,7 @@ import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
 
-export default function ChefProfileSection3(): ReactElement {
+export default function ChefProfileCertificationsSection(): ReactElement {
     const { t } = useTranslation('chef-profile');
     const { isMobile } = useResponsive();
 

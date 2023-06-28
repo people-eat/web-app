@@ -10,7 +10,6 @@ import { GetProfileQueryDocument, UpdateUserProfilePictureDocument } from '../..
 import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEButton from '../../../standard/buttons/PEButton';
-import PECreditCard from '../../../standard/creditCard/PECreditCard';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
@@ -268,7 +267,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                     </VStack>
 
                     <HStack className="w-full gap-6 md:flex-wrap">
-                        <VStack
+                        {/* <VStack
                             className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-3"
                             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                         >
@@ -284,17 +283,14 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                                     type="secondary"
                                 />
                             </HStack>
-                        </VStack>
+                        </VStack> */}
                         <VStack
                             className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-3"
                             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                         >
                             <p className="text-heading-ss w-full justify-start my-0">Password</p>
 
-                            <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                                <p>Password</p>
-                                <PEPasswordTextField password={changedPassword} onChange={setChangedPassword} placeholder={'Password'} />
-                            </VStack>
+                            <PEPasswordTextField password={changedPassword} onChange={setChangedPassword} placeholder={'Password'} />
 
                             <HStack className="mt-6">
                                 <PEButton

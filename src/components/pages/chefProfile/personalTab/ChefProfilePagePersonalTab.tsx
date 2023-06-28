@@ -27,7 +27,6 @@ import CreateAddressDialog from '../../profile/personalTab/CreateAddressDialog';
 import UpdateAddressDialog from '../../profile/personalTab/UpdateAddressDialog';
 import ChefProfileSection1 from './section1/ChefProfileSection1';
 import ChefProfileSection2 from './section2/ChefProfileSection2';
-import ChefProfileSection3 from './section3/ChefProfileSection3';
 import ChefProfileSection5 from './section5/ChefProfileSection5';
 
 // eslint-disable-next-line max-statements
@@ -286,26 +285,9 @@ export default function ChefProfilePagePersonalTab({ cookId }: { cookId: string 
                         </VStack>
                     </VStack>
 
-                    <ChefProfileSection3 />
+                    {/* <ChefProfileCertificationsSection /> */}
 
                     <ChefProfileSection5 chefProfile={chefProfile} />
-
-                    {/* <VStack
-                        className="w-full bg-white shadow-primary box-border p-8 rounded-4 gap-3"
-                        style={{ alignItems: 'center', justifyContent: 'flex-start' }}
-                    >
-                        <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                            <p className="text-heading-ss w-full justify-start my-0">Training</p>
-                            <PEIconButton icon={Icon.plus} iconSize={24} withoutShadow />
-                        </HStack>
-                        <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                            <HStack className="gap-3">
-                                <PEIcon icon={Icon.checkGreen} />
-                                <p className="w-full justify-start m-0">Bio</p>
-                            </HStack>
-                            <PEIconButton icon={Icon.editPencil} iconSize={24} withoutShadow />
-                        </HStack>
-                    </VStack> */}
                 </>
             )}
 

@@ -20,7 +20,6 @@ import PEDropdown from '../../standard/dropdown/PEDropdown';
 import PESingleSelectDropdown from '../../standard/dropdown/PESingleSelectDropdown';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
-import PEImagePicker from '../../standard/imagePicker/PEImagePicker';
 import PESlider from '../../standard/slider/PESlider';
 import PEEmailTextField from '../../standard/textFields/PEEmailTextField';
 import PEPasswordTextField from '../../standard/textFields/PEPasswordTextField';
@@ -45,7 +44,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [profilePicture, setProfilePicture] = useState<File | undefined>(undefined);
+    // const [profilePicture, setProfilePicture] = useState<File | undefined>(undefined);
 
     const [maximumParticipants, setMaximumParticipants] = useState(12);
 
@@ -121,7 +120,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                 lastName,
                 password,
             },
-            profilePicture,
+            // profilePicture,
         },
     });
 
@@ -139,12 +138,14 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 300 }}>
                         <span>{t('first-name')}</span>
                         <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name')} />
+                    </VStack>
 
+                    <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1, minWidth: 300 }}>
                         <span>{t('last-name')}</span>
                         <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name')} />
                     </VStack>
 
-                    <PEImagePicker onPick={setProfilePicture} onRemoveDefaultImage={(): void => setProfilePicture(undefined)} />
+                    {/* <PEImagePicker onPick={setProfilePicture} onRemoveDefaultImage={(): void => setProfilePicture(undefined)} /> */}
                 </HStack>
 
                 <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
