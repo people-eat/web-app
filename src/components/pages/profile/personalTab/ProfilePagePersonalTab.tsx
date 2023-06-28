@@ -5,7 +5,7 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { GetProfileQueryDocument, UpdateUserProfilePictureDocument } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
@@ -56,7 +56,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
 
     const userProfile = data?.users.me;
 
-    const [image] = useState<string | undefined>(userProfile?.profilePictureUrl ?? undefined);
+    const [image, setImage] = useState<string | undefined>(userProfile?.profilePictureUrl ?? undefined);
     const [edit, setEdit] = useState(false);
     const [firstName, setFirstName] = useState(userProfile?.firstName);
     const [lastName, setLastName] = useState(userProfile?.lastName);
@@ -64,6 +64,14 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
     const [editFirstName, setEditFirstName] = useState(userProfile?.firstName);
     const [editLastName, setEditLastName] = useState(userProfile?.lastName);
     const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined | null>(null);
+
+    useEffect((): void => {
+        setFirstName(userProfile?.firstName);
+        setLastName(userProfile?.lastName);
+        setImage(userProfile?.profilePictureUrl ?? undefined);
+        setEditFirstName(userProfile?.firstName);
+        setEditLastName(userProfile?.lastName);
+    }, [loading, data, userProfile?.firstName, userProfile?.lastName, userProfile?.profilePictureUrl]);
 
     function handleUnSaveChefName(): void {
         setEditFirstName(userProfile?.firstName ?? '');
@@ -90,7 +98,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
 
     return (
         <VStack className="w-full md:overflow-hidden relative max-w-screen-xl gap-6 lg:px-4 md:py-6 box-border">
-            {userProfile && (
+            {userProfile && !loading && (
                 <>
                     <HStack className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4" gap={16}>
                         {userProfile.profilePictureUrl && (
@@ -312,7 +320,12 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                                     onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
                                 />
                             </VStack>
-                            <PEButton className="max-w-[250px] mt-10" onClick={handleSaveProfileInfo} title="Save" />
+                            <PEButton
+                                className="max-w-[250px] mt-10"
+                                onClick={handleSaveProfileInfo}
+                                title="Save"
+                                disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
+                            />
                         </VStack>
                     </PEModalPopUp>
                 </>
