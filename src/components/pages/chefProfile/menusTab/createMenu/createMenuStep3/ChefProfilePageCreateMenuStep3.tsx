@@ -140,7 +140,7 @@ export default function ChefProfilePageCreateMenusStep3({
                         </VStack>
 
                         <VStack style={{ flex: 1 }} className="gap-4">
-                            {pricePerChild && (
+                            {pricePerChild !== undefined && (
                                 <>
                                     <PENumberTextField
                                         endContent={<>%</>}
@@ -159,7 +159,7 @@ export default function ChefProfilePageCreateMenusStep3({
                                 </>
                             )}
 
-                            {!pricePerChild && (
+                            {pricePerChild === undefined && (
                                 <>
                                     <PENumberTextField
                                         endContent={<p className="text-disabled">%</p>}

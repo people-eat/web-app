@@ -26,6 +26,7 @@ export interface ChefProfilePageEditMenusStep3Props {
     refetchMenus: (variables?: Partial<{ menuId: string; cookId: string }> | undefined) => Promise<ApolloQueryResult<FindCookMenuQuery>>;
 }
 
+// eslint-disable-next-line max-statements
 export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMenus }: ChefProfilePageEditMenusStep3Props): ReactElement {
     const { isMobile } = useResponsive();
     const { t } = useTranslation('chef-profile');
@@ -154,7 +155,7 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
                         </VStack>
 
                         <VStack style={{ flex: 1 }} className="gap-4 md:gap-0">
-                            {pricePerChild && (
+                            {pricePerChild !== undefined && (
                                 <>
                                     <PENumberTextField
                                         endContent={<>%</>}
@@ -173,7 +174,7 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
                                 </>
                             )}
 
-                            {!pricePerChild && (
+                            {pricePerChild === undefined && (
                                 <>
                                     <PENumberTextField
                                         endContent={<p className="text-disabled">%</p>}
