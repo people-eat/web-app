@@ -214,7 +214,6 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                     }}
                     open={edit}
                     onClose={handleClose}
-                    aria-labelledby="draggable-dialog-component"
                 >
                     <List
                         sx={{

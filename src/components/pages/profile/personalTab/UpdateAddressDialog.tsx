@@ -175,7 +175,6 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                     }}
                     open={open}
                     onClose={onCancel}
-                    aria-labelledby="draggable-dialog-component"
                 >
                     <List
                         sx={{

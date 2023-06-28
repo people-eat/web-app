@@ -115,7 +115,6 @@ export default function ChefProfileCertificationsSection(): ReactElement {
                     }}
                     open={openPopUp}
                     onClose={(): void => setOpenPopUp(false)}
-                    aria-labelledby="draggable-dialog-component"
                 >
                     <List
                         sx={{
