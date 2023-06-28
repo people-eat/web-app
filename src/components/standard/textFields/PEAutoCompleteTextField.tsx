@@ -37,8 +37,6 @@ export default function PEAutoCompleteTextField<T>({
             className={'w-full' + (className ? ' ' + className : '')}
             renderInput={(params): ReactElement => (
                 <PETextField
-                    {...params}
-                    inputProps={{}}
                     value={undefined}
                     onChange={undefined}
                     validationRule={undefined}
@@ -47,6 +45,8 @@ export default function PEAutoCompleteTextField<T>({
                     startContent={startContent}
                     endContent={endContent}
                     style={style}
+                    {...params}
+                    inputProps={{}}
                 />
             )}
         />
