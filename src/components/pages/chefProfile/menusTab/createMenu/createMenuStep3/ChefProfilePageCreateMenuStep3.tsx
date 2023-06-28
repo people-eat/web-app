@@ -9,7 +9,7 @@ import PENumberTextField from '../../../../../standard/textFields/PENumberTextFi
 import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
 
-export function menuPriceCalculation(
+export function calculateMenuPrice(
     adultParticipants: number,
     underagedParticipants: number,
     basePrice: number,
@@ -75,7 +75,7 @@ export default function ChefProfilePageCreateMenusStep3({
     const [adults, setAdults] = useState(4);
     const [children, setChildren] = useState(0);
 
-    const price = menuPriceCalculation(adults, children, basePrice, basePriceCustomers, pricePerAdult, pricePerChild);
+    const price = calculateMenuPrice(adults, children, basePrice, basePriceCustomers, pricePerAdult, pricePerChild);
 
     const cookPrice = price * 0.82;
 

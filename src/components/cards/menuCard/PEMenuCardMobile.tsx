@@ -9,6 +9,7 @@ export default function PEMenuCardMobile({
     description,
     imageUrls,
     pricePerPerson,
+    currencyCode,
     chefFirstName,
     chefProfilePictureUrl,
     categories,
@@ -36,7 +37,9 @@ export default function PEMenuCardMobile({
                 </div>
                 <div className="flex flex-col gap-2">
                     <span className="text-text-sm-bold text-preBlack">{title}</span>
-                    {pricePerPerson ? <span className="text-orange text-text-sm-bold">${pricePerPerson} for each person</span> : null}
+                    <span className="text-orange text-text-sm-bold">
+                        ab {pricePerPerson / 100} {currencyCode} pro Person
+                    </span>
                     <span className="text-text-s text-preBlack line-clamp-4">{description}</span>
                 </div>
             </div>

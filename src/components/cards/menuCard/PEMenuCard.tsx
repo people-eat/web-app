@@ -14,6 +14,7 @@ export default function PEMenuCard({
     description,
     imageUrls,
     pricePerPerson,
+    currencyCode,
     chefFirstName,
     chefProfilePictureUrl,
     categories,
@@ -67,7 +68,9 @@ export default function PEMenuCard({
             <VStack gap={8} className="w-full max-w-[325px] box-border" style={{ alignItems: 'flex-start' }}>
                 <VStack gap={8} className="h-[148px] overflow-hidden" style={{ alignItems: 'flex-start' }}>
                     <span className="text-text-sm-bold text-preBlack">{title}</span>
-                    <span className="text-orange text-text-sm-bold">ab {pricePerPerson}€ pro Person</span>
+                    <span className="text-orange text-text-sm-bold">
+                        ab {pricePerPerson / 100} {currencyCode} pro Person
+                    </span>
                     <span className="w-full text-text-s text-preBlack line-clamp-6">{description}</span>
                 </VStack>
 

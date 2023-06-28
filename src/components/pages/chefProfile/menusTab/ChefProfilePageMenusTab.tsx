@@ -18,6 +18,7 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import ChefProfilePageCreateMenu from './createMenu/ChefProfilePageCreateMenu';
+import { calculateMenuPrice } from './createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 import ChefProfilePageEditMenu from './editMenu/ChefProfilePageEditMenu';
 
 export interface MealEntity {
@@ -148,7 +149,17 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                                         title={menu.title}
                                         description={menu.description}
                                         imageUrls={[]}
-                                        pricePerPerson={menu.pricePerAdult}
+                                        pricePerPerson={
+                                            calculateMenuPrice(
+                                                20,
+                                                0,
+                                                menu.basePrice,
+                                                menu.basePriceCustomers,
+                                                menu.pricePerAdult,
+                                                menu.pricePerChild ?? undefined,
+                                            ) / 20
+                                        }
+                                        currencyCode={menu.currencyCode}
                                         chefFirstName={data?.users.me?.firstName ?? ''}
                                         chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
                                         categories={menu.categories.map(({ title }) => title)}
@@ -159,7 +170,17 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                                         title={menu.title}
                                         description={menu.description}
                                         imageUrls={[]}
-                                        pricePerPerson={menu.pricePerAdult}
+                                        pricePerPerson={
+                                            calculateMenuPrice(
+                                                20,
+                                                0,
+                                                menu.basePrice,
+                                                menu.basePriceCustomers,
+                                                menu.pricePerAdult,
+                                                menu.pricePerChild ?? undefined,
+                                            ) / 20
+                                        }
+                                        currencyCode={menu.currencyCode}
                                         chefFirstName={data?.users.me?.firstName ?? ''}
                                         chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
                                         categories={menu.categories.map(({ title }) => title)}
@@ -190,7 +211,17 @@ export default function ChefProfilePageMenusTab({ cookId }: ChefProfilePageMenus
                                                 title={menu.title}
                                                 description={menu.description}
                                                 imageUrls={[]}
-                                                pricePerPerson={menu.pricePerAdult}
+                                                pricePerPerson={
+                                                    calculateMenuPrice(
+                                                        20,
+                                                        0,
+                                                        menu.basePrice,
+                                                        menu.basePriceCustomers,
+                                                        menu.pricePerAdult,
+                                                        menu.pricePerChild ?? undefined,
+                                                    ) / 20
+                                                }
+                                                currencyCode={menu.currencyCode}
                                                 chefFirstName={data?.users.me?.firstName ?? ''}
                                                 chefProfilePictureUrl={data?.users.me?.profilePictureUrl ?? undefined}
                                                 categories={menu.categories.map(({ title }) => title)}

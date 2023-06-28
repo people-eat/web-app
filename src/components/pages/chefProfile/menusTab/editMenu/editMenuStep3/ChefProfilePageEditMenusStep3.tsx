@@ -18,7 +18,7 @@ import PENumberTextField from '../../../../../standard/textFields/PENumberTextFi
 import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
 import { type MenuEntity } from '../../ChefProfilePageMenusTab';
-import { menuPriceCalculation } from '../../createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
+import { calculateMenuPrice } from '../../createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 
 export interface ChefProfilePageEditMenusStep3Props {
     menu: MenuEntity;
@@ -42,7 +42,7 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
     const [adults, setAdults] = useState(4);
     const [children, setChildren] = useState(0);
     const [isVisible, setIsVisible] = useState(menu.isVisible ?? true);
-    const price = menuPriceCalculation(adults, children, basePrice, basePriceCustomers, pricePerAdult, pricePerChild);
+    const price = calculateMenuPrice(adults, children, basePrice, basePriceCustomers, pricePerAdult, pricePerChild);
 
     const cookPrice = price * 0.82;
 
