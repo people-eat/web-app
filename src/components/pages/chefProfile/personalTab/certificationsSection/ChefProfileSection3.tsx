@@ -1,9 +1,7 @@
 import Dialog from '@mui/material/Dialog';
 import List from '@mui/material/List';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
 import useTranslation from 'next-translate/useTranslation';
-import React, { forwardRef, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import useResponsive from '../../../../../hooks/useResponsive';
 import PEButton from '../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../standard/icon/Icon';
@@ -13,14 +11,6 @@ import PEModalPopUp from '../../../../standard/modal/PEModalPopUp';
 import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
 import VStack from '../../../../utility/vStack/VStack';
-
-const Transition = forwardRef(function Transition(props: TransitionProps & { children: ReactElement }, ref: React.Ref<unknown>) {
-    return (
-        <Slide direction="up" ref={ref} {...props}>
-            {props.children}
-        </Slide>
-    );
-});
 
 export default function ChefProfileCertificationsSection(): ReactElement {
     const { isMobile } = useResponsive();
@@ -125,7 +115,6 @@ export default function ChefProfileCertificationsSection(): ReactElement {
                     }}
                     open={openPopUp}
                     onClose={(): void => setOpenPopUp(false)}
-                    TransitionComponent={Transition}
                     aria-labelledby="draggable-dialog-component"
                 >
                     <List
@@ -139,7 +128,16 @@ export default function ChefProfileCertificationsSection(): ReactElement {
                         }}
                     >
                         <VStack className="w-[750px] md:w-full px-10 md:p-4 py-15 box-border relative">
-                            <h2 className="m-0 mt-[-40px] pb-5 w-full text-heading-ss">{t('popup-training')}</h2>
+                            <div className="absolute top-8 right-8 md:top-2 md:right-0">
+                                <PEIconButton
+                                    icon={Icon.close}
+                                    onClick={(): void => setOpenPopUp(false)}
+                                    withoutShadow
+                                    bg="white"
+                                    iconSize={24}
+                                />
+                            </div>
+                            <h2 className="m-0 pb-5 w-full text-heading-ss">{t('popup-training')}</h2>
                             <VStack className="w-full gap-2 pb-5">
                                 <h2 className="m-0 w-full text-heading-ss">{t('popup-training-title')}</h2>
                                 <h2 className="m-0 w-full text-text-m text-disabled">{t('popup-training-pre-title')}</h2>
