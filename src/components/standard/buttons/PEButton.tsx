@@ -77,7 +77,7 @@ export default function PEButton({
                     {IconLeft}
                     {title && (
                         <span
-                            className={classNames('no-underline text-primary capitalize', {
+                            className={classNames('no-underline text-primary', {
                                 'text-text-s md:text-text-m': size === 's',
                                 'text-text-m md:text-text-m': size === 'm' || size === 'l',
                             })}

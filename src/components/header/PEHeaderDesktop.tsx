@@ -30,26 +30,21 @@ export default function PEHeaderDesktop({ signedInUser }: PEHeaderProps): ReactE
             </Link>
 
             <Link href="/how-to-chef" className="no-underline">
-                <Button className="capitalize" style={{ color: 'rgba(31, 31, 31, 0.8)' }}>
-                    {t('how-to-become-a-chef')}
-                </Button>
+                <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('how-to-become-a-chef')}</Button>
             </Link>
 
             <Spacer />
 
             {!signedInUser && (
                 <Link href="/sign-in" className="mr-4 no-underline">
-                    <Button className="capitalize" style={{ color: 'rgba(31, 31, 31, 0.8)' }}>
-                        {t('sign-in')}
-                    </Button>
+                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{t('sign-in')}</Button>
                 </Link>
             )}
 
             {signedInUser && (
                 <>
                     <Button
-                        className="capitalize"
-                        style={{ color: 'rgba(31, 31, 31, 0.8)' }}
+                        style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}
                         onClick={(event): void => setAnchorEl(event.currentTarget)}
                     >
                         {signedInUser.profilePictureUrl && (
