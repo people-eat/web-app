@@ -3,8 +3,8 @@ import { type ReactElement } from 'react';
 import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
+import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
-import Spacer from "../../utility/spacer/Spacer";
 
 export interface ImprintPageProps {
     signedInUser?: SignedInUser;

@@ -6,6 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { DatePicker } from '@mui/x-date-pickers';
 import moment, { type Moment } from 'moment/moment';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
@@ -27,6 +28,7 @@ import SignUpPageSuccessDialog from './successDialog/SignUpPageSuccessDialog';
 
 // eslint-disable-next-line max-statements
 export default function SignUpPage(): ReactElement {
+    const { t } = useTranslation('chef-sign-up');
     const { isDesktop } = useResponsive();
 
     const [firstName, setFirstName] = useState('');
@@ -153,16 +155,22 @@ export default function SignUpPage(): ReactElement {
                     >
                         <FormGroup>
                             <FormControlLabel
-                                sx={{ '& span': { fontSize: '14px' } }}
                                 control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
-                                label="I have read and accept the Privacy Policy"
+                                label={
+                                    <Link className="no-underline" href={'/data-privacy-policy'}>
+                                        {t('terms-and-conditions-label')}
+                                    </Link>
+                                }
                             />
                         </FormGroup>
                         <FormGroup>
                             <FormControlLabel
-                                sx={{ '& span': { fontSize: '14px' } }}
                                 control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
-                                label="I have read and accept the Terms and Conditions"
+                                label={
+                                    <Link className="no-underline" href={'/terms-and-conditions'}>
+                                        {t('terms-and-conditions-label')}
+                                    </Link>
+                                }
                             />
                         </FormGroup>
                     </VStack>
