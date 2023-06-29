@@ -29,6 +29,7 @@ export default function HomePageMenuSection(): ReactElement {
                             chefFirstName={item.cook.user.firstName}
                             chefProfilePictureUrl={item.cook.user.profilePictureUrl}
                             pricePerPerson={item.price}
+                            currencyCode="EUR"
                             kitchen={item.kitchen}
                             categories={item.categories.map(({ title }) => title)}
                         />
@@ -44,6 +45,7 @@ export default function HomePageMenuSection(): ReactElement {
                             imageUrls={item.pictures}
                             chefProfilePictureUrl={item.cook.user.profilePictureUrl}
                             pricePerPerson={item.price}
+                            currencyCode="EUR"
                             chefFirstName={item.cook.user.firstName}
                             kitchen={item.kitchen}
                             categories={item.categories.map(({ title }) => title)}
