@@ -1,4 +1,5 @@
 import moment from 'moment';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
@@ -10,7 +11,6 @@ import PEHeader from '../../header/PEHeader';
 import HomePageSearchMobile from '../../pages/home/search/HomePageSearchMobile';
 import VStack from '../../utility/vStack/VStack';
 import HomePageCookSection from './cookSection/HomePageCookSection';
-import { headline01, headline02, headline03, subHeadline01, subHeadline02, subHeadline03 } from './index.mock';
 import HomePageMapSection from './mapSection/HomePageMapSection';
 import HomePageMenuSection from './menuSection/HomePageMenuSection';
 import HomePageRatingSection from './ratingSection/HomePageRatingSection';
@@ -37,6 +37,7 @@ export interface HomePageProps {
 }
 
 export default function HomePage({ signedInUser, searchParameters }: HomePageProps): ReactElement {
+    const { t } = useTranslation('home');
     const { isMobile } = useResponsive();
     const router = useRouter();
 
@@ -91,9 +92,9 @@ export default function HomePage({ signedInUser, searchParameters }: HomePagePro
                         style={{ gap: 0 }}
                     >
                         <h1 className="lg:max-w-[360px] max-w-[720px] text-white lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xxl m-0 p-0 lg:uppercase">
-                            {headline01}
-                            <span className="text-orange select-none"> {headline02} </span>
-                            {headline03}
+                            {t('headline-01')}
+                            <span className="text-orange select-none"> {t('headline-02')} </span>
+                            {t('headline-03')}
                         </h1>
                     </div>
 
@@ -124,9 +125,9 @@ export default function HomePage({ signedInUser, searchParameters }: HomePagePro
 
                     <div className="flex w-full lg:justify-center">
                         <p className="text-white text-heading-l lg:text-center lg:my-8 mb-12 lg:text-60black lg:text-text-sm lg:max-w-[180px]">
-                            {subHeadline01}
-                            <span className="text-orange"> {subHeadline02} </span>
-                            {subHeadline03}
+                            {t('sub-headline-01')}
+                            <span className="text-orange"> {t('sub-headline-02')} </span>
+                            {t('sub-headline-03')}
                         </p>
                     </div>
 
