@@ -5,6 +5,7 @@ import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import VStack from '../../utility/vStack/VStack';
+import Spacer from "../../utility/spacer/Spacer";
 
 export interface DataPrivacyPolicyPageProps {
     signedInUser?: SignedInUser;
@@ -21,7 +22,7 @@ export default function DataPrivacyPolicyPage({ signedInUser, latestPrivacyPolic
     const { locale } = useRouter();
 
     return (
-        <VStack className="w-full" style={{ gap: 80 }}>
+        <VStack className="w-full min-h-screen" style={{ gap: 80 }}>
             <PEHeader signedInUser={signedInUser} />
 
             <VStack className="w-full max-w-screen-xl" style={{ gap: 64, alignItems: 'flex-start' }}>
@@ -35,6 +36,8 @@ export default function DataPrivacyPolicyPage({ signedInUser, latestPrivacyPolic
                 )}
                 {!latestPrivacyPolicyUpdate && <>Currently no privacy policy is available</>}
             </VStack>
+
+            <Spacer />
 
             <PEFooter />
         </VStack>

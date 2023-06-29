@@ -322,13 +322,21 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <FormGroup>
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
-                            label={t('privacy-policy-label')}
+                            label={
+                                <Link className="no-underline" href={'/data-privacy-policy'}>
+                                    {t('terms-and-conditions-label')}
+                                </Link>
+                            }
                         />
                     </FormGroup>
                     <FormGroup>
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
-                            label={t('terms-and-conditions-label')}
+                            label={
+                                <Link className="no-underline" href={'/terms-and-conditions'}>
+                                    {t('terms-and-conditions-label')}
+                                </Link>
+                            }
                         />
                     </FormGroup>
                 </VStack>
