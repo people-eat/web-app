@@ -55,7 +55,7 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
         <VStack className="w-full gap-[64px] md:gap-4">
             <PEHeader
                 signedInUser={signedInUser}
-                mobileMenuTabs={MENU_TABS}
+                mobileMenuTabs={MENU_TABS.map((menu) => ({ title: t(menu.title), link: menu.link }))}
                 isMobileMenuOpen={isMobileMenuOpen}
                 setOpenMobileMenu={setOpenMobileMenu}
                 menuButtonLink="/chef-profile"
@@ -65,7 +65,7 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
             {isMobile ? (
                 <HStack className="w-full px-8 box-border" style={{ justifyContent: 'flex-start' }}>
                     <p onClick={(): void => setOpenMobileMenu(true)} className="text-orange text-text-s">
-                        Menu &gt; <span className="text-black">{MENU_TABS[selectedTab]?.title}</span>
+                        Menu &gt; <span className="text-black">{t(MENU_TABS[selectedTab]?.title ?? '')}</span>
                     </p>
                 </HStack>
             ) : (
