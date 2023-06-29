@@ -1,7 +1,9 @@
 import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import List from '@mui/material/List';
-import {useEffect, useState, type ReactElement, forwardRef, type Ref } from 'react';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
+import { forwardRef, useEffect, useState, type ReactElement, type Ref } from 'react';
 import { CreateOneUserAddressDocument } from '../../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
 import useResponsive from '../../../../hooks/useResponsive';
@@ -13,8 +15,6 @@ import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
 
 export interface CreateAddressDialogProps {
     open: boolean;
