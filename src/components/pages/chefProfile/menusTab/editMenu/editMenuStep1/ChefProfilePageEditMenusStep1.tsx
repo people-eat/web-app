@@ -1,6 +1,8 @@
-import { useMutation, type ApolloQueryResult } from '@apollo/client';
+import { useMutation, useQuery, type ApolloQueryResult } from '@apollo/client';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import {
+    GetCreateMenuPageDataDocument,
     UpdateCookMenuKitchenIdDocument,
     UpdateCookMenuTitleDocument,
     type FindCookMenuQuery,
@@ -12,20 +14,6 @@ import PETextField from '../../../../../standard/textFields/PETextField';
 import VStack from '../../../../../utility/vStack/VStack';
 import { type MenuEntity } from '../../ChefProfilePageMenusTab';
 
-const CATEGORIES: { categoryId: string; title: string }[] = [
-    { categoryId: 'A', title: 'Vegetarian' },
-    { categoryId: 'B', title: 'Kosher' },
-    { categoryId: 'C', title: 'Vegetarian' },
-    { categoryId: 'D', title: 'Kosher' },
-];
-
-const KITCHENS: { kitchenId: string; title: string }[] = [
-    { kitchenId: 'A', title: 'European' },
-    { kitchenId: 'B', title: 'Asian' },
-    { kitchenId: 'C', title: 'European' },
-    { kitchenId: 'D', title: 'Asian' },
-];
-
 export interface ChefProfilePageEditMenusStep1Props {
     menu: MenuEntity;
     cookId: string;
@@ -33,8 +21,10 @@ export interface ChefProfilePageEditMenusStep1Props {
 }
 
 export default function ChefProfilePageEditMenusStep1({ cookId, menu, refetchMenus }: ChefProfilePageEditMenusStep1Props): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     const [title, setTitle] = useState(menu.title ?? '');
-    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(menu.kitchen ?? undefined);
+    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined | null>(menu.kitchen);
     const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>(menu.categories ?? []);
 
     const [updateTitle] = useMutation(UpdateCookMenuTitleDocument, { variables: { cookId, menuId: menu.menuId, title } });
@@ -42,16 +32,31 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu, refetchMen
         variables: { cookId, menuId: menu.menuId, kitchenId: selectedKitchen?.kitchenId ?? undefined },
     });
 
+    const { data, refetch: refetchLists } = useQuery(GetCreateMenuPageDataDocument);
+
+    const kitchens = data?.kitchens.findAll ?? [];
+    const categories = data?.categories.findAll ?? [];
+
     function handleSaveUpdates(): void {
         if (menu.title !== title) {
             void updateTitle()
-                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .then((result) => {
+                    if (result.data?.cooks.menus.success) {
+                        void refetchMenus();
+                        void refetchLists();
+                    }
+                })
                 .catch((e) => console.error(e));
         }
 
         if (menu.kitchen?.kitchenId !== selectedKitchen?.kitchenId) {
             void updateKitchenId()
-                .then((result) => result.data?.cooks.menus.success && void refetchMenus())
+                .then((result) => {
+                    if (result.data?.cooks.menus.success) {
+                        void refetchMenus();
+                        void refetchLists();
+                    }
+                })
                 .catch((e) => console.error(e));
         }
     }
@@ -59,14 +64,14 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu, refetchMen
     return (
         <VStack className="w-full gap-6" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <VStack className="w-full">
-                <p className="w-full mb-4 text-text-m-bold my-0">Menu name</p>
+                <p className="w-full mb-4 text-text-m-bold my-0">{t('create-menu-title')}</p>
                 <PETextField type={'text'} value={title} onChange={setTitle} />
             </VStack>
 
             <PEDropdown
                 title={'Categories'}
                 defaultExpanded
-                options={CATEGORIES}
+                options={categories}
                 getOptionLabel={(category): string => category.title}
                 optionsEqual={(categoryA, categoryB): boolean => categoryA.categoryId === categoryB.categoryId}
                 setSelectedOptions={setSelectedCategories}
@@ -76,9 +81,9 @@ export default function ChefProfilePageEditMenusStep1({ cookId, menu, refetchMen
 
             <PESingleSelectDropdown
                 title={'Kitchen'}
-                options={KITCHENS}
-                getOptionLabel={(kitchen): string => kitchen.title}
-                optionsEqual={(kitchenA, kitchenB): boolean => kitchenA.kitchenId === kitchenB.kitchenId}
+                options={kitchens}
+                getOptionLabel={(kitchen): string => kitchen?.title ?? ''}
+                optionsEqual={(kitchenA, kitchenB): boolean => kitchenA?.kitchenId === kitchenB?.kitchenId}
                 selectedOption={selectedKitchen}
                 setSelectedOption={setSelectedKitchen}
                 defaultExpanded
