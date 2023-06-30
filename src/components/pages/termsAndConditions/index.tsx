@@ -4,6 +4,7 @@ import { type ReactElement } from 'react';
 import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
+import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 
 export interface TermsAndConditionsPageProps {
@@ -21,7 +22,7 @@ export default function TermsAndConditionsPage({ signedInUser, latestTermsUpdate
     const { locale } = useRouter();
 
     return (
-        <VStack className="w-full" style={{ gap: 80 }}>
+        <VStack className="w-full min-h-screen" style={{ gap: 80 }}>
             <PEHeader signedInUser={signedInUser} />
 
             <VStack className="w-full max-w-screen-xl" style={{ gap: 64, alignItems: 'flex-start' }}>
@@ -33,6 +34,8 @@ export default function TermsAndConditionsPage({ signedInUser, latestTermsUpdate
                 )}
                 {!latestTermsUpdate && <>Currently no terms and conditions are available</>}
             </VStack>
+
+            <Spacer />
 
             <PEFooter />
         </VStack>
