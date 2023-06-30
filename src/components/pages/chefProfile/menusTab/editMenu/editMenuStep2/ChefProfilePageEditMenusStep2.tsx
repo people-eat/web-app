@@ -1,5 +1,6 @@
 import { useMutation, useQuery, type ApolloQueryResult } from '@apollo/client';
 import { Menu, MenuItem } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import {
@@ -13,9 +14,9 @@ import { Icon } from '../../../../../standard/icon/Icon';
 import PEIcon from '../../../../../standard/icon/PEIcon';
 import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../../../standard/tabItem/PETabItem';
+import PEMultiLineTextField from '../../../../../standard/textFields/PEMultiLineTextField';
 import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
-import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
 import { type MealEntity, type MenuEntity } from '../../ChefProfilePageMenusTab';
 import CreateCookMenuCourse, { type CreateCookMenuCourseDto } from '../../createMenu/createMenuStep2/CreateCookMenuCourse';
@@ -32,8 +33,8 @@ export interface ChefProfilePageEditMenusStep2Props {
 export default function ChefProfilePageEditMenusStep2({ cookId, menu, refetchMenus }: ChefProfilePageEditMenusStep2Props): ReactElement {
     const { t } = useTranslation('chef-profile');
 
-    const [selectedMeals] = useState<string[]>([]);
-    const [greetingFromKitchen, setGreetingFromKitchen] = useState(menu.greetingFromKitchen ?? undefined);
+    const [description, setDescription] = useState(menu.description);
+    const [greetingFromKitchen, setGreetingFromKitchen] = useState(menu.greetingFromKitchen);
 
     const [courses, setCourses] = useState<CreateCookMenuCourseDto[]>([]);
 
@@ -50,6 +51,8 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, refetchMen
     const [updateGreetingFromKitchen] = useMutation(UpdateCookMenuGreetingFromKitchenDocument, {
         variables: { cookId, menuId: menu.menuId },
     });
+
+    const checkCourses = (): boolean => JSON.stringify(courses) === JSON.stringify([]);
 
     function handleSaveUpdates(): void {
         if (menu.greetingFromKitchen !== greetingFromKitchen) {
@@ -70,26 +73,18 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, refetchMen
                             <PETabItem
                                 title={t('create-menu-yes')}
                                 onClick={(): void => setGreetingFromKitchen('')}
-                                active={greetingFromKitchen !== undefined}
+                                active={greetingFromKitchen !== undefined && greetingFromKitchen !== null}
                             />
                             <PETabItem
                                 title={t('create-menu-no')}
                                 onClick={(): void => setGreetingFromKitchen(undefined)}
-                                active={greetingFromKitchen === undefined}
+                                active={greetingFromKitchen === undefined || greetingFromKitchen === null}
                             />
                         </HStack>
-                        {greetingFromKitchen !== undefined && (
+                        {greetingFromKitchen !== undefined && greetingFromKitchen !== null && (
                             <PETextField type={'text'} value={greetingFromKitchen} onChange={setGreetingFromKitchen} />
                         )}
                     </div>
-                </VStack>
-
-                <VStack className="w-full gap-2" style={{ alignItems: 'flex-start' }}>
-                    <span className="text-text-m-bold my-0">{t('create-menu-courses')}</span>
-                    <Spacer />
-                    {Boolean(!selectedMeals.length) && (
-                        <PEButton className="max-w-[250px]" onClick={(): void => setShowCreateCourseDialog(true)} title={t('add-gear')} />
-                    )}
                 </VStack>
 
                 {courses.map((course, index) => (
@@ -116,7 +111,7 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, refetchMen
                         <HStack className="w-full py-4 box-border" gap={16} style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                             <VStack
                                 onClick={(): void => setShowUpdateCourseDialog(true)}
-                                className="items-center w-[400px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
+                                className="items-center w-[388px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
                             >
                                 <PEIcon icon={Icon.plusOrange} />
                                 <span className="text-orange text-text-sm">Add Dish</span>
@@ -198,7 +193,19 @@ export default function ChefProfilePageEditMenusStep2({ cookId, menu, refetchMen
                     />
                 )}
 
-                <PEButton title="Save" onClick={handleSaveUpdates} disabled={menu.greetingFromKitchen === greetingFromKitchen} />
+                <Divider className="w-full" />
+
+                <VStack style={{ alignItems: 'flex-start' }} className="w-full">
+                    <p className="text-text-sm-bold">{t('Description')}</p>
+
+                    <PEMultiLineTextField value={description} onChange={setDescription} />
+                </VStack>
+
+                <PEButton
+                    title="Save"
+                    onClick={handleSaveUpdates}
+                    disabled={menu.greetingFromKitchen === greetingFromKitchen && menu.description === description && checkCourses()}
+                />
             </VStack>
         </VStack>
     );

@@ -3,7 +3,7 @@ import { CircularProgress } from '@mui/material';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { FindCookMenuDocument } from '../../../../../data-source/generated/graphql';
 import { Icon } from '../../../../standard/icon/Icon';
 import PEIconButton from '../../../../standard/iconButton/PEIconButton';
@@ -23,7 +23,12 @@ export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates 
     const [step, setStep] = useState(0);
     const { data, loading, refetch } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
 
-    const menu = data?.cooks.menus.findOne;
+    const [menu, setMenu] = useState(data?.cooks.menus.findOne);
+
+    useEffect(() => {
+        setMenu(data?.cooks.menus.findOne);
+        console.log(menu);
+    }, [data?.cooks.menus.findOne, menu]);
 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>

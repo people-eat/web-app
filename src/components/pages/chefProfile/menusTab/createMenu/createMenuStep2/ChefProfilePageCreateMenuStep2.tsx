@@ -106,7 +106,7 @@ export default function ChefProfilePageCreateMenusStep2({
                         <HStack className="w-full py-4 box-border" gap={16} style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                             <VStack
                                 onClick={(): void => setShowUpdateCourseDialog(true)}
-                                className="items-center w-[400px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
+                                className="items-center w-[388px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
                             >
                                 <PEIcon icon={Icon.plusOrange} />
                                 <span className="text-orange text-text-sm">Add Dish</span>

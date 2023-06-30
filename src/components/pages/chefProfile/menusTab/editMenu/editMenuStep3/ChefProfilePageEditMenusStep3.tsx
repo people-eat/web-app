@@ -35,14 +35,14 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
     const [basePrice, setBasePrice] = useState(menu.basePrice ?? 100);
     const [basePriceCustomers, setBasePriceCustomers] = useState(menu.basePriceCustomers ?? 2);
     const [pricePerAdult, setPricePerAdult] = useState(menu.pricePerAdult ?? 5000);
-    const [pricePerChild, setPricePerChild] = useState<undefined | number>(menu.pricePerChild ?? 0);
+    const [pricePerChild, setPricePerChild] = useState<undefined | number | null>(menu.pricePerChild);
     const [currencyCode] = useState<CurrencyCode>('EUR');
     const [childrenDiscount, setChildrenDiscount] = useState(20);
     const [preparationTime, setPreparationTime] = useState(menu?.preparationTime ?? 60);
     const [adults, setAdults] = useState(4);
     const [children, setChildren] = useState(0);
     const [isVisible, setIsVisible] = useState(menu.isVisible ?? true);
-    const price = calculateMenuPrice(adults, children, basePrice, basePriceCustomers, pricePerAdult, pricePerChild);
+    const price = calculateMenuPrice(adults, children, basePrice, basePriceCustomers, pricePerAdult, pricePerChild ?? 0);
 
     const cookPrice = price * 0.82;
 
@@ -56,7 +56,7 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
         variables: { cookId, menuId: menu.menuId, pricePerAdult },
     });
     const [updatePricePerChild] = useMutation(UpdateCookMenuPricePerChildDocument, {
-        variables: { cookId, menuId: menu.menuId, pricePerChild },
+        variables: { cookId, menuId: menu.menuId, pricePerChild: pricePerChild ?? 0 },
     });
     const [updateIsVisible] = useMutation(UpdateCookMenuIsVisibleDocument, {
         variables: { cookId, menuId: menu.menuId, isVisible },
@@ -171,7 +171,7 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
                         </VStack>
 
                         <VStack style={{ flex: 1 }} className="gap-4">
-                            {pricePerChild !== undefined && (
+                            {pricePerChild !== undefined && pricePerChild !== null && (
                                 <>
                                     <PENumberTextField
                                         min={1}
@@ -196,28 +196,29 @@ export default function ChefProfilePageEditMenusStep3({ cookId, menu, refetchMen
                                 </>
                             )}
 
-                            {pricePerChild === undefined && (
-                                <>
-                                    <PENumberTextField
-                                        min={1}
-                                        step={1}
-                                        max={100}
-                                        endContent={<p className="text-disabled">%</p>}
-                                        onChange={setPricePerChild}
-                                        value={0}
-                                        disabled
-                                    />
-                                    <PENumberTextField
-                                        min={0}
-                                        step={0}
-                                        max={0}
-                                        endContent={<p className="text-green">{currencyCode}</p>}
-                                        onChange={(): void => undefined}
-                                        value={0}
-                                        disabled
-                                    />
-                                </>
-                            )}
+                            {pricePerChild === undefined ||
+                                (pricePerChild === null && (
+                                    <>
+                                        <PENumberTextField
+                                            min={1}
+                                            step={1}
+                                            max={100}
+                                            endContent={<p className="text-disabled">%</p>}
+                                            onChange={setPricePerChild}
+                                            value={0}
+                                            disabled
+                                        />
+                                        <PENumberTextField
+                                            min={0}
+                                            step={0}
+                                            max={0}
+                                            endContent={<p className="text-green">{currencyCode}</p>}
+                                            onChange={(): void => undefined}
+                                            value={0}
+                                            disabled
+                                        />
+                                    </>
+                                ))}
                         </VStack>
                     </HStack>
                 </VStack>
