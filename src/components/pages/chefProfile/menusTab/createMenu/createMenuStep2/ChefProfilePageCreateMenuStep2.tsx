@@ -86,6 +86,7 @@ export default function ChefProfilePageCreateMenusStep2({
                     <VStack key={index} className="w-full" gap={16} style={{ alignItems: 'flex-start' }}>
                         <HStack gap={16} className="w-full" style={{ alignItems: 'center' }}>
                             <PETextField
+                                placeholder={t('create-menu-course-name')}
                                 value={course.title}
                                 onChange={(changedTitle: string): void =>
                                     setCourses(
@@ -109,7 +110,7 @@ export default function ChefProfilePageCreateMenusStep2({
                                 className="items-center w-[388px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
                             >
                                 <PEIcon icon={Icon.plusOrange} />
-                                <span className="text-orange text-text-sm">Add Dish</span>
+                                <span className="text-orange text-text-sm">{t('create-menu-courses-add-meal')}</span>
                             </VStack>
 
                             {course.meals.map((meal) => (
@@ -162,7 +163,7 @@ export default function ChefProfilePageCreateMenusStep2({
                                         ]);
                                     }}
                                 >
-                                    Delete
+                                    {t('create-menu-courses-remove-meal')}
                                 </MenuItem>
                             </Menu>
                         )}
@@ -191,7 +192,7 @@ export default function ChefProfilePageCreateMenusStep2({
                 <Divider className="w-full" />
 
                 <VStack style={{ alignItems: 'flex-start' }} className="w-full">
-                    <p className="text-text-sm-bold">{t('Description')}</p>
+                    <p className="text-text-sm-bold">{t('create-menu-description')}</p>
 
                     <PEMultiLineTextField value={description} onChange={setDescription} />
                 </VStack>

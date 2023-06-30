@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { type MealType } from '../../../../../../data-source/generated/graphql';
 import useResponsive from '../../../../../../hooks/useResponsive';
+import { mealTypeTranslations } from '../../../../../../shared/mealTypeTranslations';
 import { mealTypes } from '../../../../../../shared/mealTypes';
 import PEMealCard from '../../../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../../../standard/buttons/PEButton';
@@ -37,6 +38,7 @@ export default function UpdateCookMenuCourse({
     selectedCourseMeals,
 }: UpdateCookMenuCourseProps): ReactElement {
     const { isMobile } = useResponsive();
+    const { t: translateMealType } = useTranslation('meal-types');
     const { t } = useTranslation('chef-profile');
 
     const [title, setTitle] = useState('');
@@ -56,15 +58,19 @@ export default function UpdateCookMenuCourse({
             <DialogContent sx={{ margin: 0, padding: isMobile ? '8px' : '16px', boxSizing: 'border-box' }}>
                 <DialogContentText>
                     <VStack gap={32}>
-                        <PETextField value={title} onChange={setTitle} type="text" placeholder="Course Name" />
+                        <PETextField value={title} onChange={setTitle} type="text" placeholder={t('create-menu-course-name')} />
 
                         <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start', overflowX: 'scroll' }}>
-                            <PETabItem title={'ALL'} onClick={(): void => setSelectedMealType('ALL')} active={selectedMealType === 'ALL'} />
+                            <PETabItem
+                                title={translateMealType('meal-type-all')}
+                                onClick={(): void => setSelectedMealType('ALL')}
+                                active={selectedMealType === 'ALL'}
+                            />
 
                             {mealTypes.map((mealType, index) => (
                                 <PETabItem
                                     key={index}
-                                    title={mealType}
+                                    title={translateMealType(mealTypeTranslations[mealType])}
                                     onClick={(): void => setSelectedMealType(mealType)}
                                     active={selectedMealType === mealType}
                                 />
@@ -94,7 +100,10 @@ export default function UpdateCookMenuCourse({
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <PEButton title={t('add-gear')} onClick={(): void => onSuccess({ title, meals: Array.from(selectedMeals.values()) })} />
+                <PEButton
+                    title={t('create-menu-courses-save-course')}
+                    onClick={(): void => onSuccess({ title, meals: Array.from(selectedMeals.values()) })}
+                />
             </DialogActions>
         </Dialog>
     );

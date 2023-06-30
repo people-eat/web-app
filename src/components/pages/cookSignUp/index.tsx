@@ -55,8 +55,8 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
     const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-    const [emailAddress, setEmailAddress] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [emailAddress, setEmailAddress] = useState({ value: '', isValid: false });
+    const [phoneNumber, setPhoneNumber] = useState({ value: '', isValid: false });
 
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
@@ -77,7 +77,8 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
         lastName === '' ||
         password === '' ||
         passwordRepeat !== password ||
-        emailAddress === '' ||
+        !emailAddress.isValid ||
+        !phoneNumber.isValid ||
         !selectedLocation ||
         !acceptedPrivacyPolicy ||
         !acceptedTerms;
@@ -128,7 +129,8 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     request: {
                         birthDate: undefined,
                         cook,
-                        emailAddress: emailAddress,
+                        emailAddress: emailAddress.value,
+                        phoneNumber: phoneNumber.value.replaceAll(' ', ''),
                         firstName,
                         gender: 'NO_INFORMATION',
                         language: 'GERMAN',
@@ -278,14 +280,20 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         <HStack gap={8} className="w-full md:flex-wrap">
                             <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                                 <p>{t('email-address')}</p>
-                                <PEEmailTextField email={emailAddress} onChange={setEmailAddress} placeholder={t('email-address')} />
+                                <PEEmailTextField
+                                    email={emailAddress.value}
+                                    onChange={(changedEmailAddress, isValid): void =>
+                                        setEmailAddress({ value: changedEmailAddress, isValid })
+                                    }
+                                    placeholder={t('email-address')}
+                                />
                             </VStack>
 
                             <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                                 <p>{t('phone-number')}</p>
                                 <PEPhoneNumberTextField
-                                    phoneNumber={phoneNumber}
-                                    onChange={setPhoneNumber}
+                                    phoneNumber={phoneNumber.value}
+                                    onChange={(changedPhoneNumber, isValid): void => setPhoneNumber({ value: changedPhoneNumber, isValid })}
                                     placeholder={t('phone-number')}
                                 />
                             </VStack>
@@ -350,7 +358,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
                 {success && (
                     <Dialog open>
-                        {!signedInUser && <SignUpPageSuccessDialog emailAddress={emailAddress} />}
+                        {!signedInUser && <SignUpPageSuccessDialog emailAddress={emailAddress.value} />}
                         {signedInUser && (
                             <DialogContent>
                                 <Link href="chef-profile" className="no-underline">

@@ -35,7 +35,7 @@ export default function SignUpPage(): ReactElement {
     const [lastName, setLastName] = useState('');
     const [birthDate, setBirthDate] = useState(moment().set('year', 2000).set('dayOfYear', 1));
     const [emailAddress, setEmailAddress] = useState({ value: '', isValid: false });
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState({ value: '', isValid: false });
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
@@ -43,6 +43,7 @@ export default function SignUpPage(): ReactElement {
 
     const disabled =
         !emailAddress.isValid ||
+        !phoneNumber.isValid ||
         password.length < 1 ||
         password !== passwordRepeat ||
         firstName.length < 1 ||
@@ -56,6 +57,7 @@ export default function SignUpPage(): ReactElement {
                 birthDate: birthDate.format(moment.HTML5_FMT.DATE),
                 cook: undefined,
                 emailAddress: emailAddress.value,
+                phoneNumber: phoneNumber.value.replaceAll(' ', ''),
                 firstName,
                 gender: 'NO_INFORMATION',
                 language: 'GERMAN',
@@ -120,7 +122,11 @@ export default function SignUpPage(): ReactElement {
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                         <p>{t('phone-number')}</p>
-                        <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={t('phone-number')} />
+                        <PEPhoneNumberTextField
+                            phoneNumber={phoneNumber.value}
+                            onChange={(changedPhoneNumber, isValid): void => setPhoneNumber({ value: changedPhoneNumber, isValid })}
+                            placeholder={t('phone-number')}
+                        />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>

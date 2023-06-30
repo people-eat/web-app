@@ -3,6 +3,7 @@ import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
+import { mealTypeTranslations } from '../../../../shared/mealTypeTranslations';
 import { mealTypes } from '../../../../shared/mealTypes';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import { Icon } from '../../../standard/icon/Icon';
@@ -13,7 +14,6 @@ import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import ChefProfilePageCreateMeal from './ChefProfilePageCreateMeal';
 import ChefProfilePageEditMeal from './ChefProfilePageEditMeal';
-import { mealTypeTranslations } from './mealTypeTranslations';
 
 export interface ChefProfilePageMealsTabProps {
     cookId: string;

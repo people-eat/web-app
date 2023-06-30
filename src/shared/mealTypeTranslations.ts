@@ -1,4 +1,4 @@
-import { type MealType } from '../../../../data-source/generated/graphql';
+import { type MealType } from '../data-source/generated/graphql';
 
 export const mealTypeTranslations: Record<MealType, string> = {
     SOUP: 'meal-type-soup',

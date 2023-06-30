@@ -83,7 +83,7 @@ export default function ChefProfilePageCreateMenusStep3({
         <VStack gap={32} className="w-full" style={{ justifyContent: 'flex-end' }}>
             <HStack className="w-full gap-8 md:gap-0" style={{ alignItems: 'flex-end', flexWrap: 'wrap' }}>
                 <VStack className="h-full" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
-                    <p className="text-text-m-bold">{'Preparation Time'}</p>
+                    <p className="text-text-m-bold">{t('create-menu-preparation-time')}</p>
                     <PENumberTextField
                         min={0}
                         step={15}
@@ -96,7 +96,7 @@ export default function ChefProfilePageCreateMenusStep3({
 
                 <HStack style={{ alignItems: 'center', justifyContent: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 512 }}>
                     <PECheckbox checked={isVisible} onCheckedChange={(): void => setIsVisible(!isVisible)} />
-                    <p className="text-text-m-bold">{'Publish menu immediately after creation'}</p>
+                    <p className="text-text-m-bold">{t('create-menu-is-visible')}</p>
                 </HStack>
             </HStack>
 
@@ -104,7 +104,7 @@ export default function ChefProfilePageCreateMenusStep3({
 
             <HStack className="w-full gap-8 md:gap-4" style={{ flexWrap: 'wrap' }}>
                 <VStack className="gap-4 md:gap-2" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
-                    <p className="text-heading-l mb-2 md:text-text-m-bold">{'Price Configuration'}</p>
+                    <p className="text-heading-l mb-2 md:text-text-m-bold">{t('create-menu-price-configuration-headline')}</p>
 
                     <p className="text-text-sm-bold">{t('create-menu-base-price')}</p>
                     <PENumberTextField

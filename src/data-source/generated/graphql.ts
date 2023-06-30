@@ -834,13 +834,14 @@ export type CreateOneTermsUpdateRequest = {
 export type CreateOneUserByEmailAddressRequest = {
     birthDate?: InputMaybe<Scalars['Date']>;
     cook?: InputMaybe<CreateOneCookRequest>;
-    emailAddress: Scalars['EmailAddress'];
+    emailAddress?: InputMaybe<Scalars['EmailAddress']>;
     firstName: Scalars['String'];
     gender: Gender;
     globalBookingRequest?: InputMaybe<CreateOneGlobalBookingRequestRequest>;
     language: UserLanguage;
     lastName: Scalars['String'];
-    password: Scalars['String'];
+    password?: InputMaybe<Scalars['String']>;
+    phoneNumber?: InputMaybe<Scalars['PhoneNumber']>;
     profilePictureUrl?: InputMaybe<Scalars['URL']>;
 };
 
