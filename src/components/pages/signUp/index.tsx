@@ -95,13 +95,13 @@ export default function SignUpPage(): ReactElement {
                     </HStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>First Name</p>
-                        <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={'First name'} />
+                        <p>{t('first-name')}</p>
+                        <PETextField value={firstName} onChange={setFirstName} type="text" placeholder={t('first-name')} />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Last Name</p>
-                        <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={'Last name'} />
+                        <p>{t('last-name')}</p>
+                        <PETextField value={lastName} onChange={setLastName} type={'text'} placeholder={t('last-name')} />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
@@ -119,27 +119,27 @@ export default function SignUpPage(): ReactElement {
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Phone number</p>
-                        <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={'Phone Number'} />
+                        <p>{t('phone-number')}</p>
+                        <PEPhoneNumberTextField phoneNumber={phoneNumber} onChange={setPhoneNumber} placeholder={t('phone-number')} />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Email</p>
+                        <p>{t('email-address')}</p>
                         <PEEmailTextField
                             email={emailAddress.value}
                             onChange={(changedEmailAddress, isValid): void => setEmailAddress({ value: changedEmailAddress, isValid })}
-                            placeholder={'Email'}
+                            placeholder={t('email-address')}
                         />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Password</p>
-                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={'Password'} />
+                        <p>{t('password')}</p>
+                        <PEPasswordTextField password={password} onChange={setPassword} placeholder={t('password')} />
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Repeat Password</p>
-                        <PEPasswordTextField password={passwordRepeat} onChange={setPasswordRepeat} placeholder={'Repeat Password'} />
+                        <p>{t('password-repeat')}</p>
+                        <PEPasswordTextField password={passwordRepeat} onChange={setPasswordRepeat} placeholder={t('password-repeat')} />
                     </VStack>
 
                     <VStack
@@ -158,7 +158,7 @@ export default function SignUpPage(): ReactElement {
                                 control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
                                 label={
                                     <Link className="no-underline" href={'/data-privacy-policy'}>
-                                        {t('terms-and-conditions-label')}
+                                        {t('privacy-policy-label')}
                                     </Link>
                                 }
                             />
@@ -177,7 +177,7 @@ export default function SignUpPage(): ReactElement {
 
                     <PEButton
                         className="w-full"
-                        title={'Sign up'}
+                        title={t('complete-button-label')}
                         onClick={(): void => void createOneUserByEmailAddress()}
                         disabled={disabled}
                     />

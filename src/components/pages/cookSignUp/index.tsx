@@ -324,7 +324,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                             control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
                             label={
                                 <Link className="no-underline" href={'/data-privacy-policy'}>
-                                    {t('terms-and-conditions-label')}
+                                    {t('privacy-policy-label')}
                                 </Link>
                             }
                         />
