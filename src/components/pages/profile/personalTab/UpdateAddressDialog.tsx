@@ -156,106 +156,113 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
             )}
 
             {isMobile && (
-                <Dialog
-                    sx={{
-                        height: '100vh',
-                        width: '100%',
-                        minHeight: '90%',
-                        minWidth: '100%',
-                        overflow: 'hidden',
-                        position: 'relative',
-                        '& .MuiPaper-root': {
-                            margin: '5vh 0 0',
-                            borderRadius: '16px 16px 0 0',
-                            padding: '16px',
-                            boxSizing: 'border-box',
-                            minHeight: '95vh',
-                            minWidth: '100%',
-                        },
-                    }}
-                    open={open}
-                    onClose={onCancel}
-                >
-                    <List
+                <div style={{ height: '100vh', overflowY: 'scroll' }}>
+                    <Dialog
                         sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            flexDirection: 'column',
+                            height: '100vh',
+                            width: '100%',
                             minHeight: '90%',
                             minWidth: '100%',
-                            height: '80vh',
+                            overflow: 'hidden',
+                            position: 'relative',
+                            '& .MuiPaper-root': {
+                                margin: '5vh 0 0',
+                                borderRadius: '16px 16px 0 0',
+                                padding: '16px',
+                                boxSizing: 'border-box',
+                                minHeight: '95vh',
+                                minWidth: '100%',
+                            },
                         }}
+                        open={open}
+                        onClose={onCancel}
                     >
-                        <DialogTitle>
-                            <HStack>
-                                <span>Edit Address</span>
-                                <Spacer />
-                                <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
-                            </HStack>
-                        </DialogTitle>
-                        <DialogContent>
-                            {!data && (
-                                <VStack
-                                    className="box-border p-4 md:p-0"
-                                    gap={32}
-                                    style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}
-                                >
-                                    <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
-                                        <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
-                                        <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
-                                        <HStack gap={16} className="w-full">
-                                            <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
-                                            <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
-                                        </HStack>
-                                        <HStack gap={16} className="w-full">
-                                            <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
-                                            <PETextField
-                                                value={houseNumber}
-                                                onChange={setHouseNumber}
-                                                placeholder={'House Number'}
-                                                type="text"
+                        <List
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                flexDirection: 'column',
+                                minHeight: '90%',
+                                minWidth: '100%',
+                                height: '80vh',
+                            }}
+                        >
+                            <DialogTitle>
+                                <HStack>
+                                    <span>Edit Address</span>
+                                    <Spacer />
+                                    <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
+                                </HStack>
+                            </DialogTitle>
+                            <DialogContent>
+                                {!data && (
+                                    <VStack
+                                        className="box-border p-4 md:p-0"
+                                        gap={32}
+                                        style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}
+                                    >
+                                        <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
+                                            <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
+                                            <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
+                                            <HStack gap={16} className="w-full">
+                                                <PETextField
+                                                    value={postCode}
+                                                    onChange={setPostCode}
+                                                    placeholder={'Post Code'}
+                                                    type="text"
+                                                />
+                                                <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
+                                            </HStack>
+                                            <HStack gap={16} className="w-full">
+                                                <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
+                                                <PETextField
+                                                    value={houseNumber}
+                                                    onChange={setHouseNumber}
+                                                    placeholder={'House Number'}
+                                                    type="text"
+                                                />
+                                            </HStack>
+                                        </VStack>
+
+                                        <PEMap
+                                            apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
+                                            style={{ height: '256px' }}
+                                            location={location}
+                                        />
+
+                                        <HStack gap={8} className="w-full">
+                                            <PEButton
+                                                title="Delete"
+                                                type="secondary"
+                                                onClick={(): void =>
+                                                    void deleteOneUserAddress({ variables: { userId, addressId: address.addressId } }).then(
+                                                        (res) => res.data?.users.addresses.success && onSuccess(),
+                                                    )
+                                                }
+                                            />
+                                            <PEButton
+                                                title="Save changes"
+                                                onClick={(): void => {
+                                                    if (!disabled && location) {
+                                                        void updateOneUserAddress({
+                                                            variables: {
+                                                                userId,
+                                                                addressId: address.addressId,
+                                                                address: { title, postCode, city, street, houseNumber, country, location },
+                                                            },
+                                                        });
+                                                    }
+                                                }}
+                                                disabled={disabled}
                                             />
                                         </HStack>
                                     </VStack>
-
-                                    <PEMap
-                                        apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''}
-                                        style={{ height: '256px' }}
-                                        location={location}
-                                    />
-
-                                    <HStack gap={8} className="w-full">
-                                        <PEButton
-                                            title="Delete"
-                                            type="secondary"
-                                            onClick={(): void =>
-                                                void deleteOneUserAddress({ variables: { userId, addressId: address.addressId } }).then(
-                                                    (res) => res.data?.users.addresses.success && onSuccess(),
-                                                )
-                                            }
-                                        />
-                                        <PEButton
-                                            title="Save changes"
-                                            onClick={(): void => {
-                                                if (!disabled && location) {
-                                                    void updateOneUserAddress({
-                                                        variables: {
-                                                            userId,
-                                                            addressId: address.addressId,
-                                                            address: { title, postCode, city, street, houseNumber, country, location },
-                                                        },
-                                                    });
-                                                }
-                                            }}
-                                            disabled={disabled}
-                                        />
-                                    </HStack>
-                                </VStack>
-                            )}
-                            {loading && <CircularProgress />}
-                        </DialogContent>
-                    </List>
-                </Dialog>
+                                )}
+                                {loading && <CircularProgress />}
+                            </DialogContent>
+                        </List>
+                    </Dialog>
+                </div>
             )}
         </>
     );

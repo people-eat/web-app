@@ -1,5 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { Dialog, DialogContent } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import List from '@mui/material/List';
 import { DatePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
@@ -304,26 +306,86 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                         </VStack>
                     </HStack>
 
-                    <PEModalPopUp width={isMobile ? '100%' : 750} openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
-                        <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
-                            <h2 className="m-0 pb-5">Change profile info</h2>
-                            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
-                                <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
-                                <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
-                                <PEImagePicker
-                                    onPick={setEditedProfilePicture}
-                                    defaultImage={image}
-                                    onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
+                    {!isMobile && (
+                        <PEModalPopUp width={isMobile ? '100%' : 750} openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
+                            <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
+                                <h2 className="m-0 pb-5">Change profile info</h2>
+                                <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+                                    <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
+                                    <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
+                                    <PEImagePicker
+                                        onPick={setEditedProfilePicture}
+                                        defaultImage={image}
+                                        onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
+                                    />
+                                </VStack>
+                                <PEButton
+                                    className="max-w-[250px] mt-10"
+                                    onClick={handleSaveProfileInfo}
+                                    title="Save"
+                                    disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
                                 />
                             </VStack>
-                            <PEButton
-                                className="max-w-[250px] mt-10"
-                                onClick={handleSaveProfileInfo}
-                                title="Save"
-                                disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
-                            />
-                        </VStack>
-                    </PEModalPopUp>
+                        </PEModalPopUp>
+                    )}
+
+                    {isMobile && (
+                        <div style={{ height: '100vh', overflowY: 'scroll' }}>
+                            <Dialog
+                                sx={{
+                                    height: '100vh',
+                                    width: '100%',
+                                    minHeight: '90%',
+                                    minWidth: '100%',
+                                    overflow: 'hidden',
+                                    position: 'relative',
+                                    '& .MuiPaper-root': {
+                                        margin: '5vh 0 0',
+                                        borderRadius: '16px 16px 0 0',
+                                        padding: '16px',
+                                        boxSizing: 'border-box',
+                                        minHeight: '95vh',
+                                        minWidth: '100%',
+                                    },
+                                }}
+                                aria-describedby="alert-dialog-slide-description"
+                                open={edit}
+                                onClose={(): void => setEdit(false)}
+                            >
+                                <List
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        flexDirection: 'column',
+                                        minHeight: '90%',
+                                        minWidth: '100%',
+                                        height: '80vh',
+                                    }}
+                                >
+                                    <DialogContent sx={{ padding: '30px 0' }}>
+                                        <h2 className="m-0 pb-5">Change profile info</h2>
+                                        <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
+                                            <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
+                                            <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
+                                            <PEImagePicker
+                                                onPick={setEditedProfilePicture}
+                                                defaultImage={image}
+                                                onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
+                                            />
+                                        </VStack>
+                                        <PEButton
+                                            className="max-w-[250px] mt-10"
+                                            onClick={handleSaveProfileInfo}
+                                            title="Save"
+                                            disabled={
+                                                editedProfilePicture === null && firstName === editFirstName && lastName === editLastName
+                                            }
+                                        />
+                                    </DialogContent>
+                                </List>
+                            </Dialog>
+                        </div>
+                    )}
                 </>
             )}
 
