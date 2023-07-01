@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
 import PEButton from '../../standard/buttons/PEButton';
@@ -5,7 +6,6 @@ import PELineButton from '../../standard/buttons/PELineButton';
 import PEDownloadButton from '../../standard/downloadButton/PEDownloadButton';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
-import useTranslation from "next-translate/useTranslation";
 
 export interface PEBookingRequestCardClosedProps {
     onOrderDetailsClick: () => void;
