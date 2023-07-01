@@ -34,7 +34,7 @@ export interface ProfilePagePersonalTabProps {
 }
 
 // eslint-disable-next-line max-statements
-export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps): ReactElement {
+export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTabProps): ReactElement {
     const { t: commonTranslation } = useTranslation('common');
     const { t } = useTranslation('profile');
     const { isMobile } = useResponsive();
@@ -105,7 +105,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
     function handleSavePassword(): void {
         if (changedPassword) {
             void updateProfilePassword({
-                variables: { userId: userProfile?.userId ?? '', password: changedPassword },
+                variables: { userId, password: changedPassword },
             })
                 .then((result) => {
                     result.data?.users.success && void refetch();
