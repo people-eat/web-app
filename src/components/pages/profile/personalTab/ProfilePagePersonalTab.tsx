@@ -207,11 +207,37 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                             </VStack>
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('email-address-label')}</p>
-                                <PETextField disabled type="text" value={userProfile.emailAddress ?? undefined} />
+                                {!userProfile.emailAddress && !userProfile.emailAddressUpdate?.emailAddress && (
+                                    <PETextField disabled type="text" value="" />
+                                )}
+                                {userProfile.emailAddressUpdate?.emailAddress && (
+                                    <PETextField
+                                        disabled
+                                        type="text"
+                                        value={userProfile.emailAddressUpdate.emailAddress}
+                                        endContent={<>not confirmed</>}
+                                    />
+                                )}
+                                {userProfile.emailAddress && !userProfile.emailAddressUpdate?.emailAddress && (
+                                    <PETextField disabled type="text" value={userProfile.emailAddress} />
+                                )}
                             </VStack>
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('phone-number-label')}</p>
-                                <PETextField disabled type="text" value={userProfile.phoneNumber ?? undefined} />
+                                {!userProfile.phoneNumber && !userProfile.phoneNumberUpdate?.phoneNumber && (
+                                    <PETextField disabled type="text" value="" />
+                                )}
+                                {userProfile.phoneNumberUpdate?.phoneNumber && (
+                                    <PETextField
+                                        disabled
+                                        type="text"
+                                        value={userProfile.phoneNumberUpdate.phoneNumber}
+                                        endContent={<>not confirmed</>}
+                                    />
+                                )}
+                                {userProfile.phoneNumber && !userProfile.phoneNumberUpdate?.phoneNumber && (
+                                    <PETextField disabled type="text" value={userProfile.phoneNumber} />
+                                )}
                             </VStack>
                         </HStack>
                     </VStack>

@@ -1,0 +1,7 @@
+mutation CreateOnePhoneNumberUpdate($phoneNumber: PhoneNumber!, $userId: String!) {
+    users {
+        phoneNumberUpdate(userId: $userId) {
+            success: createOne(phoneNumber: $phoneNumber)
+        }
+    }
+}

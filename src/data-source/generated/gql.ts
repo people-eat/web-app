@@ -132,6 +132,10 @@ const documents = {
     'mutation CreateOneEmailAddressUpdate($emailAddress: EmailAddress!, $userId: String!) {\n  users {\n    emailAddressUpdate(userId: $userId) {\n      success: createOne(emailAddress: $emailAddress)\n    }\n  }\n}':
         types.CreateOneEmailAddressUpdateDocument,
     'fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n  isAdmin\n}': types.SignedInUserFragmentDoc,
+    'mutation ConfirmOnePhoneNumberUpdate($userId: String!, $secret: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: confirm(secret: $secret)\n    }\n  }\n}':
+        types.ConfirmOnePhoneNumberUpdateDocument,
+    'mutation CreateOnePhoneNumberUpdate($phoneNumber: PhoneNumber!, $userId: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: createOne(phoneNumber: $phoneNumber)\n    }\n  }\n}':
+        types.CreateOnePhoneNumberUpdateDocument,
     'mutation CreateOneCook($cookId: String!, $request: CreateOneCookRequest!) {\n  cooks {\n    success: createOne(cookId: $cookId, request: $request)\n  }\n}':
         types.CreateOneCookDocument,
     'mutation CreateOneUserAddress($address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: createOne(address: $address)\n    }\n  }\n}':
@@ -542,6 +546,18 @@ export function gql(
 export function gql(
     source: 'fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n  isAdmin\n}',
 ): (typeof documents)['fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n  isAdmin\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation ConfirmOnePhoneNumberUpdate($userId: String!, $secret: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: confirm(secret: $secret)\n    }\n  }\n}',
+): (typeof documents)['mutation ConfirmOnePhoneNumberUpdate($userId: String!, $secret: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: confirm(secret: $secret)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation CreateOnePhoneNumberUpdate($phoneNumber: PhoneNumber!, $userId: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: createOne(phoneNumber: $phoneNumber)\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOnePhoneNumberUpdate($phoneNumber: PhoneNumber!, $userId: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: createOne(phoneNumber: $phoneNumber)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

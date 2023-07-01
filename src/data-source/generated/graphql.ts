@@ -2710,6 +2710,26 @@ export type SignedInUserFragment = {
     isAdmin: boolean;
 } & { ' $fragmentName'?: 'SignedInUserFragment' };
 
+export type ConfirmOnePhoneNumberUpdateMutationVariables = Exact<{
+    userId: Scalars['String'];
+    secret: Scalars['String'];
+}>;
+
+export type ConfirmOnePhoneNumberUpdateMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; phoneNumberUpdate: { __typename?: 'UserPhoneNumberUpdateMutation'; success: boolean } };
+};
+
+export type CreateOnePhoneNumberUpdateMutationVariables = Exact<{
+    phoneNumber: Scalars['PhoneNumber'];
+    userId: Scalars['String'];
+}>;
+
+export type CreateOnePhoneNumberUpdateMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; phoneNumberUpdate: { __typename?: 'UserPhoneNumberUpdateMutation'; success: boolean } };
+};
+
 export type CreateOneCookMutationVariables = Exact<{
     cookId: Scalars['String'];
     request: CreateOneCookRequest;
@@ -6945,6 +6965,134 @@ export const CreateOneEmailAddressUpdateDocument = {
         },
     ],
 } as unknown as DocumentNode<CreateOneEmailAddressUpdateMutation, CreateOneEmailAddressUpdateMutationVariables>;
+export const ConfirmOnePhoneNumberUpdateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'ConfirmOnePhoneNumberUpdate' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'secret' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'phoneNumberUpdate' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'confirm' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'secret' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'secret' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ConfirmOnePhoneNumberUpdateMutation, ConfirmOnePhoneNumberUpdateMutationVariables>;
+export const CreateOnePhoneNumberUpdateDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOnePhoneNumberUpdate' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumber' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'PhoneNumber' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'phoneNumberUpdate' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'createOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'phoneNumber' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'phoneNumber' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOnePhoneNumberUpdateMutation, CreateOnePhoneNumberUpdateMutationVariables>;
 export const CreateOneCookDocument = {
     kind: 'Document',
     definitions: [
