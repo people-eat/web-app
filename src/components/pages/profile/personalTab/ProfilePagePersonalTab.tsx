@@ -8,7 +8,11 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
-import { GetProfileQueryDocument, UpdateUserProfilePictureDocument } from '../../../../data-source/generated/graphql';
+import {
+    GetProfileQueryDocument,
+    UpdateUserPasswordDocument,
+    UpdateUserProfilePictureDocument
+} from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -81,6 +85,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
     }
 
     const [updateProfilePicture] = useMutation(UpdateUserProfilePictureDocument);
+    const [updateProfilePassword] = useMutation(UpdateUserPasswordDocument);
 
     function handleSaveProfileInfo(): void {
         if (editedProfilePicture !== null) {
@@ -95,6 +100,10 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
         setFirstName(editFirstName);
         setLastName(editLastName);
         setEdit(!edit);
+    }
+
+    function handleSavePassword(): void {
+        void updateProfilePassword();
     }
 
     return (
