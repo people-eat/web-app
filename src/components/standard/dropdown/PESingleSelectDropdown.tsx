@@ -34,9 +34,12 @@ export default function PESingleSelectDropdown<T>({
                 if (!selectedOption) {
                     setSelectedOptions(changedSelectedOption ? [changedSelectedOption] : []);
                     setSelectedOption(changedSelectedOption);
-                } else {
+                } else if (second) {
                     setSelectedOptions(second ? [second] : []);
                     setSelectedOption(second);
+                } else {
+                    setSelectedOptions(changedSelectedOption ? [changedSelectedOption] : []);
+                    setSelectedOption(changedSelectedOption);
                 }
             }}
             selectedOptions={selectedOptions}
