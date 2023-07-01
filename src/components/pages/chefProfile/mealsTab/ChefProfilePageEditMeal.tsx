@@ -189,7 +189,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                                     {t('create-meal-dropdown-delete')} &ldquo;{meal.title}&ldquo;
                                 </p>
 
-                                <p className="m-0 w-full text-start">{t('remove-dish-warning', { title: meal.title })}&ldquo;?</p>
+                                <p className="m-0 w-full text-start">{t('remove-dish-warning', { title: meal.title })}</p>
 
                                 <HStack className="w-full gap-4">
                                     <PEButton

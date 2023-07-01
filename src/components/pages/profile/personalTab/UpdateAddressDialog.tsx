@@ -107,13 +107,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                         placeholder={profileTranslates('popup-addresses-title')}
                                         type="text"
                                     />
-                                    <PETextField
-                                        value={country}
-                                        onChange={setCountry}
-                                        placeholder={profileTranslates('popup-addresses-country')}
-                                        type="text"
-                                    />
-                                    <div className="w-full flex flex-row gap-4 md:flex-col">
+                                    <HStack className="w-full gap-4 md:flex-col">
                                         <PETextField
                                             value={city}
                                             onChange={setCity}
@@ -126,8 +120,8 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                             placeholder={profileTranslates('popup-addresses-postcode')}
                                             type="text"
                                         />
-                                    </div>
-                                    <div className="w-full flex flex-row gap-4 md:flex-col">
+                                    </HStack>
+                                    <HStack className="w-full gap-4 md:flex-col">
                                         <PETextField
                                             value={street}
                                             onChange={setStreet}
@@ -140,7 +134,13 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                             placeholder={profileTranslates('popup-addresses-number')}
                                             type="text"
                                         />
-                                    </div>
+                                    </HStack>
+                                    <PETextField
+                                        value={country}
+                                        onChange={setCountry}
+                                        placeholder={profileTranslates('popup-addresses-country')}
+                                        type="text"
+                                    />
                                 </VStack>
 
                                 <PEMap
