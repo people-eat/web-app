@@ -36,7 +36,7 @@ export const mockPublicMenus: MockPublicMenu[] = [
             '/menus/menu-05.jpeg',
             '/menus/menu-06.jpeg',
         ],
-        price: 105,
+        price: 10500,
     },
     {
         title: 'Alltime Favorite',
@@ -61,7 +61,7 @@ export const mockPublicMenus: MockPublicMenu[] = [
             '/menus/menu-011.jpeg',
             '/menus/menu-012.jpeg',
         ],
-        price: 95,
+        price: 9500,
     },
     {
         title: 'Diner mit Freunden',
@@ -85,7 +85,7 @@ export const mockPublicMenus: MockPublicMenu[] = [
             '/menus/menu-17.jpeg',
             '/menus/menu-18.jpeg',
         ],
-        price: 70,
+        price: 7000,
     },
     {
         title: 'Momentaufnahme Frühling 23',
@@ -99,7 +99,7 @@ export const mockPublicMenus: MockPublicMenu[] = [
             },
         },
         pictures: ['/menus/menu-19.jpeg', '/menus/menu-20.jpeg'],
-        price: 92,
+        price: 9200,
     },
     {
         title: 'Veganer Abend mit Freunden',
@@ -126,6 +126,6 @@ export const mockPublicMenus: MockPublicMenu[] = [
             '/menus/menu-25.jpeg',
             '/menus/menu-26.jpeg',
         ],
-        price: 87,
+        price: 8700,
     },
 ];

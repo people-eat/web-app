@@ -192,7 +192,7 @@ export default function ChefProfilePageCreateMenusStep2({
                 <Divider className="w-full" />
 
                 <VStack style={{ alignItems: 'flex-start' }} className="w-full">
-                    <p className="text-text-sm-bold">{t('create-menu-description')}</p>
+                    <p className="text-text-m-bold">{t('create-menu-description')}</p>
 
                     <PEMultiLineTextField value={description} onChange={setDescription} />
                 </VStack>
