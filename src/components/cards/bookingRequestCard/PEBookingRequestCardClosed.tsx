@@ -5,6 +5,7 @@ import PELineButton from '../../standard/buttons/PELineButton';
 import PEDownloadButton from '../../standard/downloadButton/PEDownloadButton';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
+import useTranslation from "next-translate/useTranslation";
 
 export interface PEBookingRequestCardClosedProps {
     onOrderDetailsClick: () => void;
@@ -39,11 +40,13 @@ export default function PEBookingRequestCardClosed({
     time,
     address,
 }: PEBookingRequestCardClosedProps): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     return (
         <div className="flex md:w-[580px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
             <div className="flex w-full justify-between">
                 <div className="flex gap-4 justify-between md:justify-center w-full md:w-auto">
-                    <PELineButton title={'Order Details'} onClick={onOrderDetailsClick} />
+                    <PELineButton title={t('booking-order-details')} onClick={onOrderDetailsClick} />
                     <PELineButton title={'Recension (Hansen)'} onClick={onShowReviewClick} />
                 </div>
                 <span className="text-60black text-text-sm hidden md:block">{date}</span>
@@ -71,15 +74,15 @@ export default function PEBookingRequestCardClosed({
                 </div>
             </div>
             <span className="text-text-sm flex items-center gap-2">
-                Price: <span className="text-green text-heading-ss-bold">{price}</span>
+                {t('booking-price')} <span className="text-green text-heading-ss-bold">{price}</span>
             </span>
             <div className="flex">
                 <div className="flex flex-col gap-3">
                     <span className="text-gray md:text-text-s text-text-m">
-                        Event date: <span className="text-black">{eventDate}</span>
+                        {t('booking-date')} <span className="text-black">{eventDate}</span>
                     </span>
                     <span className="text-gray md:text-text-s text-text-m">
-                        Persons: <span className="text-black">{persons}</span>
+                        {t('booking-persons')} <span className="text-black">{persons}</span>
                     </span>
                 </div>
                 <span className="w-[1px] mx-3 md:mx-4 h-[52px] bg-separator rounded-1" />
@@ -102,7 +105,7 @@ export default function PEBookingRequestCardClosed({
                     />
                 </div>
                 <div className="basis-1/2">
-                    <PEButton onClick={onSendInvoiceClick} title={'Send invoice to customer'} size={'s'} />
+                    <PEButton onClick={onSendInvoiceClick} title={t('booking-send-invoice')} />
                 </div>
             </div>
             <span className="text-60black text-text-s block md:hidden w-full text-end">{date}</span>
