@@ -103,7 +103,16 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
     }
 
     function handleSavePassword(): void {
-        void updateProfilePassword();
+        if (changedPassword) {
+            void updateProfilePassword({
+                variables: { userId: userProfile?.userId ?? '', password: changedPassword },
+            })
+                .then((result) => {
+                    result.data?.users.success && void refetch();
+                    setChangedPassword('');
+                })
+                .catch((e) => console.error(e));
+        }
     }
 
     return (
@@ -337,7 +346,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                                 <PEButton
                                     fontSize={'text-text-m'}
                                     className="min-w-[300px]"
-                                    onClick={(): void => undefined}
+                                    onClick={handleSavePassword}
                                     title={t('section-password-change-button')}
                                     type="secondary"
                                 />
