@@ -72,7 +72,7 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
             className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
-            <p className="text-heading-ss w-full justify-start my-0">Language</p>
+            <p className="text-heading-ss w-full justify-start my-0">{t('section-languages')}</p>
             {data && !loading && (
                 <VStack className="w-full gap-3">
                     <VStack className="w-full mt-4" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>

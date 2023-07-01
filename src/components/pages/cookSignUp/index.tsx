@@ -333,7 +333,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
                             label={
-                                <Link className="no-underline" href={'/data-privacy-policy'}>
+                                <Link className="no-underline text-orange" href={'/data-privacy-policy'}>
                                     {t('privacy-policy-label')}
                                 </Link>
                             }
@@ -343,7 +343,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
                             label={
-                                <Link className="no-underline" href={'/terms-and-conditions'}>
+                                <Link className="no-underline text-orange" href={'/terms-and-conditions'}>
                                     {t('terms-and-conditions-label')}
                                 </Link>
                             }

@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import useTranslation from 'next-translate/useTranslation';
 import List from '@mui/material/List';
 import { useEffect, useState, type ReactElement } from 'react';
 import { DeleteOneUserAddressDocument, UpdateOneUserAddressDocument } from '../../../../data-source/generated/graphql';
@@ -36,6 +37,7 @@ export interface UpdateAddressDialogProps {
 
 export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel, address }: UpdateAddressDialogProps): ReactElement {
     const { isMobile } = useResponsive();
+    const { t: profileTranslates } = useTranslation('profile');
 
     const [title, setTitle] = useState(address.title);
     const [postCode, setPostCode] = useState(address.postCode);
@@ -86,7 +88,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                 <Dialog open={open} onClose={onCancel}>
                     <DialogTitle>
                         <HStack>
-                            <span>Edit Address</span>
+                            <span>{profileTranslates('popup-button-add')}</span>
                             <Spacer />
                             <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                         </HStack>
@@ -99,21 +101,46 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                 style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}
                             >
                                 <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
-                                    <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
-                                    <HStack gap={16} className="w-full">
-                                        <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
-                                        <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
-                                    </HStack>
-                                    <HStack gap={16} className="w-full">
-                                        <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
+                                    <PETextField
+                                        value={title}
+                                        onChange={setTitle}
+                                        placeholder={profileTranslates('popup-addresses-title')}
+                                        type="text"
+                                    />
+                                    <PETextField
+                                        value={country}
+                                        onChange={setCountry}
+                                        placeholder={profileTranslates('popup-addresses-country')}
+                                        type="text"
+                                    />
+                                    <div className="w-full flex flex-row gap-4 md:flex-col">
+                                        <PETextField
+                                            value={city}
+                                            onChange={setCity}
+                                            placeholder={profileTranslates('popup-addresses-city')}
+                                            type="text"
+                                        />
+                                        <PETextField
+                                            value={postCode}
+                                            onChange={setPostCode}
+                                            placeholder={profileTranslates('popup-addresses-postcode')}
+                                            type="text"
+                                        />
+                                    </div>
+                                    <div className="w-full flex flex-row gap-4 md:flex-col">
+                                        <PETextField
+                                            value={street}
+                                            onChange={setStreet}
+                                            placeholder={profileTranslates('popup-addresses-street')}
+                                            type="text"
+                                        />
                                         <PETextField
                                             value={houseNumber}
                                             onChange={setHouseNumber}
-                                            placeholder={'House Number'}
+                                            placeholder={profileTranslates('popup-addresses-number')}
                                             type="text"
                                         />
-                                    </HStack>
-                                    <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
+                                    </div>
                                 </VStack>
 
                                 <PEMap
@@ -189,7 +216,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                         >
                             <DialogTitle>
                                 <HStack>
-                                    <span>Edit Address</span>
+                                    <span>{profileTranslates('popup-button-add')}</span>
                                     <Spacer />
                                     <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                                 </HStack>
@@ -202,26 +229,46 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                         style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}
                                     >
                                         <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
-                                            <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
-                                            <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
-                                            <HStack gap={16} className="w-full">
+                                            <PETextField
+                                                value={title}
+                                                onChange={setTitle}
+                                                placeholder={profileTranslates('popup-addresses-title')}
+                                                type="text"
+                                            />
+                                            <PETextField
+                                                value={country}
+                                                onChange={setCountry}
+                                                placeholder={profileTranslates('popup-addresses-country')}
+                                                type="text"
+                                            />
+                                            <div className="w-full flex flex-row gap-4 md:flex-col">
+                                                <PETextField
+                                                    value={city}
+                                                    onChange={setCity}
+                                                    placeholder={profileTranslates('popup-addresses-city')}
+                                                    type="text"
+                                                />
                                                 <PETextField
                                                     value={postCode}
                                                     onChange={setPostCode}
-                                                    placeholder={'Post Code'}
+                                                    placeholder={profileTranslates('popup-addresses-postcode')}
                                                     type="text"
                                                 />
-                                                <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
-                                            </HStack>
-                                            <HStack gap={16} className="w-full">
-                                                <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
+                                            </div>
+                                            <div className="w-full flex flex-row gap-4 md:flex-col">
+                                                <PETextField
+                                                    value={street}
+                                                    onChange={setStreet}
+                                                    placeholder={profileTranslates('popup-addresses-street')}
+                                                    type="text"
+                                                />
                                                 <PETextField
                                                     value={houseNumber}
                                                     onChange={setHouseNumber}
-                                                    placeholder={'House Number'}
+                                                    placeholder={profileTranslates('popup-addresses-number')}
                                                     type="text"
                                                 />
-                                            </HStack>
+                                            </div>
                                         </VStack>
 
                                         <PEMap

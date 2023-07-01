@@ -123,7 +123,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                         />
                     </div>
 
-                    <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">Change the dish info</p>
+                    <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">{t('change-dish-info')}</p>
 
                     <VStack className="w-full">
                         <p className="w-full mb-4 text-text-m-bold my-0">{t('create-meal-course')}</p>
@@ -160,9 +160,13 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                     </VStack>
 
                     <HStack gap={16} className="w-full">
-                        <PEButton title="Delete" onClick={(): void => setShowDeleteDialog(true)} type="secondary" />
                         <PEButton
-                            title="Save Changes"
+                            title={t('create-meal-dropdown-delete')}
+                            onClick={(): void => setShowDeleteDialog(true)}
+                            type="secondary"
+                        />
+                        <PEButton
+                            title={t('save-changes')}
                             onClick={handleSaveUpdates}
                             disabled={meal.title === title && meal.description === description && meal.type === type && image === null}
                         />
@@ -181,17 +185,23 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                                     />
                                 </VStack>
 
-                                <p className="m-0 mt-2 text-text-m-bold w-full text-start">Delete &ldquo;{meal.title}&ldquo;</p>
+                                <p className="m-0 mt-2 text-text-m-bold w-full text-start">
+                                    {t('create-meal-dropdown-delete')} &ldquo;{meal.title}&ldquo;
+                                </p>
 
-                                <p className="m-0 w-full text-start">Do you really want to delete your dish &ldquo;{meal.title}&ldquo;?</p>
+                                <p className="m-0 w-full text-start">{t('remove-dish-warning', { title: meal.title })}&ldquo;?</p>
 
                                 <HStack className="w-full gap-4">
-                                    <PEButton onClick={(): void => setShowDeleteDialog(false)} title="Cancel" type="secondary" />
+                                    <PEButton
+                                        onClick={(): void => setShowDeleteDialog(false)}
+                                        title={t('cancel-button')}
+                                        type="secondary"
+                                    />
                                     <PEButton
                                         onClick={(): void =>
                                             void deleteMeal().then((result) => result.data?.cooks.meals.success && onSaveUpdates())
                                         }
-                                        title="Delete"
+                                        title={t('create-meal-dropdown-delete')}
                                     />
                                 </HStack>
                             </VStack>

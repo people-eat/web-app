@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Button, Paper } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import {
     CreateOneCookBookingRequestDocument,
@@ -17,14 +18,15 @@ import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import { orders } from './orders.mock';
 
-const BOOKING_TABS = ['Open', 'In Progress', 'Completed'];
-
 export interface ChefProfilePageBookingTabProps {
     cookId: string;
 }
 
 export default function ChefProfilePageBookingTab({ cookId }: ChefProfilePageBookingTabProps): ReactElement {
     const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
+    const { t } = useTranslation('chef-profile');
+
+    const BOOKING_TABS = ['Open', t('booking-in-progress'), 'Completed'];
 
     const { data, loading, error } = useQuery(FindCookProfileGlobalBookingRequestsDocument, { variables: { cookId } });
     const globalBookingRequests = data?.cooks.globalBookingRequests.findMany;
@@ -49,7 +51,11 @@ export default function ChefProfilePageBookingTab({ cookId }: ChefProfilePageBoo
 
                 <Spacer />
 
-                <PETabItem title={'Global Requests'} onClick={(): void => setSelectedTab(undefined)} active={selectedTab === undefined} />
+                <PETabItem
+                    title={t('booking-global-requests')}
+                    onClick={(): void => setSelectedTab(undefined)}
+                    active={selectedTab === undefined}
+                />
             </HStack>
 
             {selectedTab === 0 && (

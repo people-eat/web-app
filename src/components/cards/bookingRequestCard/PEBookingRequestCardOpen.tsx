@@ -4,6 +4,7 @@ import PEButton from '../../standard/buttons/PEButton';
 import PELineButton from '../../standard/buttons/PELineButton';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
+import useTranslation from "next-translate/useTranslation";
 
 export interface PEBookingRequestCardOfferProps {
     onOrderDetailsClick: () => void;
@@ -36,6 +37,8 @@ export default function PEBookingRequestCardOpen({
     time,
     address,
 }: PEBookingRequestCardOfferProps): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     return (
         <div className="flex gap-4 flex-col p-8 md:p-4 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
             <div className="flex w-full justify-between">
@@ -65,7 +68,7 @@ export default function PEBookingRequestCardOpen({
                 </div>
             </div>
             <span className="text-text-sm flex items-center gap-2">
-                Price: <span className="text-green text-heading-ss-bold md:text-text-m-bold">{price}</span>
+                {t('booking-price')} <span className="text-green text-heading-ss-bold md:text-text-m-bold">{price}</span>
             </span>
             <div className="flex">
                 <div className="flex flex-col gap-3">

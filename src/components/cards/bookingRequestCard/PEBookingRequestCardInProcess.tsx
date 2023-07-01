@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
 import PEButton from '../../standard/buttons/PEButton';
@@ -34,10 +35,12 @@ export default function PEBookingRequestCardInProcess({
     time,
     address,
 }: PEBookingRequestCardInProcessProps): ReactElement {
+    const { t } = useTranslation('chef-profile');
+
     return (
         <div className="flex md:w-[580px] gap-4 flex-col p-8 box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active">
             <div className="flex w-full justify-between">
-                <PELineButton title={'Order Details'} onClick={onOrderDetailsClick} />
+                <PELineButton title={t('booking-order-details')} onClick={onOrderDetailsClick} />
                 <span className="text-60black text-text-sm hidden md:block">{date}</span>
             </div>
             <span className="pt-4 text-heading-ss-bold">{menuName}</span>
@@ -63,15 +66,15 @@ export default function PEBookingRequestCardInProcess({
                 </div>
             </div>
             <span className="text-text-sm flex items-center gap-2">
-                Price: <span className="text-green text-heading-ss-bold">{price}</span>
+                {t('booking-price')} <span className="text-green text-heading-ss-bold">{price}</span>
             </span>
             <div className="flex">
                 <div className="flex flex-col gap-3">
                     <span className="text-gray md:text-text-s text-text-m">
-                        Event date: <span className="text-black">{eventDate}</span>
+                        {t('booking-date')} <span className="text-black">{eventDate}</span>
                     </span>
                     <span className="text-gray md:text-text-s text-text-m">
-                        Persons: <span className="text-black">{persons}</span>
+                        {t('booking-persons')} <span className="text-black">{persons}</span>
                     </span>
                 </div>
                 <span className="w-[1px] mx-3 md:mx-4 h-[52px] bg-separator rounded-1" />
@@ -85,7 +88,7 @@ export default function PEBookingRequestCardInProcess({
                 </div>
             </div>
             <div className="flex flex-row gap-3 mt-3">
-                <PEButton onClick={onAcceptAsSender} title={'Go to chat'} size={'s'} type={'secondary'} />
+                <PEButton onClick={onAcceptAsSender} title={t('booking-go-to-chat')} type={'secondary'} />
             </div>
             <span className="text-60black text-text-s block md:hidden w-full text-end">{date}</span>
         </div>

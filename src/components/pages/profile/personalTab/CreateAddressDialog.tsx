@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import useTranslation from 'next-translate/useTranslation';
 import List from '@mui/material/List';
 import Slide from '@mui/material/Slide';
 import { type TransitionProps } from '@mui/material/transitions';
@@ -33,6 +34,7 @@ const Transition = forwardRef(function Transition(props: TransitionProps & { chi
 
 export default function CreateAddressDialog({ open, userId, onSuccess, onCancel }: CreateAddressDialogProps): ReactElement {
     const { isMobile } = useResponsive();
+    const { t: profileTranslates } = useTranslation('profile');
 
     const [title, setTitle] = useState('');
     const [postCode, setPostCode] = useState('');
@@ -85,7 +87,7 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
                 <Dialog open={open} onClose={onCancel} TransitionComponent={Transition} keepMounted>
                     <DialogTitle>
                         <HStack>
-                            <span>Add Address</span>
+                            <span>{profileTranslates('popup-button-add')}</span>
                             <Spacer />
                             <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                         </HStack>
@@ -98,21 +100,46 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
                                 style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}
                             >
                                 <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
-                                    <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
+                                    <PETextField
+                                        value={title}
+                                        onChange={setTitle}
+                                        placeholder={profileTranslates('popup-addresses-title')}
+                                        type="text"
+                                    />
+                                    <PETextField
+                                        value={country}
+                                        onChange={setCountry}
+                                        placeholder={profileTranslates('popup-addresses-country')}
+                                        type="text"
+                                    />
                                     <div className="w-full flex flex-row gap-4 md:flex-col">
-                                        <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
-                                        <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
-                                    </div>
-                                    <div className="w-full flex flex-row gap-4 md:flex-col">
-                                        <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
                                         <PETextField
-                                            value={houseNumber}
-                                            onChange={setHouseNumber}
-                                            placeholder={'House Number'}
+                                            value={city}
+                                            onChange={setCity}
+                                            placeholder={profileTranslates('popup-addresses-city')}
+                                            type="text"
+                                        />
+                                        <PETextField
+                                            value={postCode}
+                                            onChange={setPostCode}
+                                            placeholder={profileTranslates('popup-addresses-postcode')}
                                             type="text"
                                         />
                                     </div>
-                                    <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
+                                    <div className="w-full flex flex-row gap-4 md:flex-col">
+                                        <PETextField
+                                            value={street}
+                                            onChange={setStreet}
+                                            placeholder={profileTranslates('popup-addresses-street')}
+                                            type="text"
+                                        />
+                                        <PETextField
+                                            value={houseNumber}
+                                            onChange={setHouseNumber}
+                                            placeholder={profileTranslates('popup-addresses-number')}
+                                            type="text"
+                                        />
+                                    </div>
                                 </VStack>
 
                                 <PEMap
@@ -122,7 +149,7 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
                                 />
 
                                 <PEButton
-                                    title="Add Address"
+                                    title={profileTranslates('popup-addresses')}
                                     onClick={(): void => void createOneUserAddress()}
                                     disabled={disabled || !location}
                                 />
@@ -181,23 +208,43 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
                                         style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}
                                     >
                                         <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
-                                            <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
-                                            <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
+                                            <PETextField
+                                                value={title}
+                                                onChange={setTitle}
+                                                placeholder={profileTranslates('popup-addresses-title')}
+                                                type="text"
+                                            />
+                                            <PETextField
+                                                value={country}
+                                                onChange={setCountry}
+                                                placeholder={profileTranslates('popup-addresses-country')}
+                                                type="text"
+                                            />
                                             <div className="w-full flex flex-row gap-4 md:flex-col">
-                                                <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
+                                                <PETextField
+                                                    value={city}
+                                                    onChange={setCity}
+                                                    placeholder={profileTranslates('popup-addresses-city')}
+                                                    type="text"
+                                                />
                                                 <PETextField
                                                     value={postCode}
                                                     onChange={setPostCode}
-                                                    placeholder={'Post Code'}
+                                                    placeholder={profileTranslates('popup-addresses-postcode')}
                                                     type="text"
                                                 />
                                             </div>
                                             <div className="w-full flex flex-row gap-4 md:flex-col">
-                                                <PETextField value={street} onChange={setStreet} placeholder={'Street'} type="text" />
+                                                <PETextField
+                                                    value={street}
+                                                    onChange={setStreet}
+                                                    placeholder={profileTranslates('popup-addresses-street')}
+                                                    type="text"
+                                                />
                                                 <PETextField
                                                     value={houseNumber}
                                                     onChange={setHouseNumber}
-                                                    placeholder={'House Number'}
+                                                    placeholder={profileTranslates('popup-addresses-number')}
                                                     type="text"
                                                 />
                                             </div>
@@ -210,7 +257,7 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
                                         />
 
                                         <PEButton
-                                            title="Add Address"
+                                            title={profileTranslates('popup-addresses')}
                                             onClick={(): void => void createOneUserAddress()}
                                             disabled={disabled || !location}
                                         />

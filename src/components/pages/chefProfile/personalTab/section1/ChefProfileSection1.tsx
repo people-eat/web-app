@@ -174,7 +174,7 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
             {!isMobile && (
                 <PEModalPopUp width={isMobile ? '100%' : 750} openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
                     <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
-                        <h2 className="m-0 pb-5 w-full">Change profile info</h2>
+                        <h2 className="m-0 pb-5 w-full">{t('popup-edit-user-profile')}</h2>
                         <VStack className="w-full gap-4" style={{ alignItems: 'flex-start', justifyContent: 'center' }}>
                             <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
                             <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
@@ -187,7 +187,7 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                         <PEButton
                             className="max-w-[250px] mt-10"
                             onClick={handleSaveProfileInfo}
-                            title="Save"
+                            title={t('popup-edit-button')}
                             disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
                         />
                     </VStack>
@@ -229,7 +229,7 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             <div className="absolute top-8 right-8 md:top-2 md:right-0">
                                 <PEIconButton icon={Icon.close} onClick={handleClose} withoutShadow bg="white" iconSize={24} />
                             </div>
-                            <h2 className="m-0 pb-5 w-full">Change profile info</h2>
+                            <h2 className="m-0 pb-5 w-full">{t('popup-edit-user-profile')}</h2>
                             <VStack className="w-full gap-4" style={{ alignItems: 'flex-start', justifyContent: 'center' }}>
                                 <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
                                 <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
@@ -242,7 +242,7 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             <PEButton
                                 className="max-w-[250px] mt-10"
                                 onClick={handleSaveProfileInfo}
-                                title="Save"
+                                title={t('popup-edit-button')}
                                 disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
                             />
                         </VStack>

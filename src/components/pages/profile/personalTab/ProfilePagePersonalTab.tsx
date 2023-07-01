@@ -162,7 +162,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                                             className="min-w-[250px]"
                                             type="secondary"
                                             onClick={(): void => undefined}
-                                            title={'Chef Profile'}
+                                            title={t('role-switch-button-chef')}
                                         />
                                     </Link>
                                 )}
@@ -316,16 +316,20 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                             className="w-full relative bg-white shadow-primary box-border p-8 rounded-4 gap-3"
                             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                         >
-                            <p className="text-heading-ss w-full justify-start my-0">Password</p>
+                            <p className="text-heading-ss w-full justify-start my-0">{t('section-password-pass')}</p>
 
-                            <PEPasswordTextField password={changedPassword} onChange={setChangedPassword} placeholder={'Password'} />
+                            <PEPasswordTextField
+                                password={changedPassword}
+                                onChange={setChangedPassword}
+                                placeholder={t('section-password-pass')}
+                            />
 
                             <HStack className="mt-6">
                                 <PEButton
                                     fontSize={'text-text-m'}
                                     className="min-w-[300px]"
                                     onClick={(): void => undefined}
-                                    title="Change password"
+                                    title={t('section-password-change-button')}
                                     type="secondary"
                                 />
                             </HStack>
@@ -335,7 +339,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                     {!isMobile && (
                         <PEModalPopUp width={isMobile ? '100%' : 750} openMenu={edit} handleOpenMenu={handleUnSaveChefName}>
                             <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
-                                <h2 className="m-0 pb-5">Change profile info</h2>
+                                <h2 className="m-0 pb-5">{t('popup-edit-user-profile')}</h2>
                                 <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
                                     <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
                                     <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
@@ -348,7 +352,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                                 <PEButton
                                     className="max-w-[250px] mt-10"
                                     onClick={handleSaveProfileInfo}
-                                    title="Save"
+                                    title={t('popup-edit-button')}
                                     disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
                                 />
                             </VStack>
@@ -389,7 +393,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                                     }}
                                 >
                                     <DialogContent sx={{ padding: '30px 0' }}>
-                                        <h2 className="m-0 pb-5">Change profile info</h2>
+                                        <h2 className="m-0 pb-5">{t('popup-edit-user-profile')}</h2>
                                         <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
                                             <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
                                             <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
@@ -402,7 +406,7 @@ export default function ProfilePagePersonalTab({}: ProfilePagePersonalTabProps):
                                         <PEButton
                                             className="max-w-[250px] mt-10"
                                             onClick={handleSaveProfileInfo}
-                                            title="Save"
+                                            title={t('popup-edit-button')}
                                             disabled={
                                                 editedProfilePicture === null && firstName === editFirstName && lastName === editLastName
                                             }
