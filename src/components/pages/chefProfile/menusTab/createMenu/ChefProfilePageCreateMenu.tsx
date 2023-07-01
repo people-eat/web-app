@@ -5,6 +5,8 @@ import Stepper from '@mui/material/Stepper';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { CreateOneCookMenuDocument, GetCreateMenuPageDataDocument, type CurrencyCode } from '../../../../../data-source/generated/graphql';
+import { type Category } from '../../../../../shared/Category';
+import { type Kitchen } from '../../../../../shared/Kitchen';
 import { Icon } from '../../../../standard/icon/Icon';
 import PEIconButton from '../../../../standard/iconButton/PEIconButton';
 import VStack from '../../../../utility/vStack/VStack';
@@ -39,8 +41,8 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
     const [preparationTime, setPreparationTime] = useState(60);
     const [isVisible, setIsVisible] = useState(true);
 
-    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
-    const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
+    const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>(undefined);
+    const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
 
     const [courses, setCourses] = useState<CreateCookMenuCourseDto[]>([]);
 

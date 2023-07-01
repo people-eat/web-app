@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import List from '@mui/material/List';
 import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
+import { type TransitionProps } from '@mui/material/transitions';
 import { forwardRef, useEffect, useState, type ReactElement, type Ref } from 'react';
 import { CreateOneUserAddressDocument } from '../../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
@@ -23,12 +23,7 @@ export interface CreateAddressDialogProps {
     onCancel: () => void;
 }
 
-const Transition = forwardRef(function Transition(
-    props: TransitionProps & {
-        children: ReactElement<any, any>;
-    },
-    ref: Ref<unknown>,
-) {
+const Transition = forwardRef(function Transition(props: TransitionProps & { children: ReactElement<any, any> }, ref: Ref<unknown>) {
     return (
         <Slide direction="up" ref={ref} {...props}>
             {props.children}
@@ -44,7 +39,7 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
     const [city, setCity] = useState('');
     const [street, setStreet] = useState('');
     const [houseNumber, setHouseNumber] = useState('');
-    const [country, setCountry] = useState('');
+    const [country, setCountry] = useState('Deutschland');
 
     const [location, setLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
@@ -104,7 +99,6 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
                             >
                                 <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
                                     <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
-                                    <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
                                     <div className="w-full flex flex-row gap-4 md:flex-col">
                                         <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
                                         <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
@@ -118,6 +112,7 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
                                             type="text"
                                         />
                                     </div>
+                                    <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
                                 </VStack>
 
                                 <PEMap

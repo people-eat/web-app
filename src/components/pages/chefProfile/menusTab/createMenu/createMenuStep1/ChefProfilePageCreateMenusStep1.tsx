@@ -1,5 +1,7 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
+import { type Category } from '../../../../../../shared/Category';
+import { type Kitchen } from '../../../../../../shared/Kitchen';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import PEDropdown from '../../../../../standard/dropdown/PEDropdown';
 import PESingleSelectDropdown from '../../../../../standard/dropdown/PESingleSelectDropdown';
@@ -10,13 +12,13 @@ export interface ChefProfilePageCreateMenusStep1Props {
     title: string;
     setTitle: (changedTitle: string) => void;
 
-    categories: { categoryId: string; title: string }[];
-    selectedCategories: { categoryId: string; title: string }[];
-    setSelectedCategories: (changedSelectedCategories: { categoryId: string; title: string }[]) => void;
+    categories: Category[];
+    selectedCategories: Category[];
+    setSelectedCategories: (changedSelectedCategories: Category[]) => void;
 
-    kitchens: { kitchenId: string; title: string }[];
-    selectedKitchen?: { kitchenId: string; title: string };
-    setSelectedKitchen: (changedSelectedKitchen?: { kitchenId: string; title: string }) => void;
+    kitchens: Kitchen[];
+    selectedKitchen?: Kitchen;
+    setSelectedKitchen: (changedSelectedKitchen?: Kitchen) => void;
 
     onContinue: () => void;
 }

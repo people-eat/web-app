@@ -2770,6 +2770,8 @@ export type GetProfileQueryQuery = {
                 createdAt: Date;
                 location: { __typename?: 'Location'; latitude: number; longitude: number };
             }>;
+            emailAddressUpdate?: { __typename?: 'EmailAddressUpdate'; emailAddress: string; createdAt: Date } | null;
+            phoneNumberUpdate?: { __typename?: 'PhoneNumberUpdate'; phoneNumber: string; createdAt: Date } | null;
         } | null;
     };
 };
@@ -7183,6 +7185,28 @@ export const GetProfileQueryDocument = {
                                                                 ],
                                                             },
                                                         },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'emailAddressUpdate' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'phoneNumberUpdate' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                                                     ],
                                                 },

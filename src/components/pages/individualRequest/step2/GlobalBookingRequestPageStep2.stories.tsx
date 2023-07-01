@@ -1,24 +1,27 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from '@storybook/react';
+import { type Allergy } from '../../../../shared/Allergy';
+import { type Category } from '../../../../shared/Category';
+import { type Kitchen } from '../../../../shared/Kitchen';
 import GlobalBookingRequestPageStep2 from './GlobalBookingRequestPageStep2';
 
 const meta: Meta<typeof GlobalBookingRequestPageStep2> = {
     title: 'Global Booking Request Page/Step 2',
     component: GlobalBookingRequestPageStep2,
     render: () => {
-        const categories: { categoryId: string; title: string }[] = [
+        const categories: Category[] = [
             { categoryId: 'A', title: 'category 1' },
             { categoryId: 'B', title: 'category 2' },
             { categoryId: 'C', title: 'category 3' },
             { categoryId: 'D', title: 'category 4' },
         ];
-        const allergies: { allergyId: string; title: string }[] = [
+        const allergies: Allergy[] = [
             { allergyId: 'A', title: 'allergy 1' },
             { allergyId: 'B', title: 'allergy 2' },
             { allergyId: 'C', title: 'allergy 3' },
             { allergyId: 'D', title: 'allergy 4' },
         ];
-        const kitchens: { kitchenId: string; title: string }[] = [
+        const kitchens: Kitchen[] = [
             { kitchenId: 'A', title: 'kitchen 1' },
             { kitchenId: 'B', title: 'kitchen 2' },
             { kitchenId: 'C', title: 'kitchen 3' },

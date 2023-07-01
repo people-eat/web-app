@@ -1,23 +1,25 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
+import { type Allergy } from '../../../../shared/Allergy';
+import { type Category } from '../../../../shared/Category';
+import { type Kitchen } from '../../../../shared/Kitchen';
 import PEButton from '../../../standard/buttons/PEButton';
 import PEDropdown from '../../../standard/dropdown/PEDropdown';
 import PESingleSelectDropdown from '../../../standard/dropdown/PESingleSelectDropdown';
 import VStack from '../../../utility/vStack/VStack';
 
 export interface GlobalBookingRequestPageStep2Props {
-    categories: { categoryId: string; title: string }[];
-    selectedCategories: { categoryId: string; title: string }[];
-    setSelectedCategories: (changedSelectedCategories: { categoryId: string; title: string }[]) => void;
+    categories: Category[];
+    selectedCategories: Category[];
+    setSelectedCategories: (changedSelectedCategories: Category[]) => void;
 
-    kitchens: { kitchenId: string; title: string }[];
-    selectedKitchen?: { kitchenId: string; title: string };
-    setSelectedKitchen: (changedSelectedKitchen?: { kitchenId: string; title: string }) => void;
+    kitchens: Kitchen[];
+    selectedKitchen?: Kitchen;
+    setSelectedKitchen: (changedSelectedKitchen?: Kitchen) => void;
 
-    allergies: { allergyId: string; title: string }[];
-
-    selectedAllergies: { allergyId: string; title: string }[];
-    setSelectedAllergies: (changedSelectedAllergies: { allergyId: string; title: string }[]) => void;
+    allergies: Allergy[];
+    selectedAllergies: Allergy[];
+    setSelectedAllergies: (changedSelectedAllergies: Allergy[]) => void;
 
     onContinue: () => void;
 }

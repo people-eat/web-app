@@ -100,7 +100,6 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                             >
                                 <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
                                     <PETextField value={title} onChange={setTitle} placeholder={'Title'} type="text" />
-                                    <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
                                     <HStack gap={16} className="w-full">
                                         <PETextField value={postCode} onChange={setPostCode} placeholder={'Post Code'} type="text" />
                                         <PETextField value={city} onChange={setCity} placeholder={'City'} type="text" />
@@ -114,6 +113,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                             type="text"
                                         />
                                     </HStack>
+                                    <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" />
                                 </VStack>
 
                                 <PEMap

@@ -17,6 +17,9 @@ import {
     type CreateOneGlobalBookingRequestRequest,
 } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
+import { type Allergy } from '../../../shared/Allergy';
+import { type Category } from '../../../shared/Category';
+import { type Kitchen } from '../../../shared/Kitchen';
 import { type SignedInUser } from '../../../shared/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
@@ -43,9 +46,9 @@ export interface GlobalBookingRequestPageProps {
         children: number;
         date: string;
     };
-    categories: { categoryId: string; title: string }[];
-    allergies: { allergyId: string; title: string }[];
-    kitchens: { kitchenId: string; title: string }[];
+    categories: Category[];
+    allergies: Allergy[];
+    kitchens: Kitchen[];
 }
 
 // eslint-disable-next-line max-statements
@@ -78,9 +81,9 @@ export default function GlobalBookingRequestPage({
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const [selectedCategories, setSelectedCategories] = useState<{ categoryId: string; title: string }[]>([]);
-    const [selectedKitchen, setSelectedKitchen] = useState<{ kitchenId: string; title: string } | undefined>(undefined);
-    const [selectedAllergies, setSelectedAllergies] = useState<{ allergyId: string; title: string }[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+    const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>(undefined);
+    const [selectedAllergies, setSelectedAllergies] = useState<Allergy[]>([]);
 
     const [acceptedTermsAndConditions, setAcceptedTermsAndConditions] = useState(false);
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
