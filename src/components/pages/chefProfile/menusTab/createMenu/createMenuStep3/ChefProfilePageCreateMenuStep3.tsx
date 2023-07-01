@@ -86,8 +86,8 @@ export default function ChefProfilePageCreateMenusStep3({
                     <p className="text-text-m-bold">{t('create-menu-preparation-time')}</p>
                     <PENumberTextField
                         min={0}
-                        step={15}
                         max={240}
+                        step={15}
                         onChange={setPreparationTime}
                         value={preparationTime}
                         endContent={<>min</>}
@@ -109,8 +109,8 @@ export default function ChefProfilePageCreateMenusStep3({
                     <p className="text-text-sm-bold">{t('create-menu-base-price')}</p>
                     <PENumberTextField
                         min={25}
-                        step={10}
                         max={10000}
+                        step={10}
                         endContent={<p className="text-green">{currencyCode}</p>}
                         onChange={(changedBasePrice): void => setBasePrice(changedBasePrice * 100)}
                         value={basePrice / 100}
@@ -119,8 +119,8 @@ export default function ChefProfilePageCreateMenusStep3({
                     <p className="text-text-sm-bold">{t('create-menu-base-price-customers')}</p>
                     <PENumberTextField
                         min={1}
-                        step={1}
                         max={100}
+                        step={1}
                         endContent={<p className="text-disabled">{t('create-menu-participants')}</p>}
                         onChange={setBasePriceCustomers}
                         value={basePriceCustomers}
@@ -130,8 +130,8 @@ export default function ChefProfilePageCreateMenusStep3({
                     <p className="text-text-sm-bold">{t('create-menu-price-per-adult')}</p>
                     <PENumberTextField
                         min={25}
-                        step={10}
                         max={10000}
+                        step={20}
                         endContent={<p className="text-green">{currencyCode}</p>}
                         onChange={(changedPricePerAdult): void => {
                             setPricePerAdult(changedPricePerAdult * 100);
@@ -160,8 +160,8 @@ export default function ChefProfilePageCreateMenusStep3({
                                 <>
                                     <PENumberTextField
                                         min={1}
-                                        step={1}
                                         max={100}
+                                        step={1}
                                         endContent={<>%</>}
                                         onChange={(changedChildrenDiscount): void => {
                                             setChildrenDiscount(changedChildrenDiscount);
@@ -185,8 +185,8 @@ export default function ChefProfilePageCreateMenusStep3({
                                 <>
                                     <PENumberTextField
                                         min={1}
-                                        step={1}
                                         max={100}
+                                        step={1}
                                         endContent={<p className="text-disabled">%</p>}
                                         onChange={setPricePerChild}
                                         value={0}
@@ -194,8 +194,8 @@ export default function ChefProfilePageCreateMenusStep3({
                                     />
                                     <PENumberTextField
                                         min={0}
-                                        step={0}
                                         max={0}
+                                        step={0}
                                         endContent={<p className="text-green">{currencyCode}</p>}
                                         onChange={(): void => undefined}
                                         value={0}

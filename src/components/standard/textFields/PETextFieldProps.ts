@@ -12,7 +12,4 @@ export interface PETextFieldProps {
     endContent?: ReactElement;
     style?: CSSProperties;
     className?: string;
-    inputProps?: {
-        [name: string]: number;
-    };
 }

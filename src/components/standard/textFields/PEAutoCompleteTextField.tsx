@@ -46,7 +46,6 @@ export default function PEAutoCompleteTextField<T>({
                     endContent={endContent}
                     style={style}
                     {...params}
-                    inputProps={{}}
                 />
             )}
         />
