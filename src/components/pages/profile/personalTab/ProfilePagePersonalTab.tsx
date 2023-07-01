@@ -90,7 +90,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     function handleSaveProfileInfo(): void {
         if (editedProfilePicture !== null) {
             void updateProfilePicture({
-                variables: { userId: userProfile?.userId ?? '', profilePicture: editedProfilePicture },
+                variables: { userId, profilePicture: editedProfilePicture },
             })
                 .then((result) => result.data?.users.success && void refetch())
                 .catch((e) => console.error(e));
