@@ -11,7 +11,7 @@ import { useEffect, useState, type ReactElement } from 'react';
 import {
     GetProfileQueryDocument,
     UpdateUserPasswordDocument,
-    UpdateUserProfilePictureDocument
+    UpdateUserProfilePictureDocument,
 } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
