@@ -50,9 +50,20 @@ export default function ChefProfilePageCreateMeal({
             }
         };
 
+        const handlePopState = (): void => {
+            if (!!title || !!description) {
+                if (window.confirm(common('beforeunload'))) {
+                    window.removeEventListener('beforeunload', beforeUnloadListener);
+                    window.history.back();
+                }
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
         window.addEventListener('beforeunload', beforeUnloadListener);
 
         return () => {
+            window.removeEventListener('popstate', handlePopState);
             window.removeEventListener('beforeunload', beforeUnloadListener);
         };
     }, [title, description]);

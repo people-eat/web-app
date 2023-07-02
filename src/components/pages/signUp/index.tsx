@@ -68,25 +68,37 @@ export default function SignUpPage(): ReactElement {
     });
 
     useEffect(() => {
+        const isVariablesChanged =
+            firstName !== '' ||
+            lastName !== '' ||
+            password !== '' ||
+            passwordRepeat !== '' ||
+            emailAddress.value !== '' ||
+            phoneNumber.value !== '' ||
+            acceptedPrivacyPolicy ||
+            acceptedTerms;
+
         const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
-            if (
-                firstName !== '' ||
-                lastName !== '' ||
-                password !== '' ||
-                passwordRepeat !== '' ||
-                emailAddress.value !== '' ||
-                phoneNumber.value !== '' ||
-                acceptedPrivacyPolicy ||
-                acceptedTerms
-            ) {
+            if (isVariablesChanged) {
                 event.preventDefault();
                 event.returnValue = common('beforeunload');
             }
         };
 
+        const handlePopState = (): void => {
+            if (isVariablesChanged) {
+                if (window.confirm('Are you sure you want to leave this page? Your changes may not be saved.')) {
+                    window.removeEventListener('beforeunload', beforeUnloadListener);
+                    window.history.back();
+                }
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
         window.addEventListener('beforeunload', beforeUnloadListener);
 
         return () => {
+            window.removeEventListener('popstate', handlePopState);
             window.removeEventListener('beforeunload', beforeUnloadListener);
         };
     }, [acceptedPrivacyPolicy, acceptedTerms, emailAddress, firstName, lastName, password, passwordRepeat, phoneNumber]);

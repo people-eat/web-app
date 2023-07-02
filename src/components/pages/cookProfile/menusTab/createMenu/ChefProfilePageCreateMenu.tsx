@@ -70,29 +70,41 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
     const categories = lists?.categories.findAll ?? [];
 
     useEffect(() => {
+        const isVariablesChanged =
+            title !== INIT_TITLE ||
+            description !== INIT_DESCRIPTION ||
+            basePrice !== INIT_BASE_PRICE ||
+            basePriceCustomers !== INIT_BASE_CUSTOMER_PRICE ||
+            pricePerAdult !== INIT_PRICE_PER_ADULT ||
+            pricePerChild !== INIT_PRICE_PER_CHILD ||
+            currencyCode !== INIT_CURRENCY_CODE ||
+            preparationTime !== INIT_PREPARATION_TIME ||
+            isVisible !== INIT_IS_VISIBLE ||
+            selectedKitchen !== INIT_SELECTED_KITCHEN ||
+            selectedCategories !== INIT_SELECTED_CATEGORIES ||
+            courses !== INIT_COURSES;
+
         const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
-            if (
-                title !== INIT_TITLE ||
-                description !== INIT_DESCRIPTION ||
-                basePrice !== INIT_BASE_PRICE ||
-                basePriceCustomers !== INIT_BASE_CUSTOMER_PRICE ||
-                pricePerAdult !== INIT_PRICE_PER_ADULT ||
-                pricePerChild !== INIT_PRICE_PER_CHILD ||
-                currencyCode !== INIT_CURRENCY_CODE ||
-                preparationTime !== INIT_PREPARATION_TIME ||
-                isVisible !== INIT_IS_VISIBLE ||
-                selectedKitchen !== INIT_SELECTED_KITCHEN ||
-                selectedCategories !== INIT_SELECTED_CATEGORIES ||
-                courses !== INIT_COURSES
-            ) {
+            if (isVariablesChanged) {
                 event.preventDefault();
                 event.returnValue = common('beforeunload');
             }
         };
 
+        const handlePopState = (): void => {
+            if (isVariablesChanged) {
+                if (window.confirm(common('beforeunload'))) {
+                    window.removeEventListener('beforeunload', beforeUnloadListener);
+                    window.history.back();
+                }
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
         window.addEventListener('beforeunload', beforeUnloadListener);
 
         return () => {
+            window.removeEventListener('popstate', handlePopState);
             window.removeEventListener('beforeunload', beforeUnloadListener);
         };
     }, [

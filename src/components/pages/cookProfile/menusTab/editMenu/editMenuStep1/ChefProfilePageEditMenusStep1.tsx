@@ -63,16 +63,29 @@ export default function ChefProfilePageEditMenusStep1({
     const categories = data?.categories.findAll ?? [];
 
     useEffect(() => {
+        const isVariablesChanged =
+            (title !== menu.title ?? '') || selectedKitchen !== menu.kitchen || (selectedCategories !== menu.categories ?? []);
         const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
-            if ((title !== menu.title ?? '') || selectedKitchen !== menu.kitchen || (selectedCategories !== menu.categories ?? [])) {
+            if (isVariablesChanged) {
                 event.preventDefault();
                 event.returnValue = common('beforeunload');
             }
         };
 
+        const handlePopState = (): void => {
+            if (isVariablesChanged) {
+                if (window.confirm(common('beforeunload'))) {
+                    window.removeEventListener('beforeunload', beforeUnloadListener);
+                    window.history.back();
+                }
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
         window.addEventListener('beforeunload', beforeUnloadListener);
 
         return () => {
+            window.removeEventListener('popstate', handlePopState);
             window.removeEventListener('beforeunload', beforeUnloadListener);
         };
     }, [selectedKitchen, selectedCategories, title]);

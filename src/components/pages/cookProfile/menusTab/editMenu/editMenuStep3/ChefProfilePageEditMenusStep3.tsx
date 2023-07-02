@@ -96,21 +96,33 @@ export default function ChefProfilePageEditMenusStep3({
     }, [menu]);
 
     useEffect(() => {
+        const isVariablesChanged =
+            basePrice !== menu.basePrice ||
+            menu.basePriceCustomers !== basePriceCustomers ||
+            menu.pricePerAdult !== pricePerAdult ||
+            menu.pricePerChild !== pricePerChild;
+
         const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
-            if (
-                basePrice !== menu.basePrice ||
-                menu.basePriceCustomers !== basePriceCustomers ||
-                menu.pricePerAdult !== pricePerAdult ||
-                menu.pricePerChild !== pricePerChild
-            ) {
+            if (isVariablesChanged) {
                 event.preventDefault();
                 event.returnValue = common('beforeunload');
             }
         };
 
+        const handlePopState = (): void => {
+            if (isVariablesChanged) {
+                if (window.confirm(common('beforeunload'))) {
+                    window.removeEventListener('beforeunload', beforeUnloadListener);
+                    window.history.back();
+                }
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
         window.addEventListener('beforeunload', beforeUnloadListener);
 
         return () => {
+            window.removeEventListener('popstate', handlePopState);
             window.removeEventListener('beforeunload', beforeUnloadListener);
         };
     }, [basePrice, basePriceCustomers, pricePerAdult, pricePerChild, currencyCode]);

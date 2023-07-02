@@ -123,29 +123,41 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
     const [createAddress] = useMutation(CreateOneUserAddressDocument);
 
     useEffect(() => {
+        const isVariablesChanged =
+            firstName !== '' ||
+            lastName !== '' ||
+            password !== '' ||
+            passwordRepeat !== '' ||
+            maximumParticipants !== INIT_MAXIMUM_PARTICIPANTS ||
+            travelExpenses !== INIT_TRAVEL_EXPENSES ||
+            maximumTravelDistance !== INIT_MAXIMUM_TRAVEL_DISTANCE ||
+            emailAddress.value !== '' ||
+            phoneNumber.value !== '' ||
+            selectedLocation !== undefined ||
+            acceptedPrivacyPolicy ||
+            acceptedTerms;
+
         const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
-            if (
-                firstName !== '' ||
-                lastName !== '' ||
-                password !== '' ||
-                passwordRepeat !== '' ||
-                maximumParticipants !== INIT_MAXIMUM_PARTICIPANTS ||
-                travelExpenses !== INIT_TRAVEL_EXPENSES ||
-                maximumTravelDistance !== INIT_MAXIMUM_TRAVEL_DISTANCE ||
-                emailAddress.value !== '' ||
-                phoneNumber.value !== '' ||
-                selectedLocation !== undefined ||
-                acceptedPrivacyPolicy ||
-                acceptedTerms
-            ) {
+            if (isVariablesChanged) {
                 event.preventDefault();
                 event.returnValue = translateCommon('beforeunload');
             }
         };
 
+        const handlePopState = (): void => {
+            if (isVariablesChanged) {
+                if (window.confirm(translateCommon('beforeunload'))) {
+                    window.removeEventListener('beforeunload', beforeUnloadListener);
+                    window.history.back();
+                }
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
         window.addEventListener('beforeunload', beforeUnloadListener);
 
         return () => {
+            window.removeEventListener('popstate', handlePopState);
             window.removeEventListener('beforeunload', beforeUnloadListener);
         };
     }, [
