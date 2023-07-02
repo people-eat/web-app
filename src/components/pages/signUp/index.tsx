@@ -9,7 +9,7 @@ import moment, { type Moment } from 'moment/moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { CreateOneUserByEmailAddressDocument } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
 import PEButton from '../../standard/buttons/PEButton';
@@ -27,6 +27,7 @@ import SignUpPageSuccessDialog from './successDialog/SignUpPageSuccessDialog';
 // eslint-disable-next-line max-statements
 export default function SignUpPage(): ReactElement {
     const { t } = useTranslation('chef-sign-up');
+    const { t: common } = useTranslation('common');
     const { isDesktop } = useResponsive();
 
     const [firstName, setFirstName] = useState('');
@@ -65,6 +66,30 @@ export default function SignUpPage(): ReactElement {
             },
         },
     });
+
+    useEffect(() => {
+        const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
+            if (
+                firstName !== '' ||
+                lastName !== '' ||
+                password !== '' ||
+                passwordRepeat !== '' ||
+                emailAddress.value !== '' ||
+                phoneNumber.value !== '' ||
+                acceptedPrivacyPolicy ||
+                acceptedTerms
+            ) {
+                event.preventDefault();
+                event.returnValue = common('beforeunload');
+            }
+        };
+
+        window.addEventListener('beforeunload', beforeUnloadListener);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnloadListener);
+        };
+    }, [acceptedPrivacyPolicy, acceptedTerms, emailAddress, firstName, lastName, password, passwordRepeat, phoneNumber]);
 
     return (
         <HStack className="w-full h-full relative" style={{ justifyContent: 'space-between' }}>

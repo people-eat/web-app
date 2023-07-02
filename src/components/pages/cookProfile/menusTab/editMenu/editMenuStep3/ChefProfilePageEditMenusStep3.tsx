@@ -31,6 +31,7 @@ export default function ChefProfilePageEditMenusStep3({
 }: ChefProfilePageEditMenusStep3Props): ReactElement {
     const { isMobile } = useResponsive();
     const { t } = useTranslation('chef-profile');
+    const { t: common } = useTranslation('common');
 
     // in cents: 10000 -> 100.00 EUR
     const [basePrice, setBasePrice] = useState(menu.basePrice);
@@ -93,6 +94,26 @@ export default function ChefProfilePageEditMenusStep3({
         setPricePerChild(menu.pricePerChild ?? undefined);
         setCurrencyCode(menu.currencyCode);
     }, [menu]);
+
+    useEffect(() => {
+        const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
+            if (
+                basePrice !== menu.basePrice ||
+                menu.basePriceCustomers !== basePriceCustomers ||
+                menu.pricePerAdult !== pricePerAdult ||
+                menu.pricePerChild !== pricePerChild
+            ) {
+                event.preventDefault();
+                event.returnValue = common('beforeunload');
+            }
+        };
+
+        window.addEventListener('beforeunload', beforeUnloadListener);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnloadListener);
+        };
+    }, [basePrice, basePriceCustomers, pricePerAdult, pricePerChild, currencyCode]);
 
     return (
         <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
@@ -202,7 +223,7 @@ export default function ChefProfilePageEditMenusStep3({
                     </HStack>
                 </VStack>
 
-                <VStack gap={16} style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
+                <VStack style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }} className="gap-4 md:gap-0">
                     <p className="text-heading-l mb-2 md:text-text-m-bold">{t('create-menu-price-simulation-headline')}</p>
 
                     <p className="text-text-sm-bold">{t('create-menu-price-simulation-adult-participants')}</p>

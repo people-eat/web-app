@@ -24,34 +24,37 @@ export interface ChefProfilePageEditMenusStep2Props {
     onChangesApplied: () => void;
 }
 
+type TCoursesList = {
+    courseId: string;
+    index: number;
+    title: string;
+    mealOptions: {
+        index: number;
+        meal: {
+            mealId: string;
+            title: string;
+            description: string;
+            imageUrl?: string | null;
+            type: MealType;
+            createdAt: Date;
+        };
+    }[];
+}[];
+
+const INIT_COURSES: TCoursesList = [];
+
 export default function ChefProfilePageEditMenusStep2({
     cookId,
     menu,
     onChangesApplied,
 }: ChefProfilePageEditMenusStep2Props): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { t: common } = useTranslation('common');
 
     const [editMode, setEditMode] = useState(false);
 
     const [greetingFromKitchen, setGreetingFromKitchen] = useState<string | undefined>(menu.greetingFromKitchen ?? undefined);
-    const [courses, setCourses] = useState<
-        {
-            courseId: string;
-            index: number;
-            title: string;
-            mealOptions: {
-                index: number;
-                meal: {
-                    mealId: string;
-                    title: string;
-                    description: string;
-                    imageUrl?: string | null;
-                    type: MealType;
-                    createdAt: Date;
-                };
-            }[];
-        }[]
-    >(menu.courses);
+    const [courses, setCourses] = useState<TCoursesList>(menu.courses);
 
     const [showCreateCourseDialog, setShowCreateCourseDialog] = useState(false);
 
@@ -73,6 +76,21 @@ export default function ChefProfilePageEditMenusStep2({
     useEffect(() => {
         setGreetingFromKitchen(menu.greetingFromKitchen ?? undefined);
     }, [menu]);
+
+    useEffect(() => {
+        const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
+            if (courses !== INIT_COURSES) {
+                event.preventDefault();
+                event.returnValue = common('beforeunload');
+            }
+        };
+
+        window.addEventListener('beforeunload', beforeUnloadListener);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnloadListener);
+        };
+    }, [courses]);
 
     return (
         <VStack className="w-full gap-6" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>

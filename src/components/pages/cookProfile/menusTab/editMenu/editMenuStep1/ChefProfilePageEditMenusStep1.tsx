@@ -36,6 +36,7 @@ export default function ChefProfilePageEditMenusStep1({
     onChangesApplied,
 }: ChefProfilePageEditMenusStep1Props): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { t: common } = useTranslation('common');
 
     const [title, setTitle] = useState(menu.title);
     const [description, setDescription] = useState(menu.description);
@@ -60,6 +61,21 @@ export default function ChefProfilePageEditMenusStep1({
 
     const kitchens = data?.kitchens.findAll ?? [];
     const categories = data?.categories.findAll ?? [];
+
+    useEffect(() => {
+        const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
+            if ((title !== menu.title ?? '') || selectedKitchen !== menu.kitchen || (selectedCategories !== menu.categories ?? [])) {
+                event.preventDefault();
+                event.returnValue = common('beforeunload');
+            }
+        };
+
+        window.addEventListener('beforeunload', beforeUnloadListener);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnloadListener);
+        };
+    }, [selectedKitchen, selectedCategories, title]);
 
     function handleSaveUpdates(): void {
         if (menu.title !== title) {

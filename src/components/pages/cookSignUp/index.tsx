@@ -42,6 +42,10 @@ export interface CookSignUpPageProps {
     languages: { languageId: string; title: string }[];
 }
 
+const INIT_MAXIMUM_PARTICIPANTS = 12;
+const INIT_TRAVEL_EXPENSES = 0.42;
+const INIT_MAXIMUM_TRAVEL_DISTANCE = 12;
+
 // eslint-disable-next-line max-statements
 export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPageProps): ReactElement {
     const { t: translateCommon } = useTranslation('common');
@@ -117,6 +121,47 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
     const [createCook] = useMutation(CreateOneCookDocument);
 
     const [createAddress] = useMutation(CreateOneUserAddressDocument);
+
+    useEffect(() => {
+        const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
+            if (
+                firstName !== '' ||
+                lastName !== '' ||
+                password !== '' ||
+                passwordRepeat !== '' ||
+                maximumParticipants !== INIT_MAXIMUM_PARTICIPANTS ||
+                travelExpenses !== INIT_TRAVEL_EXPENSES ||
+                maximumTravelDistance !== INIT_MAXIMUM_TRAVEL_DISTANCE ||
+                emailAddress.value !== '' ||
+                phoneNumber.value !== '' ||
+                selectedLocation !== undefined ||
+                acceptedPrivacyPolicy ||
+                acceptedTerms
+            ) {
+                event.preventDefault();
+                event.returnValue = translateCommon('beforeunload');
+            }
+        };
+
+        window.addEventListener('beforeunload', beforeUnloadListener);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnloadListener);
+        };
+    }, [
+        acceptedPrivacyPolicy,
+        maximumParticipants,
+        travelExpenses,
+        maximumTravelDistance,
+        acceptedTerms,
+        emailAddress,
+        firstName,
+        lastName,
+        password,
+        passwordRepeat,
+        phoneNumber,
+        selectedLocation,
+    ]);
 
     function handleClickCompleteButton(): void {
         if (!selectedLocation || !rank) return;

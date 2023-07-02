@@ -3,7 +3,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import useTranslation from 'next-translate/useTranslation';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { CreateOneCookMenuDocument, GetCreateMenuPageDataDocument, type CurrencyCode } from '../../../../../data-source/generated/graphql';
 import { type Category } from '../../../../../shared/Category';
 import { type Kitchen } from '../../../../../shared/Kitchen';
@@ -21,9 +21,23 @@ interface ChefProfilePageCreateMenuProps {
     onCancel: () => void;
 }
 
+const INIT_TITLE = '';
+const INIT_DESCRIPTION = '';
+const INIT_BASE_PRICE = 10000;
+const INIT_BASE_CUSTOMER_PRICE = 2;
+const INIT_PRICE_PER_ADULT = 5000;
+const INIT_PRICE_PER_CHILD = undefined;
+const INIT_CURRENCY_CODE = 'EUR';
+const INIT_PREPARATION_TIME = 60;
+const INIT_IS_VISIBLE = true;
+const INIT_SELECTED_KITCHEN = undefined;
+const INIT_SELECTED_CATEGORIES: Category[] = [];
+const INIT_COURSES: CreateCookMenuCourseDto[] = [];
+
 // eslint-disable-next-line max-statements
 export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess }: ChefProfilePageCreateMenuProps): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { t: common } = useTranslation('common');
 
     const [step, setStep] = useState(0);
 
@@ -31,20 +45,20 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
     const [description, setDescription] = useState('');
 
     // in cents: 10000 -> 100.00 EUR
-    const [basePrice, setBasePrice] = useState(10000);
-    const [basePriceCustomers, setBasePriceCustomers] = useState(2);
-    const [pricePerAdult, setPricePerAdult] = useState(5000);
-    const [pricePerChild, setPricePerChild] = useState<undefined | number>(undefined);
-    const [currencyCode] = useState<CurrencyCode>('EUR');
+    const [basePrice, setBasePrice] = useState(INIT_BASE_PRICE);
+    const [basePriceCustomers, setBasePriceCustomers] = useState(INIT_BASE_CUSTOMER_PRICE);
+    const [pricePerAdult, setPricePerAdult] = useState(INIT_PRICE_PER_ADULT);
+    const [pricePerChild, setPricePerChild] = useState<undefined | number>(INIT_PRICE_PER_CHILD);
+    const [currencyCode] = useState<CurrencyCode>(INIT_CURRENCY_CODE);
 
     const [greetingFromKitchen, setGreetingFromKitchen] = useState<string | undefined>();
-    const [preparationTime, setPreparationTime] = useState(60);
-    const [isVisible, setIsVisible] = useState(true);
+    const [preparationTime, setPreparationTime] = useState(INIT_PREPARATION_TIME);
+    const [isVisible, setIsVisible] = useState(INIT_IS_VISIBLE);
 
-    const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>(undefined);
-    const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+    const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>(INIT_SELECTED_KITCHEN);
+    const [selectedCategories, setSelectedCategories] = useState<Category[]>(INIT_SELECTED_CATEGORIES);
 
-    const [courses, setCourses] = useState<CreateCookMenuCourseDto[]>([]);
+    const [courses, setCourses] = useState<CreateCookMenuCourseDto[]>(INIT_COURSES);
 
     const [createMenu, { data }] = useMutation(CreateOneCookMenuDocument);
 
@@ -54,6 +68,47 @@ export default function ChefProfilePageCreateMenu({ onCancel, cookId, onSuccess 
 
     const kitchens = lists?.kitchens.findAll ?? [];
     const categories = lists?.categories.findAll ?? [];
+
+    useEffect(() => {
+        const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
+            if (
+                title !== INIT_TITLE ||
+                description !== INIT_DESCRIPTION ||
+                basePrice !== INIT_BASE_PRICE ||
+                basePriceCustomers !== INIT_BASE_CUSTOMER_PRICE ||
+                pricePerAdult !== INIT_PRICE_PER_ADULT ||
+                pricePerChild !== INIT_PRICE_PER_CHILD ||
+                currencyCode !== INIT_CURRENCY_CODE ||
+                preparationTime !== INIT_PREPARATION_TIME ||
+                isVisible !== INIT_IS_VISIBLE ||
+                selectedKitchen !== INIT_SELECTED_KITCHEN ||
+                selectedCategories !== INIT_SELECTED_CATEGORIES ||
+                courses !== INIT_COURSES
+            ) {
+                event.preventDefault();
+                event.returnValue = common('beforeunload');
+            }
+        };
+
+        window.addEventListener('beforeunload', beforeUnloadListener);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnloadListener);
+        };
+    }, [
+        basePrice,
+        basePriceCustomers,
+        pricePerAdult,
+        pricePerChild,
+        currencyCode,
+        preparationTime,
+        isVisible,
+        selectedKitchen,
+        selectedCategories,
+        courses,
+        title,
+        description,
+    ]);
 
     return (
         <VStack className="w-full relative gap-8" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>

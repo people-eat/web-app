@@ -7,5 +7,6 @@
     "sign-up": "Registrieren",
     "terms-and-conditions": "Allgemeine Geschäftsbedingungen",
     "HOBBY": "Hobbykoch",
-    "PROFESSIONAL": "Professioneller Koch"
+    "PROFESSIONAL": "Professioneller Koch",
+    "beforeunload": "Bist du sicher, dass du gehen willst? Ihre Änderungen werden möglicherweise nicht gespeichert."
 }

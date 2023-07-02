@@ -7,5 +7,6 @@
     "sign-up": "enregistrer",
     "terms-and-conditions": "Conditions générales de vente",
     "HOBBY": "Cuisinier amateur",
-    "PROFESSIONAL": "Cuisinier professionnel"
+    "PROFESSIONAL": "Cuisinier professionnel",
+    "beforeunload": "Es-tu sûr de vouloir partir? Vos modifications peuvent ne pas être enregistrées."
 }

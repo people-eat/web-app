@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { CreateOneCookMealDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypeTranslations } from '../../../../shared/mealTypeTranslations';
 import { mealTypes } from '../../../../shared/mealTypes';
@@ -29,6 +29,7 @@ export default function ChefProfilePageCreateMeal({
     onCancel,
 }: ChefProfilePageCreateMealProps): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { t: common } = useTranslation('common');
     const { t: translateMealType } = useTranslation('meal-types');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -40,6 +41,21 @@ export default function ChefProfilePageCreateMeal({
     const [createOneCookMeal, { data, loading }] = useMutation(CreateOneCookMealDocument, {
         variables: { cookId, meal: { title, description, type }, image },
     });
+
+    useEffect(() => {
+        const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
+            if (!!title || !!description) {
+                event.preventDefault();
+                event.returnValue = common('beforeunload');
+            }
+        };
+
+        window.addEventListener('beforeunload', beforeUnloadListener);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnloadListener);
+        };
+    }, [title, description]);
 
     if (data?.cooks.meals.success) onSuccess();
 

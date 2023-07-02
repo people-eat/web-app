@@ -34,6 +34,7 @@ export interface ChefProfilePageEditMealProps {
 // eslint-disable-next-line max-statements
 export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageEditMealProps): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { t: common } = useTranslation('common');
     const { t: translateMealType } = useTranslation('meal-types');
 
     const { data, loading, refetch } = useQuery(FindCookMealDocument, { variables: { cookId, mealId } });
@@ -56,6 +57,21 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
         setType(meal?.type ?? 'VEGETARIAN');
         setImageUrl(meal?.imageUrl ?? '');
     }, [meal]);
+
+    useEffect(() => {
+        const beforeUnloadListener = (event: BeforeUnloadEvent): void => {
+            if (!!title || !!description) {
+                event.preventDefault();
+                event.returnValue = common('beforeunload');
+            }
+        };
+
+        window.addEventListener('beforeunload', beforeUnloadListener);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnloadListener);
+        };
+    }, [title, description]);
 
     const [updateMealDescription] = useMutation(UpdateCookMealDescriptionDocument, {
         variables: { cookId, mealId, description },

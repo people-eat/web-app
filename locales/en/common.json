@@ -7,5 +7,6 @@
     "sign-up": "Register",
     "terms-and-conditions": "Terms and Conditions",
     "HOBBY": "Hobby Chef",
-    "PROFESSIONAL": "Professional Chef"
+    "PROFESSIONAL": "Professional Chef",
+    "beforeunload": "Are you sure you want to leave? Your changes may not be saved."
 }
