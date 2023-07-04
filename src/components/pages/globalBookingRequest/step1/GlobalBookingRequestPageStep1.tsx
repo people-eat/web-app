@@ -1,4 +1,4 @@
-import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import { DatePicker, DesktopTimePicker } from '@mui/x-date-pickers';
 import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
@@ -84,8 +84,11 @@ export default function GlobalBookingRequestPageStep1({
                             minDate={moment().add(7, 'days')}
                         />
                     </div>
-                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
-                        <TimePicker
+                    <div
+                        style={{ maxHeight: '300px', overflow: 'auto' }}
+                        className="relative w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border"
+                    >
+                        <DesktopTimePicker
                             sx={{ width: '100%' }}
                             value={dateTime}
                             onChange={(changedTime: Moment | null): void => {
