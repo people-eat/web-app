@@ -109,9 +109,13 @@ export default function CookBookingRequestPageStep3({
                         sx={{ '& span': { fontSize: '14px' } }}
                         control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
                         label={
-                            <Link className="no-underline text-orange" href={'/data-privacy-policy'} target="_blank">
-                                {t('accept-privacy-policy-label')}
-                            </Link>
+                            <p>
+                                {t('privacy-policy-label')}{' '}
+                                <Link className="text-black" href={'/data-privacy-policy'} target="_blank">
+                                    {t('privacy-policy-label-link')}
+                                </Link>{' '}
+                                {t('privacy-policy-label-2')}
+                            </p>
                         }
                     />
                 </FormGroup>
@@ -120,9 +124,13 @@ export default function CookBookingRequestPageStep3({
                         sx={{ '& span': { fontSize: '14px' } }}
                         control={<PECheckbox checked={acceptedTermsAndConditions} onCheckedChange={setAcceptedTermsAndConditions} />}
                         label={
-                            <Link className="no-underline text-orange" href={'/data-privacy-policy'} target="_blank">
-                                {t('accept-terms-and-conditions-label')}
-                            </Link>
+                            <p>
+                                {t('terms-and-conditions-label')}{' '}
+                                <Link className="text-black" href={'/terms-and-conditions'} target="_blank">
+                                    {t('terms-and-conditions-label-link')}
+                                </Link>{' '}
+                                {t('terms-and-conditions-label-2')}
+                            </p>
                         }
                     />
                 </FormGroup>
