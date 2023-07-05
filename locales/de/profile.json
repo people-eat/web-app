@@ -39,6 +39,7 @@
     "user-profile-fav-chefs": "Lieblingsköche",
     "user-profile-personal-info": "Persönliche Angaben",
     "user-profile-ratings": "Bewertungen",
-    "password-popup-title": "Erfolgreich verändert",
+    "password-popup-success-title": "Erfolgreich verändert",
+    "password-popup-failed-title": "Änderungen speichern fehlgeschlagen",
     "password-popup-close": "Schließen"
 }
