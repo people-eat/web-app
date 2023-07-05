@@ -15,10 +15,14 @@
     "password-repeat": "Passwort wiederholen",
     "phone-number": "Telefonnummer",
     "post-code": "Postleitzahl",
-    "privacy-policy-label": "Ich habe die Datenschutzerklärung gelesen und akzeptiere sie",
+    "privacy-policy-label": "Ich habe die",
+    "privacy-policy-label-link": "Datenschutzerklärung",
+    "privacy-policy-label-2": "gelesen und akzeptiere sie",
     "street": "Straße",
     "sub-headline": "Bitte gib hier deine Daten ein",
-    "terms-and-conditions-label": "Ich habe die Allgemeinen Geschäftsbedingungen gelesen und akzeptiere sie",
+    "terms-and-conditions-label": "Ich habe die Allgemeinen",
+    "terms-and-conditions-label-link": "Geschäftsbedingungen",
+    "terms-and-conditions-label-2": "gelesen und akzeptiere sie",
     "travel-distance": "Radius",
     "travel-expenses": "Fahrtkosten pro Kilometer"
 }

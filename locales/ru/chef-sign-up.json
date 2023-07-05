@@ -15,10 +15,14 @@
     "password-repeat": "Повторите пароль",
     "phone-number": "Номер телефона",
     "post-code": "Почтовый индекс",
-    "privacy-policy-label": "Я прочитал и принимаю Политику конфиденциальности",
+    "privacy-policy-label": "Я прочитал и принимаю",
+    "privacy-policy-label-link": "Политику конфиденциальности",
+    "privacy-policy-label-2": "",
     "street": "Улица",
     "sub-headline": "Пожалуйста, введите ваши данные",
     "terms-and-conditions-label": "Я прочитал и принимаю Условия использования",
+    "terms-and-conditions-label-link": "Условия использования",
+    "terms-and-conditions-label-2": "",
     "travel-distance": "Радиус",
     "travel-expenses": "Стоимость проезда за километр"
 }
