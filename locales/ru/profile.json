@@ -38,5 +38,7 @@
     "user-profile-chats": "Чаты",
     "user-profile-fav-chefs": "Любимые повара",
     "user-profile-personal-info": "Персональная информация",
-    "user-profile-ratings": "Рейтинги"
+    "user-profile-ratings": "Рейтинги",
+    "password-popup-title": "Успешно изменен",
+    "password-popup-close": "Закрыть"
 }

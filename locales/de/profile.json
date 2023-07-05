@@ -38,5 +38,7 @@
     "user-profile-chats": "Chats",
     "user-profile-fav-chefs": "Lieblingsköche",
     "user-profile-personal-info": "Persönliche Angaben",
-    "user-profile-ratings": "Bewertungen"
+    "user-profile-ratings": "Bewertungen",
+    "password-popup-title": "Erfolgreich verändert",
+    "password-popup-close": "Schließen"
 }
