@@ -39,6 +39,7 @@
     "user-profile-fav-chefs": "Любимые повара",
     "user-profile-personal-info": "Персональная информация",
     "user-profile-ratings": "Рейтинги",
-    "password-popup-title": "Успешно изменен",
+    "password-popup-success-title": "Успешно изменен",
+    "password-popup-failed-title": "Не удалось сохранить изменения",
     "password-popup-close": "Закрыть"
 }
