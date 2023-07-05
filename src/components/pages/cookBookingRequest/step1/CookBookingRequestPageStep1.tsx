@@ -1,4 +1,4 @@
-import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import { DatePicker, MobileTimePicker } from '@mui/x-date-pickers';
 import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
@@ -90,7 +90,7 @@ export default function CookBookingRequestPageStep1({
                         />
                     </div>
                     <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
-                        <TimePicker
+                        <MobileTimePicker
                             sx={{ width: '100%' }}
                             value={dateTime}
                             onChange={(changedTime: Moment | null): void => {
