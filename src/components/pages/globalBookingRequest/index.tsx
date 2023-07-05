@@ -111,7 +111,7 @@ export default function GlobalBookingRequestPage({
         categoryIds: selectedCategories.map(({ categoryId }) => categoryId),
         kitchenId: selectedKitchen?.kitchenId,
         message,
-        phoneNumber: phoneNumber.replaceAll(' ', ''),
+        phoneNumber: phoneNumber === '' ? undefined : phoneNumber.replaceAll(' ', ''),
     };
 
     const [createGlobalBookingRequest] = useMutation(CreateOneUserGlobalBookingRequestDocument, {
