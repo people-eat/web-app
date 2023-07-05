@@ -358,9 +358,13 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedPrivacyPolicy} onCheckedChange={setAcceptedPrivacyPolicy} />}
                             label={
-                                <Link className="no-underline text-orange" href={'/data-privacy-policy'} target="_blank">
-                                    {t('privacy-policy-label')}
-                                </Link>
+                                <p>
+                                    {t('privacy-policy-label')}{' '}
+                                    <Link className="text-black" href={'/data-privacy-policy'} target="_blank">
+                                        {t('privacy-policy-label-link')}
+                                    </Link>{' '}
+                                    {t('privacy-policy-label-2')}
+                                </p>
                             }
                         />
                     </FormGroup>
@@ -368,9 +372,13 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         <FormControlLabel
                             control={<PECheckbox checked={acceptedTerms} onCheckedChange={setAcceptedTerms} />}
                             label={
-                                <Link className="no-underline text-orange" href={'/terms-and-conditions'} target="_blank">
-                                    {t('terms-and-conditions-label')}
-                                </Link>
+                                <p>
+                                    {t('terms-and-conditions-label')}{' '}
+                                    <Link className="text-black" href={'/terms-and-conditions'} target="_blank">
+                                        {t('terms-and-conditions-label-link')}
+                                    </Link>{' '}
+                                    {t('terms-and-conditions-label-2')}
+                                </p>
                             }
                         />
                     </FormGroup>

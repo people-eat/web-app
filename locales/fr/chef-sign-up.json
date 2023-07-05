@@ -16,9 +16,13 @@
     "phone-number": "Numéro de téléphone",
     "post-code": "Code postal",
     "privacy-policy-label": "J'ai lu et j'accepte la politique de confidentialité",
+    "privacy-policy-label-link": "politique de confidentialité",
+    "privacy-policy-label-2": "",
     "street": "Rue",
     "sub-headline": "Veuillez saisir vos coordonnées",
     "terms-and-conditions-label": "J'ai lu et j'accepte les termes et conditions",
+    "terms-and-conditions-label-link": "termes et conditions",
+    "terms-and-conditions-label-2": "",
     "travel-distance": "Rayon",
     "travel-expenses": "Frais de déplacement par kilomètre"
 }

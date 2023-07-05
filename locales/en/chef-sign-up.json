@@ -15,10 +15,14 @@
     "password-repeat": "Repeat Password",
     "phone-number": "Phone Number",
     "post-code": "Post Code",
-    "privacy-policy-label": "I have read and accept the Privacy Policy",
+    "privacy-policy-label": "I have read and accept the",
+    "privacy-policy-label-link": "Privacy Policy",
+    "privacy-policy-label-2": "",
     "street": "Street",
     "sub-headline": "Please enter your details",
-    "terms-and-conditions-label": "I have read and accept the Terms and Conditions",
+    "terms-and-conditions-label": "I have read and accept the",
+    "terms-and-conditions-label-link": "Terms and Conditions",
+    "terms-and-conditions-label-2": "",
     "travel-distance": "Radius",
     "travel-expenses": "Travel costs per kilometer"
 }
