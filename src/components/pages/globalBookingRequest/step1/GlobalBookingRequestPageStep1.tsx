@@ -1,4 +1,5 @@
-import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';

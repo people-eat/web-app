@@ -97,6 +97,7 @@ export default function ChefProfilePageCreateMenusStep2({
                                 }
                                 type="text"
                             />
+                            {/* Todo, wtf! */}
                             <PEIconButton
                                 icon={Icon.trash}
                                 onClick={(): void => setCourses(courses.filter((_, index2): boolean => index !== index2))}

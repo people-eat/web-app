@@ -2,6 +2,8 @@ import { useMutation, useQuery } from '@apollo/client';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
+    CreateOneCookMenuCourseDocument,
+    DeleteOneCookMenuCourseDocument,
     FindCookMealsDocument,
     UpdateCookMenuGreetingFromKitchenDocument,
     type MealType,
@@ -62,6 +64,9 @@ export default function ChefProfilePageEditMenusStep2({
         variables: { cookId, menuId: menu.menuId, greetingFromKitchen },
     });
 
+    const [createCourse] = useMutation(CreateOneCookMenuCourseDocument);
+    const [deleteCourse] = useMutation(DeleteOneCookMenuCourseDocument);
+
     function handleSaveUpdates(): void {
         if (menu.greetingFromKitchen !== greetingFromKitchen) {
             void updateGreetingFromKitchen()
@@ -72,6 +77,7 @@ export default function ChefProfilePageEditMenusStep2({
 
     useEffect(() => {
         setGreetingFromKitchen(menu.greetingFromKitchen ?? undefined);
+        setCourses(menu.courses);
     }, [menu]);
 
     return (
@@ -105,47 +111,57 @@ export default function ChefProfilePageEditMenusStep2({
                 )}
 
                 {!editMode && menu.greetingFromKitchen && (
-                    <PETextField type={'text'} value={greetingFromKitchen} disabled={!editMode} onChange={setGreetingFromKitchen} />
+                    <VStack className="w-full">
+                        <p className="w-full mb-4 text-text-m-bold my-0">{'Greeting from kitchen'}</p>
+                        <PETextField type={'text'} value={greetingFromKitchen} disabled={!editMode} onChange={setGreetingFromKitchen} />
+                    </VStack>
                 )}
 
                 {courses.map((course, index) => (
                     <VStack key={index} className="w-full" gap={16} style={{ alignItems: 'flex-start' }}>
                         <HStack gap={16} className="w-full" style={{ alignItems: 'center' }}>
-                            <PETextField
-                                disabled={!editMode}
-                                value={course.title}
-                                onChange={(changedTitle: string): void =>
-                                    setCourses(
-                                        courses.map(
-                                            (
-                                                c,
-                                                index2,
-                                            ): {
-                                                courseId: string;
-                                                index: number;
-                                                title: string;
-                                                mealOptions: {
-                                                    index: number;
-                                                    meal: {
-                                                        mealId: string;
-                                                        title: string;
-                                                        description: string;
-                                                        imageUrl?: string | null;
-                                                        type: MealType;
-                                                        createdAt: Date;
-                                                    };
-                                                }[];
-                                            } => (index === index2 ? { ...c, title: changedTitle } : c),
-                                        ),
-                                    )
-                                }
-                                type="text"
-                            />
+                            {!editMode && <p className="w-full mb-4 text-text-m-bold my-0">{course.title}</p>}
                             {editMode && (
-                                <PEIconButton
-                                    icon={Icon.trash}
-                                    onClick={(): void => setCourses(courses.filter((_, index2): boolean => index !== index2))}
-                                />
+                                <>
+                                    <PETextField
+                                        disabled={!editMode}
+                                        value={course.title}
+                                        onChange={(changedTitle: string): void =>
+                                            setCourses(
+                                                courses.map(
+                                                    (
+                                                        c,
+                                                        index2,
+                                                    ): {
+                                                        courseId: string;
+                                                        index: number;
+                                                        title: string;
+                                                        mealOptions: {
+                                                            index: number;
+                                                            meal: {
+                                                                mealId: string;
+                                                                title: string;
+                                                                description: string;
+                                                                imageUrl?: string | null;
+                                                                type: MealType;
+                                                                createdAt: Date;
+                                                            };
+                                                        }[];
+                                                    } => (index === index2 ? { ...c, title: changedTitle } : c),
+                                                ),
+                                            )
+                                        }
+                                        type="text"
+                                    />
+                                    <PEIconButton
+                                        icon={Icon.trash}
+                                        onClick={(): void =>
+                                            void deleteCourse({
+                                                variables: { cookId, menuId: menu.menuId, courseId: course.courseId },
+                                            }).then((result) => result.data?.cooks.menus.courses.success && onChangesApplied())
+                                        }
+                                    />
+                                </>
                             )}
                         </HStack>
 
@@ -230,9 +246,19 @@ export default function ChefProfilePageEditMenusStep2({
                     <CreateCookMenuCourse
                         open={showCreateCourseDialog}
                         meals={meals}
-                        onSuccess={(_course): void => {
-                            // setCourses([...courses, course]);
-                            // setShowCreateCourseDialog(false);
+                        onSuccess={(course): void => {
+                            void createCourse({
+                                variables: {
+                                    cookId,
+                                    menuId: menu.menuId,
+                                    request: {
+                                        index: 0,
+                                        title: course.title,
+                                        mealOptions: course.mealOptions.map(({ mealId }, mealIndex) => ({ index: mealIndex, mealId })),
+                                    },
+                                },
+                            }).then((result) => result.data?.cooks.menus.courses.success && onChangesApplied());
+                            setShowCreateCourseDialog(false);
                         }}
                         onCancel={(): void => setShowCreateCourseDialog(false)}
                     />

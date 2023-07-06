@@ -21,7 +21,7 @@ export default function HomePageSearchMobile({
     onSearchResultSelect,
     onSearch,
 }: HomePageSearchProps): ReactElement {
-    const { t } = useTranslation('home');
+    const { t } = useTranslation('search');
     const [isOpen, setOpenDialog] = useState(false);
 
     return (
@@ -49,7 +49,7 @@ export default function HomePageSearchMobile({
                     <TextField
                         {...params}
                         variant="standard"
-                        label={t('search-city-label')}
+                        label={t('city-label')}
                         InputProps={{ disableUnderline: true, ...params.InputProps }}
                         InputLabelProps={{ shrink: true }}
                     />

@@ -45,7 +45,7 @@ export default function HomePageSearchDialogMobile({
     onSearch,
 }: PEFullScreenDialog): ReactElement {
     const [open, setOpen] = useState(Boolean(isOpen));
-    const { t } = useTranslation('home');
+    const { t } = useTranslation('search');
 
     useEffect(() => {
         setOpen(Boolean(isOpen));
@@ -95,7 +95,7 @@ export default function HomePageSearchDialogMobile({
                         </div>
                         <p className="text-text-m-bold mb-8">Filters</p>
                         <div>
-                            <p className="text-text-sm-bold">{t('search-city-label')}</p>
+                            <p className="text-text-sm-bold">{t('city-label')}</p>
                             <Autocomplete
                                 sx={{
                                     width: '100%',
@@ -134,7 +134,7 @@ export default function HomePageSearchDialogMobile({
                                 )}
                             />
                         </div>
-                        <p className="text-text-sm-bold">{t('search-adults-label')}</p>
+                        <p className="text-text-sm-bold">{t('adults-label')}</p>
                         <TextField
                             sx={{
                                 width: '100%',
@@ -156,7 +156,7 @@ export default function HomePageSearchDialogMobile({
                             inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 1 }}
                             InputProps={{ disableUnderline: true }}
                         />
-                        <p className="text-text-sm-bold">{t('search-children-label')}</p>
+                        <p className="text-text-sm-bold">{t('children-label')}</p>
                         <TextField
                             sx={{
                                 width: '100%',
@@ -179,7 +179,7 @@ export default function HomePageSearchDialogMobile({
                             inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 0 }}
                             InputProps={{ disableUnderline: true }}
                         />
-                        <p className="text-text-sm-bold">{t('search-date-label')}</p>
+                        <p className="text-text-sm-bold">{t('date-label')}</p>
                         <DatePicker
                             sx={{
                                 width: '100%',

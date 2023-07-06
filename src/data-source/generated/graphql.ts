@@ -382,7 +382,6 @@ export type CookMenuMutation = {
 };
 
 export type CookMenuMutationCoursesArgs = {
-    cookId: Scalars['String'];
     menuId: Scalars['String'];
 };
 
@@ -2503,6 +2502,20 @@ export type CreateOneCookMenuMutation = {
     cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
 };
 
+export type CreateOneCookMenuCourseMutationVariables = Exact<{
+    request: CreateOneCourseRequest;
+    menuId: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type CreateOneCookMenuCourseMutation = {
+    __typename?: 'Mutation';
+    cooks: {
+        __typename?: 'CookMutation';
+        menus: { __typename?: 'CookMenuMutation'; courses: { __typename?: 'CookMenuCourseMutation'; success: boolean } };
+    };
+};
+
 export type DeleteOneCookMenuMutationVariables = Exact<{
     menuId: Scalars['String'];
     cookId: Scalars['String'];
@@ -2511,6 +2524,20 @@ export type DeleteOneCookMenuMutationVariables = Exact<{
 export type DeleteOneCookMenuMutation = {
     __typename?: 'Mutation';
     cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
+};
+
+export type DeleteOneCookMenuCourseMutationVariables = Exact<{
+    courseId: Scalars['String'];
+    menuId: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type DeleteOneCookMenuCourseMutation = {
+    __typename?: 'Mutation';
+    cooks: {
+        __typename?: 'CookMutation';
+        menus: { __typename?: 'CookMenuMutation'; courses: { __typename?: 'CookMenuCourseMutation'; success: boolean } };
+    };
 };
 
 export type FindCookMenuQueryVariables = Exact<{
@@ -5767,6 +5794,91 @@ export const CreateOneCookMenuDocument = {
         },
     ],
 } as unknown as DocumentNode<CreateOneCookMenuMutation, CreateOneCookMenuMutationVariables>;
+export const CreateOneCookMenuCourseDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneCookMenuCourse' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateOneCourseRequest' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'courses' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                ],
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'Field',
+                                                            alias: { kind: 'Name', value: 'success' },
+                                                            name: { kind: 'Name', value: 'createOne' },
+                                                            arguments: [
+                                                                {
+                                                                    kind: 'Argument',
+                                                                    name: { kind: 'Name', value: 'request' },
+                                                                    value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneCookMenuCourseMutation, CreateOneCookMenuCourseMutationVariables>;
 export const DeleteOneCookMenuDocument = {
     kind: 'Document',
     definitions: [
@@ -5831,6 +5943,91 @@ export const DeleteOneCookMenuDocument = {
         },
     ],
 } as unknown as DocumentNode<DeleteOneCookMenuMutation, DeleteOneCookMenuMutationVariables>;
+export const DeleteOneCookMenuCourseDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'DeleteOneCookMenuCourse' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'courseId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'menus' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'courses' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'menuId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                                    },
+                                                ],
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'Field',
+                                                            alias: { kind: 'Name', value: 'success' },
+                                                            name: { kind: 'Name', value: 'deleteOne' },
+                                                            arguments: [
+                                                                {
+                                                                    kind: 'Argument',
+                                                                    name: { kind: 'Name', value: 'courseId' },
+                                                                    value: { kind: 'Variable', name: { kind: 'Name', value: 'courseId' } },
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DeleteOneCookMenuCourseMutation, DeleteOneCookMenuCourseMutationVariables>;
 export const FindCookMenuDocument = {
     kind: 'Document',
     definitions: [
