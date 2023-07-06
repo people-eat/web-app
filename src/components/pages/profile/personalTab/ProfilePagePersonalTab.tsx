@@ -71,6 +71,9 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     const [editLastName, setEditLastName] = useState(userProfile?.lastName);
     const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined | null>(null);
 
+    const [showPasswordChangeSuccessDialog, setShowPasswordChangeSuccessDialog] = useState(false);
+    const [showPasswordChangeFailedDialog, setShowPasswordChangeFailedDialog] = useState(false);
+
     useEffect((): void => {
         setFirstName(userProfile?.firstName);
         setLastName(userProfile?.lastName);
@@ -109,7 +112,11 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                 variables: { userId, password: changedPassword },
             })
                 .then((result) => {
-                    result.data?.users.success && void refetch();
+                    if (result.data?.users.success) {
+                        void refetch();
+                        setShowPasswordChangeSuccessDialog(true);
+                    } else setShowPasswordChangeFailedDialog(true);
+
                     setChangedPassword('');
                 })
                 .catch((e) => console.error(e));
@@ -353,6 +360,36 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                 />
                             </HStack>
                         </VStack>
+
+                        <PEModalPopUp
+                            width={isMobile ? '100%' : 750}
+                            openMenu={showPasswordChangeSuccessDialog}
+                            handleOpenMenu={(): void => setShowPasswordChangeSuccessDialog(false)}
+                        >
+                            <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
+                                <h2 className="m-0 pb-5">{t('password-popup-success-title')}</h2>
+                                <PEButton
+                                    className="max-w-[250px] mt-10"
+                                    onClick={(): void => setShowPasswordChangeSuccessDialog(false)}
+                                    title={t('password-popup-close')}
+                                />
+                            </VStack>
+                        </PEModalPopUp>
+
+                        <PEModalPopUp
+                            width={isMobile ? '100%' : 750}
+                            openMenu={showPasswordChangeFailedDialog}
+                            handleOpenMenu={(): void => setShowPasswordChangeFailedDialog(false)}
+                        >
+                            <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
+                                <h2 className="m-0 pb-5">{t('password-popup-failed-title')}</h2>
+                                <PEButton
+                                    className="max-w-[250px] mt-10"
+                                    onClick={(): void => setShowPasswordChangeFailedDialog(false)}
+                                    title={t('password-popup-close')}
+                                />
+                            </VStack>
+                        </PEModalPopUp>
                     </HStack>
 
                     {!isMobile && (
@@ -379,7 +416,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                     )}
 
                     {isMobile && (
-                        <div style={{ height: '100vh', overflowY: 'scroll' }}>
+                        <div style={{ position: 'absolute', height: '100vh', overflowY: 'scroll' }}>
                             <Dialog
                                 sx={{
                                     height: '100vh',

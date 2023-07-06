@@ -38,5 +38,8 @@
     "user-profile-chats": "Chats",
     "user-profile-fav-chefs": "Chefs préférés",
     "user-profile-personal-info": "Informations personnelles",
-    "user-profile-ratings": "Notes"
+    "user-profile-ratings": "Notes",
+    "password-popup-success-title": "Modifié avec succès",
+    "password-popup-failed-title": "L'enregistrement des modifications a échoué",
+    "password-popup-close": "Fermer"
 }

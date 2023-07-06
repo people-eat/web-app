@@ -53,7 +53,7 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
     useEffect(() => setSelectedTab(queryParamTabIndex ? Number(queryParamTabIndex) : 0), [queryParamTabIndex]);
 
     return (
-        <VStack className="w-full h-full gap-[64px] md:gap-4">
+        <VStack className="w-full min-h-full gap-[64px] md:gap-4">
             <PEHeader
                 signedInUser={signedInUser}
                 mobileMenuTabs={MENU_TABS.map((menu) => ({ title: t(menu.title), link: menu.link }))}
