@@ -1,6 +1,10 @@
 {
-    "accept-privacy-policy-label": "Ich habe die Datenschutzerklärung gelesen und akzeptiere sie",
-    "accept-terms-and-conditions-label": "Ich akzeptiere die allgemeinen Geschäftsbedingungen",
+    "privacy-policy-label": "Ich habe die",
+    "privacy-policy-label-link": "Datenschutzerklärung",
+    "privacy-policy-label-2": "gelesen und akzeptiere sie",
+    "terms-and-conditions-label": "Ich habe die",
+    "terms-and-conditions-label-link": "allgemeinen Geschäftsbedingungen",
+    "terms-and-conditions-label-2": "gelesen und akzeptiere sie",
     "adults-label": "Erwachsene",
     "allergies-label": "Allergien",
     "budget-label": "Budget",

@@ -1,6 +1,10 @@
 {
-    "accept-privacy-policy-label": "Я прочитал Политику конфиденциальности и принимаю их",
-    "accept-terms-and-conditions-label": "Я принимаю условия предоставления услуг",
+    "privacy-policy-label": "Я прочитал и принимаю",
+    "privacy-policy-label-link": "Политику конфиденциальности",
+    "privacy-policy-label-2": "",
+    "terms-and-conditions-label": "Я прочитал и принимаю Условия использования",
+    "terms-and-conditions-label-link": "Условия использования",
+    "terms-and-conditions-label-2": "",
     "adults-label": "Взрослый",
     "allergies-label": "аллергия",
     "budget-label": "бюджет",

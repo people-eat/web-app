@@ -1,6 +1,10 @@
 {
-    "accept-privacy-policy-label": "I have read the Privacy Policy and accept them",
-    "accept-terms-and-conditions-label": "I accept the terms of service",
+    "privacy-policy-label": "I have read and accept the",
+    "privacy-policy-label-link": "Privacy Policy",
+    "privacy-policy-label-2": "",
+    "terms-and-conditions-label": "I have read and accept the",
+    "terms-and-conditions-label-link": "Terms and Conditions",
+    "terms-and-conditions-label-2": "",
     "adults-label": "Adults",
     "allergies-label": "Allergies",
     "budget-label": "Budget",

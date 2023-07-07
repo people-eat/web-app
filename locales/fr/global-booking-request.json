@@ -1,6 +1,10 @@
 {
-    "accept-privacy-policy-label": "J'ai lu la politique de confidentialité et je les accepte",
-    "accept-terms-and-conditions-label": "J'accepte les conditions d'utilisation",
+    "privacy-policy-label": "J'ai lu et j'accepte la politique de confidentialité",
+    "privacy-policy-label-link": "politique de confidentialité",
+    "privacy-policy-label-2": "",
+    "terms-and-conditions-label": "J'ai lu et j'accepte les",
+    "terms-and-conditions-label-link": "termes et conditions",
+    "terms-and-conditions-label-2": "",
     "adults-label": "Adulte",
     "allergies-label": "allergie",
     "budget-label": "budget",
