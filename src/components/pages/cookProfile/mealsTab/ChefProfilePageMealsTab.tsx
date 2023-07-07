@@ -20,9 +20,9 @@ export interface CookProfilePageMealsTabProps {
 }
 
 export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMealsTabProps): ReactElement {
-    const { t: translateMealType } = useTranslation('meal-types');
-    const [selectedTab, setSelectedTab] = useState<MealType | 'CREATE' | undefined>();
-    const [selectedMealId, setSelectedMealId] = useState<undefined | string>();
+    const { t } = useTranslation('meal-types');
+    const [selectedMealType, setSelectedMealType] = useState<MealType | undefined>();
+    const [selectedTab, setSelectedTab] = useState<'MEALS' | 'CREATE' | string>('MEALS');
 
     const { data, loading, refetch } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
@@ -30,7 +30,7 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 box-border gap-6">
-            {selectedTab !== 'CREATE' && !selectedMealId && (
+            {selectedTab === 'MEALS' && (
                 <HStack
                     gap={8}
                     className="w-full bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4"
@@ -38,17 +38,17 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
                 >
                     <HStack className="overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
                         <PETabItem
-                            title={translateMealType('meal-type-all')}
-                            onClick={(): void => setSelectedTab(undefined)}
-                            active={selectedTab === undefined}
+                            title={t('meal-type-all')}
+                            onClick={(): void => setSelectedMealType(undefined)}
+                            active={selectedMealType === undefined}
                         />
 
                         {mealTypes.map((mealType, index) => (
                             <PETabItem
                                 key={index}
-                                title={translateMealType(mealTypeTranslations[mealType])}
-                                onClick={(): void => setSelectedTab(mealType)}
-                                active={selectedTab === mealType}
+                                title={t(mealTypeTranslations[mealType])}
+                                onClick={(): void => setSelectedMealType(mealType)}
+                                active={selectedMealType === mealType}
                             />
                         ))}
                     </HStack>
@@ -66,56 +66,53 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
                 </HStack>
             )}
 
-            {selectedMealId && (
+            {selectedTab !== 'MEALS' && selectedTab !== 'CREATE' && (
                 <ChefProfilePageEditMeal
                     cookId={cookId}
-                    mealId={selectedMealId}
-                    onCancel={(): void => {
-                        setSelectedMealId(undefined);
-                        setSelectedTab(undefined);
-                    }}
+                    mealId={selectedTab}
+                    onCancel={(): void => setSelectedTab('MEALS')}
                     onSaveUpdates={(): void => {
-                        setSelectedMealId(undefined);
-                        setSelectedTab(undefined);
+                        setSelectedTab('MEALS');
                         void refetch();
                     }}
                 />
             )}
 
-            {!selectedMealId && selectedTab === 'CREATE' && (
+            {selectedTab === 'CREATE' && (
                 <ChefProfilePageCreateMeal
                     cookId={cookId}
-                    defaultMealType={'VEGETARIAN'}
-                    onCancel={(): void => setSelectedTab(undefined)}
-                    onSuccess={(): void => {
-                        setSelectedTab(undefined);
+                    defaultMealType={selectedMealType}
+                    onCancel={(): void => setSelectedTab('MEALS')}
+                    onSuccess={(mealType: MealType): void => {
+                        setSelectedTab('MEALS');
+                        setSelectedMealType(mealType);
                         void refetch();
                     }}
                 />
             )}
 
-            {!selectedMealId && selectedTab !== 'CREATE' && (
+            {selectedTab === 'MEALS' && (
                 <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                    {selectedTab !== undefined &&
+                    {selectedMealType !== undefined &&
                         meals
-                            .filter(({ type }) => type === selectedTab)
+                            .filter(({ type }) => type === selectedMealType)
                             .map(({ title, description, imageUrl, mealId }, index) => (
                                 <PEMealCard
                                     key={index}
                                     title={title}
                                     description={description}
                                     imageUrl={imageUrl ?? undefined}
-                                    onClick={(): void => setSelectedMealId(mealId)}
+                                    onClick={(): void => setSelectedTab(mealId)}
                                 />
                             ))}
-                    {selectedTab === undefined &&
+                    {selectedMealType === undefined &&
                         meals.map(({ title, description, imageUrl, mealId }, index) => (
                             <PEMealCard
                                 key={index}
                                 title={title}
                                 description={description}
                                 imageUrl={imageUrl ?? undefined}
-                                onClick={(): void => setSelectedMealId(mealId)}
+                                onClick={(): void => setSelectedTab(mealId)}
                             />
                         ))}
                 </HStack>

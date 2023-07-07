@@ -17,8 +17,8 @@ import VStack from '../../../utility/vStack/VStack';
 
 export interface ChefProfilePageCreateMealProps {
     cookId: string;
-    defaultMealType: MealType;
-    onSuccess: () => void;
+    defaultMealType?: MealType;
+    onSuccess: (mealType: MealType) => void;
     onCancel: () => void;
 }
 
@@ -32,7 +32,7 @@ export default function ChefProfilePageCreateMeal({
     const { t: translateMealType } = useTranslation('meal-types');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [type, setType] = useState<MealType>(defaultMealType);
+    const [type, setType] = useState<MealType>(defaultMealType ?? 'SPECIAL');
     const [image, setImage] = useState<File | undefined>(undefined);
 
     const disabled: boolean = title === '';
@@ -41,7 +41,7 @@ export default function ChefProfilePageCreateMeal({
         variables: { cookId, meal: { title, description, type }, image },
     });
 
-    if (data?.cooks.meals.success) onSuccess();
+    if (data?.cooks.meals.success) onSuccess(type);
 
     return (
         <VStack
