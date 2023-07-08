@@ -72,7 +72,8 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
 
             {selectedTab === undefined &&
                 globalBookingRequests?.map((globalBookingRequest, index) => (
-                    <Button variant="contained" key={index}>
+                    <Button key={index} variant="contained">
+                        {/* onClick={(): void => setSelectedBookingRequest(globalBookingRequest)} */}
                         {globalBookingRequest.occasion}
                     </Button>
                 ))}
