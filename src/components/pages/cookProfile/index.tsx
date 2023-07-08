@@ -2,7 +2,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
 import useResponsive from '../../../hooks/useResponsive';
-import { type SignedInUser } from '../../../shared/SignedInUser';
+import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PETabItem from '../../standard/tabItem/PETabItem';

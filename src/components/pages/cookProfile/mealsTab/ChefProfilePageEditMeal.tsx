@@ -12,8 +12,8 @@ import {
     UpdateCookMealTypeDocument,
     type MealType,
 } from '../../../../data-source/generated/graphql';
-import { mealTypeTranslations } from '../../../../shared/mealTypeTranslations';
-import { mealTypes } from '../../../../shared/mealTypes';
+import { mealTypeTranslations } from '../../../../shared-domain/mealTypeTranslations';
+import { mealTypes } from '../../../../shared-domain/mealTypes';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';

@@ -1,7 +1,7 @@
 import { ButtonBase, Paper } from '@mui/material';
 import Link from 'next/link';
 import { type CSSProperties, type ReactElement } from 'react';
-import { type SignedInUser } from '../../../shared/SignedInUser';
+import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import HStack from '../../utility/hStack/HStack';

@@ -2200,6 +2200,7 @@ export type GetPublicCookPageDataQuery = {
             cookId: string;
             rank: CookRank;
             biography: string;
+            city: string;
             travelExpenses: number;
             createdAt: Date;
             user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
@@ -2222,6 +2223,9 @@ export type GetPublicCookPageDataQuery = {
             }>;
         } | null;
     };
+    categories: { __typename?: 'CategoryQuery'; findAll: Array<{ __typename?: 'Category'; categoryId: string; title: string }> };
+    kitchens: { __typename?: 'KitchenQuery'; findAll: Array<{ __typename?: 'Kitchen'; kitchenId: string; title: string }> };
+    allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
 };
 
 export type GetAdministrationUsersPageDataQueryVariables = Exact<{
@@ -4455,6 +4459,7 @@ export const GetPublicCookPageDataDocument = {
                                                     ],
                                                 },
                                             },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'city' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                                             {
@@ -4499,6 +4504,66 @@ export const GetPublicCookPageDataDocument = {
                                                     ],
                                                 },
                                             },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'categories' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kitchens' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'allergies' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'allergyId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                                         ],
                                     },
                                 },

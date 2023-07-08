@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from '@storybook/react';
-import { type Allergy } from '../../../../shared/Allergy';
-import { type Category } from '../../../../shared/Category';
-import { type Kitchen } from '../../../../shared/Kitchen';
+import { type Allergy } from '../../../../shared-domain/Allergy';
+import { type Category } from '../../../../shared-domain/Category';
+import { type Kitchen } from '../../../../shared-domain/Kitchen';
 import GlobalBookingRequestPageStep2 from './GlobalBookingRequestPageStep2';
 
 const meta: Meta<typeof GlobalBookingRequestPageStep2> = {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment */
 import GoogleMapReact from 'google-map-react';
 import { useEffect, type CSSProperties, type ReactElement } from 'react';
-import { type Location } from '../../shared/Location';
+import { type Location } from '../../shared-domain/Location';
 
 export interface PEMapProps {
     apiKey: string;

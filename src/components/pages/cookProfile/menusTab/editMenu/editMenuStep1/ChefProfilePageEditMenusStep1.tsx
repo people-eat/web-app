@@ -10,8 +10,8 @@ import {
     UpdateCookMenuPreparationTimeDocument,
     UpdateCookMenuTitleDocument,
 } from '../../../../../../data-source/generated/graphql';
-import { type Category } from '../../../../../../shared/Category';
-import { type Kitchen } from '../../../../../../shared/Kitchen';
+import { type Category } from '../../../../../../shared-domain/Category';
+import { type Kitchen } from '../../../../../../shared-domain/Kitchen';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import PECheckbox from '../../../../../standard/checkbox/PECheckbox';
 import PEDropdown from '../../../../../standard/dropdown/PEDropdown';

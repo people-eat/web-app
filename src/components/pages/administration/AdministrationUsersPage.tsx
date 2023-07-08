@@ -1,6 +1,6 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { type ReactElement } from 'react';
-import { type SignedInUser } from '../../../shared/SignedInUser';
+import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import HStack from '../../utility/hStack/HStack';

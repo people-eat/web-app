@@ -6,7 +6,7 @@ import { useEffect, useState, type ReactElement } from 'react';
 import { DeleteOneUserAddressDocument, UpdateOneUserAddressDocument } from '../../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
 import useResponsive from '../../../../hooks/useResponsive';
-import { type Location } from '../../../../shared/Location';
+import { type Location } from '../../../../shared-domain/Location';
 import PEMap from '../../../map/PEMap';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';

@@ -18,12 +18,12 @@ import {
     type CreateBookingRequestRequest,
 } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
-import { type Allergy } from '../../../shared/Allergy';
-import { type Category } from '../../../shared/Category';
-import { type Kitchen } from '../../../shared/Kitchen';
-import { type Language } from '../../../shared/Language';
-import { type Location } from '../../../shared/Location';
-import { type SignedInUser } from '../../../shared/SignedInUser';
+import { type Allergy } from '../../../shared-domain/Allergy';
+import { type Category } from '../../../shared-domain/Category';
+import { type Kitchen } from '../../../shared-domain/Kitchen';
+import { type Language } from '../../../shared-domain/Language';
+import { type Location } from '../../../shared-domain/Location';
+import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';

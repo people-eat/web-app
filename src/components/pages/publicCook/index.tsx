@@ -1,19 +1,21 @@
 import moment from 'moment';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
-import { type Category } from '../../../shared/Category';
-import { type Kitchen } from '../../../shared/Kitchen';
-import { type Language } from '../../../shared/Language';
-import { type Location } from '../../../shared/Location';
-import { type SignedInUser } from '../../../shared/SignedInUser';
+import { type Category } from '../../../shared-domain/Category';
+import { type Kitchen } from '../../../shared-domain/Kitchen';
+import { type Language } from '../../../shared-domain/Language';
+import { type Location } from '../../../shared-domain/Location';
+import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEMenuCard from '../../cards/menuCard/PEMenuCard';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEButton from '../../standard/buttons/PEButton';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
+import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
@@ -23,6 +25,7 @@ export interface PublicCookPageProps {
     publicCook?: {
         cookId: string;
         rank: CookRank;
+        city: string;
         biography: string;
         maximumParticipants?: number | null;
         maximumPrice?: number | null;
@@ -47,12 +50,21 @@ export interface PublicCookPageProps {
             kitchen?: Kitchen;
             categories: Category[];
             createdAt: Date;
-        };
+        }[];
     };
+    categories: Category[];
+    kitchens: Kitchen[];
 }
 
-export default function PublicCookPage({ signedInUser, publicCook }: PublicCookPageProps): ReactElement {
+export default function PublicCookPage({ signedInUser, publicCook, categories, kitchens }: PublicCookPageProps): ReactElement {
     // const { isMobile } = useResponsive();
+
+    const { t } = useTranslation('common');
+
+    const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>();
+    const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
+
+    const languages: Language[] = [];
 
     return (
         <VStack gap={40} className="w-full h-full overflow-hidden">
@@ -85,13 +97,41 @@ export default function PublicCookPage({ signedInUser, publicCook }: PublicCookP
                             )}
 
                             <VStack gap={16} style={{ alignItems: 'flex-start' }}>
-                                <VStack style={{ alignItems: 'flex-start' }}>
+                                <VStack gap={8} style={{ alignItems: 'flex-start' }}>
                                     <p className="text-heading-m my-0">{publicCook.user.firstName}</p>
+                                    <span className="text-orange">{t(publicCook.rank)}</span>
                                 </VStack>
-                                <span>{publicCook.rank}</span>
+                                <HStack gap={16}>
+                                    <PEIcon icon={Icon.markerPin} />
+                                    <span>{publicCook.city}</span>
+                                </HStack>
+                                {languages?.length > 0 && (
+                                    <HStack gap={16}>
+                                        <PEIcon icon={Icon.messageChat} />
+                                        <span>{languages.map(({ title }) => title).join(', ')}</span>
+                                    </HStack>
+                                )}
                             </VStack>
 
                             <Spacer />
+
+                            <Link
+                                href={{
+                                    pathname: '/cook-booking-request',
+                                    query: {
+                                        cookId: publicCook.cookId,
+                                        address: '',
+                                        latitude: 0,
+                                        longitude: 0,
+                                        adults: 3,
+                                        children: 1,
+                                        date: moment().format(moment.HTML5_FMT.DATE),
+                                    },
+                                }}
+                                className="no-underline"
+                            >
+                                <PEButton title="Send Booking Request" onClick={(): void => undefined} />
+                            </Link>
                         </HStack>
 
                         <HStack
@@ -105,44 +145,66 @@ export default function PublicCookPage({ signedInUser, publicCook }: PublicCookP
                             </VStack>
                         </HStack>
 
-                        <Link
-                            href={{
-                                pathname: '/cook-booking-request',
-                                query: {
-                                    cookId: publicCook.cookId,
-                                    address: '',
-                                    latitude: 0,
-                                    longitude: 0,
-                                    adults: 3,
-                                    children: 1,
-                                    date: moment().format(moment.HTML5_FMT.DATE),
-                                },
-                            }}
-                            className="no-underline"
-                        >
-                            <PEButton title="Send Booking Request" onClick={(): void => undefined} />
-                        </Link>
-
                         <HStack className="w-full">
                             <h2>Menu Portfolio</h2>
                             <Spacer />
                         </HStack>
-                        <HStack gap={16} style={{ flexWrap: 'wrap' }} className="w-full">
-                            {publicCook.menus.map((menu) => (
-                                <PEMenuCard
-                                    title={menu.title}
-                                    description={menu.description}
-                                    imageUrls={[]}
-                                    pricePerPerson={100}
-                                    currencyCode={menu.currencyCode}
-                                    chefFirstName={publicCook.user.firstName}
-                                    chefProfilePictureUrl={publicCook.user.profilePictureUrl}
-                                    categories={menu.categories.map(({ title }) => title)}
-                                    kitchen={menu.kitchen}
-                                    onClick={(): void => undefined}
-                                    fullWidth
+
+                        <HStack className="w-full overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
+                            <PETabItem
+                                title={'All'}
+                                onClick={(): void => setSelectedCategory(undefined)}
+                                active={selectedCategory === undefined}
+                            />
+                            {categories.map((category) => (
+                                <PETabItem
+                                    key={category.categoryId}
+                                    title={category.title}
+                                    onClick={(): void => setSelectedCategory(category)}
+                                    active={selectedCategory?.categoryId === category.categoryId}
                                 />
                             ))}
+                        </HStack>
+
+                        <HStack className="w-full overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
+                            <PETabItem
+                                title={'All'}
+                                onClick={(): void => setSelectedKitchen(undefined)}
+                                active={selectedKitchen === undefined}
+                            />
+                            {kitchens.map((kitchen) => (
+                                <PETabItem
+                                    key={kitchen.kitchenId}
+                                    title={kitchen.title}
+                                    onClick={(): void => setSelectedKitchen(kitchen)}
+                                    active={selectedKitchen?.kitchenId === kitchen.kitchenId}
+                                />
+                            ))}
+                        </HStack>
+
+                        <HStack gap={16} style={{ flexWrap: 'wrap' }} className="w-full">
+                            {publicCook.menus
+                                .filter((_menu) => {
+                                    // if (!selectedKitchen) return true;
+                                    // return menu.kitchen?.kitchenId !== selectedKitchen?.kitchenId;
+                                    return true;
+                                })
+                                .map((menu) => (
+                                    <PEMenuCard
+                                        key={menu.menuId}
+                                        title={menu.title}
+                                        description={menu.description}
+                                        imageUrls={[]}
+                                        pricePerPerson={100}
+                                        currencyCode={menu.currencyCode}
+                                        chefFirstName={publicCook.user.firstName}
+                                        chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                        categories={menu.categories.map(({ title }) => title)}
+                                        kitchen={menu.kitchen?.title}
+                                        onClick={(): void => undefined}
+                                        fullWidth
+                                    />
+                                ))}
                         </HStack>
                     </>
                 )}

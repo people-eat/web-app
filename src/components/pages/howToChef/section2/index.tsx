@@ -1,7 +1,7 @@
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { type CookRank } from '../../../../data-source/generated/graphql';
-import { cookRanks } from '../../../../shared/cookRanks';
+import { cookRanks } from '../../../../shared-domain/cookRanks';
 import PECounter from '../../../standard/counter/PECounter';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';

@@ -1,7 +1,7 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
 import { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
-import { type Location } from '../../../../shared/Location';
+import { type Location } from '../../../../shared-domain/Location';
 import PEMap from '../../../map/PEMap';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';

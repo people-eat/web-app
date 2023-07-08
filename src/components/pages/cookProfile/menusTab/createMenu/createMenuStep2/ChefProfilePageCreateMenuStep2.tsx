@@ -54,6 +54,15 @@ export default function ChefProfilePageCreateMenusStep2({
     const { data } = useQuery(FindCookMealsDocument, { variables: { cookId } });
     const meals = data?.cooks.meals.findMany ?? [];
 
+    let disabled = false;
+
+    for (const course of courses) {
+        if (course.title === '') {
+            disabled = true;
+            break;
+        }
+    }
+
     return (
         <VStack gap={16} className="w-full" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
             <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
@@ -97,7 +106,6 @@ export default function ChefProfilePageCreateMenusStep2({
                                 }
                                 type="text"
                             />
-                            {/* Todo, wtf! */}
                             <PEIconButton
                                 icon={Icon.trash}
                                 onClick={(): void => setCourses(courses.filter((_, index2): boolean => index !== index2))}
@@ -200,7 +208,7 @@ export default function ChefProfilePageCreateMenusStep2({
                     <PEMultiLineTextField value={description} onChange={setDescription} />
                 </VStack>
 
-                <PEButton title={t('create-menu-continue')} onClick={onContinue} />
+                <PEButton title={t('create-menu-continue')} onClick={onContinue} disabled={disabled} />
             </VStack>
         </VStack>
     );

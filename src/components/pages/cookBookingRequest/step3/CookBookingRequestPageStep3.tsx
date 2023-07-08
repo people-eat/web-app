@@ -3,7 +3,7 @@ import FormGroup from '@mui/material/FormGroup';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
-import { type SignedInUser } from '../../../../shared/SignedInUser';
+import { type SignedInUser } from '../../../../shared-domain/SignedInUser';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';
 import PEEmailTextField from '../../../standard/textFields/PEEmailTextField';

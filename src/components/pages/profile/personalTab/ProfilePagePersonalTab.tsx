@@ -14,7 +14,7 @@ import {
     UpdateUserProfilePictureDocument,
 } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
-import { type Location } from '../../../../shared/Location';
+import { type Location } from '../../../../shared-domain/Location';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -23,6 +23,7 @@ import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PEImagePicker from '../../../standard/imagePicker/PEImagePicker';
 import PEModalPopUp from '../../../standard/modal/PEModalPopUp';
 import PEPasswordTextField from '../../../standard/textFields/PEPasswordTextField';
+import PEPhoneNumberTextField from '../../../standard/textFields/PEPhoneNumberTextField';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
@@ -251,18 +252,22 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('phone-number-label')}</p>
                                 {!userProfile.phoneNumber && !userProfile.phoneNumberUpdate?.phoneNumber && (
-                                    <PETextField disabled type="text" value="" />
+                                    <PEPhoneNumberTextField phoneNumber={''} onChange={(): void => undefined} disabled />
                                 )}
                                 {userProfile.phoneNumberUpdate?.phoneNumber && (
-                                    <PETextField
+                                    <PEPhoneNumberTextField
+                                        phoneNumber={userProfile.phoneNumberUpdate.phoneNumber}
+                                        onChange={(): void => undefined}
                                         disabled
-                                        type="text"
-                                        value={userProfile.phoneNumberUpdate.phoneNumber}
-                                        endContent={<>not confirmed</>}
+                                        // endContent={<>not confirmed</>}
                                     />
                                 )}
                                 {userProfile.phoneNumber && !userProfile.phoneNumberUpdate?.phoneNumber && (
-                                    <PETextField disabled type="text" value={userProfile.phoneNumber} />
+                                    <PEPhoneNumberTextField
+                                        phoneNumber={userProfile.phoneNumber}
+                                        onChange={(): void => undefined}
+                                        disabled
+                                    />
                                 )}
                             </VStack>
                         </HStack>

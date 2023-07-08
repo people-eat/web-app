@@ -15,9 +15,9 @@ import {
 } from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import useResponsive from '../../../hooks/useResponsive';
-import { type Location } from '../../../shared/Location';
-import { type SignedInUser } from '../../../shared/SignedInUser';
-import { cookRanks } from '../../../shared/cookRanks';
+import { type Location } from '../../../shared-domain/Location';
+import { type SignedInUser } from '../../../shared-domain/SignedInUser';
+import { cookRanks } from '../../../shared-domain/cookRanks';
 import PEHeader from '../../header/PEHeader';
 import PEMap from '../../map/PEMap';
 import PEButton from '../../standard/buttons/PEButton';

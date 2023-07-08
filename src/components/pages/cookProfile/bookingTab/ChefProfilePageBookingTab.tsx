@@ -10,7 +10,9 @@ import {
     CreateOneCookBookingRequestDocument,
     FindCookProfileGlobalBookingRequestsDocument,
     FindManyCookBookingRequestsDocument,
+    type CurrencyCode,
 } from '../../../../data-source/generated/graphql';
+import BookingRequestDetailsDialog from '../../../BookingRequestDetailsDialog';
 import PEBookingRequestCardInProcess from '../../../cards/bookingRequestCard/PEBookingRequestCardInProcess';
 import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
 import PETabItem from '../../../standard/tabItem/PETabItem';
@@ -27,6 +29,25 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
     const { t } = useTranslation('chef-profile');
 
     const BOOKING_TABS = ['Open', t('booking-in-progress'), 'Completed'];
+
+    const [selectedBookingRequest, setSelectedBookingRequest] = useState<
+        | {
+              bookingRequestId: string;
+              globalBookingRequestId?: string | null;
+              adultParticipants: number;
+              children: number;
+              dateTime: Date;
+              userAccepted: boolean;
+              cookAccepted: boolean;
+              kitchenId?: string | null;
+              occasion: string;
+              preparationTime: number;
+              duration: number;
+              createdAt: Date;
+              price: { amount: number; currencyCode: CurrencyCode };
+          }
+        | undefined
+    >();
 
     const { data, loading, error, refetch } = useQuery(FindCookProfileGlobalBookingRequestsDocument, { variables: { cookId } });
     const globalBookingRequests = data?.cooks.globalBookingRequests.findMany;
@@ -93,7 +114,7 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
                                         void refetch();
                                     })
                                 }
-                                onOrderDetailsClick={(): void => undefined}
+                                onOrderDetailsClick={(): void => setSelectedBookingRequest(openBookingRequest)}
                             />
                         </div>
                     ))}
@@ -114,7 +135,7 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
                                 address={'Location'}
                                 dateTime={moment(bookingRequestInProgress.dateTime)}
                                 createdAt={moment(bookingRequestInProgress.createdAt)}
-                                onOrderDetailsClick={(): void => undefined}
+                                onOrderDetailsClick={(): void => setSelectedBookingRequest(bookingRequestInProgress)}
                                 onToChatClick={(): void => undefined}
                             />
                         </div>
@@ -181,6 +202,13 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
             {loading && <CircularProgress />}
 
             {error && <>An error ocurred</>}
+
+            {selectedBookingRequest && (
+                <BookingRequestDetailsDialog
+                    onClose={(): void => setSelectedBookingRequest(undefined)}
+                    bookingRequest={selectedBookingRequest}
+                />
+            )}
         </VStack>
     );
 }

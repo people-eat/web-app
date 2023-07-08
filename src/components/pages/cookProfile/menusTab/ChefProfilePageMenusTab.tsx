@@ -8,8 +8,8 @@ import {
     type MealType,
 } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
-import { type Category } from '../../../../shared/Category';
-import { type Kitchen } from '../../../../shared/Kitchen';
+import { type Category } from '../../../../shared-domain/Category';
+import { type Kitchen } from '../../../../shared-domain/Kitchen';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import PEMenuCardMobile from '../../../cards/menuCard/PEMenuCardMobile';
 import PEButton from '../../../standard/buttons/PEButton';

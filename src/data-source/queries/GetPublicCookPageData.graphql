@@ -18,6 +18,7 @@ query GetPublicCookPageData($cookId: String!) {
                 latitude
                 longitude
             }
+            city
             travelExpenses
             createdAt
             menus {
@@ -41,6 +42,24 @@ query GetPublicCookPageData($cookId: String!) {
                 greetingFromKitchen
                 createdAt
             }
+        }
+    }
+    categories {
+        findAll {
+            categoryId
+            title
+        }
+    }
+    kitchens {
+        findAll {
+            kitchenId
+            title
+        }
+    }
+    allergies {
+        findAll {
+            allergyId
+            title
         }
     }
 }

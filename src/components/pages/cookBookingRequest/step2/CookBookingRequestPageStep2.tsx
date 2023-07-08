@@ -1,8 +1,8 @@
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
-import { type Allergy } from '../../../../shared/Allergy';
-import { type Category } from '../../../../shared/Category';
-import { type Kitchen } from '../../../../shared/Kitchen';
+import { type Allergy } from '../../../../shared-domain/Allergy';
+import { type Category } from '../../../../shared-domain/Category';
+import { type Kitchen } from '../../../../shared-domain/Kitchen';
 import PEButton from '../../../standard/buttons/PEButton';
 import PEDropdown from '../../../standard/dropdown/PEDropdown';
 import PESingleSelectDropdown from '../../../standard/dropdown/PESingleSelectDropdown';

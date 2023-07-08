@@ -1,4 +1,4 @@
-import { type SignedInUser } from '../../shared/SignedInUser';
+import { type SignedInUser } from '../../shared-domain/SignedInUser';
 
 export interface PEHeaderProps {
     signedInUser?: SignedInUser;

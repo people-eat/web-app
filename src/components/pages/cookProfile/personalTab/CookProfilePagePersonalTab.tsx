@@ -12,7 +12,7 @@ import {
     UpdateCookTravelExpensesDocument,
 } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
-import { type Location } from '../../../../shared/Location';
+import { type Location } from '../../../../shared-domain/Location';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEMap from '../../../map/PEMap';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';

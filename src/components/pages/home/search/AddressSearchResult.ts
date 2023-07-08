@@ -1,4 +1,4 @@
-import { type Location } from '../../../../shared/Location';
+import { type Location } from '../../../../shared-domain/Location';
 
 export interface AddressSearchResult {
     label: string;

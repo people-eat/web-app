@@ -18,16 +18,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }).query({ query: GetPublicCookPageDataDocument, variables: { cookId } });
 
     const publicCook = data.publicCooks.findOne;
+    const categories = data.categories.findAll;
+    const kitchens = data.kitchens.findAll;
 
     return {
         props: {
             signedInUser: data.users.signedInUser,
             publicCook,
+            categories,
+            kitchens,
         },
     };
 };
 
-const Index: NextPage<PublicCookPageProps> = ({ signedInUser, publicCook }) => {
+const Index: NextPage<PublicCookPageProps> = ({ signedInUser, publicCook, categories, kitchens }) => {
     return (
         <>
             <Head>
@@ -35,7 +39,7 @@ const Index: NextPage<PublicCookPageProps> = ({ signedInUser, publicCook }) => {
                 <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <PublicCookPage signedInUser={signedInUser} publicCook={publicCook} />
+            <PublicCookPage signedInUser={signedInUser} publicCook={publicCook} categories={categories} kitchens={kitchens} />
         </>
     );
 };

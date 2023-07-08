@@ -4,7 +4,7 @@ import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
-import { type Location } from '../../../../shared/Location';
+import { type Location } from '../../../../shared-domain/Location';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECounter from '../../../standard/counter/PECounter';
 import PEAutoCompleteTextField from '../../../standard/textFields/PEAutoCompleteTextField';
