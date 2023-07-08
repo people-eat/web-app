@@ -1229,6 +1229,7 @@ export type PublicCook = {
     maximumParticipants?: Maybe<Scalars['UnsignedInt']>;
     maximumPrice?: Maybe<Scalars['UnsignedInt']>;
     maximumTravelDistance?: Maybe<Scalars['UnsignedInt']>;
+    menus: Array<PublicMenu>;
     minimumParticipants?: Maybe<Scalars['UnsignedInt']>;
     minimumPrice?: Maybe<Scalars['UnsignedInt']>;
     rank: CookRank;
@@ -1260,7 +1261,7 @@ export type PublicMenu = {
     createdAt: Scalars['DateTime'];
     currencyCode: CurrencyCode;
     description: Scalars['String'];
-    greetingFromKitchen: Scalars['Boolean'];
+    greetingFromKitchen?: Maybe<Scalars['String']>;
     kitchen?: Maybe<Kitchen>;
     menuId: Scalars['String'];
     preparationTime: Scalars['UnsignedInt'];
@@ -2203,6 +2204,22 @@ export type GetPublicCookPageDataQuery = {
             createdAt: Date;
             user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
             location: { __typename?: 'Location'; latitude: number; longitude: number };
+            menus: Array<{
+                __typename?: 'PublicMenu';
+                title: string;
+                pricePerChild?: number | null;
+                pricePerAdult: number;
+                preparationTime: number;
+                menuId: string;
+                basePrice: number;
+                basePriceCustomers: number;
+                currencyCode: CurrencyCode;
+                description: string;
+                greetingFromKitchen?: string | null;
+                createdAt: Date;
+                kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
+                categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
+            }>;
         } | null;
     };
 };
@@ -4440,6 +4457,48 @@ export const GetPublicCookPageDataDocument = {
                                             },
                                             { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'menus' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'pricePerChild' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'pricePerAdult' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'preparationTime' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'menuId' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'kitchen' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'basePrice' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'basePriceCustomers' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'categories' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'greetingFromKitchen' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
                                         ],
                                     },
                                 },

@@ -25,7 +25,7 @@ export interface CreateAddressDialogProps {
     onCancel: () => void;
 }
 
-const Transition = forwardRef(function Transition(props: TransitionProps & { children: ReactElement<any, any> }, ref: Ref<unknown>) {
+export const Transition = forwardRef(function Transition(props: TransitionProps & { children: ReactElement<any, any> }, ref: Ref<unknown>) {
     return (
         <Slide direction="up" ref={ref} {...props}>
             {props.children}

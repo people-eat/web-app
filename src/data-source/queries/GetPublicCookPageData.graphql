@@ -20,6 +20,27 @@ query GetPublicCookPageData($cookId: String!) {
             }
             travelExpenses
             createdAt
+            menus {
+                title
+                pricePerChild
+                pricePerAdult
+                preparationTime
+                menuId
+                kitchen {
+                    kitchenId
+                    title
+                }
+                basePrice
+                basePriceCustomers
+                categories {
+                    categoryId
+                    title
+                }
+                currencyCode
+                description
+                greetingFromKitchen
+                createdAt
+            }
         }
     }
 }

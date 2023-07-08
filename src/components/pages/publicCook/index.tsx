@@ -2,10 +2,13 @@ import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type ReactElement } from 'react';
-import { type CookRank } from '../../../data-source/generated/graphql';
+import { type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
+import { type Category } from '../../../shared/Category';
+import { type Kitchen } from '../../../shared/Kitchen';
 import { type Language } from '../../../shared/Language';
 import { type Location } from '../../../shared/Location';
 import { type SignedInUser } from '../../../shared/SignedInUser';
+import PEMenuCard from '../../cards/menuCard/PEMenuCard';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEButton from '../../standard/buttons/PEButton';
@@ -30,6 +33,21 @@ export interface PublicCookPageProps {
         user: { firstName: string; profilePictureUrl?: string };
         location: Location;
         languages: Language[];
+        menus: {
+            menuId: string;
+            title: string;
+            description: string;
+            pricePerAdult: number;
+            pricePerChild?: number;
+            preparationTime: number;
+            basePrice: number;
+            basePriceCustomers: number;
+            currencyCode: CurrencyCode;
+            greetingFromKitchen: boolean;
+            kitchen?: Kitchen;
+            categories: Category[];
+            createdAt: Date;
+        };
     };
 }
 
@@ -104,6 +122,28 @@ export default function PublicCookPage({ signedInUser, publicCook }: PublicCookP
                         >
                             <PEButton title="Send Booking Request" onClick={(): void => undefined} />
                         </Link>
+
+                        <HStack className="w-full">
+                            <h2>Menu Portfolio</h2>
+                            <Spacer />
+                        </HStack>
+                        <HStack gap={16} style={{ flexWrap: 'wrap' }} className="w-full">
+                            {publicCook.menus.map((menu) => (
+                                <PEMenuCard
+                                    title={menu.title}
+                                    description={menu.description}
+                                    imageUrls={[]}
+                                    pricePerPerson={100}
+                                    currencyCode={menu.currencyCode}
+                                    chefFirstName={publicCook.user.firstName}
+                                    chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                    categories={menu.categories.map(({ title }) => title)}
+                                    kitchen={menu.kitchen}
+                                    onClick={(): void => undefined}
+                                    fullWidth
+                                />
+                            ))}
+                        </HStack>
                     </>
                 )}
             </VStack>
