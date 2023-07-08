@@ -1,0 +1,10 @@
+{
+    "city": "City",
+    "country": "Country",
+    "house-number": "House number",
+    "post-code": "Post code",
+    "street": "Street",
+    "title": "Title",
+    "title-add": "Add Address",
+    "title-edit": "Edit Address"
+}

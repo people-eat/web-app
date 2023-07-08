@@ -1,0 +1,10 @@
+{
+    "city": "Stadt",
+    "country": "Land",
+    "house-number": "Hausnummer",
+    "post-code": "Postleitzahl",
+    "street": "Straße",
+    "title": "Titel",
+    "title-add": "Adresse hinzfügen",
+    "title-edit": "Adresse bearbeiten"
+}

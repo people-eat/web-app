@@ -38,7 +38,8 @@ export interface UpdateAddressDialogProps {
 
 export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel, address }: UpdateAddressDialogProps): ReactElement {
     const { isMobile } = useResponsive();
-    const { t: profileTranslates } = useTranslation('profile');
+    const { t: translateCommon } = useTranslation('common');
+    const { t: translateAddress } = useTranslation('address');
 
     const [title, setTitle] = useState(address.title);
     const [postCode, setPostCode] = useState(address.postCode);
@@ -89,7 +90,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                 <Dialog open={open} onClose={onCancel}>
                     <DialogTitle>
                         <HStack>
-                            <span>{profileTranslates('popup-button-add')}</span>
+                            <span>{translateAddress('title-edit')}</span>
                             <Spacer />
                             <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                         </HStack>
@@ -102,23 +103,13 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                 style={{ width: isMobile ? '100%' : '512px', minWidth: 320 }}
                             >
                                 <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
-                                    <PETextField
-                                        value={title}
-                                        onChange={setTitle}
-                                        placeholder={profileTranslates('popup-addresses-title')}
-                                        type="text"
-                                    />
+                                    <PETextField value={title} onChange={setTitle} placeholder={translateAddress('title')} type="text" />
                                     <HStack className="w-full gap-4 md:flex-col">
-                                        <PETextField
-                                            value={city}
-                                            onChange={setCity}
-                                            placeholder={profileTranslates('popup-addresses-city')}
-                                            type="text"
-                                        />
+                                        <PETextField value={city} onChange={setCity} placeholder={translateAddress('city')} type="text" />
                                         <PETextField
                                             value={postCode}
                                             onChange={setPostCode}
-                                            placeholder={profileTranslates('popup-addresses-postcode')}
+                                            placeholder={translateAddress('post-code')}
                                             type="text"
                                         />
                                     </HStack>
@@ -126,20 +117,20 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                         <PETextField
                                             value={street}
                                             onChange={setStreet}
-                                            placeholder={profileTranslates('popup-addresses-street')}
+                                            placeholder={translateAddress('street')}
                                             type="text"
                                         />
                                         <PETextField
                                             value={houseNumber}
                                             onChange={setHouseNumber}
-                                            placeholder={profileTranslates('popup-addresses-number')}
+                                            placeholder={translateAddress('house-number')}
                                             type="text"
                                         />
                                     </HStack>
                                     <PETextField
                                         value={country}
                                         onChange={setCountry}
-                                        placeholder={profileTranslates('popup-addresses-country')}
+                                        placeholder={translateAddress('country')}
                                         type="text"
                                     />
                                 </VStack>
@@ -152,7 +143,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
 
                                 <HStack gap={8} className="w-full">
                                     <PEButton
-                                        title="Delete"
+                                        title={translateCommon('delete')}
                                         type="secondary"
                                         onClick={(): void =>
                                             void deleteOneUserAddress({ variables: { userId, addressId: address.addressId } }).then(
@@ -161,7 +152,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                         }
                                     />
                                     <PEButton
-                                        title="Save changes"
+                                        title={translateCommon('save-changes')}
                                         onClick={(): void => {
                                             if (!disabled && location) {
                                                 void updateOneUserAddress({
@@ -217,7 +208,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                         >
                             <DialogTitle>
                                 <HStack>
-                                    <span>{profileTranslates('popup-button-add')}</span>
+                                    <span>{translateAddress('title-edit')}</span>
                                     <Spacer />
                                     <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                                 </HStack>
@@ -233,26 +224,26 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                             <PETextField
                                                 value={title}
                                                 onChange={setTitle}
-                                                placeholder={profileTranslates('popup-addresses-title')}
+                                                placeholder={translateAddress('popup-addresses-title')}
                                                 type="text"
                                             />
                                             <PETextField
                                                 value={country}
                                                 onChange={setCountry}
-                                                placeholder={profileTranslates('popup-addresses-country')}
+                                                placeholder={translateAddress('country')}
                                                 type="text"
                                             />
                                             <div className="w-full flex flex-row gap-4 md:flex-col">
                                                 <PETextField
                                                     value={city}
                                                     onChange={setCity}
-                                                    placeholder={profileTranslates('popup-addresses-city')}
+                                                    placeholder={translateAddress('city')}
                                                     type="text"
                                                 />
                                                 <PETextField
                                                     value={postCode}
                                                     onChange={setPostCode}
-                                                    placeholder={profileTranslates('popup-addresses-postcode')}
+                                                    placeholder={translateAddress('post-code')}
                                                     type="text"
                                                 />
                                             </div>
@@ -260,13 +251,13 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                                 <PETextField
                                                     value={street}
                                                     onChange={setStreet}
-                                                    placeholder={profileTranslates('popup-addresses-street')}
+                                                    placeholder={translateAddress('street')}
                                                     type="text"
                                                 />
                                                 <PETextField
                                                     value={houseNumber}
                                                     onChange={setHouseNumber}
-                                                    placeholder={profileTranslates('popup-addresses-number')}
+                                                    placeholder={translateAddress('house-number')}
                                                     type="text"
                                                 />
                                             </div>
@@ -280,7 +271,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
 
                                         <HStack gap={8} className="w-full">
                                             <PEButton
-                                                title="Delete"
+                                                title={translateCommon('delete')}
                                                 type="secondary"
                                                 onClick={(): void =>
                                                     void deleteOneUserAddress({ variables: { userId, addressId: address.addressId } }).then(
@@ -289,7 +280,7 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                                 }
                                             />
                                             <PEButton
-                                                title="Save changes"
+                                                title={translateCommon('save-changes')}
                                                 onClick={(): void => {
                                                     if (!disabled && location) {
                                                         void updateOneUserAddress({

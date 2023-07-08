@@ -45,6 +45,7 @@ export interface CookSignUpPageProps {
 // eslint-disable-next-line max-statements
 export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPageProps): ReactElement {
     const { t: translateCommon } = useTranslation('common');
+    const { t: translateAddress } = useTranslation('address');
     const { t } = useTranslation('chef-sign-up');
 
     const { isMobile } = useResponsive();
@@ -242,14 +243,36 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <HStack className="w-full" gap={16} style={{ flexWrap: 'wrap' }}>
                         <VStack style={{ flex: 1 }} gap={16}>
                             <HStack gap={16} className="w-full">
-                                <PETextField value={city} onChange={setCity} placeholder={t('city')} type="text" autocomplete="city" />
-                                <PETextField value={postCode} onChange={setPostCode} placeholder={t('post-code')} type="text" />
+                                <PETextField
+                                    value={city}
+                                    onChange={setCity}
+                                    placeholder={translateAddress('city')}
+                                    type="text"
+                                    autocomplete="city"
+                                />
+                                <PETextField
+                                    value={postCode}
+                                    onChange={setPostCode}
+                                    placeholder={translateAddress('post-code')}
+                                    type="text"
+                                />
                             </HStack>
                             <HStack gap={16} className="w-full">
-                                <PETextField value={street} onChange={setStreet} placeholder={t('street')} type="text" />
-                                <PETextField value={houseNumber} onChange={setHouseNumber} placeholder={t('house-number')} type="text" />
+                                <PETextField value={street} onChange={setStreet} placeholder={translateAddress('street')} type="text" />
+                                <PETextField
+                                    value={houseNumber}
+                                    onChange={setHouseNumber}
+                                    placeholder={translateAddress('house-number')}
+                                    type="text"
+                                />
                             </HStack>
-                            <PETextField value={country} onChange={setCountry} placeholder={'Country'} type="text" autocomplete="country" />
+                            <PETextField
+                                value={country}
+                                onChange={setCountry}
+                                placeholder={translateAddress('country')}
+                                type="text"
+                                autocomplete="country"
+                            />
                         </VStack>
 
                         {!isMobile && (

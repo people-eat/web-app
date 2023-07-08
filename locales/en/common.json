@@ -7,5 +7,12 @@
     "sign-up": "Register",
     "terms-and-conditions": "Terms and Conditions",
     "HOBBY": "Hobby Chef",
-    "PROFESSIONAL": "Professional Chef"
+    "PROFESSIONAL": "Professional Chef",
+    "cancel": "Cancel",
+    "close": "Close",
+    "delete": "Delete",
+    "edit": "Edit",
+    "remove": "Remove",
+    "save": "Save",
+    "save-changes": "Save Changes"
 }

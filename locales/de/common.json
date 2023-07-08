@@ -7,5 +7,12 @@
     "sign-up": "Registrieren",
     "terms-and-conditions": "Allgemeine Geschäftsbedingungen",
     "HOBBY": "Hobbykoch",
-    "PROFESSIONAL": "Professioneller Koch"
+    "PROFESSIONAL": "Professioneller Koch",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "remove": "Entfernen",
+    "save": "Speichern",
+    "save-changes": "Änderungen speichern"
 }

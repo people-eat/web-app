@@ -7,5 +7,12 @@
     "sign-up": "enregistrer",
     "terms-and-conditions": "Conditions générales de vente",
     "HOBBY": "Cuisinier amateur",
-    "PROFESSIONAL": "Cuisinier professionnel"
+    "PROFESSIONAL": "Cuisinier professionnel",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "remove": "Retirer",
+    "save": "Sauvegarder",
+    "save-changes": "Sauvegarder les modifications"
 }
