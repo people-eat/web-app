@@ -130,7 +130,7 @@ export default function ChefProfilePageCreateMenusStep2({
                                         setSelectedMealId(meal.mealId);
                                     }}
                                 >
-                                    <PEMealCard title={meal.title} description={meal.description} />
+                                    <PEMealCard imageUrl={meal.imageUrl ?? undefined} title={meal.title} description={meal.description} />
                                 </div>
                             ))}
                         </HStack>
