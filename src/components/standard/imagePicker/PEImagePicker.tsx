@@ -1,4 +1,5 @@
 import { Dialog, DialogContent } from '@mui/material';
+import Compressor from 'compressorjs';
 import Image from 'next/image';
 import { useEffect, useState, type ReactElement } from 'react';
 import { useFilePicker } from 'use-file-picker';
@@ -14,6 +15,14 @@ interface PEImagePickerProps {
     defaultImage?: string;
 }
 
+export const toBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (): void => resolve(reader.result as string);
+        reader.onerror = reject;
+    });
+
 export default function PEImagePicker({ onPick, onRemoveDefaultImage, defaultImage }: PEImagePickerProps): ReactElement {
     const [base64Image, setBase64Image] = useState<string | undefined>(defaultImage);
     const [base64CroppedImage, setBase64CroppedImage] = useState<string | undefined>(defaultImage);
@@ -26,12 +35,23 @@ export default function PEImagePicker({ onPick, onRemoveDefaultImage, defaultIma
         limitFilesConfig: { max: 1 },
         // in megabytes
         maxFileSize: 12,
-        onFilesSuccessfulySelected: ({ plainFiles, filesContent }) => {
+        onFilesSuccessfulySelected: ({ plainFiles, filesContent: _filesContent }) => {
             const selectedImage: File | undefined = plainFiles[0];
-            const selectedBase64Image: string | undefined = filesContent[0]?.content;
-            if (!selectedImage || !selectedBase64Image) return;
-            setBase64Image(selectedBase64Image);
-            setShowImageCropper(true);
+            // const selectedBase64Image: string | undefined = filesContent[0]?.content;
+            if (!selectedImage) return;
+            new Compressor(selectedImage, {
+                quality: 0.8,
+                success: (compressedImage: File): void => {
+                    // compressedResult has the compressed file.
+                    // Use the compressed file to upload the images to your server.
+                    toBase64(compressedImage)
+                        .then((selectedBase64Image: string) => {
+                            setBase64Image(selectedBase64Image);
+                            setShowImageCropper(true);
+                        })
+                        .catch((error) => console.error(error));
+                },
+            });
         },
     });
 

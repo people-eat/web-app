@@ -34,6 +34,7 @@
         "animejs": "^3.2.1",
         "apollo-upload-client": "^17.0.0",
         "classnames": "^2.3.2",
+        "compressorjs": "^1.2.1",
         "google-map-react": "^2.2.0",
         "graphql": "^16.6.0",
         "moment": "^2.29.4",
@@ -42,7 +43,7 @@
         "next-translate": "^2.0.5",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "react-image-crop": "^10.1.4",
+        "react-image-crop": "^10.1.5",
         "react-material-ui-carousel": "^3.4.2",
         "use-file-picker": "^1.7.0",
         "validatorjs": "^3.22.1"
