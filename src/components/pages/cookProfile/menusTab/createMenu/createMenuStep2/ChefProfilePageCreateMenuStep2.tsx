@@ -139,7 +139,6 @@ export default function ChefProfilePageCreateMenusStep2({
                             <UpdateCookMenuCourse
                                 open={showUpdateCourseDialog}
                                 meals={meals.filter((meal) => !course.mealOptions.find((courseMeal) => courseMeal.mealId === meal.mealId))}
-                                courseIndex={index}
                                 onSuccess={(updatedCourse): void => {
                                     setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
                                     setShowUpdateCourseDialog(false);

@@ -83,6 +83,8 @@ const documents = {
         types.UpdateCookMealTitleDocument,
     'mutation UpdateCookMealType($mealId: String!, $type: MealType!, $cookId: String!) {\n  cooks {\n    meals(cookId: $cookId) {\n      success: updateType(mealId: $mealId, type: $type)\n    }\n  }\n}':
         types.UpdateCookMealTypeDocument,
+    'mutation CreateManyCookMenuCourseMealOptions($menuId: String!, $cookId: String!, $mealOptions: [CreateOneMealOptionRequest!]!, $courseId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        mealOptions(courseId: $courseId) {\n          success: createMany(mealOptions: $mealOptions)\n        }\n      }\n    }\n  }\n}':
+        types.CreateManyCookMenuCourseMealOptionsDocument,
     'mutation CreateOneCookMenu($menu: CreateOneMenuRequest!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: createOne(menu: $menu)\n    }\n  }\n}':
         types.CreateOneCookMenuDocument,
     'mutation CreateOneCookMenuCourse($request: CreateOneCourseRequest!, $menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        success: createOne(request: $request)\n      }\n    }\n  }\n}':
@@ -91,6 +93,8 @@ const documents = {
         types.DeleteOneCookMenuDocument,
     'mutation DeleteOneCookMenuCourse($courseId: String!, $menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        success: deleteOne(courseId: $courseId)\n      }\n    }\n  }\n}':
         types.DeleteOneCookMenuCourseDocument,
+    'mutation DeleteOneCookMenuCourseMealOption($mealId: String!, $courseId: String!, $menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        mealOptions(courseId: $courseId) {\n          deleteOne(mealId: $mealId)\n        }\n      }\n    }\n  }\n}':
+        types.DeleteOneCookMenuCourseMealOptionDocument,
     'query FindCookMenu($menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      findOne(menuId: $menuId) {\n        menuId\n        isVisible\n        title\n        description\n        basePrice\n        basePriceCustomers\n        pricePerAdult\n        pricePerChild\n        currencyCode\n        greetingFromKitchen\n        preparationTime\n        kitchen {\n          kitchenId\n          title\n        }\n        categories {\n          categoryId\n          title\n        }\n        courses {\n          courseId\n          index\n          title\n          mealOptions {\n            index\n            meal {\n              mealId\n              title\n              description\n              imageUrl\n              type\n              createdAt\n            }\n          }\n        }\n        createdAt\n      }\n    }\n  }\n}':
         types.FindCookMenuDocument,
     'query FindCookMenus($cookId: String!) {\n  users {\n    me {\n      firstName\n      profilePictureUrl\n    }\n  }\n  cooks {\n    menus(cookId: $cookId) {\n      findMany {\n        menuId\n        title\n        description\n        basePrice\n        basePriceCustomers\n        createdAt\n        currencyCode\n        preparationTime\n        pricePerAdult\n        pricePerChild\n        isVisible\n        categories {\n          categoryId\n          title\n        }\n        kitchen {\n          kitchenId\n          title\n        }\n      }\n    }\n  }\n}':
@@ -416,6 +420,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'mutation CreateManyCookMenuCourseMealOptions($menuId: String!, $cookId: String!, $mealOptions: [CreateOneMealOptionRequest!]!, $courseId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        mealOptions(courseId: $courseId) {\n          success: createMany(mealOptions: $mealOptions)\n        }\n      }\n    }\n  }\n}',
+): (typeof documents)['mutation CreateManyCookMenuCourseMealOptions($menuId: String!, $cookId: String!, $mealOptions: [CreateOneMealOptionRequest!]!, $courseId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        mealOptions(courseId: $courseId) {\n          success: createMany(mealOptions: $mealOptions)\n        }\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'mutation CreateOneCookMenu($menu: CreateOneMenuRequest!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: createOne(menu: $menu)\n    }\n  }\n}',
 ): (typeof documents)['mutation CreateOneCookMenu($menu: CreateOneMenuRequest!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: createOne(menu: $menu)\n    }\n  }\n}'];
 /**
@@ -436,6 +446,12 @@ export function gql(
 export function gql(
     source: 'mutation DeleteOneCookMenuCourse($courseId: String!, $menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        success: deleteOne(courseId: $courseId)\n      }\n    }\n  }\n}',
 ): (typeof documents)['mutation DeleteOneCookMenuCourse($courseId: String!, $menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        success: deleteOne(courseId: $courseId)\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation DeleteOneCookMenuCourseMealOption($mealId: String!, $courseId: String!, $menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        mealOptions(courseId: $courseId) {\n          deleteOne(mealId: $mealId)\n        }\n      }\n    }\n  }\n}',
+): (typeof documents)['mutation DeleteOneCookMenuCourseMealOption($mealId: String!, $courseId: String!, $menuId: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      courses(menuId: $menuId) {\n        mealOptions(courseId: $courseId) {\n          deleteOne(mealId: $mealId)\n        }\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

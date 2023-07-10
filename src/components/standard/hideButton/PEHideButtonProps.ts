@@ -4,4 +4,5 @@ export interface PEHideButtonProps extends CheckboxProps {
     disabled?: boolean;
     checked?: boolean;
     onCheckedChange?: () => void;
+    className?: string;
 }

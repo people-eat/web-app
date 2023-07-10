@@ -7,6 +7,7 @@ export default function PEHideButton({
     disabled = false,
     checked: defaultChecked = true,
     onCheckedChange: onClick,
+    className,
 }: PEHideButtonProps): ReactElement {
     const BpIcon = styled('span')(() => ({
         borderRadius: 5,
@@ -29,7 +30,7 @@ export default function PEHideButton({
     });
 
     return (
-        <div>
+        <div className={className}>
             <Checkbox
                 onClick={onClick}
                 icon={<BpIcon />}

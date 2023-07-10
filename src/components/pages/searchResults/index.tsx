@@ -163,6 +163,7 @@ export default function SearchResultsPage({ signedInUser, searchParameters, sear
                         searchResults.publicCooks.map((publicCook, index) => (
                             <Link
                                 href={'chefs/' + publicCook.cookId}
+                                target="_blank"
                                 key={index}
                                 className="no-underline"
                                 style={{ textDecoration: 'none', color: '#000' }}

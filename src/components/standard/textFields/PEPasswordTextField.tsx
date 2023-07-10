@@ -23,11 +23,7 @@ export default function PEPasswordTextField({
             disabled={disabled}
             type={passwordHidden ? 'password' : 'text'}
             startContent={undefined}
-            endContent={
-                <div className={'opacity-50 hover:opacity-100 z-50'}>
-                    <PEHideButton onCheckedChange={(): void => setPasswordHidden(!passwordHidden)} />
-                </div>
-            }
+            endContent={<PEHideButton className="opacity-50" onCheckedChange={(): void => setPasswordHidden(!passwordHidden)} />}
             style={style}
             className={className}
         />

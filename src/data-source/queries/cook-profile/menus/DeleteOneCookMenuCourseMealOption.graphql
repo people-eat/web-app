@@ -1,0 +1,11 @@
+mutation DeleteOneCookMenuCourseMealOption($mealId: String!, $courseId: String!, $menuId: String!, $cookId: String!) {
+    cooks {
+        menus(cookId: $cookId) {
+            courses(menuId: $menuId) {
+                mealOptions(courseId: $courseId) {
+                    deleteOne(mealId: $mealId)
+                }
+            }
+        }
+    }
+}

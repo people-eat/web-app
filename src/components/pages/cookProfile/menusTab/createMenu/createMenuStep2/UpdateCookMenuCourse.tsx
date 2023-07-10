@@ -24,7 +24,6 @@ export interface UpdateCookMenuCourseDto {
 export interface UpdateCookMenuCourseProps {
     meals: MealEntity[];
     open: boolean;
-    courseIndex: number;
     onSuccess: (course: UpdateCookMenuCourseDto, index?: number) => void;
     onCancel: () => void;
     selectedCourseMeals: Map<string, MealEntity>;

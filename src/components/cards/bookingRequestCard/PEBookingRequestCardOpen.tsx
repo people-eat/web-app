@@ -21,8 +21,8 @@ export interface PEBookingRequestCardOfferProps {
     address: string;
     createdAt: Moment;
     onOrderDetailsClick: () => void;
-    onDeclineClick: () => void;
-    onAcceptClick: () => void;
+    onDeclineClick?: () => void;
+    onAcceptClick?: () => void;
 }
 
 export default function PEBookingRequestCardOpen({
@@ -104,8 +104,14 @@ export default function PEBookingRequestCardOpen({
             </HStack>
 
             <HStack gap={16}>
-                <PEButton onClick={onDeclineClick} title={'Decline'} size={'s'} type={'secondary'} />
-                <PEButton onClick={onAcceptClick} title={'Accept'} size={'s'} />
+                <PEButton
+                    onClick={(): void => onDeclineClick?.()}
+                    title={'Decline'}
+                    size={'s'}
+                    type={'secondary'}
+                    disabled={!Boolean(onDeclineClick)}
+                />
+                <PEButton onClick={(): void => onAcceptClick?.()} title={'Accept'} size={'s'} disabled={!Boolean(onAcceptClick)} />
             </HStack>
 
             <HStack>

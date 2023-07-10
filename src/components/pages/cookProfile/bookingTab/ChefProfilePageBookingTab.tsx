@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, Paper } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
@@ -136,7 +135,6 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
                                 dateTime={moment(bookingRequestInProgress.dateTime)}
                                 createdAt={moment(bookingRequestInProgress.createdAt)}
                                 onOrderDetailsClick={(): void => setSelectedBookingRequest(bookingRequestInProgress)}
-                                onToChatClick={(): void => undefined}
                             />
                         </div>
                     ))}
@@ -168,7 +166,37 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
                 </HStack>
             )}
 
-            {selectedTab === undefined &&
+            {selectedTab === undefined && (
+                <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
+                    {globalBookingRequests?.map((globalBookingRequest) => (
+                        <div key={globalBookingRequest.globalBookingRequestId} className="w-[calc(50%-20px)] md:w-full">
+                            <PEBookingRequestCardOpen
+                                onOrderDetailsClick={(): void => undefined}
+                                createdAt={moment(globalBookingRequest.createdAt)}
+                                title={'Global Booking Request'}
+                                name={''}
+                                profilePictureUrl={undefined}
+                                occasion={globalBookingRequest.occasion}
+                                price={`${globalBookingRequest.price.amount} ${globalBookingRequest.price.currencyCode}`}
+                                dateTime={moment(globalBookingRequest.dateTime)}
+                                participants={globalBookingRequest.adultParticipants + globalBookingRequest.children}
+                                address={'Location'}
+                                onAcceptClick={(): void =>
+                                    void createBookingRequest({
+                                        variables: { cookId, globalBookingRequestId: globalBookingRequest.globalBookingRequestId },
+                                    }).then(({ data: successData }) => {
+                                        if (!successData?.cooks.bookingRequests.success) return;
+                                        void bookingRequestsResult.refetch();
+                                        setSelectedTab(1);
+                                    })
+                                }
+                            />
+                        </div>
+                    ))}
+                </HStack>
+            )}
+
+            {/* {selectedTab === undefined &&
                 globalBookingRequests?.map((globalBookingRequest, index) => (
                     <Paper elevation={3} key={index}>
                         <VStack style={{ width: 256, height: 256, padding: 16, alignItems: 'flex-start' }} gap={16}>
@@ -183,21 +211,14 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
                             <Button
                                 className="w-full"
                                 variant="contained"
-                                onClick={(): void =>
-                                    void createBookingRequest({
-                                        variables: { cookId, globalBookingRequestId: globalBookingRequest.globalBookingRequestId },
-                                    }).then(({ data: successData }) => {
-                                        if (!successData?.cooks.bookingRequests.success) return;
-                                        void bookingRequestsResult.refetch();
-                                        setSelectedTab(0);
-                                    })
+                                onClick={
                                 }
                             >
                                 Accept
                             </Button>
                         </VStack>
                     </Paper>
-                ))}
+                ))} */}
 
             {loading && <CircularProgress />}
 

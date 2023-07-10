@@ -1,0 +1,16 @@
+mutation CreateManyCookMenuCourseMealOptions(
+    $menuId: String!
+    $cookId: String!
+    $mealOptions: [CreateOneMealOptionRequest!]!
+    $courseId: String!
+) {
+    cooks {
+        menus(cookId: $cookId) {
+            courses(menuId: $menuId) {
+                mealOptions(courseId: $courseId) {
+                    success: createMany(mealOptions: $mealOptions)
+                }
+            }
+        }
+    }
+}

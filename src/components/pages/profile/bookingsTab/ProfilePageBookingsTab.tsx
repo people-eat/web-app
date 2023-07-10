@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client';
-import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import { useState, type ReactElement } from 'react';
@@ -70,13 +69,26 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                 <PETabItem title={'Global Requests'} onClick={(): void => setSelectedTab(undefined)} active={selectedTab === undefined} />
             </HStack>
 
-            {selectedTab === undefined &&
-                globalBookingRequests?.map((globalBookingRequest, index) => (
-                    <Button key={index} variant="contained">
-                        {/* onClick={(): void => setSelectedBookingRequest(globalBookingRequest)} */}
-                        {globalBookingRequest.occasion}
-                    </Button>
-                ))}
+            {selectedTab === undefined && (
+                <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
+                    {globalBookingRequests?.map((globalBookingRequest) => (
+                        <div key={globalBookingRequest.globalBookingRequestId} className="w-[calc(50%-20px)] md:w-full">
+                            <PEBookingRequestCardOpen
+                                onOrderDetailsClick={(): void => undefined}
+                                createdAt={moment(globalBookingRequest.createdAt)}
+                                title={'Global Booking Request'}
+                                name={''}
+                                profilePictureUrl={undefined}
+                                occasion={globalBookingRequest.occasion}
+                                price={`${globalBookingRequest.price.amount} ${globalBookingRequest.price.currencyCode}`}
+                                dateTime={moment(globalBookingRequest.dateTime)}
+                                participants={globalBookingRequest.adultParticipants + globalBookingRequest.children}
+                                address={'Location'}
+                            />
+                        </div>
+                    ))}
+                </HStack>
+            )}
 
             {selectedTab === 0 && (
                 <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
@@ -93,8 +105,6 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                 dateTime={moment(openBookingRequest.dateTime)}
                                 participants={openBookingRequest.adultParticipants + openBookingRequest.children}
                                 address={'Location'}
-                                onAcceptClick={(): void => undefined}
-                                onDeclineClick={(): void => undefined}
                             />
                         </div>
                     ))}
@@ -116,7 +126,6 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                 dateTime={moment(bookingRequestInProgress.dateTime)}
                                 createdAt={moment(bookingRequestInProgress.createdAt)}
                                 onOrderDetailsClick={(): void => setSelectedBookingRequest(bookingRequestInProgress)}
-                                onToChatClick={(): void => undefined}
                             />
                         </div>
                     ))}

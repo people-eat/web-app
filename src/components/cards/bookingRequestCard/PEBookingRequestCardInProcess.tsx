@@ -2,7 +2,6 @@ import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
-import PEButton from '../../standard/buttons/PEButton';
 import PELineButton from '../../standard/buttons/PELineButton';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
@@ -21,21 +20,19 @@ export interface PEBookingRequestCardInProcessProps {
     address: string;
     createdAt: Moment;
     onOrderDetailsClick: () => void;
-    onToChatClick: () => void;
 }
 
 export default function PEBookingRequestCardInProcess({
-    createdAt,
     title,
     name,
     profilePictureUrl,
     occasion,
     price,
-    dateTime,
     participants,
+    dateTime,
     address,
+    createdAt,
     onOrderDetailsClick,
-    onToChatClick,
 }: PEBookingRequestCardInProcessProps): ReactElement {
     const { t } = useTranslation('chef-profile');
 
@@ -100,8 +97,6 @@ export default function PEBookingRequestCardInProcess({
                     </span>
                 </VStack>
             </HStack>
-
-            <PEButton onClick={onToChatClick} title={t('booking-go-to-chat')} type={'secondary'} />
 
             <HStack>
                 <Spacer />

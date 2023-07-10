@@ -19,6 +19,7 @@ import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
 import { type MenuEntity } from '../../ChefProfilePageMenusTab';
 import CreateCookMenuCourse from '../../createMenu/createMenuStep2/CreateCookMenuCourse';
+import UpdateCookMenuCourse from '../../createMenu/createMenuStep2/UpdateCookMenuCourse';
 
 export interface ChefProfilePageEditMenusStep2Props {
     menu: MenuEntity;
@@ -56,6 +57,7 @@ export default function ChefProfilePageEditMenusStep2({
     >(menu.courses);
 
     const [showCreateCourseDialog, setShowCreateCourseDialog] = useState(false);
+    const [showUpdateCourseDialog, setShowUpdateCourseDialog] = useState(false);
 
     const { data } = useQuery(FindCookMealsDocument, { variables: { cookId } });
     const meals = data?.cooks.meals.findMany ?? [];
@@ -172,7 +174,7 @@ export default function ChefProfilePageEditMenusStep2({
                                     className="items-center w-[388px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
                                 >
                                     <PEIcon icon={Icon.plusOrange} />
-                                    <span className="text-orange text-text-sm">Add Dish</span>
+                                    <span className="text-orange text-text-sm">{t('create-menu-courses-add-meal')}</span>
                                 </VStack>
                             )}
 
@@ -194,21 +196,23 @@ export default function ChefProfilePageEditMenusStep2({
                             ))}
                         </HStack>
 
-                        {/* {showUpdateCourseDialog && (
+                        {showUpdateCourseDialog && (
                             <UpdateCookMenuCourse
                                 open={showUpdateCourseDialog}
-                                meals={meals.filter((meal) => !course.meals.find((courseMeal) => courseMeal.mealId === meal.mealId))}
-                                courseIndex={index}
-                                onSuccess={(updatedCourse): void => {
-                                    setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
+                                meals={meals.filter(
+                                    (meal) => !course.mealOptions.find((mealOption) => mealOption.meal.mealId === meal.mealId),
+                                )}
+                                onSuccess={(_updatedCourse): void => {
+                                    // setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
                                     setShowUpdateCourseDialog(false);
                                 }}
                                 onCancel={(): void => {
                                     setShowUpdateCourseDialog(false);
                                 }}
-                                selectedCourseMeals={new Map(course.meals.map((item) => [item.mealId, item]))}
+                                // course.mealOptions.map((mealOption) => [mealOption.meal.mealId, mealOption.meal])
+                                selectedCourseMeals={new Map()}
                             />
-                        )} */}
+                        )}
 
                         {/* {open && selectedMealId && (
                             <Menu
