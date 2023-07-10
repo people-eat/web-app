@@ -20,35 +20,35 @@ export default function HomePageMenuSection(): ReactElement {
                     <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">{t('menus-section-header')}</h2>
                 </HStack>
                 <div className="flex flex-wrap gap-5 justify-center mt-10 sm:hidden">
-                    {mockPublicMenus.map((item, index) => (
+                    {mockPublicMenus.map((menu, index) => (
                         <PEMenuCard
                             key={index}
-                            title={item.title}
-                            description={item.description}
-                            imageUrls={item.pictures}
-                            chefFirstName={item.cook.user.firstName}
-                            chefProfilePictureUrl={item.cook.user.profilePictureUrl}
-                            pricePerPerson={item.price}
+                            title={menu.title}
+                            description={menu.description}
+                            imageUrls={menu.pictures}
+                            chefFirstName={menu.cook.user.firstName}
+                            chefProfilePictureUrl={menu.cook.user.profilePictureUrl}
+                            pricePerPerson={menu.price}
                             currencyCode="EUR"
-                            kitchen={item.kitchen}
-                            categories={item.categories.map(({ title }) => title)}
+                            kitchen={menu.kitchen}
+                            categories={menu.categories.map(({ title }) => title)}
                         />
                     ))}
                     <PEPointsCard />
                 </div>
                 <div className="flex flex-wrap justify-center gap-5 mt-10 sm:flex hidden">
-                    {mockPublicMenus.map((item, index) => (
+                    {mockPublicMenus.map((menu, index) => (
                         <PEMenuCardMobile
                             key={index}
-                            title={item.title}
-                            description={item.description}
-                            imageUrls={item.pictures}
-                            chefProfilePictureUrl={item.cook.user.profilePictureUrl}
-                            pricePerPerson={item.price}
+                            title={menu.title}
+                            description={menu.description}
+                            imageUrls={menu.pictures}
+                            chefProfilePictureUrl={menu.cook.user.profilePictureUrl}
+                            pricePerPerson={menu.price}
                             currencyCode="EUR"
-                            chefFirstName={item.cook.user.firstName}
-                            kitchen={item.kitchen}
-                            categories={item.categories.map(({ title }) => title)}
+                            chefFirstName={menu.cook.user.firstName}
+                            kitchen={menu.kitchen}
+                            categories={menu.categories.map(({ title }) => title)}
                         />
                     ))}
                 </div>

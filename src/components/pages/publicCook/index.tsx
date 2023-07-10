@@ -49,6 +49,7 @@ export interface PublicCookPageProps {
             greetingFromKitchen: boolean;
             kitchen?: Kitchen;
             categories: Category[];
+            imageUrls: string[];
             createdAt: Date;
         }[];
     };
@@ -63,8 +64,6 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
 
     const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>();
     const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
-
-    const languages: Language[] = [];
 
     return (
         <VStack gap={40} className="w-full h-full overflow-hidden">
@@ -105,10 +104,10 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                     <PEIcon icon={Icon.markerPin} />
                                     <span>{publicCook.city}</span>
                                 </HStack>
-                                {languages?.length > 0 && (
+                                {publicCook.languages?.length > 0 && (
                                     <HStack gap={16}>
                                         <PEIcon icon={Icon.messageChat} />
-                                        <span>{languages.map(({ title }) => title).join(', ')}</span>
+                                        <span>{publicCook.languages.map(({ title }) => title).join(', ')}</span>
                                     </HStack>
                                 )}
                             </VStack>
@@ -194,7 +193,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                         key={menu.menuId}
                                         title={menu.title}
                                         description={menu.description}
-                                        imageUrls={[]}
+                                        imageUrls={menu.imageUrls}
                                         pricePerPerson={100}
                                         currencyCode={menu.currencyCode}
                                         chefFirstName={publicCook.user.firstName}

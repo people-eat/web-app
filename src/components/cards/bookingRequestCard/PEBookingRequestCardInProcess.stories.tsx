@@ -20,6 +20,5 @@ export const Component: StoryObj<typeof PEBookingRequestCardInProcess> = {
         dateTime: moment(),
         createdAt: moment(),
         onOrderDetailsClick: (): void => undefined,
-        onToChatClick: (): void => undefined,
     },
 };

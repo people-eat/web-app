@@ -1,7 +1,7 @@
 mutation CookBookingRequestAccept($cookId: String!, $bookingRequestId: String!) {
     cooks {
         bookingRequests(cookId: $cookId) {
-            success: acceptBookingRequest(bookingRequestId: $bookingRequestId)
+            success: accept(bookingRequestId: $bookingRequestId)
         }
     }
 }

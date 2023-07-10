@@ -178,13 +178,14 @@ export type Cook = {
 
 export type CookBookingRequestMutation = {
     __typename?: 'CookBookingRequestMutation';
-    acceptBookingRequest: Scalars['Boolean'];
+    accept: Scalars['Boolean'];
     cookId: Scalars['String'];
     createOne: Scalars['Boolean'];
-    declineBookingRequest: Scalars['Boolean'];
+    decline: Scalars['Boolean'];
+    updatePrice: Scalars['Boolean'];
 };
 
-export type CookBookingRequestMutationAcceptBookingRequestArgs = {
+export type CookBookingRequestMutationAcceptArgs = {
     bookingRequestId: Scalars['String'];
 };
 
@@ -192,8 +193,13 @@ export type CookBookingRequestMutationCreateOneArgs = {
     globalBookingRequestId: Scalars['String'];
 };
 
-export type CookBookingRequestMutationDeclineBookingRequestArgs = {
+export type CookBookingRequestMutationDeclineArgs = {
     bookingRequestId: Scalars['String'];
+};
+
+export type CookBookingRequestMutationUpdatePriceArgs = {
+    bookingRequestId: Scalars['String'];
+    price: PriceInput;
 };
 
 export type CookBookingRequestQuery = {
@@ -1056,6 +1062,7 @@ export type Menu = {
     currencyCode: CurrencyCode;
     description: Scalars['String'];
     greetingFromKitchen?: Maybe<Scalars['String']>;
+    imageUrls: Array<Scalars['URL']>;
     isVisible: Scalars['Boolean'];
     kitchen?: Maybe<Kitchen>;
     kitchenId?: Maybe<Scalars['String']>;
@@ -1264,10 +1271,13 @@ export type PublicMenu = {
     categories: Array<Category>;
     cook: PublicCook;
     cookId: Scalars['String'];
+    courseCount: Scalars['UnsignedInt'];
+    courses: Array<Course>;
     createdAt: Scalars['DateTime'];
     currencyCode: CurrencyCode;
     description: Scalars['String'];
     greetingFromKitchen?: Maybe<Scalars['String']>;
+    imageUrls: Array<Scalars['URL']>;
     kitchen?: Maybe<Kitchen>;
     menuId: Scalars['String'];
     preparationTime: Scalars['UnsignedInt'];
@@ -1483,13 +1493,14 @@ export type UserAddressQueryFindManyArgs = {
 
 export type UserBookingRequestMutation = {
     __typename?: 'UserBookingRequestMutation';
-    acceptBookingRequest: Scalars['Boolean'];
+    accept: Scalars['Boolean'];
     createOne: Scalars['Boolean'];
-    declineBookingRequest: Scalars['Boolean'];
+    decline: Scalars['Boolean'];
+    updatePrice: Scalars['Boolean'];
     userId: Scalars['String'];
 };
 
-export type UserBookingRequestMutationAcceptBookingRequestArgs = {
+export type UserBookingRequestMutationAcceptArgs = {
     bookingRequestId: Scalars['String'];
 };
 
@@ -1497,8 +1508,13 @@ export type UserBookingRequestMutationCreateOneArgs = {
     request: CreateBookingRequestRequest;
 };
 
-export type UserBookingRequestMutationDeclineBookingRequestArgs = {
+export type UserBookingRequestMutationDeclineArgs = {
     bookingRequestId: Scalars['String'];
+};
+
+export type UserBookingRequestMutationUpdatePriceArgs = {
+    bookingRequestId: Scalars['String'];
+    price: PriceInput;
 };
 
 export type UserBookingRequestQuery = {
@@ -2087,6 +2103,7 @@ export type FindManyPublicMenusQuery = {
             menuId: string;
             title: string;
             description: string;
+            imageUrls: Array<string>;
             basePrice: number;
             basePriceCustomers: number;
             pricePerAdult: number;
@@ -2211,6 +2228,7 @@ export type GetPublicCookPageDataQuery = {
             createdAt: Date;
             user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
             location: { __typename?: 'Location'; latitude: number; longitude: number };
+            languages: Array<{ __typename?: 'Language'; languageId: string; title: string }>;
             menus: Array<{
                 __typename?: 'PublicMenu';
                 title: string;
@@ -2220,6 +2238,7 @@ export type GetPublicCookPageDataQuery = {
                 menuId: string;
                 basePrice: number;
                 basePriceCustomers: number;
+                imageUrls: Array<string>;
                 currencyCode: CurrencyCode;
                 description: string;
                 greetingFromKitchen?: string | null;
@@ -2684,6 +2703,7 @@ export type FindCookMenusQuery = {
                 pricePerAdult: number;
                 pricePerChild?: number | null;
                 isVisible: boolean;
+                imageUrls: Array<string>;
                 categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
                 kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
             }>;
@@ -3945,6 +3965,7 @@ export const FindManyPublicMenusDocument = {
                                                     ],
                                                 },
                                             },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'imageUrls' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'basePrice' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'basePriceCustomers' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'pricePerAdult' } },
@@ -4512,6 +4533,17 @@ export const GetPublicCookPageDataDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                                             {
                                                 kind: 'Field',
+                                                name: { kind: 'Name', value: 'languages' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'languageId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
                                                 name: { kind: 'Name', value: 'menus' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
@@ -4545,6 +4577,7 @@ export const GetPublicCookPageDataDocument = {
                                                                 ],
                                                             },
                                                         },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'imageUrls' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'description' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'greetingFromKitchen' } },
@@ -4898,7 +4931,7 @@ export const CookBookingRequestAcceptDocument = {
                                             {
                                                 kind: 'Field',
                                                 alias: { kind: 'Name', value: 'success' },
-                                                name: { kind: 'Name', value: 'acceptBookingRequest' },
+                                                name: { kind: 'Name', value: 'accept' },
                                                 arguments: [
                                                     {
                                                         kind: 'Argument',
@@ -4962,7 +4995,7 @@ export const CookBookingRequestDeclineDocument = {
                                             {
                                                 kind: 'Field',
                                                 alias: { kind: 'Name', value: 'success' },
-                                                name: { kind: 'Name', value: 'declineBookingRequest' },
+                                                name: { kind: 'Name', value: 'decline' },
                                                 arguments: [
                                                     {
                                                         kind: 'Argument',
@@ -6681,6 +6714,7 @@ export const FindCookMenusDocument = {
                                                                 ],
                                                             },
                                                         },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'imageUrls' } },
                                                     ],
                                                 },
                                             },
@@ -9122,7 +9156,7 @@ export const UserBookingRequestAcceptDocument = {
                                             {
                                                 kind: 'Field',
                                                 alias: { kind: 'Name', value: 'success' },
-                                                name: { kind: 'Name', value: 'acceptBookingRequest' },
+                                                name: { kind: 'Name', value: 'accept' },
                                                 arguments: [
                                                     {
                                                         kind: 'Argument',
@@ -9186,7 +9220,7 @@ export const UserBookingRequestDeclineDocument = {
                                             {
                                                 kind: 'Field',
                                                 alias: { kind: 'Name', value: 'success' },
-                                                name: { kind: 'Name', value: 'declineBookingRequest' },
+                                                name: { kind: 'Name', value: 'decline' },
                                                 arguments: [
                                                     {
                                                         kind: 'Argument',

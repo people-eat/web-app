@@ -21,6 +21,10 @@ query GetPublicCookPageData($cookId: String!) {
             city
             travelExpenses
             createdAt
+            languages {
+                languageId
+                title
+            }
             menus {
                 title
                 pricePerChild
@@ -37,6 +41,7 @@ query GetPublicCookPageData($cookId: String!) {
                     categoryId
                     title
                 }
+                imageUrls
                 currencyCode
                 description
                 greetingFromKitchen

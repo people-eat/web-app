@@ -60,6 +60,7 @@ interface PublicMenu {
     currencyCode: CurrencyCode;
     kitchen?: Kitchen;
     categories: Category[];
+    imageUrls: string[];
     cook: {
         cookId: string;
         rank: CookRank;
@@ -190,7 +191,7 @@ export default function SearchResultsPage({ signedInUser, searchParameters, sear
                                 <PEMenuCard
                                     title={publicMenu.title}
                                     description={publicMenu.description}
-                                    imageUrls={[]}
+                                    imageUrls={publicMenu.imageUrls}
                                     pricePerPerson={
                                         calculateMenuPrice(
                                             adults,

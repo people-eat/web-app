@@ -166,7 +166,7 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                                     <PEMenuCardMobile
                                         title={menu.title}
                                         description={menu.description}
-                                        imageUrls={[]}
+                                        imageUrls={menu.imageUrls}
                                         pricePerPerson={
                                             calculateMenuPrice(
                                                 20,
@@ -187,7 +187,7 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                                     <PEMenuCard
                                         title={menu.title}
                                         description={menu.description}
-                                        imageUrls={[]}
+                                        imageUrls={menu.imageUrls}
                                         pricePerPerson={
                                             calculateMenuPrice(
                                                 20,
@@ -228,7 +228,7 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                                             <PEMenuCard
                                                 title={menu.title}
                                                 description={menu.description}
-                                                imageUrls={[]}
+                                                imageUrls={menu.imageUrls}
                                                 pricePerPerson={
                                                     calculateMenuPrice(
                                                         20,
