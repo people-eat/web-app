@@ -57,6 +57,8 @@ const documents = {
         types.CookBookingRequestAcceptDocument,
     'mutation CookBookingRequestDecline($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: decline(bookingRequestId: $bookingRequestId)\n    }\n  }\n}':
         types.CookBookingRequestDeclineDocument,
+    'mutation CookBookingRequestUpdatePrice($bookingRequestId: String!, $price: PriceInput!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}':
+        types.CookBookingRequestUpdatePriceDocument,
     'mutation CreateOneCookBookingRequest($cookId: String!, $globalBookingRequestId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: createOne(globalBookingRequestId: $globalBookingRequestId)\n    }\n  }\n}':
         types.CreateOneCookBookingRequestDocument,
     'query FindCookProfileGlobalBookingRequests($cookId: String!) {\n  cooks {\n    globalBookingRequests(cookId: $cookId) {\n      findMany {\n        globalBookingRequestId\n        children\n        adultParticipants\n        occasion\n        message\n        dateTime\n        duration\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n    }\n  }\n}':
@@ -178,6 +180,8 @@ const documents = {
         types.UserBookingRequestAcceptDocument,
     'mutation UserBookingRequestDecline($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: decline(bookingRequestId: $bookingRequestId)\n    }\n  }\n}':
         types.UserBookingRequestDeclineDocument,
+    'mutation UserBookingRequestUpdatePrice($userId: String!, $bookingRequestId: String!, $price: PriceInput!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}':
+        types.UserBookingRequestUpdatePriceDocument,
 };
 
 /**
@@ -338,6 +342,12 @@ export function gql(
 export function gql(
     source: 'mutation CookBookingRequestDecline($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: decline(bookingRequestId: $bookingRequestId)\n    }\n  }\n}',
 ): (typeof documents)['mutation CookBookingRequestDecline($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: decline(bookingRequestId: $bookingRequestId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation CookBookingRequestUpdatePrice($bookingRequestId: String!, $price: PriceInput!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}',
+): (typeof documents)['mutation CookBookingRequestUpdatePrice($bookingRequestId: String!, $price: PriceInput!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -704,6 +714,12 @@ export function gql(
 export function gql(
     source: 'mutation UserBookingRequestDecline($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: decline(bookingRequestId: $bookingRequestId)\n    }\n  }\n}',
 ): (typeof documents)['mutation UserBookingRequestDecline($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: decline(bookingRequestId: $bookingRequestId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UserBookingRequestUpdatePrice($userId: String!, $bookingRequestId: String!, $price: PriceInput!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}',
+): (typeof documents)['mutation UserBookingRequestUpdatePrice($userId: String!, $bookingRequestId: String!, $price: PriceInput!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}'];
 
 export function gql(source: string) {
     return (documents as any)[source] ?? {};

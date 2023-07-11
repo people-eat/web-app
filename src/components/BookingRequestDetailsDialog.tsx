@@ -1,9 +1,10 @@
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
-import { type ReactElement } from 'react';
-import { type CurrencyCode } from '../data-source/generated/graphql';
+import { useState, type ReactElement } from 'react';
+import { type CurrencyCode, type Price } from '../data-source/generated/graphql';
 import { Transition } from './pages/profile/personalTab/CreateAddressDialog';
+import PEButton from './standard/buttons/PEButton';
 import { Icon } from './standard/icon/Icon';
 import PEIcon from './standard/icon/PEIcon';
 import PEIconButton from './standard/iconButton/PEIconButton';
@@ -29,10 +30,17 @@ export interface BookingRequestDetailsDialogProps {
         price: { amount: number; currencyCode: CurrencyCode };
     };
     onClose: () => void;
+    onPriceChange?: (changedPrice: Price) => void;
 }
 
-export default function BookingRequestDetailsDialog({ bookingRequest, onClose }: BookingRequestDetailsDialogProps): ReactElement {
+export default function BookingRequestDetailsDialog({
+    bookingRequest,
+    onClose,
+    onPriceChange,
+}: BookingRequestDetailsDialogProps): ReactElement {
     const { t: translateCommon } = useTranslation('common');
+
+    const [amount, setAmount] = useState(bookingRequest.price.amount);
 
     return (
         <Dialog open onClose={onClose} TransitionComponent={Transition} keepMounted>
@@ -85,12 +93,23 @@ export default function BookingRequestDetailsDialog({ bookingRequest, onClose }:
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                         <span className="text-text-m-bold">Budget</span>
                         <PETextField
-                            value={`${bookingRequest.price.amount}`}
+                            value={`${amount}`}
                             endContent={<>{bookingRequest.price.currencyCode}</>}
-                            onChange={(): void => undefined}
+                            onChange={(changedAmount): void => setAmount(Number(changedAmount))}
                             type="text"
                         />
                     </VStack>
+                    {bookingRequest.price.amount !== amount && (
+                        <PEButton
+                            title="Send Price Suggestion"
+                            onClick={(): void =>
+                                onPriceChange?.({
+                                    currencyCode: bookingRequest.price.currencyCode,
+                                    amount,
+                                })
+                            }
+                        />
+                    )}
                 </VStack>
             </DialogContent>
         </Dialog>

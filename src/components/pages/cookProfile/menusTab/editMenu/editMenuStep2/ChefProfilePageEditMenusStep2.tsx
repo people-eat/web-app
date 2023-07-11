@@ -1,9 +1,11 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { Menu, MenuItem } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     CreateOneCookMenuCourseDocument,
     DeleteOneCookMenuCourseDocument,
+    DeleteOneCookMenuCourseMealOptionDocument,
     FindCookMealsDocument,
     UpdateCookMenuGreetingFromKitchenDocument,
     type MealType,
@@ -27,6 +29,7 @@ export interface ChefProfilePageEditMenusStep2Props {
     onChangesApplied: () => void;
 }
 
+// eslint-disable-next-line max-statements
 export default function ChefProfilePageEditMenusStep2({
     cookId,
     menu,
@@ -68,6 +71,11 @@ export default function ChefProfilePageEditMenusStep2({
 
     const [createCourse] = useMutation(CreateOneCookMenuCourseDocument);
     const [deleteCourse] = useMutation(DeleteOneCookMenuCourseDocument);
+    const [deleteMealOption] = useMutation(DeleteOneCookMenuCourseMealOptionDocument);
+
+    const [selectedMealOption, setSelectedMealOption] = useState<{ courseId: string; mealId: string } | undefined>();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
 
     function handleSaveUpdates(): void {
         if (menu.greetingFromKitchen !== greetingFromKitchen) {
@@ -182,9 +190,9 @@ export default function ChefProfilePageEditMenusStep2({
                                 <div
                                     key={mealOption.meal.mealId}
                                     className="flex w-[390px] relative"
-                                    onClick={(_event): void => {
-                                        // setAnchorEl(event.currentTarget);
-                                        // setSelectedMealId(mealOption.meal.mealId);
+                                    onClick={(event): void => {
+                                        setAnchorEl(event.currentTarget);
+                                        setSelectedMealOption({ courseId: course.courseId, mealId: mealOption.meal.mealId });
                                     }}
                                 >
                                     <PEMealCard
@@ -214,7 +222,7 @@ export default function ChefProfilePageEditMenusStep2({
                             />
                         )}
 
-                        {/* {open && selectedMealId && (
+                        {open && selectedMealOption && (
                             <Menu
                                 anchorEl={anchorEl}
                                 open={open}
@@ -227,17 +235,23 @@ export default function ChefProfilePageEditMenusStep2({
                                 <MenuItem
                                     sx={{ width: '200px' }}
                                     onClick={(): void => {
-                                        setCourses([
-                                            ...courses.slice(0, index),
-                                            { title: course.title, meals: course.meals.filter((meal) => meal.mealId !== selectedMealId) },
-                                            ...courses.slice(index + 1),
-                                        ]);
+                                        void deleteMealOption({
+                                            variables: {
+                                                cookId,
+                                                mealId: selectedMealOption.mealId,
+                                                courseId: selectedMealOption.courseId,
+                                                menuId: menu.menuId,
+                                            },
+                                        }).then(({ data: successData }) => {
+                                            if (!successData?.cooks.menus.courses.mealOptions.deleteOne) return;
+                                            onChangesApplied();
+                                        });
                                     }}
                                 >
-                                    Delete
+                                    {t('create-menu-courses-remove-meal')}
                                 </MenuItem>
                             </Menu>
-                        )} */}
+                        )}
                     </VStack>
                 ))}
 

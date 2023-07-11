@@ -1,10 +1,13 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import { useState, type ReactElement } from 'react';
 import {
     FindManyUserBookingRequestsDocument,
     FindUserProfileGlobalBookingRequestsDocument,
+    UserBookingRequestAcceptDocument,
+    UserBookingRequestDeclineDocument,
+    UserBookingRequestUpdatePriceDocument,
     type CurrencyCode,
 } from '../../../../data-source/generated/graphql';
 import BookingRequestDetailsDialog from '../../../BookingRequestDetailsDialog';
@@ -15,7 +18,7 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 
-const BOOKING_TABS = ['Open', 'In Progress', 'Completed'];
+const BOOKING_TABS = ['Open', 'In Progress', 'Completed', 'Canceled'];
 
 export interface ProfilePageBookingsTabProps {
     userId: string;
@@ -23,6 +26,10 @@ export interface ProfilePageBookingsTabProps {
 
 export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTabProps): ReactElement {
     const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
+
+    const [acceptBookingRequest] = useMutation(UserBookingRequestAcceptDocument);
+    const [declineBookingRequest] = useMutation(UserBookingRequestDeclineDocument);
+    const [updateBookingRequestPrice] = useMutation(UserBookingRequestUpdatePriceDocument);
 
     const [selectedBookingRequest, setSelectedBookingRequest] = useState<
         | {
@@ -43,14 +50,18 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
         | undefined
     >();
 
-    const { data, loading, error } = useQuery(FindUserProfileGlobalBookingRequestsDocument, { variables: { userId } });
+    const { data, loading, error, refetch } = useQuery(FindUserProfileGlobalBookingRequestsDocument, { variables: { userId } });
     const globalBookingRequests = data?.users.globalBookingRequests.findMany;
 
     const bookingRequestsResult = useQuery(FindManyUserBookingRequestsDocument, { variables: { userId } });
     const bookingRequests = bookingRequestsResult.data?.users.bookingRequests.findMany ?? [];
-    const openBookingRequests = bookingRequests.filter((bookingRequest) => !bookingRequest.cookAccepted || !bookingRequest.userAccepted);
-    const bookingRequestsInProgress = bookingRequests.filter(
-        (bookingRequest) => bookingRequest.cookAccepted && bookingRequest.userAccepted,
+    const openBookingRequests = bookingRequests.filter(
+        ({ cookAccepted, userAccepted }) =>
+            (cookAccepted === null && userAccepted === true) || (cookAccepted === true && userAccepted === null),
+    );
+    const bookingRequestsInProgress = bookingRequests.filter(({ cookAccepted, userAccepted }) => cookAccepted && userAccepted);
+    const canceledBookingRequests = bookingRequests.filter(
+        ({ cookAccepted, userAccepted }) => cookAccepted === false || userAccepted === false,
     );
 
     return (
@@ -105,6 +116,25 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                 dateTime={moment(openBookingRequest.dateTime)}
                                 participants={openBookingRequest.adultParticipants + openBookingRequest.children}
                                 address={'Location'}
+                                onAcceptClick={
+                                    openBookingRequest.userAccepted
+                                        ? undefined
+                                        : (): void =>
+                                              void acceptBookingRequest({
+                                                  variables: { userId, bookingRequestId: openBookingRequest.bookingRequestId },
+                                              }).then((result) => {
+                                                  if (!result.data?.users.bookingRequests.success) return;
+                                                  void refetch();
+                                              })
+                                }
+                                onDeclineClick={(): void =>
+                                    void declineBookingRequest({
+                                        variables: { userId, bookingRequestId: openBookingRequest.bookingRequestId },
+                                    }).then((result) => {
+                                        if (!result.data?.users.bookingRequests.success) return;
+                                        void refetch();
+                                    })
+                                }
                             />
                         </div>
                     ))}
@@ -132,6 +162,27 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                 </HStack>
             )}
 
+            {selectedTab === 3 && (
+                <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
+                    {canceledBookingRequests.map((canceledBookingRequest) => (
+                        <div key={canceledBookingRequest.bookingRequestId} className="w-[calc(50%-20px)] md:w-full">
+                            <PEBookingRequestCardInProcess
+                                title={'Chef Booking Request'}
+                                name={canceledBookingRequest.cook.user.firstName}
+                                profilePictureUrl={canceledBookingRequest.cook.user.profilePictureUrl ?? undefined}
+                                occasion={canceledBookingRequest.occasion}
+                                price={`${canceledBookingRequest.price.amount} ${canceledBookingRequest.price.currencyCode}`}
+                                participants={canceledBookingRequest.adultParticipants + canceledBookingRequest.children}
+                                address={'Location'}
+                                dateTime={moment(canceledBookingRequest.dateTime)}
+                                createdAt={moment(canceledBookingRequest.createdAt)}
+                                onOrderDetailsClick={(): void => setSelectedBookingRequest(canceledBookingRequest)}
+                            />
+                        </div>
+                    ))}
+                </HStack>
+            )}
+
             {loading && <CircularProgress />}
 
             {error && <>An error ocurred</>}
@@ -140,6 +191,16 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                 <BookingRequestDetailsDialog
                     onClose={(): void => setSelectedBookingRequest(undefined)}
                     bookingRequest={selectedBookingRequest}
+                    onPriceChange={(changedPrice): void => {
+                        void updateBookingRequestPrice({
+                            variables: { userId, bookingRequestId: selectedBookingRequest.bookingRequestId, price: changedPrice },
+                        })
+                            .then((result) => {
+                                if (!result.data?.users.bookingRequests.success) return;
+                                void refetch();
+                            })
+                            .finally((): void => setSelectedBookingRequest(undefined));
+                    }}
                 />
             )}
         </VStack>

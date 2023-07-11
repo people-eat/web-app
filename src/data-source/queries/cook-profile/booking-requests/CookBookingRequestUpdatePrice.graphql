@@ -1,0 +1,7 @@
+mutation CookBookingRequestUpdatePrice($bookingRequestId: String!, $price: PriceInput!, $cookId: String!) {
+    cooks {
+        bookingRequests(cookId: $cookId) {
+            success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)
+        }
+    }
+}

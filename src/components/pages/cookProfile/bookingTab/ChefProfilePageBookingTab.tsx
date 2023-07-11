@@ -6,6 +6,7 @@ import { useState, type ReactElement } from 'react';
 import {
     CookBookingRequestAcceptDocument,
     CookBookingRequestDeclineDocument,
+    CookBookingRequestUpdatePriceDocument,
     CreateOneCookBookingRequestDocument,
     FindCookProfileGlobalBookingRequestsDocument,
     FindManyCookBookingRequestsDocument,
@@ -23,11 +24,12 @@ export interface CookProfilePageBookingTabProps {
     cookId: string;
 }
 
+// eslint-disable-next-line max-statements
 export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBookingTabProps): ReactElement {
     const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
     const { t } = useTranslation('chef-profile');
 
-    const BOOKING_TABS = ['Open', t('booking-in-progress'), 'Completed'];
+    const BOOKING_TABS = ['Open', t('booking-in-progress'), 'Completed', ' Canceled'];
 
     const [selectedBookingRequest, setSelectedBookingRequest] = useState<
         | {
@@ -53,14 +55,21 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
 
     const bookingRequestsResult = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
     const bookingRequests = bookingRequestsResult.data?.cooks.bookingRequests.findMany ?? [];
-    const openBookingRequests = bookingRequests.filter((bookingRequest) => !bookingRequest.cookAccepted || !bookingRequest.userAccepted);
-    const bookingRequestsInProgress = bookingRequests.filter(
-        (bookingRequest) => bookingRequest.cookAccepted && bookingRequest.userAccepted,
+    const openBookingRequests = bookingRequests.filter(
+        ({ cookAccepted, userAccepted }) =>
+            (cookAccepted === null && userAccepted === true) || (cookAccepted === true && userAccepted === null),
     );
+    const bookingRequestsInProgress = bookingRequests.filter(({ cookAccepted, userAccepted }) => cookAccepted && userAccepted);
+    const canceledBookingRequests = bookingRequests.filter(
+        ({ cookAccepted, userAccepted }) => cookAccepted === false || userAccepted === false,
+    );
+
+    console.log(bookingRequests);
 
     const [createBookingRequest] = useMutation(CreateOneCookBookingRequestDocument);
     const [acceptBookingRequest] = useMutation(CookBookingRequestAcceptDocument);
     const [declineBookingRequest] = useMutation(CookBookingRequestDeclineDocument);
+    const [updateBookingRequestPrice] = useMutation(CookBookingRequestUpdatePriceDocument);
 
     return (
         <VStack className="w-full relative max-w-screen-xl mb-[80px] lg:my-10 gap-6 box-border">
@@ -166,6 +175,27 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
                 </HStack>
             )}
 
+            {selectedTab === 3 && (
+                <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
+                    {canceledBookingRequests.map((canceledBookingRequest) => (
+                        <div key={canceledBookingRequest.bookingRequestId} className="w-[calc(50%-20px)] md:w-full">
+                            <PEBookingRequestCardInProcess
+                                title={'Chef Booking Request'}
+                                name={canceledBookingRequest.user.firstName}
+                                profilePictureUrl={canceledBookingRequest.user.profilePictureUrl ?? undefined}
+                                occasion={canceledBookingRequest.occasion}
+                                price={`${canceledBookingRequest.price.amount} ${canceledBookingRequest.price.currencyCode}`}
+                                participants={canceledBookingRequest.adultParticipants + canceledBookingRequest.children}
+                                address={'Location'}
+                                dateTime={moment(canceledBookingRequest.dateTime)}
+                                createdAt={moment(canceledBookingRequest.createdAt)}
+                                onOrderDetailsClick={(): void => setSelectedBookingRequest(canceledBookingRequest)}
+                            />
+                        </div>
+                    ))}
+                </HStack>
+            )}
+
             {selectedTab === undefined && (
                 <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
                     {globalBookingRequests?.map((globalBookingRequest) => (
@@ -228,6 +258,16 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
                 <BookingRequestDetailsDialog
                     onClose={(): void => setSelectedBookingRequest(undefined)}
                     bookingRequest={selectedBookingRequest}
+                    onPriceChange={(changedPrice): void => {
+                        void updateBookingRequestPrice({
+                            variables: { cookId, bookingRequestId: selectedBookingRequest.bookingRequestId, price: changedPrice },
+                        })
+                            .then((result) => {
+                                if (!result.data?.cooks.bookingRequests.success) return;
+                                void refetch();
+                            })
+                            .finally((): void => setSelectedBookingRequest(undefined));
+                    }}
                 />
             )}
         </VStack>

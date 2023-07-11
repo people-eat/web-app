@@ -115,7 +115,7 @@ export type BookingRequest = {
     bookingRequestId: Scalars['String'];
     children: Scalars['UnsignedInt'];
     cook: PublicCook;
-    cookAccepted: Scalars['Boolean'];
+    cookAccepted?: Maybe<Scalars['Boolean']>;
     cookId: Scalars['String'];
     createdAt: Scalars['DateTime'];
     dateTime: Scalars['DateTime'];
@@ -128,7 +128,7 @@ export type BookingRequest = {
     preparationTime: Scalars['UnsignedInt'];
     price: Price;
     user: PublicUser;
-    userAccepted: Scalars['Boolean'];
+    userAccepted?: Maybe<Scalars['Boolean']>;
     userId: Scalars['String'];
 };
 
@@ -2343,6 +2343,17 @@ export type CookBookingRequestDeclineMutation = {
     cooks: { __typename?: 'CookMutation'; bookingRequests: { __typename?: 'CookBookingRequestMutation'; success: boolean } };
 };
 
+export type CookBookingRequestUpdatePriceMutationVariables = Exact<{
+    bookingRequestId: Scalars['String'];
+    price: PriceInput;
+    cookId: Scalars['String'];
+}>;
+
+export type CookBookingRequestUpdatePriceMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; bookingRequests: { __typename?: 'CookBookingRequestMutation'; success: boolean } };
+};
+
 export type CreateOneCookBookingRequestMutationVariables = Exact<{
     cookId: Scalars['String'];
     globalBookingRequestId: Scalars['String'];
@@ -2397,8 +2408,8 @@ export type FindManyCookBookingRequestsQuery = {
                 adultParticipants: number;
                 children: number;
                 dateTime: Date;
-                userAccepted: boolean;
-                cookAccepted: boolean;
+                userAccepted?: boolean | null;
+                cookAccepted?: boolean | null;
                 kitchenId?: string | null;
                 occasion: string;
                 preparationTime: number;
@@ -3079,8 +3090,8 @@ export type FindManyUserBookingRequestsQuery = {
                 adultParticipants: number;
                 children: number;
                 dateTime: Date;
-                userAccepted: boolean;
-                cookAccepted: boolean;
+                userAccepted?: boolean | null;
+                cookAccepted?: boolean | null;
                 kitchenId?: string | null;
                 occasion: string;
                 preparationTime: number;
@@ -3141,6 +3152,17 @@ export type UserBookingRequestDeclineMutationVariables = Exact<{
 }>;
 
 export type UserBookingRequestDeclineMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; bookingRequests: { __typename?: 'UserBookingRequestMutation'; success: boolean } };
+};
+
+export type UserBookingRequestUpdatePriceMutationVariables = Exact<{
+    userId: Scalars['String'];
+    bookingRequestId: Scalars['String'];
+    price: PriceInput;
+}>;
+
+export type UserBookingRequestUpdatePriceMutation = {
     __typename?: 'Mutation';
     users: { __typename?: 'UserMutation'; bookingRequests: { __typename?: 'UserBookingRequestMutation'; success: boolean } };
 };
@@ -5015,6 +5037,80 @@ export const CookBookingRequestDeclineDocument = {
         },
     ],
 } as unknown as DocumentNode<CookBookingRequestDeclineMutation, CookBookingRequestDeclineMutationVariables>;
+export const CookBookingRequestUpdatePriceDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CookBookingRequestUpdatePrice' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'price' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'PriceInput' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updatePrice' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'bookingRequestId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'price' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'price' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CookBookingRequestUpdatePriceMutation, CookBookingRequestUpdatePriceMutationVariables>;
 export const CreateOneCookBookingRequestDocument = {
     kind: 'Document',
     definitions: [
@@ -9240,3 +9336,77 @@ export const UserBookingRequestDeclineDocument = {
         },
     ],
 } as unknown as DocumentNode<UserBookingRequestDeclineMutation, UserBookingRequestDeclineMutationVariables>;
+export const UserBookingRequestUpdatePriceDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UserBookingRequestUpdatePrice' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'price' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'PriceInput' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'updatePrice' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'bookingRequestId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                    },
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'price' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'price' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UserBookingRequestUpdatePriceMutation, UserBookingRequestUpdatePriceMutationVariables>;
