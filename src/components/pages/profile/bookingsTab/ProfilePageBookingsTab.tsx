@@ -38,8 +38,8 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
               adultParticipants: number;
               children: number;
               dateTime: Date;
-              userAccepted: boolean;
-              cookAccepted: boolean;
+              userAccepted?: boolean | null;
+              cookAccepted?: boolean | null;
               kitchenId?: string | null;
               occasion: string;
               preparationTime: number;

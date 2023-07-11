@@ -38,8 +38,8 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
               adultParticipants: number;
               children: number;
               dateTime: Date;
-              userAccepted: boolean;
-              cookAccepted: boolean;
+              userAccepted?: boolean | null;
+              cookAccepted?: boolean | null;
               kitchenId?: string | null;
               occasion: string;
               preparationTime: number;
@@ -105,14 +105,17 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
                                 address={'Location'}
                                 dateTime={moment(openBookingRequest.dateTime)}
                                 createdAt={moment(openBookingRequest.createdAt)}
-                                onAcceptClick={(): void =>
-                                    void acceptBookingRequest({
-                                        variables: { cookId, bookingRequestId: openBookingRequest.bookingRequestId },
-                                    }).then((result) => {
-                                        if (!result.data?.cooks.bookingRequests.success) return;
-                                        void refetch();
-                                        setTimeout(() => setSelectedTab(1), 500);
-                                    })
+                                onAcceptClick={
+                                    openBookingRequest.cookAccepted
+                                        ? undefined
+                                        : (): void =>
+                                              void acceptBookingRequest({
+                                                  variables: { cookId, bookingRequestId: openBookingRequest.bookingRequestId },
+                                              }).then((result) => {
+                                                  if (!result.data?.cooks.bookingRequests.success) return;
+                                                  void refetch();
+                                                  setTimeout(() => setSelectedTab(1), 500);
+                                              })
                                 }
                                 onDeclineClick={(): void =>
                                     void declineBookingRequest({
