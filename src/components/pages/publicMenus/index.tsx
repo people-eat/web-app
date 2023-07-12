@@ -10,7 +10,6 @@ import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
-import PEChefCard from '../../cards/chefCard/PEChefCard';
 import PEMenuCard from '../../cards/menuCard/PEMenuCard';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
@@ -71,11 +70,11 @@ interface PublicMenu {
     };
 }
 
-export default function SearchResultsPage({ signedInUser, searchParameters, searchResults }: SearchResultsPageProps): ReactElement {
+export default function PublicMenusPage({ signedInUser, searchParameters }: SearchResultsPageProps): ReactElement {
     const router = useRouter();
     const { t } = useTranslation('search-results');
 
-    const [searchResultKind, setSearchResultKind] = useState<'chefs' | 'menus'>('menus');
+    const [searchResultKind] = useState<'chefs' | 'menus'>('menus');
 
     const [address, setAddress] = useState(searchParameters.location.address);
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
@@ -139,16 +138,10 @@ export default function SearchResultsPage({ signedInUser, searchParameters, sear
                     />
 
                     <HStack gap={8}>
-                        <PEToggle
-                            title={t('cooks')}
-                            active={searchResultKind === 'chefs'}
-                            onClick={(): void => setSearchResultKind('chefs')}
-                        />
-                        <PEToggle
-                            title={t('menus')}
-                            active={searchResultKind === 'menus'}
-                            onClick={(): void => setSearchResultKind('menus')}
-                        />
+                        <Link href="chefs" style={{ textDecoration: 'none' }}>
+                            <PEToggle title={t('cooks')} active={false} onClick={(): void => undefined} />
+                        </Link>
+                        <PEToggle title={t('menus')} active={true} onClick={(): void => undefined} />
                     </HStack>
                 </HStack>
 
@@ -160,26 +153,6 @@ export default function SearchResultsPage({ signedInUser, searchParameters, sear
                         justifyContent: 'flex-start',
                     }}
                 >
-                    {searchResultKind === 'chefs' &&
-                        searchResults.publicCooks.map((publicCook, index) => (
-                            <Link
-                                href={'chefs/' + publicCook.cookId}
-                                target="_blank"
-                                key={index}
-                                className="no-underline"
-                                style={{ textDecoration: 'none', color: '#000' }}
-                            >
-                                <PEChefCard
-                                    firstName={publicCook.user.firstName}
-                                    profilePictureUrl={publicCook.user.profilePictureUrl}
-                                    rank={publicCook.rank}
-                                    location={publicCook.city}
-                                    rating={{ average: 5, count: 12 }}
-                                    categories={[]}
-                                    kitchens={[]}
-                                />
-                            </Link>
-                        ))}
                     {searchResultKind === 'menus' &&
                         publicMenus.map((publicMenu, index) => (
                             <Link

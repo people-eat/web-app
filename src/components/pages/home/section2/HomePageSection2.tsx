@@ -1,9 +1,9 @@
 import useTranslation from 'next-translate/useTranslation';
+import Image from 'next/image';
 import Link from 'next/link';
 import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import HStack from '../../../utility/hStack/HStack';
-import VStack from '../../../utility/vStack/VStack';
 import { bookNow, EVENTS } from '../../home/section2/events.mock';
 
 export default function HomePageSection2(): ReactElement {
@@ -33,14 +33,13 @@ export default function HomePageSection2(): ReactElement {
                     <PEButton className="mt-12 min-w-[320px]" onClick={handleBookNow} title={bookNow} />
                 </Link>
             </div>
-            <VStack
+            <Image
+                style={{ height: 602, objectFit: 'cover' }}
                 className="rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full w-[50%] big:min-w-[460px] lg_min:min-w-[460px] lg:w-full lg:max-w-[540px]"
-                style={{
-                    backgroundImage: 'url(/friendsAtTheTable.png)',
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
-                    height: 602,
-                }}
+                src="/friendsAtTheTable.png"
+                width={400}
+                height={400}
+                alt="Private Feier zuhause"
             />
         </div>
     );

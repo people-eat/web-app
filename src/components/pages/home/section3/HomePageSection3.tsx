@@ -13,9 +13,9 @@ export default function HomePageSection3(): ReactElement {
                 draggable={false}
                 src={'/peopleEatPreview.gif'}
                 className="object-cover object-[0 -40px] rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full w-[50%] lg:w-full shadow-xl"
-                alt={'Gif of a chef arriving at someones home, preparing and serving a menu with fresh ingredients'}
-                width={256}
-                height={602}
+                alt="Koch der mit frischen Zutaten bei einem Kunden zu einem Event ankommt"
+                width={400}
+                height={800}
             />
 
             <div className="flex lg:w-full w-[50%] ml-[100px] lg:m-0 lg:items-center flex-col">

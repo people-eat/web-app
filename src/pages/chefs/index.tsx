@@ -56,11 +56,14 @@ const Index: NextPage<SearchResultsPageProps> = ({ signedInUser, searchParameter
     return (
         <>
             <Head>
-                <title>PeopleEat - Search Results</title>
+                <title>PeopleEat - Chefs</title>
 
-                <meta name="title" content="" />
-                <meta name="description" content="" />
-                <meta name="keywords" content="" />
+                <meta name="title" content="Finde einen Privatkoch in deiner Umgebung" />
+                <meta
+                    name="description"
+                    content="Hier kannst du einen Privatkoch für Zuhause zu buchen. Du wirst es kaum glauben, aber es war nie einfacher"
+                />
+                <meta name="keywords" content="Koch buchen, Koch für Zuhause, Mietkoch" />
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>

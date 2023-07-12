@@ -26,7 +26,14 @@ const Index: NextPage<TermsAndConditionsPageProps> = ({ signedInUser, latestTerm
         <>
             <Head>
                 <title>PeopleEat - Terms and Conditions</title>
-                <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
+
+                <meta name="title" content="Privatkoch werden" />
+                <meta
+                    name="description"
+                    content="Genieße die Freiheit und Flexibilität wann du deine Privatkoch Services anbieten möchtest. Teile deine Leidenschaft mit deinen Gästen und schaffe einzigartige Erlebnismomente"
+                />
+                <meta name="keywords" content="Privatkoch werden, als Koch selbstständig machen, Eigenes Restaurant eröffnen" />
+
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <TermsAndConditionsPage signedInUser={signedInUser} latestTermsUpdate={latestTermsUpdate} />

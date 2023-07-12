@@ -25,6 +25,11 @@ const Index: NextPage<AdministrationPageProps> = ({ signedInUser }) => {
         <>
             <Head>
                 <title>PeopleEat - Administration</title>
+
+                <meta name="title" content="" />
+                <meta name="description" content="" />
+                <meta name="keywords" content="" />
+
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <AdministrationPage signedInUser={signedInUser} />

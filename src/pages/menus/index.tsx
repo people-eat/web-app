@@ -2,7 +2,8 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
-import PublicCooksPage, { type SearchResultsPageProps } from '../../components/pages/publicCooks';
+import { type SearchResultsPageProps } from '../../components/pages/publicCooks';
+import PublicMenusPage from '../../components/pages/publicMenus';
 import { FindManyPublicCooksDocument } from '../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
@@ -56,15 +57,15 @@ const Index: NextPage<SearchResultsPageProps> = ({ signedInUser, searchParameter
     return (
         <>
             <Head>
-                <title>PeopleEat - Search Results</title>
+                <title>PeopleEat - Menus</title>
 
-                <meta name="title" content="" />
-                <meta name="description" content="" />
-                <meta name="keywords" content="" />
+                <meta name="title" content="Entdecke Menüs" />
+                <meta name="description" content="Erstelle eigene Menüs und genieße kulinarische Erlebnismomente bei dir Zuhause" />
+                <meta name="keywords" content="Speisekarte , Menü für Zuhause, Essen für Zuhause bestellen" />
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <PublicCooksPage signedInUser={signedInUser} searchParameters={searchParameters} searchResults={searchResults} />
+            <PublicMenusPage signedInUser={signedInUser} searchParameters={searchParameters} searchResults={searchResults} />
         </>
     );
 };

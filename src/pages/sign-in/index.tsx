@@ -7,7 +7,11 @@ const Index: NextPage = () => {
         <>
             <Head>
                 <title>PeopleEat - Sign In</title>
-                <meta name="description" content="PeopleEat - Sign In" />
+
+                <meta name="title" content="" />
+                <meta name="description" content="" />
+                <meta name="keywords" content="" />
+
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <SignInPage />

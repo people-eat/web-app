@@ -2,9 +2,10 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState, type ReactElement } from 'react';
+import { useContext, useState, type ReactElement } from 'react';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import useResponsive from '../../../hooks/useResponsive';
+import { HomePageContext } from '../../../pages';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
@@ -37,10 +38,11 @@ export interface HomePageProps {
     };
 }
 
-export default function HomePage({ signedInUser, searchParameters }: HomePageProps): ReactElement {
+export default function HomePage({ searchParameters }: HomePageProps): ReactElement {
     const { t } = useTranslation('home');
     const { isMobile } = useResponsive();
     const router = useRouter();
+    const { signedInUser } = useContext(HomePageContext);
 
     const [address, setAddress] = useState(searchParameters.location.address);
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
@@ -94,7 +96,7 @@ export default function HomePage({ signedInUser, searchParameters }: HomePagePro
                     >
                         <h1 className="lg:max-w-[360px] max-w-[720px] text-white lg:text-black lg:text-center w-full lg:text-heading-xm text-heading-xxl m-0 p-0 lg:uppercase">
                             {t('headline-01')}
-                            <span className="text-orange select-none"> {t('headline-02')} </span>
+                            <span className="text-orange"> {t('headline-02')} </span>
                             {t('headline-03')}
                         </h1>
                     </div>

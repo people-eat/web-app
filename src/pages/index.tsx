@@ -2,8 +2,10 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
+import { createContext, type Context } from 'react';
 import HomePage, { type HomePageProps } from '../components/pages/home';
 import { GetProfileQueryDocument } from '../data-source/generated/graphql';
+import { type SignedInUser } from '../shared-domain/SignedInUser';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { data } = await new ApolloClient({
@@ -31,15 +33,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 };
 
+export const HomePageContext: Context<{ signedInUser?: SignedInUser }> = createContext({});
+
 const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: HomePageProps) => {
     return (
         <>
             <Head>
                 <title>PeopleEat</title>
-                <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
+
+                <meta name="title" content="Finde einen Privatkoch für dein Event Zuhause PeopleEat" />
+                <meta
+                    name="description"
+                    content="Finde einen Privatkoch in deiner Umgebung für jeden Anlass und erhalte kulinarische Erlebnismomente bei dir Zuhause. Wir kümmern uns um den Einkauf der Lebensmittel, die Zubereitung der Speisen und selbstverständlich um eine saubere Küche."
+                />
+                <meta name="keywords" content="Kochservice, Privatkoch, Event Zuhause" />
+
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <HomePage signedInUser={signedInUser} searchParameters={searchParameters} />
+
+            <HomePageContext.Provider value={{ signedInUser }}>
+                <HomePage signedInUser={signedInUser} searchParameters={searchParameters} />
+            </HomePageContext.Provider>
         </>
     );
 };

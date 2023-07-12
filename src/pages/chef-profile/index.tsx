@@ -26,7 +26,11 @@ const Index: NextPage = ({ signedInUser }: PEHeaderProps) => {
         <>
             <Head>
                 <title>PeopleEat - Chef Profile</title>
-                <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
+
+                <meta name="title" content="" />
+                <meta name="description" content="" />
+                <meta name="keywords" content="" />
+
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <CookProfilePage signedInUser={signedInUser} />

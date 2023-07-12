@@ -29,7 +29,11 @@ const Index: NextPage = () => {
         <>
             <Head>
                 <title>PeopleEat - email confirmation</title>
-                <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
+
+                <meta name="title" content="" />
+                <meta name="description" content="" />
+                <meta name="keywords" content="" />
+
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 

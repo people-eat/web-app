@@ -25,7 +25,11 @@ const Index: NextPage<ImprintPageProps> = ({ signedInUser }) => {
         <>
             <Head>
                 <title>PeopleEat - Imprint</title>
-                <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
+
+                <meta name="title" content="" />
+                <meta name="description" content="" />
+                <meta name="keywords" content="" />
+
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <ImprintPage signedInUser={signedInUser} />

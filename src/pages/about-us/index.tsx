@@ -25,7 +25,14 @@ const Index: NextPage<AboutUsPageProps> = ({ signedInUser }) => {
         <>
             <Head>
                 <title>PeopleEat - About us</title>
-                <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
+
+                <meta name="title" content="" />
+                <meta
+                    name="description"
+                    content="Wir machen es dir so einfach wie nie zuvor, einen Privatkoch für Deine Dinner-Party zu buchen. Wir sind davon überzeugt, dass Essen nicht nur ein Erlebnismoment ist, sondern auch Menschen zusammen bringt."
+                />
+                <meta name="keywords" content="" />
+
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <AboutUsPage signedInUser={signedInUser} />

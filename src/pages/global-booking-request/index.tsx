@@ -41,7 +41,14 @@ const Index: NextPage<GlobalBookingRequestPageProps> = ({ signedInUser, searchPa
         <>
             <Head>
                 <title>PeopleEat - Global Booking Request</title>
-                <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
+
+                <meta name="title" content="Sende uns eine Individuelle Menü Anfrage" />
+                <meta
+                    name="description"
+                    content="Du hast besondere Menü Wünsche und weißt nicht wo du anfangen sollst? Wir helfen dir dabei einen Privatkoch für zuhause zu finden und ein Menü nach deinen Präferenzen zusammenzustellen"
+                />
+                <meta name="keywords" content="Menü für Zuhause, Koch für Zuhause" />
+
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <GlobalBookingRequestPage

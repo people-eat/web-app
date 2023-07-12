@@ -12,7 +12,8 @@
         "/profile": ["profile", "address"],
         "/about-us": ["about-us"],
         "/imprint": ["imprint"],
-        "/search-results": ["search-results", "search"],
+        "/chefs": ["search-results", "search"],
+        "/menus": ["search-results", "search"],
         "/global-booking-request": ["global-booking-request", "home"],
         "/cook-booking-request": ["global-booking-request", "home"]
     }
