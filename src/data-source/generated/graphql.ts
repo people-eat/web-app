@@ -148,6 +148,15 @@ export type CategoryQuery = {
     findAll: Array<Category>;
 };
 
+export type ChatMessage = {
+    __typename?: 'ChatMessage';
+    bookingRequestId: Scalars['String'];
+    chatMessageId: Scalars['String'];
+    createdAt: Scalars['DateTime'];
+    createdBy: Scalars['String'];
+    message: Scalars['String'];
+};
+
 export type Cook = {
     __typename?: 'Cook';
     biography: Scalars['String'];
@@ -176,9 +185,32 @@ export type Cook = {
     user: User;
 };
 
+export type CookBookingRequestChatMessageMutation = {
+    __typename?: 'CookBookingRequestChatMessageMutation';
+    bookingRequestId: Scalars['String'];
+    cookId: Scalars['String'];
+    createOne: Scalars['Boolean'];
+};
+
+export type CookBookingRequestChatMessageMutationCreateOneArgs = {
+    request: CreateChatMessageRequest;
+};
+
+export type CookBookingRequestChatMessageQuery = {
+    __typename?: 'CookBookingRequestChatMessageQuery';
+    bookingRequestId: Scalars['String'];
+    cookId: Scalars['String'];
+    findMany?: Maybe<Array<ChatMessage>>;
+};
+
+export type CookBookingRequestChatMessageQueryFindManyArgs = {
+    request?: InputMaybe<FindManyRequest>;
+};
+
 export type CookBookingRequestMutation = {
     __typename?: 'CookBookingRequestMutation';
     accept: Scalars['Boolean'];
+    chatMessages: CookBookingRequestChatMessageMutation;
     cookId: Scalars['String'];
     createOne: Scalars['Boolean'];
     decline: Scalars['Boolean'];
@@ -186,6 +218,10 @@ export type CookBookingRequestMutation = {
 };
 
 export type CookBookingRequestMutationAcceptArgs = {
+    bookingRequestId: Scalars['String'];
+};
+
+export type CookBookingRequestMutationChatMessagesArgs = {
     bookingRequestId: Scalars['String'];
 };
 
@@ -204,9 +240,14 @@ export type CookBookingRequestMutationUpdatePriceArgs = {
 
 export type CookBookingRequestQuery = {
     __typename?: 'CookBookingRequestQuery';
+    chatMessages: CookBookingRequestChatMessageQuery;
     cookId: Scalars['String'];
     findMany?: Maybe<Array<BookingRequest>>;
     findOne?: Maybe<BookingRequest>;
+};
+
+export type CookBookingRequestQueryChatMessagesArgs = {
+    bookingRequestId: Scalars['String'];
 };
 
 export type CookBookingRequestQueryFindManyArgs = {
@@ -727,6 +768,10 @@ export type CreateBookingRequestRequest = {
     occasion: Scalars['String'];
     preparationTime: Scalars['UnsignedInt'];
     price: PriceInput;
+};
+
+export type CreateChatMessageRequest = {
+    message: Scalars['String'];
 };
 
 export type CreateOneAddressRequest = {
@@ -1491,9 +1536,32 @@ export type UserAddressQueryFindManyArgs = {
     request?: InputMaybe<FindManyRequest>;
 };
 
+export type UserBookingRequestChatMessageMutation = {
+    __typename?: 'UserBookingRequestChatMessageMutation';
+    bookingRequestId: Scalars['String'];
+    createOne: Scalars['Boolean'];
+    userId: Scalars['String'];
+};
+
+export type UserBookingRequestChatMessageMutationCreateOneArgs = {
+    request: CreateChatMessageRequest;
+};
+
+export type UserBookingRequestChatMessageQuery = {
+    __typename?: 'UserBookingRequestChatMessageQuery';
+    bookingRequestId: Scalars['String'];
+    findMany?: Maybe<Array<ChatMessage>>;
+    userId: Scalars['String'];
+};
+
+export type UserBookingRequestChatMessageQueryFindManyArgs = {
+    request?: InputMaybe<FindManyRequest>;
+};
+
 export type UserBookingRequestMutation = {
     __typename?: 'UserBookingRequestMutation';
     accept: Scalars['Boolean'];
+    chatMessages: UserBookingRequestChatMessageMutation;
     createOne: Scalars['Boolean'];
     decline: Scalars['Boolean'];
     updatePrice: Scalars['Boolean'];
@@ -1501,6 +1569,10 @@ export type UserBookingRequestMutation = {
 };
 
 export type UserBookingRequestMutationAcceptArgs = {
+    bookingRequestId: Scalars['String'];
+};
+
+export type UserBookingRequestMutationChatMessagesArgs = {
     bookingRequestId: Scalars['String'];
 };
 
@@ -1519,9 +1591,14 @@ export type UserBookingRequestMutationUpdatePriceArgs = {
 
 export type UserBookingRequestQuery = {
     __typename?: 'UserBookingRequestQuery';
+    chatMessages: UserBookingRequestChatMessageQuery;
     findMany?: Maybe<Array<BookingRequest>>;
     findOne?: Maybe<BookingRequest>;
     userId: Scalars['String'];
+};
+
+export type UserBookingRequestQueryChatMessagesArgs = {
+    bookingRequestId: Scalars['String'];
 };
 
 export type UserBookingRequestQueryFindManyArgs = {
@@ -2422,6 +2499,48 @@ export type FindManyCookBookingRequestsQuery = {
     };
 };
 
+export type CreateOneCookBookingRequestChatMessageMutationVariables = Exact<{
+    request: CreateChatMessageRequest;
+    bookingRequestId: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type CreateOneCookBookingRequestChatMessageMutation = {
+    __typename?: 'Mutation';
+    cooks: {
+        __typename?: 'CookMutation';
+        bookingRequests: {
+            __typename?: 'CookBookingRequestMutation';
+            chatMessages: { __typename?: 'CookBookingRequestChatMessageMutation'; success: boolean };
+        };
+    };
+};
+
+export type FindManyCookBookingRequestChatMessagesQueryVariables = Exact<{
+    bookingRequestId: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type FindManyCookBookingRequestChatMessagesQuery = {
+    __typename?: 'Query';
+    cooks: {
+        __typename?: 'CookQuery';
+        bookingRequests: {
+            __typename?: 'CookBookingRequestQuery';
+            chatMessages: {
+                __typename?: 'CookBookingRequestChatMessageQuery';
+                findMany?: Array<{
+                    __typename?: 'ChatMessage';
+                    chatMessageId: string;
+                    message: string;
+                    createdBy: string;
+                    createdAt: Date;
+                }> | null;
+            };
+        };
+    };
+};
+
 export type AddOneCookLanguageMutationVariables = Exact<{
     cookId: Scalars['String'];
     languageId: Scalars['String'];
@@ -3165,6 +3284,48 @@ export type UserBookingRequestUpdatePriceMutationVariables = Exact<{
 export type UserBookingRequestUpdatePriceMutation = {
     __typename?: 'Mutation';
     users: { __typename?: 'UserMutation'; bookingRequests: { __typename?: 'UserBookingRequestMutation'; success: boolean } };
+};
+
+export type CreateOneUserBookingRequestChatMessageMutationVariables = Exact<{
+    request: CreateChatMessageRequest;
+    bookingRequestId: Scalars['String'];
+    userId: Scalars['String'];
+}>;
+
+export type CreateOneUserBookingRequestChatMessageMutation = {
+    __typename?: 'Mutation';
+    users: {
+        __typename?: 'UserMutation';
+        bookingRequests: {
+            __typename?: 'UserBookingRequestMutation';
+            chatMessages: { __typename?: 'UserBookingRequestChatMessageMutation'; success: boolean };
+        };
+    };
+};
+
+export type FindManyUserBookingRequestChatMessagesQueryVariables = Exact<{
+    bookingRequestId: Scalars['String'];
+    userId: Scalars['String'];
+}>;
+
+export type FindManyUserBookingRequestChatMessagesQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        bookingRequests: {
+            __typename?: 'UserBookingRequestQuery';
+            chatMessages: {
+                __typename?: 'UserBookingRequestChatMessageQuery';
+                findMany?: Array<{
+                    __typename?: 'ChatMessage';
+                    chatMessageId: string;
+                    message: string;
+                    createdBy: string;
+                    createdAt: Date;
+                }> | null;
+            };
+        };
+    };
 };
 
 export const SignedInUserFragmentDoc = {
@@ -5354,6 +5515,172 @@ export const FindManyCookBookingRequestsDocument = {
         },
     ],
 } as unknown as DocumentNode<FindManyCookBookingRequestsQuery, FindManyCookBookingRequestsQueryVariables>;
+export const CreateOneCookBookingRequestChatMessageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneCookBookingRequestChatMessage' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateChatMessageRequest' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'chatMessages' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'bookingRequestId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                    },
+                                                ],
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'Field',
+                                                            alias: { kind: 'Name', value: 'success' },
+                                                            name: { kind: 'Name', value: 'createOne' },
+                                                            arguments: [
+                                                                {
+                                                                    kind: 'Argument',
+                                                                    name: { kind: 'Name', value: 'request' },
+                                                                    value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneCookBookingRequestChatMessageMutation, CreateOneCookBookingRequestChatMessageMutationVariables>;
+export const FindManyCookBookingRequestChatMessagesDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindManyCookBookingRequestChatMessages' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'chatMessages' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'bookingRequestId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                    },
+                                                ],
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'findMany' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindManyCookBookingRequestChatMessagesQuery, FindManyCookBookingRequestChatMessagesQueryVariables>;
 export const AddOneCookLanguageDocument = {
     kind: 'Document',
     definitions: [
@@ -9410,3 +9737,169 @@ export const UserBookingRequestUpdatePriceDocument = {
         },
     ],
 } as unknown as DocumentNode<UserBookingRequestUpdatePriceMutation, UserBookingRequestUpdatePriceMutationVariables>;
+export const CreateOneUserBookingRequestChatMessageDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneUserBookingRequestChatMessage' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateChatMessageRequest' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'chatMessages' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'bookingRequestId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                    },
+                                                ],
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'Field',
+                                                            alias: { kind: 'Name', value: 'success' },
+                                                            name: { kind: 'Name', value: 'createOne' },
+                                                            arguments: [
+                                                                {
+                                                                    kind: 'Argument',
+                                                                    name: { kind: 'Name', value: 'request' },
+                                                                    value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                                                },
+                                                            ],
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneUserBookingRequestChatMessageMutation, CreateOneUserBookingRequestChatMessageMutationVariables>;
+export const FindManyUserBookingRequestChatMessagesDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindManyUserBookingRequestChatMessages' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'chatMessages' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'bookingRequestId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                    },
+                                                ],
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'findMany' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindManyUserBookingRequestChatMessagesQuery, FindManyUserBookingRequestChatMessagesQueryVariables>;

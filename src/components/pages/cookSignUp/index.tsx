@@ -244,17 +244,17 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         <VStack style={{ flex: 1 }} gap={16}>
                             <HStack gap={16} className="w-full">
                                 <PETextField
+                                    value={postCode}
+                                    onChange={setPostCode}
+                                    placeholder={translateAddress('post-code')}
+                                    type="text"
+                                />
+                                <PETextField
                                     value={city}
                                     onChange={setCity}
                                     placeholder={translateAddress('city')}
                                     type="text"
                                     autocomplete="city"
-                                />
-                                <PETextField
-                                    value={postCode}
-                                    onChange={setPostCode}
-                                    placeholder={translateAddress('post-code')}
-                                    type="text"
                                 />
                             </HStack>
                             <HStack gap={16} className="w-full">

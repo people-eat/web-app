@@ -64,8 +64,6 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
         ({ cookAccepted, userAccepted }) => cookAccepted === false || userAccepted === false,
     );
 
-    console.log(bookingRequests);
-
     const [createBookingRequest] = useMutation(CreateOneCookBookingRequestDocument);
     const [acceptBookingRequest] = useMutation(CookBookingRequestAcceptDocument);
     const [declineBookingRequest] = useMutation(CookBookingRequestDeclineDocument);

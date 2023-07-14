@@ -1,0 +1,9 @@
+mutation CreateOneUserBookingRequestChatMessage($request: CreateChatMessageRequest!, $bookingRequestId: String!, $userId: String!) {
+    users {
+        bookingRequests(userId: $userId) {
+            chatMessages(bookingRequestId: $bookingRequestId) {
+                success: createOne(request: $request)
+            }
+        }
+    }
+}

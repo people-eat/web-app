@@ -65,6 +65,10 @@ const documents = {
         types.FindCookProfileGlobalBookingRequestsDocument,
     'query FindManyCookBookingRequests($cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        user {\n          firstName\n          profilePictureUrl\n        }\n        adultParticipants\n        children\n        dateTime\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n      }\n    }\n  }\n}':
         types.FindManyCookBookingRequestsDocument,
+    'mutation CreateOneCookBookingRequestChatMessage($request: CreateChatMessageRequest!, $bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        success: createOne(request: $request)\n      }\n    }\n  }\n}':
+        types.CreateOneCookBookingRequestChatMessageDocument,
+    'query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}':
+        types.FindManyCookBookingRequestChatMessagesDocument,
     'mutation AddOneCookLanguage($cookId: String!, $languageId: String!) {\n  cooks {\n    success: addOneLanguage(cookId: $cookId, languageId: $languageId)\n  }\n}':
         types.AddOneCookLanguageDocument,
     'mutation RemoveOneCookLanguage($cookId: String!, $languageId: String!) {\n  cooks {\n    success: removeOneLanguage(cookId: $cookId, languageId: $languageId)\n  }\n}':
@@ -182,6 +186,10 @@ const documents = {
         types.UserBookingRequestDeclineDocument,
     'mutation UserBookingRequestUpdatePrice($userId: String!, $bookingRequestId: String!, $price: PriceInput!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}':
         types.UserBookingRequestUpdatePriceDocument,
+    'mutation CreateOneUserBookingRequestChatMessage($request: CreateChatMessageRequest!, $bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        success: createOne(request: $request)\n      }\n    }\n  }\n}':
+        types.CreateOneUserBookingRequestChatMessageDocument,
+    'query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}':
+        types.FindManyUserBookingRequestChatMessagesDocument,
 };
 
 /**
@@ -366,6 +374,18 @@ export function gql(
 export function gql(
     source: 'query FindManyCookBookingRequests($cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        user {\n          firstName\n          profilePictureUrl\n        }\n        adultParticipants\n        children\n        dateTime\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n      }\n    }\n  }\n}',
 ): (typeof documents)['query FindManyCookBookingRequests($cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        user {\n          firstName\n          profilePictureUrl\n        }\n        adultParticipants\n        children\n        dateTime\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation CreateOneCookBookingRequestChatMessage($request: CreateChatMessageRequest!, $bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        success: createOne(request: $request)\n      }\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOneCookBookingRequestChatMessage($request: CreateChatMessageRequest!, $bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        success: createOne(request: $request)\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -720,6 +740,18 @@ export function gql(
 export function gql(
     source: 'mutation UserBookingRequestUpdatePrice($userId: String!, $bookingRequestId: String!, $price: PriceInput!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}',
 ): (typeof documents)['mutation UserBookingRequestUpdatePrice($userId: String!, $bookingRequestId: String!, $price: PriceInput!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation CreateOneUserBookingRequestChatMessage($request: CreateChatMessageRequest!, $bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        success: createOne(request: $request)\n      }\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOneUserBookingRequestChatMessage($request: CreateChatMessageRequest!, $bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        success: createOne(request: $request)\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}'];
 
 export function gql(source: string) {
     return (documents as any)[source] ?? {};

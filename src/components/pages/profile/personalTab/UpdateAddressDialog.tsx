@@ -105,13 +105,13 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                                 <VStack gap={16} style={{ width: isMobile ? '100%' : '512px' }}>
                                     <PETextField value={title} onChange={setTitle} placeholder={translateAddress('title')} type="text" />
                                     <HStack className="w-full gap-4 md:flex-col">
-                                        <PETextField value={city} onChange={setCity} placeholder={translateAddress('city')} type="text" />
                                         <PETextField
                                             value={postCode}
                                             onChange={setPostCode}
                                             placeholder={translateAddress('post-code')}
                                             type="text"
                                         />
+                                        <PETextField value={city} onChange={setCity} placeholder={translateAddress('city')} type="text" />
                                     </HStack>
                                     <HStack className="w-full gap-4 md:flex-col">
                                         <PETextField

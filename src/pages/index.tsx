@@ -1,8 +1,10 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
-import { createContext, type Context } from 'react';
+import Link from 'next/link';
+import { createContext, useState, type Context } from 'react';
 import HomePage, { type HomePageProps } from '../components/pages/home';
 import { GetProfileQueryDocument } from '../data-source/generated/graphql';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
@@ -36,6 +38,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export const HomePageContext: Context<{ signedInUser?: SignedInUser }> = createContext({});
 
 const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: HomePageProps) => {
+    const [showCookieBanner, setShowCookieBanner] = useState(false);
+
     return (
         <>
             <Head>
@@ -54,6 +58,27 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
             <HomePageContext.Provider value={{ signedInUser }}>
                 <HomePage signedInUser={signedInUser} searchParameters={searchParameters} />
             </HomePageContext.Provider>
+
+            <Dialog open={showCookieBanner}>
+                <DialogTitle>Privatsphäre-Einstellungen</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Wir verwenden Cookies und ähnliche Technologien auf unserer Website und verarbeiten personenbezogene Daten von dir,
+                        um Inhalte und Anzeigen zu personalisieren, Medien von Drittanbietern einzubinden oder Zugriffe auf unsere Website
+                        zu analysieren. Die Datenverarbeitung kann auch erst in Folge gesetzter Cookies stattfinden. Wir teilen diese Daten
+                        mit Dritten, die wir in den Privatsphäre-Einstellungen benennen.
+                    </DialogContentText>
+                    <Link href="data-privacy-policy" target="_blank">
+                        Mehr erfahren
+                    </Link>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={(): void => setShowCookieBanner(false)}>Ablehnen</Button>
+                    <Button variant="contained" onClick={(): void => setShowCookieBanner(false)}>
+                        Alle akzeptieren
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 };

@@ -9,6 +9,7 @@ import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
 import CookProfilePageBookingTab from './bookingTab/ChefProfilePageBookingTab';
+import CookProfilePageBookingsTab from './bookingsTab/ChefProfilePageBookingsTab';
 import CookProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
 import CookProfilePageMenusTab from './menusTab/ChefProfilePageMenusTab';
 import CookProfilePagePersonalTab from './personalTab/CookProfilePagePersonalTab';
@@ -112,6 +113,8 @@ export default function CookProfilePage({ signedInUser }: CookProfilePageProps):
                 {selectedTab === 2 && signedInUser && <CookProfilePageMenusTab cookId={signedInUser.userId} />}
 
                 {selectedTab === 3 && signedInUser && <CookProfilePageBookingTab cookId={signedInUser.userId} />}
+
+                {selectedTab === 6 && signedInUser && <CookProfilePageBookingsTab cookId={signedInUser.userId} />}
             </VStack>
 
             <PEFooter />
