@@ -61,6 +61,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
     // const { isMobile } = useResponsive();
 
     const { t } = useTranslation('common');
+    const { t: bookingTranslations } = useTranslation('globalBookingRequest');
 
     const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>();
     const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
@@ -129,7 +130,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                 }}
                                 className="no-underline"
                             >
-                                <PEButton title="Send Booking Request" onClick={(): void => undefined} />
+                                <PEButton title={bookingTranslations('send-request-label')} onClick={(): void => undefined} />
                             </Link>
                         </HStack>
 

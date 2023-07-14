@@ -28,8 +28,9 @@ export interface CookProfilePageBookingTabProps {
 export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBookingTabProps): ReactElement {
     const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
     const { t } = useTranslation('chef-profile');
+    const { t: commonTranslate } = useTranslation('common');
 
-    const BOOKING_TABS = ['Open', t('booking-in-progress'), 'Completed', ' Canceled'];
+    const BOOKING_TABS = [t('booking-open'), t('booking-in-progress'), t('booking-closed'), t('booking-cancelled')];
 
     const [selectedBookingRequest, setSelectedBookingRequest] = useState<
         | {
@@ -253,7 +254,7 @@ export default function CookProfilePageBookingTab({ cookId }: CookProfilePageBoo
 
             {loading && <CircularProgress />}
 
-            {error && <>An error ocurred</>}
+            {error && <>{commonTranslate('error')}</>}
 
             {selectedBookingRequest && (
                 <BookingRequestDetailsDialog

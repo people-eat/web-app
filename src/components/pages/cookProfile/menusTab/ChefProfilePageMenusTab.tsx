@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import {
     DeleteOneCookMenuDocument,
@@ -73,7 +74,7 @@ export interface CookProfilePageMenusTabProps {
 
 export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenusTabProps): ReactElement {
     const { isMobile } = useResponsive();
-
+    const { t } = useTranslation('chef-profile');
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
@@ -277,8 +278,7 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                         </VStack>
                         <PEIcon className="mt-8" icon={Icon.celebrate} edgeLength={80} />
                         <VStack className="w-full mt-8">
-                            <p className="m-0">The new menu has been successfully added.</p>
-                            <p className="m-0">To delete or edit - click on it.</p>
+                            <p className="m-0">{t('create-menu-popup')}</p>
                         </VStack>
                         <PEButton className="max-w-[250px]" onClick={(): void => setOpenCreateNewMenuSuccess(false)} title="Ok" />
                     </VStack>

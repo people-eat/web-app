@@ -32,5 +32,10 @@
     "step-3-label": "étape 3",
     "ind-request-budget-hint-1": "Menu de base : ⌀ 50-75€ par personne, min. dépenser 250€",
     "ind-request-budget-hint-2": "Menu Gastronomie : ⌀ 80-150€ par personne, min. dépenser 400€",
-    "ind-request-budget-hint-3": "Menu Gourmet : à partir de 150€ par personne, min. dépenser 600€"
+    "ind-request-budget-hint-3": "Menu Gourmet : à partir de 150€ par personne, min. dépenser 600€",
+    "booking-global-request-pop-up": "Merci! Votre demande de réservation a été envoyée avec succès.",
+    "booking-global-request-in-price": "Inclus dans le prix:",
+    "cook-request-title": "Demande de réservation individuelle",
+    "budget-suggestion": "Send budget suggestion",
+    "global-request": "Global Request"
 }

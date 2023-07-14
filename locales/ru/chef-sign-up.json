@@ -20,5 +20,8 @@
     "terms-and-conditions-label-link": "Условия использования",
     "terms-and-conditions-label-2": "",
     "travel-distance": "Радиус",
-    "travel-expenses": "Стоимость проезда за километр"
+    "travel-expenses": "Стоимость проезда за километр",
+    "user-sign-up-login-1": "У вас уже есть профиль?",
+    "user-sign-up-login-2": "Войти здесь",
+    "date-of-birth": "Date of birth"
 }

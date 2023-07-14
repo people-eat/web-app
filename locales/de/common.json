@@ -14,5 +14,8 @@
     "edit": "Bearbeiten",
     "remove": "Entfernen",
     "save": "Speichern",
-    "save-changes": "Änderungen speichern"
+    "save-changes": "Änderungen speichern",
+    "done": "Fertig",
+    "error": "Ein Fehler ist aufgetreten",
+    "back": "Zum Profil"
 }

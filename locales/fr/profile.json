@@ -10,9 +10,6 @@
     "personal-information-label": "Informations personnelles",
     "phone-number-label": "numéro de téléphone",
     "ratings-label": "Commentaires",
-    "main-menu-chef": "Profil du chef",
-    "main-menu-sign-out": "se déconnecter",
-    "main-menu-user": "Profil de l'utilisateur",
     "popup-button-add": "Ajoutez l'adresse",
     "popup-edit-button": "Sauvegarder",
     "popup-edit-user-profile": "Modifier les données personnelles",
@@ -34,5 +31,8 @@
     "user-profile-ratings": "Notes",
     "password-popup-success-title": "Modifié avec succès",
     "password-popup-failed-title": "L'enregistrement des modifications a échoué",
-    "password-popup-close": "Fermer"
+    "password-popup-close": "Fermer",
+    "main-menu-chef": "Profil du chef",
+    "main-menu-sign-out": "se déconnecter",
+    "main-menu-user": "Profil de l'utilisateur"
 }

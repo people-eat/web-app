@@ -50,6 +50,7 @@
     "create-menu-step-3": "Step 3",
     "create-menu-title": "Menu name",
     "create-menu-yes": "Yes",
+    "create-menu-popup": "Menu has been successfully added",
     "role-switch-button-customer": "Customer profile",
     "section-languages-search": "Add language",
     "section-languages": "Languages",
@@ -76,6 +77,8 @@
     "create-meal-title": "Name",
     "booking-address": "address",
     "booking-closed": "Completed",
+    "booking-open": "Open",
+    "booking-cancelled": "Cancelled",
     "booking-date": "Event date:",
     "booking-global-requests": "Global Requests",
     "booking-go-to-chat": "Go to chat",
@@ -85,5 +88,7 @@
     "booking-price": "Price:",
     "booking-send-invoice": "Send invoice to customer",
     "booking-time": "time",
-    "popup-meal-image-upload-button": "Add"
+    "popup-meal-image-upload-button": "Add",
+    "user-sign-up-title": "Find a private chef!",
+    "user-sign-up-subtitle": "Please enter your details"
 }

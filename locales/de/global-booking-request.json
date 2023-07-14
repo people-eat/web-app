@@ -32,5 +32,10 @@
     "step-3-label": "Schritt 3",
     "ind-request-budget-hint-1": "Einfaches Menü: ⌀ 50 - 75€ pro Person, mind. 250€",
     "ind-request-budget-hint-2": "Fine-Dining-Menü: ⌀ 80 - 150€ pro Person, mind. 400€",
-    "ind-request-budget-hint-3": "Gourmet-Menü: ab 150€ pro Person, mind. 600€"
+    "ind-request-budget-hint-3": "Gourmet-Menü: ab 150€ pro Person, mind. 600€",
+    "booking-global-request-pop-up": "Danke! Deine Buchungsanfrage wurde erfolgreich gesendet.",
+    "booking-global-request-in-price": "In Preis inklusive:",
+    "cook-request-title": "Individuelle Buchungsanfrage",
+    "budget-suggestion": "Budgetvorschlag senden",
+    "global-request": "Globale Buchungsanfrage"
 }

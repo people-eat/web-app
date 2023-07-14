@@ -60,7 +60,7 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
                 isMobileMenuOpen={isMobileMenuOpen}
                 setOpenMobileMenu={setOpenMobileMenu}
                 menuButtonLink="/chef-profile"
-                menuButtonText="Chef Profile"
+                menuButtonText={t('main-menu-chef')}
             />
 
             {isMobile ? (

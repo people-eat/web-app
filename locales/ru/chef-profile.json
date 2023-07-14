@@ -50,6 +50,7 @@
     "create-menu-step-3": "Шаг 3",
     "create-menu-title": "Название меню",
     "create-menu-yes": "Да",
+    "create-menu-popup": "Меню успешно добавлено",
     "role-switch-button-customer": "К профилю клиента",
     "section-languages-search": "добавить язык",
     "section-languages": "Языки",
@@ -76,7 +77,9 @@
     "create-meal-title": "Имя",
     "booking-address": "адрес",
     "booking-closed": "Завершенный",
+    "booking-open": "Открыть",
     "booking-date": "Дата события:",
+    "booking-cancelled": "Cancelled",
     "booking-global-requests": "Глобальные запросы",
     "booking-go-to-chat": "перейти в чат",
     "booking-in-progress": "В обработке",
@@ -85,5 +88,7 @@
     "booking-price": "Цена:",
     "booking-send-invoice": "Отправить счет клиенту",
     "booking-time": "время",
-    "popup-meal-image-upload-button": "Добавлять"
+    "popup-meal-image-upload-button": "Добавлять",
+    "user-sign-up-title": "Найдите частного повара!",
+    "user-sign-up-subtitle": "Пожалуйста, введите ваши данные"
 }

@@ -53,6 +53,7 @@
     "create-menu-step-3": "Schritt 3",
     "create-menu-title": "Menüname",
     "create-menu-yes": "Ja",
+    "create-menu-popup": "Dein Menü wurde erfolgreich erstellt",
     "section-languages": "Sprachen",
     "tab-bookings": "Buchungen",
     "tab-chats": "Chats",
@@ -78,6 +79,8 @@
     "booking-address": "Adresse",
     "booking-closed": "Abgeschlossen",
     "booking-date": "Eventdatum:",
+    "booking-open": "Offen",
+    "booking-cancelled": "Abgesagt",
     "booking-global-requests": "Globale Anfragen",
     "booking-go-to-chat": "Zum Chat gehen",
     "booking-in-progress": "In Bearbeitung",
@@ -86,5 +89,7 @@
     "booking-price": "Umsatz:",
     "booking-send-invoice": "Rehnung an Kunden  senden",
     "booking-time": "Time",
-    "popup-meal-image-upload-button": "Hinzufügen"
+    "popup-meal-image-upload-button": "Hinzufügen",
+    "user-sign-up-title": "Finde einen Privatkoch!",
+    "user-sign-up-subtitle": "Bitte gib deine Daten ein, um dich zu registrieren"
 }

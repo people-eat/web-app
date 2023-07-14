@@ -39,6 +39,7 @@ export default function BookingRequestDetailsDialog({
     onPriceChange,
 }: BookingRequestDetailsDialogProps): ReactElement {
     const { t: translateCommon } = useTranslation('common');
+    const { t: translateBooking } = useTranslation('global-booking-request');
 
     const [amount, setAmount] = useState(bookingRequest.price.amount);
 
@@ -54,16 +55,18 @@ export default function BookingRequestDetailsDialog({
             <DialogContent>
                 <VStack className="box-border p-4 md:p-0" gap={32}>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">Participants</span>
+                        <span className="text-text-m-bold">{translateBooking('participants-label')}</span>
                         <HStack gap={16} className="w-full">
-                            <PEIcon icon={Icon.users} /> <span>Adults</span> <Spacer /> {bookingRequest.adultParticipants}
+                            <PEIcon icon={Icon.users} /> <span>{translateBooking('adults-label')}</span> <Spacer />{' '}
+                            {bookingRequest.adultParticipants}
                         </HStack>
                         <HStack gap={16} className="w-full">
-                            <PEIcon icon={Icon.users} /> <span>Children</span> <Spacer /> {bookingRequest.children}
+                            <PEIcon icon={Icon.users} /> <span>{translateBooking('children-label')}</span> <Spacer />{' '}
+                            {bookingRequest.children}
                         </HStack>
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">Event Details</span>
+                        <span className="text-text-m-bold">{translateBooking('event-details-label')}</span>
                         <HStack gap={16}>
                             <PETextField
                                 value={moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
@@ -79,19 +82,19 @@ export default function BookingRequestDetailsDialog({
                         </HStack>
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">Categories</span>
+                        <span className="text-text-m-bold">{translateBooking('categories-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">Kitchen</span>
+                        <span className="text-text-m-bold">{translateBooking('kitchen-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">Allergies</span>
+                        <span className="text-text-m-bold">{translateBooking('allergies-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">Budget</span>
+                        <span className="text-text-m-bold">{translateBooking('budget-label')}</span>
                         <PETextField
                             value={`${amount}`}
                             endContent={<>{bookingRequest.price.currencyCode}</>}
@@ -101,7 +104,7 @@ export default function BookingRequestDetailsDialog({
                     </VStack>
                     {bookingRequest.price.amount !== amount && (
                         <PEButton
-                            title="Send Price Suggestion"
+                            title={translateBooking('budget-suggestion')}
                             onClick={(): void =>
                                 onPriceChange?.({
                                     currencyCode: bookingRequest.price.currencyCode,

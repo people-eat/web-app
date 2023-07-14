@@ -62,6 +62,7 @@ export default function GlobalBookingRequestPage({
 }: GlobalBookingRequestPageProps): ReactElement {
     const { t } = useTranslation('global-booking-request');
     const { t: homeTranslations } = useTranslation('home');
+    const { t: commonTranslate } = useTranslation('common');
     const { isDesktop } = useResponsive();
 
     const [step, setStep] = useState(0);
@@ -252,7 +253,7 @@ export default function GlobalBookingRequestPage({
                             }}
                         />
                         <VStack gap={32} style={{ alignItems: 'flex-start' }}>
-                            <h3>In Price included</h3>
+                            <h3>{t('booking-global-request-in-price')}</h3>
                             <PEBulletPoint
                                 icon={Icon.foodBasket}
                                 title={homeTranslations('section-3-bullet-point-1-title')}
@@ -278,7 +279,7 @@ export default function GlobalBookingRequestPage({
 
             {completionState === 'SUCCESSFUL' && (
                 <Dialog open>
-                    <DialogTitle>Thank you! Your order was successfully submitted.</DialogTitle>
+                    <DialogTitle>{t('booking-global-request-pop-up')}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             <HStack>
@@ -288,7 +289,7 @@ export default function GlobalBookingRequestPage({
                     </DialogContent>
                     <DialogActions>
                         <Link href="/" className="no-underline">
-                            <Button autoFocus>Back home</Button>
+                            <Button autoFocus>{commonTranslate('back')}</Button>
                         </Link>
                     </DialogActions>
                 </Dialog>
@@ -304,7 +305,7 @@ export default function GlobalBookingRequestPage({
 
             {completionState === 'FAILED' && (
                 <Dialog open>
-                    <DialogContent>An error ocurred</DialogContent>
+                    <DialogContent>{commonTranslate('error')}</DialogContent>
                 </Dialog>
             )}
 
