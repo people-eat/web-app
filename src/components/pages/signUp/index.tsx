@@ -27,6 +27,7 @@ import SignUpPageSuccessDialog from './successDialog/SignUpPageSuccessDialog';
 // eslint-disable-next-line max-statements
 export default function SignUpPage(): ReactElement {
     const { t } = useTranslation('chef-sign-up');
+    const { t: commonTranslate } = useTranslation('common');
     const { isDesktop } = useResponsive();
 
     const [firstName, setFirstName] = useState('');
@@ -78,8 +79,8 @@ export default function SignUpPage(): ReactElement {
                     </HStack>
 
                     <VStack className="mt-[32px] lg:my-6" style={{ width: '100%', maxWidth: '400px', alignItems: 'flex-start' }}>
-                        <h2 className="text-heading-xl lg:text-heading-s lg:mb-2 my-1">Find a private chef!</h2>
-                        <p className="text-preBlack my-1">Please enter your details</p>
+                        <h2 className="text-heading-xl lg:text-heading-s lg:mb-2 my-1">{t('user-sign-up-title')}</h2>
+                        <p className="text-preBlack my-1">{t('user-sign-up-subtitle')}</p>
                     </VStack>
 
                     {/* <HStack style={{ gap: '12px' }}>
@@ -105,7 +106,7 @@ export default function SignUpPage(): ReactElement {
                     </VStack>
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
-                        <p>Date of birth</p>
+                        <p>{t('date-of-birth')}</p>
                         <div className="border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black">
                             <DatePicker
                                 sx={{ width: '100%' }}
@@ -195,9 +196,9 @@ export default function SignUpPage(): ReactElement {
                     />
 
                     <HStack style={{ alignItems: 'center' }}>
-                        <p className="text-disabled">You already have a profile? &nbsp;</p>
+                        <p className="text-disabled">{t('user-sign-up-login-1')} &nbsp;</p>
                         <Link href={'/sign-in'} className={'no-underline'}>
-                            <PELineButton title={'Sign in here'} fontSize={'text-text-m'} />
+                            <PELineButton title={t('user-sign-up-login-2')} fontSize={'text-text-m'} />
                         </Link>
                     </HStack>
                 </VStack>
@@ -229,7 +230,7 @@ export default function SignUpPage(): ReactElement {
             {data && (
                 <Dialog open>
                     {data.users.success && <SignUpPageSuccessDialog />}
-                    {!data.users.success && <>Something went wrong</>}
+                    {!data.users.success && <>{commonTranslate('error')}</>}
                 </Dialog>
             )}
 
@@ -243,7 +244,7 @@ export default function SignUpPage(): ReactElement {
 
             {(error || (data && !data.users.success)) && (
                 <Dialog open>
-                    <DialogContent>An error ocurred</DialogContent>
+                    <DialogContent>{commonTranslate('error')}</DialogContent>
                 </Dialog>
             )}
         </HStack>

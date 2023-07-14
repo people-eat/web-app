@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import {
     FindManyUserBookingRequestsDocument,
@@ -26,7 +27,8 @@ export interface ProfilePageBookingsTabProps {
 
 export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTabProps): ReactElement {
     const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
-
+    const { t } = useTranslation('common');
+    const { t: bookingTranslations } = useTranslation('global-booking-request');
     const [acceptBookingRequest] = useMutation(UserBookingRequestAcceptDocument);
     const [declineBookingRequest] = useMutation(UserBookingRequestDeclineDocument);
     const [updateBookingRequestPrice] = useMutation(UserBookingRequestUpdatePriceDocument);
@@ -87,7 +89,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                             <PEBookingRequestCardOpen
                                 onOrderDetailsClick={(): void => undefined}
                                 createdAt={moment(globalBookingRequest.createdAt)}
-                                title={'Global Booking Request'}
+                                title={bookingTranslations('global-request')}
                                 name={''}
                                 profilePictureUrl={undefined}
                                 occasion={globalBookingRequest.occasion}
@@ -185,7 +187,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
 
             {loading && <CircularProgress />}
 
-            {error && <>An error ocurred</>}
+            {error && <>{t('error')}</>}
 
             {selectedBookingRequest && (
                 <BookingRequestDetailsDialog

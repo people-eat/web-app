@@ -78,6 +78,7 @@ export default function CookBookingRequestPage({
 }: CookBookingRequestPageProps): ReactElement {
     const { t } = useTranslation('global-booking-request');
     const { t: homeTranslations } = useTranslation('home');
+    const { t: commonTranslate } = useTranslation('common');
     const { isDesktop } = useResponsive();
 
     const [step, setStep] = useState(0);
@@ -162,7 +163,7 @@ export default function CookBookingRequestPage({
                     className="w-full relative max-w-[48%] lg:max-w-full lg:p-4 lg:box-border"
                     style={{ alignItems: 'flex-start' }}
                 >
-                    <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg lg:text-heading-s">Chef Booking Request</h1>
+                    <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg lg:text-heading-s">{t('cook-request-title')}</h1>
 
                     <Stepper activeStep={step}>
                         <Step>
@@ -296,7 +297,7 @@ export default function CookBookingRequestPage({
 
             {completionState === 'SUCCESSFUL' && (
                 <Dialog open>
-                    <DialogTitle>Thank you! Your order was successfully submitted.</DialogTitle>
+                    <DialogTitle>{t('booking-global-request-pop-up')}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             <HStack>
@@ -306,7 +307,7 @@ export default function CookBookingRequestPage({
                     </DialogContent>
                     <DialogActions>
                         <Link href="/" className="no-underline">
-                            <Button autoFocus>Back home</Button>
+                            <Button autoFocus>{commonTranslate('back')}</Button>
                         </Link>
                     </DialogActions>
                 </Dialog>
@@ -322,7 +323,7 @@ export default function CookBookingRequestPage({
 
             {completionState === 'FAILED' && (
                 <Dialog open>
-                    <DialogContent>An error ocurred</DialogContent>
+                    <DialogContent>{commonTranslate('error')}</DialogContent>
                 </Dialog>
             )}
 

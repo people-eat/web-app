@@ -482,7 +482,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
 
             {loading && <CircularProgress />}
 
-            {error && <>An error ocurred</>}
+            {error && <>{commonTranslation('error')}</>}
         </VStack>
     );
 }

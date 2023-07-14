@@ -14,5 +14,8 @@
     "edit": "Modifier",
     "remove": "Retirer",
     "save": "Sauvegarder",
-    "save-changes": "Sauvegarder les modifications"
+    "save-changes": "Sauvegarder les modifications",
+    "done": "Fait",
+    "error": "Une erreur s'est produite",
+    "back": "Retour à la maison"
 }

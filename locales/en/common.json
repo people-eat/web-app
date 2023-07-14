@@ -14,5 +14,8 @@
     "edit": "Edit",
     "remove": "Remove",
     "save": "Save",
-    "save-changes": "Save Changes"
+    "save-changes": "Save Changes",
+    "done": "Done",
+    "error": "An error occurred",
+    "back": "Back home"
 }

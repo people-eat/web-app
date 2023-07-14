@@ -1,3 +1,4 @@
+import useTranslation from 'next-translate/useTranslation';
 import { useRef, useState, type ReactElement, type SyntheticEvent } from 'react';
 import { ReactCrop, centerCrop, makeAspectCrop, type Crop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -12,6 +13,7 @@ export interface PEImageClipperProps {
 export default function PEImageClipper({ imagePath, onSuccess }: PEImageClipperProps): ReactElement {
     const [crop, setCrop] = useState<Crop | undefined>();
     const imgRef = useRef<HTMLImageElement | null>(null);
+    const { t } = useTranslation('common');
 
     function onImageLoad(e: SyntheticEvent<HTMLImageElement, Event>): void {
         const { naturalWidth: width, naturalHeight: height } = e.currentTarget;
@@ -78,7 +80,7 @@ export default function PEImageClipper({ imagePath, onSuccess }: PEImageClipperP
                         }
                     }
                 }}
-                title={'Done'}
+                title={t('done')}
             />
         </VStack>
     );
