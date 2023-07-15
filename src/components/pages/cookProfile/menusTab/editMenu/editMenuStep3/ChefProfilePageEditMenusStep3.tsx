@@ -31,7 +31,7 @@ export default function ChefProfilePageEditMenusStep3({
 }: ChefProfilePageEditMenusStep3Props): ReactElement {
     const { isMobile } = useResponsive();
     const { t } = useTranslation('chef-profile');
-
+    const { t: commonTranslations } = useTranslation('common');
     // in cents: 10000 -> 100.00 EUR
     const [basePrice, setBasePrice] = useState(menu.basePrice);
     const [basePriceCustomers, setBasePriceCustomers] = useState(menu.basePriceCustomers);
@@ -98,7 +98,7 @@ export default function ChefProfilePageEditMenusStep3({
         <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
             <HStack gap={32} className="w-full" style={{ flexWrap: 'wrap' }}>
                 <VStack gap={16} style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
-                    <p className="text-heading-l mb-2 md:text-text-m-bold">{'Price Configuration'}</p>
+                    <p className="text-heading-l mb-2 md:text-text-m-bold">{t('create-menu-price-configuration-headline')}</p>
 
                     <p className="text-text-sm-bold">{t('create-menu-base-price')}</p>
                     <PENumberTextField
@@ -226,7 +226,7 @@ export default function ChefProfilePageEditMenusStep3({
 
             <HStack className="w-full" style={{ marginTop: 32 }}>
                 <PEButton
-                    title="Save"
+                    title={commonTranslations('save')}
                     onClick={handleSaveUpdates}
                     disabled={
                         menu.basePrice === basePrice &&

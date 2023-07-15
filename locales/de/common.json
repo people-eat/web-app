@@ -17,5 +17,9 @@
     "save-changes": "Änderungen speichern",
     "done": "Fertig",
     "error": "Ein Fehler ist aufgetreten",
-    "back": "Zum Profil"
+    "back": "Zum Profil",
+    "publish": "veröffentlichen",
+    "header-user-profile": "Gastgeber Profil",
+    "header-chef-profile": "Chef Profil",
+    "sign-out": "Abmelden"
 }

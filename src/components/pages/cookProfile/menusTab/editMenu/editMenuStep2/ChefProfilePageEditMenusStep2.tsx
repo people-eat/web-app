@@ -36,6 +36,7 @@ export default function ChefProfilePageEditMenusStep2({
     onChangesApplied,
 }: ChefProfilePageEditMenusStep2Props): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { t: commonTranslations } = useTranslation('common');
 
     const [editMode, setEditMode] = useState(false);
 
@@ -122,7 +123,7 @@ export default function ChefProfilePageEditMenusStep2({
 
                 {!editMode && menu.greetingFromKitchen && (
                     <VStack className="w-full">
-                        <p className="w-full mb-4 text-text-m-bold my-0">{'Greeting from kitchen'}</p>
+                        <p className="w-full mb-4 text-text-m-bold my-0">{t('greeting-from-kitchen')}</p>
                         <PETextField type={'text'} value={greetingFromKitchen} disabled={!editMode} onChange={setGreetingFromKitchen} />
                     </VStack>
                 )}
@@ -287,12 +288,12 @@ export default function ChefProfilePageEditMenusStep2({
                 )}
 
                 <HStack className="w-full" gap={16} style={{ marginTop: 32 }}>
-                    {!editMode && <PEButton title="Edit" onClick={(): void => setEditMode(true)} type="secondary" />}
+                    {!editMode && <PEButton title={commonTranslations('edit')} onClick={(): void => setEditMode(true)} type="secondary" />}
                     {editMode && (
                         <>
-                            <PEButton title="Cancel" onClick={(): void => setEditMode(false)} type="secondary" />
+                            <PEButton title={commonTranslations('cancel')} onClick={(): void => setEditMode(false)} type="secondary" />
                             <PEButton
-                                title="Save"
+                                title={commonTranslations('booking-global-requests')}
                                 onClick={handleSaveUpdates}
                                 disabled={(menu.greetingFromKitchen ?? undefined) === greetingFromKitchen}
                             />

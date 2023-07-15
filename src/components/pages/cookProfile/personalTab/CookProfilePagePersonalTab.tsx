@@ -33,6 +33,7 @@ import ChefProfileSection5 from './section5/ChefProfileSection5';
 // eslint-disable-next-line max-statements
 export default function CookProfilePagePersonalTab({ cookId }: { cookId: string }): ReactElement {
     const { t } = useTranslation('chef-profile');
+    const { t: commonTranslations } = useTranslation('common');
     const { isMobile } = useResponsive();
 
     const [biography, setBiography] = useState('');
@@ -294,7 +295,7 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
 
             {loading && <CircularProgress />}
 
-            {error && <>An error ocurred</>}
+            {error && <>{commonTranslations('error')}</>}
         </VStack>
     );
 }
