@@ -36,7 +36,7 @@ export default function ChefProfilePageEditMenusStep1({
     onChangesApplied,
 }: ChefProfilePageEditMenusStep1Props): ReactElement {
     const { t } = useTranslation('chef-profile');
-
+    const { t: commonTranslations } = useTranslation('common');
     const [title, setTitle] = useState(menu.title);
     const [description, setDescription] = useState(menu.description);
 
@@ -159,9 +159,9 @@ export default function ChefProfilePageEditMenusStep1({
             </HStack>
 
             <HStack className="w-full" gap={16} style={{ marginTop: 32 }}>
-                <PEButton title="Delete" onClick={(): void => undefined} type="secondary" />
+                <PEButton title={commonTranslations('delete')} onClick={(): void => undefined} type="secondary" />
                 <PEButton
-                    title="Save"
+                    title={commonTranslations('save')}
                     onClick={handleSaveUpdates}
                     disabled={
                         menu.title === title &&

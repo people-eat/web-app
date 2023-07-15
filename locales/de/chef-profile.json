@@ -91,5 +91,9 @@
     "booking-time": "Time",
     "popup-meal-image-upload-button": "Hinzufügen",
     "user-sign-up-title": "Finde einen Privatkoch!",
-    "user-sign-up-subtitle": "Bitte gib deine Daten ein, um dich zu registrieren"
+    "user-sign-up-subtitle": "Bitte gib deine Daten ein, um dich zu registrieren",
+    "edit-menu-title": "Menü bearbeiten",
+    "delete-menu-title": "Menü entfernen",
+    "delete-menu-question": "Möchtest du dein Menü wirklich entfernen?",
+    "greeting-from-kitchen": "Grüß aus der Küche"
 }

@@ -17,5 +17,9 @@
     "save-changes": "Sauvegarder les modifications",
     "done": "Fait",
     "error": "Une erreur s'est produite",
-    "back": "Retour à la maison"
+    "back": "Retour à la maison",
+    "publish": "publish",
+    "header-user-profile": "Host profile",
+    "header-chef-profile": "Chef profile",
+    "sign-out": "Sign out"
 }

@@ -72,9 +72,11 @@ export interface CookProfilePageMenusTabProps {
     cookId: string;
 }
 
+// eslint-disable-next-line max-statements
 export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenusTabProps): ReactElement {
     const { isMobile } = useResponsive();
     const { t } = useTranslation('chef-profile');
+    const { t: commonTranslation } = useTranslation('common');
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
     const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
@@ -301,11 +303,11 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                                 bg="white"
                             />
                         </VStack>
-                        <p className="m-0 mt-2 text-text-m-bold w-full text-start">Delete the menu</p>
-                        <p className="m-0 w-full text-start">Do you really want to delete the menu?</p>
+                        <p className="m-0 mt-2 text-text-m-bold w-full text-start">{t('delete-menu-title')}</p>
+                        <p className="m-0 w-full text-start">{t('delete-menu-question')}</p>
                         <HStack className="w-full gap-4">
                             <PEButton onClick={(): void => setOpenDeleteMenuDialog(false)} title="Cancel" type="secondary" />
-                            <PEButton onClick={handleDeleteMenu} title="Delete" />
+                            <PEButton onClick={handleDeleteMenu} title={commonTranslation('delete')} />
                         </HStack>
                     </VStack>
                 </DialogContent>
@@ -328,15 +330,15 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                             setSelectedMenuId(selectedMenuId);
                         }}
                     >
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Edit</p>
+                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">{commonTranslation('edit')}</p>
                     </MenuItem>
                     <div className="w-full h-[1px] bg-disabled" />
                     <MenuItem sx={{ width: '200px' }} onClick={(): void => undefined}>
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Publish</p>
+                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">{commonTranslation('publish')}</p>
                     </MenuItem>
                     <div className="w-full h-[1px] bg-disabled" />
                     <MenuItem sx={{ width: '200px' }} onClick={(): void => setOpenDeleteMenuDialog(true)}>
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">Delete</p>
+                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">{commonTranslation('delete')}</p>
                     </MenuItem>
                 </Menu>
             )}

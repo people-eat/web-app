@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { CircularProgress, Tab, Tabs } from '@mui/material';
+import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMenuDocument } from '../../../../../data-source/generated/graphql';
 import { Icon } from '../../../../standard/icon/Icon';
@@ -17,6 +18,7 @@ interface ChefProfilePageEditMenuProps {
 
 export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates }: ChefProfilePageEditMenuProps): ReactElement {
     const [step, setStep] = useState(0);
+    const { t } = useTranslation('chef-profile');
     const { data, loading, refetch } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
     const menu = data?.cooks.menus.findOne;
 
@@ -31,7 +33,7 @@ export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates 
                 </div>
 
                 <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
-                    <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">Edit menu info</p>
+                    <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">{t('edit-menu-title')}</p>
                     <Tabs value={step}>
                         <Tab label="Common" onClick={(): void => setStep(0)} style={{ textTransform: 'none' }} />
                         <Tab label="Courses" onClick={(): void => setStep(1)} style={{ textTransform: 'none' }} />

@@ -90,5 +90,9 @@
     "booking-time": "temps",
     "popup-meal-image-upload-button": "Ajouter",
     "user-sign-up-title": "Trouvez un chef privé !",
-    "user-sign-up-subtitle": "Veuillez saisir vos coordonnées"
+    "user-sign-up-subtitle": "Veuillez saisir vos coordonnées",
+    "edit-menu-title": "Modifier le menu",
+    "delete-menu-title": "Delete menu",
+    "delete-menu-question": "Do you really want to delete your menu?",
+    "greeting-from-kitchen": "Greetings from the kitchen"
 }
