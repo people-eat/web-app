@@ -1,7 +1,7 @@
-query FindManyUserBookingRequests($userId: String!) {
+query FindOneUserBookingRequest($userId: String!, $bookingRequestId: String!) {
     users {
         bookingRequests(userId: $userId) {
-            findMany {
+            findOne(bookingRequestId: $bookingRequestId) {
                 bookingRequestId
                 globalBookingRequestId
                 adultParticipants

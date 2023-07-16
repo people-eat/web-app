@@ -1,9 +1,13 @@
-query FindManyUserBookingRequests($userId: String!) {
-    users {
-        bookingRequests(userId: $userId) {
-            findMany {
+query FindOneCookBookingRequest($cookId: String!, $bookingRequestId: String!) {
+    cooks {
+        bookingRequests(cookId: $cookId) {
+            findOne(bookingRequestId: $bookingRequestId) {
                 bookingRequestId
                 globalBookingRequestId
+                user {
+                    firstName
+                    profilePictureUrl
+                }
                 adultParticipants
                 children
                 dateTime
@@ -19,14 +23,6 @@ query FindManyUserBookingRequests($userId: String!) {
                 }
                 duration
                 createdAt
-                cook {
-                    cookId
-                    rank
-                    user {
-                        firstName
-                        profilePictureUrl
-                    }
-                }
             }
         }
     }
