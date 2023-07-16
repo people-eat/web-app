@@ -2,8 +2,8 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
-import PublicCooksPage, { type SearchResultsPageProps } from '../../components/pages/publicCooks';
-import { FindManyPublicCooksDocument } from '../../data-source/generated/graphql';
+import PublicCooksPage, { type PublicCooksPageProps } from '../../components/pages/publicCooks';
+import { GetPublicCooksPageDataDocument } from '../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
     const { address, latitude, longitude, adults, children, date } = query;
@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
         cache: new InMemoryCache(),
         ssrMode: true,
     }).query({
-        query: FindManyPublicCooksDocument,
+        query: GetPublicCooksPageDataDocument,
         variables: {
             request: {
                 location: {
@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
     };
 };
 
-const Index: NextPage<SearchResultsPageProps> = ({ signedInUser, searchParameters, searchResults }) => {
+const Index: NextPage<PublicCooksPageProps> = ({ signedInUser, searchParameters, searchResults }) => {
     return (
         <>
             <Head>

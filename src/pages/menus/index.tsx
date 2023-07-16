@@ -2,9 +2,8 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
-import { type SearchResultsPageProps } from '../../components/pages/publicCooks';
-import PublicMenusPage from '../../components/pages/publicMenus';
-import { FindManyPublicCooksDocument } from '../../data-source/generated/graphql';
+import PublicMenusPage, { type PublicMenusPageProps } from '../../components/pages/publicMenus';
+import { GetPublicMenusPageDataDocument } from '../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
     const { address, latitude, longitude, adults, children, date } = query;
@@ -16,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
         cache: new InMemoryCache(),
         ssrMode: true,
     }).query({
-        query: FindManyPublicCooksDocument,
+        query: GetPublicMenusPageDataDocument,
         variables: {
             request: {
                 location: {
@@ -47,13 +46,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
                         : moment().add(14, 'days').format(moment.HTML5_FMT.DATE),
             },
             searchResults: {
-                publicCooks: data.publicCooks.findMany,
+                publicMenus: data.publicMenus.findMany,
             },
         },
     };
 };
 
-const Index: NextPage<SearchResultsPageProps> = ({ signedInUser, searchParameters, searchResults }) => {
+const Index: NextPage<PublicMenusPageProps> = ({ signedInUser, searchParameters, searchResults }) => {
     return (
         <>
             <Head>

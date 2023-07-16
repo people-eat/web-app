@@ -1,4 +1,9 @@
-query FindManyPublicMenus($request: FindManyPublicMenusRequest!) {
+query GetPublicMenusPageData($request: FindManyPublicMenusRequest!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
     publicMenus {
         findMany(request: $request) {
             menuId

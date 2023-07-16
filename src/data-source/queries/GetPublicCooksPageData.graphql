@@ -1,4 +1,4 @@
-query FindManyPublicCooks($request: FindManyPublicCooksRequest!) {
+query GetPublicCooksPageData($request: FindManyPublicCooksRequest!) {
     users {
         signedInUser: me {
             ...SignedInUser

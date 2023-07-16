@@ -1,0 +1,51 @@
+query GetPublicMenuPageData($menuId: String!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    publicMenus {
+        findOne(menuId: $menuId) {
+            menuId
+            title
+            description
+            kitchen {
+                kitchenId
+                title
+            }
+            cook {
+                cookId
+                rank
+                user {
+                    firstName
+                    profilePictureUrl
+                }
+            }
+            categories {
+                categoryId
+                title
+            }
+            courses {
+                index
+                courseId
+                title
+                mealOptions {
+                    index
+                    meal {
+                        mealId
+                        title
+                        description
+                        type
+                        imageUrl
+                    }
+                }
+            }
+            imageUrls
+            basePrice
+            basePriceCustomers
+            pricePerAdult
+            pricePerChild
+            currencyCode
+        }
+    }
+}

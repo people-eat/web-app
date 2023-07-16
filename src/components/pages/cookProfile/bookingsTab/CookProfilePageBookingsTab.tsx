@@ -9,13 +9,13 @@ import PEIcon from '../../../standard/icon/PEIcon';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-import ChefProfilePageBookingsTabDetail from './ChefProfilePageBookingsTabDetail';
+import CookProfilePageBookingsTabDetail from './CookProfilePageBookingsTabDetail';
 
 export interface CookProfilePageBookingsTabProps {
     cookId: string;
 }
 
-export default function ChefProfilePageBookingsTab({ cookId }: CookProfilePageBookingsTabProps): ReactElement {
+export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBookingsTabProps): ReactElement {
     const [selectedBookingRequestId, setSelectedBookingRequestId] = useState<string | undefined>();
 
     const bookingRequestsResult = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
@@ -59,7 +59,7 @@ export default function ChefProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                     className="text-blue-400"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
                                                 >
-                                                    In Progress
+                                                    Pending
                                                 </span>
                                             )}
                                             {bookingRequest.status === 'CANCELED' && (
@@ -68,6 +68,11 @@ export default function ChefProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
                                                 >
                                                     Canceled
+                                                </span>
+                                            )}
+                                            {bookingRequest.status === 'COMPLETED' && (
+                                                <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>
+                                                    Completed
                                                 </span>
                                             )}
                                             <Spacer />
@@ -118,7 +123,11 @@ export default function ChefProfilePageBookingsTab({ cookId }: CookProfilePageBo
                     style={{ alignItems: 'center', justifyContent: 'flex-start', padding: 16, flex: 2, borderRadius: 16 }}
                 >
                     {selectedBookingRequestId && (
-                        <ChefProfilePageBookingsTabDetail cookId={cookId} bookingRequestId={selectedBookingRequestId} />
+                        <CookProfilePageBookingsTabDetail
+                            cookId={cookId}
+                            bookingRequestId={selectedBookingRequestId}
+                            onClose={(): void => setSelectedBookingRequestId(undefined)}
+                        />
                     )}
 
                     {!selectedBookingRequestId && 'Select a booking request'}

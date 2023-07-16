@@ -16,7 +16,7 @@ import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import HomePageSearch from '../home/search/HomePageSearch';
 
-export interface SearchResultsPageProps {
+export interface PublicCooksPageProps {
     signedInUser?: SignedInUser;
     searchParameters: {
         location: {
@@ -44,7 +44,7 @@ export interface SearchResultsPageProps {
     };
 }
 
-export default function PublicCooksPage({ signedInUser, searchParameters, searchResults }: SearchResultsPageProps): ReactElement {
+export default function PublicCooksPage({ signedInUser, searchParameters, searchResults }: PublicCooksPageProps): ReactElement {
     const router = useRouter();
     const { t } = useTranslation('search-results');
 

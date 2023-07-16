@@ -14,23 +14,29 @@ import {
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
+import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-import ChefProfilePageBookingsChatMessages from './ChefProfilePageBookingsChatMessages';
+import CookProfilePageBookingsChatMessages from './CookProfilePageBookingsChatMessages';
 
 export interface CookProfilePageBookingsTabProps {
     cookId: string;
     bookingRequestId: string;
+    onClose: () => void;
 }
 
-export default function ChefProfilePageBookingsTabDetail({ cookId, bookingRequestId }: CookProfilePageBookingsTabProps): ReactElement {
+export default function CookProfilePageBookingsTabDetail({
+    cookId,
+    bookingRequestId,
+    onClose,
+}: CookProfilePageBookingsTabProps): ReactElement {
     const { data, refetch } = useQuery(FindOneCookBookingRequestDocument, { variables: { cookId, bookingRequestId } });
 
     const { t: translateBooking } = useTranslation('global-booking-request');
 
-    const [tab, setTab] = useState<'CHAT' | 'EVENT_DETAILS' | 'MENU'>('CHAT');
+    const [tab, setTab] = useState<'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING'>('CHAT');
     const [newMessage, setNewMessage] = useState('');
     const [amount, setAmount] = useState(0);
 
@@ -41,14 +47,33 @@ export default function ChefProfilePageBookingsTabDetail({ cookId, bookingReques
 
     const bookingRequest = data?.cooks.bookingRequests.findOne;
 
-    useEffect(() => setAmount(bookingRequest?.price.amount ?? 0), [bookingRequest]);
+    useEffect(() => {
+        setAmount(bookingRequest?.price.amount ?? 0);
+        if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
+    }, [bookingRequest]);
 
     if (!bookingRequest) return <>Loading...</>;
 
     return (
         <>
             <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
-                {bookingRequest.user?.profilePictureUrl && (
+                <Tabs value={tab}>
+                    <Tab value="CHAT" onClick={(): void => setTab('CHAT')} style={{ textTransform: 'none' }} label="Chat" />
+                    <Tab
+                        value="EVENT_DETAILS"
+                        onClick={(): void => setTab('EVENT_DETAILS')}
+                        style={{ textTransform: 'none' }}
+                        label="Event Details"
+                    />
+                    <Tab value="MENU" onClick={(): void => setTab('MENU')} style={{ textTransform: 'none' }} label="Menu" />
+                    <Tab value="RATING" onClick={(): void => setTab('RATING')} style={{ textTransform: 'none' }} label="Rating" />
+                </Tabs>
+
+                <Spacer />
+
+                {bookingRequest.user.firstName}
+
+                {bookingRequest.user.profilePictureUrl && (
                     <Image
                         className="rounded-3"
                         style={{ width: '45px', height: '45px', objectFit: 'cover' }}
@@ -58,20 +83,13 @@ export default function ChefProfilePageBookingsTabDetail({ cookId, bookingReques
                         height={45}
                     />
                 )}
-                {!bookingRequest.user?.profilePictureUrl && (
+                {!bookingRequest.user.profilePictureUrl && (
                     <div className="flex justify-center items-center w-11 h-11 bg-base rounded-3">
                         <PEIcon icon={Icon.profileLight} edgeLength={32} />
                     </div>
                 )}
-                {bookingRequest.user?.firstName}
 
-                <Spacer />
-
-                <Tabs value={tab}>
-                    <Tab onClick={(): void => setTab('MENU')} style={{ textTransform: 'none' }} label="Menu" />
-                    <Tab onClick={(): void => setTab('EVENT_DETAILS')} style={{ textTransform: 'none' }} label="Event Details" />
-                    <Tab onClick={(): void => setTab('CHAT')} style={{ textTransform: 'none' }} label="Chat" />
-                </Tabs>
+                <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onClose} iconSize={24} />
             </HStack>
 
             <Divider flexItem />
@@ -80,7 +98,7 @@ export default function ChefProfilePageBookingsTabDetail({ cookId, bookingReques
 
             {tab === 'CHAT' && (
                 <>
-                    <ChefProfilePageBookingsChatMessages cookId={cookId} bookingRequestId={bookingRequest.bookingRequestId} />
+                    <CookProfilePageBookingsChatMessages cookId={cookId} bookingRequestId={bookingRequest.bookingRequestId} />
 
                     {bookingRequest.status === 'OPEN' && (
                         <HStack gap={16} className="w-full">

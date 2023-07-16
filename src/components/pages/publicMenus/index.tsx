@@ -1,10 +1,9 @@
-import { useQuery } from '@apollo/client';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
-import { FindManyPublicMenusDocument, type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
+import { type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
@@ -20,7 +19,7 @@ import VStack from '../../utility/vStack/VStack';
 import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 import HomePageSearch from '../home/search/HomePageSearch';
 
-export interface SearchResultsPageProps {
+export interface PublicMenusPageProps {
     signedInUser?: SignedInUser;
     searchParameters: {
         location: {
@@ -33,48 +32,33 @@ export interface SearchResultsPageProps {
         date: string;
     };
     searchResults: {
-        publicCooks: {
-            cookId: string;
-            user: {
-                firstName: string;
-                profilePictureUrl?: string;
+        publicMenus: {
+            menuId: string;
+            title: string;
+            description: string;
+            basePrice: number;
+            basePriceCustomers: number;
+            pricePerAdult: number;
+            pricePerChild?: number;
+            currencyCode: CurrencyCode;
+            kitchen?: Kitchen;
+            categories: Category[];
+            imageUrls: string[];
+            cook: {
+                cookId: string;
+                rank: CookRank;
+                user: {
+                    firstName: string;
+                    profilePictureUrl?: string;
+                };
             };
-            rank: CookRank;
-            biography: string;
-            location: Location;
-            city: string;
-            createdAt: Date;
         }[];
     };
 }
 
-interface PublicMenu {
-    menuId: string;
-    title: string;
-    description: string;
-    basePrice: number;
-    basePriceCustomers: number;
-    pricePerAdult: number;
-    pricePerChild?: number;
-    currencyCode: CurrencyCode;
-    kitchen?: Kitchen;
-    categories: Category[];
-    imageUrls: string[];
-    cook: {
-        cookId: string;
-        rank: CookRank;
-        user: {
-            firstName: string;
-            profilePictureUrl?: string;
-        };
-    };
-}
-
-export default function PublicMenusPage({ signedInUser, searchParameters }: SearchResultsPageProps): ReactElement {
+export default function PublicMenusPage({ signedInUser, searchParameters, searchResults }: PublicMenusPageProps): ReactElement {
     const router = useRouter();
     const { t } = useTranslation('search-results');
-
-    const [searchResultKind] = useState<'chefs' | 'menus'>('menus');
 
     const [address, setAddress] = useState(searchParameters.location.address);
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
@@ -93,18 +77,6 @@ export default function PublicMenusPage({ signedInUser, searchParameters }: Sear
             query: { address, latitude, longitude, adults, children, date: formattedDate },
         });
     }
-
-    const { data } = useQuery(FindManyPublicMenusDocument, {
-        variables: {
-            request: {
-                adultParticipants: adults,
-                dateTime: date.toDate(),
-                location: { latitude: selectedLocation.latitude, longitude: selectedLocation.longitude },
-            },
-        },
-    });
-
-    const publicMenus: PublicMenu[] = (data?.publicMenus.findMany as PublicMenu[]) ?? [];
 
     return (
         <VStack className="w-full h-full box-border" style={{ gap: 80 }}>
@@ -153,38 +125,38 @@ export default function PublicMenusPage({ signedInUser, searchParameters }: Sear
                         justifyContent: 'flex-start',
                     }}
                 >
-                    {searchResultKind === 'menus' &&
-                        publicMenus.map((publicMenu, index) => (
-                            <Link
-                                href={'menus/' + publicMenu.menuId}
-                                key={index}
-                                className="no-underline"
-                                style={{ textDecoration: 'none', color: '#000' }}
-                            >
-                                <PEMenuCard
-                                    title={publicMenu.title}
-                                    description={publicMenu.description}
-                                    imageUrls={publicMenu.imageUrls}
-                                    pricePerPerson={
-                                        calculateMenuPrice(
-                                            adults,
-                                            children,
-                                            publicMenu.basePrice,
-                                            publicMenu.basePriceCustomers,
-                                            publicMenu.pricePerAdult,
-                                            publicMenu.pricePerChild,
-                                        ) /
-                                        (adults + children)
-                                    }
-                                    currencyCode={publicMenu.currencyCode}
-                                    chefFirstName={publicMenu.cook.user.firstName}
-                                    chefProfilePictureUrl={publicMenu.cook.user.profilePictureUrl}
-                                    categories={publicMenu.categories.map(({ title }) => title)}
-                                    kitchen={publicMenu.kitchen?.title}
-                                    onClick={(): void => undefined}
-                                />
-                            </Link>
-                        ))}
+                    {searchResults.publicMenus.map((publicMenu, index) => (
+                        <Link
+                            href={'menus/' + publicMenu.menuId}
+                            target="_blank"
+                            key={index}
+                            className="no-underline"
+                            style={{ textDecoration: 'none', color: '#000' }}
+                        >
+                            <PEMenuCard
+                                title={publicMenu.title}
+                                description={publicMenu.description}
+                                imageUrls={publicMenu.imageUrls}
+                                pricePerPerson={
+                                    calculateMenuPrice(
+                                        adults,
+                                        children,
+                                        publicMenu.basePrice,
+                                        publicMenu.basePriceCustomers,
+                                        publicMenu.pricePerAdult,
+                                        publicMenu.pricePerChild,
+                                    ) /
+                                    (adults + children)
+                                }
+                                currencyCode={publicMenu.currencyCode}
+                                chefFirstName={publicMenu.cook.user.firstName}
+                                chefProfilePictureUrl={publicMenu.cook.user.profilePictureUrl}
+                                categories={publicMenu.categories.map(({ title }) => title)}
+                                kitchen={publicMenu.kitchen?.title}
+                                onClick={(): void => undefined}
+                            />
+                        </Link>
+                    ))}
                 </HStack>
             </VStack>
 

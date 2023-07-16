@@ -9,7 +9,7 @@ import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
 import CookProfilePageBookingTab from './bookingTab/ChefProfilePageBookingTab';
-import CookProfilePageBookingsTab from './bookingsTab/ChefProfilePageBookingsTab';
+import CookProfilePageBookingsTab from './bookingsTab/CookProfilePageBookingsTab';
 import CookProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
 import CookProfilePageMenusTab from './menusTab/ChefProfilePageMenusTab';
 import CookProfilePagePersonalTab from './personalTab/CookProfilePagePersonalTab';

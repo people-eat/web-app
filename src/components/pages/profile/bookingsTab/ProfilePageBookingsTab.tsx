@@ -1,210 +1,138 @@
-import { useMutation, useQuery } from '@apollo/client';
-import CircularProgress from '@mui/material/CircularProgress';
+import { useQuery } from '@apollo/client';
+import { Divider, List, ListItemButton } from '@mui/material';
 import moment from 'moment';
-import useTranslation from 'next-translate/useTranslation';
+import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
-import {
-    FindManyUserBookingRequestsDocument,
-    FindUserProfileGlobalBookingRequestsDocument,
-    UserBookingRequestAcceptDocument,
-    UserBookingRequestDeclineDocument,
-    UserBookingRequestUpdatePriceDocument,
-    type CurrencyCode,
-} from '../../../../data-source/generated/graphql';
-import BookingRequestDetailsDialog from '../../../BookingRequestDetailsDialog';
-import PEBookingRequestCardInProcess from '../../../cards/bookingRequestCard/PEBookingRequestCardInProcess';
-import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
-import PETabItem from '../../../standard/tabItem/PETabItem';
+import { FindManyUserBookingRequestsDocument } from '../../../../data-source/generated/graphql';
+import { Icon } from '../../../standard/icon/Icon';
+import PEIcon from '../../../standard/icon/PEIcon';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-
-const BOOKING_TABS = ['Open', 'In Progress', 'Completed', 'Canceled'];
+import ProfilePageBookingsTabDetail from './ProfilePageBookingsTabDetail';
 
 export interface ProfilePageBookingsTabProps {
     userId: string;
 }
 
 export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTabProps): ReactElement {
-    const [selectedTab, setSelectedTab] = useState<number | undefined>(0);
-    const { t } = useTranslation('common');
-    const { t: bookingTranslations } = useTranslation('global-booking-request');
-    const [acceptBookingRequest] = useMutation(UserBookingRequestAcceptDocument);
-    const [declineBookingRequest] = useMutation(UserBookingRequestDeclineDocument);
-    const [updateBookingRequestPrice] = useMutation(UserBookingRequestUpdatePriceDocument);
-
-    const [selectedBookingRequest, setSelectedBookingRequest] = useState<
-        | {
-              bookingRequestId: string;
-              globalBookingRequestId?: string | null;
-              adultParticipants: number;
-              children: number;
-              dateTime: Date;
-              userAccepted?: boolean | null;
-              cookAccepted?: boolean | null;
-              kitchenId?: string | null;
-              occasion: string;
-              preparationTime: number;
-              duration: number;
-              createdAt: Date;
-              price: { amount: number; currencyCode: CurrencyCode };
-          }
-        | undefined
-    >();
-
-    const { data, loading, error, refetch } = useQuery(FindUserProfileGlobalBookingRequestsDocument, { variables: { userId } });
-    const globalBookingRequests = data?.users.globalBookingRequests.findMany;
+    const [selectedBookingRequestId, setSelectedBookingRequestId] = useState<string | undefined>();
 
     const bookingRequestsResult = useQuery(FindManyUserBookingRequestsDocument, { variables: { userId } });
     const bookingRequests = bookingRequestsResult.data?.users.bookingRequests.findMany ?? [];
-    const openBookingRequests = bookingRequests.filter(
-        ({ cookAccepted, userAccepted }) =>
-            (cookAccepted === null && userAccepted === true) || (cookAccepted === true && userAccepted === null),
-    );
-    const bookingRequestsInProgress = bookingRequests.filter(({ cookAccepted, userAccepted }) => cookAccepted && userAccepted);
-    const canceledBookingRequests = bookingRequests.filter(
-        ({ cookAccepted, userAccepted }) => cookAccepted === false || userAccepted === false,
-    );
 
     return (
-        <VStack className="w-full md:overflow-hidden relative max-w-screen-xl gap-6 lg:px-4 md:py-6 box-border">
-            <HStack
-                gap={8}
-                className="w-full bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4 md:overflow-x-auto"
-                style={{ alignItems: 'center', justifyContent: 'flex-start' }}
-            >
-                {BOOKING_TABS.map((menu, index) => (
-                    <PETabItem key={index} title={menu} onClick={(): void => setSelectedTab(index)} active={selectedTab === index} />
-                ))}
-
-                <Spacer />
-
-                <PETabItem title={'Global Requests'} onClick={(): void => setSelectedTab(undefined)} active={selectedTab === undefined} />
-            </HStack>
-
-            {selectedTab === undefined && (
-                <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
-                    {globalBookingRequests?.map((globalBookingRequest) => (
-                        <div key={globalBookingRequest.globalBookingRequestId} className="w-[calc(50%-20px)] md:w-full">
-                            <PEBookingRequestCardOpen
-                                onOrderDetailsClick={(): void => undefined}
-                                createdAt={moment(globalBookingRequest.createdAt)}
-                                title={bookingTranslations('global-request')}
-                                name={''}
-                                profilePictureUrl={undefined}
-                                occasion={globalBookingRequest.occasion}
-                                price={`${globalBookingRequest.price.amount} ${globalBookingRequest.price.currencyCode}`}
-                                dateTime={moment(globalBookingRequest.dateTime)}
-                                participants={globalBookingRequest.adultParticipants + globalBookingRequest.children}
-                                address={'Location'}
-                            />
-                        </div>
-                    ))}
-                </HStack>
-            )}
-
-            {selectedTab === 0 && (
-                <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
-                    {openBookingRequests.map((openBookingRequest) => (
-                        <div key={openBookingRequest.bookingRequestId} className="w-[calc(50%-20px)] md:w-full">
-                            <PEBookingRequestCardOpen
-                                onOrderDetailsClick={(): void => setSelectedBookingRequest(openBookingRequest)}
-                                createdAt={moment(openBookingRequest.createdAt)}
-                                title={'Chef Booking Request'}
-                                name={openBookingRequest.cook.user.firstName}
-                                profilePictureUrl={undefined}
-                                occasion={openBookingRequest.occasion}
-                                price={`${openBookingRequest.price.amount} ${openBookingRequest.price.currencyCode}`}
-                                dateTime={moment(openBookingRequest.dateTime)}
-                                participants={openBookingRequest.adultParticipants + openBookingRequest.children}
-                                address={'Location'}
-                                onAcceptClick={
-                                    openBookingRequest.userAccepted
-                                        ? undefined
-                                        : (): void =>
-                                              void acceptBookingRequest({
-                                                  variables: { userId, bookingRequestId: openBookingRequest.bookingRequestId },
-                                              }).then((result) => {
-                                                  if (!result.data?.users.bookingRequests.success) return;
-                                                  void refetch();
-                                              })
-                                }
-                                onDeclineClick={(): void =>
-                                    void declineBookingRequest({
-                                        variables: { userId, bookingRequestId: openBookingRequest.bookingRequestId },
-                                    }).then((result) => {
-                                        if (!result.data?.users.bookingRequests.success) return;
-                                        void refetch();
-                                    })
-                                }
-                            />
-                        </div>
-                    ))}
-                </HStack>
-            )}
-
-            {selectedTab === 1 && (
-                <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
-                    {bookingRequestsInProgress.map((bookingRequestInProgress) => (
-                        <div key={bookingRequestInProgress.bookingRequestId} className="w-[calc(50%-20px)] md:w-full">
-                            <PEBookingRequestCardInProcess
-                                title={'Chef Booking Request'}
-                                name={bookingRequestInProgress.cook.user.firstName}
-                                profilePictureUrl={bookingRequestInProgress.cook.user.profilePictureUrl ?? undefined}
-                                occasion={bookingRequestInProgress.occasion}
-                                price={`${bookingRequestInProgress.price.amount} ${bookingRequestInProgress.price.currencyCode}`}
-                                participants={bookingRequestInProgress.adultParticipants + bookingRequestInProgress.children}
-                                address={'Location'}
-                                dateTime={moment(bookingRequestInProgress.dateTime)}
-                                createdAt={moment(bookingRequestInProgress.createdAt)}
-                                onOrderDetailsClick={(): void => setSelectedBookingRequest(bookingRequestInProgress)}
-                            />
-                        </div>
-                    ))}
-                </HStack>
-            )}
-
-            {selectedTab === 3 && (
-                <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
-                    {canceledBookingRequests.map((canceledBookingRequest) => (
-                        <div key={canceledBookingRequest.bookingRequestId} className="w-[calc(50%-20px)] md:w-full">
-                            <PEBookingRequestCardInProcess
-                                title={'Chef Booking Request'}
-                                name={canceledBookingRequest.cook.user.firstName}
-                                profilePictureUrl={canceledBookingRequest.cook.user.profilePictureUrl ?? undefined}
-                                occasion={canceledBookingRequest.occasion}
-                                price={`${canceledBookingRequest.price.amount} ${canceledBookingRequest.price.currencyCode}`}
-                                participants={canceledBookingRequest.adultParticipants + canceledBookingRequest.children}
-                                address={'Location'}
-                                dateTime={moment(canceledBookingRequest.dateTime)}
-                                createdAt={moment(canceledBookingRequest.createdAt)}
-                                onOrderDetailsClick={(): void => setSelectedBookingRequest(canceledBookingRequest)}
-                            />
-                        </div>
-                    ))}
-                </HStack>
-            )}
-
-            {loading && <CircularProgress />}
-
-            {error && <>{t('error')}</>}
-
-            {selectedBookingRequest && (
-                <BookingRequestDetailsDialog
-                    onClose={(): void => setSelectedBookingRequest(undefined)}
-                    bookingRequest={selectedBookingRequest}
-                    onPriceChange={(changedPrice): void => {
-                        void updateBookingRequestPrice({
-                            variables: { userId, bookingRequestId: selectedBookingRequest.bookingRequestId, price: changedPrice },
-                        })
-                            .then((result) => {
-                                if (!result.data?.users.bookingRequests.success) return;
-                                void refetch();
-                            })
-                            .finally((): void => setSelectedBookingRequest(undefined));
+        <>
+            <HStack className="w-full max-w-screen-xl" gap={32}>
+                <VStack
+                    className="bg-white shadow-primary"
+                    style={{
+                        alignItems: 'stretch',
+                        justifyContent: 'flex-start',
+                        paddingTop: 16,
+                        paddingBottom: 16,
+                        flex: 1,
+                        borderRadius: 16,
                     }}
-                />
-            )}
-        </VStack>
+                >
+                    <span style={{ margin: 16 }}>Booking Requests</span>
+                    <Divider />
+                    <List>
+                        {bookingRequests.map((bookingRequest) => (
+                            <>
+                                <ListItemButton
+                                    key={bookingRequest.bookingRequestId}
+                                    onClick={(): void => setSelectedBookingRequestId(bookingRequest.bookingRequestId)}
+                                >
+                                    <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
+                                        <HStack className="w-full">
+                                            {bookingRequest.status === 'OPEN' && (
+                                                <span
+                                                    className="text-green"
+                                                    style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
+                                                >
+                                                    Open
+                                                </span>
+                                            )}
+                                            {bookingRequest.status === 'PENDING' && (
+                                                <span
+                                                    className="text-blue-400"
+                                                    style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
+                                                >
+                                                    Pending
+                                                </span>
+                                            )}
+                                            {bookingRequest.status === 'CANCELED' && (
+                                                <span
+                                                    className="text-red-400"
+                                                    style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
+                                                >
+                                                    Canceled
+                                                </span>
+                                            )}
+                                            {bookingRequest.status === 'COMPLETED' && (
+                                                <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>
+                                                    Completed
+                                                </span>
+                                            )}
+                                            <Spacer />
+                                            <span className="text-green">
+                                                {bookingRequest.price.amount} {bookingRequest.price.currencyCode}
+                                            </span>
+                                        </HStack>
+                                        <span className={'text-heading-ss-bold md:text-text-sm-bold'}>Chef Booking Request</span>
+
+                                        <HStack gap={16} className="text-gray">
+                                            {moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
+                                            <Divider orientation="vertical" flexItem style={{ display: 'inline' }}></Divider>
+                                            {moment(bookingRequest.dateTime).format('LT')}
+                                        </HStack>
+
+                                        <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
+                                            {bookingRequest.cook.user.profilePictureUrl && (
+                                                <Image
+                                                    className="rounded-3"
+                                                    style={{ width: '45px', height: '45px', objectFit: 'cover' }}
+                                                    src={bookingRequest.cook.user.profilePictureUrl}
+                                                    alt={'client image'}
+                                                    width={45}
+                                                    height={45}
+                                                />
+                                            )}
+                                            {!bookingRequest.cook.user.profilePictureUrl && (
+                                                <div className="flex justify-center items-center w-11 h-11 bg-base rounded-3">
+                                                    <PEIcon icon={Icon.profileLight} edgeLength={32} />
+                                                </div>
+                                            )}
+                                            {bookingRequest.cook.user.firstName}
+                                            <Spacer />
+                                            in {moment(bookingRequest.dateTime).diff(moment(), 'days')} days
+                                        </HStack>
+                                    </VStack>
+                                </ListItemButton>
+
+                                <Divider key={bookingRequest.bookingRequestId + 'divider'} />
+                            </>
+                        ))}
+                    </List>
+                </VStack>
+
+                <VStack
+                    gap={16}
+                    className="bg-white shadow-primary"
+                    style={{ alignItems: 'center', justifyContent: 'flex-start', padding: 16, flex: 2, borderRadius: 16 }}
+                >
+                    {selectedBookingRequestId && (
+                        <ProfilePageBookingsTabDetail
+                            userId={userId}
+                            bookingRequestId={selectedBookingRequestId}
+                            onClose={(): void => setSelectedBookingRequestId(undefined)}
+                        />
+                    )}
+
+                    {!selectedBookingRequestId && 'Select a booking request'}
+                </VStack>
+            </HStack>
+        </>
     );
 }
