@@ -81,7 +81,7 @@ export default function HomePage({ searchParameters }: HomePageProps): ReactElem
                     <VStack
                         className="absolute lg:w-full w-full h-[602px] lg:h-[202px] lg:bottom-0 max-w-screen-xl left-0 overflow-hidden -z-10"
                         style={{
-                            backgroundImage: 'url(/background-home.jpg)',
+                            backgroundImage: 'url(/koch-mieten.jpg)',
                             backgroundPosition: isMobile ? 'top' : '0 -60px',
                             backgroundSize: 'cover',
                             borderRadius: '16px',
