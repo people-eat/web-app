@@ -61,7 +61,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
     // const { isMobile } = useResponsive();
 
     const { t } = useTranslation('common');
-    const { t: bookingTranslations } = useTranslation('globalBookingRequest');
+    const { t: bookingTranslations } = useTranslation('global-booking-request');
 
     const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>();
     const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();

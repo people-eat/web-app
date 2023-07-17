@@ -13,6 +13,7 @@
         "/about-us": ["about-us"],
         "/imprint": ["imprint"],
         "/chefs": ["search-results", "search"],
+        "/chefs/[cookId]": ["search-results", "search", "global-booking-request"],
         "/menus": ["search-results", "search"],
         "/global-booking-request": ["global-booking-request", "home"],
         "/cook-booking-request": ["global-booking-request", "home"]
