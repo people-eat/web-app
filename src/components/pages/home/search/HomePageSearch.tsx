@@ -118,7 +118,7 @@ export default function HomePageSearch({
                 }}
                 slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
                 label={translateSearch('date-label')}
-                minDate={moment().add(7, 'days')}
+                minDate={moment().add(2, 'days')}
             />
             <IconButton size="large" style={{ backgroundColor: 'rgba(255, 100, 51, 1)' }} onClick={onSearch} disabled={disabled}>
                 <PEIcon icon={Icon.searchBar} />

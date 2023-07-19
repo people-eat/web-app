@@ -86,7 +86,7 @@ export default function CookBookingRequestPageStep1({
                             }}
                             slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
                             label={t('date-label')}
-                            minDate={moment().add(7, 'days')}
+                            minDate={moment().add(2, 'days')}
                         />
                     </div>
                     <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">

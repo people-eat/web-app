@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import { type TransitionProps } from '@mui/material/transitions';
 import { DatePicker } from '@mui/x-date-pickers';
 import classNames from 'classnames';
-import { type Moment } from 'moment/moment';
+import moment, { type Moment } from 'moment/moment';
 import useTranslation from 'next-translate/useTranslation';
 import React, { forwardRef, useEffect, useState, type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -137,12 +137,9 @@ export default function HomePageSearchDialogMobile({
                         <p className="text-text-sm-bold">{t('adults-label')}</p>
                         <TextField
                             sx={{
+                                '&.Mui-focused': { border: '1px solid black', borderColor: 'black' },
                                 width: '100%',
                                 border: '1px solid rgba(31, 31, 31, 0.2)',
-                                '&.Mui-focused': {
-                                    border: '1px solid black',
-                                    borderColor: 'black',
-                                },
                                 borderRadius: '12px',
                                 padding: '8px 16px',
                                 boxSizing: 'border-box',
@@ -159,13 +156,9 @@ export default function HomePageSearchDialogMobile({
                         <p className="text-text-sm-bold">{t('children-label')}</p>
                         <TextField
                             sx={{
+                                '&.Mui-focused': { '.MuiOutlinedInput-notchedOutline': { border: '1px solid black' } },
                                 width: '100%',
                                 border: '1px solid rgba(31, 31, 31, 0.2)',
-                                '&.Mui-focused': {
-                                    '.MuiOutlinedInput-notchedOutline': {
-                                        border: '1px solid black',
-                                    },
-                                },
                                 borderRadius: '12px',
                                 padding: '8px 16px',
                                 boxSizing: 'border-box',
@@ -182,11 +175,9 @@ export default function HomePageSearchDialogMobile({
                         <p className="text-text-sm-bold">{t('date-label')}</p>
                         <DatePicker
                             sx={{
+                                '&.Mui-focused': { border: '1px solid black' },
                                 width: '100%',
                                 border: '1px solid rgba(31, 31, 31, 0.2)',
-                                '&.Mui-focused': {
-                                    border: '1px solid black',
-                                },
                                 borderRadius: '12px',
                                 padding: '8px 16px',
                                 boxSizing: 'border-box',
@@ -196,6 +187,7 @@ export default function HomePageSearchDialogMobile({
                                 if (changedDate) onDateChange(changedDate);
                             }}
                             slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
+                            minDate={moment().add(2, 'days')}
                         />
                     </div>
                     <Spacer />
