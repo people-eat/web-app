@@ -2229,6 +2229,46 @@ export type GetGlobalBookingRequestPageDataQuery = {
     allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
 };
 
+export type GetMenuBookingRequestPageDataQueryVariables = Exact<{
+    menuId: Scalars['String'];
+}>;
+
+export type GetMenuBookingRequestPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
+    publicMenus: {
+        __typename?: 'PublicMenuQuery';
+        findOne?: {
+            __typename?: 'PublicMenu';
+            menuId: string;
+            title: string;
+            description: string;
+            imageUrls: Array<string>;
+            basePrice: number;
+            basePriceCustomers: number;
+            pricePerAdult: number;
+            pricePerChild?: number | null;
+            currencyCode: CurrencyCode;
+            kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
+            cook: {
+                __typename?: 'PublicCook';
+                cookId: string;
+                rank: CookRank;
+                city: string;
+                travelExpenses: number;
+                maximumTravelDistance?: number | null;
+                user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
+                location: { __typename?: 'Location'; latitude: number; longitude: number };
+            };
+            categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
+        } | null;
+    };
+    allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
+};
+
 export type GetPublicCookPageDataQueryVariables = Exact<{
     cookId: Scalars['String'];
 }>;
@@ -4555,6 +4595,173 @@ export const GetGlobalBookingRequestPageDataDocument = {
         },
     ],
 } as unknown as DocumentNode<GetGlobalBookingRequestPageDataQuery, GetGlobalBookingRequestPageDataQueryVariables>;
+export const GetMenuBookingRequestPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetMenuBookingRequestPageData' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publicMenus' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findOne' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'menuId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'menuId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'menuId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kitchen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'cook' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'user' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'location' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maximumTravelDistance' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'categories' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'imageUrls' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'basePrice' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'basePriceCustomers' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'pricePerAdult' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'pricePerChild' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'allergies' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'allergyId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetMenuBookingRequestPageDataQuery, GetMenuBookingRequestPageDataQueryVariables>;
 export const GetPublicCookPageDataDocument = {
     kind: 'Document',
     definitions: [

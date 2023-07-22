@@ -23,7 +23,7 @@ export default function ProfilePageBookingsChatMessages({ userId, bookingRequest
     sortedChatMessages.sort((chatMessageA, chatMessageB): number => moment(chatMessageA.createdAt).diff(moment(chatMessageB.createdAt)));
 
     return (
-        <>
+        <VStack gap={32} style={{ width: '100%', maxHeight: 600, overflowY: 'scroll' }}>
             {sortedChatMessages.map((chatMessage) => (
                 <HStack key={chatMessage.chatMessageId} className="w-full">
                     {userId === chatMessage.createdBy && <Spacer />}
@@ -34,6 +34,6 @@ export default function ProfilePageBookingsChatMessages({ userId, bookingRequest
                     {userId !== chatMessage.createdBy && <Spacer />}
                 </HStack>
             ))}
-        </>
+        </VStack>
     );
 }

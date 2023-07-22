@@ -12,9 +12,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import {
+    CreateOneUserBookingRequestDocument,
     CreateOneUserByEmailAddressDocument,
-    CreateOneUserGlobalBookingRequestDocument,
-    type CreateOneGlobalBookingRequestRequest,
+    type CookRank,
+    type CreateBookingRequestRequest,
+    type CurrencyCode,
 } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
 import { type Allergy } from '../../../shared-domain/Allergy';
@@ -30,13 +32,34 @@ import PEIcon from '../../standard/icon/PEIcon';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
-import { header, header02, header03 } from './points.mock';
-import GlobalBookingRequestPageStep1 from './step1/GlobalBookingRequestPageStep1';
-import GlobalBookingRequestPageStep2 from './step2/GlobalBookingRequestPageStep2';
-import GlobalBookingRequestPageStep3 from './step3/GlobalBookingRequestPageStep3';
+import MenuBookingRequestPageStep1 from './step1/MenuBookingRequestPageStep1';
+import MenuBookingRequestPageStep2 from './step2/MenuBookingRequestPageStep2';
+import MenuBookingRequestPageStep3 from './step3/MenuBookingRequestPageStep3';
 
-export interface GlobalBookingRequestPageProps {
+export interface MenuBookingRequestPageProps {
     signedInUser?: SignedInUser;
+    menu: {
+        menuId: string;
+        title: string;
+        description: string;
+        kitchen?: Kitchen;
+        cook: {
+            cookId: string;
+            rank: CookRank;
+            user: { firstName: string; profilePictureUrl?: string };
+            location: Location;
+            city: string;
+            travelExpenses: number;
+            maximumTravelDistance?: number;
+        };
+        categories: Category[];
+        imageUrls: string[];
+        basePrice: number;
+        basePriceCustomers: number;
+        pricePerAdult: number;
+        pricePerChild?: number;
+        currencyCode: CurrencyCode;
+    };
     searchParameters: {
         location: {
             address: string;
@@ -47,19 +70,16 @@ export interface GlobalBookingRequestPageProps {
         children: number;
         date: string;
     };
-    categories: Category[];
     allergies: Allergy[];
-    kitchens: Kitchen[];
 }
 
 // eslint-disable-next-line max-statements
-export default function GlobalBookingRequestPage({
+export default function MenuBookingRequestPage({
     signedInUser,
+    menu,
     searchParameters,
-    categories,
     allergies,
-    kitchens,
-}: GlobalBookingRequestPageProps): ReactElement {
+}: MenuBookingRequestPageProps): ReactElement {
     const { t } = useTranslation('global-booking-request');
     const { t: homeTranslations } = useTranslation('home');
     const { t: commonTranslate } = useTranslation('common');
@@ -68,7 +88,7 @@ export default function GlobalBookingRequestPage({
     const [step, setStep] = useState(0);
 
     const [addressSearchText, setAddressSearchText] = useState<string>(searchParameters.location.address);
-    const [selectedLocation, setSelectedLocation] = useState<Location | undefined>(undefined);
+    const [selectedLocation, setSelectedLocation] = useState<{ latitude: number; longitude: number } | undefined>(undefined);
 
     const [adults, setAdults] = useState(searchParameters.adults);
     const [children, setChildren] = useState(searchParameters.children);
@@ -83,8 +103,6 @@ export default function GlobalBookingRequestPage({
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-    const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>(undefined);
     const [selectedAllergies, setSelectedAllergies] = useState<Allergy[]>([]);
 
     const [acceptedTermsAndConditions, setAcceptedTermsAndConditions] = useState(false);
@@ -93,7 +111,7 @@ export default function GlobalBookingRequestPage({
     const [loading, setLoading] = useState(false);
     const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'FAILED'>(undefined);
 
-    const globalBookingRequest: CreateOneGlobalBookingRequestRequest = {
+    const cookBookingRequest: CreateBookingRequestRequest = {
         adultParticipants: adults,
         children,
         dateTime: dateTime.toDate(),
@@ -108,17 +126,16 @@ export default function GlobalBookingRequestPage({
             amount: Number(budget),
             currencyCode: 'EUR',
         },
-        allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
-        categoryIds: selectedCategories.map(({ categoryId }) => categoryId),
-        kitchenId: selectedKitchen?.kitchenId,
+        // allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
         message,
-        phoneNumber: phoneNumber === '' ? undefined : phoneNumber.replaceAll(' ', ''),
+        cookId: menu.cook.cookId,
+        preparationTime: 120,
     };
 
-    const [createGlobalBookingRequest] = useMutation(CreateOneUserGlobalBookingRequestDocument, {
+    const [createGlobalBookingRequest] = useMutation(CreateOneUserBookingRequestDocument, {
         variables: {
             userId: signedInUser?.userId ?? '',
-            request: globalBookingRequest,
+            request: cookBookingRequest,
         },
     });
 
@@ -129,11 +146,10 @@ export default function GlobalBookingRequestPage({
                 firstName: firstName,
                 lastName: lastName,
                 emailAddress: email,
-                phoneNumber: phoneNumber.replaceAll(' ', ''),
                 gender: 'NO_INFORMATION',
                 language: 'GERMAN',
                 password: '',
-                globalBookingRequest: globalBookingRequest,
+                globalBookingRequest: cookBookingRequest,
             },
         },
     });
@@ -148,9 +164,7 @@ export default function GlobalBookingRequestPage({
                     className="w-full relative max-w-[48%] lg:max-w-full lg:p-4 lg:box-border"
                     style={{ alignItems: 'flex-start' }}
                 >
-                    <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg lg:text-heading-s">
-                        {header} <span className="text-orange">{header02}</span> {header03}
-                    </h1>
+                    <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg lg:text-heading-s">{t('cook-request-title')}</h1>
 
                     <Stepper activeStep={step}>
                         <Step>
@@ -165,7 +179,7 @@ export default function GlobalBookingRequestPage({
                     </Stepper>
 
                     {step === 0 && (
-                        <GlobalBookingRequestPageStep1
+                        <MenuBookingRequestPageStep1
                             adultCount={adults}
                             setAdultCount={setAdults}
                             childrenCount={children}
@@ -180,18 +194,14 @@ export default function GlobalBookingRequestPage({
                             setOccasion={setOccasion}
                             budget={budget}
                             setBudget={setBudget}
+                            cookLocation={menu.cook.location}
+                            cookTravelExpenses={menu.cook.travelExpenses}
                             onContinue={(): void => setStep(1)}
                         />
                     )}
 
                     {step === 1 && (
-                        <GlobalBookingRequestPageStep2
-                            categories={categories}
-                            selectedCategories={selectedCategories}
-                            setSelectedCategories={setSelectedCategories}
-                            kitchens={kitchens}
-                            selectedKitchen={selectedKitchen}
-                            setSelectedKitchen={setSelectedKitchen}
+                        <MenuBookingRequestPageStep2
                             allergies={allergies}
                             selectedAllergies={selectedAllergies}
                             setSelectedAllergies={setSelectedAllergies}
@@ -200,7 +210,7 @@ export default function GlobalBookingRequestPage({
                     )}
 
                     {step === 2 && (
-                        <GlobalBookingRequestPageStep3
+                        <MenuBookingRequestPageStep3
                             signedInUser={signedInUser}
                             firstName={firstName}
                             setFirstName={setFirstName}
@@ -221,7 +231,7 @@ export default function GlobalBookingRequestPage({
                                 signedInUser
                                     ? void createGlobalBookingRequest()
                                           .then(({ data }) =>
-                                              setCompletionState(data?.users.globalBookingRequests.success ? 'SUCCESSFUL' : 'FAILED'),
+                                              setCompletionState(data?.users.bookingRequests.success ? 'SUCCESSFUL' : 'FAILED'),
                                           )
                                           .catch(() => setCompletionState('FAILED'))
                                           .finally(() => setLoading(false))
@@ -238,7 +248,7 @@ export default function GlobalBookingRequestPage({
                     <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
                         <Image
                             className="w-full"
-                            src={'/picture-1.png'}
+                            src={menu.cook.user.profilePictureUrl ?? '/picture-1.png'}
                             alt=""
                             width={512}
                             height={512}
@@ -248,12 +258,15 @@ export default function GlobalBookingRequestPage({
                                 backgroundSize: 'cover',
                                 borderRadius: '16px',
                                 alignItems: 'flex-start',
+                                objectFit: 'cover',
                                 boxSizing: 'border-box',
                                 maxHeight: '660px',
                             }}
                         />
                         <VStack gap={32} style={{ alignItems: 'flex-start' }}>
-                            <h3>{t('booking-global-request-in-price')}</h3>
+                            <h3>
+                                {menu.cook.user.firstName} - {menu.cook.rank}
+                            </h3>
                             <PEBulletPoint
                                 icon={Icon.foodBasket}
                                 title={homeTranslations('section-3-bullet-point-1-title')}

@@ -1,0 +1,49 @@
+query GetMenuBookingRequestPageData($menuId: String!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    publicMenus {
+        findOne(menuId: $menuId) {
+            menuId
+            title
+            description
+            kitchen {
+                kitchenId
+                title
+            }
+            cook {
+                cookId
+                rank
+                user {
+                    firstName
+                    profilePictureUrl
+                }
+                location {
+                    latitude
+                    longitude
+                }
+                city
+                travelExpenses
+                maximumTravelDistance
+            }
+            categories {
+                categoryId
+                title
+            }
+            imageUrls
+            basePrice
+            basePriceCustomers
+            pricePerAdult
+            pricePerChild
+            currencyCode
+        }
+    }
+    allergies {
+        findAll {
+            allergyId
+            title
+        }
+    }
+}

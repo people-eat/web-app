@@ -26,7 +26,7 @@ export default function CookProfilePageBookingsChatMessages({
     sortedChatMessages.sort((chatMessageA, chatMessageB): number => moment(chatMessageA.createdAt).diff(moment(chatMessageB.createdAt)));
 
     return (
-        <>
+        <VStack gap={32} style={{ width: '100%', maxHeight: 600, overflowY: 'scroll' }}>
             {sortedChatMessages.map((chatMessage) => (
                 <HStack key={chatMessage.chatMessageId} className="w-full">
                     {cookId === chatMessage.createdBy && <Spacer />}
@@ -37,6 +37,6 @@ export default function CookProfilePageBookingsChatMessages({
                     {cookId !== chatMessage.createdBy && <Spacer />}
                 </HStack>
             ))}
-        </>
+        </VStack>
     );
 }

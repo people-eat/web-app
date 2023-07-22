@@ -117,6 +117,7 @@ export default function CookBookingRequestPage({
         location: {
             latitude: selectedLocation?.latitude ?? 0,
             longitude: selectedLocation?.latitude ?? 0,
+            text: addressSearchText,
         },
         occasion,
         price: {
