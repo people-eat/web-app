@@ -73,7 +73,7 @@ export default function PublicMenusPage({ signedInUser, searchParameters, search
         const { latitude, longitude } = selectedLocation;
 
         void router.push({
-            pathname: '/search-results',
+            pathname: 'menus',
             query: { address, latitude, longitude, adults, children, date: formattedDate },
         });
     }
@@ -104,6 +104,7 @@ export default function PublicMenusPage({ signedInUser, searchParameters, search
                             setSelectedLocation({
                                 latitude: selectedSearchResult.location.latitude,
                                 longitude: selectedSearchResult.location.longitude,
+                                text: selectedSearchResult.label,
                             })
                         }
                         onSearch={onSearch}
@@ -127,7 +128,17 @@ export default function PublicMenusPage({ signedInUser, searchParameters, search
                 >
                     {searchResults.publicMenus.map((publicMenu, index) => (
                         <Link
-                            href={'menus/' + publicMenu.menuId}
+                            href={{
+                                pathname: `menus/${publicMenu.menuId}`,
+                                query: {
+                                    address,
+                                    latitude: selectedLocation.latitude,
+                                    longitude: selectedLocation.longitude,
+                                    adults,
+                                    children,
+                                    date: formattedDate,
+                                },
+                            }}
                             target="_blank"
                             key={index}
                             className="no-underline"

@@ -130,6 +130,10 @@ export default function MenuBookingRequestPage({
         message,
         cookId: menu.cook.cookId,
         preparationTime: 120,
+        configuredMenu: {
+            menuId: menu.menuId,
+            courses: [],
+        },
     };
 
     const [createGlobalBookingRequest] = useMutation(CreateOneUserBookingRequestDocument, {
@@ -164,7 +168,7 @@ export default function MenuBookingRequestPage({
                     className="w-full relative max-w-[48%] lg:max-w-full lg:p-4 lg:box-border"
                     style={{ alignItems: 'flex-start' }}
                 >
-                    <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg lg:text-heading-s">{t('cook-request-title')}</h1>
+                    <h1 className="text-heading-xl m-0 p-0 max-w-screen-lg lg:text-heading-s">{'Menü Buchungsanfrage'}</h1>
 
                     <Stepper activeStep={step}>
                         <Step>
@@ -246,27 +250,34 @@ export default function MenuBookingRequestPage({
 
                 {isDesktop && (
                     <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <Image
-                            className="w-full"
-                            src={menu.cook.user.profilePictureUrl ?? '/picture-1.png'}
-                            alt=""
-                            width={512}
-                            height={512}
-                            style={{
-                                height: '100%',
-                                backgroundPosition: 'center',
-                                backgroundSize: 'cover',
-                                borderRadius: '16px',
-                                alignItems: 'flex-start',
-                                objectFit: 'cover',
-                                boxSizing: 'border-box',
-                                maxHeight: '660px',
-                            }}
-                        />
+                        <HStack gap={16}>
+                            <Image
+                                className="w-full"
+                                src={menu.cook.user.profilePictureUrl ?? '/picture-1.png'}
+                                alt=""
+                                width={128}
+                                height={128}
+                                style={{
+                                    height: '100%',
+                                    backgroundPosition: 'center',
+                                    backgroundSize: 'cover',
+                                    borderRadius: '16px',
+                                    alignItems: 'flex-start',
+                                    objectFit: 'cover',
+                                    boxSizing: 'border-box',
+                                    maxHeight: '128px',
+                                    maxWidth: '128px',
+                                }}
+                            />
+
+                            <VStack style={{ alignItems: 'flex-start' }}>
+                                <h3>
+                                    {menu.cook.user.firstName} - {menu.cook.rank}
+                                </h3>
+                                <h3>{menu.title}</h3>
+                            </VStack>
+                        </HStack>
                         <VStack gap={32} style={{ alignItems: 'flex-start' }}>
-                            <h3>
-                                {menu.cook.user.firstName} - {menu.cook.rank}
-                            </h3>
                             <PEBulletPoint
                                 icon={Icon.foodBasket}
                                 title={homeTranslations('section-3-bullet-point-1-title')}

@@ -58,8 +58,6 @@ export interface PublicCookPageProps {
 }
 
 export default function PublicCookPage({ signedInUser, publicCook, categories, kitchens }: PublicCookPageProps): ReactElement {
-    // const { isMobile } = useResponsive();
-
     const { t } = useTranslation('common');
     const { t: bookingTranslations } = useTranslation('global-booking-request');
 

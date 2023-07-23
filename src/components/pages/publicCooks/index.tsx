@@ -61,7 +61,7 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
         const { latitude, longitude } = selectedLocation;
 
         void router.push({
-            pathname: '/search-results',
+            pathname: 'chefs',
             query: { address, latitude, longitude, adults, children, date: formattedDate },
         });
     }
@@ -92,6 +92,7 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                             setSelectedLocation({
                                 latitude: selectedSearchResult.location.latitude,
                                 longitude: selectedSearchResult.location.longitude,
+                                text: selectedSearchResult.label,
                             })
                         }
                         onSearch={onSearch}
@@ -115,7 +116,17 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                 >
                     {searchResults.publicCooks.map((publicCook, index) => (
                         <Link
-                            href={'chefs/' + publicCook.cookId}
+                            href={{
+                                pathname: `chefs/${publicCook.cookId}`,
+                                query: {
+                                    address,
+                                    latitude: selectedLocation.latitude,
+                                    longitude: selectedLocation.longitude,
+                                    adults,
+                                    children,
+                                    date: formattedDate,
+                                },
+                            }}
                             target="_blank"
                             key={index}
                             className="no-underline"

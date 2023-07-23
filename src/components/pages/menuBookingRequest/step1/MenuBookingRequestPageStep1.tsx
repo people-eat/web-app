@@ -142,20 +142,8 @@ export default function MenuBookingRequestPageStep1({
             </VStack>
 
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
-                <h3>{t('budget-label')}</h3>
-                <PETextField
-                    startContent={<>€</>}
-                    type="number"
-                    value={budget}
-                    onChange={setBudget}
-                    placeholder={t('budget-placeholder-label')}
-                />
-            </VStack>
-
-            <VStack gap={16}>
-                <span className="text-text-sm text-disabled">{t('ind-request-budget-hint-1')}</span>
-                <span className="text-text-sm text-disabled">{t('ind-request-budget-hint-2')}</span>
-                <span className="text-text-sm text-disabled">{t('ind-request-budget-hint-3')}</span>
+                <h3>{'Preis'}</h3>
+                <PETextField startContent={<>€</>} type="number" value={budget} onChange={setBudget} placeholder="Preis" disabled />
             </VStack>
 
             <PEButton onClick={onContinue} title={t('continue-label')} disabled={disabled} />

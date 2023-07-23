@@ -124,9 +124,9 @@ export default function PublicMenuPage({ signedInUser, publicMenu }: PublicMenuP
 
                             <Link
                                 href={{
-                                    pathname: '/cook-booking-request',
+                                    pathname: '/menu-booking-request',
                                     query: {
-                                        cookId: publicMenu.cook.cookId,
+                                        menuId: publicMenu.menuId,
                                         address: '',
                                         latitude: 0,
                                         longitude: 0,
