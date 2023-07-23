@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import PublicMenusPage, { type PublicMenusPageProps } from '../../components/pages/publicMenus';
 import { GetPublicMenusPageDataDocument } from '../../data-source/generated/graphql';
@@ -53,10 +54,11 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
 };
 
 const Index: NextPage<PublicMenusPageProps> = ({ signedInUser, searchParameters, searchResults }) => {
+    const { t } = useTranslation('search-results');
     return (
         <>
             <Head>
-                <title>PeopleEat - Menus</title>
+                <title>{t('menus-title')}</title>
 
                 <meta name="title" content="Entdecke Menüs" />
                 <meta name="description" content="Erstelle eigene Menüs und genieße kulinarische Erlebnismomente bei dir Zuhause" />

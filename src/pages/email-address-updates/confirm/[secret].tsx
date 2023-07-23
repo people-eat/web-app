@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { type NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -20,7 +21,7 @@ const Index: NextPage = () => {
     const { isMobile } = useResponsive();
     const router = useRouter();
     const secret = router.query.secret;
-
+    const { t } = useTranslation('common');
     const [confirmOneEmailAddressUpdate, { data, loading, error }] = useMutation(ConfirmOneEmailAddressUpdateDocument, {
         variables: { userId: '', secret: secret as string },
     });
@@ -36,18 +37,17 @@ const Index: NextPage = () => {
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
             <VStack className="w-full min-h-screen" gap={64}>
                 {isMobile ? <PEHeaderMobile /> : <PEHeaderDesktop />}
 
                 <Dialog open>
-                    <DialogTitle>Confirm Email Address</DialogTitle>
+                    <DialogTitle>{t('email-confirmation')}</DialogTitle>
                     <DialogContent>
                         {data?.users.emailAddressUpdate.success && (
                             <VStack>
-                                <p>You successfully verified your email address</p>
+                                <p>{t('email-confirmation-success')}</p>
                                 <Link href={'/profile'} className="no-underline">
-                                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>To my profile page</Button>
+                                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)' }}>{t('back')}</Button>
                                 </Link>
                             </VStack>
                         )}
@@ -61,14 +61,12 @@ const Index: NextPage = () => {
                                     height={100}
                                     style={{ objectPosition: 'center', objectFit: 'scale-down' }}
                                 />
-                                <span style={{ maxWidth: 256, textAlign: 'center' }}>
-                                    To confirm your Email Address please click the button below
-                                </span>
+                                <span style={{ maxWidth: 256, textAlign: 'center' }}>{t('email-confirmation-button')}</span>
                                 <PEButton title="Confirm" onClick={(): void => void confirmOneEmailAddressUpdate()} />
                             </VStack>
                         )}
 
-                        {(error || (data && !data.users.emailAddressUpdate.success)) && 'An error ocurred'}
+                        {(error || (data && !data.users.emailAddressUpdate.success)) && t('error')}
 
                         {loading && <CircularProgress />}
                     </DialogContent>

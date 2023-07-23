@@ -37,5 +37,14 @@
     "booking-global-request-in-price": "In Preis inklusive:",
     "cook-request-title": "Individuelle Buchungsanfrage",
     "budget-suggestion": "Budgetvorschlag senden",
-    "global-request": "Globale Buchungsanfrage"
+    "global-request": "Globale Buchungsanfrage",
+    "bookings-title": "Buchungsanfragen",
+    "tab-chat": "Chat",
+    "tab-details": "Veranstaltungsdetails",
+    "tab-menu": "Menü Details",
+    "tab-rating": "Bewertung",
+    "booking-selection": "Wählen eine Buchungsanfrage aus",
+    "in": "in",
+    "days": "Tagen",
+    "request-title": "Koch für Zuhause buchen"
 }

@@ -12,7 +12,7 @@ export default function HomePageSection5(): ReactElement {
             <VStack
                 className="w-full h-[300px] big:h-[220px] lg_min:h-[160px] md_min:h-[110px] minn:h-[80px]"
                 style={{
-                    backgroundImage: 'url(/dishes-section.png)',
+                    backgroundImage: 'url(/menüvorschläge.png)',
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                 }}

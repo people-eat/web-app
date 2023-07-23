@@ -23,5 +23,6 @@
     "travel-expenses": "Travel costs per kilometer",
     "date-of-birth": "Date of birth",
     "user-sign-up-title": "Find a private chef!",
-    "user-sign-up-subtitle": "Please enter your details"
+    "user-sign-up-subtitle": "Please enter your details",
+    "chef-sign-up-title": "Register as a chef"
 }

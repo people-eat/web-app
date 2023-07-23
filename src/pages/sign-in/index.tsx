@@ -1,12 +1,14 @@
 import { type NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import SignInPage from '../../components/pages/signIn';
 
 const Index: NextPage = () => {
+    const { t } = useTranslation('sign-in');
     return (
         <>
             <Head>
-                <title>PeopleEat - Sign In</title>
+                <title>{t('sign-in-title')}</title>
 
                 <meta name="title" content="" />
                 <meta name="description" content="" />

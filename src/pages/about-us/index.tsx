@@ -1,9 +1,9 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { type GetServerSideProps, type NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import AboutUsPage, { type AboutUsPageProps } from '../../components/pages/aboutUs';
 import { GetProfileQueryDocument } from '../../data-source/generated/graphql';
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { data: profileData } = await new ApolloClient({
         uri: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -12,7 +12,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         cache: new InMemoryCache(),
         ssrMode: true,
     }).query({ query: GetProfileQueryDocument });
-
     return {
         props: {
             signedInUser: profileData.users.me,
@@ -21,10 +20,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Index: NextPage<AboutUsPageProps> = ({ signedInUser }) => {
+    const { t } = useTranslation('about-us');
     return (
         <>
             <Head>
-                <title>PeopleEat - About us</title>
+                <title>{t('about-us-title')}</title>
 
                 <meta name="title" content="" />
                 <meta

@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { type GetServerSideProps, type NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import DataPrivacyPolicyPage, { type DataPrivacyPolicyPageProps } from '../../components/pages/dataPrivacyPolicy';
 import { FindLatestPublicPrivacyPolicyUpdateDocument } from '../../data-source/generated/graphql';
@@ -22,10 +23,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Index: NextPage<DataPrivacyPolicyPageProps> = ({ signedInUser, latestPrivacyPolicyUpdate }) => {
+    const { t } = useTranslation('common');
     return (
         <>
             <Head>
-                <title>PeopleEat - Data Privacy Policy</title>
+                <title>{t('data-privacy-title')}</title>
 
                 <meta name="title" content="" />
                 <meta name="description" content="" />

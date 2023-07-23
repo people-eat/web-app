@@ -100,8 +100,8 @@ export default function AboutUsPage({ signedInUser }: AboutUsPageProps): ReactEl
                                         style={{ justifyContent: 'flex-end', alignItems: 'flex-start' }}
                                     >
                                         <p className="text-white text-heading-ss my-0">Dirk</p>
-                                        <p className="text-white my-0 text-left">Industry Expert & Private Chef</p>
-                                        <p className="text-orange my-0 text-left">10+ Years Experience</p>
+                                        <p className="text-white my-0 text-left">{t('chef-title')}</p>
+                                        <p className="text-orange my-0 text-left">{t('chef-experience')}</p>
                                     </VStack>
                                     <div className="absolute bottom-0 bg-blackGradient h-[100px] w-[calc(100%)] left-0 rounded-b-4" />
                                 </VStack>
@@ -120,8 +120,8 @@ export default function AboutUsPage({ signedInUser }: AboutUsPageProps): ReactEl
                                         style={{ justifyContent: 'flex-end', alignItems: 'flex-start' }}
                                     >
                                         <p className="text-white text-heading-ss my-0">Christopher</p>
-                                        <p className="text-white my-0 text-left">Industry Expert & Private Chef</p>
-                                        <p className="text-orange my-0 text-left">10+ Years Experience</p>
+                                        <p className="text-white my-0 text-left">{t('chef-title')}</p>
+                                        <p className="text-orange my-0 text-left">{t('chef-experience')}</p>
                                     </VStack>
                                     <div className="absolute bottom-0 bg-blackGradient h-[100px] w-[calc(100%)] left-0 rounded-b-4" />
                                 </VStack>
@@ -140,8 +140,8 @@ export default function AboutUsPage({ signedInUser }: AboutUsPageProps): ReactEl
                                         style={{ justifyContent: 'flex-end', alignItems: 'flex-start' }}
                                     >
                                         <p className="text-white text-heading-ss my-0">Cem</p>
-                                        <p className="text-white my-0 text-left">Full Stack Developer</p>
-                                        <p className="text-orange my-0 text-left">8 Years Experience</p>
+                                        <p className="text-white my-0 text-left">{t('developer-title')}</p>
+                                        <p className="text-orange my-0 text-left">{t('developer-experience')}</p>
                                     </VStack>
                                     <div className="absolute bottom-0 bg-blackGradient h-[100px] w-[calc(100%)] left-0 rounded-b-4" />
                                 </VStack>
@@ -160,8 +160,8 @@ export default function AboutUsPage({ signedInUser }: AboutUsPageProps): ReactEl
                                         }}
                                     />
                                     <p className="text-text-m-bold my-2">Dirk</p>
-                                    <p className="my-0 text-left text-preBlack">Industry Expert & Private Chef</p>
-                                    <p className="text-orange my-0 text-left">10+ Years Experience</p>
+                                    <p className="my-0 text-left text-preBlack">{t('chef-title')}</p>
+                                    <p className="text-orange my-0 text-left">{t('chef-experience')}</p>
                                 </VStack>
                                 <VStack className="w-[calc(50%-8px)]" style={{ alignItems: 'flex-start' }}>
                                     <VStack
@@ -175,8 +175,8 @@ export default function AboutUsPage({ signedInUser }: AboutUsPageProps): ReactEl
                                         }}
                                     />
                                     <p className="text-text-m-bold my-2">Christopher</p>
-                                    <p className="my-0 text-left text-preBlack">Industry Expert & Private Chef</p>
-                                    <p className="text-orange my-0 text-left">10+ Years Experience</p>
+                                    <p className="my-0 text-left text-preBlack">{t('chef-title')}</p>
+                                    <p className="text-orange my-0 text-left">{t('chef-experience')}</p>
                                 </VStack>
                                 <VStack className="w-[calc(50%-8px)]" style={{ alignItems: 'flex-start' }}>
                                     <VStack
@@ -190,8 +190,8 @@ export default function AboutUsPage({ signedInUser }: AboutUsPageProps): ReactEl
                                         }}
                                     />
                                     <p className="text-text-m-bold my-2">Cem</p>
-                                    <p className="my-0 text-left text-preBlack">Full Stack Developer</p>
-                                    <p className="text-orange my-0 text-left">8 Years Experience</p>
+                                    <p className="my-0 text-left text-preBlack">{t('developer-title')}</p>
+                                    <p className="text-orange my-0 text-left">{t('developer-experience')}</p>
                                 </VStack>
                             </>
                         )}

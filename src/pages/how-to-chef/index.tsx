@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { type GetServerSideProps, type NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import HowToChefPage, { type HowToChefPageProps } from '../../components/pages/howToChef';
 import { GetProfileQueryDocument } from '../../data-source/generated/graphql';
@@ -21,10 +22,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Index: NextPage<HowToChefPageProps> = ({ signedInUser }) => {
+    const { t } = useTranslation('how-to-chef');
     return (
         <>
             <Head>
-                <title>PeopleEat - How to Chef</title>
+                <title>{t('how-to-become-a-chef-title')}</title>
                 <meta name="description" content="PeopleEat - a platform to find private chefs / cooks" />
 
                 <meta name="title" content="" />
