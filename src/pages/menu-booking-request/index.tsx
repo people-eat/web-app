@@ -31,11 +31,12 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
                 date: typeof date === 'string' ? moment(date).format(moment.HTML5_FMT.DATE) : moment().format(moment.HTML5_FMT.DATE),
             },
             allergies: data.allergies.findAll,
+            stripePublishableKey: data.stripePublishableKey,
         },
     };
 };
 
-const Index: NextPage<MenuBookingRequestPageProps> = ({ signedInUser, menu, searchParameters, allergies }) => {
+const Index: NextPage<MenuBookingRequestPageProps> = ({ signedInUser, menu, searchParameters, allergies, stripePublishableKey }) => {
     return (
         <>
             <Head>
@@ -47,7 +48,13 @@ const Index: NextPage<MenuBookingRequestPageProps> = ({ signedInUser, menu, sear
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <MenuBookingRequestPage signedInUser={signedInUser} menu={menu} searchParameters={searchParameters} allergies={allergies} />
+            <MenuBookingRequestPage
+                signedInUser={signedInUser}
+                menu={menu}
+                searchParameters={searchParameters}
+                allergies={allergies}
+                stripePublishableKey={stripePublishableKey}
+            />
         </>
     );
 };

@@ -11,6 +11,7 @@ import {
     CreateOneCookBookingRequestChatMessageDocument,
     FindOneCookBookingRequestDocument,
 } from '../../../../data-source/generated/graphql';
+import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
@@ -189,6 +190,25 @@ export default function CookProfilePageBookingsTabDetail({
                         />
                     )}
                 </>
+            )}
+
+            {bookingRequest.configuredMenu && tab === 'MENU' && (
+                <VStack>
+                    <span className="text-heading-m">{bookingRequest.configuredMenu.title}</span>
+                    <VStack gap={32} style={{ flex: 1 }}>
+                        {bookingRequest.configuredMenu.courses.map((course) => (
+                            <VStack gap={16} key={course.index} className="w-full">
+                                <span className="text-heading-s">{course.title}</span>
+
+                                <PEMealCard
+                                    title={course.mealTitle}
+                                    description={course.mealDescription}
+                                    imageUrl={course.mealImageUrl ?? undefined}
+                                />
+                            </VStack>
+                        ))}
+                    </VStack>
+                </VStack>
             )}
 
             {tab === 'EVENT_DETAILS' && (

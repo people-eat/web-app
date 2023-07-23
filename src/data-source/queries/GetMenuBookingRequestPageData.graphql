@@ -32,6 +32,21 @@ query GetMenuBookingRequestPageData($menuId: String!) {
                 categoryId
                 title
             }
+            courses {
+                index
+                courseId
+                title
+                mealOptions {
+                    index
+                    meal {
+                        mealId
+                        title
+                        description
+                        type
+                        imageUrl
+                    }
+                }
+            }
             imageUrls
             basePrice
             basePriceCustomers
@@ -46,4 +61,5 @@ query GetMenuBookingRequestPageData($menuId: String!) {
             title
         }
     }
+    stripePublishableKey
 }

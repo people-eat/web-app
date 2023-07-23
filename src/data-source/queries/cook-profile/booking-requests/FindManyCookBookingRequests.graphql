@@ -23,6 +23,9 @@ query FindManyCookBookingRequests($cookId: String!) {
                 }
                 duration
                 createdAt
+                configuredMenu {
+                    title
+                }
             }
         }
     }

@@ -1,15 +1,18 @@
 import { useMutation } from '@apollo/client';
-import { Button, DialogActions, DialogContentText, DialogTitle } from '@mui/material';
+import { Button, DialogActions, DialogTitle } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import {
     CreateOneUserBookingRequestDocument,
@@ -24,14 +27,16 @@ import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
+import PEMealCard from '../../cards/mealCard/PEMealCard';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';
 import { Icon } from '../../standard/icon/Icon';
-import PEIcon from '../../standard/icon/PEIcon';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
+import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
+import Payment from './Payment';
 import MenuBookingRequestPageStep1 from './step1/MenuBookingRequestPageStep1';
 import MenuBookingRequestPageStep2 from './step2/MenuBookingRequestPageStep2';
 import MenuBookingRequestPageStep3 from './step3/MenuBookingRequestPageStep3';
@@ -52,6 +57,20 @@ export interface MenuBookingRequestPageProps {
             travelExpenses: number;
             maximumTravelDistance?: number;
         };
+        courses: {
+            index: number;
+            courseId: string;
+            title: string;
+            mealOptions: {
+                index: number;
+                meal: {
+                    mealId: string;
+                    title: string;
+                    description: string;
+                    imageUrl?: string | null;
+                };
+            }[];
+        }[];
         categories: Category[];
         imageUrls: string[];
         basePrice: number;
@@ -71,6 +90,7 @@ export interface MenuBookingRequestPageProps {
         date: string;
     };
     allergies: Allergy[];
+    stripePublishableKey: string;
 }
 
 // eslint-disable-next-line max-statements
@@ -79,11 +99,16 @@ export default function MenuBookingRequestPage({
     menu,
     searchParameters,
     allergies,
+    stripePublishableKey,
 }: MenuBookingRequestPageProps): ReactElement {
     const { t } = useTranslation('global-booking-request');
     const { t: homeTranslations } = useTranslation('home');
     const { t: commonTranslate } = useTranslation('common');
     const { isDesktop } = useResponsive();
+
+    const router = useRouter();
+    const { courseSelections: courseSelectionsArray } = router.query;
+    const courseSelections = new Map<string, string>(JSON.parse(courseSelectionsArray as string) as unknown as [string, string][]);
 
     const [step, setStep] = useState(0);
 
@@ -95,7 +120,6 @@ export default function MenuBookingRequestPage({
     const [dateTime, setDateTime] = useState(moment(searchParameters.date).set('hours', 12).set('minutes', 0));
 
     const [occasion, setOccasion] = useState('');
-    const [budget, setBudget] = useState('');
     const [message, setMessage] = useState('');
 
     const [firstName, setFirstName] = useState('');
@@ -108,10 +132,14 @@ export default function MenuBookingRequestPage({
     const [acceptedTermsAndConditions, setAcceptedTermsAndConditions] = useState(false);
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
 
+    const [stripeClientSecret, setStripeClientSecret] = useState<string | undefined>();
+
+    const price = calculateMenuPrice(adults, children, menu.basePrice, menu.basePriceCustomers, menu.pricePerAdult, menu.pricePerChild);
+
     const [loading, setLoading] = useState(false);
     const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'FAILED'>(undefined);
 
-    const cookBookingRequest: CreateBookingRequestRequest = {
+    const menuBookingRequest: CreateBookingRequestRequest = {
         adultParticipants: adults,
         children,
         dateTime: dateTime.toDate(),
@@ -123,7 +151,8 @@ export default function MenuBookingRequestPage({
         },
         occasion,
         price: {
-            amount: Number(budget),
+            // TODO actually not required here
+            amount: price,
             currencyCode: 'EUR',
         },
         // allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
@@ -132,18 +161,18 @@ export default function MenuBookingRequestPage({
         preparationTime: 120,
         configuredMenu: {
             menuId: menu.menuId,
-            courses: [],
+            courses: Array.from(courseSelections.entries()).map(([courseId, mealId]) => ({ courseId, mealId })),
         },
     };
 
-    const [createGlobalBookingRequest] = useMutation(CreateOneUserBookingRequestDocument, {
+    const [createMenuBookingRequest] = useMutation(CreateOneUserBookingRequestDocument, {
         variables: {
             userId: signedInUser?.userId ?? '',
-            request: cookBookingRequest,
+            request: menuBookingRequest,
         },
     });
 
-    const [createUserWithGlobalBookingRequest] = useMutation(CreateOneUserByEmailAddressDocument, {
+    const [createUserWithMenuBookingRequest] = useMutation(CreateOneUserByEmailAddressDocument, {
         variables: {
             profilePicture: undefined,
             request: {
@@ -153,7 +182,7 @@ export default function MenuBookingRequestPage({
                 gender: 'NO_INFORMATION',
                 language: 'GERMAN',
                 password: '',
-                globalBookingRequest: cookBookingRequest,
+                globalBookingRequest: menuBookingRequest,
             },
         },
     });
@@ -184,6 +213,7 @@ export default function MenuBookingRequestPage({
 
                     {step === 0 && (
                         <MenuBookingRequestPageStep1
+                            price={price}
                             adultCount={adults}
                             setAdultCount={setAdults}
                             childrenCount={children}
@@ -196,8 +226,6 @@ export default function MenuBookingRequestPage({
                             setDateTime={setDateTime}
                             occasion={occasion}
                             setOccasion={setOccasion}
-                            budget={budget}
-                            setBudget={setBudget}
                             cookLocation={menu.cook.location}
                             cookTravelExpenses={menu.cook.travelExpenses}
                             onContinue={(): void => setStep(1)}
@@ -233,13 +261,16 @@ export default function MenuBookingRequestPage({
                             onContinue={(): void => {
                                 setLoading(true);
                                 signedInUser
-                                    ? void createGlobalBookingRequest()
-                                          .then(({ data }) =>
-                                              setCompletionState(data?.users.bookingRequests.success ? 'SUCCESSFUL' : 'FAILED'),
-                                          )
+                                    ? void createMenuBookingRequest()
+                                          .then(({ data }) => {
+                                              if (data?.users.bookingRequests.createOne.success) {
+                                                  setCompletionState('SUCCESSFUL');
+                                                  setStripeClientSecret(data.users.bookingRequests.createOne.clientSecret);
+                                              } else setCompletionState('FAILED');
+                                          })
                                           .catch(() => setCompletionState('FAILED'))
                                           .finally(() => setLoading(false))
-                                    : void createUserWithGlobalBookingRequest()
+                                    : void createUserWithMenuBookingRequest()
                                           .then(({ data }) => setCompletionState(data?.users.success ? 'SUCCESSFUL' : 'FAILED'))
                                           .catch(() => setCompletionState('FAILED'))
                                           .finally(() => setLoading(false));
@@ -250,6 +281,31 @@ export default function MenuBookingRequestPage({
 
                 {isDesktop && (
                     <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
+                        <VStack gap={32} style={{ flex: 1 }}>
+                            {menu.courses.map((course) => (
+                                <VStack key={course.courseId} className="w-full" gap={32}>
+                                    <HStack className="w-full">
+                                        <span className="text-heading-m">{course.title}</span>
+                                        <Spacer />
+                                    </HStack>
+
+                                    <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start' }}>
+                                        {course.mealOptions.map(
+                                            (mealOption) =>
+                                                mealOption.meal.mealId === courseSelections.get(course.courseId) && (
+                                                    <PEMealCard
+                                                        key={mealOption.index}
+                                                        title={mealOption.meal.title}
+                                                        description={mealOption.meal.description}
+                                                        imageUrl={mealOption.meal.imageUrl ?? undefined}
+                                                    />
+                                                ),
+                                        )}
+                                    </HStack>
+                                </VStack>
+                            ))}
+                        </VStack>
+
                         <HStack gap={16}>
                             <Image
                                 className="w-full"
@@ -301,15 +357,13 @@ export default function MenuBookingRequestPage({
                 )}
             </HStack>
 
-            {completionState === 'SUCCESSFUL' && (
+            {completionState === 'SUCCESSFUL' && stripeClientSecret && (
                 <Dialog open>
-                    <DialogTitle>{t('booking-global-request-pop-up')}</DialogTitle>
+                    <DialogTitle>{'Jetzt bezahlen'}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            <HStack>
-                                <PEIcon icon={Icon.confetti} edgeLength={64} />
-                            </HStack>
-                        </DialogContentText>
+                        <Elements stripe={loadStripe(`${stripePublishableKey}`)} options={{ clientSecret: stripeClientSecret }}>
+                            <Payment />
+                        </Elements>
                     </DialogContent>
                     <DialogActions>
                         <Link href="/" className="no-underline">

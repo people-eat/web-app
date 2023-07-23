@@ -114,6 +114,7 @@ export type BookingRequest = {
     allergies: Array<Allergy>;
     bookingRequestId: Scalars['String'];
     children: Scalars['UnsignedInt'];
+    configuredMenu?: Maybe<ConfiguredMenu>;
     cook: PublicCook;
     cookAccepted?: Maybe<Scalars['Boolean']>;
     cookId: Scalars['String'];
@@ -165,7 +166,7 @@ export type ConfiguredMenu = {
     bookingRequestId: Scalars['String'];
     courses: Array<ConfiguredMenuCourse>;
     description: Scalars['String'];
-    greetingFromKitchen: Scalars['Boolean'];
+    greetingFromKitchen?: Maybe<Scalars['String']>;
     kitchenId?: Maybe<Scalars['String']>;
     menuId?: Maybe<Scalars['String']>;
     title: Scalars['String'];
@@ -1442,6 +1443,7 @@ export type Query = {
     publicMenus: PublicMenuQuery;
     publicPrivacyPolicyUpdates: PublicPrivacyPolicyUpdateQuery;
     publicTermsUpdates: PublicTermsUpdateQuery;
+    stripePublishableKey?: Maybe<Scalars['String']>;
     termsUpdates: TermsUpdateQuery;
     users: UserQuery;
 };
@@ -1597,7 +1599,7 @@ export type UserBookingRequestMutation = {
     __typename?: 'UserBookingRequestMutation';
     accept: Scalars['Boolean'];
     chatMessages: UserBookingRequestChatMessageMutation;
-    createOne: Scalars['Boolean'];
+    createOne: UserCreateOneBookingRequestResponse;
     decline: Scalars['Boolean'];
     updatePrice: Scalars['Boolean'];
     userId: Scalars['String'];
@@ -1658,6 +1660,12 @@ export type UserCookVisitQuery = {
 
 export type UserCookVisitQueryFindManyArgs = {
     request?: InputMaybe<FindManyRequest>;
+};
+
+export type UserCreateOneBookingRequestResponse = {
+    __typename?: 'UserCreateOneBookingRequestResponse';
+    clientSecret: Scalars['String'];
+    success: Scalars['Boolean'];
 };
 
 export type UserEmailAddressUpdateMutation = {
@@ -2267,6 +2275,7 @@ export type GetMenuBookingRequestPageDataQueryVariables = Exact<{
 
 export type GetMenuBookingRequestPageDataQuery = {
     __typename?: 'Query';
+    stripePublishableKey?: string | null;
     users: {
         __typename?: 'UserQuery';
         signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
@@ -2296,6 +2305,24 @@ export type GetMenuBookingRequestPageDataQuery = {
                 location: { __typename?: 'Location'; latitude: number; longitude: number };
             };
             categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
+            courses: Array<{
+                __typename?: 'Course';
+                index: number;
+                courseId: string;
+                title: string;
+                mealOptions: Array<{
+                    __typename?: 'MealOption';
+                    index: number;
+                    meal: {
+                        __typename?: 'Meal';
+                        mealId: string;
+                        title: string;
+                        description: string;
+                        type: MealType;
+                        imageUrl?: string | null;
+                    };
+                }>;
+            }>;
         } | null;
     };
     allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
@@ -2627,6 +2654,7 @@ export type FindManyCookBookingRequestsQuery = {
                 createdAt: Date;
                 user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
                 price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+                configuredMenu?: { __typename?: 'ConfiguredMenu'; title: string } | null;
             }> | null;
         };
     };
@@ -2660,6 +2688,23 @@ export type FindOneCookBookingRequestQuery = {
                 createdAt: Date;
                 user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
                 price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+                configuredMenu?: {
+                    __typename?: 'ConfiguredMenu';
+                    menuId?: string | null;
+                    title: string;
+                    description: string;
+                    greetingFromKitchen?: string | null;
+                    kitchenId?: string | null;
+                    courses: Array<{
+                        __typename?: 'ConfiguredMenuCourse';
+                        index: number;
+                        title: string;
+                        mealTitle: string;
+                        mealDescription: string;
+                        mealImageUrl?: string | null;
+                        mealType?: MealType | null;
+                    }>;
+                } | null;
             } | null;
         };
     };
@@ -3355,7 +3400,13 @@ export type CreateOneUserBookingRequestMutationVariables = Exact<{
 
 export type CreateOneUserBookingRequestMutation = {
     __typename?: 'Mutation';
-    users: { __typename?: 'UserMutation'; bookingRequests: { __typename?: 'UserBookingRequestMutation'; success: boolean } };
+    users: {
+        __typename?: 'UserMutation';
+        bookingRequests: {
+            __typename?: 'UserBookingRequestMutation';
+            createOne: { __typename?: 'UserCreateOneBookingRequestResponse'; success: boolean; clientSecret: string };
+        };
+    };
 };
 
 export type FindManyUserBookingRequestsQueryVariables = Exact<{
@@ -3390,6 +3441,7 @@ export type FindManyUserBookingRequestsQuery = {
                     rank: CookRank;
                     user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
                 };
+                configuredMenu?: { __typename?: 'ConfiguredMenu'; title: string } | null;
             }> | null;
         };
     };
@@ -3428,6 +3480,23 @@ export type FindOneUserBookingRequestQuery = {
                     rank: CookRank;
                     user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
                 };
+                configuredMenu?: {
+                    __typename?: 'ConfiguredMenu';
+                    menuId?: string | null;
+                    title: string;
+                    description: string;
+                    greetingFromKitchen?: string | null;
+                    kitchenId?: string | null;
+                    courses: Array<{
+                        __typename?: 'ConfiguredMenuCourse';
+                        index: number;
+                        title: string;
+                        mealTitle: string;
+                        mealDescription: string;
+                        mealImageUrl?: string | null;
+                        mealType?: MealType | null;
+                    }>;
+                } | null;
             } | null;
         };
     };
@@ -4742,6 +4811,48 @@ export const GetMenuBookingRequestPageDataDocument = {
                                                     ],
                                                 },
                                             },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'courses' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'index' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'courseId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'mealOptions' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'index' } },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'meal' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                { kind: 'Field', name: { kind: 'Name', value: 'mealId' } },
+                                                                                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'description' },
+                                                                                },
+                                                                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'imageUrl' },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
                                             { kind: 'Field', name: { kind: 'Name', value: 'imageUrls' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'basePrice' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'basePriceCustomers' } },
@@ -4774,6 +4885,7 @@ export const GetMenuBookingRequestPageDataDocument = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'stripePublishableKey' } },
                 ],
             },
         },
@@ -6082,6 +6194,14 @@ export const FindManyCookBookingRequestsDocument = {
                                                         },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'configuredMenu' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'title' } }],
+                                                            },
+                                                        },
                                                     ],
                                                 },
                                             },
@@ -6185,6 +6305,47 @@ export const FindOneCookBookingRequestDocument = {
                                                         },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'configuredMenu' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'menuId' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'greetingFromKitchen' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'courses' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                { kind: 'Field', name: { kind: 'Name', value: 'index' } },
+                                                                                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'mealTitle' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'mealDescription' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'mealImageUrl' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'mealType' },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
                                                     ],
                                                 },
                                             },
@@ -10005,7 +10166,6 @@ export const CreateOneUserBookingRequestDocument = {
                                         selections: [
                                             {
                                                 kind: 'Field',
-                                                alias: { kind: 'Name', value: 'success' },
                                                 name: { kind: 'Name', value: 'createOne' },
                                                 arguments: [
                                                     {
@@ -10014,6 +10174,13 @@ export const CreateOneUserBookingRequestDocument = {
                                                         value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
                                                     },
                                                 ],
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'success' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'clientSecret' } },
+                                                    ],
+                                                },
                                             },
                                         ],
                                     },
@@ -10118,6 +10285,14 @@ export const FindManyUserBookingRequestsDocument = {
                                                                         },
                                                                     },
                                                                 ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'configuredMenu' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'title' } }],
                                                             },
                                                         },
                                                     ],
@@ -10233,6 +10408,47 @@ export const FindOneUserBookingRequestDocument = {
                                                                                 {
                                                                                     kind: 'Field',
                                                                                     name: { kind: 'Name', value: 'profilePictureUrl' },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'configuredMenu' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'menuId' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'greetingFromKitchen' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'courses' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                { kind: 'Field', name: { kind: 'Name', value: 'index' } },
+                                                                                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'mealTitle' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'mealDescription' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'mealImageUrl' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'mealType' },
                                                                                 },
                                                                             ],
                                                                         },

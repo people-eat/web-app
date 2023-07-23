@@ -1,8 +1,10 @@
-import moment from 'moment';
+import { Divider } from '@mui/material';
+import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
@@ -13,15 +15,18 @@ import PEMealCard from '../../cards/mealCard/PEMealCard';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEButton from '../../standard/buttons/PEButton';
+import PECounter from '../../standard/counter/PECounter';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
+import PETextField from '../../standard/textFields/PETextField';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
+import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 
 export interface PublicMenuPageProps {
     signedInUser?: SignedInUser;
-    publicMenu?: {
+    publicMenu: {
         menuId: string;
         title: string;
         description: string;
@@ -43,6 +48,7 @@ export interface PublicMenuPageProps {
             mealOptions: {
                 index: number;
                 meal: {
+                    mealId: string;
                     title: string;
                     description: string;
                     imageUrl?: string | null;
@@ -71,10 +77,30 @@ export default function PublicMenuPage({ signedInUser, publicMenu }: PublicMenuP
     // const { isMobile } = useResponsive();
 
     const { t } = useTranslation('common');
-    const { t: bookingTranslations } = useTranslation('globalBookingRequest');
+
+    const [adults, setAdults] = useState(3);
+    const [children, setChildren] = useState(0);
+    const [occasion, setOccasion] = useState('');
+    const [dateTime, setDateTime] = useState(moment());
+    const [address, setAddress] = useState('');
+
+    const total = calculateMenuPrice(
+        adults,
+        children,
+        publicMenu.basePrice,
+        publicMenu.basePriceCustomers,
+        publicMenu.pricePerAdult,
+        publicMenu.pricePerChild,
+    );
+
+    const [courseSelections, setCourseSelections] = useState<Map<string, string | undefined>>(
+        new Map(publicMenu.courses.map((course) => [course.courseId, undefined])),
+    );
+
+    const disabled = Array.from(courseSelections.entries()).findIndex(([_courseId, mealId]) => mealId === undefined) !== -1;
 
     return (
-        <VStack gap={40} className="w-full h-full overflow-hidden">
+        <VStack gap={64} className="w-full h-full">
             <PEHeader signedInUser={signedInUser} />
 
             <VStack className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4" gap={16}>
@@ -121,55 +147,119 @@ export default function PublicMenuPage({ signedInUser, publicMenu }: PublicMenuP
                             </VStack>
 
                             <Spacer />
-
-                            <Link
-                                href={{
-                                    pathname: '/menu-booking-request',
-                                    query: {
-                                        menuId: publicMenu.menuId,
-                                        address: '',
-                                        latitude: 0,
-                                        longitude: 0,
-                                        adults: 3,
-                                        children: 1,
-                                        date: moment().format(moment.HTML5_FMT.DATE),
-                                    },
-                                }}
-                                className="no-underline"
-                            >
-                                <PEButton title={bookingTranslations('send-request-label')} onClick={(): void => undefined} />
-                            </Link>
                         </HStack>
 
-                        <HStack className="w-full">
-                            <h2>Courses</h2>
-                            <Spacer />
-                        </HStack>
+                        <HStack gap={32} className="w-full">
+                            <VStack gap={32} style={{ flex: 1 }}>
+                                {publicMenu.courses.map((course) => (
+                                    <VStack key={course.courseId} className="w-full" gap={32}>
+                                        <HStack className="w-full">
+                                            <span className="text-heading-m">{course.title}</span>
+                                            <Spacer />
+                                        </HStack>
 
-                        {publicMenu.courses.map((course) => (
-                            <VStack key={course.courseId} className="w-full" gap={32}>
-                                <HStack className="w-full">
-                                    <span>{course.title}</span>
-                                    <Spacer />
-                                </HStack>
-
-                                <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start' }}>
-                                    {course.mealOptions.map((mealOption) => (
-                                        <PEMealCard
-                                            key={mealOption.index}
-                                            title={mealOption.meal.title}
-                                            description={mealOption.meal.description}
-                                            imageUrl={mealOption.meal.imageUrl ?? undefined}
-                                        />
-                                    ))}
-                                </HStack>
+                                        <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start' }}>
+                                            {course.mealOptions.map((mealOption) => (
+                                                <PEMealCard
+                                                    key={mealOption.index}
+                                                    title={mealOption.meal.title}
+                                                    description={mealOption.meal.description}
+                                                    imageUrl={mealOption.meal.imageUrl ?? undefined}
+                                                    active={courseSelections.get(course.courseId) === mealOption.meal.mealId}
+                                                    onClick={(): void =>
+                                                        setCourseSelections(
+                                                            new Map(courseSelections.set(course.courseId, mealOption.meal.mealId)),
+                                                        )
+                                                    }
+                                                />
+                                            ))}
+                                        </HStack>
+                                    </VStack>
+                                ))}
                             </VStack>
-                        ))}
+
+                            <VStack
+                                gap={16}
+                                style={{ width: 400, alignItems: 'flex-start' }}
+                                className="w-full bg-white shadow-primary box-border p-8 rounded-4"
+                            >
+                                <span>Event Details</span>
+
+                                <span>Personen</span>
+                                <HStack gap={16} className="w-full">
+                                    <PEIcon icon={Icon.users} /> <span>{'Erwachsene'}</span> <Spacer />
+                                    <PECounter value={adults} onValueChange={setAdults} />
+                                </HStack>
+
+                                <HStack gap={16} className="w-full">
+                                    <PEIcon icon={Icon.users} /> <span>{'Kinder'}</span> <Spacer />
+                                    <PECounter value={children} onValueChange={setChildren} />
+                                </HStack>
+
+                                <span>Anlass</span>
+                                <PETextField value={occasion} onChange={setOccasion} type="text" />
+
+                                <span>Veranstaltungsdetails</span>
+                                <HStack gap={16}>
+                                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
+                                        <DatePicker
+                                            sx={{ width: '100%' }}
+                                            value={dateTime}
+                                            onChange={(changedDate: Moment | null): void => {
+                                                if (changedDate) setDateTime(changedDate);
+                                            }}
+                                            slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
+                                            label={t('date-label')}
+                                            minDate={moment().add(2, 'days')}
+                                        />
+                                    </div>
+                                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
+                                        <TimePicker
+                                            sx={{ width: '100%' }}
+                                            value={dateTime}
+                                            onChange={(changedTime: Moment | null): void => {
+                                                if (changedTime) setDateTime(changedTime);
+                                            }}
+                                            slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
+                                            label={t('start-time-label')}
+                                        />
+                                    </div>
+                                </HStack>
+
+                                <PETextField value={address} onChange={setAddress} type="text" />
+
+                                <Divider flexItem />
+
+                                <HStack className="w-full">
+                                    <span>Gesamtsumme</span>
+                                    <Spacer />
+                                    <span>{(total / 100).toFixed(2)} EUR</span>
+                                </HStack>
+
+                                <Link
+                                    target="_blank"
+                                    href={{
+                                        pathname: '/menu-booking-request',
+                                        query: {
+                                            menuId: publicMenu.menuId,
+                                            address: address,
+                                            latitude: 0,
+                                            longitude: 0,
+                                            adults,
+                                            children,
+                                            date: dateTime.format(moment.HTML5_FMT.DATE),
+                                            courseSelections: JSON.stringify(Array.from(courseSelections.entries())),
+                                        },
+                                    }}
+                                    className="no-underline w-full"
+                                >
+                                    <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={(): void => undefined} />
+                                </Link>
+                            </VStack>
+                        </HStack>
                     </>
                 )}
             </VStack>
-
-            <Spacer />
 
             <PEFooter />
         </VStack>

@@ -1,7 +1,10 @@
 mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {
     users {
         bookingRequests(userId: $userId) {
-            success: createOne(request: $request)
+            createOne(request: $request) {
+                success
+                clientSecret
+            }
         }
     }
 }

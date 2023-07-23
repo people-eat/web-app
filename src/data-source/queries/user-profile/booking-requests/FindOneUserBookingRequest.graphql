@@ -27,6 +27,21 @@ query FindOneUserBookingRequest($userId: String!, $bookingRequestId: String!) {
                         profilePictureUrl
                     }
                 }
+                configuredMenu {
+                    menuId
+                    title
+                    description
+                    greetingFromKitchen
+                    kitchenId
+                    courses {
+                        index
+                        title
+                        mealTitle
+                        mealDescription
+                        mealImageUrl
+                        mealType
+                    }
+                }
             }
         }
     }

@@ -83,7 +83,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                             </span>
                                         </HStack>
                                         <span className={'text-heading-ss-bold md:text-text-sm-bold'}>
-                                            {chefProfileTranslations('cook-request-title')}
+                                            {bookingRequest.configuredMenu?.title ?? chefProfileTranslations('cook-request-title')}
                                         </span>
 
                                         <HStack gap={16} className="text-gray">

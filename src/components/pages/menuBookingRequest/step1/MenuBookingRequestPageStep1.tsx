@@ -14,6 +14,8 @@ import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 
 export interface MenuBookingRequestPageStep1Props {
+    price: number;
+
     adultCount: number;
     setAdultCount: (changedAdultCount: number) => void;
     childrenCount: number;
@@ -26,14 +28,13 @@ export interface MenuBookingRequestPageStep1Props {
     setDateTime: (changedDateTime: Moment) => void;
     occasion: string;
     setOccasion: (changedOccasion: string) => void;
-    budget: string;
-    setBudget: (changedBudget: string) => void;
     cookLocation: Location;
     cookTravelExpenses: number;
     onContinue: () => void;
 }
 
 export default function MenuBookingRequestPageStep1({
+    price,
     adultCount,
     setAdultCount,
     childrenCount,
@@ -46,8 +47,6 @@ export default function MenuBookingRequestPageStep1({
     setDateTime,
     occasion,
     setOccasion,
-    budget,
-    setBudget,
     cookLocation,
     cookTravelExpenses,
     onContinue,
@@ -56,7 +55,7 @@ export default function MenuBookingRequestPageStep1({
 
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
-    const disabled = adultCount < 1 || budget === '';
+    const disabled = adultCount < 1;
 
     return (
         <VStack gap={32} className="w-full">
@@ -143,7 +142,14 @@ export default function MenuBookingRequestPageStep1({
 
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>{'Preis'}</h3>
-                <PETextField startContent={<>€</>} type="number" value={budget} onChange={setBudget} placeholder="Preis" disabled />
+                <PETextField
+                    startContent={<>€</>}
+                    type="number"
+                    value={(price / 100).toFixed(2)}
+                    onChange={(): void => undefined}
+                    placeholder="Preis"
+                    disabled
+                />
             </VStack>
 
             <PEButton onClick={onContinue} title={t('continue-label')} disabled={disabled} />
