@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import CookBookingRequestPage, { type CookBookingRequestPageProps } from '../../components/pages/cookBookingRequest';
 import { GetCookBookingRequestPageDataDocument } from '../../data-source/generated/graphql';
@@ -38,14 +39,18 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
 };
 
 const Index: NextPage<CookBookingRequestPageProps> = ({ signedInUser, cook, searchParameters, categories, allergies, kitchens }) => {
+    const { t } = useTranslation('global-booking-request');
     return (
         <>
             <Head>
-                <title>PeopleEat - Cook Booking Request</title>
+                <title>{t('request-title')}</title>
 
                 <meta name="title" content="" />
-                <meta name="description" content="" />
-                <meta name="keywords" content="" />
+                <meta
+                    name="description"
+                    content="Du hast besondere Menü Wünsche und weißt nicht wo du anfangen sollst? Wir helfen dir dabei einen Privatkoch für Zuhause zu finden und ein Menü nach deinen Präferenzen zusammenzustellen. "
+                />
+                <meta name="keywords" content="Menü für Zuhause, Koch für Zuhause" />
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>

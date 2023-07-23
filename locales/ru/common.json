@@ -21,5 +21,11 @@
     "publish": "publish",
     "header-user-profile": "Host profile",
     "header-chef-profile": "Chef profile",
-    "sign-out": "Sign out"
+    "sign-out": "Sign out",
+    "email-confirmation": "Confirm your email address",
+    "email-confirmation-success": "You have successfully confirmed your email",
+    "email-confirmation-button": "To confirm your email click on the button",
+    "loading": "Loading...",
+    "data-privacy-title": "Data Privacy Policy",
+    "terms-title": "AGB"
 }

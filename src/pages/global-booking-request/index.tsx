@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import GlobalBookingRequestPage, { type GlobalBookingRequestPageProps } from '../../components/pages/globalBookingRequest';
 import { GetGlobalBookingRequestPageDataDocument } from '../../data-source/generated/graphql';
@@ -37,10 +38,11 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
 };
 
 const Index: NextPage<GlobalBookingRequestPageProps> = ({ signedInUser, searchParameters, categories, allergies, kitchens }) => {
+    const { t } = useTranslation('global-booking-request');
     return (
         <>
             <Head>
-                <title>PeopleEat - Global Booking Request</title>
+                <title>{t('request-title')}</title>
 
                 <meta name="title" content="Sende uns eine Individuelle Menü Anfrage" />
                 <meta

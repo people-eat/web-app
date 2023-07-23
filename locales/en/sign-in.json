@@ -9,5 +9,7 @@
     "sign-up-label-1": "No profile yet?",
     "sign-up-label-2": "Register here",
     "stay-signed-in": "Remember me",
-    "sub-headline": "Please enter your data to login "
+    "sub-headline": "Please enter your data to login ",
+    "sign-in-title": "Sign In",
+    "sign-up-title": "Sign Up"
 }

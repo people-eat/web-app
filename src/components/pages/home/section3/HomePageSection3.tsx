@@ -11,7 +11,7 @@ export default function HomePageSection3(): ReactElement {
         <div className="flex w-full min-h-[700px] lg:my-0 my-[64px] lg:flex-col">
             <Image
                 draggable={false}
-                src={'/peopleEatPreview.gif'}
+                src={'/koch-mieten-für-zuhause.gif'}
                 className="object-cover object-[0 -40px] rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full w-[50%] lg:w-full shadow-xl"
                 alt="Koch der mit frischen Zutaten bei einem Kunden zu einem Event ankommt"
                 width={400}

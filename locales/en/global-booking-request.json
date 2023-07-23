@@ -37,5 +37,14 @@
     "booking-global-request-in-price": "In price included:",
     "cook-request-title": "Individual Request",
     "budget-suggestion": "Send budget suggestion",
-    "global-request": "Global Request"
+    "global-request": "Global Request",
+    "bookings-title": "Booking requests",
+    "tab-chat": "Chat",
+    "tab-details": "Event details",
+    "tab-menu": "Menu details",
+    "tab-rating": "Rating",
+    "booking-selection": "Select a booking request",
+    "in": "in",
+    "days": "days",
+    "request-title": "Sende uns eine Individuelle Menü Anfrage"
 }

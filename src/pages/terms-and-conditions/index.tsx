@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { type GetServerSideProps, type NextPage } from 'next';
+import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import TermsAndConditionsPage, { type TermsAndConditionsPageProps } from '../../components/pages/termsAndConditions';
 import { FindLatestPublicTermsUpdateDocument } from '../../data-source/generated/graphql';
@@ -22,17 +23,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Index: NextPage<TermsAndConditionsPageProps> = ({ signedInUser, latestTermsUpdate }) => {
+    const { t } = useTranslation('common');
     return (
         <>
             <Head>
-                <title>PeopleEat - Terms and Conditions</title>
+                <title>{t('terms-title')}</title>
 
-                <meta name="title" content="Privatkoch werden" />
-                <meta
-                    name="description"
-                    content="Genieße die Freiheit und Flexibilität wann du deine Privatkoch Services anbieten möchtest. Teile deine Leidenschaft mit deinen Gästen und schaffe einzigartige Erlebnismomente"
-                />
-                <meta name="keywords" content="Privatkoch werden, als Koch selbstständig machen, Eigenes Restaurant eröffnen" />
+                <meta name="title" content="" />
+                <meta name="description" content="" />
+                <meta name="keywords" content="" />
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>

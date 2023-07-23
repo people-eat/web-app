@@ -12,7 +12,7 @@ export default function HomePageSection10(): ReactElement {
                 className="w-full max-w-[900px] h-[181px] sm:h-[150px]"
                 style={{
                     width: '100%',
-                    backgroundImage: 'url(/supported.png)',
+                    backgroundImage: 'url(/frankfurt-school.png)',
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                 }}

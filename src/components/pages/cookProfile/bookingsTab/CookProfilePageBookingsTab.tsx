@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { Divider, List, ListItemButton } from '@mui/material';
 import moment from 'moment';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
 import { FindManyCookBookingRequestsDocument } from '../../../../data-source/generated/graphql';
@@ -17,7 +18,8 @@ export interface CookProfilePageBookingsTabProps {
 
 export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBookingsTabProps): ReactElement {
     const [selectedBookingRequestId, setSelectedBookingRequestId] = useState<string | undefined>();
-
+    const { t } = useTranslation('global-booking-request');
+    const { t: chefProfileTranslations } = useTranslation('chef-profile');
     const bookingRequestsResult = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
     const bookingRequests = bookingRequestsResult.data?.cooks.bookingRequests.findMany ?? [];
 
@@ -35,7 +37,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                         borderRadius: 16,
                     }}
                 >
-                    <span style={{ margin: 16 }}>Booking Requests</span>
+                    <span style={{ margin: 16 }}>{t('booking-title')}</span>
                     <Divider />
                     <List>
                         {bookingRequests.map((bookingRequest) => (
@@ -46,31 +48,31 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                 >
                                     <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
                                         <HStack className="w-full">
-                                            {bookingRequest.status === 'OPEN' && (
+                                            {bookingRequest.status === chefProfileTranslations('booking-open') && (
                                                 <span
                                                     className="text-green"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
                                                 >
-                                                    Open
+                                                    {chefProfileTranslations('booking-open')}
                                                 </span>
                                             )}
-                                            {bookingRequest.status === 'PENDING' && (
+                                            {bookingRequest.status === chefProfileTranslations('booking-in-progress') && (
                                                 <span
                                                     className="text-blue-400"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
                                                 >
-                                                    Pending
+                                                    {chefProfileTranslations('booking-in-progress')}
                                                 </span>
                                             )}
-                                            {bookingRequest.status === 'CANCELED' && (
+                                            {bookingRequest.status === chefProfileTranslations('booking-cancelled') && (
                                                 <span
                                                     className="text-red-400"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
                                                 >
-                                                    Canceled
+                                                    {chefProfileTranslations('booking-cancelled')}
                                                 </span>
                                             )}
-                                            {bookingRequest.status === 'COMPLETED' && (
+                                            {bookingRequest.status === chefProfileTranslations('booking-closed') && (
                                                 <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>
                                                     Completed
                                                 </span>
@@ -80,7 +82,9 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                 {bookingRequest.price.amount} {bookingRequest.price.currencyCode}
                                             </span>
                                         </HStack>
-                                        <span className={'text-heading-ss-bold md:text-text-sm-bold'}>Chef Booking Request</span>
+                                        <span className={'text-heading-ss-bold md:text-text-sm-bold'}>
+                                            {chefProfileTranslations('cook-request-title')}
+                                        </span>
 
                                         <HStack gap={16} className="text-gray">
                                             {moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
@@ -106,7 +110,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                             )}
                                             {bookingRequest.user.firstName}
                                             <Spacer />
-                                            in {moment(bookingRequest.dateTime).diff(moment(), 'days')} days
+                                            {t('in')} {moment(bookingRequest.dateTime).diff(moment(), 'days')} {t('days')}
                                         </HStack>
                                     </VStack>
                                 </ListItemButton>
@@ -130,7 +134,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                         />
                     )}
 
-                    {!selectedBookingRequestId && 'Select a booking request'}
+                    {!selectedBookingRequestId && t('booking-selection')}
                 </VStack>
             </HStack>
         </>

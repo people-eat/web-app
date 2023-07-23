@@ -35,6 +35,14 @@ export default function CookProfilePageBookingsTabDetail({
     const { data, refetch } = useQuery(FindOneCookBookingRequestDocument, { variables: { cookId, bookingRequestId } });
 
     const { t: translateBooking } = useTranslation('global-booking-request');
+    const { t: commonTranslate } = useTranslation('common');
+
+    const tabToTranslations: Record<'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING', string> = {
+        ['CHAT']: translateBooking('tab-chat'),
+        ['EVENT_DETAILS']: translateBooking('tab-details'),
+        ['MENU']: translateBooking('tab-menu'),
+        ['RATING']: translateBooking('tab-rating'),
+    };
 
     const [tab, setTab] = useState<'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING'>('CHAT');
     const [newMessage, setNewMessage] = useState('');
@@ -52,21 +60,36 @@ export default function CookProfilePageBookingsTabDetail({
         if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
     }, [bookingRequest]);
 
-    if (!bookingRequest) return <>Loading...</>;
+    if (!bookingRequest) return <>{commonTranslate('loading')}</>;
 
     return (
         <>
             <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
                 <Tabs value={tab}>
-                    <Tab value="CHAT" onClick={(): void => setTab('CHAT')} style={{ textTransform: 'none' }} label="Chat" />
                     <Tab
-                        value="EVENT_DETAILS"
+                        value={tabToTranslations['CHAT']}
+                        onClick={(): void => setTab('CHAT')}
+                        style={{ textTransform: 'none' }}
+                        label="Chat"
+                    />
+                    <Tab
+                        value={tabToTranslations['EVENT_DETAILS']}
                         onClick={(): void => setTab('EVENT_DETAILS')}
                         style={{ textTransform: 'none' }}
                         label="Event Details"
                     />
-                    <Tab value="MENU" onClick={(): void => setTab('MENU')} style={{ textTransform: 'none' }} label="Menu" />
-                    <Tab value="RATING" onClick={(): void => setTab('RATING')} style={{ textTransform: 'none' }} label="Rating" />
+                    <Tab
+                        value={tabToTranslations['MENU']}
+                        onClick={(): void => setTab('MENU')}
+                        style={{ textTransform: 'none' }}
+                        label="Menu"
+                    />
+                    <Tab
+                        value={tabToTranslations['RATING']}
+                        onClick={(): void => setTab('RATING')}
+                        style={{ textTransform: 'none' }}
+                        label="Rating"
+                    />
                 </Tabs>
 
                 <Spacer />
