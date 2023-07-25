@@ -143,10 +143,9 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                         className="w-full bg-white shadow-primary md:shadow-none box-border p-8 md:p-0 rounded-4"
                         style={{ alignItems: 'center' }}
                     >
+                        <p className="w-full mb-4 text-text-m-bold">{'Menü erstellen'}</p>
                         <Spacer />
-
                         {/* <PEIconButton icon={Icon.filtersOrange} border="1px solid rgba(255, 100, 51, 1)" bg="white" withoutShadow /> */}
-
                         <PEIconButton
                             onClick={(): void => setSelectedTab('CREATE')}
                             icon={Icon.plusWhite}

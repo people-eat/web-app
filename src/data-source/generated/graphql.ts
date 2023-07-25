@@ -2429,6 +2429,7 @@ export type GetPublicMenuPageDataQuery = {
                 __typename?: 'PublicCook';
                 cookId: string;
                 rank: CookRank;
+                city: string;
                 user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
             };
             categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
@@ -5314,6 +5315,7 @@ export const GetPublicMenuPageDataDocument = {
                                                     selections: [
                                                         { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'city' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'user' },

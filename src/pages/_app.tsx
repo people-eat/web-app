@@ -3,8 +3,7 @@ import { ThemeProvider, createTheme, type Theme } from '@mui/material';
 import { LocalizationProvider as MuiI18nProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment';
-import { type AppType } from 'next/dist/shared/lib/utils';
-import { useRouter } from 'next/router';
+import { type AppPropsType, type AppType } from 'next/dist/shared/lib/utils';
 import createApolloClient from '../data-source/createApolloClient';
 
 import 'moment/locale/de';
@@ -24,9 +23,8 @@ export const theme: Theme = createTheme({
 
 export const apolloClient: ApolloClient<NormalizedCacheObject> = createApolloClient(process.env.NEXT_PUBLIC_SERVER_URL ?? '');
 
-const PeopleEatApp: AppType = ({ Component, pageProps }) => {
-    const { locale } = useRouter();
-    moment.locale(locale);
+const PeopleEatApp: AppType = ({ Component, pageProps, router }: AppPropsType) => {
+    moment.locale(router.locale);
 
     return (
         <>
@@ -44,7 +42,7 @@ const PeopleEatApp: AppType = ({ Component, pageProps }) => {
             </Script>
             <ApolloProvider client={apolloClient}>
                 <ThemeProvider theme={theme}>
-                    <MuiI18nProvider dateAdapter={AdapterMoment} adapterLocale={locale}>
+                    <MuiI18nProvider dateAdapter={AdapterMoment} adapterLocale={router.locale}>
                         <Component {...pageProps} />
                     </MuiI18nProvider>
                 </ThemeProvider>

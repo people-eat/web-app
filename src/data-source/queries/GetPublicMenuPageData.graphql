@@ -16,6 +16,7 @@ query GetPublicMenuPageData($menuId: String!) {
             cook {
                 cookId
                 rank
+                city
                 user {
                     firstName
                     profilePictureUrl
