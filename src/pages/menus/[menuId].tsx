@@ -1,11 +1,12 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
+import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
 import PublicMenuPage, { type PublicMenuPageProps } from '../../components/pages/publicMenu';
 import { GetPublicMenuPageDataDocument } from '../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { menuId } = context.query;
+    const { menuId, address, latitude, longitude, adults, children, date } = context.query;
 
     if (typeof menuId !== 'string') throw new Error();
 
@@ -18,16 +19,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }).query({ query: GetPublicMenuPageDataDocument, variables: { menuId } });
 
     const publicMenu = data.publicMenus.findOne;
+    const allergies = data.allergies.findAll ?? [];
 
     return {
         props: {
             signedInUser: data.users.signedInUser,
             publicMenu,
+            searchParameters: {
+                location: {
+                    address: typeof address === 'string' ? address : '',
+                    latitude: latitude ? Number(latitude) : 49,
+                    longitude: longitude ? Number(longitude) : 49,
+                },
+                adults: adults ? Number(adults) : 4,
+                children: children ? Number(children) : 0,
+                date: typeof date === 'string' ? moment(date).format(moment.HTML5_FMT.DATE) : moment().format(moment.HTML5_FMT.DATE),
+            },
+            allergies,
         },
     };
 };
 
-const Index: NextPage<PublicMenuPageProps> = ({ signedInUser, publicMenu }) => {
+const Index: NextPage<PublicMenuPageProps> = ({ signedInUser, publicMenu, searchParameters, allergies }) => {
     return (
         <>
             <Head>
@@ -39,7 +52,7 @@ const Index: NextPage<PublicMenuPageProps> = ({ signedInUser, publicMenu }) => {
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <PublicMenuPage signedInUser={signedInUser} publicMenu={publicMenu} />
+            <PublicMenuPage signedInUser={signedInUser} publicMenu={publicMenu} searchParameters={searchParameters} allergies={allergies} />
         </>
     );
 };

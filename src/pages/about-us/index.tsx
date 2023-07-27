@@ -4,6 +4,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import AboutUsPage, { type AboutUsPageProps } from '../../components/pages/aboutUs';
 import { GetProfileQueryDocument } from '../../data-source/generated/graphql';
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { data: profileData } = await new ApolloClient({
         uri: process.env.NEXT_PUBLIC_SERVER_URL,

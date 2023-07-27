@@ -237,7 +237,7 @@ export default function CookBookingRequestPage({
                                 signedInUser
                                     ? void createGlobalBookingRequest()
                                           .then(({ data }) =>
-                                              setCompletionState(data?.users.bookingRequests.success ? 'SUCCESSFUL' : 'FAILED'),
+                                              setCompletionState(data?.users.bookingRequests.createOne ? 'SUCCESSFUL' : 'FAILED'),
                                           )
                                           .catch(() => setCompletionState('FAILED'))
                                           .finally(() => setLoading(false))

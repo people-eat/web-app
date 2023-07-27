@@ -2453,6 +2453,7 @@ export type GetPublicMenuPageDataQuery = {
             }>;
         } | null;
     };
+    allergies: { __typename?: 'AllergyQuery'; findAll: Array<{ __typename?: 'Allergy'; allergyId: string; title: string }> };
 };
 
 export type GetPublicMenusPageDataQueryVariables = Exact<{
@@ -5389,6 +5390,26 @@ export const GetPublicMenuPageDataDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'pricePerAdult' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'pricePerChild' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'allergies' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findAll' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'allergyId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                                         ],
                                     },
                                 },

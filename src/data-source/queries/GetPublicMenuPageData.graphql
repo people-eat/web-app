@@ -49,4 +49,10 @@ query GetPublicMenuPageData($menuId: String!) {
             currencyCode
         }
     }
+    allergies {
+        findAll {
+            allergyId
+            title
+        }
+    }
 }

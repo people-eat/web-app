@@ -16,7 +16,7 @@ export default function searchAddress(searchText: string, onComplete: (results: 
 
     fetch(
         encodeURI(
-            'google-places-api/place/textsearch/json?type=address&query="' +
+            '/google-places-api/place/textsearch/json?type=address&query="' +
                 searchText +
                 '"&key=' +
                 (process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY ?? ''),

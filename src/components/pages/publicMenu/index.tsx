@@ -6,6 +6,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import { type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
+import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
+import { type Allergy } from '../../../shared-domain/Allergy';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
 import { type Language } from '../../../shared-domain/Language';
@@ -16,8 +18,11 @@ import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEButton from '../../standard/buttons/PEButton';
 import PECounter from '../../standard/counter/PECounter';
+import PEDropdown from '../../standard/dropdown/PEDropdown';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
+import PEAutoCompleteTextField from '../../standard/textFields/PEAutoCompleteTextField';
+import PEMultiLineTextField from '../../standard/textFields/PEMultiLineTextField';
 import PETextField from '../../standard/textFields/PETextField';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
@@ -26,6 +31,17 @@ import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMen
 
 export interface PublicMenuPageProps {
     signedInUser?: SignedInUser;
+    searchParameters: {
+        location: {
+            address: string;
+            latitude: number;
+            longitude: number;
+        };
+        adults: number;
+        children: number;
+        date: string;
+    };
+    allergies: Allergy[];
     publicMenu: {
         menuId: string;
         title: string;
@@ -73,16 +89,23 @@ export interface PublicMenuPageProps {
     };
 }
 
-export default function PublicMenuPage({ signedInUser, publicMenu }: PublicMenuPageProps): ReactElement {
+export default function PublicMenuPage({ signedInUser, publicMenu, searchParameters, allergies }: PublicMenuPageProps): ReactElement {
     // const { isMobile } = useResponsive();
 
     const { t } = useTranslation('common');
 
-    const [adults, setAdults] = useState(3);
-    const [children, setChildren] = useState(0);
+    const [address, setAddress] = useState<string>(searchParameters.location.address);
+    const [_selectedLocation, setSelectedLocation] = useState<Location | undefined>(undefined);
+    const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
+
+    const [adults, setAdults] = useState(searchParameters.adults);
+    const [children, setChildren] = useState(searchParameters.children);
+    const [dateTime, setDateTime] = useState(moment(searchParameters.date).set('hours', 12).set('minutes', 0));
+
     const [occasion, setOccasion] = useState('');
-    const [dateTime, setDateTime] = useState(moment());
-    const [address, setAddress] = useState('');
+    const [message, setMessage] = useState<string>('');
+
+    const [selectedAllergies, setSelectedAllergies] = useState<Allergy[]>([]);
 
     const total = calculateMenuPrice(
         adults,
@@ -183,7 +206,7 @@ export default function PublicMenuPage({ signedInUser, publicMenu }: PublicMenuP
                                 style={{ width: 400, alignItems: 'flex-start' }}
                                 className="w-full bg-white shadow-primary box-border p-8 rounded-4"
                             >
-                                <span>Event Details</span>
+                                <h3 style={{ lineHeight: 0 }}>Event Details</h3>
 
                                 <span>Personen</span>
                                 <HStack gap={16} className="w-full">
@@ -195,9 +218,6 @@ export default function PublicMenuPage({ signedInUser, publicMenu }: PublicMenuP
                                     <PEIcon icon={Icon.users} /> <span>{'Kinder'}</span> <Spacer />
                                     <PECounter value={children} onValueChange={setChildren} />
                                 </HStack>
-
-                                <span>Anlass</span>
-                                <PETextField value={occasion} onChange={setOccasion} type="text" />
 
                                 <span>Veranstaltungsdetails</span>
                                 <HStack gap={16}>
@@ -226,14 +246,53 @@ export default function PublicMenuPage({ signedInUser, publicMenu }: PublicMenuP
                                     </div>
                                 </HStack>
 
-                                <PETextField value={address} onChange={setAddress} type="text" />
+                                <PEAutoCompleteTextField
+                                    searchText={address}
+                                    onSearchTextChange={(changedAddressSearchText: string): void => {
+                                        setAddress(changedAddressSearchText);
+                                        searchAddress(changedAddressSearchText, setAddressSearchResults);
+                                    }}
+                                    options={addressSearchResults}
+                                    getOptionLabel={(selectedOption: GoogleMapsPlacesResult): string => selectedOption.formatted_address}
+                                    onOptionSelect={(selectedSearchResult: GoogleMapsPlacesResult): void =>
+                                        setSelectedLocation({
+                                            latitude: selectedSearchResult.geometry.location.lat,
+                                            longitude: selectedSearchResult.geometry.location.lng,
+                                            text: address,
+                                        })
+                                    }
+                                    placeholder={t('location-placeholder-label')}
+                                />
+
+                                <PEDropdown
+                                    title={'Allergien'}
+                                    options={allergies}
+                                    getOptionLabel={(allergy): string => allergy.title}
+                                    optionsEqual={(allergyA, allergyB): boolean => allergyA.allergyId === allergyB.allergyId}
+                                    setSelectedOptions={setSelectedAllergies}
+                                    showSelectedCount
+                                    selectedOptions={selectedAllergies}
+                                />
+
+                                <PETextField value={occasion} onChange={setOccasion} type="text" placeholder="Anlass" />
+
+                                <PEMultiLineTextField value={message} onChange={setMessage} placeholder={t('Nachricht')} />
 
                                 <Divider flexItem />
 
                                 <HStack className="w-full">
-                                    <span>Gesamtsumme</span>
+                                    <span>Preis pro Person</span>
                                     <Spacer />
-                                    <span>{(total / 100).toFixed(2)} EUR</span>
+                                    <span>{(total / 100 / (adults + children)).toFixed(2)} EUR</span>
+                                </HStack>
+                                <HStack className="w-full">
+                                    <span>
+                                        <b>Gesamtsumme</b>
+                                    </span>
+                                    <Spacer />
+                                    <span>
+                                        <b>{(total / 100).toFixed(2)} EUR</b>
+                                    </span>
                                 </HStack>
 
                                 <Link
