@@ -22,6 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const Index: NextPage<AboutUsPageProps> = ({ signedInUser }) => {
     const { t } = useTranslation('about-us');
+
     return (
         <>
             <Head>

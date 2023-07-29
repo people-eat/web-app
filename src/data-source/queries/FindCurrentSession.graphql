@@ -1,0 +1,10 @@
+query FindCurrentSession {
+    sessions {
+        current {
+            cookieSettings {
+                sessionCookie
+                googleAnalytics
+            }
+        }
+    }
+}

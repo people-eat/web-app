@@ -1,0 +1,5 @@
+mutation UpdateSessionCookieSettings($request: SessionCookieSettingsInput!) {
+    sessions {
+        success: updateCookieSettings(request: $request)
+    }
+}

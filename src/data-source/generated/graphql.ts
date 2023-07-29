@@ -1443,6 +1443,7 @@ export type Query = {
     publicMenus: PublicMenuQuery;
     publicPrivacyPolicyUpdates: PublicPrivacyPolicyUpdateQuery;
     publicTermsUpdates: PublicTermsUpdateQuery;
+    sessions: SessionQuery;
     stripePublishableKey?: Maybe<Scalars['String']>;
     termsUpdates: TermsUpdateQuery;
     users: UserQuery;
@@ -1450,6 +1451,7 @@ export type Query = {
 
 export type Session = {
     __typename?: 'Session';
+    cookieSettings?: Maybe<SessionCookieSettings>;
     createdAt: Scalars['DateTime'];
     expired: Scalars['Boolean'];
     lastExtendedAt: Scalars['DateTime'];
@@ -1459,11 +1461,23 @@ export type Session = {
     userId?: Maybe<Scalars['String']>;
 };
 
+export type SessionCookieSettings = {
+    __typename?: 'SessionCookieSettings';
+    googleAnalytics?: Maybe<Scalars['Boolean']>;
+    sessionCookie?: Maybe<Scalars['Boolean']>;
+};
+
+export type SessionCookieSettingsInput = {
+    googleAnalytics?: InputMaybe<Scalars['Boolean']>;
+    sessionCookie?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type SessionMutation = {
     __typename?: 'SessionMutation';
     assignOneByEmailAddress: Scalars['Boolean'];
     assignOneByIdentityProvider: Scalars['Boolean'];
     assignOneByPhoneNumber: Scalars['Boolean'];
+    updateCookieSettings: Scalars['Boolean'];
 };
 
 export type SessionMutationAssignOneByEmailAddressArgs = {
@@ -1476,6 +1490,15 @@ export type SessionMutationAssignOneByIdentityProviderArgs = {
 
 export type SessionMutationAssignOneByPhoneNumberArgs = {
     request: CreateOneSessionByPhoneNumberRequest;
+};
+
+export type SessionMutationUpdateCookieSettingsArgs = {
+    request: SessionCookieSettingsInput;
+};
+
+export type SessionQuery = {
+    __typename?: 'SessionQuery';
+    current?: Maybe<Session>;
 };
 
 export type TermsUpdate = {
@@ -2101,6 +2124,23 @@ export type FindCategoriesQuery = {
     categories: { __typename?: 'CategoryQuery'; findAll: Array<{ __typename?: 'Category'; categoryId: string; title: string }> };
 };
 
+export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindCurrentSessionQuery = {
+    __typename?: 'Query';
+    sessions: {
+        __typename?: 'SessionQuery';
+        current?: {
+            __typename?: 'Session';
+            cookieSettings?: {
+                __typename?: 'SessionCookieSettings';
+                sessionCookie?: boolean | null;
+                googleAnalytics?: boolean | null;
+            } | null;
+        } | null;
+    };
+};
+
 export type FindKitchensQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FindKitchensQuery = {
@@ -2489,6 +2529,15 @@ export type GetPublicMenusPageDataQuery = {
             categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
         }>;
     };
+};
+
+export type UpdateSessionCookieSettingsMutationVariables = Exact<{
+    request: SessionCookieSettingsInput;
+}>;
+
+export type UpdateSessionCookieSettingsMutation = {
+    __typename?: 'Mutation';
+    sessions: { __typename?: 'SessionMutation'; success: boolean };
 };
 
 export type GetAdministrationUsersPageDataQueryVariables = Exact<{
@@ -3915,6 +3964,50 @@ export const FindCategoriesDocument = {
         },
     ],
 } as unknown as DocumentNode<FindCategoriesQuery, FindCategoriesQueryVariables>;
+export const FindCurrentSessionDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindCurrentSession' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sessions' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'current' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'cookieSettings' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sessionCookie' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'googleAnalytics' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>;
 export const FindKitchensDocument = {
     kind: 'Document',
     definitions: [
@@ -5569,6 +5662,49 @@ export const GetPublicMenusPageDataDocument = {
         },
     ],
 } as unknown as DocumentNode<GetPublicMenusPageDataQuery, GetPublicMenusPageDataQueryVariables>;
+export const UpdateSessionCookieSettingsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateSessionCookieSettings' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'SessionCookieSettingsInput' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sessions' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateCookieSettings' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'request' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateSessionCookieSettingsMutation, UpdateSessionCookieSettingsMutationVariables>;
 export const GetAdministrationUsersPageDataDocument = {
     kind: 'Document',
     definitions: [

@@ -295,25 +295,29 @@ export default function PublicMenuPage({ signedInUser, publicMenu, searchParamet
                                     </span>
                                 </HStack>
 
-                                <Link
-                                    target="_blank"
-                                    href={{
-                                        pathname: '/menu-booking-request',
-                                        query: {
-                                            menuId: publicMenu.menuId,
-                                            address: address,
-                                            latitude: 0,
-                                            longitude: 0,
-                                            adults,
-                                            children,
-                                            date: dateTime.format(moment.HTML5_FMT.DATE),
-                                            courseSelections: JSON.stringify(Array.from(courseSelections.entries())),
-                                        },
-                                    }}
-                                    className="no-underline w-full"
-                                >
-                                    <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={(): void => undefined} />
-                                </Link>
+                                {disabled && <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={(): void => undefined} />}
+
+                                {!disabled && (
+                                    <Link
+                                        target="_blank"
+                                        href={{
+                                            pathname: '/menu-booking-request',
+                                            query: {
+                                                menuId: publicMenu.menuId,
+                                                address: address,
+                                                latitude: 0,
+                                                longitude: 0,
+                                                adults,
+                                                children,
+                                                date: dateTime.format(moment.HTML5_FMT.DATE),
+                                                courseSelections: JSON.stringify(Array.from(courseSelections.entries())),
+                                            },
+                                        }}
+                                        className="no-underline w-full"
+                                    >
+                                        <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={(): void => undefined} />
+                                    </Link>
+                                )}
                             </VStack>
                         </HStack>
                     </>

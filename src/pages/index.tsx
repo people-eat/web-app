@@ -1,12 +1,20 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, useMutation, useQuery } from '@apollo/client';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { createContext, useState, type Context } from 'react';
+import { createContext, useEffect, useState, type Context } from 'react';
 import HomePage, { type HomePageProps } from '../components/pages/home';
-import { GetProfileQueryDocument } from '../data-source/generated/graphql';
+import PECheckbox from '../components/standard/checkbox/PECheckbox';
+import HStack from '../components/utility/hStack/HStack';
+import Spacer from '../components/utility/spacer/Spacer';
+import {
+    FindCurrentSessionDocument,
+    GetProfileQueryDocument,
+    UpdateSessionCookieSettingsDocument,
+    type SessionCookieSettingsInput,
+} from '../data-source/generated/graphql';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -39,6 +47,25 @@ export const HomePageContext: Context<{ signedInUser?: SignedInUser }> = createC
 
 const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: HomePageProps) => {
     const [showCookieBanner, setShowCookieBanner] = useState(false);
+    const [cookieSettings, setCookieSettings] = useState<SessionCookieSettingsInput>({
+        sessionCookie: false,
+        googleAnalytics: false,
+    });
+
+    const { data, loading } = useQuery(FindCurrentSessionDocument);
+
+    useEffect(() => {
+        if (!data?.sessions.current?.cookieSettings && !loading) setShowCookieBanner(true);
+
+        if (data?.sessions.current?.cookieSettings) {
+            setCookieSettings({
+                sessionCookie: data.sessions.current.cookieSettings.sessionCookie,
+                googleAnalytics: data.sessions.current.cookieSettings.googleAnalytics,
+            });
+        }
+    }, [data, loading]);
+
+    const [updateCookieSettings] = useMutation(UpdateSessionCookieSettingsDocument);
 
     return (
         <>
@@ -71,10 +98,67 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
                     <Link href="data-privacy-policy" target="_blank">
                         Mehr erfahren
                     </Link>
+
+                    <HStack style={{ alignItems: 'center', width: '100%' }}>
+                        <PECheckbox
+                            checked={cookieSettings.sessionCookie ?? false}
+                            onCheckedChange={(): void =>
+                                setCookieSettings({ ...cookieSettings, sessionCookie: !cookieSettings.sessionCookie })
+                            }
+                        />
+                        Sitzungs-Cookies / Session-Cookies
+                        <Spacer />
+                    </HStack>
+                    <HStack style={{ alignItems: 'center', width: '100%' }}>
+                        <PECheckbox
+                            checked={cookieSettings.googleAnalytics ?? false}
+                            onCheckedChange={(): void =>
+                                setCookieSettings({ ...cookieSettings, googleAnalytics: !cookieSettings.googleAnalytics })
+                            }
+                        />
+                        Drittanbieter-Cookies
+                        <Spacer />
+                    </HStack>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={(): void => setShowCookieBanner(false)}>Ablehnen</Button>
-                    <Button variant="contained" onClick={(): void => setShowCookieBanner(false)}>
+                    <Button
+                        onClick={(): void => {
+                            void updateCookieSettings({
+                                variables: {
+                                    request: {
+                                        sessionCookie: false,
+                                        googleAnalytics: false,
+                                    },
+                                },
+                            }).then((result) => result.data?.sessions.success && setShowCookieBanner(false));
+                        }}
+                    >
+                        Ablehnen
+                    </Button>
+                    <Button
+                        onClick={(): void => {
+                            void updateCookieSettings({
+                                variables: {
+                                    request: cookieSettings,
+                                },
+                            }).then((result) => result.data?.sessions.success && setShowCookieBanner(false));
+                        }}
+                    >
+                        Auswahl akzeptieren
+                    </Button>
+                    <Button
+                        variant="contained"
+                        onClick={(): void => {
+                            void updateCookieSettings({
+                                variables: {
+                                    request: {
+                                        sessionCookie: true,
+                                        googleAnalytics: true,
+                                    },
+                                },
+                            }).then((result) => result.data?.sessions.success && setShowCookieBanner(false));
+                        }}
+                    >
                         Alle akzeptieren
                     </Button>
                 </DialogActions>

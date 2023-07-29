@@ -23,6 +23,8 @@ const documents = {
         types.ExpireCurrentSessionDocument,
     'query FindAllergies {\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}': types.FindAllergiesDocument,
     'query FindCategories {\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n}': types.FindCategoriesDocument,
+    'query FindCurrentSession {\n  sessions {\n    current {\n      cookieSettings {\n        sessionCookie\n        googleAnalytics\n      }\n    }\n  }\n}':
+        types.FindCurrentSessionDocument,
     'query FindKitchens {\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n}': types.FindKitchensDocument,
     'query FindLanguages {\n  languages {\n    findAll {\n      languageId\n      title\n    }\n  }\n}': types.FindLanguagesDocument,
     'query FindLatestPublicPrivacyPolicyUpdate {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicPrivacyPolicyUpdates {\n    findLatest {\n      privacyPolicyUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}':
@@ -53,6 +55,8 @@ const documents = {
         types.GetPublicMenuPageDataDocument,
     'query GetPublicMenusPageData($request: FindManyPublicMenusRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicMenus {\n    findMany(request: $request) {\n      menuId\n      title\n      description\n      kitchen {\n        kitchenId\n        title\n      }\n      cook {\n        cookId\n        rank\n        user {\n          firstName\n          profilePictureUrl\n        }\n      }\n      categories {\n        categoryId\n        title\n      }\n      imageUrls\n      basePrice\n      basePriceCustomers\n      pricePerAdult\n      pricePerChild\n      currencyCode\n    }\n  }\n}':
         types.GetPublicMenusPageDataDocument,
+    'mutation UpdateSessionCookieSettings($request: SessionCookieSettingsInput!) {\n  sessions {\n    success: updateCookieSettings(request: $request)\n  }\n}':
+        types.UpdateSessionCookieSettingsDocument,
     'query GetAdministrationUsersPageData($request: FindManyRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  users {\n    findMany(request: $request) {\n      userId\n      isLocked\n      firstName\n      lastName\n      profilePictureUrl\n      isAdmin\n      isCook\n      createdAt\n    }\n  }\n}':
         types.GetAdministrationUsersPageDataDocument,
     'query GetCookProfileQuery($cookId: String!) {\n  cooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        firstName\n        lastName\n        profilePictureUrl\n        addresses {\n          addressId\n          title\n          country\n          city\n          postCode\n          street\n          houseNumber\n          location {\n            latitude\n            longitude\n          }\n          createdAt\n        }\n      }\n      languages {\n        languageId\n        title\n      }\n      isLocked\n      isVisible\n      biography\n      location {\n        latitude\n        longitude\n      }\n      maximumParticipants\n      maximumPrice\n      maximumTravelDistance\n      minimumParticipants\n      minimumPrice\n      rank\n      travelExpenses\n      ratingAverage\n      ratingCount\n    }\n  }\n}':
@@ -254,6 +258,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'query FindCurrentSession {\n  sessions {\n    current {\n      cookieSettings {\n        sessionCookie\n        googleAnalytics\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindCurrentSession {\n  sessions {\n    current {\n      cookieSettings {\n        sessionCookie\n        googleAnalytics\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'query FindKitchens {\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n}',
 ): (typeof documents)['query FindKitchens {\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n}'];
 /**
@@ -346,6 +356,12 @@ export function gql(
 export function gql(
     source: 'query GetPublicMenusPageData($request: FindManyPublicMenusRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicMenus {\n    findMany(request: $request) {\n      menuId\n      title\n      description\n      kitchen {\n        kitchenId\n        title\n      }\n      cook {\n        cookId\n        rank\n        user {\n          firstName\n          profilePictureUrl\n        }\n      }\n      categories {\n        categoryId\n        title\n      }\n      imageUrls\n      basePrice\n      basePriceCustomers\n      pricePerAdult\n      pricePerChild\n      currencyCode\n    }\n  }\n}',
 ): (typeof documents)['query GetPublicMenusPageData($request: FindManyPublicMenusRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicMenus {\n    findMany(request: $request) {\n      menuId\n      title\n      description\n      kitchen {\n        kitchenId\n        title\n      }\n      cook {\n        cookId\n        rank\n        user {\n          firstName\n          profilePictureUrl\n        }\n      }\n      categories {\n        categoryId\n        title\n      }\n      imageUrls\n      basePrice\n      basePriceCustomers\n      pricePerAdult\n      pricePerChild\n      currencyCode\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateSessionCookieSettings($request: SessionCookieSettingsInput!) {\n  sessions {\n    success: updateCookieSettings(request: $request)\n  }\n}',
+): (typeof documents)['mutation UpdateSessionCookieSettings($request: SessionCookieSettingsInput!) {\n  sessions {\n    success: updateCookieSettings(request: $request)\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
