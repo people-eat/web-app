@@ -36,11 +36,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 date: typeof date === 'string' ? moment(date).format(moment.HTML5_FMT.DATE) : moment().format(moment.HTML5_FMT.DATE),
             },
             allergies,
+            stripePublishableKey: data.stripePublishableKey,
         },
     };
 };
 
-const Index: NextPage<PublicMenuPageProps> = ({ signedInUser, publicMenu, searchParameters, allergies }) => {
+const Index: NextPage<PublicMenuPageProps> = ({ signedInUser, publicMenu, searchParameters, allergies, stripePublishableKey }) => {
     return (
         <>
             <Head>
@@ -52,7 +53,13 @@ const Index: NextPage<PublicMenuPageProps> = ({ signedInUser, publicMenu, search
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <PublicMenuPage signedInUser={signedInUser} publicMenu={publicMenu} searchParameters={searchParameters} allergies={allergies} />
+            <PublicMenuPage
+                signedInUser={signedInUser}
+                publicMenu={publicMenu}
+                searchParameters={searchParameters}
+                allergies={allergies}
+                stripePublishableKey={stripePublishableKey}
+            />
         </>
     );
 };

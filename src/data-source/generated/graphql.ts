@@ -2447,6 +2447,7 @@ export type GetPublicMenuPageDataQueryVariables = Exact<{
 
 export type GetPublicMenuPageDataQuery = {
     __typename?: 'Query';
+    stripePublishableKey?: string | null;
     users: {
         __typename?: 'UserQuery';
         signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
@@ -5509,6 +5510,7 @@ export const GetPublicMenuPageDataDocument = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'stripePublishableKey' } },
                 ],
             },
         },

@@ -55,4 +55,5 @@ query GetPublicMenuPageData($menuId: String!) {
             title
         }
     }
+    stripePublishableKey
 }

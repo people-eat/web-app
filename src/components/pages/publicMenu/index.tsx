@@ -1,11 +1,19 @@
-import { Divider } from '@mui/material';
+import { useMutation } from '@apollo/client';
+import { CircularProgress, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
-import { type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
+import {
+    CreateOneUserBookingRequestDocument,
+    CreateOneUserByEmailAddressDocument,
+    type CookRank,
+    type CreateBookingRequestRequest,
+    type CurrencyCode,
+} from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import { type Allergy } from '../../../shared-domain/Allergy';
 import { type Category } from '../../../shared-domain/Category';
@@ -28,6 +36,7 @@ import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
+import Payment from '../menuBookingRequest/Payment';
 
 export interface PublicMenuPageProps {
     signedInUser?: SignedInUser;
@@ -87,15 +96,23 @@ export interface PublicMenuPageProps {
             languages: Language[];
         };
     };
+    stripePublishableKey: string;
 }
 
-export default function PublicMenuPage({ signedInUser, publicMenu, searchParameters, allergies }: PublicMenuPageProps): ReactElement {
+// eslint-disable-next-line max-statements
+export default function PublicMenuPage({
+    signedInUser,
+    publicMenu,
+    searchParameters,
+    allergies,
+    stripePublishableKey,
+}: PublicMenuPageProps): ReactElement {
     // const { isMobile } = useResponsive();
 
     const { t } = useTranslation('common');
 
     const [address, setAddress] = useState<string>(searchParameters.location.address);
-    const [_selectedLocation, setSelectedLocation] = useState<Location | undefined>(undefined);
+    const [selectedLocation, setSelectedLocation] = useState<Location | undefined>(undefined);
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
     const [adults, setAdults] = useState(searchParameters.adults);
@@ -107,6 +124,14 @@ export default function PublicMenuPage({ signedInUser, publicMenu, searchParamet
 
     const [selectedAllergies, setSelectedAllergies] = useState<Allergy[]>([]);
 
+    // for new users
+    const [firstName, _setFirstName] = useState('');
+    const [lastName, _setLastName] = useState('');
+    const [email, _setEmail] = useState('');
+    const [_phoneNumber, _setPhoneNumber] = useState('');
+
+    const [stripeClientSecret, setStripeClientSecret] = useState<string | undefined>();
+
     const total = calculateMenuPrice(
         adults,
         children,
@@ -116,11 +141,93 @@ export default function PublicMenuPage({ signedInUser, publicMenu, searchParamet
         publicMenu.pricePerChild,
     );
 
+    const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'FAILED'>(undefined);
+    const [loading, setLoading] = useState(false);
+
     const [courseSelections, setCourseSelections] = useState<Map<string, string | undefined>>(
         new Map(publicMenu.courses.map((course) => [course.courseId, undefined])),
     );
 
     const disabled = Array.from(courseSelections.entries()).findIndex(([_courseId, mealId]) => mealId === undefined) !== -1;
+
+    // const disabledForSignedInUser = !acceptedTermsAndConditions || !acceptedPrivacyPolicy;
+
+    // const disabledForNewUser =
+    //     firstName.length < 1 ||
+    //     lastName.length < 1 ||
+    //     !emailIsValid ||
+    //     !phoneNumberIsValid ||
+    //     !acceptedTermsAndConditions ||
+    //     !acceptedPrivacyPolicy;
+
+    // signedInUser ? disabledForSignedInUser : disabledForNewUser
+
+    const [createMenuBookingRequest] = useMutation(CreateOneUserBookingRequestDocument);
+
+    const [createUserWithMenuBookingRequest] = useMutation(CreateOneUserByEmailAddressDocument);
+
+    function onBook(): void {
+        const menuBookingRequest: CreateBookingRequestRequest = {
+            adultParticipants: adults,
+            children,
+            dateTime: dateTime.toDate(),
+            duration: 120,
+            location: {
+                latitude: selectedLocation?.latitude ?? 0,
+                longitude: selectedLocation?.latitude ?? 0,
+                text: address,
+            },
+            occasion,
+            price: {
+                // TODO actually not required here
+                amount: total,
+                currencyCode: 'EUR',
+            },
+            // allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
+            message,
+            cookId: publicMenu.cook.cookId,
+            preparationTime: 120,
+            configuredMenu: {
+                menuId: publicMenu.menuId,
+                courses: [],
+                // Array.from(courseSelections.entries()).map(([courseId, mealId]) => ({ courseId, mealId })),
+            },
+        };
+
+        setLoading(true);
+        signedInUser
+            ? void createMenuBookingRequest({
+                  variables: {
+                      userId: signedInUser?.userId ?? '',
+                      request: menuBookingRequest,
+                  },
+              })
+                  .then(({ data }) => {
+                      if (data?.users.bookingRequests.createOne.success) {
+                          setCompletionState('SUCCESSFUL');
+                          setStripeClientSecret(data.users.bookingRequests.createOne.clientSecret);
+                      } else setCompletionState('FAILED');
+                  })
+                  .catch(() => setCompletionState('FAILED'))
+                  .finally(() => setLoading(false))
+            : void createUserWithMenuBookingRequest({
+                  variables: {
+                      profilePicture: undefined,
+                      request: {
+                          firstName: firstName,
+                          lastName: lastName,
+                          emailAddress: email,
+                          gender: 'NO_INFORMATION',
+                          language: 'GERMAN',
+                          password: '',
+                          globalBookingRequest: menuBookingRequest,
+                      },
+                  },
+              })
+                  .then(({ data }) => setCompletionState(data?.users.success ? 'SUCCESSFUL' : 'FAILED'))
+                  .catch(() => setCompletionState('FAILED'))
+                  .finally(() => setLoading(false));
+    }
 
     return (
         <VStack gap={64} className="w-full h-full">
@@ -295,34 +402,37 @@ export default function PublicMenuPage({ signedInUser, publicMenu, searchParamet
                                     </span>
                                 </HStack>
 
-                                {disabled && <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={(): void => undefined} />}
-
-                                {!disabled && (
-                                    <Link
-                                        target="_blank"
-                                        href={{
-                                            pathname: '/menu-booking-request',
-                                            query: {
-                                                menuId: publicMenu.menuId,
-                                                address: address,
-                                                latitude: 0,
-                                                longitude: 0,
-                                                adults,
-                                                children,
-                                                date: dateTime.format(moment.HTML5_FMT.DATE),
-                                                courseSelections: JSON.stringify(Array.from(courseSelections.entries())),
-                                            },
-                                        }}
-                                        className="no-underline w-full"
-                                    >
-                                        <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={(): void => undefined} />
-                                    </Link>
-                                )}
+                                <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={onBook} />
                             </VStack>
                         </HStack>
                     </>
                 )}
             </VStack>
+
+            {completionState === 'SUCCESSFUL' && stripeClientSecret && (
+                <Dialog open>
+                    <DialogTitle>{'Jetzt bezahlen'}</DialogTitle>
+                    <DialogContent>
+                        <Elements stripe={loadStripe(`${stripePublishableKey}`)} options={{ clientSecret: stripeClientSecret }}>
+                            <Payment />
+                        </Elements>
+                    </DialogContent>
+                </Dialog>
+            )}
+
+            {loading && (
+                <Dialog open>
+                    <DialogContent>
+                        <CircularProgress />
+                    </DialogContent>
+                </Dialog>
+            )}
+
+            {completionState === 'FAILED' && (
+                <Dialog open>
+                    <DialogContent>{t('error')}</DialogContent>
+                </Dialog>
+            )}
 
             <PEFooter />
         </VStack>

@@ -15,12 +15,10 @@ export default function Payment(): ReactElement {
             return;
         }
 
+        // Make sure to change this to your payment completion page ${window.location.origin}
         const { error } = await stripe.confirmPayment({
             elements,
-            confirmParams: {
-                // Make sure to change this to your payment completion page ${window.location.origin}
-                return_url: `${window.location.origin}/profile`,
-            },
+            confirmParams: { return_url: `${window.location.origin}/profile?tab=4` },
         });
 
         if (error.type === 'card_error' || error.type === 'validation_error') setResultMessage(error.message);
