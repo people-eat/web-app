@@ -14,7 +14,7 @@ export default function HowToChefSection1(): ReactElement {
             <VStack
                 className="w-full md:w-screen mt-10 md:mt-0 rounded-4 md:rounded-[0px]"
                 style={{
-                    backgroundImage: 'url(/picture-1.png)',
+                    backgroundImage: 'url(/koch-münchen.png)',
                     backgroundPosition: 'center',
                     backgroundSize: 'cover',
                     height: isMobile ? 'calc(100vh - 80px)' : 502,
