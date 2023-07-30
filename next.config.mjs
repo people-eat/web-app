@@ -75,11 +75,6 @@ const config = {
             destination: '/data-privacy-policy',
             permanent: true,
         },
-        {
-            source: '/wordpress',
-            destination: '/wordpress/privacy-policy',
-            permanent: true,
-        },
     ],
 };
 
