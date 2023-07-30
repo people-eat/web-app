@@ -75,11 +75,11 @@ const config = {
             destination: '/data-privacy-policy',
             permanent: true,
         },
-        // {
-        //     source: '/test',
-        //     destination: '/test/index.php',
-        //     permanent: true,
-        // },
+        {
+            source: '/wordpres',
+            destination: '/wordpress/privacy-policy',
+            permanent: true,
+        },
     ],
 };
 
