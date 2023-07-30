@@ -75,6 +75,11 @@ const config = {
             destination: '/data-privacy-policy',
             permanent: true,
         },
+        {
+            source: '/test',
+            destination: '/test/wp-admin/index.php',
+            permanent: true,
+        },
     ],
 };
 
