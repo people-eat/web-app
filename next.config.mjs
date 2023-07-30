@@ -76,7 +76,7 @@ const config = {
             permanent: true,
         },
         {
-            source: '/wordpres',
+            source: '/wordpress',
             destination: '/wordpress/privacy-policy',
             permanent: true,
         },
