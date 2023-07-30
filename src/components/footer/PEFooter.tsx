@@ -43,7 +43,7 @@ export default function PEFooter(): ReactElement {
                             {t('imprint')}
                         </Button>
                     </Link>
-                    <Link className="no-underline" href={'https://integration.people-eat.com/info/privacy-policy'}>
+                    <Link className="no-underline" href={'https://integration.people-eat.com/info/privacy-policy'} locale="false">
                         <Button style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none', textAlign: 'left' }}>
                             {t('data-privacy-policy')}
                         </Button>
