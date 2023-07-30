@@ -77,7 +77,7 @@ const config = {
         },
         {
             source: '/test',
-            destination: '/test/wp-admin/index.php',
+            destination: '/test/index.php',
             permanent: true,
         },
     ],
