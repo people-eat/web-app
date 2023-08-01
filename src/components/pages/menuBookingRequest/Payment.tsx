@@ -16,7 +16,11 @@ export default function Payment(): ReactElement {
         }
 
         // Make sure to change this to your payment completion page ${window.location.origin}
-        const { error } = await stripe.confirmPayment({
+        // const { error } = await stripe.confirmPayment({
+        //     elements,
+        //     confirmParams: { return_url: `${window.location.origin}/profile?tab=4` },
+        // });
+        const { error } = await stripe.confirmSetup({
             elements,
             confirmParams: { return_url: `${window.location.origin}/profile?tab=4` },
         });
@@ -29,7 +33,7 @@ export default function Payment(): ReactElement {
         <VStack gap={32} style={{ margin: 16, width: 512 }}>
             <PaymentElement id="payment-element" />
 
-            <PEButton title="Bezahlen" onClick={(): void => void pay()} />
+            <PEButton title="Fertig" onClick={(): void => void pay()} />
 
             {resultMessage && <span>{resultMessage}</span>}
         </VStack>

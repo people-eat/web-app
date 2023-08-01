@@ -411,7 +411,7 @@ export default function PublicMenuPage({
 
             {completionState === 'SUCCESSFUL' && stripeClientSecret && (
                 <Dialog open>
-                    <DialogTitle>{'Jetzt bezahlen'}</DialogTitle>
+                    <DialogTitle>{'Zahlungsmittel hinterlegen'}</DialogTitle>
                     <DialogContent>
                         <Elements stripe={loadStripe(`${stripePublishableKey}`)} options={{ clientSecret: stripeClientSecret }}>
                             <Payment />
