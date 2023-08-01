@@ -48,6 +48,8 @@ export default function ChefProfilePageCreateMenusStep2({
     const [showUpdateCourseDialog, setShowUpdateCourseDialog] = useState(false);
 
     const [selectedMealId, setSelectedMealId] = useState<string | undefined>(undefined);
+    const [activeCourse, setActiveCourse] = useState<CreateCookMenuCourseDto | null>(null);
+    const [activeCourseIndex, setActiveCourseIndex] = useState<number | null>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -114,7 +116,11 @@ export default function ChefProfilePageCreateMenusStep2({
 
                         <HStack className="w-full py-4 box-border" gap={16} style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                             <VStack
-                                onClick={(): void => setShowUpdateCourseDialog(true)}
+                                onClick={(): void => {
+                                    setShowUpdateCourseDialog(true);
+                                    setActiveCourse(course);
+                                    setActiveCourseIndex(index);
+                                }}
                                 className="items-center w-[388px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
                             >
                                 <PEIcon icon={Icon.plusOrange} />
@@ -128,6 +134,8 @@ export default function ChefProfilePageCreateMenusStep2({
                                     onClick={(event): void => {
                                         setAnchorEl(event.currentTarget);
                                         setSelectedMealId(meal.mealId);
+                                        setActiveCourseIndex(index);
+                                        setActiveCourse(course);
                                     }}
                                 >
                                     <PEMealCard imageUrl={meal.imageUrl ?? undefined} title={meal.title} description={meal.description} />
@@ -135,22 +143,28 @@ export default function ChefProfilePageCreateMenusStep2({
                             ))}
                         </HStack>
 
-                        {showUpdateCourseDialog && (
+                        {showUpdateCourseDialog && activeCourse && activeCourseIndex !== null && (
                             <UpdateCookMenuCourse
                                 open={showUpdateCourseDialog}
-                                meals={meals.filter((meal) => !course.mealOptions.find((courseMeal) => courseMeal.mealId === meal.mealId))}
+                                meals={meals.filter(
+                                    (meal) => !activeCourse.mealOptions.find((courseMeal) => courseMeal.mealId === meal.mealId),
+                                )}
                                 onSuccess={(updatedCourse): void => {
-                                    setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
+                                    setCourses([
+                                        ...courses.slice(0, activeCourseIndex),
+                                        updatedCourse,
+                                        ...courses.slice(activeCourseIndex + 1),
+                                    ]);
                                     setShowUpdateCourseDialog(false);
                                 }}
                                 onCancel={(): void => {
                                     setShowUpdateCourseDialog(false);
                                 }}
-                                selectedCourseMeals={new Map(course.mealOptions.map((item) => [item.mealId, item]))}
+                                selectedCourseMeals={new Map(activeCourse.mealOptions.map((item) => [item.mealId, item]))}
                             />
                         )}
 
-                        {open && selectedMealId && (
+                        {open && selectedMealId && activeCourseIndex !== null && activeCourse && (
                             <Menu
                                 anchorEl={anchorEl}
                                 open={open}
@@ -164,12 +178,12 @@ export default function ChefProfilePageCreateMenusStep2({
                                     sx={{ width: '200px' }}
                                     onClick={(): void => {
                                         setCourses([
-                                            ...courses.slice(0, index),
+                                            ...courses.slice(0, activeCourseIndex),
                                             {
-                                                title: course.title,
-                                                mealOptions: course.mealOptions.filter((meal) => meal.mealId !== selectedMealId),
+                                                title: activeCourse.title,
+                                                mealOptions: activeCourse.mealOptions.filter((meal) => meal.mealId !== selectedMealId),
                                             },
-                                            ...courses.slice(index + 1),
+                                            ...courses.slice(activeCourseIndex + 1),
                                         ]);
                                     }}
                                 >
