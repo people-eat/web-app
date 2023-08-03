@@ -48,7 +48,7 @@ export default function HowToChefSection3(): ReactElement {
                         <Image
                             className="rounded-4"
                             style={{ width: isMobile ? '100%' : '500px', objectPosition: 'center', objectFit: 'cover' }}
-                            src={'/privatkoch-gericht.png'}
+                            src="/mietkoch-gericht.png"
                             alt={'how to chef page promo title'}
                             width={500}
                             height={200}

@@ -65,7 +65,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
     const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
 
     return (
-        <VStack gap={40} className="w-full h-full overflow-hidden">
+        <VStack gap={40} className="w-full h-full">
             <PEHeader signedInUser={signedInUser} />
 
             <VStack className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4" gap={16}>
@@ -207,8 +207,6 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                     </>
                 )}
             </VStack>
-
-            <Spacer />
 
             <PEFooter />
         </VStack>

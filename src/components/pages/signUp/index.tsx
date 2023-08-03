@@ -207,7 +207,12 @@ export default function SignUpPage(): ReactElement {
             {isDesktop && (
                 <VStack
                     className={'p-5 box-border'}
-                    style={{ flex: 1, backgroundImage: 'url(/picture-1.png)', backgroundPosition: 'center', backgroundSize: 'cover' }}
+                    style={{
+                        flex: 1,
+                        backgroundImage: 'url(/koch-münchen.png)',
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                    }}
                 >
                     <Spacer />
                     <VStack
