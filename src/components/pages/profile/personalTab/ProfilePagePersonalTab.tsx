@@ -30,6 +30,7 @@ import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import CreateAddressDialog from './CreateAddressDialog';
 import UpdateAddressDialog from './UpdateAddressDialog';
+import {useRouter} from "next/router";
 
 export interface ProfilePagePersonalTabProps {
     userId: string;
@@ -40,6 +41,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     const { t: commonTranslation } = useTranslation('common');
     const { t } = useTranslation('profile');
     const { isMobile } = useResponsive();
+    const router = useRouter();
 
     const [changedPassword, setChangedPassword] = useState('');
 
@@ -67,6 +69,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     const [edit, setEdit] = useState(false);
     const [firstName, setFirstName] = useState(userProfile?.firstName);
     const [lastName, setLastName] = useState(userProfile?.lastName);
+    const [isCook, setIsCook] = useState(userProfile?.isCook);
 
     const [editFirstName, setEditFirstName] = useState(userProfile?.firstName);
     const [editLastName, setEditLastName] = useState(userProfile?.lastName);
@@ -81,7 +84,12 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
         setImage(userProfile?.profilePictureUrl ?? undefined);
         setEditFirstName(userProfile?.firstName);
         setEditLastName(userProfile?.lastName);
-    }, [loading, data, userProfile?.firstName, userProfile?.lastName, userProfile?.profilePictureUrl]);
+        setIsCook(userProfile?.isCook);
+    }, [loading, data, userProfile?.firstName, userProfile?.lastName, userProfile?.profilePictureUrl, userProfile?.isCook]);
+
+    useEffect(() => {
+        if (router.pathname === '/profile') void refetch();
+    }, [router, refetch]);
 
     function handleUnSaveChefName(): void {
         setEditFirstName(userProfile?.firstName ?? '');
@@ -181,7 +189,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                             <>
                                 <Spacer />
 
-                                {userProfile.isCook && (
+                                {isCook && (
                                     <Link href="/chef-profile" className="no-underline">
                                         <PEButton
                                             iconLeft={Icon.profileOrange}
@@ -194,7 +202,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                     </Link>
                                 )}
 
-                                {!userProfile.isCook && (
+                                {!isCook && (
                                     <Link href="/chef-sign-up" className="no-underline">
                                         <PEButton onClick={(): void => undefined} title={commonTranslation('how-to-become-a-chef')} />
                                     </Link>
