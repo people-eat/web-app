@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const Index: NextPage<ImprintPageProps> = ({ signedInUser }) => {
-    const { t } = useTranslation('how-to-chef');
+    const { t } = useTranslation('imprint');
     return (
         <>
             <Head>
