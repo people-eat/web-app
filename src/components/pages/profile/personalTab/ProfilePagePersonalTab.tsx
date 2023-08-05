@@ -7,6 +7,7 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     GetProfileQueryDocument,
@@ -30,7 +31,6 @@ import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import CreateAddressDialog from './CreateAddressDialog';
 import UpdateAddressDialog from './UpdateAddressDialog';
-import {useRouter} from "next/router";
 
 export interface ProfilePagePersonalTabProps {
     userId: string;
