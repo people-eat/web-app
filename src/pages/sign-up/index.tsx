@@ -13,7 +13,7 @@ const Index: NextPage = () => {
                 <meta name="title" content="" />
                 <meta name="description" content="" />
                 <meta name="keywords" content="" />
-
+                <link rel="canonical" href="https://www.people-eat.com/sign-up" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <SignUpPage />
