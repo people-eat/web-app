@@ -43,14 +43,14 @@ const Index: NextPage<GlobalBookingRequestPageProps> = ({ signedInUser, searchPa
         <>
             <Head>
                 <title>{t('request-title')}</title>
-
-                <meta name="title" content="Sende uns eine Individuelle Menü Anfrage" />
                 <meta
                     name="description"
-                    content="Du hast besondere Menü Wünsche und weißt nicht wo du anfangen sollst? Wir helfen dir dabei einen Privatkoch für zuhause zu finden und ein Menü nach deinen Präferenzen zusammenzustellen"
+                    content="Du hast besondere Menü Ideen und weißt nicht wo du anfangen sollst? Wir helfen dir dabei einen Privatkoch für zuhause zu finden und ein Menü nach deinen Präferenzen zusammenzustellen."
                 />
-                <meta name="keywords" content="Menü für Zuhause, Koch für Zuhause" />
-
+                <meta name="keywords" content="Menü Ideen, Koch buchen, Privatkoch" />
+                <link rel="alternate" href="https://people-eat.com/global-booking-request/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/global-booking-request/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/global-booking-request/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <GlobalBookingRequestPage

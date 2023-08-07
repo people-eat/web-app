@@ -28,11 +28,11 @@ const Index: NextPage<CookSignUpPageProps> = ({ signedInUser, languages }) => {
         <>
             <Head>
                 <title>{t('chef-sign-up-title')}</title>
-
-                <meta name="title" content="" />
                 <meta name="description" content="" />
                 <meta name="keywords" content="" />
-
+                <link rel="alternate" href="https://people-eat.com/chef-sign-up/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/chef-sign-up/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/chef-sign-up/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <CookSignUpPage signedInUser={signedInUser} languages={languages} />

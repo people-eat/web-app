@@ -78,7 +78,7 @@ export const mockPublicMenus: MockPublicMenu[] = [
             },
         },
         pictures: [
-            '/menus/menu-13.jpeg',
+            '/menus/rindsteak-fine-dining.jpeg',
             '/menus/menu-14.jpeg',
             '/menus/menu-15.jpeg',
             '/menus/menu-16.jpeg',

@@ -10,10 +10,14 @@ const Index: NextPage = () => {
             <Head>
                 <title>{t('sign-in-title')}</title>
 
-                <meta name="title" content="" />
-                <meta name="description" content="" />
+                <meta
+                    name="description"
+                    content="Willkommen zurück! Melde dich mit Google, oder deiner Email Adresse an. Erstelle dein eigenes Menü für jeden Anlass."
+                />
                 <meta name="keywords" content="" />
-
+                <link rel="alternate" href="https://people-eat.com/sign-in/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/sign-in/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/sign-in/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <SignInPage />

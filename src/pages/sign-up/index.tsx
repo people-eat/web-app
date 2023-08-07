@@ -10,10 +10,11 @@ const Index: NextPage = () => {
             <Head>
                 <title>{t('sign-up-title')}</title>
 
-                <meta name="title" content="" />
                 <meta name="description" content="" />
                 <meta name="keywords" content="" />
-                <link rel="canonical" href="https://www.people-eat.com/sign-up" />
+                <link rel="alternate" href="https://people-eat.com/sign-up/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/sign-up/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/sign-up/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <SignUpPage />

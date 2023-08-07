@@ -40,12 +40,13 @@ const Index: NextPage<MenuBookingRequestPageProps> = ({ signedInUser, menu, sear
     return (
         <>
             <Head>
-                <title>PeopleEat - Menu Booking Request</title>
+                <title>Menü Buchen| PeopleEat</title>
 
-                <meta name="title" content="" />
-                <meta name="description" content="" />
-                <meta name="keywords" content="" />
-
+                <meta name="description" content="Privatkoch für Zuhause mieten" />
+                <meta name="keywords" content="Menü buchen, Koch mieten" />
+                <link rel="alternate" href="https://people-eat.com/menu-booking-request/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/menu-booking-request/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/menu-booking-request/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <MenuBookingRequestPage

@@ -63,7 +63,9 @@ const Index: NextPage<PublicMenusPageProps> = ({ signedInUser, searchParameters,
                 <meta name="title" content="Entdecke Menüs" />
                 <meta name="description" content="Erstelle eigene Menüs und genieße kulinarische Erlebnismomente bei dir Zuhause" />
                 <meta name="keywords" content="Speisekarte , Menü für Zuhause, Essen für Zuhause bestellen" />
-
+                <link rel="alternate" href="https://people-eat.com/de/menus/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/de/menus/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/menus/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <PublicMenusPage signedInUser={signedInUser} searchParameters={searchParameters} searchResults={searchResults} />

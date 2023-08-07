@@ -28,10 +28,11 @@ const Index: NextPage<ImprintPageProps> = ({ signedInUser }) => {
             <Head>
                 <title>{t('imprint-title')}</title>
 
-                <meta name="title" content="" />
-                <meta name="description" content="" />
+                <meta name="description" content="Impressum | PeopleEat" />
                 <meta name="keywords" content="" />
-
+                <link rel="alternate" href="https://people-eat.com/imprint/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/imprint/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/imprint/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <ImprintPage signedInUser={signedInUser} />

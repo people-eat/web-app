@@ -27,14 +27,14 @@ const Index: NextPage<AboutUsPageProps> = ({ signedInUser }) => {
         <>
             <Head>
                 <title>{t('about-us-title')}</title>
-
-                <meta name="title" content="" />
                 <meta
                     name="description"
                     content="Wir machen es dir so einfach wie nie zuvor, einen Privatkoch für Deine Dinner-Party zu buchen. Wir sind davon überzeugt, dass Essen nicht nur ein Erlebnismoment ist, sondern auch Menschen zusammen bringt."
                 />
-                <meta name="keywords" content="" />
-
+                <meta name="keywords" content="Koch buchen, Experience" />
+                <link rel="alternate" href="https://people-eat.com/about-us/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/about-us/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/about-us/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <AboutUsPage signedInUser={signedInUser} />
