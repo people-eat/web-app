@@ -2471,7 +2471,9 @@ export type GetPublicMenuPageDataQuery = {
                 cookId: string;
                 rank: CookRank;
                 city: string;
+                travelExpenses: number;
                 user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
+                location: { __typename?: 'Location'; latitude: number; longitude: number };
             };
             categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
             courses: Array<{
@@ -5411,6 +5413,7 @@ export const GetPublicMenuPageDataDocument = {
                                                         { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'user' },
@@ -5419,6 +5422,17 @@ export const GetPublicMenuPageDataDocument = {
                                                                 selections: [
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'location' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
                                                                 ],
                                                             },
                                                         },

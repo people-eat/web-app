@@ -17,9 +17,14 @@ query GetPublicMenuPageData($menuId: String!) {
                 cookId
                 rank
                 city
+                travelExpenses
                 user {
                     firstName
                     profilePictureUrl
+                }
+                location {
+                    latitude
+                    longitude
                 }
             }
             categories {

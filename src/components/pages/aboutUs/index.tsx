@@ -54,7 +54,7 @@ export default function AboutUsPage({ signedInUser }: AboutUsPageProps): ReactEl
                                 </HStack>
                             </Link>
                             <Spacer />
-                            <Link className="no-underline" href={'https://www.linkedin.com/in/natalia-tyagunova-219121a3/'}>
+                            <Link className="no-underline" href={'https://www.linkedin.com/in/natalia-tyagunova-219121a3'}>
                                 <HStack>
                                     <VStack className="w-[54px] h-[54px] bg-base rounded-2 justify-center">
                                         <VStack

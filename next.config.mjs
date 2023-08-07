@@ -14,7 +14,7 @@ const config = {
      */
     i18n: {
         locales: ['de', 'fr', 'en', 'ru'],
-        defaultLocale: 'en',
+        defaultLocale: 'de',
     },
 
     eslint: {

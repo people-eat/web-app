@@ -26,7 +26,7 @@ export default function PEFooter(): ReactElement {
                         </Link>
                     </div>
                     <div className="flex md:ml-2 md:mb-4 flex-row gap-4">
-                        <Link target="_blank" className="no-underline" href="https://www.instagram.com/peopleeat_official">
+                        <Link target="_blank" className="no-underline" href="https://www.instagram.com/peopleeat_official/">
                             <Image src={'/instagram.png'} alt="" width={35} height={35} />
                         </Link>
                         {/* <PEIcon icon={Icon.facebook} edgeLength={35} /> */}

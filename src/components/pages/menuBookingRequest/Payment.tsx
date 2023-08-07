@@ -1,9 +1,10 @@
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { useState, type ReactElement } from 'react';
+import { useState, type PropsWithChildren, type ReactElement } from 'react';
 import PEButton from '../../standard/buttons/PEButton';
+import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
 
-export default function Payment(): ReactElement {
+export default function Payment({ children }: PropsWithChildren): ReactElement {
     const stripe = useStripe();
     const elements = useElements();
     const [resultMessage, setResultMessage] = useState<string | undefined>();
@@ -30,8 +31,13 @@ export default function Payment(): ReactElement {
     }
 
     return (
-        <VStack gap={32} style={{ margin: 16, width: 512 }}>
-            <PaymentElement id="payment-element" />
+        <VStack gap={32} style={{ margin: 32, width: 800 }}>
+            <HStack gap={32} style={{ width: '100%' }}>
+                <VStack style={{ flex: 1 }}>{children}</VStack>
+                <VStack style={{ flex: 1, alignItems: 'stretch' }}>
+                    <PaymentElement id="payment-element" />
+                </VStack>
+            </HStack>
 
             <PEButton title="Fertig" onClick={(): void => void pay()} />
 

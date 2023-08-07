@@ -1,9 +1,8 @@
 import { useMutation } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
-import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import moment, { type Moment } from 'moment';
+import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
@@ -13,25 +12,23 @@ import {
     type CookRank,
     type CreateBookingRequestRequest,
     type CurrencyCode,
+    type Price,
 } from '../../../data-source/generated/graphql';
-import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
+import { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import { type Allergy } from '../../../shared-domain/Allergy';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
 import { type Language } from '../../../shared-domain/Language';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
+import { geoDistance } from '../../../utils/geoDistance';
+import BookingRequestForm from '../../BookingRequestForm';
 import PEMealCard from '../../cards/mealCard/PEMealCard';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEButton from '../../standard/buttons/PEButton';
-import PECounter from '../../standard/counter/PECounter';
-import PEDropdown from '../../standard/dropdown/PEDropdown';
+import PECarousel from '../../standard/carousel/PECarousel';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
-import PEAutoCompleteTextField from '../../standard/textFields/PEAutoCompleteTextField';
-import PEMultiLineTextField from '../../standard/textFields/PEMultiLineTextField';
-import PETextField from '../../standard/textFields/PETextField';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
@@ -99,6 +96,13 @@ export interface PublicMenuPageProps {
     stripePublishableKey: string;
 }
 
+export interface Meal {
+    mealId: string;
+    title: string;
+    description: string;
+    imageUrl?: string | null;
+}
+
 // eslint-disable-next-line max-statements
 export default function PublicMenuPage({
     signedInUser,
@@ -132,7 +136,21 @@ export default function PublicMenuPage({
 
     const [stripeClientSecret, setStripeClientSecret] = useState<string | undefined>();
 
-    const total = calculateMenuPrice(
+    const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'FAILED'>(undefined);
+    const [loading, setLoading] = useState(false);
+    const [courseSelections, setCourseSelections] = useState<Map<{ courseId: string; title: string }, Meal | undefined>>(
+        new Map(publicMenu.courses.map((course) => [course, undefined])),
+    );
+
+    const disabled = Array.from(courseSelections.entries()).findIndex(([_courseId, mealId]) => mealId === undefined) !== -1;
+
+    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
+
+    const travelExpenses: number | undefined =
+        selectedLocation &&
+        geoDistance({ location1: selectedLocation, location2: publicMenu.cook.location }) * publicMenu.cook.travelExpenses;
+
+    const menuPrice = calculateMenuPrice(
         adults,
         children,
         publicMenu.basePrice,
@@ -141,14 +159,40 @@ export default function PublicMenuPage({
         publicMenu.pricePerChild,
     );
 
-    const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'FAILED'>(undefined);
-    const [loading, setLoading] = useState(false);
+    const serviceFee = menuPrice * 0.18;
 
-    const [courseSelections, setCourseSelections] = useState<Map<string, string | undefined>>(
-        new Map(publicMenu.courses.map((course) => [course.courseId, undefined])),
-    );
+    const total = (travelExpenses ?? 0) + menuPrice + serviceFee;
 
-    const disabled = Array.from(courseSelections.entries()).findIndex(([_courseId, mealId]) => mealId === undefined) !== -1;
+    const costs:
+        | {
+              lineItems: {
+                  title: string;
+                  price: Price;
+              }[];
+              total: Price;
+          }
+        | undefined = travelExpenses
+        ? {
+              lineItems: [
+                  {
+                      title: 'Menüpreis',
+                      price: { amount: menuPrice, currencyCode: 'EUR' },
+                  },
+                  {
+                      title: 'Reisekosten',
+                      price: { amount: travelExpenses, currencyCode: 'EUR' },
+                  },
+                  {
+                      title: 'Service Gebühren',
+                      price: { amount: menuPrice * 0.18, currencyCode: 'EUR' },
+                  },
+              ],
+              total: {
+                  amount: total,
+                  currencyCode: 'EUR',
+              },
+          }
+        : undefined;
 
     // const disabledForSignedInUser = !acceptedTermsAndConditions || !acceptedPrivacyPolicy;
 
@@ -180,7 +224,7 @@ export default function PublicMenuPage({
             occasion,
             price: {
                 // TODO actually not required here
-                amount: total,
+                amount: menuPrice,
                 currencyCode: 'EUR',
             },
             // allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
@@ -237,49 +281,94 @@ export default function PublicMenuPage({
                 {publicMenu && (
                     <>
                         <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
-                            {publicMenu.cook.user.profilePictureUrl && (
-                                <Image
-                                    style={{
-                                        width: '120px',
-                                        height: '120px',
-                                        borderRadius: 4,
-                                        objectPosition: 'center',
-                                        objectFit: 'cover',
-                                    }}
-                                    src={publicMenu.cook.user.profilePictureUrl}
-                                    alt={'Profile Picture'}
-                                    width={120}
-                                    height={120}
-                                />
-                            )}
+                            <div className="flex justify-center items-center rounded-3 overflow-hidden w-[220px] min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] bg-base">
+                                {publicMenu.imageUrls.length < 1 && <PEIcon icon={Icon.food} edgeLength={52} />}
 
-                            {!publicMenu.cook.user.profilePictureUrl && (
-                                <div className="bg-base rounded-2 flex justify-center items-center min-h-[120px] w-[120px]">
-                                    <PEIcon edgeLength={32} icon={Icon.profileLight} />
-                                </div>
-                            )}
+                                {publicMenu.imageUrls.length === 1 && (
+                                    <Image
+                                        draggable={false}
+                                        style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                                        src={publicMenu.imageUrls[0] as string}
+                                        alt={'Menu image'}
+                                        width={220}
+                                        height={220}
+                                    />
+                                )}
+
+                                {publicMenu.imageUrls.length > 1 && (
+                                    <PECarousel
+                                        images={publicMenu.imageUrls.map((picture, index) => (
+                                            <Image
+                                                draggable={false}
+                                                key={index}
+                                                style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                                                src={picture}
+                                                alt={`Menu image ${index + 1}`}
+                                                width={220}
+                                                height={220}
+                                            />
+                                        ))}
+                                    />
+                                )}
+                            </div>
 
                             <VStack gap={16} style={{ alignItems: 'flex-start' }}>
-                                <VStack gap={8} style={{ alignItems: 'flex-start' }}>
-                                    <p className="text-heading-m my-0">{publicMenu.cook.user.firstName}</p>
-                                    <span className="text-orange">{t(publicMenu.cook.rank)}</span>
+                                <VStack gap={16} style={{ alignItems: 'flex-start' }}>
+                                    <p style={{ lineHeight: 0 }} className="text-heading-m">
+                                        {publicMenu.title}
+                                    </p>
+                                    <p style={{ lineHeight: 0 }} className="text-orange">
+                                        {(menuPrice / 100 / (adults + children)).toFixed(2)} EUR pro Person
+                                    </p>
+                                    <p style={{ lineHeight: 0 }} className="text-gray">
+                                        (Bei einer Anzahl von {adults + children} Personen)
+                                    </p>
+
+                                    <HStack gap={8} className="w-full">
+                                        {publicMenu.cook.user.profilePictureUrl && (
+                                            <Image
+                                                width={48}
+                                                height={48}
+                                                src={publicMenu.cook.user.profilePictureUrl}
+                                                alt={'Profile picture of the chef owning the menu'}
+                                                className="object-cover"
+                                                style={{ borderRadius: '50%' }}
+                                            />
+                                        )}
+
+                                        {!publicMenu.cook.user.profilePictureUrl && <PEIcon edgeLength={48} icon={Icon.profileLight} />}
+
+                                        <VStack style={{ alignItems: 'flex-start' }}>
+                                            <span className="text-preBlack">{publicMenu.cook.user.firstName}</span>
+                                            <HStack gap={4}>
+                                                <PEIcon icon={Icon.markerPin} />
+                                                <span className="text-preBlack">{publicMenu.cook.city}</span>
+                                            </HStack>
+                                        </VStack>
+
+                                        <Spacer />
+                                    </HStack>
+
+                                    <p style={{ lineHeight: 0 }} className="text-gray">
+                                        Menübeschreibung
+                                    </p>
+                                    <span>{publicMenu.description}</span>
                                 </VStack>
-                                <HStack gap={16}>
-                                    <PEIcon icon={Icon.markerPin} />
-                                    <span>{publicMenu.cook.city}</span>
-                                </HStack>
+
+                                {/* {publicMenu.kitchen && <>{publicMenu.kitchen.title}</>}
+
                                 {publicMenu.cook.languages?.length > 0 && (
                                     <HStack gap={16}>
                                         <PEIcon icon={Icon.messageChat} />
                                         <span>{publicMenu.cook.languages.map(({ title }) => title).join(', ')}</span>
                                     </HStack>
-                                )}
+                                )} */}
                             </VStack>
 
                             <Spacer />
                         </HStack>
 
-                        <HStack gap={32} className="w-full">
+                        <HStack gap={32} className="w-full" style={{ minWidth: '500px', flexWrap: 'wrap' }}>
                             <VStack gap={32} style={{ flex: 1 }}>
                                 {publicMenu.courses.map((course) => (
                                     <VStack key={course.courseId} className="w-full" gap={32}>
@@ -295,11 +384,9 @@ export default function PublicMenuPage({
                                                     title={mealOption.meal.title}
                                                     description={mealOption.meal.description}
                                                     imageUrl={mealOption.meal.imageUrl ?? undefined}
-                                                    active={courseSelections.get(course.courseId) === mealOption.meal.mealId}
+                                                    active={courseSelections.get(course)?.mealId === mealOption.meal.mealId}
                                                     onClick={(): void =>
-                                                        setCourseSelections(
-                                                            new Map(courseSelections.set(course.courseId, mealOption.meal.mealId)),
-                                                        )
+                                                        setCourseSelections(new Map(courseSelections.set(course, mealOption.meal)))
                                                     }
                                                 />
                                             ))}
@@ -308,115 +395,79 @@ export default function PublicMenuPage({
                                 ))}
                             </VStack>
 
-                            <VStack
-                                gap={16}
-                                style={{ width: 400, alignItems: 'flex-start' }}
-                                className="w-full bg-white shadow-primary box-border p-8 rounded-4"
-                            >
-                                <h3 style={{ lineHeight: 0 }}>Event Details</h3>
-
-                                <span>Personen</span>
-                                <HStack gap={16} className="w-full">
-                                    <PEIcon icon={Icon.users} /> <span>{'Erwachsene'}</span> <Spacer />
-                                    <PECounter value={adults} onValueChange={setAdults} />
-                                </HStack>
-
-                                <HStack gap={16} className="w-full">
-                                    <PEIcon icon={Icon.users} /> <span>{'Kinder'}</span> <Spacer />
-                                    <PECounter value={children} onValueChange={setChildren} />
-                                </HStack>
-
-                                <span>Veranstaltungsdetails</span>
-                                <HStack gap={16}>
-                                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
-                                        <DatePicker
-                                            sx={{ width: '100%' }}
-                                            value={dateTime}
-                                            onChange={(changedDate: Moment | null): void => {
-                                                if (changedDate) setDateTime(changedDate);
-                                            }}
-                                            slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
-                                            label={t('date-label')}
-                                            minDate={moment().add(2, 'days')}
-                                        />
-                                    </div>
-                                    <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
-                                        <TimePicker
-                                            sx={{ width: '100%' }}
-                                            value={dateTime}
-                                            onChange={(changedTime: Moment | null): void => {
-                                                if (changedTime) setDateTime(changedTime);
-                                            }}
-                                            slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
-                                            label={t('start-time-label')}
-                                        />
-                                    </div>
-                                </HStack>
-
-                                <PEAutoCompleteTextField
-                                    searchText={address}
-                                    onSearchTextChange={(changedAddressSearchText: string): void => {
-                                        setAddress(changedAddressSearchText);
-                                        searchAddress(changedAddressSearchText, setAddressSearchResults);
-                                    }}
-                                    options={addressSearchResults}
-                                    getOptionLabel={(selectedOption: GoogleMapsPlacesResult): string => selectedOption.formatted_address}
-                                    onOptionSelect={(selectedSearchResult: GoogleMapsPlacesResult): void =>
-                                        setSelectedLocation({
-                                            latitude: selectedSearchResult.geometry.location.lat,
-                                            longitude: selectedSearchResult.geometry.location.lng,
-                                            text: address,
-                                        })
-                                    }
-                                    placeholder={t('location-placeholder-label')}
-                                />
-
-                                <PEDropdown
-                                    title={'Allergien'}
-                                    options={allergies}
-                                    getOptionLabel={(allergy): string => allergy.title}
-                                    optionsEqual={(allergyA, allergyB): boolean => allergyA.allergyId === allergyB.allergyId}
-                                    setSelectedOptions={setSelectedAllergies}
-                                    showSelectedCount
-                                    selectedOptions={selectedAllergies}
-                                />
-
-                                <PETextField value={occasion} onChange={setOccasion} type="text" placeholder="Anlass" />
-
-                                <PEMultiLineTextField value={message} onChange={setMessage} placeholder={t('Nachricht')} />
-
-                                <Divider flexItem />
-
-                                <HStack className="w-full">
-                                    <span>Preis pro Person</span>
-                                    <Spacer />
-                                    <span>{(total / 100 / (adults + children)).toFixed(2)} EUR</span>
-                                </HStack>
-                                <HStack className="w-full">
-                                    <span>
-                                        <b>Gesamtsumme</b>
-                                    </span>
-                                    <Spacer />
-                                    <span>
-                                        <b>{(total / 100).toFixed(2)} EUR</b>
-                                    </span>
-                                </HStack>
-
-                                <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={onBook} />
-                            </VStack>
+                            <BookingRequestForm
+                                signedInUser={signedInUser}
+                                externalDisabled={disabled}
+                                allergies={allergies}
+                                costs={costs}
+                                onComplete={(): void => onBook()}
+                                address={address}
+                                setAddress={setAddress}
+                                location={selectedLocation}
+                                setLocation={setSelectedLocation}
+                                addressSearchResults={addressSearchResults}
+                                setAddressSearchResults={setAddressSearchResults}
+                                adults={adults}
+                                setAdults={setAdults}
+                                // eslint-disable-next-line react/no-children-prop
+                                children={children}
+                                setChildren={setChildren}
+                                dateTime={dateTime}
+                                setDateTime={setDateTime}
+                                occasion={occasion}
+                                setOccasion={setOccasion}
+                                message={message}
+                                setMessage={setMessage}
+                                selectedAllergies={selectedAllergies}
+                                setSelectedAllergies={setSelectedAllergies}
+                            />
                         </HStack>
                     </>
                 )}
             </VStack>
 
             {completionState === 'SUCCESSFUL' && stripeClientSecret && (
-                <Dialog open>
+                <Dialog open maxWidth="md">
                     <DialogTitle>{'Zahlungsmittel hinterlegen'}</DialogTitle>
-                    <DialogContent>
-                        <Elements stripe={loadStripe(`${stripePublishableKey}`)} options={{ clientSecret: stripeClientSecret }}>
-                            <Payment />
-                        </Elements>
-                    </DialogContent>
+
+                    <Elements stripe={loadStripe(`${stripePublishableKey}`)} options={{ clientSecret: stripeClientSecret }}>
+                        <Payment>
+                            {costs && (
+                                <VStack gap={16} style={{ width: '100%', flex: 1 }}>
+                                    <h3 style={{ lineHeight: 0 }}>{publicMenu.title}</h3>
+
+                                    {Array.from(courseSelections.entries()).map(([course, meal]) => (
+                                        <VStack key={course.courseId}>
+                                            <b>{course.title}</b>
+                                            <div>{meal?.title}</div>
+                                        </VStack>
+                                    ))}
+
+                                    <Spacer />
+
+                                    <Divider flexItem />
+
+                                    {costs.lineItems.map((lineItem, index) => (
+                                        <HStack className="w-full" key={index}>
+                                            <span>{lineItem.title}</span>
+                                            <Spacer />
+                                            <span>{formatPrice(lineItem.price)}</span>
+                                        </HStack>
+                                    ))}
+
+                                    <HStack className="w-full">
+                                        <span>
+                                            <b>Gesamtsumme</b>
+                                        </span>
+                                        <Spacer />
+                                        <span>
+                                            <b>{formatPrice(costs.total)}</b>
+                                        </span>
+                                    </HStack>
+                                </VStack>
+                            )}
+                        </Payment>
+                    </Elements>
                 </Dialog>
             )}
 
