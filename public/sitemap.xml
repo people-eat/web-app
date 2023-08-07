@@ -2,55 +2,268 @@
 <urlset
       xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:xhtml="http://www.w3.org/1999/xhtml"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <url>
         <loc>https://www.people-eat.com/</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>1.00</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/"/>
     </url>
     <url>
         <loc>https://www.people-eat.com/how-to-chef</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/how-to-chef"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/how-to-chef"/>
     </url>
     <url>
         <loc>https://www.people-eat.com/sign-in</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>0.80</priority>
+         <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/sign-in"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/sing-in"/>
     </url>
     <url>
         <loc>https://www.people-eat.com/global-booking-request</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>0.80</priority>
+         <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/global-booking-request"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/global-booking-request"/>
     </url>
     <url>
         <loc>https://www.people-eat.com/about-us</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/about-us"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/about-us"/>
     </url>
     <url>
         <loc>https://www.people-eat.com/terms-and-conditions</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/terms-and-conditions"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/terms-and-conditions"/>
     </url>
     <url>
         <loc>https://www.people-eat.com/imprint</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/imprint"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/imprint"/>
     </url>
     <url>
         <loc>https://www.people-eat.com/data-privacy-policy</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/data-privacy-policy"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/data-privacy-policy"/>
     </url>
     <url>
         <loc>https://www.people-eat.com/chef-sign-up</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>0.64</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/chef-sign-up"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/chef-sign-up"/>
     </url>
     <url>
         <loc>https://www.people-eat.com/sign-up</loc>
         <lastmod>2023-06-28T16:20:14+00:00</lastmod>
         <priority>0.64</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/sign-up"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/sign-up"/>
+    </url>
+
+
+     <url>
+        <loc>https://www.people-eat.com/en/</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>1.00</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/"/>
+    </url>
+    <url>
+        <loc>https://www.people-eat.com/en/how-to-chef</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/how-to-chef"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/how-to-chef"/>
+    </url>
+    <url>
+        <loc>https://www.people-eat.com/en/sing-in</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>0.80</priority>
+         <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/sign-in"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/sing-in"/>
+    </url>
+    <url>
+        <loc>https://www.people-eat.com/en/global-booking-request</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>0.80</priority>
+         <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/global-booking-request"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/global-booking-request"/>
+    </url>
+    <url>
+        <loc>https://www.people-eat.com/en/about-us</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/about-us"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/about-us"/>
+    </url>
+    <url>
+        <loc>https://www.people-eat.com/en/terms-and-conditions</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/terms-and-conditions"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/terms-and-conditions"/>
+    </url>
+    <url>
+        <loc>https://www.people-eat.com/en/imprint</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/imprint"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/imprint"/>
+    </url>
+    <url>
+        <loc>https://www.people-eat.com/en/data-privacy-policy</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>0.80</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/data-privacy-policy"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/data-privacy-policy"/>
+    </url>
+    <url>
+        <loc>https://www.people-eat.com/en/chef-sign-up</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>0.64</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/chef-sign-up"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/chef-sign-up"/>
+    </url>
+    <url>
+        <loc>https://www.people-eat.com/en/sign-up</loc>
+        <lastmod>2023-06-28T16:20:14+00:00</lastmod>
+        <priority>0.64</priority>
+        <xhtml:link
+               rel="alternate"
+               hreflang="de"
+               href="https://www.people-eat.com/sign-up"/>
+        <xhtml:link
+               rel="alternate"
+               hreflang="en"
+               href="https://www.people-eat.com/en/sign-up"/>
     </url>
 </urlset>

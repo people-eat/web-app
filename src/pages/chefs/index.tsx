@@ -66,7 +66,9 @@ const Index: NextPage<PublicCooksPageProps> = ({ signedInUser, searchParameters,
                     content="Hier kannst du einen Privatkoch für Zuhause zu buchen. Du wirst es kaum glauben, aber es war nie einfacher"
                 />
                 <meta name="keywords" content="Koch buchen, Koch für Zuhause, Mietkoch" />
-
+                <link rel="alternate" href="https://people-eat.com/de/chefs/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/de/chefs/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/chefs/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <PublicCooksPage signedInUser={signedInUser} searchParameters={searchParameters} searchResults={searchResults} />

@@ -70,15 +70,15 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
     return (
         <>
             <Head>
-                <title>PeopleEat - Miete einen Privatkoch - Ein Event bei dir zuhause</title>
-
-                <meta name="title" content="Finde einen Privatkoch für dein Event zuhause PeopleEat" />
+                <title>Koch für Zuhause | Privatkoch mieten | PeopleEat</title>
                 <meta
                     name="description"
-                    content="Finde einen Privatkoch in deiner Umgebung für jeden Anlass und erhalte kulinarische Erlebnismomente bei dir zuhause. Wir kümmern uns um den Einkauf der Lebensmittel, die Zubereitung der Speisen und selbstverständlich um eine saubere Küche."
+                    content="Finde einen Privatkoch in der Nähe für jeden Event  bei dir Zuhause. Mache aus deinem nächsten Team-Event, Candle-Light dinner oder Geburtstagsfeier eine unvergessliche Experience."
                 />
-                <meta name="keywords" content="Kochservice, Privatkoch, Event zuhause" />
-
+                <meta name="keywords" content="Koch für Zuhause, Privatkoch, Geburtstagsfeier, Candle Light Dinner, Experience" />
+                <link rel="alternate" href="https://people-eat.com/de/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/de/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 

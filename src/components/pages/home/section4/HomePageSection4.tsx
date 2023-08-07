@@ -18,7 +18,7 @@ export default function HomePageSection4(): ReactElement {
             </h2>
             <div className="flex w-full gap-12 lg:flex-col flex-row justify-center">
                 <VStack>
-                    <Image className="object-contain" src="/koch-für-zuhause.png" alt="Bild von Privatköchen" width={400} height={300} />
+                    <Image className="object-contain" src="/koch-für-zuhause.png" alt="Privatkoch" width={400} height={300} />
                     <HStack className="gap-4">
                         <span className="flex justify-center items-center bg-orange text-white p-2 rounded-2 max-h-[34px] min-w-[34px] box-border">
                             01

@@ -45,12 +45,11 @@ const Index: NextPage<CookBookingRequestPageProps> = ({ signedInUser, cook, sear
             <Head>
                 <title>{t('request-title')}</title>
 
-                <meta name="title" content="" />
                 <meta
                     name="description"
                     content="Du hast besondere Menü Wünsche und weißt nicht wo du anfangen sollst? Wir helfen dir dabei einen Privatkoch für Zuhause zu finden und ein Menü nach deinen Präferenzen zusammenzustellen. "
                 />
-                <meta name="keywords" content="Menü für Zuhause, Koch für Zuhause" />
+                <meta name="keywords" content="Menü für Zuhause, Koch für Zuhause, Hausparty Ideen" />
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>

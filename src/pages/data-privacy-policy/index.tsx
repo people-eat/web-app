@@ -29,10 +29,11 @@ const Index: NextPage<DataPrivacyPolicyPageProps> = ({ signedInUser, latestPriva
             <Head>
                 <title>{t('data-privacy-title')}</title>
 
-                <meta name="title" content="" />
-                <meta name="description" content="" />
+                <meta name="description" content="Datenschutzerklärung" />
                 <meta name="keywords" content="" />
-
+                <link rel="alternate" href="https://people-eat.com/data-privacy-policy/" hrefLang="x-default" />
+                <link rel="alternate" href="https://people-eat.com/data-privacy-policy/" hrefLang="de" />
+                <link rel="alternate" href="https://people-eat.com/en/data-privacy-policy/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <DataPrivacyPolicyPage signedInUser={signedInUser} latestPrivacyPolicyUpdate={latestPrivacyPolicyUpdate} />
