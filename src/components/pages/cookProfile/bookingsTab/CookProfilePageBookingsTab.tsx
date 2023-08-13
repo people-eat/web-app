@@ -37,7 +37,9 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                         borderRadius: 16,
                     }}
                 >
-                    <span style={{ margin: 16 }}>{t('booking-title')}</span>
+                    <span style={{ margin: 16 }} className="text-heading-ss-bold md:text-text-sm-bold">
+                        {chefProfileTranslations('tab-bookings')}
+                    </span>
                     <Divider />
                     <List>
                         {bookingRequests.map((bookingRequest) => (
@@ -82,7 +84,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                 {bookingRequest.price.amount} {bookingRequest.price.currencyCode}
                                             </span>
                                         </HStack>
-                                        <span className={'text-heading-ss-bold md:text-text-sm-bold'}>
+                                        <span className="text-heading-ss-bold md:text-text-sm-bold">
                                             {bookingRequest.configuredMenu?.title ?? chefProfileTranslations('cook-request-title')}
                                         </span>
 

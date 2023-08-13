@@ -148,39 +148,43 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                             <Spacer />
                         </HStack>
 
-                        <HStack className="w-full overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
-                            <PETabItem
-                                title={'All'}
-                                onClick={(): void => setSelectedCategory(undefined)}
-                                active={selectedCategory === undefined}
-                            />
-                            {categories.map((category) => (
+                        {categories.length > 0 && (
+                            <HStack className="w-full overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
                                 <PETabItem
-                                    key={category.categoryId}
-                                    title={category.title}
-                                    onClick={(): void => setSelectedCategory(category)}
-                                    active={selectedCategory?.categoryId === category.categoryId}
+                                    title={'All'}
+                                    onClick={(): void => setSelectedCategory(undefined)}
+                                    active={selectedCategory === undefined}
                                 />
-                            ))}
-                        </HStack>
+                                {categories.map((category) => (
+                                    <PETabItem
+                                        key={category.categoryId}
+                                        title={category.title}
+                                        onClick={(): void => setSelectedCategory(category)}
+                                        active={selectedCategory?.categoryId === category.categoryId}
+                                    />
+                                ))}
+                            </HStack>
+                        )}
 
-                        <HStack className="w-full overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
-                            <PETabItem
-                                title={'All'}
-                                onClick={(): void => setSelectedKitchen(undefined)}
-                                active={selectedKitchen === undefined}
-                            />
-                            {kitchens.map((kitchen) => (
+                        {kitchens.length > 0 && (
+                            <HStack className="w-full overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
                                 <PETabItem
-                                    key={kitchen.kitchenId}
-                                    title={kitchen.title}
-                                    onClick={(): void => setSelectedKitchen(kitchen)}
-                                    active={selectedKitchen?.kitchenId === kitchen.kitchenId}
+                                    title={'All'}
+                                    onClick={(): void => setSelectedKitchen(undefined)}
+                                    active={selectedKitchen === undefined}
                                 />
-                            ))}
-                        </HStack>
+                                {kitchens.map((kitchen) => (
+                                    <PETabItem
+                                        key={kitchen.kitchenId}
+                                        title={kitchen.title}
+                                        onClick={(): void => setSelectedKitchen(kitchen)}
+                                        active={selectedKitchen?.kitchenId === kitchen.kitchenId}
+                                    />
+                                ))}
+                            </HStack>
+                        )}
 
-                        <HStack gap={16} style={{ flexWrap: 'wrap' }} className="w-full">
+                        <HStack gap={16} style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }} className="w-full">
                             {publicCook.menus
                                 .filter((_menu) => {
                                     // if (!selectedKitchen) return true;
@@ -188,20 +192,35 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                     return true;
                                 })
                                 .map((menu) => (
-                                    <PEMenuCard
+                                    <Link
                                         key={menu.menuId}
-                                        title={menu.title}
-                                        description={menu.description}
-                                        imageUrls={menu.imageUrls}
-                                        pricePerPerson={100}
-                                        currencyCode={menu.currencyCode}
-                                        chefFirstName={publicCook.user.firstName}
-                                        chefProfilePictureUrl={publicCook.user.profilePictureUrl}
-                                        categories={menu.categories.map(({ title }) => title)}
-                                        kitchen={menu.kitchen?.title}
-                                        onClick={(): void => undefined}
-                                        fullWidth
-                                    />
+                                        href={{
+                                            pathname: '/menus/' + menu.menuId,
+                                            query: {
+                                                address: '',
+                                                latitude: 0,
+                                                longitude: 0,
+                                                adults: 3,
+                                                children: 1,
+                                                date: moment().format(moment.HTML5_FMT.DATE),
+                                            },
+                                        }}
+                                        style={{ textDecoration: 'none' }}
+                                    >
+                                        <PEMenuCard
+                                            title={menu.title}
+                                            description={menu.description}
+                                            imageUrls={menu.imageUrls}
+                                            pricePerPerson={100}
+                                            currencyCode={menu.currencyCode}
+                                            chefFirstName={publicCook.user.firstName}
+                                            chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                            categories={menu.categories.map(({ title }) => title)}
+                                            kitchen={menu.kitchen?.title}
+                                            onClick={(): void => undefined}
+                                            fullWidth
+                                        />
+                                    </Link>
                                 ))}
                         </HStack>
                     </>
