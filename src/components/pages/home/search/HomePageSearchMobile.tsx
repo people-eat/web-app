@@ -26,7 +26,7 @@ export default function HomePageSearchMobile({
 
     return (
         <div
-            className="hidden lg:flex w-full justify-between px-6 py-2 box-border items-center shadow-primary"
+            className="hidden lg:flex w-full justify-between px-6 my-[24px] py-2 box-border items-center shadow-primary"
             style={{
                 gap: 16,
                 backgroundColor: 'white',

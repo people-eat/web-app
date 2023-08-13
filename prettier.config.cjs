@@ -13,6 +13,7 @@ const config = {
             },
         },
     ],
+    endOfLine: 'auto',
 };
 
 module.exports = config;
