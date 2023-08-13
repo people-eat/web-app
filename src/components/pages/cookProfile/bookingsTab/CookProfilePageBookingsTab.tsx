@@ -23,6 +23,10 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
     const bookingRequestsResult = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
     const bookingRequests = bookingRequestsResult.data?.cooks.bookingRequests.findMany ?? [];
 
+    // useEffect(() => {
+    //     bookingRequests = bookingRequests.sort((b1, b2) => new Date(b1.createdAt).getTime() - new Date(b2.createdAt).getTime());
+    // }, [bookingRequests]);
+
     return (
         <>
             <HStack className="w-full max-w-screen-xl" gap={32}>

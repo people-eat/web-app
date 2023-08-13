@@ -2,11 +2,11 @@ import { useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
 import { type ReactElement } from 'react';
 import {
     CreateOneCookBookingRequestDocument,
     FindCookProfileGlobalBookingRequestsDocument,
-    FindManyCookBookingRequestsDocument,
 } from '../../../../data-source/generated/graphql';
 import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
 import HStack from '../../../utility/hStack/HStack';
@@ -17,12 +17,11 @@ export interface ChefProfilePageGlobalBookingsTabProps {
 }
 
 export default function ChefProfilePageGlobalBookingsTab({ cookId }: ChefProfilePageGlobalBookingsTabProps): ReactElement {
+    const router = useRouter();
     const { t: commonTranslate } = useTranslation('common');
 
     const { data, loading, error } = useQuery(FindCookProfileGlobalBookingRequestsDocument, { variables: { cookId } });
     const globalBookingRequests = data?.cooks.globalBookingRequests.findMany;
-
-    const bookingRequestsResult = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
 
     const [createBookingRequest] = useMutation(CreateOneCookBookingRequestDocument);
 
@@ -47,7 +46,7 @@ export default function ChefProfilePageGlobalBookingsTab({ cookId }: ChefProfile
                                     variables: { cookId, globalBookingRequestId: globalBookingRequest.globalBookingRequestId },
                                 }).then(({ data: successData }) => {
                                     if (!successData?.cooks.bookingRequests.success) return;
-                                    void bookingRequestsResult.refetch();
+                                    void router.push('chef-profile?tab=3');
                                 })
                             }
                         />

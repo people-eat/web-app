@@ -29,7 +29,7 @@ const Index: NextPage<TermsAndConditionsPageProps> = ({ signedInUser, latestTerm
             <Head>
                 <title>{t('terms-title')}</title>
 
-                <meta name="description" content="Allgemeine Geschäftsbeziehungen" />
+                <meta name="description" content={t('terms-title')} />
                 <meta name="keywords" content="" />
                 <link rel="alternate" href="https://people-eat.com/terms-and-conditions/" hrefLang="x-default" />
                 <link rel="alternate" href="https://people-eat.com/terms-and-conditions/" hrefLang="de" />
