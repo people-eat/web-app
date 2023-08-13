@@ -5,9 +5,11 @@ import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import { type CookRank } from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
+import useResponsive from '../../../hooks/useResponsive';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEChefCard from '../../cards/chefCard/PEChefCard';
+import PEChefCardMobile from '../../cards/chefCard/PEChefCardMobile';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEToggle from '../../standard/buttons/PEToggle';
@@ -15,7 +17,7 @@ import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import HomePageSearch from '../home/search/HomePageSearch';
-
+import HomePageSearchMobile from '../home/search/HomePageSearchMobile';
 export interface PublicCooksPageProps {
     signedInUser?: SignedInUser;
     searchParameters: {
@@ -47,6 +49,7 @@ export interface PublicCooksPageProps {
 export default function PublicCooksPage({ signedInUser, searchParameters, searchResults }: PublicCooksPageProps): ReactElement {
     const router = useRouter();
     const { t } = useTranslation('search-results');
+    const { isMobile } = useResponsive();
 
     const [address, setAddress] = useState(searchParameters.location.address);
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
@@ -67,38 +70,73 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
     }
 
     return (
-        <VStack className="w-full h-full box-border" style={{ gap: 80 }}>
+        <VStack className="w-full h-full box-border" style={{ gap: isMobile ? 24 : 80 }}>
             <PEHeader signedInUser={signedInUser} />
 
             <VStack className="w-full max-w-screen-xl lg:p-4 box-border" style={{ gap: 64, alignItems: 'flex-start' }}>
-                <HStack style={{ justifyContent: 'space-between' }} className="w-full">
-                    <HomePageSearch
-                        addressSearchText={address}
-                        onAddressSearchTextChange={(changedAddressSearchText: string): void => {
-                            setAddress(changedAddressSearchText);
-                            searchAddress(changedAddressSearchText, setAddressSearchResults);
-                        }}
-                        adultCount={adults}
-                        onAdultsChange={setAdults}
-                        childrenCount={children}
-                        onChildrenChange={setChildren}
-                        date={date}
-                        onDateChange={setDate}
-                        searchResults={addressSearchResults.map(({ formatted_address, geometry: { location } }) => ({
-                            label: formatted_address,
-                            location: { latitude: location.lat, longitude: location.lng },
-                        }))}
-                        onSearchResultSelect={(selectedSearchResult): void =>
-                            setSelectedLocation({
-                                latitude: selectedSearchResult.location.latitude,
-                                longitude: selectedSearchResult.location.longitude,
-                                text: selectedSearchResult.label,
-                            })
-                        }
-                        onSearch={onSearch}
-                    />
+                <HStack
+                    style={{
+                        justifyContent: isMobile ? 'flex-start' : 'space-between',
+                        alignItems: isMobile ? 'flex-start' : 'center',
+                        flexDirection: isMobile ? 'column-reverse' : 'row',
+                    }}
+                    className="w-full gap-8"
+                >
+                    {isMobile ? (
+                        <HomePageSearchMobile
+                            addressSearchText={address}
+                            onAddressSearchTextChange={(changedAddressSearchText: string): void => {
+                                setAddress(changedAddressSearchText);
+                                searchAddress(changedAddressSearchText, setAddressSearchResults);
+                            }}
+                            adultCount={adults}
+                            onAdultsChange={setAdults}
+                            childrenCount={children}
+                            onChildrenChange={setChildren}
+                            date={date}
+                            onDateChange={setDate}
+                            searchResults={addressSearchResults.map(({ formatted_address, geometry: { location } }) => ({
+                                label: formatted_address,
+                                location: { latitude: location.lat, longitude: location.lng },
+                            }))}
+                            onSearchResultSelect={(selectedSearchResult): void =>
+                                setSelectedLocation({
+                                    latitude: selectedSearchResult.location.latitude,
+                                    longitude: selectedSearchResult.location.longitude,
+                                    text: selectedSearchResult.label,
+                                })
+                            }
+                            onSearch={onSearch}
+                        />
+                    ) : (
+                        <HomePageSearch
+                            addressSearchText={address}
+                            onAddressSearchTextChange={(changedAddressSearchText: string): void => {
+                                setAddress(changedAddressSearchText);
+                                searchAddress(changedAddressSearchText, setAddressSearchResults);
+                            }}
+                            adultCount={adults}
+                            onAdultsChange={setAdults}
+                            childrenCount={children}
+                            onChildrenChange={setChildren}
+                            date={date}
+                            onDateChange={setDate}
+                            searchResults={addressSearchResults.map(({ formatted_address, geometry: { location } }) => ({
+                                label: formatted_address,
+                                location: { latitude: location.lat, longitude: location.lng },
+                            }))}
+                            onSearchResultSelect={(selectedSearchResult): void =>
+                                setSelectedLocation({
+                                    latitude: selectedSearchResult.location.latitude,
+                                    longitude: selectedSearchResult.location.longitude,
+                                    text: selectedSearchResult.label,
+                                })
+                            }
+                            onSearch={onSearch}
+                        />
+                    )}
 
-                    <HStack gap={8}>
+                    <HStack gap={8} className="justify-start">
                         <PEToggle title={t('cooks')} active={true} onClick={(): void => undefined} />
                         <Link href="menus" style={{ textDecoration: 'none' }}>
                             <PEToggle title={t('menus')} active={false} onClick={(): void => undefined} />
@@ -132,15 +170,27 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                             className="no-underline"
                             style={{ textDecoration: 'none', color: '#000' }}
                         >
-                            <PEChefCard
-                                firstName={publicCook.user.firstName}
-                                profilePictureUrl={publicCook.user.profilePictureUrl}
-                                rank={publicCook.rank}
-                                location={publicCook.city}
-                                rating={{ average: 5, count: 12 }}
-                                categories={[]}
-                                kitchens={[]}
-                            />
+                            {isMobile ? (
+                                <PEChefCardMobile
+                                    firstName={publicCook.user.firstName}
+                                    profilePictureUrl={publicCook.user.profilePictureUrl}
+                                    rank={publicCook.rank}
+                                    location={publicCook.city}
+                                    rating={{ average: 5, count: 12 }}
+                                    categories={[]}
+                                    kitchens={[]}
+                                />
+                            ) : (
+                                <PEChefCard
+                                    firstName={publicCook.user.firstName}
+                                    profilePictureUrl={publicCook.user.profilePictureUrl}
+                                    rank={publicCook.rank}
+                                    location={publicCook.city}
+                                    rating={{ average: 5, count: 12 }}
+                                    categories={[]}
+                                    kitchens={[]}
+                                />
+                            )}
                         </Link>
                     ))}
                 </HStack>
