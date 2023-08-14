@@ -5,8 +5,6 @@
         "public",
         "locales/de",
         "locales/en",
-        "locales/fr",
-        "locales/ru",
         "src/components/pages/home/menuSection/PEPointsCard.tsx",
         "src/**/*.mock.ts",
         "next.config.mjs"

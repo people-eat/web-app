@@ -8,8 +8,8 @@ import PEHeader from '../../header/PEHeader';
 import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
-import CookProfilePageBookingTab from './bookingTab/ChefProfilePageBookingTab';
 import CookProfilePageBookingsTab from './bookingsTab/CookProfilePageBookingsTab';
+import ChefProfilePageGlobalBookingsTab from './globalBookingsTab/ChefProfilePageGlobalBookingsTab';
 import CookProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
 import CookProfilePageMenusTab from './menusTab/ChefProfilePageMenusTab';
 import CookProfilePagePersonalTab from './personalTab/CookProfilePagePersonalTab';
@@ -39,16 +39,16 @@ export default function CookProfilePage({ signedInUser }: CookProfilePageProps):
             link: '/chef-profile?tab=3',
         },
         {
+            title: t('tab-global-bookings'),
+            link: '/chef-profile?tab=6',
+        },
+        {
             title: t('tab-ratings'),
             link: '/chef-profile?tab=4',
         },
         {
             title: t('tab-statistic'),
             link: '/chef-profile?tab=5',
-        },
-        {
-            title: t('tab-chats'),
-            link: '/chef-profile?tab=6',
         },
         {
             title: t('tab-show-profile'),
@@ -112,9 +112,9 @@ export default function CookProfilePage({ signedInUser }: CookProfilePageProps):
 
                 {selectedTab === 2 && signedInUser && <CookProfilePageMenusTab cookId={signedInUser.userId} />}
 
-                {selectedTab === 3 && signedInUser && <CookProfilePageBookingTab cookId={signedInUser.userId} />}
+                {selectedTab === 3 && signedInUser && <CookProfilePageBookingsTab cookId={signedInUser.userId} />}
 
-                {selectedTab === 6 && signedInUser && <CookProfilePageBookingsTab cookId={signedInUser.userId} />}
+                {selectedTab === 4 && signedInUser && <ChefProfilePageGlobalBookingsTab cookId={signedInUser.userId} />}
             </VStack>
 
             <PEFooter />

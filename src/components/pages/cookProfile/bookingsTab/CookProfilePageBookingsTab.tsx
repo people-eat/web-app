@@ -23,6 +23,10 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
     const bookingRequestsResult = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
     const bookingRequests = bookingRequestsResult.data?.cooks.bookingRequests.findMany ?? [];
 
+    // useEffect(() => {
+    //     bookingRequests = bookingRequests.sort((b1, b2) => new Date(b1.createdAt).getTime() - new Date(b2.createdAt).getTime());
+    // }, [bookingRequests]);
+
     return (
         <>
             <HStack className="w-full max-w-screen-xl" gap={32}>
@@ -37,7 +41,9 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                         borderRadius: 16,
                     }}
                 >
-                    <span style={{ margin: 16 }}>{t('booking-title')}</span>
+                    <span style={{ margin: 16 }} className="text-heading-ss-bold md:text-text-sm-bold">
+                        {chefProfileTranslations('tab-bookings')}
+                    </span>
                     <Divider />
                     <List>
                         {bookingRequests.map((bookingRequest) => (
@@ -82,7 +88,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                 {bookingRequest.price.amount} {bookingRequest.price.currencyCode}
                                             </span>
                                         </HStack>
-                                        <span className={'text-heading-ss-bold md:text-text-sm-bold'}>
+                                        <span className="text-heading-ss-bold md:text-text-sm-bold">
                                             {bookingRequest.configuredMenu?.title ?? chefProfileTranslations('cook-request-title')}
                                         </span>
 
