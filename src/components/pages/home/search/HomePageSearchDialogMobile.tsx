@@ -88,6 +88,7 @@ export default function HomePageSearchDialogMobile({
                         minHeight: '90%',
                         minWidth: '100%',
                         height: '80vh',
+                        gap: '0.8rem',
                     }}
                 >
                     <div>
