@@ -12,6 +12,7 @@ import React, { forwardRef, useEffect, useState, type ReactElement } from 'react
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
+import PENumberTextField from '../../../standard/textFields/PENumberTextField';
 import Spacer from '../../../utility/spacer/Spacer';
 import { type AddressSearchResult } from './AddressSearchResult';
 import { type HomePageSearchProps } from './HomePageSearch';
@@ -135,24 +136,7 @@ export default function HomePageSearchDialogMobile({
                             />
                         </div>
                         <p className="text-text-sm-bold">{t('adults-label')}</p>
-                        <TextField
-                            sx={{
-                                '&.Mui-focused': { border: '1px solid black', borderColor: 'black' },
-                                width: '100%',
-                                border: '1px solid rgba(31, 31, 31, 0.2)',
-                                borderRadius: '12px',
-                                padding: '8px 16px',
-                                boxSizing: 'border-box',
-                            }}
-                            value={adultCount}
-                            onChange={(event): void => {
-                                onAdultsChange(Number(event.target.value));
-                            }}
-                            variant="standard"
-                            type="number"
-                            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 1 }}
-                            InputProps={{ disableUnderline: true }}
-                        />
+                        <PENumberTextField value={adultCount} onChange={onAdultsChange} min={1} max={20} step={1} />
                         <p className="text-text-sm-bold">{t('children-label')}</p>
                         <TextField
                             sx={{

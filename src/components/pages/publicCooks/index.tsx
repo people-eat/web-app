@@ -82,8 +82,8 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                     }}
                     className="w-full gap-8"
                 >
-                    {isMobile ? (
-                        <HomePageSearchMobile
+                    {!isMobile && (
+                        <HomePageSearch
                             addressSearchText={address}
                             onAddressSearchTextChange={(changedAddressSearchText: string): void => {
                                 setAddress(changedAddressSearchText);
@@ -108,8 +108,9 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                             }
                             onSearch={onSearch}
                         />
-                    ) : (
-                        <HomePageSearch
+                    )}
+                    {isMobile && (
+                        <HomePageSearchMobile
                             addressSearchText={address}
                             onAddressSearchTextChange={(changedAddressSearchText: string): void => {
                                 setAddress(changedAddressSearchText);
@@ -170,7 +171,7 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                             className="no-underline"
                             style={{ textDecoration: 'none', color: '#000' }}
                         >
-                            {isMobile ? (
+                            {isMobile && (
                                 <PEChefCardMobile
                                     firstName={publicCook.user.firstName}
                                     profilePictureUrl={publicCook.user.profilePictureUrl}
@@ -180,7 +181,8 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                                     categories={[]}
                                     kitchens={[]}
                                 />
-                            ) : (
+                            )}
+                            {!isMobile && (
                                 <PEChefCard
                                     firstName={publicCook.user.firstName}
                                     profilePictureUrl={publicCook.user.profilePictureUrl}
