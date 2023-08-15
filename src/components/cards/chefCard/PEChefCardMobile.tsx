@@ -15,7 +15,7 @@ export default function PEChefCardMobile({
     categories,
     kitchens,
 }: PEChefCardProps): ReactElement {
-    const baseClassNames = 'flex flex-col w-[93vw] active:shadow-active shadow-primary overflow-hidden w-full rounded-3 cursor-pointer';
+    const baseClassNames = 'flex flex-col w-[93vw] active:shadow-active shadow-primary overflow-hidden rounded-3 cursor-pointer';
 
     return (
         <div className={classNames(baseClassNames)}>
