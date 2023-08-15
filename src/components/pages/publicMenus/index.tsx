@@ -94,8 +94,8 @@ export default function PublicMenusPage({ signedInUser, searchParameters, search
                     }}
                     className="w-full"
                 >
-                    {isMobile ? (
-                        <HomePageSearchMobile
+                    {!isMobile && (
+                        <HomePageSearch
                             addressSearchText={address}
                             onAddressSearchTextChange={(changedAddressSearchText: string): void => {
                                 setAddress(changedAddressSearchText);
@@ -120,8 +120,9 @@ export default function PublicMenusPage({ signedInUser, searchParameters, search
                             }
                             onSearch={onSearch}
                         />
-                    ) : (
-                        <HomePageSearch
+                    )}
+                    {isMobile && (
+                        <HomePageSearchMobile
                             addressSearchText={address}
                             onAddressSearchTextChange={(changedAddressSearchText: string): void => {
                                 setAddress(changedAddressSearchText);
