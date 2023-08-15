@@ -49,7 +49,7 @@ const Index: NextPage<CookBookingRequestPageProps> = ({ signedInUser, cook, sear
                     name="description"
                     content="Du hast besondere Menü Wünsche und weißt nicht wo du anfangen sollst? Wir helfen dir dabei einen Privatkoch für Zuhause zu finden und ein Menü nach deinen Präferenzen zusammenzustellen. "
                 />
-                <meta name="keywords" content="Menü für Zuhause, Koch für Zuhause, Hausparty Ideen" />
+                <meta name="keywords" content="People Eat, Menü für Zuhause, Koch für Zuhause, Hausparty Ideen" />
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>

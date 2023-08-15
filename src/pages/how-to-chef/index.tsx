@@ -31,7 +31,7 @@ const Index: NextPage<HowToChefPageProps> = ({ signedInUser }) => {
                     name="description"
                     content="Werde Mietkoch, genieße die Freiheit und Flexibilität wann du deine Privatkoch Dienstleistungen anbieten möchtest. Teile deine Leidenschaft mit deinen Gästen und schaffe einzigartige Erlebnismomente."
                 />
-                <meta name="keywords" content="Privatkoch werden, als Koch selbstständig machen, Eigenes Restaurant eröffnen" />
+                <meta name="keywords" content="People Eat, Privatkoch werden, event koch, koch werden, Eigenes Restaurant eröffnen" />
                 <link rel="icon" href="/favicon.ico" />
                 <link rel="alternate" href="https://people-eat.com/how-to-chef/" hrefLang="x-default" />
                 <link rel="alternate" href="https://people-eat.com/how-to-chef/" hrefLang="de" />
