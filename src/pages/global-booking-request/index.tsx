@@ -47,7 +47,10 @@ const Index: NextPage<GlobalBookingRequestPageProps> = ({ signedInUser, searchPa
                     name="description"
                     content="Du hast besondere Menü Ideen und weißt nicht wo du anfangen sollst? Wir helfen dir dabei einen Privatkoch für zuhause zu finden und ein Menü nach deinen Präferenzen zusammenzustellen."
                 />
-                <meta name="keywords" content="Menü Ideen, Koch buchen, Privatkoch" />
+                <meta
+                    name="keywords"
+                    content="PeopleEat, Privatkoch für zuhause, Personal chef, Koch, buchen, mieten, show cooking, party service, Mietkoch, kochevents, homecooking"
+                />
                 <link rel="alternate" href="https://people-eat.com/global-booking-request/" hrefLang="x-default" />
                 <link rel="alternate" href="https://people-eat.com/global-booking-request/" hrefLang="de" />
                 <link rel="alternate" href="https://people-eat.com/en/global-booking-request/" hrefLang="en" />

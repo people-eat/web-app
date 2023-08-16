@@ -31,7 +31,7 @@ const Index: NextPage<AboutUsPageProps> = ({ signedInUser }) => {
                     name="description"
                     content="Wir machen es dir so einfach wie nie zuvor, einen Privatkoch für Deine Dinner-Party zu buchen. Wir sind davon überzeugt, dass Essen nicht nur ein Erlebnismoment ist, sondern auch Menschen zusammen bringt."
                 />
-                <meta name="keywords" content="Koch buchen, Experience" />
+                <meta name="keywords" content="PeopleEat, Koch buchen, Candle Light Dinner, Geburtstag, Koch mieten" />
                 <link rel="alternate" href="https://people-eat.com/about-us/" hrefLang="x-default" />
                 <link rel="alternate" href="https://people-eat.com/about-us/" hrefLang="de" />
                 <link rel="alternate" href="https://people-eat.com/en/about-us/" hrefLang="en" />
