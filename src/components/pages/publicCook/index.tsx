@@ -195,7 +195,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
 
                                     if (selectedCategory && !_menu.categories.some((cat) => cat.title === selectedCategory.title))
                                         return false;
-                                    if (isMobile ? index > 2 : index > 1) return false;
+                                    if (isMobile ? index > 4 : index > 3) return false;
 
                                     return true;
                                 })
@@ -249,11 +249,11 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                     </Link>
                                 ))}
 
-                            {publicCook.menus.length > 3 && (
+                            {/* {publicCook.menus.length > 3 && (
                                 <Link href={`/menus?chefId=${publicCook.user.firstName}`} style={{ textDecoration: 'none', width: '93vw' }}>
                                     <PEButton title="All menus" onClick={(): void => undefined} />
                                 </Link>
-                            )}
+                            )} */}
                             <Link
                                 href={{
                                     pathname: '/cook-booking-request',
@@ -271,7 +271,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                             >
                                 <PEButton
                                     title={bookingTranslations('send-request-label')}
-                                    type="secondary"
+                                    type="primary"
                                     onClick={(): void => undefined}
                                 />
                             </Link>
