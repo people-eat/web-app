@@ -18,6 +18,7 @@ import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import HomePageSearch from '../home/search/HomePageSearch';
 import HomePageSearchMobile from '../home/search/HomePageSearchMobile';
+
 export interface PublicCooksPageProps {
     signedInUser?: SignedInUser;
     searchParameters: {
