@@ -15,6 +15,7 @@ import {
     type Price,
 } from '../../../data-source/generated/graphql';
 import { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
+import useResponsive from '../../../hooks/useResponsive';
 import { type Allergy } from '../../../shared-domain/Allergy';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
@@ -24,8 +25,10 @@ import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import { geoDistance } from '../../../utils/geoDistance';
 import BookingRequestForm from '../../BookingRequestForm';
 import PEMealCard from '../../cards/mealCard/PEMealCard';
+import PEMealCardMobile from '../../cards/mealCard/PEMealCardMobile';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
+import PEButton from '../../standard/buttons/PEButton';
 import PECarousel from '../../standard/carousel/PECarousel';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
@@ -34,7 +37,6 @@ import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 import Payment from '../menuBookingRequest/Payment';
-
 export interface PublicMenuPageProps {
     signedInUser?: SignedInUser;
     searchParameters: {
@@ -111,7 +113,7 @@ export default function PublicMenuPage({
     allergies,
     stripePublishableKey,
 }: PublicMenuPageProps): ReactElement {
-    // const { isMobile } = useResponsive();
+    const { isMobile } = useResponsive();
 
     const { t } = useTranslation('common');
 
@@ -133,6 +135,7 @@ export default function PublicMenuPage({
     const [lastName, _setLastName] = useState('');
     const [email, _setEmail] = useState('');
     const [_phoneNumber, _setPhoneNumber] = useState('');
+    const [_areMealsOnMenuSelected, _setAreMealsOnMenuSelected] = useState(false);
 
     const [stripeClientSecret, setStripeClientSecret] = useState<string | undefined>();
 
@@ -274,14 +277,20 @@ export default function PublicMenuPage({
     }
 
     return (
-        <VStack gap={64} className="w-full h-full">
+        <VStack gap={82} className="w-full h-full overflow-x-hidden">
             <PEHeader signedInUser={signedInUser} />
 
             <VStack className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4" gap={16}>
                 {publicMenu && (
                     <>
-                        <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
-                            <div className="flex justify-center items-center rounded-3 overflow-hidden w-[220px] min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] bg-base">
+                        <HStack
+                            className="w-full bg-white shadow-primary box-border p-8 rounded-4"
+                            gap={16}
+                            style={{
+                                flexDirection: isMobile ? 'column' : 'row',
+                            }}
+                        >
+                            <div className="flex justify-center items-center rounded-3  overflow-hidden w-[220px] min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] bg-base">
                                 {publicMenu.imageUrls.length < 1 && <PEIcon icon={Icon.food} edgeLength={52} />}
 
                                 {publicMenu.imageUrls.length === 1 && (
@@ -295,7 +304,7 @@ export default function PublicMenuPage({
                                     />
                                 )}
 
-                                {publicMenu.imageUrls.length > 1 && (
+                                {publicMenu.imageUrls.length > 1 && !isMobile && (
                                     <PECarousel
                                         images={publicMenu.imageUrls.map((picture, index) => (
                                             <Image
@@ -310,14 +319,40 @@ export default function PublicMenuPage({
                                         ))}
                                     />
                                 )}
+                                {publicMenu.imageUrls.length > 1 && isMobile && (
+                                    <Image
+                                        draggable={false}
+                                        style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
+                                        src={publicMenu.imageUrls[0] as string}
+                                        alt={'Menu image'}
+                                        width={220}
+                                        height={220}
+                                    />
+                                )}
                             </div>
+                            {publicMenu.imageUrls.length > 1 && isMobile && (
+                                <div className="flex overflow-x-auto  gap-3 mt-2" style={{ overflow: 'scroll' }}>
+                                    {publicMenu.imageUrls.slice(1).map((_img, i) => (
+                                        <div key={i} className="flex-none rounded-3 w-28">
+                                            <Image
+                                                draggable={false}
+                                                style={{ width: '100%', objectPosition: 'center', objectFit: 'fill', borderRadius: '12px' }}
+                                                src={_img}
+                                                alt={'Menu image'}
+                                                width={100}
+                                                height={100}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
                             <VStack gap={16} style={{ alignItems: 'flex-start' }}>
-                                <VStack gap={16} style={{ alignItems: 'flex-start' }}>
-                                    <p style={{ lineHeight: 0 }} className="text-heading-m">
+                                <VStack gap={0} style={{ alignItems: 'flex-start' }}>
+                                    <p style={{ lineHeight: 0, textAlign: 'start' }} className="text-heading-m">
                                         {publicMenu.title}
                                     </p>
-                                    <p style={{ lineHeight: 0 }} className="text-orange">
+                                    <p style={{ lineHeight: 0, textAlign: 'start' }} className="text-orange">
                                         {(menuPrice / 100 / (adults + children)).toFixed(2)} EUR pro Person
                                     </p>
                                     <p style={{ lineHeight: 0 }} className="text-gray">
@@ -354,7 +389,9 @@ export default function PublicMenuPage({
                                     </p>
                                     <span>{publicMenu.description}</span>
                                 </VStack>
-
+                                {publicMenu.categories.map((_cat) => (
+                                    <div key={_cat.categoryId}>{_cat.title}</div>
+                                ))}
                                 {/* {publicMenu.kitchen && <>{publicMenu.kitchen.title}</>}
 
                                 {publicMenu.cook.languages?.length > 0 && (
@@ -367,34 +404,84 @@ export default function PublicMenuPage({
 
                             <Spacer />
                         </HStack>
-
+                        <Divider flexItem className="py-3" />
                         <HStack gap={32} className="w-full" style={{ minWidth: '500px', flexWrap: 'wrap' }}>
-                            <VStack gap={32} style={{ flex: 1 }}>
+                            <VStack gap={32} style={{ flex: isMobile ? 'none' : 1 }}>
                                 {publicMenu.courses.map((course) => (
-                                    <VStack key={course.courseId} className="w-full" gap={32}>
+                                    <VStack key={course.courseId} style={{ width: isMobile ? '93vw' : '100%' }} gap={32}>
                                         <HStack className="w-full">
                                             <span className="text-heading-m">{course.title}</span>
                                             <Spacer />
                                         </HStack>
-
-                                        <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start' }}>
-                                            {course.mealOptions.map((mealOption) => (
-                                                <PEMealCard
-                                                    key={mealOption.index}
-                                                    title={mealOption.meal.title}
-                                                    description={mealOption.meal.description}
-                                                    imageUrl={mealOption.meal.imageUrl ?? undefined}
-                                                    active={courseSelections.get(course)?.mealId === mealOption.meal.mealId}
-                                                    onClick={(): void =>
-                                                        setCourseSelections(new Map(courseSelections.set(course, mealOption.meal)))
-                                                    }
-                                                />
-                                            ))}
+                                        <HStack
+                                            gap={isMobile ? 16 : 24}
+                                            className="w-full overflow-x-auto p-3"
+                                            style={{ justifyContent: 'flex-start' }}
+                                        >
+                                            {course.mealOptions.map(
+                                                (mealOption) =>
+                                                    (isMobile && (
+                                                        <PEMealCardMobile
+                                                            key={mealOption.index}
+                                                            title={mealOption.meal.title}
+                                                            description={mealOption.meal.description}
+                                                            imageUrl={mealOption.meal.imageUrl ?? undefined}
+                                                            active={courseSelections.get(course)?.mealId === mealOption.meal.mealId}
+                                                            onClick={(): void =>
+                                                                setCourseSelections(new Map(courseSelections.set(course, mealOption.meal)))
+                                                            }
+                                                        />
+                                                    )) ||
+                                                    (!isMobile && (
+                                                        <PEMealCard
+                                                            key={mealOption.index}
+                                                            title={mealOption.meal.title}
+                                                            description={mealOption.meal.description}
+                                                            imageUrl={mealOption.meal.imageUrl ?? undefined}
+                                                            active={courseSelections.get(course)?.mealId === mealOption.meal.mealId}
+                                                            onClick={(): void =>
+                                                                setCourseSelections(new Map(courseSelections.set(course, mealOption.meal)))
+                                                            }
+                                                        />
+                                                    )),
+                                            )}
                                         </HStack>
+                                        <Divider flexItem />
                                     </VStack>
                                 ))}
                             </VStack>
+                            {!isMobile && (
+                                <BookingRequestForm
+                                    signedInUser={signedInUser}
+                                    externalDisabled={disabled}
+                                    allergies={allergies}
+                                    costs={costs}
+                                    onComplete={(): void => onBook()}
+                                    address={address}
+                                    setAddress={setAddress}
+                                    location={selectedLocation}
+                                    setLocation={setSelectedLocation}
+                                    addressSearchResults={addressSearchResults}
+                                    setAddressSearchResults={setAddressSearchResults}
+                                    adults={adults}
+                                    setAdults={setAdults}
+                                    // eslint-disable-next-line react/no-children-prop
+                                    children={children}
+                                    setChildren={setChildren}
+                                    dateTime={dateTime}
+                                    setDateTime={setDateTime}
+                                    occasion={occasion}
+                                    setOccasion={setOccasion}
+                                    message={message}
+                                    setMessage={setMessage}
+                                    selectedAllergies={selectedAllergies}
+                                    setSelectedAllergies={setSelectedAllergies}
+                                />
+                            )}
+                        </HStack>
+                        {isMobile && <PEButton title="Weiter" onClick={(): void => _setAreMealsOnMenuSelected(true)} />}
 
+                        {isMobile && _areMealsOnMenuSelected && (
                             <BookingRequestForm
                                 signedInUser={signedInUser}
                                 externalDisabled={disabled}
@@ -421,7 +508,7 @@ export default function PublicMenuPage({
                                 selectedAllergies={selectedAllergies}
                                 setSelectedAllergies={setSelectedAllergies}
                             />
-                        </HStack>
+                        )}
                     </>
                 )}
             </VStack>

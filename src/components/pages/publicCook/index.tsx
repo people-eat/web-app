@@ -4,15 +4,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import { type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
+import useResponsive from '../../../hooks/useResponsive';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
 import { type Language } from '../../../shared-domain/Language';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEMenuCard from '../../cards/menuCard/PEMenuCard';
+import PEMenuCardMobile from '../../cards/menuCard/PEMenuCardMobile';
+import PEReviewCardMenu from '../../cards/reviewCard/PEReviewCardMenu';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEButton from '../../standard/buttons/PEButton';
+import PEFavorite from '../../standard/favorite/PEFavorite';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import PETabItem from '../../standard/tabItem/PETabItem';
@@ -60,9 +64,10 @@ export interface PublicCookPageProps {
 export default function PublicCookPage({ signedInUser, publicCook, categories, kitchens }: PublicCookPageProps): ReactElement {
     const { t } = useTranslation('common');
     const { t: bookingTranslations } = useTranslation('global-booking-request');
-
+    const { isMobile } = useResponsive();
     const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>();
     const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
+    const [liked, setLike] = useState(false);
 
     return (
         <VStack gap={40} className="w-full h-full">
@@ -71,7 +76,11 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
             <VStack className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4" gap={16}>
                 {publicCook && (
                     <>
-                        <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4" gap={16}>
+                        <HStack
+                            className="w-full bg-white shadow-primary box-border p-8 rounded-4"
+                            style={{ flexDirection: isMobile ? 'column' : 'row' }}
+                            gap={16}
+                        >
                             {publicCook.user.profilePictureUrl && (
                                 <Image
                                     style={{
@@ -113,25 +122,20 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
 
                             <Spacer />
 
-                            <Link
-                                href={{
-                                    pathname: '/cook-booking-request',
-                                    query: {
-                                        cookId: publicCook.cookId,
-                                        address: '',
-                                        latitude: 0,
-                                        longitude: 0,
-                                        adults: 3,
-                                        children: 1,
-                                        date: moment().format(moment.HTML5_FMT.DATE),
-                                    },
-                                }}
-                                className="no-underline"
-                            >
-                                <PEButton title={bookingTranslations('send-request-label')} onClick={(): void => undefined} />
-                            </Link>
+                            {isMobile && (
+                                <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                                    <PEFavorite isFavorite={liked} onIsFavoriteChange={(): void => setLike(!liked)} />
+                                </div>
+                            )}
                         </HStack>
-
+                        <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4">
+                            <VStack gap={20} className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <p className="text-heading-m my-0">Video</p>
+                                <video style={{ margin: '0 auto' }} controls>
+                                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+                                </video>
+                            </VStack>
+                        </HStack>
                         <HStack
                             gap={16}
                             className="w-full bg-white shadow-primary box-border p-8 rounded-4"
@@ -149,7 +153,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                         </HStack>
 
                         {categories.length > 0 && (
-                            <HStack className="w-full overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
+                            <HStack className="w-full overflow-x-auto gap-2" style={{ justifyContent: 'flex-start' }}>
                                 <PETabItem
                                     title={'All'}
                                     onClick={(): void => setSelectedCategory(undefined)}
@@ -167,7 +171,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                         )}
 
                         {kitchens.length > 0 && (
-                            <HStack className="w-full overflow-x-auto w-[100%-80px] gap-2" style={{ justifyContent: 'flex-start' }}>
+                            <HStack className="w-full overflow-x-auto gap-2" style={{ justifyContent: 'flex-start' }}>
                                 <PETabItem
                                     title={'All'}
                                     onClick={(): void => setSelectedKitchen(undefined)}
@@ -186,9 +190,13 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
 
                         <HStack gap={16} style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }} className="w-full">
                             {publicCook.menus
-                                .filter((_menu) => {
-                                    // if (!selectedKitchen) return true;
-                                    // return menu.kitchen?.kitchenId !== selectedKitchen?.kitchenId;
+                                .filter((_menu, index) => {
+                                    if (selectedKitchen && selectedKitchen.kitchenId !== _menu.kitchen?.kitchenId) return false;
+
+                                    if (selectedCategory && !_menu.categories.some((cat) => cat.title === selectedCategory.title))
+                                        return false;
+                                    if (isMobile ? index > 2 : index > 1) return false;
+
                                     return true;
                                 })
                                 .map((menu) => (
@@ -207,26 +215,156 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                         }}
                                         style={{ textDecoration: 'none' }}
                                     >
-                                        <PEMenuCard
-                                            title={menu.title}
-                                            description={menu.description}
-                                            imageUrls={menu.imageUrls}
-                                            pricePerPerson={100}
-                                            currencyCode={menu.currencyCode}
-                                            chefFirstName={publicCook.user.firstName}
-                                            chefProfilePictureUrl={publicCook.user.profilePictureUrl}
-                                            categories={menu.categories.map(({ title }) => title)}
-                                            kitchen={menu.kitchen?.title}
-                                            onClick={(): void => undefined}
-                                            fullWidth
-                                        />
+                                        {' '}
+                                        {!isMobile && (
+                                            <PEMenuCard
+                                                title={menu.title}
+                                                description={menu.description}
+                                                imageUrls={menu.imageUrls}
+                                                pricePerPerson={100}
+                                                currencyCode={menu.currencyCode}
+                                                chefFirstName={publicCook.user.firstName}
+                                                chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                                categories={menu.categories.map(({ title }) => title)}
+                                                kitchen={menu.kitchen?.title}
+                                                onClick={(): void => undefined}
+                                                fullWidth
+                                            />
+                                        )}
+                                        {isMobile && (
+                                            <PEMenuCardMobile
+                                                title={menu.title}
+                                                description={menu.description}
+                                                imageUrls={menu.imageUrls}
+                                                pricePerPerson={100}
+                                                currencyCode={menu.currencyCode}
+                                                chefFirstName={publicCook.user.firstName}
+                                                chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                                categories={menu.categories.map(({ title }) => title)}
+                                                kitchen={menu.kitchen?.title}
+                                                onClick={(): void => undefined}
+                                                fullWidth
+                                            />
+                                        )}
                                     </Link>
                                 ))}
+
+                            {publicCook.menus.length > 3 && (
+                                <Link href={`/menus?chefId=${publicCook.user.firstName}`} style={{ textDecoration: 'none', width: '93vw' }}>
+                                    <PEButton title="All menus" onClick={(): void => undefined} />
+                                </Link>
+                            )}
+                            <Link
+                                href={{
+                                    pathname: '/cook-booking-request',
+                                    query: {
+                                        cookId: publicCook.cookId,
+                                        address: '',
+                                        latitude: 0,
+                                        longitude: 0,
+                                        adults: 3,
+                                        children: 1,
+                                        date: moment().format(moment.HTML5_FMT.DATE),
+                                    },
+                                }}
+                                className="no-underline w-[93vw]"
+                            >
+                                <PEButton
+                                    title={bookingTranslations('send-request-label')}
+                                    type="secondary"
+                                    onClick={(): void => undefined}
+                                />
+                            </Link>
                         </HStack>
+                        <>
+                            <HStack
+                                className="w-full items-center  bg-white shadow-primary box-border rounded-4 p-[2rem]"
+                                style={{ justifyContent: 'space-between' }}
+                            >
+                                <h2> Overall rating</h2>
+                                <div className="flex">
+                                    {' '}
+                                    <PEIcon icon={Icon.star} edgeLength={20} />
+                                    <span className="text-preBlack mr-2">{4.9}</span>
+                                    <span className="text-preBlack"> (5 Reviews)</span>
+                                </div>
+                            </HStack>
+                            <VStack
+                                gap={6}
+                                style={{
+                                    width: '100%',
+                                    justifyContent: 'flex-start',
+                                    alignItems: 'flex-start',
+                                    marginTop: '2rem',
+                                    flexDirection: 'row',
+                                    flexWrap: 'wrap',
+                                }}
+                            >
+                                <div className="w-[48.5%] sm:w-full p-2">
+                                    <PEReviewCardMenu
+                                        chefFirstName={publicCook.user.firstName}
+                                        chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                        comment="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam tincidunt, nisl libero"
+                                        customerFirstName="Anna"
+                                        occasion="Birthday"
+                                        createdAt="August, 20, 2023"
+                                        ratingValue="4.8"
+                                        chefRank="HOBBY"
+                                    />
+                                </div>
+                                <div className="w-[48.5%] sm:w-full p-2">
+                                    <PEReviewCardMenu
+                                        chefFirstName={publicCook.user.firstName}
+                                        chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                        comment="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam tincidunt, nisl libero"
+                                        customerFirstName="Anna"
+                                        occasion="Birthday"
+                                        createdAt="August, 20, 2023"
+                                        ratingValue="4.8"
+                                        chefRank="HOBBY"
+                                    />
+                                </div>
+                                <div className="w-[48.5%] sm:w-full p-2">
+                                    <PEReviewCardMenu
+                                        chefFirstName={publicCook.user.firstName}
+                                        chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                        comment="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam tincidunt, nisl libero"
+                                        customerFirstName="Anna"
+                                        occasion="Birthday"
+                                        createdAt="August, 20, 2023"
+                                        ratingValue="4.8"
+                                        chefRank="HOBBY"
+                                    />
+                                </div>
+                                <div className="w-[48.5%] sm:w-full p-2">
+                                    <PEReviewCardMenu
+                                        chefFirstName={publicCook.user.firstName}
+                                        chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                        comment="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam tincidunt, nisl libero"
+                                        customerFirstName="Anna"
+                                        occasion="Birthday"
+                                        createdAt="August, 20, 2023"
+                                        ratingValue="4.8"
+                                        chefRank="HOBBY"
+                                    />
+                                </div>
+                                <div className="w-[48.5%] sm:w-full p-2">
+                                    <PEReviewCardMenu
+                                        chefFirstName={publicCook.user.firstName}
+                                        chefProfilePictureUrl={publicCook.user.profilePictureUrl}
+                                        comment="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam tincidunt, nisl libero"
+                                        customerFirstName="Anna"
+                                        occasion="Birthday"
+                                        createdAt="August, 20, 2023"
+                                        ratingValue="4.8"
+                                        chefRank="HOBBY"
+                                    />
+                                </div>
+                            </VStack>
+                        </>
                     </>
                 )}
             </VStack>
-
             <PEFooter />
         </VStack>
     );
