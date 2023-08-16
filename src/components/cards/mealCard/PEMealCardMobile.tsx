@@ -9,15 +9,12 @@ export default function PEMealCardMobile({ onClick, title, description, imageUrl
     return (
         <div
             onClick={onClick}
-            className={classNames(
-                'flex w-[220px] max-h-[340px] gap-3 flex-col p-2 box-border rounded-3 shadow-primary cursor-pointer active:shadow-orange hover:shadow-active',
-                {
-                    ['shadow-orange']: active,
-                    ['hover:shadow-active']: !active,
-                },
-            )}
+            className={classNames('flex w-[220px] max-h-[340px] gap-3 flex-col p-2 box-border rounded-3 cursor-pointer hover:shadow', {
+                ['shadow-primary']: !active,
+                ['shadow-orange hover:shadow-orange']: active,
+            })}
         >
-            <div className="flex rounded-3 overflow-hidden min-w-[200px] h-[200px] min-h-[200px] justify-center items-center bg-base">
+            <div className="flex rounded-3 overflow-hidden min-w-[200px] h-[200px] min-h-[200px] justify-center items-center bg-base ">
                 {imageUrl ? (
                     <Image
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
