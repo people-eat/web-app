@@ -215,7 +215,6 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                         }}
                                         style={{ textDecoration: 'none' }}
                                     >
-                                        {' '}
                                         {!isMobile && (
                                             <PEMenuCard
                                                 title={menu.title}
@@ -283,7 +282,6 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                             >
                                 <h2> Overall rating</h2>
                                 <div className="flex">
-                                    {' '}
                                     <PEIcon icon={Icon.star} edgeLength={20} />
                                     <span className="text-preBlack mr-2">{4.9}</span>
                                     <span className="text-preBlack"> (5 Reviews)</span>
