@@ -15,6 +15,7 @@ import {
     UpdateSessionCookieSettingsDocument,
     type SessionCookieSettingsInput,
 } from '../data-source/generated/graphql';
+import useResponsive from '../hooks/useResponsive';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -53,6 +54,7 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
     });
 
     const { data, loading } = useQuery(FindCurrentSessionDocument);
+    const { isMobile } = useResponsive();
 
     useEffect(() => {
         if (!data?.sessions.current?.cookieSettings && !loading) setShowCookieBanner(true);
@@ -98,7 +100,7 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
                         zu analysieren. Die Datenverarbeitung kann auch erst in Folge gesetzter Cookies stattfinden. Wir teilen diese Daten
                         mit Dritten, die wir in den Privatsphäre-Einstellungen benennen.
                     </DialogContentText>
-                    <Link href="data-privacy-policy" target="_blank">
+                    <Link href="data-privacy-policy" className="text-orange my-1" target="_blank">
                         Mehr erfahren
                     </Link>
 
@@ -123,7 +125,7 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
                         <Spacer />
                     </HStack>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions style={{ padding: isMobile ? '24px' : '10px' }}>
                     <Button
                         onClick={(): void => {
                             void updateCookieSettings({
