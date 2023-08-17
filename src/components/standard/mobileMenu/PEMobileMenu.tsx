@@ -3,6 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type ReactElement } from 'react';
+import type { SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEButton from '../buttons/PEButton';
 import PEModal from '../modal/PEModal';
 
@@ -12,6 +13,7 @@ export interface PEMobileMenuProps {
     mobileMenuTabs?: { title: string; link: string }[];
     menuButtonText?: string;
     menuButtonLink?: string;
+    signedInUser?: SignedInUser;
 }
 
 export default function PEMobileMenu({
@@ -20,6 +22,7 @@ export default function PEMobileMenu({
     mobileMenuTabs,
     menuButtonText,
     menuButtonLink,
+    signedInUser,
 }: PEMobileMenuProps): ReactElement {
     const { t } = useTranslation('common');
 
@@ -54,9 +57,26 @@ export default function PEMobileMenu({
                         </Link>
                     ))}
 
-                <Link className="no-underline mt-4" href={menuButtonLink ?? '/sign-in'}>
-                    <PEButton onClick={(): void => undefined} title={menuButtonText ?? t('sign-in')} />
-                </Link>
+                {signedInUser?.firstName === undefined && (
+                    <Link className="no-underline mt-4" href={menuButtonLink ?? '/sign-in'}>
+                        <PEButton onClick={(): void => undefined} title={menuButtonText ?? t('sign-in')} />
+                    </Link>
+                )}
+                {signedInUser?.firstName !== undefined && !signedInUser.isCook && (
+                    <Link className="no-underline mt-4" href="/how-to-chef">
+                        <PEButton onClick={(): void => undefined} title="Become a Chef" />
+                    </Link>
+                )}
+                {signedInUser?.firstName !== undefined && signedInUser.isCook && window.location.href.includes('chef') && (
+                    <Link className="no-underline mt-4" href="/profile">
+                        <PEButton onClick={(): void => undefined} title="User Profile" />
+                    </Link>
+                )}
+                {signedInUser?.firstName !== undefined && signedInUser.isCook && !window.location.href.includes('chef') && (
+                    <Link className="no-underline mt-4" href="/chef">
+                        <PEButton onClick={(): void => undefined} title="Chef Profile" />
+                    </Link>
+                )}
             </div>
         </PEModal>
     );

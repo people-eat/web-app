@@ -7,5 +7,5 @@ import { type PEHeaderProps } from './PEHeaderProps';
 export default function PEHeader({ signedInUser, ...mobileParams }: PEHeaderProps): ReactElement {
     const { isMobile } = useResponsive();
 
-    return isMobile ? <PEHeaderMobile {...mobileParams} /> : <PEHeaderDesktop signedInUser={signedInUser} />;
+    return isMobile ? <PEHeaderMobile {...mobileParams} signedInUser={signedInUser} /> : <PEHeaderDesktop signedInUser={signedInUser} />;
 }
