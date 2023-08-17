@@ -14,6 +14,7 @@ export default function PEHeaderMobile({
     setOpenMobileMenu,
     menuButtonLink,
     menuButtonText,
+    signedInUser,
 }: PEHeaderProps): ReactElement {
     const [openMenu, setOpenMenu] = useState(false);
     const [sticky, setSticky] = useState(false);
@@ -70,6 +71,7 @@ export default function PEHeaderMobile({
                         mobileMenuTabs={mobileMenuTabs}
                         menuButtonLink={menuButtonLink}
                         menuButtonText={menuButtonText}
+                        signedInUser={signedInUser}
                     />
 
                     <PEIconButton
