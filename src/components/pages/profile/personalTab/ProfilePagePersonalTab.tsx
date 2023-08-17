@@ -44,6 +44,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     const router = useRouter();
 
     const [changedPassword, setChangedPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
 
     const [addAddressDialogOpen, setAddAddressDialogOpen] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState<
@@ -116,7 +117,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     }
 
     function handleSavePassword(): void {
-        if (changedPassword) {
+        if (changedPassword && changedPassword === repeatPassword) {
             void updateProfilePassword({
                 variables: { userId, password: changedPassword },
             })
@@ -129,7 +130,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                     setChangedPassword('');
                 })
                 .catch((e) => console.error(e));
-        }
+        } else setShowPasswordChangeFailedDialog(true);
     }
 
     return (
@@ -362,6 +363,18 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                 onChange={setChangedPassword}
                                 placeholder={t('section-password-pass')}
                             />
+                            <PEPasswordTextField
+                                password={repeatPassword}
+                                onChange={setRepeatPassword}
+                                placeholder={t('section-repeat-password')}
+                                style={{
+                                    border: repeatPassword !== changedPassword && repeatPassword !== '' ? 'red solid 2px' : 'none',
+                                    borderRadius: '12px',
+                                }}
+                            />
+                            {repeatPassword !== changedPassword && repeatPassword !== '' && (
+                                <p className="text-slate-400 text-xs">Password are not matching</p>
+                            )}
 
                             <HStack className="mt-6">
                                 <PEButton
