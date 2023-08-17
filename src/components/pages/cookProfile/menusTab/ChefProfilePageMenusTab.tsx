@@ -266,8 +266,8 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
             )}
 
             <Dialog open={openCreateNewMenuSuccess} onClose={(): void => setOpenCreateNewMenuSuccess(false)}>
-                <DialogContent>
-                    <VStack className="w-[450px] gap-8 relative">
+                <DialogContent className="overflow-hidden flex justify-center">
+                    <VStack className="w-[450px] bg gap-8 relative ">
                         <VStack className="absolute top-0 right-0">
                             <PEIconButton
                                 iconSize={24}
@@ -279,9 +279,9 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                         </VStack>
                         <PEIcon className="mt-8" icon={Icon.celebrate} edgeLength={80} />
                         <VStack className="w-full mt-8">
-                            <p className="m-0">{t('create-menu-popup')}</p>
+                            <p className="m-0 text-center">{t('create-menu-popup')}</p>
                         </VStack>
-                        <PEButton className="max-w-[250px]" onClick={(): void => setOpenCreateNewMenuSuccess(false)} title="Ok" />
+                        <PEButton className="w-full" onClick={(): void => setOpenCreateNewMenuSuccess(false)} title="Ok" />
                     </VStack>
                 </DialogContent>
             </Dialog>
