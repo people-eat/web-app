@@ -135,7 +135,7 @@ export default function PublicMenuPage({
     const [lastName, _setLastName] = useState('');
     const [email, _setEmail] = useState('');
     const [_phoneNumber, _setPhoneNumber] = useState('');
-    const [_areMealsOnMenuSelected, _setAreMealsOnMenuSelected] = useState(false);
+    const [areMealsOnMenuSelected, setAreMealsOnMenuSelected] = useState(false);
 
     const [stripeClientSecret, setStripeClientSecret] = useState<string | undefined>();
 
@@ -479,9 +479,9 @@ export default function PublicMenuPage({
                                 />
                             )}
                         </HStack>
-                        {isMobile && <PEButton title="Weiter" onClick={(): void => _setAreMealsOnMenuSelected(true)} />}
+                        {isMobile && <PEButton title="Weiter" onClick={(): void => setAreMealsOnMenuSelected(true)} />}
 
-                        {isMobile && _areMealsOnMenuSelected && (
+                        {isMobile && areMealsOnMenuSelected && (
                             <BookingRequestForm
                                 signedInUser={signedInUser}
                                 externalDisabled={disabled}
