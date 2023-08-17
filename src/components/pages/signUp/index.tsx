@@ -144,7 +144,18 @@ export default function SignUpPage(): ReactElement {
 
                     <VStack style={{ width: '100%', alignItems: 'flex-start' }}>
                         <p>{t('password-repeat')}</p>
-                        <PEPasswordTextField password={passwordRepeat} onChange={setPasswordRepeat} placeholder={t('password-repeat')} />
+                        <PEPasswordTextField
+                            password={passwordRepeat}
+                            onChange={setPasswordRepeat}
+                            placeholder={t('password-repeat')}
+                            style={{
+                                border: passwordRepeat !== password && passwordRepeat !== '' ? 'red solid 2px' : 'none',
+                                borderRadius: '12px',
+                            }}
+                        />
+                        {passwordRepeat !== password && passwordRepeat !== '' && (
+                            <p className="text-slate-400 text-xs">Password are not matching</p>
+                        )}
                     </VStack>
 
                     <VStack
