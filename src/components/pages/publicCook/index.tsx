@@ -122,11 +122,9 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
 
                             <Spacer />
 
-                            {isMobile && (
-                                <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                                    <PEFavorite isFavorite={liked} onIsFavoriteChange={(): void => setLike(!liked)} />
-                                </div>
-                            )}
+                            <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
+                                <PEFavorite isFavorite={liked} onIsFavoriteChange={(): void => setLike(!liked)} />
+                            </div>
                         </HStack>
                         <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4">
                             <VStack gap={20} className="w-full" style={{ alignItems: 'flex-start' }}>

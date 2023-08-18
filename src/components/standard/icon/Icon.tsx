@@ -52,6 +52,7 @@ export enum Icon {
     foodBasket = '/icons/food-basket.svg',
     forward = '/icons/forward.svg',
     google = '/icons/google.svg',
+    greyStar = '/icons/grey-star.svg',
     heart = '/icons/heart.svg',
     heartFull = '/icons/heart-full.svg',
     home = '/icons/home.svg',
