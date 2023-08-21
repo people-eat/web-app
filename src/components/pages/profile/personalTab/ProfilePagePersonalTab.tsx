@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
+    CreateOnePhoneNumberUpdateDocument,
     GetProfileQueryDocument,
     UpdateUserPasswordDocument,
     UpdateUserProfilePictureDocument,
@@ -75,7 +76,8 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     const [editFirstName, setEditFirstName] = useState(userProfile?.firstName);
     const [editLastName, setEditLastName] = useState(userProfile?.lastName);
     const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined | null>(null);
-
+    const [editPhoneNumber, setEditPhoneNumber] = useState(userProfile?.phoneNumber ?? '');
+    const [editBirthDate, setEditBirthDate] = useState<Date | null>(userProfile?.birthDate ? new Date(userProfile.birthDate) : null);
     const [showPasswordChangeSuccessDialog, setShowPasswordChangeSuccessDialog] = useState(false);
     const [showPasswordChangeFailedDialog, setShowPasswordChangeFailedDialog] = useState(false);
 
@@ -95,19 +97,50 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     function handleUnSaveChefName(): void {
         setEditFirstName(userProfile?.firstName ?? '');
         setEditLastName(userProfile?.lastName ?? '');
+        setEditPhoneNumber(userProfile?.phoneNumber ?? '');
+        setEditBirthDate(userProfile?.birthDate ? new Date(userProfile.birthDate) : null);
         setEdit(!edit);
     }
 
     const [updateProfilePicture] = useMutation(UpdateUserProfilePictureDocument);
     const [updateProfilePassword] = useMutation(UpdateUserPasswordDocument);
+    const [updatePhoneNumber] = useMutation(CreateOnePhoneNumberUpdateDocument);
 
     function handleSaveProfileInfo(): void {
         if (editedProfilePicture !== null) {
             void updateProfilePicture({
                 variables: { userId, profilePicture: editedProfilePicture },
             })
-                .then((result) => result.data?.users.success && void refetch())
-                .catch((e) => console.error(e));
+                .then((result) => {
+                    if (result.data?.users.success) void refetch();
+                })
+                .catch((e) => {
+                    console.error('Error updating profile picture:', e);
+                });
+        }
+
+        if (
+            firstName !== editFirstName ||
+            lastName !== editLastName ||
+            editPhoneNumber !== userProfile?.phoneNumber ||
+            editBirthDate !== (userProfile?.birthDate ? new Date(userProfile.birthDate) : null)
+        ) {
+            const formattedPhoneNumber = editPhoneNumber.replace(/\D/g, '');
+            updatePhoneNumber({
+                variables: {
+                    phoneNumber: '+' + formattedPhoneNumber,
+                    userId,
+                },
+            })
+                .then((result) => {
+                    if (result.data?.users.phoneNumberUpdate?.success) {
+                        console.log('Phone number updated successfully');
+                        void refetch();
+                    }
+                })
+                .catch((e) => {
+                    console.error('Error updating phone number:', e);
+                });
         }
 
         setEditedProfilePicture(undefined);
@@ -423,8 +456,27 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                             <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
                                 <h2 className="m-0 pb-5">{t('popup-edit-user-profile')}</h2>
                                 <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
-                                    <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
-                                    <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
+                                    <PETextField
+                                        type={'text'}
+                                        value={editFirstName}
+                                        onChange={(newFirstName: string): void => setEditFirstName(newFirstName)}
+                                    />
+                                    <PETextField
+                                        type={'text'}
+                                        value={editLastName}
+                                        onChange={(newLastName: string): void => setEditLastName(newLastName)}
+                                    />
+                                    <PEPhoneNumberTextField
+                                        phoneNumber={editPhoneNumber}
+                                        onChange={(newPhoneNumber: string): void => setEditPhoneNumber(newPhoneNumber)}
+                                    />
+                                    {/* <DatePicker
+                                        className="border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black"
+                                        sx={{ width: '100%' }}
+                                        value={editBirthDate || null}
+                                        onChange={(date: Date | null): void => setEditBirthDate(date)}
+                                        slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
+                                    /> */}
                                     <PEImagePicker
                                         onPick={setEditedProfilePicture}
                                         defaultImage={image}
@@ -435,7 +487,13 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                     className="max-w-[250px] mt-10"
                                     onClick={handleSaveProfileInfo}
                                     title={t('popup-edit-button')}
-                                    disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
+                                    disabled={
+                                        editedProfilePicture === null &&
+                                        firstName === editFirstName &&
+                                        lastName === editLastName &&
+                                        editPhoneNumber === userProfile?.phoneNumber &&
+                                        editBirthDate === (userProfile?.birthDate ? new Date(userProfile.birthDate) : null)
+                                    }
                                 />
                             </VStack>
                         </PEModalPopUp>
@@ -479,6 +537,17 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                         <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
                                             <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
                                             <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
+                                            <PEPhoneNumberTextField
+                                                phoneNumber={editPhoneNumber}
+                                                onChange={(newPhoneNumber: string): void => setEditPhoneNumber(newPhoneNumber)}
+                                            />
+                                            <DatePicker
+                                                className="border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black"
+                                                sx={{ width: '100%' }}
+                                                value={editBirthDate || null}
+                                                onChange={(date: Date | null): void => setEditBirthDate(date)}
+                                                slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
+                                            />
                                             <PEImagePicker
                                                 onPick={setEditedProfilePicture}
                                                 defaultImage={image}
@@ -490,7 +559,11 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                             onClick={handleSaveProfileInfo}
                                             title={t('popup-edit-button')}
                                             disabled={
-                                                editedProfilePicture === null && firstName === editFirstName && lastName === editLastName
+                                                editedProfilePicture === null &&
+                                                firstName === editFirstName &&
+                                                lastName === editLastName &&
+                                                editPhoneNumber === userProfile?.phoneNumber &&
+                                                editBirthDate === (userProfile?.birthDate ? new Date(userProfile.birthDate) : null)
                                             }
                                         />
                                     </DialogContent>
