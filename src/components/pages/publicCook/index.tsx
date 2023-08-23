@@ -1,9 +1,10 @@
+import { useMutation } from '@apollo/client';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
-import { type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
+import { CreateOneFollowingDocument, type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
@@ -69,6 +70,8 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
     const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
     const [liked, setLike] = useState(false);
 
+    const [createFollowing] = useMutation(CreateOneFollowingDocument);
+
     return (
         <VStack gap={40} className="w-full h-full">
             <PEHeader signedInUser={signedInUser} />
@@ -123,7 +126,15 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                             <Spacer />
 
                             <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-                                <PEFavorite isFavorite={liked} onIsFavoriteChange={(): void => setLike(!liked)} />
+                                <PEFavorite
+                                    isFavorite={liked}
+                                    onIsFavoriteChange={(): void => {
+                                        if (!signedInUser) return;
+                                        void createFollowing({
+                                            variables: { userId: signedInUser.userId, cookId: publicCook.cookId },
+                                        }).then((result) => result.data?.users.followings.success && setLike(!liked));
+                                    }}
+                                />
                             </div>
                         </HStack>
                         <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4">

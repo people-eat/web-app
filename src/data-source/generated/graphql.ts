@@ -1717,6 +1717,7 @@ export type UserFollowingMutation = {
     __typename?: 'UserFollowingMutation';
     createOne: Scalars['Boolean'];
     deleteOne: Scalars['Boolean'];
+    userId: Scalars['String'];
 };
 
 export type UserFollowingMutationCreateOneArgs = {
@@ -1730,6 +1731,7 @@ export type UserFollowingMutationDeleteOneArgs = {
 export type UserFollowingQuery = {
     __typename?: 'UserFollowingQuery';
     findAll: Array<Following>;
+    userId: Scalars['String'];
 };
 
 export type UserGlobalBookingRequestMutation = {
@@ -1835,6 +1837,10 @@ export type UserMutationCreateOneByPhoneNumberArgs = {
 };
 
 export type UserMutationEmailAddressUpdateArgs = {
+    userId: Scalars['String'];
+};
+
+export type UserMutationFollowingsArgs = {
     userId: Scalars['String'];
 };
 
@@ -1999,6 +2005,10 @@ export type UserQueryFindManyArgs = {
 };
 
 export type UserQueryFindOneArgs = {
+    userId: Scalars['String'];
+};
+
+export type UserQueryFollowingsArgs = {
     userId: Scalars['String'];
 };
 
@@ -3653,6 +3663,46 @@ export type FindManyUserBookingRequestChatMessagesQuery = {
                 }> | null;
             };
         };
+    };
+};
+
+export type CreateOneFollowingMutationVariables = Exact<{
+    cookId: Scalars['String'];
+    userId: Scalars['String'];
+}>;
+
+export type CreateOneFollowingMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; followings: { __typename?: 'UserFollowingMutation'; success: boolean } };
+};
+
+export type DeleteOneFollowingMutationVariables = Exact<{
+    userId: Scalars['String'];
+    cookId: Scalars['String'];
+}>;
+
+export type DeleteOneFollowingMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; followings: { __typename?: 'UserFollowingMutation'; success: boolean } };
+};
+
+export type FindManyFollowingsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindManyFollowingsQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        me?: {
+            __typename?: 'User';
+            followings: Array<{
+                __typename?: 'Following';
+                cook: {
+                    __typename?: 'PublicCook';
+                    rank: CookRank;
+                    user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
+                };
+            }>;
+        } | null;
     };
 };
 
@@ -11099,3 +11149,200 @@ export const FindManyUserBookingRequestChatMessagesDocument = {
         },
     ],
 } as unknown as DocumentNode<FindManyUserBookingRequestChatMessagesQuery, FindManyUserBookingRequestChatMessagesQueryVariables>;
+export const CreateOneFollowingDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneFollowing' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'followings' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'createOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'cookId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneFollowingMutation, CreateOneFollowingMutationVariables>;
+export const DeleteOneFollowingDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'DeleteOneFollowing' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'followings' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'deleteOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'cookId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DeleteOneFollowingMutation, DeleteOneFollowingMutationVariables>;
+export const FindManyFollowingsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindManyFollowings' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'followings' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'cook' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'user' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'firstName' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'profilePictureUrl' },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindManyFollowingsQuery, FindManyFollowingsQueryVariables>;

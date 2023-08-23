@@ -1,0 +1,7 @@
+mutation DeleteOneFollowing($userId: String!, $cookId: String!) {
+    users {
+        followings(userId: $userId) {
+            success: deleteOne(cookId: $cookId)
+        }
+    }
+}

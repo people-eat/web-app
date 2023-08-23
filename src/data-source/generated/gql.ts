@@ -202,6 +202,12 @@ const documents = {
         types.CreateOneUserBookingRequestChatMessageDocument,
     'query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}':
         types.FindManyUserBookingRequestChatMessagesDocument,
+    'mutation CreateOneFollowing($cookId: String!, $userId: String!) {\n  users {\n    followings(userId: $userId) {\n      success: createOne(cookId: $cookId)\n    }\n  }\n}':
+        types.CreateOneFollowingDocument,
+    'mutation DeleteOneFollowing($userId: String!, $cookId: String!) {\n  users {\n    followings(userId: $userId) {\n      success: deleteOne(cookId: $cookId)\n    }\n  }\n}':
+        types.DeleteOneFollowingDocument,
+    'query FindManyFollowings {\n  users {\n    me {\n      followings {\n        cook {\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n      }\n    }\n  }\n}':
+        types.FindManyFollowingsDocument,
 };
 
 /**
@@ -800,6 +806,24 @@ export function gql(
 export function gql(
     source: 'query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}',
 ): (typeof documents)['query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation CreateOneFollowing($cookId: String!, $userId: String!) {\n  users {\n    followings(userId: $userId) {\n      success: createOne(cookId: $cookId)\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOneFollowing($cookId: String!, $userId: String!) {\n  users {\n    followings(userId: $userId) {\n      success: createOne(cookId: $cookId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation DeleteOneFollowing($userId: String!, $cookId: String!) {\n  users {\n    followings(userId: $userId) {\n      success: deleteOne(cookId: $cookId)\n    }\n  }\n}',
+): (typeof documents)['mutation DeleteOneFollowing($userId: String!, $cookId: String!) {\n  users {\n    followings(userId: $userId) {\n      success: deleteOne(cookId: $cookId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindManyFollowings {\n  users {\n    me {\n      followings {\n        cook {\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindManyFollowings {\n  users {\n    me {\n      followings {\n        cook {\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n      }\n    }\n  }\n}'];
 
 export function gql(source: string) {
     return (documents as any)[source] ?? {};

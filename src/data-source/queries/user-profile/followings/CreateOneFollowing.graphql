@@ -1,0 +1,7 @@
+mutation CreateOneFollowing($cookId: String!, $userId: String!) {
+    users {
+        followings(userId: $userId) {
+            success: createOne(cookId: $cookId)
+        }
+    }
+}

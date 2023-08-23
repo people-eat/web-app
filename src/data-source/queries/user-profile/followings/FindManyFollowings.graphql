@@ -1,0 +1,15 @@
+query FindManyFollowings {
+    users {
+        me {
+            followings {
+                cook {
+                    rank
+                    user {
+                        firstName
+                        profilePictureUrl
+                    }
+                }
+            }
+        }
+    }
+}
