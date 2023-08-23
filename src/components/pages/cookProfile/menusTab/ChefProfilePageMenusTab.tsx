@@ -267,7 +267,7 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
 
             <Dialog open={openCreateNewMenuSuccess} onClose={(): void => setOpenCreateNewMenuSuccess(false)}>
                 <DialogContent className="overflow-hidden flex justify-center">
-                    <VStack className="w-[450px] bg gap-8 relative ">
+                    <VStack className="w-[450px] bg gap-8 relative">
                         <VStack className="absolute top-0 right-0">
                             <PEIconButton
                                 iconSize={24}
