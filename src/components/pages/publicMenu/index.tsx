@@ -389,8 +389,8 @@ export default function PublicMenuPage({
                                     </p>
                                     <span>{publicMenu.description}</span>
                                 </VStack>
-                                {publicMenu.categories.map((_cat) => (
-                                    <div key={_cat.categoryId}>{_cat.title}</div>
+                                {publicMenu.categories.map((category) => (
+                                    <div key={category.categoryId}>{category.title}</div>
                                 ))}
                                 {/* {publicMenu.kitchen && <>{publicMenu.kitchen.title}</>}
 
