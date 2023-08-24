@@ -32,6 +32,9 @@ export default function PEHeaderDesktop({ signedInUser }: PEHeaderProps): ReactE
             <Link href="/how-to-chef" className="no-underline">
                 <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('how-to-become-a-chef')}</Button>
             </Link>
+            <Link href="/events" className="no-underline">
+                <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('Events')}</Button>
+            </Link>
 
             <Spacer />
 
