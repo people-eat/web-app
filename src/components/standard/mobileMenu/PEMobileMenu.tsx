@@ -45,6 +45,9 @@ export default function PEMobileMenu({
                 <Link className="no-underline" href="/about-us">
                     <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('about-us')}</Button>
                 </Link>
+                <Link className="no-underline" href="/events">
+                    <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('Events')}</Button>
+                </Link>
 
                 <div className="w-full h-[1px] bg-disabled my-6"></div>
 
