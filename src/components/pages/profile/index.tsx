@@ -97,10 +97,7 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
 
             {selectedTab === 1 && signedInUser && <ProfilePageBookingTab userId={signedInUser.userId} />}
 
-
-            {selectedTab === 3 && signedInUser && <ProfilePageFollowingsTab />}
-
-
+            {selectedTab === 3 && signedInUser && <ProfilePageFollowingsTab userId={signedInUser.userId} />}
 
             {selectedTab === 4 && signedInUser && !isMobile && <ProfilePageBookingsTab userId={signedInUser.userId} />}
             {selectedTab === 4 && signedInUser && isMobile && <PEMobileChat userId={signedInUser.userId} />}

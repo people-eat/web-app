@@ -1,10 +1,16 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, type ReactElement } from 'react';
-import { CreateOneFollowingDocument, type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
+import { useEffect, useState, type ReactElement } from 'react';
+import {
+    CreateOneFollowingDocument,
+    DeleteOneFollowingDocument,
+    FindManyFollowingsDocument,
+    type CookRank,
+    type CurrencyCode,
+} from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
@@ -69,8 +75,19 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
     const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>();
     const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
     const [liked, setLike] = useState(false);
+    const { data } = useQuery(FindManyFollowingsDocument);
+    const followings = data?.users.me?.followings;
+
+    useEffect(() => {
+        if (followings) {
+            const foundFollowing = followings.find((following) => following.cook.user.firstName === publicCook?.user.firstName);
+            if (foundFollowing) setLike(true);
+            else setLike(false);
+        }
+    }, []);
 
     const [createFollowing] = useMutation(CreateOneFollowingDocument);
+    const [deleteFollowing] = useMutation(DeleteOneFollowingDocument);
 
     return (
         <VStack gap={40} className="w-full h-full">
@@ -107,7 +124,15 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                             )}
 
                             <VStack gap={16} style={{ alignItems: 'flex-start' }}>
-                                <VStack gap={8} style={{ alignItems: 'flex-start' }}>
+                                <VStack
+                                    gap={8}
+                                    style={{
+                                        alignItems: 'flex-start',
+                                        position: isMobile ? 'absolute' : 'static',
+                                        top: '30px',
+                                        left: '165px',
+                                    }}
+                                >
                                     <p className="text-heading-m my-0">{publicCook.user.firstName}</p>
                                     <span className="text-orange">{t(publicCook.rank)}</span>
                                 </VStack>
@@ -130,9 +155,17 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                     isFavorite={liked}
                                     onIsFavoriteChange={(): void => {
                                         if (!signedInUser) return;
-                                        void createFollowing({
-                                            variables: { userId: signedInUser.userId, cookId: publicCook.cookId },
-                                        }).then((result) => result.data?.users.followings.success && setLike(!liked));
+                                        if (liked) {
+                                            void deleteFollowing({
+                                                variables: { userId: signedInUser.userId, cookId: publicCook.cookId },
+                                            }).then((result) => result.data?.users.followings.success && setLike(!liked));
+                                            return;
+                                        }
+                                        if (!liked) {
+                                            void createFollowing({
+                                                variables: { userId: signedInUser.userId, cookId: publicCook.cookId },
+                                            }).then((result) => result.data?.users.followings.success && setLike(!liked));
+                                        }
                                     }}
                                 />
                             </div>

@@ -446,7 +446,6 @@ export default function PublicMenuPage({
                                                     )),
                                             )}
                                         </HStack>
-                                        <Divider flexItem />
                                     </VStack>
                                 ))}
                             </VStack>
@@ -482,32 +481,44 @@ export default function PublicMenuPage({
                         {isMobile && <PEButton title="Weiter" onClick={(): void => setAreMealsOnMenuSelected(true)} />}
 
                         {isMobile && areMealsOnMenuSelected && (
-                            <BookingRequestForm
-                                signedInUser={signedInUser}
-                                externalDisabled={disabled}
-                                allergies={allergies}
-                                costs={costs}
-                                onComplete={(): void => onBook()}
-                                address={address}
-                                setAddress={setAddress}
-                                location={selectedLocation}
-                                setLocation={setSelectedLocation}
-                                addressSearchResults={addressSearchResults}
-                                setAddressSearchResults={setAddressSearchResults}
-                                adults={adults}
-                                setAdults={setAdults}
-                                // eslint-disable-next-line react/no-children-prop
-                                children={children}
-                                setChildren={setChildren}
-                                dateTime={dateTime}
-                                setDateTime={setDateTime}
-                                occasion={occasion}
-                                setOccasion={setOccasion}
-                                message={message}
-                                setMessage={setMessage}
-                                selectedAllergies={selectedAllergies}
-                                setSelectedAllergies={setSelectedAllergies}
-                            />
+                            <div
+                                className="fixed inset-0 z-50 bg-white pt-[80px] flex flex-col justify-center items-center"
+                                style={{ overflowY: 'auto' }}
+                            >
+                                <button
+                                    onClick={(): void => setAreMealsOnMenuSelected(false)}
+                                    className="bg-transparent absolute top-1 left-2 border-none flex justify-center items-center gap-2 text-orange text-lg"
+                                >
+                                    <PEIcon icon={Icon.arrowPrev} edgeLength={20} /> Back
+                                </button>
+
+                                <BookingRequestForm
+                                    signedInUser={signedInUser}
+                                    externalDisabled={disabled}
+                                    allergies={allergies}
+                                    costs={costs}
+                                    onComplete={(): void => onBook()}
+                                    address={address}
+                                    setAddress={setAddress}
+                                    location={selectedLocation}
+                                    setLocation={setSelectedLocation}
+                                    addressSearchResults={addressSearchResults}
+                                    setAddressSearchResults={setAddressSearchResults}
+                                    adults={adults}
+                                    setAdults={setAdults}
+                                    // eslint-disable-next-line react/no-children-prop
+                                    children={children}
+                                    setChildren={setChildren}
+                                    dateTime={dateTime}
+                                    setDateTime={setDateTime}
+                                    occasion={occasion}
+                                    setOccasion={setOccasion}
+                                    message={message}
+                                    setMessage={setMessage}
+                                    selectedAllergies={selectedAllergies}
+                                    setSelectedAllergies={setSelectedAllergies}
+                                />
+                            </div>
                         )}
                     </>
                 )}

@@ -5,6 +5,7 @@ import { useState, type ReactElement } from 'react';
 import {
     DeleteOneCookMenuDocument,
     FindCookMenusDocument,
+    UpdateCookMenuIsVisibleDocument,
     type CurrencyCode,
     type MealType,
 } from '../../../../data-source/generated/graphql';
@@ -94,6 +95,27 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
     const invisibleMenus = menus.filter((menu) => !menu.isVisible);
 
     const [deleteMenu] = useMutation(DeleteOneCookMenuDocument);
+    const [updateMenuIsVisible] = useMutation(UpdateCookMenuIsVisibleDocument);
+
+    function handleUpdateMenuIsVisible(): void {
+        if (!selectedMenuId) return;
+
+        const menuToUpdate = menus.find((menu) => menu.menuId === selectedMenuId);
+
+        if (!menuToUpdate) return;
+
+        const newVisibility = !menuToUpdate.isVisible;
+
+        void updateMenuIsVisible({ variables: { cookId, menuId: selectedMenuId, isVisible: newVisibility } })
+            .then((result): void => {
+                setAnchorEl(null);
+                if (result.data?.cooks.menus.success) void refetch();
+            })
+            .catch((e) => {
+                console.error(e);
+                setAnchorEl(null);
+            });
+    }
 
     function handleDeleteMenu(): void {
         if (!selectedMenuId) return;
@@ -332,8 +354,12 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                         <p className="w-full text-start m-0 hover:text-orange cursor-pointer">{commonTranslation('edit')}</p>
                     </MenuItem>
                     <div className="w-full h-[1px] bg-disabled" />
-                    <MenuItem sx={{ width: '200px' }} onClick={(): void => undefined}>
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">{commonTranslation('publish')}</p>
+                    <MenuItem sx={{ width: '200px' }} onClick={(): void => handleUpdateMenuIsVisible()}>
+                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">
+                            {visibleMenus.some((menu) => menu.menuId === selectedMenuId)
+                                ? commonTranslation('unpublish')
+                                : commonTranslation('publish')}
+                        </p>
                     </MenuItem>
                     <div className="w-full h-[1px] bg-disabled" />
                     <MenuItem sx={{ width: '200px' }} onClick={(): void => setOpenDeleteMenuDialog(true)}>
