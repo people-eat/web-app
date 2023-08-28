@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
+    CreateOneEmailAddressUpdateDocument,
     CreateOnePhoneNumberUpdateDocument,
     GetProfileQueryDocument,
     UpdateUserPasswordDocument,
@@ -24,6 +25,7 @@ import PEIcon from '../../../standard/icon/PEIcon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PEImagePicker from '../../../standard/imagePicker/PEImagePicker';
 import PEModalPopUp from '../../../standard/modal/PEModalPopUp';
+import PEEmailTextField from '../../../standard/textFields/PEEmailTextField';
 import PEPasswordTextField from '../../../standard/textFields/PEPasswordTextField';
 import PEPhoneNumberTextField from '../../../standard/textFields/PEPhoneNumberTextField';
 import PETextField from '../../../standard/textFields/PETextField';
@@ -78,6 +80,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined | null>(null);
     const [editPhoneNumber, setEditPhoneNumber] = useState(userProfile?.phoneNumber ?? '');
     const [editBirthDate, setEditBirthDate] = useState<Date | null>(userProfile?.birthDate ? new Date(userProfile.birthDate) : null);
+    const [editEmail, setEditEmail] = useState('');
     const [showPasswordChangeSuccessDialog, setShowPasswordChangeSuccessDialog] = useState(false);
     const [showPasswordChangeFailedDialog, setShowPasswordChangeFailedDialog] = useState(false);
 
@@ -105,6 +108,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     const [updateProfilePicture] = useMutation(UpdateUserProfilePictureDocument);
     const [updateProfilePassword] = useMutation(UpdateUserPasswordDocument);
     const [updatePhoneNumber] = useMutation(CreateOnePhoneNumberUpdateDocument);
+    const [updateEmailAddress] = useMutation(CreateOneEmailAddressUpdateDocument);
 
     function handleSaveProfileInfo(): void {
         if (editedProfilePicture !== null) {
@@ -140,6 +144,24 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                 })
                 .catch((e) => {
                     console.error('Error updating phone number:', e);
+                });
+        }
+        if (editEmail !== userProfile?.emailAddress) {
+            const emailAddress = editEmail;
+            updateEmailAddress({
+                variables: {
+                    emailAddress: emailAddress,
+                    userId,
+                },
+            })
+                .then((result) => {
+                    if (result.data?.users.emailAddressUpdate?.success) {
+                        console.log('Email address updated successfully');
+                        void refetch();
+                    }
+                })
+                .catch((e) => {
+                    console.error('Error updating email address:', e);
                 });
         }
 
@@ -482,6 +504,11 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                         defaultImage={image}
                                         onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
                                     />
+                                    <PEEmailTextField
+                                        email={editEmail}
+                                        onChange={(newEmail: string): void => setEditEmail(newEmail)}
+                                        placeholder={userProfile?.emailAddressUpdate?.emailAddress ?? ''}
+                                    />
                                 </VStack>
                                 <PEButton
                                     className="max-w-[250px] mt-10"
@@ -541,12 +568,10 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                                 phoneNumber={editPhoneNumber}
                                                 onChange={(newPhoneNumber: string): void => setEditPhoneNumber(newPhoneNumber)}
                                             />
-                                            <DatePicker
-                                                className="border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black"
-                                                sx={{ width: '100%' }}
-                                                value={editBirthDate || null}
-                                                onChange={(date: Date | null): void => setEditBirthDate(date)}
-                                                slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
+                                            <PEEmailTextField
+                                                email={editEmail}
+                                                onChange={(newEmail: string): void => setEditEmail(newEmail)}
+                                                placeholder={userProfile?.emailAddressUpdate?.emailAddress ?? ''}
                                             />
                                             <PEImagePicker
                                                 onPick={setEditedProfilePicture}

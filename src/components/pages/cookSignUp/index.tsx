@@ -89,7 +89,12 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
         !rank ||
         !selectedLocation ||
         !acceptedPrivacyPolicy ||
-        !acceptedTerms;
+        !acceptedTerms ||
+        postCode.length === 0 ||
+        city.length === 0 ||
+        street.length === 0 ||
+        houseNumber.length === 0 ||
+        country.length === 0;
 
     const disabledForSignedInUser: boolean = !rank || !selectedLocation || !acceptedPrivacyPolicy || !acceptedTerms;
 
@@ -406,7 +411,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         />
                     </FormGroup>
                 </VStack>
-
+                {(signedInUser ? disabledForSignedInUser : disabledForNewUser) && <p>Some fields are missing or invalid</p>}
                 <PEButton
                     className="w-full max-w-[400px]"
                     title={t('complete-button-label')}

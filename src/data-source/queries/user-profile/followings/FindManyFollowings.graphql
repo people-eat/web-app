@@ -7,7 +7,6 @@ query FindManyFollowings {
                     user {
                         firstName
                         profilePictureUrl
-                    }
                 }
             }
         }
