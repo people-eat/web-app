@@ -9,7 +9,6 @@ import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
-import PEMobileChat from './PEMobileChat';
 import ProfilePageBookingTab from './bookingTab/ProfilePageBookingTab';
 import ProfilePageBookingsTab from './bookingsTab/ProfilePageBookingsTab';
 import ProfilePageFollowingsTab from './follwowingsTab/ProfilePageFollowingsTab';
@@ -99,8 +98,9 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
 
             {selectedTab === 3 && signedInUser && <ProfilePageFollowingsTab userId={signedInUser.userId} />}
 
-            {selectedTab === 4 && signedInUser && !isMobile && <ProfilePageBookingsTab userId={signedInUser.userId} />}
-            {selectedTab === 4 && signedInUser && isMobile && <PEMobileChat userId={signedInUser.userId} />}
+            {/* && !isMobile  */}
+            {selectedTab === 4 && signedInUser && <ProfilePageBookingsTab userId={signedInUser.userId} />}
+            {/* {selectedTab === 4 && signedInUser && isMobile && <PEMobileChat userId={signedInUser.userId} />} */}
 
             <Spacer />
 
