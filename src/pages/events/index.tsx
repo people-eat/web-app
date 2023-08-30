@@ -147,8 +147,10 @@ const Events = ({ signedInUser }: EventsProps): JSX.Element => {
                         >
                             Eventbeschreibung
                         </h2>
+
                         <h3>Höhepunkte des Events</h3>
-                        <p>
+
+                        <p style={{ lineHeight: 2 }}>
                             Schließe dich uns für ein einmaliges Event an, bei dem die renommierte Yoga-Trainerin Eva Gouveia im Mittelpunkt
                             steht. Eva ist die visionäre Kraft hinter YogaLoft Frankfurt. Sie wird dich durch eine transformative
                             50-minütige Hatha-Flow-Yoga stunde führen, die darauf abzielt, Spannungen zu lösen und Harmonie sowohl in Körper
@@ -170,11 +172,11 @@ const Events = ({ signedInUser }: EventsProps): JSX.Element => {
                             />
                         )}
 
-                        <h3>Kulinarische Entdeckung: Vegane Masterclass </h3>
+                        <h3>Kulinarische Entdeckung: Vegane Masterclass</h3>
 
-                        <p>
+                        <p style={{ lineHeight: 2 }}>
                             Doch die Reise endet hier nicht. Nachdem Körper und Geist in Einklang gebracht wurden, ist es an der Zeit, deine
-                            Geschmacksknospen mit einer veganen Meisterklasse zu verwöhnen, die von PeopleEat organisiert wird - die erste
+                            Geschmacksknospen mit einer veganen Masterclass zu verwöhnen, die von PeopleEat organisiert wird - die erste
                             Plattform, die Privatkoch Erlebnisse für deine Anlässe zu dir Nachhause bringt. Unter der Anleitung eines
                             erfahrenen Privatkochs begibst du dich auf ein kulinarisches Abenteuer wie kein anderes. Kreiere zwei visuell
                             beeindruckende und köstliche Brunch-Gerichte, die die Brillanz der veganen Küche zur Geltung bringen. Unser
@@ -187,7 +189,7 @@ const Events = ({ signedInUser }: EventsProps): JSX.Element => {
 
                         {isMobile && (
                             <Image
-                                src={'/events/meals.png'}
+                                src="/events/meals.png"
                                 alt="nice vegan meals"
                                 height={200}
                                 width={290}
@@ -196,9 +198,9 @@ const Events = ({ signedInUser }: EventsProps): JSX.Element => {
                             />
                         )}
 
-                        <h3>Netzwerken und Verbinden:</h3>
+                        <h3>Netzwerken und Verbinden</h3>
 
-                        <p>
+                        <p style={{ lineHeight: 2 }}>
                             Dieses Event dreht sich nicht nur um individuelle Bereicherung; es bietet dir die Möglichkeit, sich mit
                             gleichgesinnten Seelen zu verbinden, die deine Leidenschaft für Wohlbefinden, gutes Essen und authentische
                             Beziehungen teilen. Knüpfe neue Freundschaften und erweitere dein Netzwerk in einer heimischen Atmosphäre.
