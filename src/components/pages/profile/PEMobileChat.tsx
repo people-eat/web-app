@@ -1,27 +1,23 @@
-import { useQuery } from '@apollo/client';
-import { useState } from 'react';
-import { FindManyUserBookingRequestsDocument } from '../../../data-source/generated/graphql';
-import PEMobileChatCard from '../../cards/chatCard/PEMobileChatCard';
+import { type ReactElement } from 'react';
 import VStack from '../../utility/vStack/VStack';
-import ProfilePageBookingMobile from './bookingsTab/ProfilePageBookingMobile';
 
 export interface PEMobileChatProps {
     userId: string | undefined;
 }
 
-const PEMobileChat = ({ userId }: PEMobileChatProps): JSX.Element => {
-    const [selectedBookingRequestId, setSelectedBookingRequestId] = useState<string | undefined>();
-    const [isSelectedOpen, setIsSelectedOpen] = useState(false);
+export default function PEMobileChat(): ReactElement {
+    // const [selectedBookingRequestId, setSelectedBookingRequestId] = useState<string | undefined>();
+    // const [isSelectedOpen, setIsSelectedOpen] = useState(false);
 
-    const bookingRequestsResult = useQuery(FindManyUserBookingRequestsDocument, { variables: { userId: userId ?? '' } });
-    const bookingRequests = bookingRequestsResult.data?.users.bookingRequests.findMany ?? [];
-    const handleBookingRequestClick = (bookingRequestId: string): void => {
-        setSelectedBookingRequestId(bookingRequestId);
-    };
+    // const bookingRequestsResult = useQuery(FindManyUserBookingRequestsDocument, { variables: { userId: userId ?? '' } });
+    // const bookingRequests = bookingRequestsResult.data?.users.bookingRequests.findMany ?? [];
+    // const handleBookingRequestClick = (bookingRequestId: string): void => {
+    //     setSelectedBookingRequestId(bookingRequestId);
+    // };
 
     return (
         <VStack style={{ alignItems: 'flex-start' }} className="w-[80%]">
-            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+            {/* <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
                 {bookingRequests.map((req) => (
                     <PEMobileChatCard
                         key={req.bookingRequestId}
@@ -44,8 +40,7 @@ const PEMobileChat = ({ userId }: PEMobileChatProps): JSX.Element => {
                     userId={userId ?? ''}
                     bookingRequestId={selectedBookingRequestId}
                 />
-            )}
+            )} */}
         </VStack>
     );
-};
-export default PEMobileChat;
+}
