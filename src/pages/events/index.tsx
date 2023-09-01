@@ -63,7 +63,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                         )}
 
                         <VStack className="w-full" gap={32} style={{ alignItems: 'flex-start' }}>
-                            <HStack style={{ justifyContent: 'start', alignItems: 'center' }} gap={6}>
+                            <HStack style={{ justifyContent: 'start', alignItems: 'center', flexWrap: 'wrap' }} gap={6}>
                                 <Link href="https://yogaloft-frankfurt.de" target="_blank">
                                     <Image
                                         className="cursor-pointer block"
