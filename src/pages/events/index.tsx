@@ -136,10 +136,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                 </HStack>
 
                 <VStack className="max-w-screen-xl" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                    <h2
-                        className="text-orangeActive font-sans"
-                        style={{ fontSize: '40px', fontWeight: 800, lineHeight: '48px', marginTop: 0 }}
-                    >
+                    <h2 className="text-orange text-3xl" style={{ lineHeight: '48px', marginTop: 0 }}>
                         Eventbeschreibung
                     </h2>
 
