@@ -23,9 +23,9 @@ export default function ImprintPage({ signedInUser }: ImprintPageProps): ReactEl
                     {t('point-1')}
                     <br />
                     <br />
-                    {t('point-2')}
+                    {/* {t('point-2')}
                     <br />
-                    <br />
+                    <br /> */}
                     {t('point-3')}
                     <br />
                     <br />
