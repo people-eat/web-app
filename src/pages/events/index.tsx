@@ -58,7 +58,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
 
                         {isMobile && (
                             <h2 style={{ color: '#18181B' }}>
-                                Soul Symphony: <br /> Eine Transformative Verschmelzung aus Yoga, Meditation und veganer Küche
+                                Soul Symphony: <br /> Eine transformative Verschmelzung aus Yoga, Meditation und veganer Küche
                             </h2>
                         )}
 
@@ -102,7 +102,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                             <HStack style={{ display: 'flex', flexDirection: 'column' }}>
                                 <VStack style={{ display: 'flex', flexDirection: 'row', marginBottom: '8px' }}>
                                     <div className="flex flex-col" style={{ marginRight: '18px' }}>
-                                        <span className="font-bold">Wann?</span>
+                                        <span className="font-bold">Wann:</span>
                                         <span className="font-bold">16.09.2023</span>
                                     </div>
                                     <div className="flex flex-col">
@@ -111,7 +111,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                                     </div>
                                 </VStack>
                                 <div className="flex flex-col">
-                                    <span className="font-bold">Wo?</span>
+                                    <span className="font-bold">Wo:</span>
                                     <span className="font-bold">Nio House Frankfurt</span>
                                 </div>
                             </HStack>
