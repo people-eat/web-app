@@ -36,8 +36,15 @@ interface EventsProps {
 }
 
 function Content({ signedInUser }: EventsProps): ReactElement {
-    const { isMobile } = useResponsive();
+    const { isMobile, isTablet } = useResponsive();
     const stripePaymentUrl: string = 'https://buy.stripe.com/14kaIm0SPdnX64gdQT';
+    const h2Styles: React.CSSProperties = {
+        color: '#18181B',
+        position: 'absolute',
+        top: isTablet ? '140px' : isMobile ? '15vh' : '120px',
+        width: isTablet ? '60%' : 'auto',
+        maxWidth: '700px',
+    };
 
     return (
         <VStack className="w-full">
@@ -50,7 +57,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
 
                         {!isMobile && (
                             <div className="w-full h-[90px]">
-                                <h2 style={{ color: '#18181B', position: 'absolute', top: '120px', maxWidth: '700px' }}>
+                                <h2 style={h2Styles}>
                                     Soul Symphony: <br /> Eine transformative Verschmelzung aus Yoga, Meditation und veganer Küche
                                 </h2>
                             </div>
