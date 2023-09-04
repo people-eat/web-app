@@ -18,7 +18,6 @@ export default function PEChefCard({
     categories,
     kitchens,
     picturePosition = 'center',
-    userId,
 }: PEChefCardProps): ReactElement {
     const baseClassNames =
         'flex flex-col active:shadow-active hover:shadow-primary overflow-hidden border-solid border-border border-[1px] rounded-3 cursor-pointer';
