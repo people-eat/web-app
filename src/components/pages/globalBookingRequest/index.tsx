@@ -238,7 +238,7 @@ export default function GlobalBookingRequestPage({
                     <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
                         <Image
                             className="w-full"
-                            src={'/picture-1.png'}
+                            src={'/koch-münchen.png'}
                             alt=""
                             width={512}
                             height={512}

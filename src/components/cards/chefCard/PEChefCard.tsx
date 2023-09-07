@@ -18,7 +18,6 @@ export default function PEChefCard({
     categories,
     kitchens,
     picturePosition = 'center',
-    userId,
 }: PEChefCardProps): ReactElement {
     const baseClassNames =
         'flex flex-col active:shadow-active hover:shadow-primary overflow-hidden border-solid border-border border-[1px] rounded-3 cursor-pointer';
@@ -39,7 +38,7 @@ export default function PEChefCard({
     }, [followings, firstName]);
 
     return (
-        <div className={classNames(baseClassNames, width)}>
+        <div className={classNames(baseClassNames, width, 'h-[450px]')}>
             <div className="relative">
                 <div className="absolute top-[12px] right-[12px]">
                     <PEFavorite

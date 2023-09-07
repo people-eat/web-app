@@ -1,8 +1,11 @@
+import { useMutation } from '@apollo/client';
 import Button from '@mui/material/Button';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { type ReactElement } from 'react';
+import { ExpireCurrentSessionDocument } from '../../../data-source/generated/graphql';
 import type { SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEButton from '../buttons/PEButton';
 import PEModal from '../modal/PEModal';
@@ -25,6 +28,11 @@ export default function PEMobileMenu({
     signedInUser,
 }: PEMobileMenuProps): ReactElement {
     const { t } = useTranslation('common');
+    const [expireCurrentSession, { data }] = useMutation(ExpireCurrentSessionDocument);
+
+    const router = useRouter();
+
+    if (data?.users.sessions.success) void router.push('/');
 
     return (
         <PEModal openMenu={openMenu} handleOpenMenu={handleOpenMenu}>
@@ -79,6 +87,13 @@ export default function PEMobileMenu({
                     <Link className="no-underline mt-4" href="/chef">
                         <PEButton onClick={(): void => undefined} title="Chef Profile" />
                     </Link>
+                )}
+                {signedInUser && (
+                    <PEButton
+                        title={t('sign-out')}
+                        onClick={(): void => void expireCurrentSession({ variables: { userId: signedInUser.userId } })}
+                        className="mt-3"
+                    />
                 )}
             </div>
         </PEModal>

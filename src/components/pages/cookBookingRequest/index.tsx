@@ -254,7 +254,7 @@ export default function CookBookingRequestPage({
                     <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
                         <Image
                             className="w-full"
-                            src={cook.user.profilePictureUrl ?? '/picture-1.png'}
+                            src={'/koch-münchen.png'}
                             alt=""
                             width={512}
                             height={512}
@@ -270,9 +270,9 @@ export default function CookBookingRequestPage({
                             }}
                         />
                         <VStack gap={32} style={{ alignItems: 'flex-start' }}>
-                            <h3>
+                            {/* <h3>
                                 {cook.user.firstName} - {cook.rank}
-                            </h3>
+                            </h3> */}
                             <PEBulletPoint
                                 icon={Icon.foodBasket}
                                 title={homeTranslations('section-3-bullet-point-1-title')}
