@@ -139,24 +139,7 @@ export default function HomePageSearchDialogMobile({
                         <p className="text-text-sm-bold">{t('adults-label')}</p>
                         <PENumberTextField value={adultCount} onChange={onAdultsChange} min={1} max={20} step={1} />
                         <p className="text-text-sm-bold">{t('children-label')}</p>
-                        <TextField
-                            sx={{
-                                '&.Mui-focused': { '.MuiOutlinedInput-notchedOutline': { border: '1px solid black' } },
-                                width: '100%',
-                                border: '1px solid rgba(31, 31, 31, 0.2)',
-                                borderRadius: '12px',
-                                padding: '8px 16px',
-                                boxSizing: 'border-box',
-                            }}
-                            value={childrenCount}
-                            onChange={(event): void => {
-                                onChildrenChange(Number(event.target.value));
-                            }}
-                            variant="standard"
-                            type="number"
-                            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 0 }}
-                            InputProps={{ disableUnderline: true }}
-                        />
+                        <PENumberTextField value={childrenCount} onChange={onChildrenChange} placeholder="" min={0} max={10} step={1} />
                         <p className="text-text-sm-bold">{t('date-label')}</p>
                         <DatePicker
                             sx={{

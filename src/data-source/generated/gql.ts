@@ -206,7 +206,7 @@ const documents = {
         types.CreateOneFollowingDocument,
     'mutation DeleteOneFollowing($userId: String!, $cookId: String!) {\n  users {\n    followings(userId: $userId) {\n      success: deleteOne(cookId: $cookId)\n    }\n  }\n}':
         types.DeleteOneFollowingDocument,
-    'query FindManyFollowings {\n  users {\n    me {\n      followings {\n        cook {\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n      }\n    }\n  }\n}':
+    'query FindManyFollowings {\n  users {\n    me {\n      followings {\n        cook {\n          cookId\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n      }\n    }\n  }\n}':
         types.FindManyFollowingsDocument,
 };
 
@@ -822,8 +822,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query FindManyFollowings {\n  users {\n    me {\n      followings {\n        cook {\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n      }\n    }\n  }\n}',
-): (typeof documents)['query FindManyFollowings {\n  users {\n    me {\n      followings {\n        cook {\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n      }\n    }\n  }\n}'];
+    source: 'query FindManyFollowings {\n  users {\n    me {\n      followings {\n        cook {\n          cookId\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindManyFollowings {\n  users {\n    me {\n      followings {\n        cook {\n          cookId\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n      }\n    }\n  }\n}'];
 
 export function gql(source: string) {
     return (documents as any)[source] ?? {};

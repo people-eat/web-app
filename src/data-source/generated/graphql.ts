@@ -3698,6 +3698,7 @@ export type FindManyFollowingsQuery = {
                 __typename?: 'Following';
                 cook: {
                     __typename?: 'PublicCook';
+                    cookId: string;
                     rank: CookRank;
                     user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
                 };
@@ -11311,6 +11312,7 @@ export const FindManyFollowingsDocument = {
                                                             selectionSet: {
                                                                 kind: 'SelectionSet',
                                                                 selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
                                                                     {
                                                                         kind: 'Field',
