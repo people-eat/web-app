@@ -15,6 +15,8 @@ export default function ProfilePageFollowingsTab({ userId }: ProfilePageFollowin
     const followings = data?.users.me?.followings;
     const { isMobile } = useResponsive();
 
+    // const [deleteFollowing] = useMutation(DeleteOneFollowingDocument);
+
     return (
         <VStack>
             {!isMobile &&
@@ -31,6 +33,7 @@ export default function ProfilePageFollowingsTab({ userId }: ProfilePageFollowin
                         userId={userId ?? ''}
                     />
                 ))}
+
             {isMobile &&
                 followings?.map((following, index) => (
                     <PEChefCardMobile

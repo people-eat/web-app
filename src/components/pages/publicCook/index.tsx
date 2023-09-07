@@ -170,14 +170,16 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                 />
                             </div>
                         </HStack>
-                        <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4">
+
+                        {/* <HStack className="w-full bg-white shadow-primary box-border p-8 rounded-4">
                             <VStack gap={20} className="w-full" style={{ alignItems: 'flex-start' }}>
                                 <p className="text-heading-m my-0">Video</p>
                                 <video style={{ margin: '0 auto' }} controls>
                                     <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
                                 </video>
                             </VStack>
-                        </HStack>
+                        </HStack> */}
+
                         <HStack
                             gap={16}
                             className="w-full bg-white shadow-primary box-border p-8 rounded-4"
@@ -295,6 +297,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                     <PEButton title="All menus" onClick={(): void => undefined} />
                                 </Link>
                             )} */}
+
                             <Link
                                 href={{
                                     pathname: '/cook-booking-request',

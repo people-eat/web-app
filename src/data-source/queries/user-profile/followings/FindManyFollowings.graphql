@@ -3,6 +3,7 @@ query FindManyFollowings {
         me {
             followings {
                 cook {
+                    cookId
                     rank
                     user {
                         firstName
