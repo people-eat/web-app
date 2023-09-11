@@ -15,7 +15,6 @@ import {
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
-import PEReviewCardUser from '../../../standard/modal/PEReviewCardUser';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
@@ -115,7 +114,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
 
             <div className="flex justify-center">
                 {tab === 'CHAT' && (
-                    <div className="px-4">
+                    <div className="w-full px-4">
                         <ProfilePageBookingsChatMessages userId={userId} bookingRequestId={bookingRequest?.bookingRequestId ?? ''} />
 
                         {bookingRequest?.status === 'OPEN' && (
@@ -255,8 +254,8 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                         )}
                     </VStack>
                 )}
-                {tab === 'MENU' && <div></div>}
-                {tab === 'RATING' && <PEReviewCardUser />}
+                {tab === 'MENU' && <></>}
+                {tab === 'RATING' && <></>}
             </div>
         </div>
     );

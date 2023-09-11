@@ -7,7 +7,7 @@ import { type PEFavoriteProps } from './PEFavoriteProps';
 
 export default function PEFavorite({ disabled, isFavorite, onIsFavoriteChange }: PEFavoriteProps): ReactElement {
     return (
-        <div className={classNames('w-10_ h-10_ rounded-2', 'bg-base rounded-2')}>
+        <div className={classNames('w-10_ h-10_ rounded-2', 'bg-base rounded-2', 'favorite')}>
             <IconButton disabled={disabled} onClick={(): void => onIsFavoriteChange(!isFavorite)}>
                 <PEIcon icon={isFavorite ? Icon.heartFull : Icon.heart} />
             </IconButton>

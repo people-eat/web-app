@@ -80,7 +80,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
 
     useEffect(() => {
         if (followings) {
-            const foundFollowing = followings.find((following) => following.cook.user.firstName === publicCook?.user.firstName);
+            const foundFollowing = followings.find((following) => following.cook.cookId === publicCook?.cookId);
             if (foundFollowing) setLike(true);
             else setLike(false);
         }
