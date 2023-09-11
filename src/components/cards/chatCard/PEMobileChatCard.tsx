@@ -26,7 +26,7 @@ export interface PEMobileChatCardProps {
             title?: string;
         };
     };
-    onClick?: () => void;
+    onClick: () => void;
 }
 
 const PEMobileChatCard = ({ bookingRequest, onClick }: PEMobileChatCardProps): JSX.Element => {

@@ -159,7 +159,14 @@ export default function HomePageSearchDialogMobile({
                         />
                     </div>
                     <Spacer />
-                    <PEButton disabled={!addressSearchText || !date || !adultCount} onClick={onSearch} title={'Search'} />
+                    <PEButton
+                        disabled={!addressSearchText || !date || !adultCount}
+                        onClick={(): void => {
+                            onSearch();
+                            handleClose();
+                        }}
+                        title={'Search'}
+                    />
                 </List>
             </Dialog>
         </div>

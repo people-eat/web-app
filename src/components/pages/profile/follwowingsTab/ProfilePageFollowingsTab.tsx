@@ -15,8 +15,6 @@ export default function ProfilePageFollowingsTab({ userId }: ProfilePageFollowin
     const followings = data?.users.me?.followings;
     const { isMobile } = useResponsive();
 
-    // const [deleteFollowing] = useMutation(DeleteOneFollowingDocument);
-
     return (
         <VStack>
             {!isMobile &&
@@ -30,7 +28,9 @@ export default function ProfilePageFollowingsTab({ userId }: ProfilePageFollowin
                         rating={{ average: 5, count: 12 }}
                         categories={[]}
                         kitchens={[]}
-                        userId={userId ?? ''}
+                        userId={userId}
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        cookId={following.cook.cookId}
                     />
                 ))}
 
@@ -45,6 +45,9 @@ export default function ProfilePageFollowingsTab({ userId }: ProfilePageFollowin
                         rating={{ average: 5, count: 12 }}
                         categories={[]}
                         kitchens={[]}
+                        userId={userId}
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        cookId={following.cook.cookId}
                     />
                 ))}
         </VStack>

@@ -171,6 +171,16 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                             key={index}
                             className="no-underline"
                             style={{ textDecoration: 'none', color: '#000' }}
+                            onClick={(e): void => {
+                                const target = e.target as HTMLElement;
+                                if (target.tagName === 'IMG') {
+                                    const image = target as HTMLImageElement;
+                                    if (image.naturalWidth < 100) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    }
+                                }
+                            }}
                         >
                             {isMobile && (
                                 <PEChefCardMobile
@@ -181,6 +191,8 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                                     rating={{ average: 8, count: 12 }}
                                     categories={[]}
                                     kitchens={[]}
+                                    userId={signedInUser?.userId}
+                                    cookId={publicCook.cookId}
                                 />
                             )}
                             {!isMobile && (
@@ -192,6 +204,8 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                                     rating={{ average: 5, count: 12 }}
                                     categories={[]}
                                     kitchens={[]}
+                                    userId={signedInUser?.userId}
+                                    cookId={publicCook.cookId}
                                 />
                             )}
                         </Link>
