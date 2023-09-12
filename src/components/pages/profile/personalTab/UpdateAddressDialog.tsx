@@ -82,7 +82,8 @@ export default function UpdateAddressDialog({ open, userId, onSuccess, onCancel,
                 }
             });
         }
-    }, [postCode, city, street, houseNumber, country, disabled]);
+        if (open && isMobile) window.scrollTo(0, 0);
+    }, [postCode, city, street, houseNumber, country, disabled, open, isMobile]);
 
     return (
         <>

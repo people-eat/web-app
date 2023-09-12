@@ -260,7 +260,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
 
                                 {!isCook && (
                                     <Link href="/chef-sign-up" className="no-underline">
-                                        <PEButton onClick={(): void => undefined} title={commonTranslation('how-to-become-a-chef')} />
+                                        <PEButton onClick={(): void => undefined} title={commonTranslation('register-as-chef')} />
                                     </Link>
                                 )}
                             </>
