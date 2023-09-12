@@ -4,12 +4,14 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import { AssignOneSessionByEmailAddressDocument } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
 import PEButton from '../../standard/buttons/PEButton';
 import PELineButton from '../../standard/buttons/PELineButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
+import { Icon } from '../../standard/icon/Icon';
+import PEIcon from '../../standard/icon/PEIcon';
 import PEEmailTextField from '../../standard/textFields/PEEmailTextField';
 import PEPasswordTextField from '../../standard/textFields/PEPasswordTextField';
 import HStack from '../../utility/hStack/HStack';
@@ -24,6 +26,11 @@ export default function SignInPage(): ReactElement {
     const [emailAddress, setEmailAddress] = useState({ value: '', isValid: false });
     const [password, setPassword] = useState('');
     const [staySignedIn, setStaySignedIn] = useState(true);
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+
+    const closeErrorDialog = (): void => {
+        setErrorDialogOpen(false);
+    };
 
     const disabled = !emailAddress.isValid || password.length < 1;
 
@@ -42,9 +49,14 @@ export default function SignInPage(): ReactElement {
         router
             .push({ pathname: '/profile' })
             .then()
-            .catch((err) => console.error(err));
+            .catch((_err) => {
+                setErrorDialogOpen(true);
+            });
     }
-
+    useEffect(() => {
+        if (error || (data && !data.sessions.success)) setErrorDialogOpen(true);
+        else setErrorDialogOpen(false);
+    }, [error, data]);
     return (
         <HStack className="h-full">
             <VStack style={{ flex: 1, padding: '32px', overflowY: 'scroll' }}>
@@ -153,8 +165,14 @@ export default function SignInPage(): ReactElement {
             )}
 
             {(error || (data && !data.sessions.success)) && (
-                <Dialog open>
-                    <DialogContent>An error ocurred</DialogContent>
+                <Dialog open={errorDialogOpen} className="p-3">
+                    <DialogContent>
+                        <HStack className="absolute right-2 top-2 cursor-pointer hover:shadow-orange" onClick={closeErrorDialog}>
+                            <PEIcon icon={Icon.close} />
+                        </HStack>
+                        <Spacer />
+                        <p className="mt-10">Oops! Something went wrong. Please try signing in again.</p>
+                    </DialogContent>
                 </Dialog>
             )}
         </HStack>
