@@ -68,6 +68,9 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
     });
 
     if (data?.users.addresses.success) onSuccess();
+    useEffect(() => {
+        if (open && isMobile) window.scrollTo(0, 0);
+    }, [open, isMobile]);
 
     useEffect(() => {
         setLocation(undefined);
@@ -153,7 +156,7 @@ export default function CreateAddressDialog({ open, userId, onSuccess, onCancel 
             )}
 
             {isMobile && (
-                <div style={{ height: '100vh', overflowY: 'scroll' }}>
+                <div style={{ height: '100vh', overflowY: 'scroll', marginTop: '200px' }}>
                     <Dialog
                         sx={{
                             height: '100vh',
