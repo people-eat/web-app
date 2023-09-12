@@ -424,9 +424,12 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         {!signedInUser && <SignUpPageSuccessDialog emailAddress={emailAddress.value} />}
                         {signedInUser && (
                             <DialogContent>
-                                <Link href="chef-profile" className="no-underline">
-                                    To chef profile
-                                </Link>
+                                <p>You have successfully registered as a Chef</p>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <Link href="chef-profile" className="no-underline text-orangeActive block">
+                                        To chef profile
+                                    </Link>
+                                </div>
                             </DialogContent>
                         )}
                     </Dialog>
