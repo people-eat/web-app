@@ -10,9 +10,9 @@ import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import PEMobileChat from './PEMobileChat';
-import ProfilePageBookingTab from './bookingTab/ProfilePageBookingTab';
 import ProfilePageBookingsTab from './bookingsTab/ProfilePageBookingsTab';
-import ProfilePageFollowingsTab from './follwowingsTab/ProfilePageFollowingsTab';
+import ProfilePageFollowingsTab from './followingsTab/ProfilePageFollowingsTab';
+import ProfilePageGlobalBookingRequestsTab from './globalBookingRequestsTab/ProfilePageGlobalBookingRequestsTab';
 import ProfilePagePersonalTab from './personalTab/ProfilePagePersonalTab';
 
 const MENU_TABS = [
@@ -25,15 +25,15 @@ const MENU_TABS = [
         link: '/profile?tab=1',
     },
     {
-        title: 'ratings-label',
+        title: 'tab-global-bookings',
         link: '/profile?tab=2',
     },
     {
-        title: 'favorite-chefs-label',
+        title: 'ratings-label',
         link: '/profile?tab=3',
     },
     {
-        title: 'chats-label',
+        title: 'favorite-chefs-label',
         link: '/profile?tab=4',
     },
 ];
@@ -95,12 +95,12 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
 
             {selectedTab === 0 && signedInUser && <ProfilePagePersonalTab userId={signedInUser.userId} />}
 
-            {selectedTab === 1 && signedInUser && <ProfilePageBookingTab userId={signedInUser.userId} />}
+            {selectedTab === 1 && signedInUser && !isMobile && <ProfilePageBookingsTab userId={signedInUser.userId} />}
+            {selectedTab === 1 && signedInUser && isMobile && <PEMobileChat userId={signedInUser.userId} />}
 
-            {selectedTab === 3 && signedInUser && <ProfilePageFollowingsTab userId={signedInUser.userId} />}
+            {selectedTab === 2 && signedInUser && <ProfilePageGlobalBookingRequestsTab userId={signedInUser.userId} />}
 
-            {selectedTab === 4 && signedInUser && !isMobile && <ProfilePageBookingsTab userId={signedInUser.userId} />}
-            {selectedTab === 4 && signedInUser && isMobile && <PEMobileChat userId={signedInUser.userId} />}
+            {selectedTab === 4 && signedInUser && <ProfilePageFollowingsTab userId={signedInUser.userId} />}
 
             <Spacer />
 
