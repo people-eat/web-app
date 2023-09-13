@@ -3,47 +3,51 @@ import { Button } from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import {
-    CreateOneUserBookingRequestChatMessageDocument,
-    FindOneUserBookingRequestDocument,
-    UserBookingRequestAcceptDocument,
-    UserBookingRequestDeclineDocument,
-    UserBookingRequestUpdatePriceDocument,
+    CookBookingRequestAcceptDocument,
+    CookBookingRequestDeclineDocument,
+    CookBookingRequestUpdatePriceDocument,
+    CreateOneCookBookingRequestChatMessageDocument,
+    FindOneCookBookingRequestDocument,
     type CurrencyCode,
 } from '../../../../data-source/generated/graphql';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
-import PEReviewCardUser from '../../../standard/modal/PEReviewCardUser';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
-import ProfilePageBookingsChatMessages from './ProfilePageBookingsChatMessages';
+import CookProfilePageBookingsChatMessages from './CookProfilePageBookingsChatMessages';
 
-export interface ProfilePageBookingMobileProps {
+export interface CookProfilePageBookingsTabDetailMobileProps {
     setIsSelectedOpen: (arg0: boolean) => void;
-    userId: string;
+    cookId: string;
     bookingRequestId: string;
 }
+
 type TabType = 'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING';
 
-const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId }: ProfilePageBookingMobileProps): JSX.Element => {
-    const { data, refetch } = useQuery(FindOneUserBookingRequestDocument, {
-        variables: { userId, bookingRequestId },
+export default function CookProfilePageBookingsTabMobile({
+    setIsSelectedOpen,
+    cookId,
+    bookingRequestId,
+}: CookProfilePageBookingsTabDetailMobileProps): ReactElement {
+    const { data, refetch } = useQuery(FindOneCookBookingRequestDocument, {
+        variables: { cookId, bookingRequestId },
     });
     const { t: translateBooking } = useTranslation('global-booking-request');
-    const bookingRequest = data?.users.bookingRequests.findOne;
+    const bookingRequest = data?.cooks.bookingRequests.findOne;
     const [tab, setTab] = useState<TabType>('CHAT');
     const [newMessage, setNewMessage] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [amount, setAmount] = useState(0);
 
-    const [declineBookingRequest] = useMutation(UserBookingRequestDeclineDocument);
-    const [acceptBookingRequest] = useMutation(UserBookingRequestAcceptDocument);
-    const [updateBookingRequestPrice] = useMutation(UserBookingRequestUpdatePriceDocument);
-    const [createMessage] = useMutation(CreateOneUserBookingRequestChatMessageDocument);
+    const [declineBookingRequest] = useMutation(CookBookingRequestDeclineDocument);
+    const [acceptBookingRequest] = useMutation(CookBookingRequestAcceptDocument);
+    const [updateBookingRequestPrice] = useMutation(CookBookingRequestUpdatePriceDocument);
+    const [createMessage] = useMutation(CreateOneCookBookingRequestChatMessageDocument);
 
     const handleTabChange = (selectedTab: TabType): void => {
         setTab(selectedTab);
@@ -56,13 +60,14 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
         { tabName: 'MENU' as const, label: 'Menu' },
         { tabName: 'RATING' as const, label: 'Rating' },
     ];
+
     useEffect(() => {
         setAmount(bookingRequest?.price.amount ?? 0);
         if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
     }, [bookingRequest]);
 
     return (
-        <div className="fixed inset-0 z-50 mt-[80px] bg-white py-3" style={{ overflowY: 'auto' }}>
+        <div className="fixed inset-0 z-50 bg-white py-3" style={{ overflowY: 'auto' }}>
             <div className=" flex items-center justify-between px-5 py-3 mb-3" style={{ borderBottom: '2px solid #f5f5f5' }}>
                 <HStack style={{ alignItems: 'center', justifyContent: 'space-between' }}>
                     <button
@@ -71,22 +76,22 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                     >
                         <PEIcon icon={Icon.arrowPrev} edgeLength={20} />
                     </button>
-                    {bookingRequest?.cook.user.profilePictureUrl && (
+                    {bookingRequest?.user.profilePictureUrl && (
                         <Image
                             className="rounded-3"
                             style={{ width: '45px', height: '45px', objectFit: 'cover' }}
-                            src={bookingRequest?.cook.user.profilePictureUrl}
+                            src={bookingRequest?.user.profilePictureUrl}
                             alt={'client image'}
                             width={45}
                             height={45}
                         />
                     )}
-                    {!bookingRequest?.cook.user.profilePictureUrl && (
+                    {!bookingRequest?.user.profilePictureUrl && (
                         <div className="flex justify-center items-center w-11 h-11 bg-base rounded-3">
                             <PEIcon icon={Icon.profileLight} edgeLength={32} />
                         </div>
                     )}
-                    <span className="ml-2">{bookingRequest?.cook.user.firstName}</span>
+                    <span className="ml-2">{bookingRequest?.user.firstName}</span>
                 </HStack>
                 <div className="relative ml-4">
                     <button
@@ -113,20 +118,20 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                 </div>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center absolute bottom-4 right-5">
                 {tab === 'CHAT' && (
                     <div className="px-4">
-                        <ProfilePageBookingsChatMessages userId={userId} bookingRequestId={bookingRequest?.bookingRequestId ?? ''} />
+                        <CookProfilePageBookingsChatMessages cookId={cookId} bookingRequestId={bookingRequest?.bookingRequestId ?? ''} />
 
                         {bookingRequest?.status === 'OPEN' && (
                             <HStack gap={16} className="w-full">
-                                {bookingRequest.cookAccepted === true && bookingRequest.userAccepted === null && (
+                                {bookingRequest.cookAccepted === null && bookingRequest.userAccepted === true && (
                                     <>
                                         <PEButton
                                             onClick={(): void =>
                                                 void declineBookingRequest({
-                                                    variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
-                                                }).then((result) => result.data?.users.bookingRequests.success && void refetch())
+                                                    variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
+                                                }).then((result) => result.data?.cooks.bookingRequests.success && void refetch())
                                             }
                                             title="Decline"
                                             size="s"
@@ -135,20 +140,20 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                         <PEButton
                                             onClick={(): void =>
                                                 void acceptBookingRequest({
-                                                    variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
-                                                }).then((result) => result.data?.users.bookingRequests.success && void refetch())
+                                                    variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
+                                                }).then((result) => result.data?.cooks.bookingRequests.success && void refetch())
                                             }
                                             title="Accept"
                                             size="s"
                                         />
                                     </>
                                 )}
-                                {bookingRequest?.cookAccepted === null && bookingRequest.userAccepted === true && (
+                                {bookingRequest?.cookAccepted === true && bookingRequest.userAccepted === null && (
                                     <PEButton
                                         onClick={(): void =>
                                             void declineBookingRequest({
-                                                variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
-                                            }).then((result) => result.data?.users.bookingRequests.success && void refetch())
+                                                variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
+                                            }).then((result) => result.data?.cooks.bookingRequests.success && void refetch())
                                         }
                                         title="Decline"
                                         size="s"
@@ -168,12 +173,12 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                         onClick={(): void =>
                                             void createMessage({
                                                 variables: {
-                                                    userId,
+                                                    cookId,
                                                     bookingRequestId: bookingRequest.bookingRequestId,
                                                     request: { message: newMessage },
                                                 },
                                             }).then((result) => {
-                                                if (!result.data?.users.bookingRequests.chatMessages.success) return;
+                                                if (!result.data?.cooks.bookingRequests.chatMessages.success) return;
                                                 void refetch();
                                                 setNewMessage('');
                                             })
@@ -242,12 +247,12 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                 onClick={(): void =>
                                     void updateBookingRequestPrice({
                                         variables: {
-                                            userId,
+                                            cookId,
                                             bookingRequestId: bookingRequest?.bookingRequestId ?? '',
                                             price: { amount, currencyCode: bookingRequest?.price?.currencyCode ?? ('EUR' as CurrencyCode) },
                                         },
                                     }).then((result) => {
-                                        if (!result.data?.users.bookingRequests.success) return;
+                                        if (!result.data?.cooks.bookingRequests.success) return;
                                         void refetch();
                                     })
                                 }
@@ -256,10 +261,8 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                     </VStack>
                 )}
                 {tab === 'MENU' && <div></div>}
-                {tab === 'RATING' && <PEReviewCardUser />}
+                {tab === 'RATING' && <div></div>}
             </div>
         </div>
     );
-};
-
-export default ProfilePageBookingMobile;
+}
