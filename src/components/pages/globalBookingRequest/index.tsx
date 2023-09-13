@@ -75,7 +75,7 @@ export default function GlobalBookingRequestPage({
     const [dateTime, setDateTime] = useState(moment(searchParameters.date).set('hours', 12).set('minutes', 0));
 
     const [occasion, setOccasion] = useState('');
-    const [budget, setBudget] = useState('');
+    const [budgetPerPerson, setBudgetPerPerson] = useState('');
     const [message, setMessage] = useState('');
 
     const [firstName, setFirstName] = useState('');
@@ -105,7 +105,7 @@ export default function GlobalBookingRequestPage({
         },
         occasion,
         price: {
-            amount: Number(budget),
+            amount: Number(budgetPerPerson) * (adults + children),
             currencyCode: 'EUR',
         },
         allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
@@ -178,8 +178,8 @@ export default function GlobalBookingRequestPage({
                             setDateTime={setDateTime}
                             occasion={occasion}
                             setOccasion={setOccasion}
-                            budget={budget}
-                            setBudget={setBudget}
+                            budget={budgetPerPerson}
+                            setBudget={setBudgetPerPerson}
                             onContinue={(): void => setStep(1)}
                         />
                     )}
@@ -238,7 +238,7 @@ export default function GlobalBookingRequestPage({
                     <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
                         <Image
                             className="w-full"
-                            src={'/picture-1.png'}
+                            src={'/koch-münchen.png'}
                             alt=""
                             width={512}
                             height={512}

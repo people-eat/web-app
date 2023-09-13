@@ -91,7 +91,7 @@ export default function CookBookingRequestPage({
     const [dateTime, setDateTime] = useState(moment(searchParameters.date).set('hours', 12).set('minutes', 0));
 
     const [occasion, setOccasion] = useState('');
-    const [budget, setBudget] = useState('');
+    const [budgetPerPerson, setBudgetPerPerson] = useState('');
     const [message, setMessage] = useState('');
 
     const [firstName, setFirstName] = useState('');
@@ -121,7 +121,7 @@ export default function CookBookingRequestPage({
         },
         occasion,
         price: {
-            amount: Number(budget),
+            amount: Number(budgetPerPerson) * (adults + children),
             currencyCode: 'EUR',
         },
         // allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
@@ -192,8 +192,8 @@ export default function CookBookingRequestPage({
                             setDateTime={setDateTime}
                             occasion={occasion}
                             setOccasion={setOccasion}
-                            budget={budget}
-                            setBudget={setBudget}
+                            budget={budgetPerPerson}
+                            setBudget={setBudgetPerPerson}
                             cookLocation={cook.location}
                             cookTravelExpenses={cook.travelExpenses}
                             onContinue={(): void => setStep(1)}
@@ -254,7 +254,7 @@ export default function CookBookingRequestPage({
                     <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
                         <Image
                             className="w-full"
-                            src={cook.user.profilePictureUrl ?? '/picture-1.png'}
+                            src={'/koch-münchen.png'}
                             alt=""
                             width={512}
                             height={512}
@@ -270,9 +270,6 @@ export default function CookBookingRequestPage({
                             }}
                         />
                         <VStack gap={32} style={{ alignItems: 'flex-start' }}>
-                            <h3>
-                                {cook.user.firstName} - {cook.rank}
-                            </h3>
                             <PEBulletPoint
                                 icon={Icon.foodBasket}
                                 title={homeTranslations('section-3-bullet-point-1-title')}

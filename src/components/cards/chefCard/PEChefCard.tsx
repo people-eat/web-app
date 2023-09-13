@@ -57,7 +57,7 @@ export default function PEChefCard({
     }, [followings, firstName]);
 
     return (
-        <div className={classNames(baseClassNames, width)}>
+        <div className={classNames(baseClassNames, width, 'h-[450px]')}>
             <div className="relative">
                 <div className="absolute top-[12px] right-[12px]">
                     <PEFavorite isFavorite={liked} onIsFavoriteChange={handelFollowing} />
