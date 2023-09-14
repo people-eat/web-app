@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client';
+import { Button, DialogActions } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -423,14 +424,16 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     <Dialog open>
                         {!signedInUser && <SignUpPageSuccessDialog emailAddress={emailAddress.value} />}
                         {signedInUser && (
-                            <DialogContent>
-                                <p>You have successfully registered as a Chef</p>
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <>
+                                <DialogContent>
+                                    <p>You have successfully registered as a Chef</p>
+                                </DialogContent>
+                                <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
                                     <Link href="chef-profile" className="no-underline text-orangeActive block">
-                                        To chef profile
+                                        <Button autoFocus>To chef profile</Button>
                                     </Link>
-                                </div>
-                            </DialogContent>
+                                </DialogActions>
+                            </>
                         )}
                     </Dialog>
                 )}
