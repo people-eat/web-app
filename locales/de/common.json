@@ -28,5 +28,10 @@
     "loading": "Laden...",
     "data-privacy-title": "Datenschutzerklärung",
     "terms-title": "Allgemeine Geschäftsbedingungen",
-    "register-as-chef": "Koch werden"
+    "register-as-chef": "Koch werden",
+    "date-label": "Datum",
+    "start-time-label": "Anfangszeit",
+    "location": "Standort",
+    "message": "Nachricht",
+    "occasion": "Anlass"
 }

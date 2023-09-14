@@ -54,7 +54,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                 >
                                     <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
                                         <HStack className="w-full">
-                                            {bookingRequest.status === chefProfileTranslations('booking-open') && (
+                                            {bookingRequest.status === 'OPEN' && (
                                                 <span
                                                     className="text-green"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
@@ -62,7 +62,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                     {chefProfileTranslations('booking-open')}
                                                 </span>
                                             )}
-                                            {bookingRequest.status === chefProfileTranslations('booking-in-progress') && (
+                                            {bookingRequest.status === 'PENDING' && (
                                                 <span
                                                     className="text-blue-400"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
@@ -70,7 +70,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                     {chefProfileTranslations('booking-in-progress')}
                                                 </span>
                                             )}
-                                            {bookingRequest.status === chefProfileTranslations('booking-cancelled') && (
+                                            {bookingRequest.status === 'CANCELED' && (
                                                 <span
                                                     className="text-red-400"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
@@ -78,7 +78,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                     {chefProfileTranslations('booking-cancelled')}
                                                 </span>
                                             )}
-                                            {bookingRequest.status === chefProfileTranslations('booking-closed') && (
+                                            {bookingRequest.status === 'COMPLETED' && (
                                                 <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>
                                                     Completed
                                                 </span>

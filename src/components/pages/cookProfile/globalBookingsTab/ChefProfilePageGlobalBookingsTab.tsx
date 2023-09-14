@@ -8,10 +8,10 @@ import {
     CreateOneCookBookingRequestDocument,
     FindCookProfileGlobalBookingRequestsDocument,
 } from '../../../../data-source/generated/graphql';
-import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
+// import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
+import GlobalBookingRequestCardChef from '../../../cards/globalBookingRequests/GlobalBookingReuestCardChef';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
-
 export interface ChefProfilePageGlobalBookingsTabProps {
     cookId: string;
 }
@@ -27,7 +27,7 @@ export default function ChefProfilePageGlobalBookingsTab({ cookId }: ChefProfile
 
     return (
         <VStack className="w-full relative max-w-screen-xl mb-[80px] lg:my-10 gap-6 box-border">
-            <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
+            {/* <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
                 {globalBookingRequests?.map((globalBookingRequest) => (
                     <div key={globalBookingRequest.globalBookingRequestId} className="w-[calc(50%-20px)] md:w-full">
                         <PEBookingRequestCardOpen
@@ -39,6 +39,32 @@ export default function ChefProfilePageGlobalBookingsTab({ cookId }: ChefProfile
                             occasion={globalBookingRequest.occasion}
                             price={`${globalBookingRequest.price.amount} ${globalBookingRequest.price.currencyCode}`}
                             dateTime={moment(globalBookingRequest.dateTime)}
+                            participants={globalBookingRequest.adultParticipants + globalBookingRequest.children}
+                            address={'Location'}
+                            onAcceptClick={(): void =>
+                                void createBookingRequest({
+                                    variables: { cookId, globalBookingRequestId: globalBookingRequest.globalBookingRequestId },
+                                }).then(({ data: successData }) => {
+                                    if (!successData?.cooks.bookingRequests.success) return;
+                                    void router.push('chef-profile?tab=3');
+                                })
+                            }
+                        />
+                    </div>
+                ))}
+            </HStack> */}
+            <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
+                {globalBookingRequests?.map((globalBookingRequest) => (
+                    <div key={globalBookingRequest.globalBookingRequestId} className="w-[calc(50%-20px)] md:w-full">
+                        <GlobalBookingRequestCardChef
+                            createdAt={moment(globalBookingRequest.createdAt)}
+                            name={''}
+                            profilePictureUrl={undefined}
+                            occasion={globalBookingRequest.occasion}
+                            price={`${globalBookingRequest.price.amount} ${globalBookingRequest.price.currencyCode}`}
+                            dateTime={moment(globalBookingRequest.dateTime)}
+                            adults={globalBookingRequest.adultParticipants}
+                            numOfChildren={globalBookingRequest.children}
                             participants={globalBookingRequest.adultParticipants + globalBookingRequest.children}
                             address={'Location'}
                             onAcceptClick={(): void =>

@@ -46,5 +46,10 @@
     "booking-selection": "Select a booking request",
     "in": "in",
     "days": "days",
-    "request-title": "Individual Request | Private chef for your event | PeopleEat"
+    "time":"Time",
+    "request-title": "Individual Request | Private chef for your event | PeopleEat",
+    "persons":"Persons",
+    "cancel":"Cancel",
+    "see-order": "See Order",
+    "you-made-request-on": "You made request on: "
 }

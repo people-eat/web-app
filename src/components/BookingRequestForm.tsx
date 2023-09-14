@@ -171,7 +171,7 @@ export default function BookingRequestForm({
                         text: address,
                     })
                 }
-                placeholder={t('location-placeholder-label')}
+                placeholder={t('location')}
             />
 
             <PEDropdown
@@ -184,9 +184,9 @@ export default function BookingRequestForm({
                 selectedOptions={selectedAllergies}
             />
 
-            <PETextField value={occasion} onChange={setOccasion} type="text" placeholder="Anlass" />
+            <PETextField value={occasion} onChange={setOccasion} type="text" placeholder={t('occasion')} />
 
-            <PEMultiLineTextField value={message} onChange={setMessage} placeholder={t('Nachricht')} />
+            <PEMultiLineTextField value={message} onChange={setMessage} placeholder={t('message')} />
 
             {costs && (
                 <VStack gap={32} style={{ width: '100%' }}>

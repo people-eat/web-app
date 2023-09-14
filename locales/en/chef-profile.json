@@ -92,5 +92,9 @@
     "edit-menu-title": "Edit menu",
     "delete-menu-title": "Delete menu",
     "delete-menu-question": "Do you really want to delete your menu?",
-    "greeting-from-kitchen": "Greetings from the kitchen"
+    "greeting-from-kitchen": "Greetings from the kitchen",
+    "booking-accept-button": "Accept",
+    "request-made":"Booking made on:",
+    "see-order-details":"See order details",
+    "cook-request-title": "Cook Request"
 }
