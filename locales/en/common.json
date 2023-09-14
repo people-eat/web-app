@@ -28,5 +28,10 @@
     "loading": "Loading...",
     "data-privacy-title": "Data Privacy Policy",
     "terms-title": "Terms and Conditions",
-    "register-as-chef": "Register as a Chef"
+    "register-as-chef": "Register as a Chef",
+    "date-label": "Date",
+    "start-time-label": "Start Time",
+    "location": "Location",
+    "message": "Message",
+    "occasion": "Occasion"
 }

@@ -88,10 +88,15 @@
     "booking-order-details": "Bestelldetails",
     "booking-price": "Umsatz:",
     "booking-send-invoice": "Rehnung an Kunden  senden",
-    "booking-time": "Time",
+    "booking-time": "Zeit",
     "popup-meal-image-upload-button": "Hinzufügen",
     "edit-menu-title": "Menü bearbeiten",
     "delete-menu-title": "Menü entfernen",
     "delete-menu-question": "Möchtest du dein Menü wirklich entfernen?",
-    "greeting-from-kitchen": "Grüß aus der Küche"
+    "greeting-from-kitchen": "Grüß aus der Küche",
+    "booking-accept-button": "Akzeptieren",
+    "request-made":"Bestellung erfolgt am:",
+    "see-order-details":"Siehe die Bestelldetails",
+    "cook-request-title": "Kochanfrage"
+
 }
