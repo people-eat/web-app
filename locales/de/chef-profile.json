@@ -95,8 +95,7 @@
     "delete-menu-question": "Möchtest du dein Menü wirklich entfernen?",
     "greeting-from-kitchen": "Grüß aus der Küche",
     "booking-accept-button": "Akzeptieren",
-    "request-made":"Bestellung erfolgt am:",
-    "see-order-details":"Siehe die Bestelldetails",
+    "request-made": "Bestellung erfolgt am:",
+    "see-order-details": "Siehe die Bestelldetails",
     "cook-request-title": "Kochanfrage"
-
 }
