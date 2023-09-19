@@ -37,7 +37,7 @@ interface EventsProps {
 
 function Content({ signedInUser }: EventsProps): ReactElement {
     const { isMobile, isTablet } = useResponsive();
-    const stripePaymentUrl: string = 'https://buy.stripe.com/14kaIm0SPdnX64gdQT';
+    // const stripePaymentUrl: string = 'https://buy.stripe.com/14kaIm0SPdnX64gdQT';
     const h2Styles: React.CSSProperties = {
         color: '#18181B',
         position: 'absolute',
@@ -102,9 +102,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                                 </Link>
                             </HStack>
 
-                            <Link href={stripePaymentUrl} style={{ textDecoration: 'none' }} className="w-full">
-                                <PEButton title="Jetzt Buchen" onClick={(): void => undefined} />
-                            </Link>
+                            <PEButton title="Jetzt Buchen" disabled onClick={(): void => undefined} className="w-full" />
 
                             <HStack style={{ display: 'flex', flexDirection: 'column' }}>
                                 <VStack style={{ display: 'flex', flexDirection: 'row', marginBottom: '8px' }}>
@@ -206,9 +204,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                     </p>
 
                     <HStack className="w-full" style={{ alignItems: 'center' }}>
-                        <Link href={stripePaymentUrl} className="no-underline p-3 w-full" style={{ maxWidth: 512 }}>
-                            <PEButton title=" Jetzt Buchen" onClick={(): void => undefined} />
-                        </Link>
+                        <PEButton title=" Jetzt Buchen" disabled onClick={(): void => undefined} className="no-underline p-3 w-full" />
                     </HStack>
                 </VStack>
             </VStack>
