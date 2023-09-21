@@ -46,24 +46,6 @@ export default function ProfilePageGlobalBookingRequestsTab({ userId }: ProfileP
 
     return (
         <VStack className="w-full md:overflow-hidden relative max-w-screen-xl gap-6 lg:px-4 md:py-6 box-border">
-            {/* <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
-                {globalBookingRequests?.map((globalBookingRequest) => (
-                    <div key={globalBookingRequest.globalBookingRequestId} className="w-[calc(50%-20px)] md:w-full">
-                        <PEBookingRequestCardOpen
-                            onOrderDetailsClick={(): void => undefined}
-                            createdAt={moment(globalBookingRequest.createdAt)}
-                            title={bookingTranslations('global-request')}
-                            name={''}
-                            profilePictureUrl={undefined}
-                            occasion={globalBookingRequest.occasion}
-                            price={`${globalBookingRequest.price.amount} ${globalBookingRequest.price.currencyCode}`}
-                            dateTime={moment(globalBookingRequest.dateTime)}
-                            participants={globalBookingRequest.adultParticipants + globalBookingRequest.children}
-                            address={'Location'}
-                        />
-                    </div>
-                ))}
-            </HStack> */}
             <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
                 {globalBookingRequests?.map((globalBookingRequest) => (
                     <div key={globalBookingRequest.globalBookingRequestId} className="w-[calc(50%-20px)] md:w-full">

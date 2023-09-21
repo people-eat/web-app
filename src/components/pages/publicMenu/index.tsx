@@ -179,7 +179,7 @@ export default function PublicMenuPage({
                   },
                   {
                       title: 'Service Gebühren',
-                      price: { amount: menuPrice * 0.18, currencyCode: 'EUR' },
+                      price: { amount: menuPrice * 0.9, currencyCode: 'EUR' },
                   },
               ],
               total: {
@@ -195,7 +195,7 @@ export default function PublicMenuPage({
                   },
                   {
                       title: 'Service Gebühren',
-                      price: { amount: menuPrice * 0.18, currencyCode: 'EUR' },
+                      price: { amount: menuPrice * 0.9, currencyCode: 'EUR' },
                   },
               ],
               total: {

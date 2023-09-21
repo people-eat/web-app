@@ -19,7 +19,7 @@ interface PEGlobalBookingRequestCardCustomerProps {
     onCancelClick?: () => void;
 }
 
-const PEGlobalBookingRequestCardCustomer = ({
+export default function PEGlobalBookingRequestCardCustomer({
     occasion,
     price,
     adults,
@@ -29,7 +29,7 @@ const PEGlobalBookingRequestCardCustomer = ({
     address,
     createdAt,
     onCancelClick,
-}: PEGlobalBookingRequestCardCustomerProps): ReactElement => {
+}: PEGlobalBookingRequestCardCustomerProps): ReactElement {
     const { t } = useTranslation('global-booking-request');
     const [openOrderDetails, setOpenOrderDetails] = useState(false);
 
@@ -39,15 +39,14 @@ const PEGlobalBookingRequestCardCustomer = ({
             style={{ alignItems: 'stretch', padding: 32 }}
             className="w-full box-border rounded-3 shadow-primary cursor-pointer hover:shadow-active"
         >
-            {/* <HStack style={{ justifyContent: 'flex-start' }}>
-                <span className="text-green">status: Open</span>
-            </HStack> */}
             <span>{occasion}</span>
+
             <HStack gap={8} className="text-text-sm">
                 <span>{t('budget-placeholder-label')}</span>
                 <span className="text-green text-heading-ss-bold md:text-text-m-bold">{price}</span>
                 <Spacer />
             </HStack>
+
             <HStack gap={16}>
                 <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1 }}>
                     <span className="text-gray md:text-text-s text-text-m">
@@ -67,10 +66,12 @@ const PEGlobalBookingRequestCardCustomer = ({
                     </span>
                 </VStack>
             </HStack>
+
             <HStack gap={16}>
                 <PEButton onClick={(): void => onCancelClick?.()} title={t('cancel')} type="secondary" />
                 <PEButton onClick={(): void => setOpenOrderDetails(true)} title={t('see-order')} />
             </HStack>
+
             <VStack style={{ alignItems: 'flex-end' }}>
                 <Spacer />
                 <span className="text-60black text-text-s">{t('you-made-request-on')}</span>
@@ -89,5 +90,4 @@ const PEGlobalBookingRequestCardCustomer = ({
             )}
         </VStack>
     );
-};
-export default PEGlobalBookingRequestCardCustomer;
+}
