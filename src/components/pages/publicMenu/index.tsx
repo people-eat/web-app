@@ -166,15 +166,7 @@ export default function PublicMenuPage({
 
     const total = (travelExpenses ?? 0) + menuPrice + serviceFee;
 
-    const costs:
-        | {
-              lineItems: {
-                  title: string;
-                  price: Price;
-              }[];
-              total: Price;
-          }
-        | undefined = travelExpenses
+    const costs: { lineItems: { title: string; price: Price }[]; total: Price } = travelExpenses
         ? {
               lineItems: [
                   {
@@ -195,7 +187,22 @@ export default function PublicMenuPage({
                   currencyCode: 'EUR',
               },
           }
-        : undefined;
+        : {
+              lineItems: [
+                  {
+                      title: 'Menüpreis',
+                      price: { amount: menuPrice, currencyCode: 'EUR' },
+                  },
+                  {
+                      title: 'Service Gebühren',
+                      price: { amount: menuPrice * 0.18, currencyCode: 'EUR' },
+                  },
+              ],
+              total: {
+                  amount: total,
+                  currencyCode: 'EUR',
+              },
+          };
 
     // const disabledForSignedInUser = !acceptedTermsAndConditions || !acceptedPrivacyPolicy;
 
