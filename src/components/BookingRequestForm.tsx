@@ -192,9 +192,6 @@ export default function BookingRequestForm({
 
             {isOutOfCookTravelRadius && <p style={{ color: 'red' }}>Leider außerhalb des Reiseradius des Kochs</p>}
 
-            {location && <p>{geoDistance({ location1: cookLocation, location2: location })}</p>}
-            {cookMaximumTravelDistance}
-
             <PEDropdown
                 title={'Allergien'}
                 options={allergies}
