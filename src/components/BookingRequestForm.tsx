@@ -8,6 +8,7 @@ import searchAddress, { type GoogleMapsPlacesResult } from '../data-source/searc
 import { type Allergy } from '../shared-domain/Allergy';
 import { type Location } from '../shared-domain/Location';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
+import { geoDistance } from '../utils/geoDistance';
 import PEButton from './standard/buttons/PEButton';
 import PECounter from './standard/counter/PECounter';
 import PEDropdown from './standard/dropdown/PEDropdown';
@@ -32,6 +33,9 @@ export interface BookingRequestFormProps {
 
     location: Location | undefined;
     setLocation: (changedLocation: Location | undefined) => void;
+
+    cookLocation: Location;
+    cookMaximumTravelDistance?: number;
 
     addressSearchResults: GoogleMapsPlacesResult[];
     setAddressSearchResults: (changedAddressSearchResults: GoogleMapsPlacesResult[]) => void;
@@ -79,6 +83,8 @@ export default function BookingRequestForm({
     setAddress,
     location,
     setLocation,
+    cookMaximumTravelDistance,
+    cookLocation,
     addressSearchResults,
     setAddressSearchResults,
     adults,
@@ -101,7 +107,12 @@ export default function BookingRequestForm({
 
     const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
-    const disabled = externalDisabled || location === undefined || message === '' || occasion === '';
+    const isOutOfCookTravelRadius =
+        !!cookMaximumTravelDistance &&
+        location &&
+        geoDistance({ location1: cookLocation, location2: location }) > cookMaximumTravelDistance;
+
+    const disabled = externalDisabled || location === undefined || message === '' || occasion === '' || isOutOfCookTravelRadius;
 
     function handleOnComplete(): void {
         if (!signedInUser) {
@@ -178,6 +189,11 @@ export default function BookingRequestForm({
                 }
                 placeholder={t('location')}
             />
+
+            {isOutOfCookTravelRadius && <p style={{ color: 'red' }}>Leider außerhalb des Reiseradius des Kochs</p>}
+
+            {location && <p>{geoDistance({ location1: cookLocation, location2: location })}</p>}
+            {cookMaximumTravelDistance}
 
             <PEDropdown
                 title={'Allergien'}

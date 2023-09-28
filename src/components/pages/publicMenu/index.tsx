@@ -166,9 +166,10 @@ export default function PublicMenuPage({
 
     const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
-    const travelExpenses: number | undefined =
-        selectedLocation &&
-        geoDistance({ location1: selectedLocation, location2: publicMenu.cook.location }) * publicMenu.cook.travelExpenses;
+    const distance: number | undefined =
+        selectedLocation && geoDistance({ location1: selectedLocation, location2: publicMenu.cook.location });
+
+    const travelExpenses: number | undefined = distance && distance * publicMenu.cook.travelExpenses;
 
     const menuPrice = calculateMenuPrice(
         adults,
@@ -491,6 +492,8 @@ export default function PublicMenuPage({
                                     setAddress={setAddress}
                                     location={selectedLocation}
                                     setLocation={setSelectedLocation}
+                                    cookMaximumTravelDistance={publicMenu.cook.maximumTravelDistance ?? undefined}
+                                    cookLocation={publicMenu.cook.location}
                                     addressSearchResults={addressSearchResults}
                                     setAddressSearchResults={setAddressSearchResults}
                                     adults={adults}
@@ -534,6 +537,8 @@ export default function PublicMenuPage({
                                     setAddress={setAddress}
                                     location={selectedLocation}
                                     setLocation={setSelectedLocation}
+                                    cookMaximumTravelDistance={publicMenu.cook.maximumTravelDistance ?? undefined}
+                                    cookLocation={publicMenu.cook.location}
                                     addressSearchResults={addressSearchResults}
                                     setAddressSearchResults={setAddressSearchResults}
                                     adults={adults}

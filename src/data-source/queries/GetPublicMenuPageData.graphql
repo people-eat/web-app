@@ -18,6 +18,7 @@ query GetPublicMenuPageData($menuId: String!) {
                 rank
                 city
                 travelExpenses
+                maximumTravelDistance
                 user {
                     firstName
                     profilePictureUrl

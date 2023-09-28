@@ -2483,6 +2483,7 @@ export type GetPublicMenuPageDataQuery = {
                 rank: CookRank;
                 city: string;
                 travelExpenses: number;
+                maximumTravelDistance?: number | null;
                 user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
                 location: { __typename?: 'Location'; latitude: number; longitude: number };
             };
@@ -5468,6 +5469,7 @@ export const GetPublicMenuPageDataDocument = {
                                                         { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'city' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maximumTravelDistance' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'user' },
