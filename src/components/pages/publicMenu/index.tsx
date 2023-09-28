@@ -5,7 +5,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import {
     CreateOneUserBookingRequestDocument,
     CreateOneUserByEmailAddressDocument,
@@ -37,6 +37,22 @@ import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 import Payment from '../menuBookingRequest/Payment';
+import SignInPage from '../signIn';
+
+interface MenuCourse {
+    index: number;
+    courseId: string;
+    title: string;
+    mealOptions: {
+        index: number;
+        meal: {
+            mealId: string;
+            title: string;
+            description: string;
+            imageUrl?: string | null;
+        };
+    }[];
+}
 export interface PublicMenuPageProps {
     signedInUser?: SignedInUser;
     searchParameters: {
@@ -65,20 +81,7 @@ export interface PublicMenuPageProps {
         categories: Category[];
         imageUrls: string[];
         createdAt: Date;
-        courses: {
-            index: number;
-            courseId: string;
-            title: string;
-            mealOptions: {
-                index: number;
-                meal: {
-                    mealId: string;
-                    title: string;
-                    description: string;
-                    imageUrl?: string | null;
-                };
-            }[];
-        }[];
+        courses: MenuCourse[];
         cook: {
             cookId: string;
             rank: CookRank;
@@ -117,6 +120,8 @@ export default function PublicMenuPage({
 
     const { t } = useTranslation('common');
 
+    const [showSignInDialog, setShowSignInDialog] = useState(false);
+
     const [address, setAddress] = useState<string>(searchParameters.location.address);
     const [selectedLocation, setSelectedLocation] = useState<Location | undefined>(undefined);
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
@@ -141,9 +146,21 @@ export default function PublicMenuPage({
 
     const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'FAILED'>(undefined);
     const [loading, setLoading] = useState(false);
-    const [courseSelections, setCourseSelections] = useState<Map<{ courseId: string; title: string }, Meal | undefined>>(
+    const [courseSelections, setCourseSelections] = useState<Map<{ courseId: string; title: string; index: number }, Meal | undefined>>(
         new Map(publicMenu.courses.map((course) => [course, undefined])),
     );
+
+    const courseSelectionsArray = Array.from(courseSelections.entries());
+    courseSelectionsArray.sort(([courseA], [courseB]) => courseA.index - courseB.index);
+
+    const [courses, setCourses] = useState<MenuCourse[]>([]);
+
+    useEffect(() => {
+        const sortedCourses = publicMenu.courses;
+        sortedCourses.sort((courseA, courseB) => courseA.index - courseB.index);
+
+        setCourses(sortedCourses);
+    }, [publicMenu]);
 
     const disabled = Array.from(courseSelections.entries()).findIndex(([_courseId, mealId]) => mealId === undefined) !== -1;
 
@@ -162,9 +179,11 @@ export default function PublicMenuPage({
         publicMenu.pricePerChild,
     );
 
-    const serviceFee = menuPrice * 0.18;
-
-    const total = (travelExpenses ?? 0) + menuPrice + serviceFee;
+    const customerFee = menuPrice * 0.04;
+    const stripeTransactionPrice = menuPrice + (travelExpenses ?? 0) + customerFee;
+    const finalPrice = (stripeTransactionPrice + 25) / (1 - 0.015);
+    const stripeFee = finalPrice - stripeTransactionPrice;
+    const serviceFee = stripeFee + customerFee;
 
     const costs: { lineItems: { title: string; price: Price }[]; total: Price } = travelExpenses
         ? {
@@ -179,27 +198,32 @@ export default function PublicMenuPage({
                   },
                   {
                       title: 'Service Gebühren',
-                      price: { amount: menuPrice * 0.9, currencyCode: 'EUR' },
+                      price: { amount: serviceFee, currencyCode: 'EUR' },
                   },
               ],
               total: {
-                  amount: total,
+                  amount: finalPrice,
                   currencyCode: 'EUR',
               },
           }
         : {
               lineItems: [
+                  //   { title: 'customerFee', price: { amount: customerFee, currencyCode: 'EUR' } },
+                  //   { title: 'stripeTransactionPrice', price: { amount: stripeTransactionPrice, currencyCode: 'EUR' } },
+                  //   { title: 'finalPrice', price: { amount: finalPrice, currencyCode: 'EUR' } },
+                  //   { title: 'stripeFee', price: { amount: stripeFee, currencyCode: 'EUR' } },
+                  //   { title: 'serviceFee', price: { amount: serviceFee, currencyCode: 'EUR' } },
                   {
                       title: 'Menüpreis',
                       price: { amount: menuPrice, currencyCode: 'EUR' },
                   },
                   {
                       title: 'Service Gebühren',
-                      price: { amount: menuPrice * 0.9, currencyCode: 'EUR' },
+                      price: { amount: serviceFee, currencyCode: 'EUR' },
                   },
               ],
               total: {
-                  amount: total,
+                  amount: finalPrice,
                   currencyCode: 'EUR',
               },
           };
@@ -233,8 +257,8 @@ export default function PublicMenuPage({
             },
             occasion,
             price: {
-                // TODO actually not required here
-                amount: menuPrice,
+                // TODO: remove this from menu booking params. Should be calculated on the server side
+                amount: finalPrice,
                 currencyCode: 'EUR',
             },
             // allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
@@ -414,7 +438,7 @@ export default function PublicMenuPage({
                         <Divider flexItem className="py-3" />
                         <HStack gap={32} className="w-full" style={{ minWidth: '500px', flexWrap: 'wrap' }}>
                             <VStack gap={32} style={{ flex: isMobile ? 'none' : 1 }}>
-                                {publicMenu.courses.map((course) => (
+                                {courses.map((course) => (
                                     <VStack key={course.courseId} style={{ width: isMobile ? '93vw' : '100%' }} gap={32}>
                                         <HStack className="w-full">
                                             <span className="text-heading-m">{course.title}</span>
@@ -482,6 +506,7 @@ export default function PublicMenuPage({
                                     setMessage={setMessage}
                                     selectedAllergies={selectedAllergies}
                                     setSelectedAllergies={setSelectedAllergies}
+                                    onShowSignInDialog={(): void => setShowSignInDialog(!showSignInDialog)}
                                 />
                             )}
                         </HStack>
@@ -524,12 +549,22 @@ export default function PublicMenuPage({
                                     setMessage={setMessage}
                                     selectedAllergies={selectedAllergies}
                                     setSelectedAllergies={setSelectedAllergies}
+                                    onShowSignInDialog={(): void => setShowSignInDialog(!showSignInDialog)}
                                 />
                             </div>
                         )}
                     </>
                 )}
             </VStack>
+
+            {showSignInDialog && (
+                <Dialog open maxWidth="md">
+                    <DialogTitle>{'Anmelden'}</DialogTitle>
+                    <DialogContent>
+                        <SignInPage />
+                    </DialogContent>
+                </Dialog>
+            )}
 
             {completionState === 'SUCCESSFUL' && stripeClientSecret && (
                 <Dialog open maxWidth="md">
@@ -541,7 +576,7 @@ export default function PublicMenuPage({
                                 <VStack gap={16} style={{ width: '100%', flex: 1 }}>
                                     <h3 style={{ lineHeight: 0 }}>{publicMenu.title}</h3>
 
-                                    {Array.from(courseSelections.entries()).map(([course, meal]) => (
+                                    {courseSelectionsArray.map(([course, meal]) => (
                                         <VStack key={course.courseId}>
                                             <b>{course.title}</b>
                                             <div>{meal?.title}</div>

@@ -16,6 +16,7 @@ query FindCookProfileGlobalBookingRequests($cookId: String!) {
                 location {
                     latitude
                     longitude
+                    text
                 }
                 createdAt
             }

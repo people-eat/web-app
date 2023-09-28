@@ -88,7 +88,9 @@ export default function ChefProfilePageEditMenusStep2({
 
     useEffect(() => {
         setGreetingFromKitchen(menu.greetingFromKitchen ?? undefined);
-        setCourses(menu.courses);
+        const sortedCourses = [...menu.courses];
+        sortedCourses.sort((courseA, courseB) => courseA.index - courseB.index);
+        setCourses(sortedCourses);
     }, [menu]);
 
     return (

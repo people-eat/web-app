@@ -91,7 +91,9 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
         setEditFirstName(userProfile?.firstName);
         setEditLastName(userProfile?.lastName);
         setIsCook(userProfile?.isCook);
-    }, [loading, data, userProfile?.firstName, userProfile?.lastName, userProfile?.profilePictureUrl, userProfile?.isCook]);
+        setEditEmail(userProfile?.emailAddress ?? '');
+        setEditPhoneNumber(userProfile?.phoneNumber ?? '');
+    }, [loading, data, userProfile]);
 
     useEffect(() => {
         if (router.pathname === '/profile') void refetch();
@@ -183,6 +185,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                     } else setShowPasswordChangeFailedDialog(true);
 
                     setChangedPassword('');
+                    setRepeatPassword('');
                 })
                 .catch((e) => console.error(e));
         } else setShowPasswordChangeFailedDialog(true);
@@ -427,6 +430,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                     borderRadius: '12px',
                                 }}
                             />
+
                             {repeatPassword !== changedPassword && repeatPassword !== '' && (
                                 <p className="text-slate-400 text-xs">Password are not matching</p>
                             )}
@@ -492,6 +496,11 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                         phoneNumber={editPhoneNumber}
                                         onChange={(newPhoneNumber: string): void => setEditPhoneNumber(newPhoneNumber)}
                                     />
+                                    <PEEmailTextField
+                                        email={editEmail}
+                                        onChange={(newEmail: string): void => setEditEmail(newEmail)}
+                                        placeholder={userProfile?.emailAddressUpdate?.emailAddress ?? ''}
+                                    />
                                     {/* <DatePicker
                                         className="border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black"
                                         sx={{ width: '100%' }}
@@ -503,11 +512,6 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                         onPick={setEditedProfilePicture}
                                         defaultImage={image}
                                         onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
-                                    />
-                                    <PEEmailTextField
-                                        email={editEmail}
-                                        onChange={(newEmail: string): void => setEditEmail(newEmail)}
-                                        placeholder={userProfile?.emailAddressUpdate?.emailAddress ?? ''}
                                     />
                                 </VStack>
                                 <PEButton

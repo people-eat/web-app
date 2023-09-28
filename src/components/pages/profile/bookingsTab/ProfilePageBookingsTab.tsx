@@ -3,7 +3,7 @@ import { Divider, List, ListItemButton } from '@mui/material';
 import moment from 'moment';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
-import { FindManyUserBookingRequestsDocument } from '../../../../data-source/generated/graphql';
+import { FindManyUserBookingRequestsDocument, type Price } from '../../../../data-source/generated/graphql';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
 import HStack from '../../../utility/hStack/HStack';
@@ -20,6 +20,8 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
 
     const bookingRequestsResult = useQuery(FindManyUserBookingRequestsDocument, { variables: { userId } });
     const bookingRequests = bookingRequestsResult.data?.users.bookingRequests.findMany ?? [];
+
+    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
     return (
         <>
@@ -76,9 +78,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                                 </span>
                                             )}
                                             <Spacer />
-                                            <span className="text-green">
-                                                {bookingRequest.price.amount} {bookingRequest.price.currencyCode}
-                                            </span>
+                                            <span className="text-green">{formatPrice(bookingRequest.price)}</span>
                                         </HStack>
                                         <span className={'text-heading-ss-bold md:text-text-sm-bold'}>Chef Booking Request</span>
 

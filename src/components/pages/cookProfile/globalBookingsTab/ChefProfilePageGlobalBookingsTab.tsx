@@ -66,7 +66,7 @@ export default function ChefProfilePageGlobalBookingsTab({ cookId }: ChefProfile
                             adults={globalBookingRequest.adultParticipants}
                             numOfChildren={globalBookingRequest.children}
                             participants={globalBookingRequest.adultParticipants + globalBookingRequest.children}
-                            address={'Location'}
+                            address={globalBookingRequest.location.text}
                             onAcceptClick={(): void =>
                                 void createBookingRequest({
                                     variables: { cookId, globalBookingRequestId: globalBookingRequest.globalBookingRequestId },

@@ -26,5 +26,8 @@
     "date-of-birth": "Geburtsdatum",
     "user-sign-up-title": "Finde einen Privatkoch!",
     "user-sign-up-subtitle": "Bitte gib deine Daten ein, um dich zu registrieren",
-    "chef-sign-up-title": "Als Koch registrieren"
+    "chef-sign-up-title": "Als Koch registrieren",
+    "chef-sign-up-invalid-inputs": "Bitte fülle alle fehlenden Felder aus",
+    "chef-sign-up-successful-dialog-body": "Deine Registrierung war erfolgreich",
+    "chef-sign-up-successful-dialog-primary-button": "Zum Kochprofil"
 }

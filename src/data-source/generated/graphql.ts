@@ -1102,6 +1102,7 @@ export type Location = {
     __typename?: 'Location';
     latitude: Scalars['Latitude'];
     longitude: Scalars['Longitude'];
+    text: Scalars['String'];
 };
 
 export type LocationInput = {
@@ -2685,7 +2686,7 @@ export type FindCookProfileGlobalBookingRequestsQuery = {
                 duration?: number | null;
                 createdAt: Date;
                 price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
-                location: { __typename?: 'Location'; latitude: number; longitude: number };
+                location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
             }> | null;
         };
     };
@@ -2752,6 +2753,7 @@ export type FindOneCookBookingRequestQuery = {
                 createdAt: Date;
                 user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
                 price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+                location: { __typename?: 'Location'; text: string };
                 configuredMenu?: {
                     __typename?: 'ConfiguredMenu';
                     menuId?: string | null;
@@ -3538,6 +3540,7 @@ export type FindOneUserBookingRequestQuery = {
                 duration: number;
                 createdAt: Date;
                 price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+                location: { __typename?: 'Location'; text: string };
                 cook: {
                     __typename?: 'PublicCook';
                     cookId: string;
@@ -3587,7 +3590,7 @@ export type FindUserProfileGlobalBookingRequestsQuery = {
                 duration?: number | null;
                 createdAt: Date;
                 price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
-                location: { __typename?: 'Location'; latitude: number; longitude: number };
+                location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
             }> | null;
         };
     };
@@ -6325,6 +6328,7 @@ export const FindCookProfileGlobalBookingRequestsDocument = {
                                                                 selections: [
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'text' } },
                                                                 ],
                                                             },
                                                         },
@@ -6527,6 +6531,14 @@ export const FindOneCookBookingRequestDocument = {
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
                                                                 ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'location' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'text' } }],
                                                             },
                                                         },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
@@ -10611,6 +10623,14 @@ export const FindOneUserBookingRequestDocument = {
                                                                 ],
                                                             },
                                                         },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'location' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'text' } }],
+                                                            },
+                                                        },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                                                         {
@@ -10764,6 +10784,7 @@ export const FindUserProfileGlobalBookingRequestsDocument = {
                                                                 selections: [
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'text' } },
                                                                 ],
                                                             },
                                                         },

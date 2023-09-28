@@ -57,7 +57,7 @@ export default function ProfilePageGlobalBookingRequestsTab({ userId }: ProfileP
                             adults={globalBookingRequest.adultParticipants}
                             numOfChildren={globalBookingRequest.children}
                             participants={globalBookingRequest.adultParticipants + globalBookingRequest.children}
-                            address={'address'}
+                            address={globalBookingRequest.location.text}
                         />
                     </div>
                 ))}

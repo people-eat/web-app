@@ -304,7 +304,7 @@ export default function CookBookingRequestPage({
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Link href="/" className="no-underline">
+                        <Link href="/profile?tab=2" className="no-underline">
                             <Button autoFocus>{commonTranslate('back')}</Button>
                         </Link>
                     </DialogActions>

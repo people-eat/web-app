@@ -24,5 +24,8 @@
     "date-of-birth": "Date of birth",
     "user-sign-up-title": "Find a private chef!",
     "user-sign-up-subtitle": "Please enter your details",
-    "chef-sign-up-title": "Register as a chef"
+    "chef-sign-up-title": "Register as a chef",
+    "chef-sign-up-invalid-inputs": "Please fill in all missing fields",
+    "chef-sign-up-successful-dialog-body": "Your registration has been successful",
+    "chef-sign-up-successful-dialog-primary-button": "To Chef Profile"
 }

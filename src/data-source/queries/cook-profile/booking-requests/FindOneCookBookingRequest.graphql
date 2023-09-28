@@ -21,6 +21,9 @@ query FindOneCookBookingRequest($cookId: String!, $bookingRequestId: String!) {
                     amount
                     currencyCode
                 }
+                location {
+                    text
+                }
                 duration
                 createdAt
                 configuredMenu {

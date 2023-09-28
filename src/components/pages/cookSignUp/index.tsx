@@ -412,7 +412,11 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         />
                     </FormGroup>
                 </VStack>
-                {(signedInUser ? disabledForSignedInUser : disabledForNewUser) && <p>Some fields are missing or invalid</p>}
+
+                {(signedInUser ? disabledForSignedInUser : disabledForNewUser) && (
+                    <p style={{ color: 'red' }}>{t('chef-sign-up-invalid-inputs')}</p>
+                )}
+
                 <PEButton
                     className="w-full max-w-[400px]"
                     title={t('complete-button-label')}
@@ -426,11 +430,11 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         {signedInUser && (
                             <>
                                 <DialogContent>
-                                    <p>You have successfully registered as a Chef</p>
+                                    <p>{t('chef-sign-up-successful-dialog-body')}</p>
                                 </DialogContent>
                                 <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
                                     <Link href="chef-profile" className="no-underline text-orangeActive block">
-                                        <Button autoFocus>To chef profile</Button>
+                                        <Button autoFocus>{t('chef-sign-up-successful-dialog-primary-button')}</Button>
                                     </Link>
                                 </DialogActions>
                             </>
@@ -446,7 +450,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     </Dialog>
                 )}
 
-                {error && <Dialog open>An error ocurred</Dialog>}
+                {error && <Dialog open>{translateCommon('error')}</Dialog>}
             </VStack>
         </VStack>
     );

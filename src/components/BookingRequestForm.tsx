@@ -2,8 +2,7 @@ import { Divider } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
-import Link from 'next/link';
-import { useState, type CSSProperties, type ReactElement } from 'react';
+import { type CSSProperties, type ReactElement } from 'react';
 import { type Price } from '../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../data-source/searchAddress';
 import { type Allergy } from '../shared-domain/Allergy';
@@ -15,9 +14,7 @@ import PEDropdown from './standard/dropdown/PEDropdown';
 import { Icon } from './standard/icon/Icon';
 import PEIcon from './standard/icon/PEIcon';
 import PEAutoCompleteTextField from './standard/textFields/PEAutoCompleteTextField';
-import PEEmailTextField from './standard/textFields/PEEmailTextField';
 import PEMultiLineTextField from './standard/textFields/PEMultiLineTextField';
-import PEPasswordTextField from './standard/textFields/PEPasswordTextField';
 import PETextField from './standard/textFields/PETextField';
 import HStack from './utility/hStack/HStack';
 import Spacer from './utility/spacer/Spacer';
@@ -65,6 +62,8 @@ export interface BookingRequestFormProps {
         total: Price;
     };
     onComplete: () => void;
+
+    onShowSignInDialog: () => void;
 }
 
 export default function BookingRequestForm({
@@ -74,6 +73,7 @@ export default function BookingRequestForm({
     allergies,
     costs,
     onComplete,
+    onShowSignInDialog,
 
     address,
     setAddress,
@@ -96,14 +96,19 @@ export default function BookingRequestForm({
 }: BookingRequestFormProps): ReactElement {
     const { t } = useTranslation('common');
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [password, setPassword] = useState('');
 
     const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
     const disabled = externalDisabled || location === undefined || message === '' || occasion === '';
 
     function handleOnComplete(): void {
+        if (!signedInUser) {
+            onShowSignInDialog();
+            return;
+        }
+
         if (disabled) return;
         onComplete();
     }
@@ -214,11 +219,13 @@ export default function BookingRequestForm({
                         </HStack>
                     </VStack>
 
-                    {signedInUser && <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={handleOnComplete} />}
+                    <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={handleOnComplete} />
+
+                    {/* {signedInUser && <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={handleOnComplete} />}
                     {!signedInUser && (
                         <>
-                            <Link href="sign-in" target="_blank" style={{ textDecoration: 'none', width: '100%' }}>
-                                <PEButton disabled={disabled} title={'Anmelden'} onClick={(): void => undefined} />
+                            <Link href="/sign-in" target="_blank" style={{ textDecoration: 'none', width: '100%' }}>
+                                <PEButton title={'Anmelden'} onClick={(): void => undefined} />
                             </Link>
 
                             <HStack className="gap-8" style={{ width: '100%', alignItems: 'center' }}>
@@ -233,7 +240,7 @@ export default function BookingRequestForm({
 
                             <PEPasswordTextField password={password} onChange={setPassword} placeholder="Passwort" />
                         </>
-                    )}
+                    )} */}
                 </VStack>
             )}
         </VStack>

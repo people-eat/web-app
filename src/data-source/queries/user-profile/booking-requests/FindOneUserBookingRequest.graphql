@@ -17,6 +17,9 @@ query FindOneUserBookingRequest($userId: String!, $bookingRequestId: String!) {
                     amount
                     currencyCode
                 }
+                location {
+                    text
+                }
                 duration
                 createdAt
                 cook {

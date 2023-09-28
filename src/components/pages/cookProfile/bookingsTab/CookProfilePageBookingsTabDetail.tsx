@@ -239,6 +239,7 @@ export default function CookProfilePageBookingsTabDetail({
                             />
                             <PETextField value={bookingRequest.occasion} onChange={(): void => undefined} type="text" />
                         </HStack>
+                        <PETextField value={bookingRequest.location.text} onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                         <span className="text-text-m-bold">{translateBooking('categories-label')}</span>

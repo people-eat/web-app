@@ -16,6 +16,7 @@ query FindUserProfileGlobalBookingRequests($userId: String!) {
                 location {
                     latitude
                     longitude
+                    text
                 }
                 createdAt
             }

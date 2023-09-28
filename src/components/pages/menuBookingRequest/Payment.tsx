@@ -23,11 +23,11 @@ export default function Payment({ children }: PropsWithChildren): ReactElement {
         // });
         const { error } = await stripe.confirmSetup({
             elements,
-            confirmParams: { return_url: `${window.location.origin}/profile?tab=4` },
+            confirmParams: { return_url: `${window.location.origin}/profile?tab=2` },
         });
 
         if (error.type === 'card_error' || error.type === 'validation_error') setResultMessage(error.message);
-        else setResultMessage('An unexpected error occured.');
+        else setResultMessage('An unexpected error occurred.');
     }
 
     return (
