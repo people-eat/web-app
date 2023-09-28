@@ -51,5 +51,17 @@
     "persons": "Personen",
     "cancel": "Stornieren",
     "see-order": "siehe Bestelldetails",
-    "you-made-request-on": "Sie haben die Besstellung gestellt am:"
+    "you-made-request-on": "Sie haben die Besstellung gestellt am:",
+    "booking-request-title": "Buchungsanfragen",
+    "open": "offen",
+    "in-process": "in Bearbeitung",
+    "cancelled": "abgesagt",
+    "completed": "abgeschlossen",
+    "chef-request-title": "Kochsbuchungsanfrage",
+    "select-message": "Bitte eine Buchungsanfrage auswählen",
+    "loading": "Lädt...",
+    "event-details": "Event Details",
+    "decline": "Ablehnen",
+    "accept": "Annehmen",
+    "send": "Senden"
 }

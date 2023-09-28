@@ -51,5 +51,17 @@
     "persons": "Persons",
     "cancel": "Cancel",
     "see-order": "See Order",
-    "you-made-request-on": "You made request on: "
+    "you-made-request-on": "You made request on: ",
+    "booking-request-title": "Booking requests",
+    "open": "open",
+    "in-process": "in process",
+    "cancelled": "cancelled",
+    "completed": "completed",
+    "chef-request-title": "Chef Booking Request",
+    "select-message": "Select a booking request",
+    "loading": "Loading...",
+    "event-details": "Event Details",
+    "decline": "Decline",
+    "accept": "Accept",
+    "send": "Send"
 }

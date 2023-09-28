@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { Divider, List, ListItemButton } from '@mui/material';
 import moment from 'moment';
+import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
 import { FindManyUserBookingRequestsDocument, type Price } from '../../../../data-source/generated/graphql';
@@ -17,7 +18,7 @@ export interface ProfilePageBookingsTabProps {
 
 export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTabProps): ReactElement {
     const [selectedBookingRequestId, setSelectedBookingRequestId] = useState<string | undefined>();
-
+    const { t } = useTranslation('global-booking-request');
     const bookingRequestsResult = useQuery(FindManyUserBookingRequestsDocument, { variables: { userId } });
     const bookingRequests = bookingRequestsResult.data?.users.bookingRequests.findMany ?? [];
 
@@ -37,7 +38,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                         borderRadius: 16,
                     }}
                 >
-                    <span style={{ margin: 16 }}>Booking Requests</span>
+                    <span style={{ margin: 16 }}>{t('booking-request-title')}</span>
                     <Divider />
                     <List>
                         {bookingRequests.map((bookingRequest) => (
@@ -53,7 +54,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                                     className="text-green"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
                                                 >
-                                                    Open
+                                                    {t('open')}
                                                 </span>
                                             )}
                                             {bookingRequest.status === 'PENDING' && (
@@ -61,7 +62,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                                     className="text-blue-400"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
                                                 >
-                                                    Pending
+                                                    {t('in-process')}
                                                 </span>
                                             )}
                                             {bookingRequest.status === 'CANCELED' && (
@@ -69,18 +70,18 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                                     className="text-red-400"
                                                     style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
                                                 >
-                                                    Canceled
+                                                    {t('cancelled')}
                                                 </span>
                                             )}
                                             {bookingRequest.status === 'COMPLETED' && (
                                                 <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>
-                                                    Completed
+                                                    {t('completed')}
                                                 </span>
                                             )}
                                             <Spacer />
                                             <span className="text-green">{formatPrice(bookingRequest.price)}</span>
                                         </HStack>
-                                        <span className={'text-heading-ss-bold md:text-text-sm-bold'}>Chef Booking Request</span>
+                                        <span className={'text-heading-ss-bold md:text-text-sm-bold'}>{t('chef-request-title')}</span>
 
                                         <HStack gap={16} className="text-gray">
                                             {moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
@@ -106,7 +107,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                             )}
                                             {bookingRequest.cook.user.firstName}
                                             <Spacer />
-                                            in {moment(bookingRequest.dateTime).diff(moment(), 'days')} days
+                                            {t('in')} {moment(bookingRequest.dateTime).diff(moment(), 'days')} {t('days')}
                                         </HStack>
                                     </VStack>
                                 </ListItemButton>
@@ -130,7 +131,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                         />
                     )}
 
-                    {!selectedBookingRequestId && 'Select a booking request'}
+                    {!selectedBookingRequestId && t('select-message')}
                 </VStack>
             </HStack>
         </>
