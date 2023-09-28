@@ -51,10 +51,10 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
     };
 
     const menuItems = [
-        { tabName: 'CHAT' as const, label: 'Chat' },
-        { tabName: 'EVENT_DETAILS' as const, label: 'Event Details' },
-        { tabName: 'MENU' as const, label: 'Menu' },
-        { tabName: 'RATING' as const, label: 'Rating' },
+        { tabName: 'CHAT' as const, label: translateBooking('tab-chat') },
+        { tabName: 'EVENT_DETAILS' as const, label: translateBooking('tab-details') },
+        { tabName: 'MENU' as const, label: translateBooking('tab-menu') },
+        { tabName: 'RATING' as const, label: translateBooking('tab-rating') },
     ];
     useEffect(() => {
         setAmount(bookingRequest?.price.amount ?? 0);
@@ -128,7 +128,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                                     variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                                 }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                             }
-                                            title="Decline"
+                                            title={translateBooking('decline')}
                                             size="s"
                                             type="secondary"
                                         />
@@ -138,7 +138,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                                     variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                                 }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                             }
-                                            title="Accept"
+                                            title={translateBooking('accept')}
                                             size="s"
                                         />
                                     </>
@@ -150,7 +150,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                                 variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                             }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                         }
-                                        title="Decline"
+                                        title={translateBooking('decline')}
                                         size="s"
                                     />
                                 )}
@@ -179,7 +179,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                             })
                                         }
                                     >
-                                        Send
+                                        {translateBooking('send')}
                                     </Button>
                                 }
                             />

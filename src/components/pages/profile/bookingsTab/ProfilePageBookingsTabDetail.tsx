@@ -53,7 +53,7 @@ export default function ProfilePageBookingsTabDetail({
         if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
     }, [bookingRequest]);
 
-    if (!bookingRequest) return <>Loading...</>;
+    if (!bookingRequest) return <>{translateBooking('loading')}</>;
 
     return (
         <>
@@ -64,7 +64,7 @@ export default function ProfilePageBookingsTabDetail({
                         value="EVENT_DETAILS"
                         onClick={(): void => setTab('EVENT_DETAILS')}
                         style={{ textTransform: 'none' }}
-                        label="Event Details"
+                        label={translateBooking('event-details')}
                     />
                     <Tab value="MENU" onClick={(): void => setTab('MENU')} style={{ textTransform: 'none' }} label="Menu" />
                     <Tab value="RATING" onClick={(): void => setTab('RATING')} style={{ textTransform: 'none' }} label="Rating" />
@@ -112,7 +112,7 @@ export default function ProfilePageBookingsTabDetail({
                                                 variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                             }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                         }
-                                        title="Decline"
+                                        title={translateBooking('decline')}
                                         size="s"
                                         type="secondary"
                                     />
@@ -122,7 +122,7 @@ export default function ProfilePageBookingsTabDetail({
                                                 variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                             }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                         }
-                                        title="Accept"
+                                        title={translateBooking('accept')}
                                         size="s"
                                     />
                                 </>
@@ -134,7 +134,7 @@ export default function ProfilePageBookingsTabDetail({
                                             variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                         }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                     }
-                                    title="Decline"
+                                    title={translateBooking('decline')}
                                     size="s"
                                 />
                             )}
@@ -162,7 +162,7 @@ export default function ProfilePageBookingsTabDetail({
                                         })
                                     }
                                 >
-                                    Send
+                                    {translateBooking('send')}
                                 </Button>
                             }
                         />
