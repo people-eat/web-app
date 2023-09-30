@@ -53,6 +53,7 @@ interface MenuCourse {
         };
     }[];
 }
+
 export interface PublicMenuPageProps {
     signedInUser?: SignedInUser;
     searchParameters: {
@@ -169,6 +170,9 @@ export default function PublicMenuPage({
     const distance: number | undefined =
         selectedLocation && geoDistance({ location1: selectedLocation, location2: publicMenu.cook.location });
 
+    const isOutOfCookTravelRadius =
+        !!publicMenu.cook.maximumTravelDistance && distance !== undefined && location && distance > publicMenu.cook.maximumTravelDistance;
+
     const travelExpenses: number | undefined = distance && distance * publicMenu.cook.travelExpenses;
 
     const menuPrice = calculateMenuPrice(
@@ -186,48 +190,32 @@ export default function PublicMenuPage({
     const stripeFee = finalPrice - stripeTransactionPrice;
     const serviceFee = stripeFee + customerFee;
 
-    const costs: { lineItems: { title: string; price: Price }[]; total: Price } = travelExpenses
-        ? {
-              lineItems: [
-                  {
-                      title: 'Menüpreis',
-                      price: { amount: menuPrice, currencyCode: 'EUR' },
-                  },
-                  {
-                      title: 'Reisekosten',
-                      price: { amount: travelExpenses, currencyCode: 'EUR' },
-                  },
-                  {
-                      title: 'Service Gebühren',
-                      price: { amount: serviceFee, currencyCode: 'EUR' },
-                  },
-              ],
-              total: {
-                  amount: finalPrice,
-                  currencyCode: 'EUR',
-              },
-          }
-        : {
-              lineItems: [
-                  //   { title: 'customerFee', price: { amount: customerFee, currencyCode: 'EUR' } },
-                  //   { title: 'stripeTransactionPrice', price: { amount: stripeTransactionPrice, currencyCode: 'EUR' } },
-                  //   { title: 'finalPrice', price: { amount: finalPrice, currencyCode: 'EUR' } },
-                  //   { title: 'stripeFee', price: { amount: stripeFee, currencyCode: 'EUR' } },
-                  //   { title: 'serviceFee', price: { amount: serviceFee, currencyCode: 'EUR' } },
-                  {
-                      title: 'Menüpreis',
-                      price: { amount: menuPrice, currencyCode: 'EUR' },
-                  },
-                  {
-                      title: 'Service Gebühren',
-                      price: { amount: serviceFee, currencyCode: 'EUR' },
-                  },
-              ],
-              total: {
-                  amount: finalPrice,
-                  currencyCode: 'EUR',
-              },
-          };
+    const lineItems: { title: string; price: Price }[] = [];
+
+    lineItems.push({
+        title: 'Menüpreis',
+        price: { amount: menuPrice, currencyCode: 'EUR' },
+    });
+
+    if (travelExpenses && !isOutOfCookTravelRadius) {
+        lineItems.push({
+            title: 'Reisekosten',
+            price: { amount: travelExpenses, currencyCode: 'EUR' },
+        });
+    }
+
+    lineItems.push({
+        title: 'Service Gebühren',
+        price: { amount: serviceFee, currencyCode: 'EUR' },
+    });
+
+    const costs: { lineItems: { title: string; price: Price }[]; total: Price } = {
+        lineItems: lineItems,
+        total: {
+            amount: finalPrice,
+            currencyCode: 'EUR',
+        },
+    };
 
     // const disabledForSignedInUser = !acceptedTermsAndConditions || !acceptedPrivacyPolicy;
 
