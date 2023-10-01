@@ -2,8 +2,13 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
+import { createContext, useState, type Context } from 'react';
 import PublicMenuPage, { type PublicMenuPageProps } from '../../components/pages/publicMenu';
 import { GetPublicMenuPageDataDocument } from '../../data-source/generated/graphql';
+import { type SignedInUser } from '../../shared-domain/SignedInUser';
+
+export const PublicMenuPageContext: Context<{ signedInUser?: SignedInUser; setSignedInUser: (signedInUser?: SignedInUser) => void }> =
+    createContext({ setSignedInUser: () => {} });
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { menuId, address, latitude, longitude, adults, children, date } = context.query;
@@ -41,7 +46,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 };
 
-const Index: NextPage<PublicMenuPageProps> = ({ signedInUser, publicMenu, searchParameters, allergies, stripePublishableKey }) => {
+const Index: NextPage<PublicMenuPageProps> = ({
+    signedInUser: initialSignedInUser,
+    publicMenu,
+    searchParameters,
+    allergies,
+    stripePublishableKey,
+}: PublicMenuPageProps & { signedInUser?: SignedInUser }) => {
+    const [signedInUser, setSignedInUser] = useState<SignedInUser | undefined>(initialSignedInUser);
+
     return (
         <>
             <Head>
@@ -53,13 +66,14 @@ const Index: NextPage<PublicMenuPageProps> = ({ signedInUser, publicMenu, search
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <PublicMenuPage
-                signedInUser={signedInUser}
-                publicMenu={publicMenu}
-                searchParameters={searchParameters}
-                allergies={allergies}
-                stripePublishableKey={stripePublishableKey}
-            />
+            <PublicMenuPageContext.Provider value={{ signedInUser, setSignedInUser }}>
+                <PublicMenuPage
+                    publicMenu={publicMenu}
+                    searchParameters={searchParameters}
+                    allergies={allergies}
+                    stripePublishableKey={stripePublishableKey}
+                />
+            </PublicMenuPageContext.Provider>
         </>
     );
 };

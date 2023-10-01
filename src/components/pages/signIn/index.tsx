@@ -53,10 +53,12 @@ export default function SignInPage(): ReactElement {
                 setErrorDialogOpen(true);
             });
     }
+
     useEffect(() => {
         if (error || (data && !data.sessions.success)) setErrorDialogOpen(true);
         else setErrorDialogOpen(false);
     }, [error, data]);
+
     return (
         <HStack className="h-full">
             <VStack style={{ flex: 1, padding: '32px', overflowY: 'scroll' }}>

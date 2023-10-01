@@ -1,14 +1,15 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { CircularProgress, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
-import { useEffect, useState, type ReactElement } from 'react';
+import { useContext, useEffect, useState, type ReactElement } from 'react';
 import {
     CreateOneUserBookingRequestDocument,
     CreateOneUserByEmailAddressDocument,
+    GetProfileQueryDocument,
     type CookRank,
     type CreateBookingRequestRequest,
     type CurrencyCode,
@@ -16,14 +17,15 @@ import {
 } from '../../../data-source/generated/graphql';
 import { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import useResponsive from '../../../hooks/useResponsive';
+import { PublicMenuPageContext } from '../../../pages/menus/[menuId]';
 import { type Allergy } from '../../../shared-domain/Allergy';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
 import { type Language } from '../../../shared-domain/Language';
 import { type Location } from '../../../shared-domain/Location';
-import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import { geoDistance } from '../../../utils/geoDistance';
 import BookingRequestForm from '../../BookingRequestForm';
+import SignInDialog from '../../SignInDialog';
 import PEMealCard from '../../cards/mealCard/PEMealCard';
 import PEMealCardMobile from '../../cards/mealCard/PEMealCardMobile';
 import PEFooter from '../../footer/PEFooter';
@@ -37,7 +39,6 @@ import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 import Payment from '../menuBookingRequest/Payment';
-import SignInPage from '../signIn';
 
 interface MenuCourse {
     index: number;
@@ -55,7 +56,6 @@ interface MenuCourse {
 }
 
 export interface PublicMenuPageProps {
-    signedInUser?: SignedInUser;
     searchParameters: {
         location: {
             address: string;
@@ -111,13 +111,14 @@ export interface Meal {
 
 // eslint-disable-next-line max-statements
 export default function PublicMenuPage({
-    signedInUser,
     publicMenu,
     searchParameters,
     allergies,
     stripePublishableKey,
 }: PublicMenuPageProps): ReactElement {
     const { isMobile } = useResponsive();
+
+    const { signedInUser, setSignedInUser } = useContext(PublicMenuPageContext);
 
     const { t } = useTranslation('common');
 
@@ -135,6 +136,8 @@ export default function PublicMenuPage({
     const [message, setMessage] = useState<string>('');
 
     const [selectedAllergies, setSelectedAllergies] = useState<Allergy[]>([]);
+
+    const { refetch } = useQuery(GetProfileQueryDocument);
 
     // for new users
     const [firstName, _setFirstName] = useState('');
@@ -262,6 +265,7 @@ export default function PublicMenuPage({
         };
 
         setLoading(true);
+
         signedInUser
             ? void createMenuBookingRequest({
                   variables: {
@@ -299,16 +303,13 @@ export default function PublicMenuPage({
     return (
         <VStack gap={82} className="w-full h-full overflow-x-hidden">
             <PEHeader signedInUser={signedInUser} />
-
             <VStack className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4" gap={16}>
                 {publicMenu && (
                     <>
                         <HStack
                             className="w-full bg-white shadow-primary box-border p-8 rounded-4"
                             gap={16}
-                            style={{
-                                flexDirection: isMobile ? 'column' : 'row',
-                            }}
+                            style={{ flexDirection: isMobile ? 'column' : 'row' }}
                         >
                             <div className="flex justify-center items-center rounded-3  overflow-hidden w-[220px] min-w-[220px] max-w-[220px] h-[220px] max-h-[220px] bg-base">
                                 {publicMenu.imageUrls.length < 1 && <PEIcon icon={Icon.food} edgeLength={52} />}
@@ -352,12 +353,12 @@ export default function PublicMenuPage({
                             </div>
                             {publicMenu.imageUrls.length > 1 && isMobile && (
                                 <div className="flex overflow-x-auto  gap-3 mt-2" style={{ overflow: 'scroll' }}>
-                                    {publicMenu.imageUrls.slice(1).map((_img, i) => (
-                                        <div key={i} className="flex-none rounded-3 w-28">
+                                    {publicMenu.imageUrls.slice(1).map((imageUrl, index) => (
+                                        <div key={index} className="flex-none rounded-3 w-28">
                                             <Image
                                                 draggable={false}
                                                 style={{ width: '100%', objectPosition: 'center', objectFit: 'fill', borderRadius: '12px' }}
-                                                src={_img}
+                                                src={imageUrl}
                                                 alt={'Menu image'}
                                                 width={100}
                                                 height={100}
@@ -554,7 +555,24 @@ export default function PublicMenuPage({
                 <Dialog open maxWidth="md">
                     <DialogTitle>{'Anmelden'}</DialogTitle>
                     <DialogContent>
-                        <SignInPage />
+                        <SignInDialog
+                            onSuccess={(): void => {
+                                refetch()
+                                    .then((data) => {
+                                        setShowSignInDialog(false);
+                                        if (data.data.users.me) {
+                                            setSignedInUser({
+                                                userId: data.data.users.me.userId,
+                                                firstName: data.data.users.me.firstName,
+                                                isCook: data.data.users.me.isCook,
+                                                isAdmin: data.data.users.me.isAdmin,
+                                            });
+                                        }
+                                    })
+                                    .catch((e) => console.error(e));
+                            }}
+                            onFail={(): void => undefined}
+                        />
                     </DialogContent>
                 </Dialog>
             )}
