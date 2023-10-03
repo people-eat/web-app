@@ -118,8 +118,6 @@ export default function CookProfilePageBookingsTabDetail({
 
             <Divider flexItem />
 
-            <Spacer />
-
             {tab === 'CHAT' && (
                 <>
                     <CookProfilePageBookingsChatMessages cookId={cookId} bookingRequestId={bookingRequest.bookingRequestId} />

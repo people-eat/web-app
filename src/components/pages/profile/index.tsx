@@ -66,13 +66,15 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
                 menuButtonText={t('main-menu-chef')}
             />
 
-            {isMobile ? (
+            {isMobile && (
                 <HStack className="w-full px-8 box-border" style={{ justifyContent: 'flex-start' }}>
                     <p onClick={(): void => setOpenMobileMenu(true)} className="text-orange text-text-s">
                         Menu &gt; <span className="text-black">{t(MENU_TABS[selectedTab]?.title ?? '')}</span>
                     </p>
                 </HStack>
-            ) : (
+            )}
+
+            {!isMobile && (
                 <HStack
                     gap={8}
                     className="w-full max-w-screen-xl overflow-x-scroll lg:px-4 box-border"
@@ -94,12 +96,9 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
             )}
 
             {selectedTab === 0 && signedInUser && <ProfilePagePersonalTab userId={signedInUser.userId} />}
-
             {selectedTab === 1 && signedInUser && !isMobile && <ProfilePageBookingsTab userId={signedInUser.userId} />}
             {selectedTab === 1 && signedInUser && isMobile && <PEMobileChat userId={signedInUser.userId} />}
-
             {selectedTab === 2 && signedInUser && <ProfilePageGlobalBookingRequestsTab userId={signedInUser.userId} />}
-
             {selectedTab === 4 && signedInUser && <ProfilePageFollowingsTab userId={signedInUser.userId} />}
 
             <Spacer />

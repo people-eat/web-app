@@ -81,6 +81,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                             <Spacer />
                                             <span className="text-green">{formatPrice(bookingRequest.price)}</span>
                                         </HStack>
+
                                         <span className={'text-heading-ss-bold md:text-text-sm-bold'}>{t('chef-request-title')}</span>
 
                                         <HStack gap={16} className="text-gray">

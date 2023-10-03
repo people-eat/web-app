@@ -4,7 +4,7 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
-import { FindManyCookBookingRequestsDocument } from '../../../../data-source/generated/graphql';
+import { FindManyCookBookingRequestsDocument, type Price } from '../../../../data-source/generated/graphql';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
 import HStack from '../../../utility/hStack/HStack';
@@ -22,6 +22,8 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
     const { t: chefProfileTranslations } = useTranslation('chef-profile');
     const bookingRequestsResult = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
     const bookingRequests = bookingRequestsResult.data?.cooks.bookingRequests.findMany ?? [];
+
+    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
     // useEffect(() => {
     //     bookingRequests = bookingRequests.sort((b1, b2) => new Date(b1.createdAt).getTime() - new Date(b2.createdAt).getTime());
@@ -84,8 +86,8 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                 </span>
                                             )}
                                             <Spacer />
-                                            <span className="text-green">
-                                                {bookingRequest.price.amount} {bookingRequest.price.currencyCode}
+                                            <span className="text-green" style={{ fontWeight: 'bold' }}>
+                                                {formatPrice(bookingRequest.price)}
                                             </span>
                                         </HStack>
                                         <span className="text-heading-ss-bold md:text-text-sm-bold">

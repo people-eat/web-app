@@ -27,10 +27,10 @@ export default function PEMobileMenu({
     menuButtonLink,
     signedInUser,
 }: PEMobileMenuProps): ReactElement {
-    const { t } = useTranslation('common');
-    const [expireCurrentSession, { data }] = useMutation(ExpireCurrentSessionDocument);
-
     const router = useRouter();
+    const { t } = useTranslation('common');
+
+    const [expireCurrentSession, { data }] = useMutation(ExpireCurrentSessionDocument);
 
     if (data?.users.sessions.success) void router.push('/');
 
@@ -53,6 +53,7 @@ export default function PEMobileMenu({
                 <Link className="no-underline" href="/about-us">
                     <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('about-us')}</Button>
                 </Link>
+
                 <Link className="no-underline" href="/events">
                     <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('Events')}</Button>
                 </Link>
@@ -73,24 +74,29 @@ export default function PEMobileMenu({
                         <PEButton onClick={(): void => undefined} title={menuButtonText ?? t('sign-in')} />
                     </Link>
                 )}
-                {signedInUser?.firstName !== undefined && !signedInUser.isCook && (
+
+                {signedInUser && !signedInUser.isCook && (
                     <Link className="no-underline mt-4" href="/how-to-chef">
                         <PEButton onClick={(): void => undefined} title="Become a Chef" />
                     </Link>
                 )}
-                {signedInUser?.firstName !== undefined && signedInUser.isCook && window.location.href.includes('chef') && (
+
+                {signedInUser && signedInUser.isCook && window.location.href.includes('chef') && (
                     <Link className="no-underline mt-4" href="/profile">
                         <PEButton onClick={(): void => undefined} title="User Profile" />
                     </Link>
                 )}
-                {signedInUser?.firstName !== undefined && signedInUser.isCook && !window.location.href.includes('chef') && (
-                    <Link className="no-underline mt-4" href="/chef">
+
+                {signedInUser && signedInUser.isCook && !window.location.href.includes('chef') && (
+                    <Link className="no-underline mt-4" href="/chef-profile">
                         <PEButton onClick={(): void => undefined} title="Chef Profile" />
                     </Link>
                 )}
+
                 {signedInUser && (
                     <PEButton
                         title={t('sign-out')}
+                        type="secondary"
                         onClick={(): void => void expireCurrentSession({ variables: { userId: signedInUser.userId } })}
                         className="mt-3"
                     />
