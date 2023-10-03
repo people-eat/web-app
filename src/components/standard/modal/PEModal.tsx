@@ -35,23 +35,21 @@ export default function PEModal({ openMenu, handleOpenMenu, children }: React.Pr
     }, [openMenu]);
 
     return (
-        <div>
-            <Modal
-                ref={containerRef}
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Slide container={containerRef.current} direction="left" in={open}>
-                    <Box sx={style}>
-                        <div className="absolute right-4 top-4">
-                            <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={handleClose} iconSize={24} />
-                        </div>
-                        {children}
-                    </Box>
-                </Slide>
-            </Modal>
-        </div>
+        <Modal
+            ref={containerRef}
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Slide container={containerRef.current} direction="left" in={open} style={{ overflowY: 'scroll' }}>
+                <Box sx={style}>
+                    <div className="absolute right-4 top-4">
+                        <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={handleClose} iconSize={24} />
+                    </div>
+                    {children}
+                </Box>
+            </Slide>
+        </Modal>
     );
 }

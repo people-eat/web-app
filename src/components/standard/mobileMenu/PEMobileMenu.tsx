@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client';
+import { Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -7,6 +8,7 @@ import { useRouter } from 'next/router';
 import { type ReactElement } from 'react';
 import { ExpireCurrentSessionDocument } from '../../../data-source/generated/graphql';
 import type { SignedInUser } from '../../../shared-domain/SignedInUser';
+import VStack from '../../utility/vStack/VStack';
 import PEButton from '../buttons/PEButton';
 import PEModal from '../modal/PEModal';
 
@@ -36,29 +38,24 @@ export default function PEMobileMenu({
 
     return (
         <PEModal openMenu={openMenu} handleOpenMenu={handleOpenMenu}>
-            <div
-                className="flex mt-0 bg-white z-10 top-0 left-0 h-[80px] w-full justify-between px-4 box-border max-w-screen-xl"
-                style={{ alignItems: 'center', padding: '0px 16px', gap: 16 }}
-            >
-                <Link href="/">
-                    <Image src={'/logo.svg'} alt="" width={203} height={46} style={{ marginTop: 8 }} />
-                </Link>
-            </div>
+            <Link href="/">
+                <Image src="/logo.svg" alt="" width={203} height={46} style={{ margin: 16, marginTop: 32 }} />
+            </Link>
 
-            <div className="flex flex-col p-4">
-                <Link className="no-underline" href={'/how-to-chef'}>
+            <VStack gap={16} style={{ alignItems: 'flex-start', margin: 16 }}>
+                <Link className="no-underline w-full" href="/how-to-chef">
                     <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('how-to-become-a-chef')}</Button>
                 </Link>
 
-                <Link className="no-underline" href="/about-us">
+                <Link className="no-underline w-full" href="/about-us">
                     <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('about-us')}</Button>
                 </Link>
 
-                <Link className="no-underline" href="/events">
+                <Link className="no-underline w-full" href="/events">
                     <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('Events')}</Button>
                 </Link>
 
-                <div className="w-full h-[1px] bg-disabled my-6"></div>
+                <Divider flexItem />
 
                 {mobileMenuTabs &&
                     mobileMenuTabs.map((menuTab, index) => (
@@ -69,39 +66,40 @@ export default function PEMobileMenu({
                         </Link>
                     ))}
 
-                {signedInUser?.firstName === undefined && (
-                    <Link className="no-underline mt-4" href={menuButtonLink ?? '/sign-in'}>
+                {!signedInUser && (
+                    <Link className="no-underline w-full" href={menuButtonLink ?? '/sign-in'}>
                         <PEButton onClick={(): void => undefined} title={menuButtonText ?? t('sign-in')} />
                     </Link>
                 )}
 
                 {signedInUser && !signedInUser.isCook && (
-                    <Link className="no-underline mt-4" href="/how-to-chef">
+                    <Link className="no-underline w-full" href="/how-to-chef">
                         <PEButton onClick={(): void => undefined} title="Become a Chef" />
                     </Link>
                 )}
 
                 {signedInUser && signedInUser.isCook && window.location.href.includes('chef') && (
-                    <Link className="no-underline mt-4" href="/profile">
+                    <Link className="no-underline w-full" href="/profile">
                         <PEButton onClick={(): void => undefined} title="User Profile" />
                     </Link>
                 )}
 
                 {signedInUser && signedInUser.isCook && !window.location.href.includes('chef') && (
-                    <Link className="no-underline mt-4" href="/chef-profile">
+                    <Link className="no-underline w-full" href="/chef-profile">
                         <PEButton onClick={(): void => undefined} title="Chef Profile" />
                     </Link>
                 )}
 
                 {signedInUser && (
-                    <PEButton
-                        title={t('sign-out')}
-                        type="secondary"
-                        onClick={(): void => void expireCurrentSession({ variables: { userId: signedInUser.userId } })}
-                        className="mt-3"
-                    />
+                    <div style={{ marginTop: 8, width: '100%' }}>
+                        <PEButton
+                            title={t('sign-out')}
+                            type="secondary"
+                            onClick={(): void => void expireCurrentSession({ variables: { userId: signedInUser.userId } })}
+                        />
+                    </div>
                 )}
-            </div>
+            </VStack>
         </PEModal>
     );
 }
