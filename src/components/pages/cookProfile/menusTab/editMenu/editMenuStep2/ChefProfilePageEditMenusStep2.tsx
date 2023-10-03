@@ -3,6 +3,7 @@ import { Menu, MenuItem } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
+    CreateManyCookMenuCourseMealOptionsDocument,
     CreateOneCookMenuCourseDocument,
     DeleteOneCookMenuCourseDocument,
     DeleteOneCookMenuCourseMealOptionDocument,
@@ -60,8 +61,28 @@ export default function ChefProfilePageEditMenusStep2({
         }[]
     >(menu.courses);
 
+    const [courseToUpdate, setCourseToUpdate] = useState<
+        | undefined
+        | {
+              courseId: string;
+              index: number;
+              title: string;
+              mealOptions:
+                  | {
+                        index: number;
+                        meal: {
+                            mealId: string;
+                            title: string;
+                            description: string;
+                            imageUrl?: string | null;
+                            type: MealType;
+                            createdAt: Date;
+                        };
+                    }[];
+          }
+    >();
+
     const [showCreateCourseDialog, setShowCreateCourseDialog] = useState(false);
-    const [showUpdateCourseDialog, setShowUpdateCourseDialog] = useState(false);
 
     const { data } = useQuery(FindCookMealsDocument, { variables: { cookId } });
     const meals = data?.cooks.meals.findMany ?? [];
@@ -73,7 +94,7 @@ export default function ChefProfilePageEditMenusStep2({
     const [createCourse] = useMutation(CreateOneCookMenuCourseDocument);
     const [deleteCourse] = useMutation(DeleteOneCookMenuCourseDocument);
     const [deleteMealOption] = useMutation(DeleteOneCookMenuCourseMealOptionDocument);
-    // const [createMealOptions] = useMutation(CreateManyCookMenuCourseMealOptionsDocument);
+    const [createMealOptions] = useMutation(CreateManyCookMenuCourseMealOptionsDocument);
 
     const [selectedMealOption, setSelectedMealOption] = useState<{ courseId: string; mealId: string } | undefined>();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -182,7 +203,7 @@ export default function ChefProfilePageEditMenusStep2({
                         <HStack className="w-full py-4 box-border" gap={16} style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                             {editMode && (
                                 <VStack
-                                    onClick={(): void => setShowUpdateCourseDialog(true)}
+                                    onClick={(): void => setCourseToUpdate(course)}
                                     className="items-center w-[388px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
                                 >
                                     <PEIcon icon={Icon.plusOrange} />
@@ -207,20 +228,6 @@ export default function ChefProfilePageEditMenusStep2({
                                 </div>
                             ))}
                         </HStack>
-
-                        <UpdateCookMenuCourseDialog
-                            open={showUpdateCourseDialog}
-                            meals={meals.filter((meal) => !course.mealOptions.find((mealOption) => mealOption.meal.mealId === meal.mealId))}
-                            onSuccess={(): void => {
-                                // setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
-                                setShowUpdateCourseDialog(false);
-                            }}
-                            onCancel={(): void => {
-                                setShowUpdateCourseDialog(false);
-                            }}
-                            // course.mealOptions.map((mealOption) => [mealOption.meal.mealId, mealOption.meal])
-                            selectedCourseMeals={new Map()}
-                        />
 
                         {open && selectedMealOption && (
                             <Menu
@@ -283,6 +290,43 @@ export default function ChefProfilePageEditMenusStep2({
                     }}
                     onCancel={(): void => setShowCreateCourseDialog(false)}
                 />
+
+                {!!courseToUpdate && (
+                    <UpdateCookMenuCourseDialog
+                        open
+                        meals={meals.filter(
+                            (meal) => !courseToUpdate.mealOptions.find((mealOption) => mealOption.meal.mealId === meal.mealId),
+                        )}
+                        onSuccess={(course): void => {
+                            // setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
+                            setCourseToUpdate(undefined);
+                            // $menuId: String!
+                            // $cookId: String!
+                            // $mealOptions: [CreateOneMealOptionRequest!]!
+                            // $courseId: String!
+                            createMealOptions({
+                                variables: {
+                                    menuId: menu.menuId,
+                                    cookId,
+                                    courseId: courseToUpdate.courseId,
+                                    mealOptions: course.mealOptions.map((mealOption, index) => ({
+                                        index: courseToUpdate.mealOptions.length + index,
+                                        mealId: mealOption.mealId,
+                                    })),
+                                },
+                            })
+                                .then((result) => {
+                                    if (result.data?.cooks.menus.courses.mealOptions.success) onChangesApplied();
+                                })
+                                .catch(() => undefined);
+                        }}
+                        onCancel={(): void => {
+                            setCourseToUpdate(undefined);
+                        }}
+                        selectedCourseMeals={new Map()}
+                        // course.mealOptions.map((mealOption) => [mealOption.meal.mealId, mealOption.meal])
+                    />
+                )}
 
                 <HStack className="w-full" gap={16} style={{ marginTop: 32 }}>
                     {!editMode && <PEButton title={commonTranslations('edit')} onClick={(): void => setEditMode(true)} type="secondary" />}
