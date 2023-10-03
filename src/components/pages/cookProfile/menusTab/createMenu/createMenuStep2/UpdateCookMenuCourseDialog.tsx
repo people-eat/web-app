@@ -46,7 +46,7 @@ export default function UpdateCookMenuCourseDialog({
     const [selectedMeals, setSelectedMeals] = useState<Map<string, MealEntity>>(selectedCourseMeals);
 
     return (
-        <Dialog open={open} maxWidth="md" sx={{ margin: 0, '& .MuiPaper-root': { margin: 0 } }}>
+        <Dialog open={open} maxWidth="md">
             <DialogTitle>
                 <HStack>
                     <span>{t('create-menu-courses-add-course')}</span>
