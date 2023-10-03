@@ -19,29 +19,35 @@ import useResponsive from '../hooks/useResponsive';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { data } = await new ApolloClient({
-        uri: process.env.NEXT_PUBLIC_SERVER_URL,
-        credentials: 'include',
-        headers: { cookie: context.req.headers.cookie as string },
-        cache: new InMemoryCache(),
-        ssrMode: true,
-    }).query({ query: GetProfileQueryDocument });
+    try {
+        const { data } = await new ApolloClient({
+            uri: process.env.NEXT_PUBLIC_SERVER_URL,
+            credentials: 'include',
+            headers: { cookie: context.req.headers.cookie as string },
+            cache: new InMemoryCache(),
+            ssrMode: true,
+        }).query({ query: GetProfileQueryDocument });
 
-    return {
-        props: {
-            signedInUser: data.users.me,
-            searchParameters: {
-                location: {
-                    address: '',
-                    latitude: 49,
-                    longitude: 8,
+        return {
+            props: {
+                signedInUser: data.users.me,
+                searchParameters: {
+                    location: {
+                        address: '',
+                        latitude: 49,
+                        longitude: 8,
+                    },
+                    adults: 4,
+                    children: 0,
+                    date: moment().add(14, 'days').format(moment.HTML5_FMT.DATE),
                 },
-                adults: 4,
-                children: 0,
-                date: moment().add(14, 'days').format(moment.HTML5_FMT.DATE),
             },
-        },
-    };
+        };
+    } catch {
+        return {
+            props: {},
+        };
+    }
 };
 
 export const HomePageContext: Context<{ signedInUser?: SignedInUser }> = createContext({});

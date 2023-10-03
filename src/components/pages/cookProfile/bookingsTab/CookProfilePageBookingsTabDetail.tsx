@@ -68,28 +68,28 @@ export default function CookProfilePageBookingsTabDetail({
             <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
                 <Tabs value={tab}>
                     <Tab
-                        value={tabToTranslations['CHAT']}
+                        value="CHAT"
                         onClick={(): void => setTab('CHAT')}
                         style={{ textTransform: 'none' }}
-                        label="Chat"
+                        label={tabToTranslations['CHAT']}
                     />
                     <Tab
-                        value={tabToTranslations['EVENT_DETAILS']}
+                        value="EVENT_DETAILS"
                         onClick={(): void => setTab('EVENT_DETAILS')}
                         style={{ textTransform: 'none' }}
-                        label="Event Details"
+                        label={tabToTranslations['EVENT_DETAILS']}
                     />
                     <Tab
-                        value={tabToTranslations['MENU']}
+                        value="MENU"
                         onClick={(): void => setTab('MENU')}
                         style={{ textTransform: 'none' }}
-                        label="Menu"
+                        label={tabToTranslations['MENU']}
                     />
                     <Tab
-                        value={tabToTranslations['RATING']}
+                        value="RATING"
                         onClick={(): void => setTab('RATING')}
                         style={{ textTransform: 'none' }}
-                        label="Rating"
+                        label={tabToTranslations['RATING']}
                     />
                 </Tabs>
 

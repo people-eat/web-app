@@ -1502,6 +1502,15 @@ export type SessionQuery = {
     current?: Maybe<Session>;
 };
 
+export type Subscription = {
+    __typename?: 'Subscription';
+    bookingRequestChatMessageCreations: ChatMessage;
+};
+
+export type SubscriptionBookingRequestChatMessageCreationsArgs = {
+    bookingRequestId: Scalars['String'];
+};
+
 export type TermsUpdate = {
     __typename?: 'TermsUpdate';
     admin: Admin;
@@ -2093,6 +2102,22 @@ export type AssignOneSessionByEmailAddressMutationVariables = Exact<{
 export type AssignOneSessionByEmailAddressMutation = {
     __typename?: 'Mutation';
     sessions: { __typename?: 'SessionMutation'; success: boolean };
+};
+
+export type BookingRequestChatMessageCreationsSubscriptionVariables = Exact<{
+    bookingRequestId: Scalars['String'];
+}>;
+
+export type BookingRequestChatMessageCreationsSubscription = {
+    __typename?: 'Subscription';
+    bookingRequestChatMessageCreations: {
+        __typename?: 'ChatMessage';
+        chatMessageId: string;
+        bookingRequestId: string;
+        message: string;
+        createdBy: string;
+        createdAt: Date;
+    };
 };
 
 export type CreateOneUserByEmailAddressMutationVariables = Exact<{
@@ -3777,6 +3802,49 @@ export const AssignOneSessionByEmailAddressDocument = {
         },
     ],
 } as unknown as DocumentNode<AssignOneSessionByEmailAddressMutation, AssignOneSessionByEmailAddressMutationVariables>;
+export const BookingRequestChatMessageCreationsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'subscription',
+            name: { kind: 'Name', value: 'BookingRequestChatMessageCreations' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingRequestChatMessageCreations' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'bookingRequestId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<BookingRequestChatMessageCreationsSubscription, BookingRequestChatMessageCreationsSubscriptionVariables>;
 export const CreateOneUserByEmailAddressDocument = {
     kind: 'Document',
     definitions: [

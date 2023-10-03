@@ -1,10 +1,20 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useSubscription } from '@apollo/client';
 import moment from 'moment';
-import { type ReactElement } from 'react';
-import { FindManyCookBookingRequestChatMessagesDocument } from '../../../../data-source/generated/graphql';
+import { useEffect, useState, type ReactElement } from 'react';
+import {
+    BookingRequestChatMessageCreationsDocument,
+    FindManyCookBookingRequestChatMessagesDocument,
+} from '../../../../data-source/generated/graphql';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+
+interface ChatMessage {
+    chatMessageId: string;
+    message: string;
+    createdBy: string;
+    createdAt: Date;
+}
 
 export interface CookProfilePageBookingsChatMessagesProps {
     cookId: string;
@@ -16,10 +26,29 @@ export default function CookProfilePageBookingsChatMessages({
     bookingRequestId,
 }: CookProfilePageBookingsChatMessagesProps): ReactElement {
     const { data } = useQuery(FindManyCookBookingRequestChatMessagesDocument, { variables: { cookId, bookingRequestId } });
+    const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
-    const chatMessages = data?.cooks.bookingRequests.chatMessages.findMany;
+    useEffect(() => {
+        const fetchedChatMessages = data?.cooks.bookingRequests.chatMessages.findMany;
+        if (fetchedChatMessages) setChatMessages(fetchedChatMessages);
+    }, [data]);
 
-    if (!chatMessages) return <></>;
+    useSubscription(BookingRequestChatMessageCreationsDocument, {
+        variables: { bookingRequestId },
+        onSubscriptionData: ({ subscriptionData }) => {
+            const newChatMessage = subscriptionData.data?.bookingRequestChatMessageCreations;
+            if (!newChatMessage) return;
+            setChatMessages([
+                ...chatMessages,
+                {
+                    chatMessageId: newChatMessage.chatMessageId,
+                    message: newChatMessage.message,
+                    createdBy: newChatMessage.createdBy,
+                    createdAt: newChatMessage.createdAt,
+                },
+            ]);
+        },
+    });
 
     const sortedChatMessages = chatMessages.map((chatMessage) => ({ ...chatMessage }));
 

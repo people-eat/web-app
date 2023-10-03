@@ -15,6 +15,8 @@ import * as types from './graphql';
 const documents = {
     'mutation AssignOneSessionByEmailAddress($request: CreateOneSessionByEmailAddressRequest!) {\n  sessions {\n    success: assignOneByEmailAddress(request: $request)\n  }\n}':
         types.AssignOneSessionByEmailAddressDocument,
+    'subscription BookingRequestChatMessageCreations($bookingRequestId: String!) {\n  bookingRequestChatMessageCreations(bookingRequestId: $bookingRequestId) {\n    chatMessageId\n    bookingRequestId\n    message\n    createdBy\n    createdAt\n  }\n}':
+        types.BookingRequestChatMessageCreationsDocument,
     'mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!, $profilePicture: Upload) {\n  users {\n    success: createOneByEmailAddress(\n      request: $request\n      profilePicture: $profilePicture\n    )\n  }\n}':
         types.CreateOneUserByEmailAddressDocument,
     'mutation CreateOneUserGlobalBookingRequest($userId: String!, $request: CreateOneGlobalBookingRequestRequest!) {\n  users {\n    globalBookingRequests(userId: $userId) {\n      success: createOne(request: $request)\n    }\n  }\n}':
@@ -230,6 +232,12 @@ export function gql(source: string): unknown;
 export function gql(
     source: 'mutation AssignOneSessionByEmailAddress($request: CreateOneSessionByEmailAddressRequest!) {\n  sessions {\n    success: assignOneByEmailAddress(request: $request)\n  }\n}',
 ): (typeof documents)['mutation AssignOneSessionByEmailAddress($request: CreateOneSessionByEmailAddressRequest!) {\n  sessions {\n    success: assignOneByEmailAddress(request: $request)\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'subscription BookingRequestChatMessageCreations($bookingRequestId: String!) {\n  bookingRequestChatMessageCreations(bookingRequestId: $bookingRequestId) {\n    chatMessageId\n    bookingRequestId\n    message\n    createdBy\n    createdAt\n  }\n}',
+): (typeof documents)['subscription BookingRequestChatMessageCreations($bookingRequestId: String!) {\n  bookingRequestChatMessageCreations(bookingRequestId: $bookingRequestId) {\n    chatMessageId\n    bookingRequestId\n    message\n    createdBy\n    createdAt\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
