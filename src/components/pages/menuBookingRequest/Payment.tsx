@@ -23,7 +23,7 @@ export default function Payment({ children }: PropsWithChildren): ReactElement {
         // });
         const { error } = await stripe.confirmSetup({
             elements,
-            confirmParams: { return_url: `${window.location.origin}/profile?tab=2` },
+            confirmParams: { return_url: `${window.location.origin}/profile?tab=1` },
         });
 
         if (error.type === 'card_error' || error.type === 'validation_error') setResultMessage(error.message);
