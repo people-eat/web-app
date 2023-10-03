@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
+import { Button, CircularProgress, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import moment from 'moment';
@@ -518,12 +518,12 @@ export default function PublicMenuPage({
                                 className="fixed inset-0 z-50 bg-white pt-[80px] flex flex-col justify-center items-center"
                                 style={{ overflowY: 'auto' }}
                             >
-                                <button
+                                <Button
                                     onClick={(): void => setAreMealsOnMenuSelected(false)}
-                                    className="bg-transparent absolute top-1 left-2 border-none flex justify-center items-center gap-2 text-orange text-lg"
+                                    style={{ position: 'absolute', top: 8, left: 16 }}
                                 >
                                     <PEIcon icon={Icon.arrowPrev} edgeLength={20} /> Back
-                                </button>
+                                </Button>
 
                                 <BookingRequestForm
                                     signedInUser={signedInUser}
