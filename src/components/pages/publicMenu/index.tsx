@@ -340,6 +340,7 @@ export default function PublicMenuPage({
                                         ))}
                                     />
                                 )}
+
                                 {publicMenu.imageUrls.length > 1 && isMobile && (
                                     <Image
                                         draggable={false}
@@ -351,6 +352,7 @@ export default function PublicMenuPage({
                                     />
                                 )}
                             </div>
+
                             {publicMenu.imageUrls.length > 1 && isMobile && (
                                 <div className="flex overflow-x-auto  gap-3 mt-2" style={{ overflow: 'scroll' }}>
                                     {publicMenu.imageUrls.slice(1).map((imageUrl, index) => (
@@ -425,51 +427,58 @@ export default function PublicMenuPage({
 
                             <Spacer />
                         </HStack>
+
                         <Divider flexItem className="py-3" />
+
                         <HStack gap={32} className="w-full" style={{ minWidth: '500px', flexWrap: 'wrap' }}>
                             <VStack gap={32} style={{ flex: isMobile ? 'none' : 1 }}>
                                 {courses.map((course) => (
-                                    <VStack key={course.courseId} style={{ width: isMobile ? '93vw' : '100%' }} gap={32}>
+                                    <VStack
+                                        key={course.courseId}
+                                        style={{ width: isMobile ? '93vw' : '100%', alignItems: 'flex-start' }}
+                                        gap={32}
+                                    >
                                         <HStack className="w-full">
                                             <span className="text-heading-m">{course.title}</span>
                                             <Spacer />
                                         </HStack>
+
                                         <HStack
                                             gap={isMobile ? 16 : 24}
-                                            className="w-full overflow-x-auto p-3"
-                                            style={{ justifyContent: 'flex-start' }}
+                                            style={{ justifyContent: 'flex-start', width: '100%', maxWidth: 1000, flexWrap: 'wrap' }}
                                         >
-                                            {course.mealOptions.map(
-                                                (mealOption) =>
-                                                    (isMobile && (
-                                                        <PEMealCardMobile
-                                                            key={mealOption.index}
-                                                            title={mealOption.meal.title}
-                                                            description={mealOption.meal.description}
-                                                            imageUrl={mealOption.meal.imageUrl ?? undefined}
-                                                            active={courseSelections.get(course)?.mealId === mealOption.meal.mealId}
-                                                            onClick={(): void =>
-                                                                setCourseSelections(new Map(courseSelections.set(course, mealOption.meal)))
-                                                            }
-                                                        />
-                                                    )) ||
-                                                    (!isMobile && (
-                                                        <PEMealCard
-                                                            key={mealOption.index}
-                                                            title={mealOption.meal.title}
-                                                            description={mealOption.meal.description}
-                                                            imageUrl={mealOption.meal.imageUrl ?? undefined}
-                                                            active={courseSelections.get(course)?.mealId === mealOption.meal.mealId}
-                                                            onClick={(): void =>
-                                                                setCourseSelections(new Map(courseSelections.set(course, mealOption.meal)))
-                                                            }
-                                                        />
-                                                    )),
-                                            )}
+                                            {isMobile &&
+                                                course.mealOptions.map((mealOption) => (
+                                                    <PEMealCardMobile
+                                                        key={mealOption.index}
+                                                        title={mealOption.meal.title}
+                                                        description={mealOption.meal.description}
+                                                        imageUrl={mealOption.meal.imageUrl ?? undefined}
+                                                        active={courseSelections.get(course)?.mealId === mealOption.meal.mealId}
+                                                        onClick={(): void =>
+                                                            setCourseSelections(new Map(courseSelections.set(course, mealOption.meal)))
+                                                        }
+                                                    />
+                                                ))}
+
+                                            {!isMobile &&
+                                                course.mealOptions.map((mealOption) => (
+                                                    <PEMealCard
+                                                        key={mealOption.index}
+                                                        title={mealOption.meal.title}
+                                                        description={mealOption.meal.description}
+                                                        imageUrl={mealOption.meal.imageUrl ?? undefined}
+                                                        active={courseSelections.get(course)?.mealId === mealOption.meal.mealId}
+                                                        onClick={(): void =>
+                                                            setCourseSelections(new Map(courseSelections.set(course, mealOption.meal)))
+                                                        }
+                                                    />
+                                                ))}
                                         </HStack>
                                     </VStack>
                                 ))}
                             </VStack>
+
                             {!isMobile && (
                                 <BookingRequestForm
                                     signedInUser={signedInUser}
