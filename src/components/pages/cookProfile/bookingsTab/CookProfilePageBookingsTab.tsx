@@ -37,17 +37,19 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                     style={{
                         alignItems: 'stretch',
                         justifyContent: 'flex-start',
-                        paddingTop: 16,
-                        paddingBottom: 16,
+                        paddingTop: 8,
                         flex: 1,
                         borderRadius: 16,
+                        height: 800,
                     }}
                 >
                     <span style={{ margin: 16 }} className="text-heading-ss-bold md:text-text-sm-bold">
                         {chefProfileTranslations('tab-bookings')}
                     </span>
+
                     <Divider />
-                    <List>
+
+                    <List style={{ overflowY: 'scroll', paddingTop: 0, paddingBottom: 0 }}>
                         {bookingRequests.map((bookingRequest) => (
                             <>
                                 <ListItemButton
