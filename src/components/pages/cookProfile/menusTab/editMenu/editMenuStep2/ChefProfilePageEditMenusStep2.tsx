@@ -280,7 +280,7 @@ export default function ChefProfilePageEditMenusStep2({
                                 cookId,
                                 menuId: menu.menuId,
                                 request: {
-                                    index: 0,
+                                    index: menu.courses.length,
                                     title: course.title,
                                     mealOptions: course.mealOptions.map(({ mealId }, mealIndex) => ({ index: mealIndex, mealId })),
                                 },
