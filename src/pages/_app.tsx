@@ -21,7 +21,10 @@ export const theme: Theme = createTheme({
     },
 });
 
-export const apolloClient: ApolloClient<NormalizedCacheObject> = createApolloClient(process.env.NEXT_PUBLIC_SERVER_URL ?? '');
+export const apolloClient: ApolloClient<NormalizedCacheObject> = createApolloClient(
+    process.env.NEXT_PUBLIC_SERVER_URL ?? '',
+    process.env.NEXT_PUBLIC_SERVER_WEB_SOCKET_URL ?? '',
+);
 
 const PeopleEatApp: AppType = ({ Component, pageProps, router }: AppPropsType) => {
     moment.locale(router.locale);
