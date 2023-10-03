@@ -21,7 +21,7 @@ import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
 import { type MenuEntity } from '../../ChefProfilePageMenusTab';
 import CreateCookMenuCourse from '../../createMenu/createMenuStep2/CreateCookMenuCourse';
-import UpdateCookMenuCourse from '../../createMenu/createMenuStep2/UpdateCookMenuCourse';
+import UpdateCookMenuCourseDialog from '../../createMenu/createMenuStep2/UpdateCookMenuCourseDialog';
 
 export interface ChefProfilePageEditMenusStep2Props {
     menu: MenuEntity;
@@ -73,6 +73,7 @@ export default function ChefProfilePageEditMenusStep2({
     const [createCourse] = useMutation(CreateOneCookMenuCourseDocument);
     const [deleteCourse] = useMutation(DeleteOneCookMenuCourseDocument);
     const [deleteMealOption] = useMutation(DeleteOneCookMenuCourseMealOptionDocument);
+    // const [createMealOptions] = useMutation(CreateManyCookMenuCourseMealOptionsDocument);
 
     const [selectedMealOption, setSelectedMealOption] = useState<{ courseId: string; mealId: string } | undefined>();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -113,7 +114,7 @@ export default function ChefProfilePageEditMenusStep2({
                             />
                             {greetingFromKitchen !== undefined && (
                                 <PETextField
-                                    type={'text'}
+                                    type="text"
                                     value={greetingFromKitchen ?? undefined}
                                     disabled={!editMode}
                                     onChange={setGreetingFromKitchen}
@@ -126,7 +127,7 @@ export default function ChefProfilePageEditMenusStep2({
                 {!editMode && menu.greetingFromKitchen && (
                     <VStack className="w-full">
                         <p className="w-full mb-4 text-text-m-bold my-0">{t('greeting-from-kitchen')}</p>
-                        <PETextField type={'text'} value={greetingFromKitchen} disabled={!editMode} onChange={setGreetingFromKitchen} />
+                        <PETextField type="text" value={greetingFromKitchen} disabled={!editMode} onChange={setGreetingFromKitchen} />
                     </VStack>
                 )}
 
@@ -181,7 +182,7 @@ export default function ChefProfilePageEditMenusStep2({
                         <HStack className="w-full py-4 box-border" gap={16} style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
                             {editMode && (
                                 <VStack
-                                    onClick={(): void => undefined}
+                                    onClick={(): void => setShowUpdateCourseDialog(true)}
                                     className="items-center w-[388px] h-[140px] border-orange border-[1px] border-solid hover:cursor-pointer select-none hover:shadow-primary active:shadow-active delay-100 justify-center rounded-4"
                                 >
                                     <PEIcon icon={Icon.plusOrange} />
@@ -207,23 +208,19 @@ export default function ChefProfilePageEditMenusStep2({
                             ))}
                         </HStack>
 
-                        {showUpdateCourseDialog && (
-                            <UpdateCookMenuCourse
-                                open={showUpdateCourseDialog}
-                                meals={meals.filter(
-                                    (meal) => !course.mealOptions.find((mealOption) => mealOption.meal.mealId === meal.mealId),
-                                )}
-                                onSuccess={(_updatedCourse): void => {
-                                    // setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
-                                    setShowUpdateCourseDialog(false);
-                                }}
-                                onCancel={(): void => {
-                                    setShowUpdateCourseDialog(false);
-                                }}
-                                // course.mealOptions.map((mealOption) => [mealOption.meal.mealId, mealOption.meal])
-                                selectedCourseMeals={new Map()}
-                            />
-                        )}
+                        <UpdateCookMenuCourseDialog
+                            open={showUpdateCourseDialog}
+                            meals={meals.filter((meal) => !course.mealOptions.find((mealOption) => mealOption.meal.mealId === meal.mealId))}
+                            onSuccess={(): void => {
+                                // setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
+                                setShowUpdateCourseDialog(false);
+                            }}
+                            onCancel={(): void => {
+                                setShowUpdateCourseDialog(false);
+                            }}
+                            // course.mealOptions.map((mealOption) => [mealOption.meal.mealId, mealOption.meal])
+                            selectedCourseMeals={new Map()}
+                        />
 
                         {open && selectedMealOption && (
                             <Menu
@@ -267,27 +264,25 @@ export default function ChefProfilePageEditMenusStep2({
                     />
                 )}
 
-                {showCreateCourseDialog && (
-                    <CreateCookMenuCourse
-                        open={showCreateCourseDialog}
-                        meals={meals}
-                        onSuccess={(course): void => {
-                            void createCourse({
-                                variables: {
-                                    cookId,
-                                    menuId: menu.menuId,
-                                    request: {
-                                        index: 0,
-                                        title: course.title,
-                                        mealOptions: course.mealOptions.map(({ mealId }, mealIndex) => ({ index: mealIndex, mealId })),
-                                    },
+                <CreateCookMenuCourse
+                    open={showCreateCourseDialog}
+                    meals={meals}
+                    onSuccess={(course): void => {
+                        void createCourse({
+                            variables: {
+                                cookId,
+                                menuId: menu.menuId,
+                                request: {
+                                    index: 0,
+                                    title: course.title,
+                                    mealOptions: course.mealOptions.map(({ mealId }, mealIndex) => ({ index: mealIndex, mealId })),
                                 },
-                            }).then((result) => result.data?.cooks.menus.courses.success && onChangesApplied());
-                            setShowCreateCourseDialog(false);
-                        }}
-                        onCancel={(): void => setShowCreateCourseDialog(false)}
-                    />
-                )}
+                            },
+                        }).then((result) => result.data?.cooks.menus.courses.success && onChangesApplied());
+                        setShowCreateCourseDialog(false);
+                    }}
+                    onCancel={(): void => setShowCreateCourseDialog(false)}
+                />
 
                 <HStack className="w-full" gap={16} style={{ marginTop: 32 }}>
                     {!editMode && <PEButton title={commonTranslations('edit')} onClick={(): void => setEditMode(true)} type="secondary" />}
