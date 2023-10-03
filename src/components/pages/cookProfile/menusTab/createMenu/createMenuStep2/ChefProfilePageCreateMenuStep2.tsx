@@ -15,7 +15,7 @@ import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
 import CreateCookMenuCourse, { type CreateCookMenuCourseDto } from './CreateCookMenuCourse';
-import UpdateCookMenuCourse from './UpdateCookMenuCourse';
+import UpdateCookMenuCourseDialog from './UpdateCookMenuCourseDialog';
 
 export interface ChefProfilePageCreateMenusStep2Props {
     cookId: string;
@@ -144,7 +144,7 @@ export default function ChefProfilePageCreateMenusStep2({
                         </HStack>
 
                         {showUpdateCourseDialog && activeCourse && activeCourseIndex !== null && (
-                            <UpdateCookMenuCourse
+                            <UpdateCookMenuCourseDialog
                                 open={showUpdateCourseDialog}
                                 meals={meals.filter(
                                     (meal) => !activeCourse.mealOptions.find((courseMeal) => courseMeal.mealId === meal.mealId),

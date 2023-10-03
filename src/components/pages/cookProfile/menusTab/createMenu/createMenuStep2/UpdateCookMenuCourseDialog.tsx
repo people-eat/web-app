@@ -29,7 +29,7 @@ export interface UpdateCookMenuCourseProps {
     selectedCourseMeals: Map<string, MealEntity>;
 }
 
-export default function UpdateCookMenuCourse({
+export default function UpdateCookMenuCourseDialog({
     open,
     meals,
     onSuccess,

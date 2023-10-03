@@ -1,14 +1,8 @@
-import { useMutation, useQuery } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent, Menu, MenuItem } from '@mui/material';
+import { useQuery } from '@apollo/client';
+import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
-import {
-    DeleteOneCookMenuDocument,
-    FindCookMenusDocument,
-    UpdateCookMenuIsVisibleDocument,
-    type CurrencyCode,
-    type MealType,
-} from '../../../../data-source/generated/graphql';
+import { FindCookMenusDocument, type CurrencyCode, type MealType } from '../../../../data-source/generated/graphql';
 import useResponsive from '../../../../hooks/useResponsive';
 import { type Category } from '../../../../shared-domain/Category';
 import { type Kitchen } from '../../../../shared-domain/Kitchen';
@@ -77,14 +71,9 @@ export interface CookProfilePageMenusTabProps {
 export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenusTabProps): ReactElement {
     const { isMobile } = useResponsive();
     const { t } = useTranslation('chef-profile');
-    const { t: commonTranslation } = useTranslation('common');
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
-    const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
     const [selectedMenuId, setSelectedMenuId] = useState<string | undefined>(undefined);
-
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
 
     const { data, loading, refetch } = useQuery(FindCookMenusDocument, { variables: { cookId } });
 
@@ -93,43 +82,6 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
     const visibleMenus = menus.filter((menu) => menu.isVisible);
 
     const invisibleMenus = menus.filter((menu) => !menu.isVisible);
-
-    const [deleteMenu] = useMutation(DeleteOneCookMenuDocument);
-    const [updateMenuIsVisible] = useMutation(UpdateCookMenuIsVisibleDocument);
-
-    function handleUpdateMenuIsVisible(): void {
-        if (!selectedMenuId) return;
-
-        const menuToUpdate = menus.find((menu) => menu.menuId === selectedMenuId);
-
-        if (!menuToUpdate) return;
-
-        const newVisibility = !menuToUpdate.isVisible;
-
-        void updateMenuIsVisible({ variables: { cookId, menuId: selectedMenuId, isVisible: newVisibility } })
-            .then((result): void => {
-                setAnchorEl(null);
-                if (result.data?.cooks.menus.success) void refetch();
-            })
-            .catch((e) => {
-                console.error(e);
-                setAnchorEl(null);
-            });
-    }
-
-    function handleDeleteMenu(): void {
-        if (!selectedMenuId) return;
-
-        void deleteMenu({ variables: { cookId, menuId: selectedMenuId } })
-            .then((result): void => {
-                setOpenDeleteMenuDialog(false);
-                if (result.data?.cooks.menus.success) void refetch();
-            })
-            .catch((e) => {
-                console.error(e);
-                setOpenDeleteMenuDialog(false);
-            });
-    }
 
     function handleCreateNewMenuSuccess(): void {
         setSelectedTab('MENUS');
@@ -179,9 +131,9 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                     <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                         {visibleMenus.map((menu, index) => (
                             <div
-                                onClick={(event): void => {
-                                    setAnchorEl(event.currentTarget);
+                                onClick={(): void => {
                                     setSelectedMenuId(menu.menuId);
+                                    setSelectedTab('EDIT');
                                 }}
                                 className="relative PEMenuCard editMenu md:w-full"
                                 key={index}
@@ -242,9 +194,9 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                                 >
                                     {invisibleMenus.map((menu, index) => (
                                         <div
-                                            onClick={(event): void => {
-                                                setAnchorEl(event.currentTarget);
+                                            onClick={(): void => {
                                                 setSelectedMenuId(menu.menuId);
+                                                setSelectedTab('EDIT');
                                             }}
                                             className="relative editMenu"
                                             key={index}
@@ -307,66 +259,6 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                     </VStack>
                 </DialogContent>
             </Dialog>
-
-            <Dialog
-                sx={{ width: '100%', '& .MuiPaper-root': { width: '750px', maxWidth: '750px' } }}
-                open={openDeleteMenuDialog}
-                onClose={(): void => setOpenDeleteMenuDialog(false)}
-            >
-                <DialogContent>
-                    <VStack className="gap-8 relative box-border">
-                        <VStack className="absolute top-0 right-0">
-                            <PEIconButton
-                                iconSize={24}
-                                icon={Icon.close}
-                                onClick={(): void => setOpenDeleteMenuDialog(false)}
-                                withoutShadow
-                                bg="white"
-                            />
-                        </VStack>
-                        <p className="m-0 mt-2 text-text-m-bold w-full text-start">{t('delete-menu-title')}</p>
-                        <p className="m-0 w-full text-start">{t('delete-menu-question')}</p>
-                        <HStack className="w-full gap-4">
-                            <PEButton onClick={(): void => setOpenDeleteMenuDialog(false)} title="Cancel" type="secondary" />
-                            <PEButton onClick={handleDeleteMenu} title={commonTranslation('delete')} />
-                        </HStack>
-                    </VStack>
-                </DialogContent>
-            </Dialog>
-
-            {open && selectedMenuId && (
-                <Menu
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={(): void => setAnchorEl(null)}
-                    onClick={(): void => setAnchorEl(null)}
-                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                    sx={{ borderRadius: '12px', overflow: 'hidden' }}
-                >
-                    <MenuItem
-                        sx={{ width: '200px' }}
-                        onClick={(): void => {
-                            setSelectedTab('EDIT');
-                            setSelectedMenuId(selectedMenuId);
-                        }}
-                    >
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">{commonTranslation('edit')}</p>
-                    </MenuItem>
-                    <div className="w-full h-[1px] bg-disabled" />
-                    <MenuItem sx={{ width: '200px' }} onClick={(): void => handleUpdateMenuIsVisible()}>
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">
-                            {visibleMenus.some((menu) => menu.menuId === selectedMenuId)
-                                ? commonTranslation('unpublish')
-                                : commonTranslation('publish')}
-                        </p>
-                    </MenuItem>
-                    <div className="w-full h-[1px] bg-disabled" />
-                    <MenuItem sx={{ width: '200px' }} onClick={(): void => setOpenDeleteMenuDialog(true)}>
-                        <p className="w-full text-start m-0 hover:text-orange cursor-pointer">{commonTranslation('delete')}</p>
-                    </MenuItem>
-                </Menu>
-            )}
         </VStack>
     );
 }
