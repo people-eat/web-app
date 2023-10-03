@@ -80,6 +80,7 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                         justifyContent: isMobile ? 'flex-start' : 'space-between',
                         alignItems: isMobile ? 'flex-start' : 'center',
                         flexDirection: isMobile ? 'column-reverse' : 'row',
+                        gap: 16,
                     }}
                     className="w-full gap-8"
                 >
