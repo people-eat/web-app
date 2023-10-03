@@ -35,9 +35,9 @@ export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates 
                 <VStack className="w-full mb-6" style={{ alignItems: 'flex-start' }}>
                     <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">{t('edit-menu-title')}</p>
                     <Tabs value={step}>
-                        <Tab label="Common" onClick={(): void => setStep(0)} style={{ textTransform: 'none' }} />
-                        <Tab label="Courses" onClick={(): void => setStep(1)} style={{ textTransform: 'none' }} />
-                        <Tab label="Price" onClick={(): void => setStep(2)} style={{ textTransform: 'none' }} />
+                        <Tab label={t('edit-menu-tab-title-common')} onClick={(): void => setStep(0)} style={{ textTransform: 'none' }} />
+                        <Tab label={t('edit-menu-tab-title-courses')} onClick={(): void => setStep(1)} style={{ textTransform: 'none' }} />
+                        <Tab label={t('edit-menu-tab-title-price')} onClick={(): void => setStep(2)} style={{ textTransform: 'none' }} />
                     </Tabs>
                 </VStack>
 

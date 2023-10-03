@@ -146,6 +146,7 @@ export default function ChefProfilePageCreateMenusStep2({
                         {showUpdateCourseDialog && activeCourse && activeCourseIndex !== null && (
                             <UpdateCookMenuCourseDialog
                                 open={showUpdateCourseDialog}
+                                title={course.title}
                                 meals={meals.filter(
                                     (meal) => !activeCourse.mealOptions.find((courseMeal) => courseMeal.mealId === meal.mealId),
                                 )}

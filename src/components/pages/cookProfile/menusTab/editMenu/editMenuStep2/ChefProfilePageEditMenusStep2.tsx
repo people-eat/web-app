@@ -294,16 +294,12 @@ export default function ChefProfilePageEditMenusStep2({
                 {!!courseToUpdate && (
                     <UpdateCookMenuCourseDialog
                         open
+                        title={courseToUpdate.title}
                         meals={meals.filter(
                             (meal) => !courseToUpdate.mealOptions.find((mealOption) => mealOption.meal.mealId === meal.mealId),
                         )}
                         onSuccess={(course): void => {
-                            // setCourses([...courses.slice(0, index), updatedCourse, ...courses.slice(index + 1)]);
                             setCourseToUpdate(undefined);
-                            // $menuId: String!
-                            // $cookId: String!
-                            // $mealOptions: [CreateOneMealOptionRequest!]!
-                            // $courseId: String!
                             createMealOptions({
                                 variables: {
                                     menuId: menu.menuId,
@@ -324,7 +320,6 @@ export default function ChefProfilePageEditMenusStep2({
                             setCourseToUpdate(undefined);
                         }}
                         selectedCourseMeals={new Map()}
-                        // course.mealOptions.map((mealOption) => [mealOption.meal.mealId, mealOption.meal])
                     />
                 )}
 

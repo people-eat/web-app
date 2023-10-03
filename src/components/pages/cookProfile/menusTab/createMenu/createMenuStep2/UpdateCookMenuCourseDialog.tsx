@@ -10,7 +10,6 @@ import PEButton from '../../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../../standard/icon/Icon';
 import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../../../standard/tabItem/PETabItem';
-import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
 import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
@@ -26,6 +25,7 @@ export interface UpdateCookMenuCourseProps {
     open: boolean;
     onSuccess: (course: UpdateCookMenuCourseDto, index?: number) => void;
     onCancel: () => void;
+    title: string;
     selectedCourseMeals: Map<string, MealEntity>;
 }
 
@@ -34,13 +34,13 @@ export default function UpdateCookMenuCourseDialog({
     meals,
     onSuccess,
     onCancel,
+    title,
     selectedCourseMeals,
 }: UpdateCookMenuCourseProps): ReactElement {
     const { isMobile } = useResponsive();
     const { t: translateMealType } = useTranslation('meal-types');
     const { t } = useTranslation('chef-profile');
 
-    const [title, setTitle] = useState('');
     const [selectedMealType, setSelectedMealType] = useState<MealType | 'ALL'>('ALL');
 
     const [selectedMeals, setSelectedMeals] = useState<Map<string, MealEntity>>(selectedCourseMeals);
@@ -49,7 +49,7 @@ export default function UpdateCookMenuCourseDialog({
         <Dialog open={open} maxWidth="md">
             <DialogTitle>
                 <HStack>
-                    <span>{t('create-menu-courses-add-course')}</span>
+                    <span>{t('create-menu-add-meals-title', { courseTitle: title })}</span>
                     <Spacer />
                     <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                 </HStack>
@@ -57,8 +57,6 @@ export default function UpdateCookMenuCourseDialog({
             <DialogContent sx={{ margin: 0, padding: isMobile ? '8px' : '16px', boxSizing: 'border-box' }}>
                 <DialogContentText>
                     <VStack gap={32}>
-                        <PETextField value={title} onChange={setTitle} type="text" placeholder={t('create-menu-course-name')} />
-
                         <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start', overflowX: 'scroll' }}>
                             <PETabItem
                                 title={translateMealType('meal-type-all')}
