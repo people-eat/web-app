@@ -96,8 +96,6 @@ export default function ProfilePageBookingsTabDetail({
 
             <Divider flexItem />
 
-            <Spacer />
-
             {tab === 'CHAT' && (
                 <>
                     <ProfilePageBookingsChatMessages userId={userId} bookingRequestId={bookingRequest.bookingRequestId} />
