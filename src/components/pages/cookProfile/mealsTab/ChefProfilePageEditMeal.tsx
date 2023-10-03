@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Dialog, DialogContent } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
+import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
@@ -57,18 +56,12 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
         setImageUrl(meal?.imageUrl ?? '');
     }, [meal]);
 
-    const [updateMealDescription] = useMutation(UpdateCookMealDescriptionDocument, {
-        variables: { cookId, mealId, description },
-    });
-    const [updateMealImage] = useMutation(UpdateCookMealImageDocument, {
-        variables: { cookId, mealId, image: image ?? undefined },
-    });
-    const [updateMealTitle] = useMutation(UpdateCookMealTitleDocument, {
-        variables: { cookId, mealId, title },
-    });
-    const [updateMealType] = useMutation(UpdateCookMealTypeDocument, {
-        variables: { cookId, mealId, type },
-    });
+    const [updateMealDescription] = useMutation(UpdateCookMealDescriptionDocument, { variables: { cookId, mealId, description } });
+    const [updateMealImage] = useMutation(UpdateCookMealImageDocument, { variables: { cookId, mealId, image: image ?? undefined } });
+    const [updateMealTitle] = useMutation(UpdateCookMealTitleDocument, { variables: { cookId, mealId, title } });
+    const [updateMealType] = useMutation(UpdateCookMealTypeDocument, { variables: { cookId, mealId, type } });
+
+    const [changesWereSaved, setChangesWereSaved] = useState(false);
 
     function handleSaveUpdates(): void {
         if (!meal) return;
@@ -105,6 +98,9 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                 })
                 .catch((e) => console.error(e));
         }
+
+        setChangesWereSaved(true);
+        setTimeout(() => onSaveUpdates(), 1500);
     }
 
     return (
@@ -123,7 +119,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                             iconSize={24}
                         />
                     </div>
-
+                    {changesWereSaved ? 'were saved' : 'not saved'}
                     <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">{t('change-dish-info')}</p>
 
                     <VStack className="w-full">
@@ -172,7 +168,6 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                             disabled={meal.title === title && meal.description === description && meal.type === type && image === null}
                         />
                     </HStack>
-
                     <Dialog open={showDeleteDialog} onClose={(): void => setShowDeleteDialog(false)}>
                         <DialogContent>
                             <VStack className="gap-8 relative box-border">
@@ -208,10 +203,21 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                             </VStack>
                         </DialogContent>
                     </Dialog>
+
+                    <Dialog open={loading}>
+                        <DialogContent>
+                            <CircularProgress />
+                        </DialogContent>
+                    </Dialog>
                 </>
             )}
 
-            {loading && <CircularProgress />}
+            <Dialog open={changesWereSaved}>
+                <DialogContent>
+                    Änderungen erfolgreich gespeichert
+                    {/* <Button onClick={(): void => onSaveUpdates()}>Zu Gerichten</Button> */}
+                </DialogContent>
+            </Dialog>
         </VStack>
     );
 }
