@@ -32,16 +32,22 @@ export default function ChefProfilePageCreateMeal({
     const { t: translateMealType } = useTranslation('meal-types');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [type, setType] = useState<MealType>(defaultMealType ?? 'SPECIAL');
+    const [type, setType] = useState<MealType | undefined>(defaultMealType);
     const [image, setImage] = useState<File | undefined>(undefined);
 
-    const disabled: boolean = title === '';
+    const disabled: boolean = title === '' || type === undefined;
 
-    const [createOneCookMeal, { data, loading }] = useMutation(CreateOneCookMealDocument, {
-        variables: { cookId, meal: { title, description, type }, image },
-    });
+    const [createOneCookMeal, { loading }] = useMutation(CreateOneCookMealDocument);
 
-    if (data?.cooks.meals.success) onSuccess(type);
+    function onCreateMeal(): void {
+        if (title === '' || type === undefined) return;
+
+        createOneCookMeal({ variables: { cookId, meal: { title, description, type }, image } })
+            .then(({ data }) => {
+                if (data?.cooks.meals.success) onSuccess(type);
+            })
+            .catch((error) => console.error(error));
+    }
 
     return (
         <VStack
@@ -88,14 +94,7 @@ export default function ChefProfilePageCreateMeal({
                 <PEImagePicker onPick={setImage} onRemoveDefaultImage={(): void => setImage(undefined)} />
             </VStack>
 
-            {
-                <PEButton
-                    onClick={(): void => void createOneCookMeal()}
-                    disabled={disabled}
-                    title={t('create-meal-button')}
-                    className="w-full"
-                />
-            }
+            <PEButton onClick={onCreateMeal} disabled={disabled} title={t('create-meal-button')} className="w-full" />
 
             {loading && (
                 <Dialog open>
