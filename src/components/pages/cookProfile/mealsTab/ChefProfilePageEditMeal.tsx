@@ -119,7 +119,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                             iconSize={24}
                         />
                     </div>
-                    {changesWereSaved ? 'were saved' : 'not saved'}
+
                     <p className="w-full text-heading-xl md:text-heading-s my-0 mb-6">{t('change-dish-info')}</p>
 
                     <VStack className="w-full">

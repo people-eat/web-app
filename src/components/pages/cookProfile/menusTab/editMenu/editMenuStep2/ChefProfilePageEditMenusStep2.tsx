@@ -329,7 +329,7 @@ export default function ChefProfilePageEditMenusStep2({
                         <>
                             <PEButton title={commonTranslations('cancel')} onClick={(): void => setEditMode(false)} type="secondary" />
                             <PEButton
-                                title={commonTranslations('booking-global-requests')}
+                                title={t('save-changes')}
                                 onClick={handleSaveUpdates}
                                 disabled={(menu.greetingFromKitchen ?? undefined) === greetingFromKitchen}
                             />
