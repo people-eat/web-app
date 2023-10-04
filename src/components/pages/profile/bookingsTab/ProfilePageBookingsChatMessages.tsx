@@ -1,10 +1,20 @@
-import { useQuery } from '@apollo/client';
+import { useQuery, useSubscription } from '@apollo/client';
 import moment from 'moment';
-import { type ReactElement } from 'react';
-import { FindManyUserBookingRequestChatMessagesDocument } from '../../../../data-source/generated/graphql';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
+import {
+    BookingRequestChatMessageCreationsDocument,
+    FindManyUserBookingRequestChatMessagesDocument,
+} from '../../../../data-source/generated/graphql';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+
+interface ChatMessage {
+    chatMessageId: string;
+    message: string;
+    createdBy: string;
+    createdAt: Date;
+}
 
 export interface ProfilePageBookingsChatMessagesProps {
     userId: string;
@@ -13,10 +23,40 @@ export interface ProfilePageBookingsChatMessagesProps {
 
 export default function ProfilePageBookingsChatMessages({ userId, bookingRequestId }: ProfilePageBookingsChatMessagesProps): ReactElement {
     const { data } = useQuery(FindManyUserBookingRequestChatMessagesDocument, { variables: { userId, bookingRequestId } });
+    const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
-    const chatMessages = data?.users.bookingRequests.chatMessages.findMany;
+    const chatBottom = useRef<HTMLDivElement>(null);
 
-    if (!chatMessages) return <></>;
+    function scrollToChatBottom(): void {
+        chatBottom.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center',
+        });
+    }
+
+    useEffect(() => {
+        const fetchedChatMessages = data?.users.bookingRequests.chatMessages.findMany;
+        if (fetchedChatMessages) setChatMessages(fetchedChatMessages);
+    }, [data]);
+
+    useSubscription(BookingRequestChatMessageCreationsDocument, {
+        variables: { bookingRequestId },
+        onSubscriptionData: ({ subscriptionData }) => {
+            const newChatMessage = subscriptionData.data?.bookingRequestChatMessageCreations;
+            if (!newChatMessage) return;
+            setChatMessages([
+                ...chatMessages,
+                {
+                    chatMessageId: newChatMessage.chatMessageId,
+                    message: newChatMessage.message,
+                    createdBy: newChatMessage.createdBy,
+                    createdAt: newChatMessage.createdAt,
+                },
+            ]);
+            scrollToChatBottom();
+        },
+    });
 
     const sortedChatMessages = chatMessages.map((chatMessage) => ({ ...chatMessage }));
 
@@ -34,6 +74,7 @@ export default function ProfilePageBookingsChatMessages({ userId, bookingRequest
                     {userId !== chatMessage.createdBy && <Spacer />}
                 </HStack>
             ))}
+            <div data-element="chat-bottom" ref={chatBottom}></div>
         </VStack>
     );
 }

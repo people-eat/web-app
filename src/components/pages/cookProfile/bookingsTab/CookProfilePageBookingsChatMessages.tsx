@@ -1,6 +1,6 @@
 import { useQuery, useSubscription } from '@apollo/client';
 import moment from 'moment';
-import { useEffect, useState, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import {
     BookingRequestChatMessageCreationsDocument,
     FindManyCookBookingRequestChatMessagesDocument,
@@ -28,6 +28,16 @@ export default function CookProfilePageBookingsChatMessages({
     const { data } = useQuery(FindManyCookBookingRequestChatMessagesDocument, { variables: { cookId, bookingRequestId } });
     const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
 
+    const chatBottom = useRef<HTMLDivElement>(null);
+
+    function scrollToChatBottom(): void {
+        chatBottom.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center',
+        });
+    }
+
     useEffect(() => {
         const fetchedChatMessages = data?.cooks.bookingRequests.chatMessages.findMany;
         if (fetchedChatMessages) setChatMessages(fetchedChatMessages);
@@ -47,6 +57,7 @@ export default function CookProfilePageBookingsChatMessages({
                     createdAt: newChatMessage.createdAt,
                 },
             ]);
+            scrollToChatBottom();
         },
     });
 
@@ -66,6 +77,7 @@ export default function CookProfilePageBookingsChatMessages({
                     {cookId !== chatMessage.createdBy && <Spacer />}
                 </HStack>
             ))}
+            <div data-element="chat-bottom" ref={chatBottom}></div>
         </VStack>
     );
 }
