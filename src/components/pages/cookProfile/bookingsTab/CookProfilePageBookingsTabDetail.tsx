@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, Divider, Tab, Tabs } from '@mui/material';
+import { Button, CircularProgress, Dialog, DialogContent, DialogTitle, Divider, Tab, Tabs } from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -49,10 +49,10 @@ export default function CookProfilePageBookingsTabDetail({
     const [newMessage, setNewMessage] = useState('');
     const [amount, setAmount] = useState(0);
 
-    const [acceptBookingRequest] = useMutation(CookBookingRequestAcceptDocument);
-    const [declineBookingRequest] = useMutation(CookBookingRequestDeclineDocument);
+    const [acceptBookingRequest, { loading: acceptLoading }] = useMutation(CookBookingRequestAcceptDocument);
+    const [declineBookingRequest, { loading: declineLoading }] = useMutation(CookBookingRequestDeclineDocument);
     const [updateBookingRequestPrice] = useMutation(CookBookingRequestUpdatePriceDocument);
-    const [createMessage] = useMutation(CreateOneCookBookingRequestChatMessageDocument);
+    const [createMessage, { loading: createMessageLoading }] = useMutation(CreateOneCookBookingRequestChatMessageDocument);
 
     const bookingRequest = data?.cooks.bookingRequests.findOne;
 
@@ -168,6 +168,7 @@ export default function CookProfilePageBookingsTabDetail({
                             type="text"
                             endContent={
                                 <Button
+                                    disabled={createMessageLoading}
                                     onClick={(): void =>
                                         void createMessage({
                                             variables: {
@@ -177,7 +178,6 @@ export default function CookProfilePageBookingsTabDetail({
                                             },
                                         }).then((result) => {
                                             if (!result.data?.cooks.bookingRequests.chatMessages.success) return;
-                                            void refetch();
                                             setNewMessage('');
                                         })
                                     }
@@ -279,6 +279,24 @@ export default function CookProfilePageBookingsTabDetail({
                     )}
                 </VStack>
             )}
+
+            <Dialog open={acceptLoading}>
+                <DialogTitle>Akzeptiere Buchungsanfrage</DialogTitle>
+                <DialogContent>
+                    <VStack>
+                        <CircularProgress />
+                    </VStack>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog open={declineLoading}>
+                <DialogTitle>Lehne Buchungsanfrage ab</DialogTitle>
+                <DialogContent>
+                    <VStack>
+                        <CircularProgress />
+                    </VStack>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }

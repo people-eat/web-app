@@ -38,7 +38,10 @@ export default function ProfilePageBookingsChatMessages({ userId, bookingRequest
     useEffect(() => {
         const fetchedChatMessages = data?.users.bookingRequests.chatMessages.findMany;
         if (fetchedChatMessages) setChatMessages(fetchedChatMessages);
+        setTimeout(() => scrollToChatBottom(), 200);
     }, [data]);
+
+    useEffect(() => scrollToChatBottom(), []);
 
     useSubscription(BookingRequestChatMessageCreationsDocument, {
         variables: { bookingRequestId },
@@ -54,7 +57,7 @@ export default function ProfilePageBookingsChatMessages({ userId, bookingRequest
                     createdAt: newChatMessage.createdAt,
                 },
             ]);
-            scrollToChatBottom();
+            setTimeout(() => scrollToChatBottom(), 200);
         },
     });
 
@@ -74,7 +77,7 @@ export default function ProfilePageBookingsChatMessages({ userId, bookingRequest
                     {userId !== chatMessage.createdBy && <Spacer />}
                 </HStack>
             ))}
-            <div data-element="chat-bottom" ref={chatBottom}></div>
+            <div data-element="chat-bottom" ref={chatBottom} />
         </VStack>
     );
 }

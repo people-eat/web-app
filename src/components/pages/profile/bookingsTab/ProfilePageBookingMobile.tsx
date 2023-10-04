@@ -56,6 +56,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
         { tabName: 'MENU' as const, label: translateBooking('tab-menu') },
         { tabName: 'RATING' as const, label: translateBooking('tab-rating') },
     ];
+
     useEffect(() => {
         setAmount(bookingRequest?.price.amount ?? 0);
         if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
@@ -63,7 +64,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
 
     return (
         <div className="fixed inset-0 z-50 mt-[80px] bg-white py-3" style={{ overflowY: 'auto' }}>
-            <div className=" flex items-center justify-between px-5 py-3 mb-3" style={{ borderBottom: '2px solid #f5f5f5' }}>
+            <div className="flex items-center justify-between px-5 py-3 mb-3" style={{ borderBottom: '2px solid #f5f5f5' }}>
                 <HStack style={{ alignItems: 'center', justifyContent: 'space-between' }}>
                     <button
                         className="mt-4 px-4 py-2 text-white bg-transparent border-none rounded"

@@ -155,7 +155,6 @@ export default function ProfilePageBookingsTabDetail({
                                             },
                                         }).then((result) => {
                                             if (!result.data?.users.bookingRequests.chatMessages.success) return;
-                                            void refetch();
                                             setNewMessage('');
                                         })
                                     }

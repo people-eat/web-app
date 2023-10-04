@@ -41,7 +41,10 @@ export default function CookProfilePageBookingsChatMessages({
     useEffect(() => {
         const fetchedChatMessages = data?.cooks.bookingRequests.chatMessages.findMany;
         if (fetchedChatMessages) setChatMessages(fetchedChatMessages);
+        setTimeout(() => scrollToChatBottom(), 200);
     }, [data]);
+
+    useEffect(scrollToChatBottom, []);
 
     useSubscription(BookingRequestChatMessageCreationsDocument, {
         variables: { bookingRequestId },
@@ -57,7 +60,7 @@ export default function CookProfilePageBookingsChatMessages({
                     createdAt: newChatMessage.createdAt,
                 },
             ]);
-            scrollToChatBottom();
+            setTimeout(() => scrollToChatBottom(), 200);
         },
     });
 
@@ -77,7 +80,7 @@ export default function CookProfilePageBookingsChatMessages({
                     {cookId !== chatMessage.createdBy && <Spacer />}
                 </HStack>
             ))}
-            <div data-element="chat-bottom" ref={chatBottom}></div>
+            <div data-element="chat-bottom" ref={chatBottom} />
         </VStack>
     );
 }
