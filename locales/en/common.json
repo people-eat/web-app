@@ -19,8 +19,6 @@
     "error": "An error occurred",
     "back": "Back home",
     "publish": "publish",
-    "header-user-profile": "Host profile",
-    "header-chef-profile": "Chef profile",
     "sign-out": "Sign out",
     "email-confirmation": "Confirm your email address",
     "email-confirmation-success": "You have successfully confirmed your email",
@@ -33,5 +31,22 @@
     "start-time-label": "Start Time",
     "location": "Location",
     "message": "Message",
-    "occasion": "Occasion"
+    "occasion": "Occasion",
+
+    "profile-user-label": "User Profile",
+    "profile-user-tab-personal-information-label": "Personal Information",
+    "profile-user-tab-bookings-label": "Bookings",
+    "profile-user-tab-global-bookings-label": "Global Booking Requests",
+    "profile-user-tab-ratings-label": "Ratings",
+    "profile-user-tab-favorite-chefs-label": "Favorite Chefs",
+
+    "profile-cook-label": "Chef Profile",
+    "profile-cook-tab-personal-information-label": "Personal Information",
+    "profile-cook-tab-meals-label": "Meals",
+    "profile-cook-tab-menus-label": "Menus",
+    "profile-cook-tab-bookings-label": "Bookings",
+    "profile-cook-tab-global-bookings-label": "Global Booking Requests",
+    "profile-cook-tab-ratings-label": "Ratings",
+    "profile-cook-tab-statistics-label": "Statistics",
+    "profile-cook-tab-public-profile-label": "Public Profile"
 }

@@ -1,22 +1,16 @@
+import MenuIcon from '@mui/icons-material/Menu';
+import { IconButton } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
-import { Icon } from '../standard/icon/Icon';
-import PEIconButton from '../standard/iconButton/PEIconButton';
-import PEMobileMenu from '../standard/mobileMenu/PEMobileMenu';
+import PESideBar from '../standard/sideBar/PESideBar';
+import HStack from '../utility/hStack/HStack';
 import { type PEHeaderProps } from './PEHeaderProps';
 
-export default function PEHeaderMobile({
-    mobileMenuTabs,
-    isMobileMenuOpen,
-    setOpenMobileMenu,
-    menuButtonLink,
-    menuButtonText,
-    signedInUser,
-}: PEHeaderProps): ReactElement {
-    const [openMenu, setOpenMenu] = useState(false);
+export default function PEHeaderMobile({ signedInUser }: PEHeaderProps): ReactElement {
+    const [sideBarOpen, setSideBarOpen] = useState(false);
     const [sticky, setSticky] = useState(false);
 
     useEffect(() => {
@@ -26,63 +20,47 @@ export default function PEHeaderMobile({
         });
     }, []);
 
-    useEffect((): void => {
-        if (isMobileMenuOpen !== undefined) setOpenMenu(isMobileMenuOpen);
-    }, [isMobileMenuOpen]);
-
-    function handleCloseMobileMenu(value: boolean): void {
-        setOpenMobileMenu?.(value);
-        setOpenMenu(value);
-    }
-
     return (
         <>
-            <div
-                className="flex mt-0 bg-white z-50 top-0 left-0 h-[80px] w-full justify-between px-4 box-border max-w-screen-xl border-y-[1px] border-solid border-b-disabled border-transparent"
-                style={{ alignItems: 'center', padding: '0px 16px', gap: 16 }}
+            <HStack
+                className="box-border border-y-[1px] border-solid border-b-disabled border-transparent"
+                style={{
+                    backgroundColor: 'white',
+                    width: '100%',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    paddingLeft: 16,
+                    paddingRight: 16,
+                }}
             >
-                <Link href={'/'}>
-                    <Image src={'/logo.svg'} alt="" width={203} height={46} style={{ marginTop: 8 }} />
+                <Link href="/">
+                    <Image src="/logo.svg" alt="" width={203} height={46} style={{ marginTop: 8 }} />
                 </Link>
 
-                <PEMobileMenu openMenu={openMenu} handleOpenMenu={handleCloseMobileMenu} />
-
-                <PEIconButton iconSize={24} icon={Icon.burgerMenu} onClick={(): void => setOpenMenu(!openMenu)} bg="white" withoutShadow />
-            </div>
+                <IconButton onClick={(): void => setSideBarOpen(!sideBarOpen)}>
+                    <MenuIcon />
+                </IconButton>
+            </HStack>
 
             <Slide direction="down" in={sticky}>
                 <div
                     className={classNames(
                         'flex mt-0 bg-white z-50 top-0 left-0 w-full justify-between px-4 box-border max-w-screen-xl border-y-[1px] border-solid border-b-disabled border-transparent',
-                        {
-                            ['h-0 hidden']: !sticky,
-                            ['lg:fixed h-[80px]']: sticky,
-                        },
+                        { ['h-0 hidden']: !sticky, ['lg:fixed']: sticky },
                     )}
-                    style={{ alignItems: 'center', padding: '0px 16px', gap: 16 }}
+                    style={{ alignItems: 'center', paddingLeft: 16, paddingRight: 16, gap: 16 }}
                 >
-                    <Link href={'/'}>
-                        <Image src={'/logo.svg'} alt="" width={203} height={46} style={{ marginTop: 8 }} />
+                    <Link href="/">
+                        <Image src="/logo.svg" alt="" width={203} height={46} style={{ marginTop: 8 }} />
                     </Link>
 
-                    <PEMobileMenu
-                        openMenu={openMenu}
-                        handleOpenMenu={handleCloseMobileMenu}
-                        mobileMenuTabs={mobileMenuTabs}
-                        menuButtonLink={menuButtonLink}
-                        menuButtonText={menuButtonText}
-                        signedInUser={signedInUser}
-                    />
-
-                    <PEIconButton
-                        iconSize={24}
-                        icon={Icon.burgerMenu}
-                        onClick={(): void => setOpenMenu(!openMenu)}
-                        bg="white"
-                        withoutShadow
-                    />
+                    <IconButton onClick={(): void => setSideBarOpen(!sideBarOpen)}>
+                        <MenuIcon />
+                    </IconButton>
                 </div>
             </Slide>
+
+            <PESideBar open={sideBarOpen} setOpen={setSideBarOpen} signedInUser={signedInUser} />
         </>
     );
 }

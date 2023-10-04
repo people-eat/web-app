@@ -84,7 +84,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
             if (foundFollowing) setLike(true);
             else setLike(false);
         }
-    }, []);
+    }, [followings, publicCook]);
 
     const [createFollowing] = useMutation(CreateOneFollowingDocument);
     const [deleteFollowing] = useMutation(DeleteOneFollowingDocument);

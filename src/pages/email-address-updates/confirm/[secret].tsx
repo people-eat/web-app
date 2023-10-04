@@ -9,16 +9,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PEFooter from '../../../components/footer/PEFooter';
-import PEHeaderDesktop from '../../../components/header/PEHeaderDesktop';
-import PEHeaderMobile from '../../../components/header/PEHeaderMobile';
+import PEHeader from '../../../components/header/PEHeader';
 import PEButton from '../../../components/standard/buttons/PEButton';
 import Spacer from '../../../components/utility/spacer/Spacer';
 import VStack from '../../../components/utility/vStack/VStack';
 import { ConfirmOneEmailAddressUpdateDocument } from '../../../data-source/generated/graphql';
-import useResponsive from '../../../hooks/useResponsive';
 
 const Index: NextPage = () => {
-    const { isMobile } = useResponsive();
     const router = useRouter();
     const secret = router.query.secret;
     const { t } = useTranslation('common');
@@ -37,8 +34,9 @@ const Index: NextPage = () => {
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
             <VStack className="w-full min-h-screen" gap={64}>
-                {isMobile ? <PEHeaderMobile /> : <PEHeaderDesktop />}
+                <PEHeader />
 
                 <Dialog open>
                     <DialogTitle>{t('email-confirmation')}</DialogTitle>

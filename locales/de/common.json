@@ -19,8 +19,6 @@
     "error": "Ein Fehler ist aufgetreten",
     "back": "Zum Profil",
     "publish": "veröffentlichen",
-    "header-user-profile": "Gastgeber Profil",
-    "header-chef-profile": "Chef Profil",
     "sign-out": "Abmelden",
     "email-confirmation": "Bestätige deine Email-Adresse",
     "email-confirmation-success": "Du hast deine Email Adresse erfolgreich bestätigt!",
@@ -33,5 +31,22 @@
     "start-time-label": "Anfangszeit",
     "location": "Standort",
     "message": "Nachricht",
-    "occasion": "Anlass"
+    "occasion": "Anlass",
+
+    "profile-user-label": "Gastgeberprofil",
+    "profile-user-tab-personal-information-label": "Persönliche Informationen",
+    "profile-user-tab-bookings-label": "Buchungen",
+    "profile-user-tab-global-bookings-label": "Globale Buchungsanfragen",
+    "profile-user-tab-ratings-label": "Bewertungen",
+    "profile-user-tab-favorite-chefs-label": "Lieblingsköche",
+
+    "profile-cook-label": "Kochprofil",
+    "profile-cook-tab-personal-information-label": "Persönliche Informationen",
+    "profile-cook-tab-meals-label": "Gerichte",
+    "profile-cook-tab-menus-label": "Menüs",
+    "profile-cook-tab-bookings-label": "Buchungen",
+    "profile-cook-tab-global-bookings-label": "Globale Buchungsanfragen",
+    "profile-cook-tab-ratings-label": "Bewertungen",
+    "profile-cook-tab-statistics-label": "Statistiken",
+    "profile-cook-tab-public-profile-label": "Öffentliches Profil"
 }

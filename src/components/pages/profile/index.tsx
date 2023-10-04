@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
 import useResponsive from '../../../hooks/useResponsive';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
+import { userProfileTabs } from '../../../shared-domain/profileTabs/userProfileTabs';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PETabItem from '../../standard/tabItem/PETabItem';
@@ -15,39 +16,14 @@ import ProfilePageFollowingsTab from './followingsTab/ProfilePageFollowingsTab';
 import ProfilePageGlobalBookingRequestsTab from './globalBookingRequestsTab/ProfilePageGlobalBookingRequestsTab';
 import ProfilePagePersonalTab from './personalTab/ProfilePagePersonalTab';
 
-const MENU_TABS = [
-    {
-        title: 'personal-information-label',
-        link: '/profile?tab=0',
-    },
-    {
-        title: 'bookings-label',
-        link: '/profile?tab=1',
-    },
-    {
-        title: 'tab-global-bookings',
-        link: '/profile?tab=2',
-    },
-    {
-        title: 'ratings-label',
-        link: '/profile?tab=3',
-    },
-    {
-        title: 'favorite-chefs-label',
-        link: '/profile?tab=4',
-    },
-];
-
 export interface ProfilePageProps {
     signedInUser?: SignedInUser;
 }
 
 export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactElement {
-    const { t } = useTranslation('profile');
+    const { t: translateCommon } = useTranslation('common');
     const { isMobile } = useResponsive();
     const router = useRouter();
-
-    const [isMobileMenuOpen, setOpenMobileMenu] = useState(false);
 
     const queryParamTabIndex: string | undefined = typeof router.query.tab !== 'string' ? undefined : router.query.tab;
 
@@ -57,19 +33,12 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
 
     return (
         <VStack className="w-full min-h-full gap-[64px] md:gap-4">
-            <PEHeader
-                signedInUser={signedInUser}
-                mobileMenuTabs={MENU_TABS.map((menu) => ({ title: t(menu.title), link: menu.link }))}
-                isMobileMenuOpen={isMobileMenuOpen}
-                setOpenMobileMenu={setOpenMobileMenu}
-                menuButtonLink="/chef-profile"
-                menuButtonText={t('main-menu-chef')}
-            />
+            <PEHeader signedInUser={signedInUser} />
 
             {isMobile && (
                 <HStack className="w-full px-8 box-border" style={{ justifyContent: 'flex-start' }}>
-                    <p onClick={(): void => setOpenMobileMenu(true)} className="text-orange text-text-s">
-                        Menu &gt; <span className="text-black">{t(MENU_TABS[selectedTab]?.title ?? '')}</span>
+                    <p className="text-orange text-text-s">
+                        Menu &gt; <span className="text-black">{translateCommon(userProfileTabs[selectedTab]!.translationKey)}</span>
                     </p>
                 </HStack>
             )}
@@ -80,25 +49,25 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
                     className="w-full max-w-screen-xl overflow-x-scroll lg:px-4 box-border"
                     style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
                 >
-                    {MENU_TABS.map((menu, index) => (
+                    {userProfileTabs.map(({ translationKey, path }, index) => (
                         <PETabItem
                             key={index}
-                            title={t(menu.title)}
-                            onClick={(): void => {
-                                setSelectedTab(index);
-                                router.query.tab = String(index);
-                                void router.push(router);
-                            }}
                             active={selectedTab === index}
+                            title={translateCommon(translationKey)}
+                            onClick={(): void => void router.push(path)}
                         />
                     ))}
                 </HStack>
             )}
 
             {selectedTab === 0 && signedInUser && <ProfilePagePersonalTab userId={signedInUser.userId} />}
+
             {selectedTab === 1 && signedInUser && !isMobile && <ProfilePageBookingsTab userId={signedInUser.userId} />}
+
             {selectedTab === 1 && signedInUser && isMobile && <PEMobileChat userId={signedInUser.userId} />}
+
             {selectedTab === 2 && signedInUser && <ProfilePageGlobalBookingRequestsTab userId={signedInUser.userId} />}
+
             {selectedTab === 4 && signedInUser && <ProfilePageFollowingsTab userId={signedInUser.userId} />}
 
             <Spacer />

@@ -73,7 +73,7 @@ export default function PEHeaderDesktop({ signedInUser }: PEHeaderProps): ReactE
                         <MenuItem>
                             <Link href="/profile" style={{ textDecoration: 'none', color: '#000' }}>
                                 <HStack gap={16}>
-                                    <AccountBox color="disabled" /> {t('header-user-profile')}
+                                    <AccountBox color="disabled" /> {t('profile-user-label')}
                                 </HStack>
                             </Link>
                         </MenuItem>
@@ -82,7 +82,7 @@ export default function PEHeaderDesktop({ signedInUser }: PEHeaderProps): ReactE
                             <MenuItem>
                                 <Link href="/chef-profile" style={{ textDecoration: 'none', color: '#000' }}>
                                     <HStack gap={16}>
-                                        <Dining color="disabled" /> {t('header-chef-profile')}
+                                        <Dining color="disabled" /> {t('profile-cook-label')}
                                     </HStack>
                                 </Link>
                             </MenuItem>
