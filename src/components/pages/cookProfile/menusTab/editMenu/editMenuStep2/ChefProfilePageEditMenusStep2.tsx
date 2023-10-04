@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Menu, MenuItem } from '@mui/material';
+import { Alert, Menu, MenuItem, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
@@ -100,12 +100,17 @@ export default function ChefProfilePageEditMenusStep2({
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
+    const [changesHaveBeenSaved, setChangesHaveBeenSaved] = useState(false);
+
     function handleSaveUpdates(): void {
         if (menu.greetingFromKitchen !== greetingFromKitchen) {
             void updateGreetingFromKitchen()
                 .then((result) => result.data?.cooks.menus.success && onChangesApplied())
                 .catch((e) => console.error(e));
         }
+
+        setChangesHaveBeenSaved(true);
+        setTimeout(() => setChangesHaveBeenSaved(false), 2000);
     }
 
     useEffect(() => {
@@ -271,25 +276,27 @@ export default function ChefProfilePageEditMenusStep2({
                     />
                 )}
 
-                <CreateCookMenuCourse
-                    open={showCreateCourseDialog}
-                    meals={meals}
-                    onSuccess={(course): void => {
-                        void createCourse({
-                            variables: {
-                                cookId,
-                                menuId: menu.menuId,
-                                request: {
-                                    index: menu.courses.length,
-                                    title: course.title,
-                                    mealOptions: course.mealOptions.map(({ mealId }, mealIndex) => ({ index: mealIndex, mealId })),
+                {showCreateCourseDialog && (
+                    <CreateCookMenuCourse
+                        open
+                        meals={meals}
+                        onSuccess={(course): void => {
+                            void createCourse({
+                                variables: {
+                                    cookId,
+                                    menuId: menu.menuId,
+                                    request: {
+                                        index: menu.courses.length,
+                                        title: course.title,
+                                        mealOptions: course.mealOptions.map(({ mealId }, mealIndex) => ({ index: mealIndex, mealId })),
+                                    },
                                 },
-                            },
-                        }).then((result) => result.data?.cooks.menus.courses.success && onChangesApplied());
-                        setShowCreateCourseDialog(false);
-                    }}
-                    onCancel={(): void => setShowCreateCourseDialog(false)}
-                />
+                            }).then((result) => result.data?.cooks.menus.courses.success && onChangesApplied());
+                            setShowCreateCourseDialog(false);
+                        }}
+                        onCancel={(): void => setShowCreateCourseDialog(false)}
+                    />
+                )}
 
                 {!!courseToUpdate && (
                     <UpdateCookMenuCourseDialog
@@ -336,6 +343,10 @@ export default function ChefProfilePageEditMenusStep2({
                         </>
                     )}
                 </HStack>
+
+                <Snackbar open={changesHaveBeenSaved}>
+                    <Alert severity="success">Änderungen erfolgreich gespeichert</Alert>
+                </Snackbar>
             </VStack>
         </VStack>
     );

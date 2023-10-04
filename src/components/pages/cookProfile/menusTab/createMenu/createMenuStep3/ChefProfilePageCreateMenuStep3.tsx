@@ -1,4 +1,4 @@
-import { Divider } from '@mui/material';
+import { Divider, MenuItem, Select } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { type CurrencyCode } from '../../../../../../data-source/generated/graphql';
@@ -81,27 +81,6 @@ export default function ChefProfilePageCreateMenusStep3({
 
     return (
         <VStack gap={32} className="w-full" style={{ justifyContent: 'flex-end' }}>
-            <HStack className="w-full gap-8 md:gap-0" style={{ alignItems: 'flex-end', flexWrap: 'wrap' }}>
-                <VStack className="h-full" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
-                    <p className="text-text-m-bold">{t('create-menu-preparation-time')}</p>
-                    <PENumberTextField
-                        min={0}
-                        max={240}
-                        step={15}
-                        onChange={setPreparationTime}
-                        value={preparationTime}
-                        endContent={<>min</>}
-                    />
-                </VStack>
-
-                <HStack style={{ alignItems: 'center', justifyContent: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 512 }}>
-                    <PECheckbox checked={isVisible} onCheckedChange={(): void => setIsVisible(!isVisible)} />
-                    <p className="text-text-m-bold">{t('create-menu-is-visible')}</p>
-                </HStack>
-            </HStack>
-
-            <Divider className="w-full mt-4 md:mt-0" />
-
             <HStack className="w-full gap-8 md:gap-4" style={{ flexWrap: 'wrap' }}>
                 <VStack className="gap-4 md:gap-2" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
                     <p className="text-heading-l mb-2 md:text-text-m-bold">{t('create-menu-price-configuration-headline')}</p>
@@ -227,6 +206,47 @@ export default function ChefProfilePageCreateMenusStep3({
                         endContent={<p className="text-green">{currencyCode}</p>}
                     />
                 </VStack>
+            </HStack>
+
+            <Divider className="w-full mt-4 md:mt-0" />
+
+            <HStack className="w-full gap-8 md:gap-0" style={{ alignItems: 'flex-end', flexWrap: 'wrap' }}>
+                <VStack className="h-full" style={{ flex: 1, alignItems: 'flex-start', minWidth: isMobile ? 200 : 512 }}>
+                    <p className="text-text-m-bold">{t('create-menu-preparation-time')}</p>
+                    <Select
+                        value={String(preparationTime)}
+                        onChange={(event): void => setPreparationTime(Number(event.target.value))}
+                        sx={{
+                            '&.Mui-focused': {
+                                '.MuiOutlinedInput-notchedOutline': {
+                                    border: '1px solid black',
+                                    borderColor: 'black',
+                                },
+                            },
+                            borderRadius: '12px',
+                            width: '100%',
+                        }}
+                    >
+                        <MenuItem value={30}>30min</MenuItem>
+                        <MenuItem value={60}>1h</MenuItem>
+                        <MenuItem value={120}>2h</MenuItem>
+                        <MenuItem value={180}>3h</MenuItem>
+                    </Select>
+
+                    {/* <PENumberTextField
+                        min={0}
+                        max={240}
+                        step={15}
+                        onChange={setPreparationTime}
+                        value={preparationTime}
+                        endContent={<>min</>}
+                    /> */}
+                </VStack>
+
+                <HStack style={{ alignItems: 'center', justifyContent: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 512 }}>
+                    <PECheckbox checked={isVisible} onCheckedChange={(): void => setIsVisible(!isVisible)} />
+                    <p className="text-text-m-bold">{t('create-menu-is-visible')}</p>
+                </HStack>
             </HStack>
 
             <PEButton title={t('create-menu-complete')} onClick={onComplete} />

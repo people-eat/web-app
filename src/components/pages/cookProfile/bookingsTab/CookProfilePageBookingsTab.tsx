@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Divider, List, ListItemButton } from '@mui/material';
+import { Divider, List, ListItemButton, Skeleton } from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -20,8 +20,8 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
     const [selectedBookingRequestId, setSelectedBookingRequestId] = useState<string | undefined>();
     const { t } = useTranslation('global-booking-request');
     const { t: chefProfileTranslations } = useTranslation('chef-profile');
-    const bookingRequestsResult = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
-    const bookingRequests = bookingRequestsResult.data?.cooks.bookingRequests.findMany ?? [];
+    const { data, loading } = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
+    const bookingRequests = data?.cooks.bookingRequests.findMany ?? [];
 
     const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
@@ -49,86 +49,96 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
 
                     <Divider />
 
-                    <List style={{ overflowY: 'scroll', paddingTop: 0, paddingBottom: 0 }}>
-                        {bookingRequests.map((bookingRequest) => (
-                            <>
-                                <ListItemButton
-                                    key={bookingRequest.bookingRequestId}
-                                    onClick={(): void => setSelectedBookingRequestId(bookingRequest.bookingRequestId)}
-                                >
-                                    <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
-                                        <HStack className="w-full">
-                                            {bookingRequest.status === 'OPEN' && (
-                                                <span
-                                                    className="text-green"
-                                                    style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
-                                                >
-                                                    {chefProfileTranslations('booking-open')}
+                    {loading && (
+                        <VStack gap={1} style={{ alignItems: 'stretch' }}>
+                            <Skeleton variant="rectangular" height={180} />
+                            <Skeleton variant="rectangular" height={180} />
+                            <Skeleton variant="rectangular" height={180} />
+                        </VStack>
+                    )}
+
+                    {!loading && (
+                        <List style={{ overflowY: 'scroll', paddingTop: 0, paddingBottom: 0 }}>
+                            {bookingRequests.map((bookingRequest) => (
+                                <>
+                                    <ListItemButton
+                                        key={bookingRequest.bookingRequestId}
+                                        onClick={(): void => setSelectedBookingRequestId(bookingRequest.bookingRequestId)}
+                                    >
+                                        <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
+                                            <HStack className="w-full">
+                                                {bookingRequest.status === 'OPEN' && (
+                                                    <span
+                                                        className="text-green"
+                                                        style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
+                                                    >
+                                                        {chefProfileTranslations('booking-open')}
+                                                    </span>
+                                                )}
+                                                {bookingRequest.status === 'PENDING' && (
+                                                    <span
+                                                        className="text-blue-400"
+                                                        style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
+                                                    >
+                                                        {chefProfileTranslations('booking-in-progress')}
+                                                    </span>
+                                                )}
+                                                {bookingRequest.status === 'CANCELED' && (
+                                                    <span
+                                                        className="text-red-400"
+                                                        style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
+                                                    >
+                                                        {chefProfileTranslations('booking-cancelled')}
+                                                    </span>
+                                                )}
+                                                {bookingRequest.status === 'COMPLETED' && (
+                                                    <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>
+                                                        Completed
+                                                    </span>
+                                                )}
+                                                <Spacer />
+                                                <span className="text-green" style={{ fontWeight: 'bold' }}>
+                                                    {formatPrice(bookingRequest.price)}
                                                 </span>
-                                            )}
-                                            {bookingRequest.status === 'PENDING' && (
-                                                <span
-                                                    className="text-blue-400"
-                                                    style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
-                                                >
-                                                    {chefProfileTranslations('booking-in-progress')}
-                                                </span>
-                                            )}
-                                            {bookingRequest.status === 'CANCELED' && (
-                                                <span
-                                                    className="text-red-400"
-                                                    style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
-                                                >
-                                                    {chefProfileTranslations('booking-cancelled')}
-                                                </span>
-                                            )}
-                                            {bookingRequest.status === 'COMPLETED' && (
-                                                <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>
-                                                    Completed
-                                                </span>
-                                            )}
-                                            <Spacer />
-                                            <span className="text-green" style={{ fontWeight: 'bold' }}>
-                                                {formatPrice(bookingRequest.price)}
+                                            </HStack>
+                                            <span className="text-heading-ss-bold md:text-text-sm-bold">
+                                                {bookingRequest.configuredMenu?.title ?? chefProfileTranslations('cook-request-title')}
                                             </span>
-                                        </HStack>
-                                        <span className="text-heading-ss-bold md:text-text-sm-bold">
-                                            {bookingRequest.configuredMenu?.title ?? chefProfileTranslations('cook-request-title')}
-                                        </span>
 
-                                        <HStack gap={16} className="text-gray">
-                                            {moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
-                                            <Divider orientation="vertical" flexItem style={{ display: 'inline' }}></Divider>
-                                            {moment(bookingRequest.dateTime).format('LT')}
-                                        </HStack>
+                                            <HStack gap={16} className="text-gray">
+                                                {moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
+                                                <Divider orientation="vertical" flexItem style={{ display: 'inline' }}></Divider>
+                                                {moment(bookingRequest.dateTime).format('LT')}
+                                            </HStack>
 
-                                        <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
-                                            {bookingRequest.user.profilePictureUrl && (
-                                                <Image
-                                                    className="rounded-3"
-                                                    style={{ width: '45px', height: '45px', objectFit: 'cover' }}
-                                                    src={bookingRequest.user.profilePictureUrl}
-                                                    alt={'client image'}
-                                                    width={45}
-                                                    height={45}
-                                                />
-                                            )}
-                                            {!bookingRequest.user.profilePictureUrl && (
-                                                <div className="flex justify-center items-center w-11 h-11 bg-base rounded-3">
-                                                    <PEIcon icon={Icon.profileLight} edgeLength={32} />
-                                                </div>
-                                            )}
-                                            {bookingRequest.user.firstName}
-                                            <Spacer />
-                                            {t('in')} {moment(bookingRequest.dateTime).diff(moment(), 'days')} {t('days')}
-                                        </HStack>
-                                    </VStack>
-                                </ListItemButton>
+                                            <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
+                                                {bookingRequest.user.profilePictureUrl && (
+                                                    <Image
+                                                        className="rounded-3"
+                                                        style={{ width: '45px', height: '45px', objectFit: 'cover' }}
+                                                        src={bookingRequest.user.profilePictureUrl}
+                                                        alt={'client image'}
+                                                        width={45}
+                                                        height={45}
+                                                    />
+                                                )}
+                                                {!bookingRequest.user.profilePictureUrl && (
+                                                    <div className="flex justify-center items-center w-11 h-11 bg-base rounded-3">
+                                                        <PEIcon icon={Icon.profileLight} edgeLength={32} />
+                                                    </div>
+                                                )}
+                                                {bookingRequest.user.firstName}
+                                                <Spacer />
+                                                {t('in')} {moment(bookingRequest.dateTime).diff(moment(), 'days')} {t('days')}
+                                            </HStack>
+                                        </VStack>
+                                    </ListItemButton>
 
-                                <Divider key={bookingRequest.bookingRequestId + 'divider'} />
-                            </>
-                        ))}
-                    </List>
+                                    <Divider key={bookingRequest.bookingRequestId + 'divider'} />
+                                </>
+                            ))}
+                        </List>
+                    )}
                 </VStack>
 
                 <VStack

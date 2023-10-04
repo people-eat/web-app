@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent } from '@mui/material';
+import { Alert, CircularProgress, Dialog, DialogContent, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
@@ -27,6 +27,8 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
     const { data, loading, refetch } = useQuery(FindCookMealsDocument, { variables: { cookId } });
 
     const meals = data?.cooks.meals.findMany ?? [];
+
+    const [showMealCreatedBanner, setShowMealCreatedBanner] = useState(false);
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 box-border gap-6">
@@ -86,6 +88,8 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
                     onSuccess={(mealType: MealType): void => {
                         setSelectedTab('MEALS');
                         setSelectedMealType(mealType);
+                        setShowMealCreatedBanner(true);
+                        setTimeout(() => setShowMealCreatedBanner(false), 3000);
                         void refetch();
                     }}
                 />
@@ -125,6 +129,10 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
                     </DialogContent>
                 </Dialog>
             )}
+
+            <Snackbar open={showMealCreatedBanner}>
+                <Alert severity="success">Gericht erfolgreich erstellt</Alert>
+            </Snackbar>
         </VStack>
     );
 }

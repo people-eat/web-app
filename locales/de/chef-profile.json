@@ -104,5 +104,7 @@
     "booking-accept-button": "Akzeptieren",
     "request-made": "Bestellung erfolgt am:",
     "see-order-details": "Siehe die Bestelldetails",
-    "cook-request-title": "Kochanfrage"
+    "cook-request-title": "Kochanfrage",
+    "menu-detail-is-visible-label": "Menü ist öffentlich und kann von Kunden gesehen werden",
+    "menu-detail-is-not-visible-label": "Menü ist privat und nur für dich einsehbar"
 }

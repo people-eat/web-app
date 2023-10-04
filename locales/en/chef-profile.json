@@ -103,5 +103,7 @@
     "booking-accept-button": "Accept",
     "request-made": "Booking made on:",
     "see-order-details": "See order details",
-    "cook-request-title": "Cook Request"
+    "cook-request-title": "Cook Request",
+    "menu-detail-is-visible-label": "Menu is public and can be seen by customers",
+    "menu-detail-is-not-visible-label": "Menu is private and only visible to you"
 }

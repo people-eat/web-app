@@ -46,14 +46,15 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
         >
             <DialogTitle>
                 <HStack>
-                    <span>{t('create-menu-courses-add-course')}</span>
+                    <span style={{ fontWeight: 'bold' }}>{t('create-menu-courses-add-course')}</span>
                     <Spacer />
                     <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                 </HStack>
             </DialogTitle>
+
             <DialogContent sx={{ margin: 0, padding: isMobile ? '8px' : '16px', boxSizing: 'border-box' }}>
                 <DialogContentText>
-                    <VStack gap={32}>
+                    <VStack gap={32} style={{ marginTop: 8 }}>
                         <PETextField value={title} onChange={setTitle} type="text" placeholder={t('create-menu-course-name')} />
 
                         <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start', overflowX: 'scroll' }}>

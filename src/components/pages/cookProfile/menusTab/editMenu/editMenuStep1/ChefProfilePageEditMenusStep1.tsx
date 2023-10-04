@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Divider } from '@mui/material';
+import { Alert, Divider, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
@@ -61,6 +61,8 @@ export default function ChefProfilePageEditMenusStep1({
     const kitchens = data?.kitchens.findAll ?? [];
     const categories = data?.categories.findAll ?? [];
 
+    const [changesHaveBeenSaved, setChangesHaveBeenSaved] = useState(false);
+
     function handleSaveUpdates(): void {
         if (menu.title !== title) {
             void updateTitle()
@@ -91,6 +93,9 @@ export default function ChefProfilePageEditMenusStep1({
                 .then((result) => result.data?.cooks.menus.success && void onChangesApplied())
                 .catch((e) => console.error(e));
         }
+
+        setChangesHaveBeenSaved(true);
+        setTimeout(() => setChangesHaveBeenSaved(false), 2000);
     }
 
     useEffect(() => {
@@ -153,9 +158,7 @@ export default function ChefProfilePageEditMenusStep1({
 
             <HStack style={{ alignItems: 'center' }}>
                 <PECheckbox checked={isVisible} onCheckedChange={(): void => setIsVisible(!isVisible)} />
-                <p className="text-text-m-bold">
-                    {isVisible ? 'Menu is public and can be seen by customers' : 'Menu is private and only visible to you'}
-                </p>
+                <p className="text-text-m-bold">{isVisible ? t('menu-detail-is-visible-label') : t('menu-detail-is-not-visible-label')}</p>
             </HStack>
 
             <HStack className="w-full" gap={16} style={{ marginTop: 32 }}>
@@ -172,6 +175,10 @@ export default function ChefProfilePageEditMenusStep1({
                     }
                 />
             </HStack>
+
+            <Snackbar open={changesHaveBeenSaved}>
+                <Alert severity="success">Änderungen erfolgreich gespeichert</Alert>
+            </Snackbar>
         </VStack>
     );
 }

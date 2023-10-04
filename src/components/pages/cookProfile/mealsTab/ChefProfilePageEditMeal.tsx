@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent } from '@mui/material';
+import { Alert, CircularProgress, Dialog, DialogContent, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
@@ -100,7 +100,8 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
         }
 
         setChangesWereSaved(true);
-        setTimeout(() => onSaveUpdates(), 1500);
+        setTimeout(() => setChangesWereSaved(false), 2000);
+        // setTimeout(() => onSaveUpdates(), 1500);
     }
 
     return (
@@ -212,12 +213,9 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                 </>
             )}
 
-            <Dialog open={changesWereSaved}>
-                <DialogContent>
-                    Änderungen erfolgreich gespeichert
-                    {/* <Button onClick={(): void => onSaveUpdates()}>Zu Gerichten</Button> */}
-                </DialogContent>
-            </Dialog>
+            <Snackbar open={changesWereSaved}>
+                <Alert severity="success">Änderungen erfolgreich gespeichert</Alert>
+            </Snackbar>
         </VStack>
     );
 }
