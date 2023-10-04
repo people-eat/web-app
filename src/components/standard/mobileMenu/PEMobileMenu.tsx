@@ -73,8 +73,8 @@ export default function PEMobileMenu({
                 )}
 
                 {signedInUser && !signedInUser.isCook && (
-                    <Link className="no-underline w-full" href="/how-to-chef">
-                        <PEButton onClick={(): void => undefined} title="Become a Chef" />
+                    <Link className="no-underline w-full" href="/chef-sign-up">
+                        <PEButton onClick={(): void => undefined} title="Koch werden" />
                     </Link>
                 )}
 
