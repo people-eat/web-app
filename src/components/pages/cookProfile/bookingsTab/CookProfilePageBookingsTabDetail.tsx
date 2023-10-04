@@ -37,6 +37,7 @@ export default function CookProfilePageBookingsTabDetail({
 
     const { t: translateBooking } = useTranslation('global-booking-request');
     const { t: commonTranslate } = useTranslation('common');
+    const { t: cookProfileTranslate } = useTranslation('chef-profile');
 
     const tabToTranslations: Record<'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING', string> = {
         ['CHAT']: translateBooking('tab-chat'),
@@ -182,7 +183,7 @@ export default function CookProfilePageBookingsTabDetail({
                                         })
                                     }
                                 >
-                                    Send
+                                    {cookProfileTranslate('booking-chat-send')}
                                 </Button>
                             }
                         />
@@ -193,6 +194,7 @@ export default function CookProfilePageBookingsTabDetail({
             {bookingRequest.configuredMenu && tab === 'MENU' && (
                 <VStack>
                     <span className="text-heading-m">{bookingRequest.configuredMenu.title}</span>
+                    {JSON.stringify(bookingRequest.configuredMenu)}
                     <VStack gap={32} style={{ flex: 1 }}>
                         {bookingRequest.configuredMenu.courses.map((course) => (
                             <VStack gap={16} key={course.index} className="w-full">
@@ -281,7 +283,7 @@ export default function CookProfilePageBookingsTabDetail({
             )}
 
             <Dialog open={acceptLoading}>
-                <DialogTitle>Akzeptiere Buchungsanfrage</DialogTitle>
+                <DialogTitle>{cookProfileTranslate('booking-loading-title-accept')}</DialogTitle>
                 <DialogContent>
                     <VStack>
                         <CircularProgress />
@@ -290,7 +292,7 @@ export default function CookProfilePageBookingsTabDetail({
             </Dialog>
 
             <Dialog open={declineLoading}>
-                <DialogTitle>Lehne Buchungsanfrage ab</DialogTitle>
+                <DialogTitle>{cookProfileTranslate('booking-loading-title-decline')}</DialogTitle>
                 <DialogContent>
                     <VStack>
                         <CircularProgress />
