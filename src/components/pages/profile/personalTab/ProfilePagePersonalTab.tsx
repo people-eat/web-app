@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
+import CakeIcon from '@mui/icons-material/Cake';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import { Dialog, DialogContent } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import List from '@mui/material/List';
-import { DatePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -75,10 +76,8 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     const [lastName, setLastName] = useState(userProfile?.lastName);
     const [isCook, setIsCook] = useState(userProfile?.isCook);
 
-    const [editFirstName, setEditFirstName] = useState(userProfile?.firstName);
-    const [editLastName, setEditLastName] = useState(userProfile?.lastName);
     const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined | null>(null);
-    const [editPhoneNumber, setEditPhoneNumber] = useState(userProfile?.phoneNumber ?? '');
+    const [editPhoneNumber, setEditPhoneNumber] = useState(userProfile?.phoneNumberUpdate?.phoneNumber ?? '');
     const [editBirthDate, setEditBirthDate] = useState<Date | null>(userProfile?.birthDate ? new Date(userProfile.birthDate) : null);
     const [editEmail, setEditEmail] = useState('');
     const [showPasswordChangeSuccessDialog, setShowPasswordChangeSuccessDialog] = useState(false);
@@ -88,11 +87,10 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
         setFirstName(userProfile?.firstName);
         setLastName(userProfile?.lastName);
         setImage(userProfile?.profilePictureUrl ?? undefined);
-        setEditFirstName(userProfile?.firstName);
-        setEditLastName(userProfile?.lastName);
         setIsCook(userProfile?.isCook);
         setEditEmail(userProfile?.emailAddress ?? '');
-        setEditPhoneNumber(userProfile?.phoneNumber ?? '');
+        // @todo should be the verified phone number
+        setEditPhoneNumber(userProfile?.phoneNumberUpdate?.phoneNumber ?? '');
     }, [loading, data, userProfile]);
 
     useEffect(() => {
@@ -100,9 +98,8 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
     }, [router, refetch]);
 
     function handleUnSaveChefName(): void {
-        setEditFirstName(userProfile?.firstName ?? '');
-        setEditLastName(userProfile?.lastName ?? '');
-        setEditPhoneNumber(userProfile?.phoneNumber ?? '');
+        // @todo should be the verified phone number
+        setEditPhoneNumber(userProfile?.phoneNumberUpdate?.phoneNumber ?? '');
         setEditBirthDate(userProfile?.birthDate ? new Date(userProfile.birthDate) : null);
         setEdit(!edit);
     }
@@ -126,8 +123,6 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
         }
 
         if (
-            firstName !== editFirstName ||
-            lastName !== editLastName ||
             editPhoneNumber !== userProfile?.phoneNumber ||
             editBirthDate !== (userProfile?.birthDate ? new Date(userProfile.birthDate) : null)
         ) {
@@ -168,8 +163,6 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
         }
 
         setEditedProfilePicture(undefined);
-        setFirstName(editFirstName);
-        setLastName(editLastName);
         setEdit(!edit);
     }
 
@@ -291,13 +284,20 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('birthday-label')}</p>
 
-                                <DatePicker
+                                <PETextField
+                                    disabled
+                                    type="text"
+                                    value={userProfile.birthDate ? moment(userProfile.birthDate).format('LT') : ''}
+                                    endContent={<CakeIcon />}
+                                />
+
+                                {/* <DatePicker
                                     className="border-solid w-full box-border border-[1px] border-disabled p-[11px] rounded-3 hover:border-black"
                                     sx={{ width: '100%' }}
                                     disabled
                                     value={userProfile.birthDate ? moment(userProfile.birthDate) : undefined}
                                     slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
-                                />
+                                /> */}
                             </VStack>
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
                                 <p className="m-0 mb-3">{t('email-address-label')}</p>
@@ -313,7 +313,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                     />
                                 )}
                                 {userProfile.emailAddress && !userProfile.emailAddressUpdate?.emailAddress && (
-                                    <PETextField disabled type="text" value={userProfile.emailAddress} />
+                                    <PETextField disabled type="text" value={userProfile.emailAddress} endContent={<MailOutlineIcon />} />
                                 )}
                             </VStack>
                             <VStack style={{ alignItems: 'flex-start', flex: 1, minWidth: isMobile ? 200 : 420 }}>
@@ -482,16 +482,6 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                             <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
                                 <h2 className="m-0 pb-5">{t('popup-edit-user-profile')}</h2>
                                 <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
-                                    <PETextField
-                                        type={'text'}
-                                        value={editFirstName}
-                                        onChange={(newFirstName: string): void => setEditFirstName(newFirstName)}
-                                    />
-                                    <PETextField
-                                        type={'text'}
-                                        value={editLastName}
-                                        onChange={(newLastName: string): void => setEditLastName(newLastName)}
-                                    />
                                     <PEPhoneNumberTextField
                                         phoneNumber={editPhoneNumber}
                                         onChange={(newPhoneNumber: string): void => setEditPhoneNumber(newPhoneNumber)}
@@ -520,8 +510,6 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                     title={t('popup-edit-button')}
                                     disabled={
                                         editedProfilePicture === null &&
-                                        firstName === editFirstName &&
-                                        lastName === editLastName &&
                                         editPhoneNumber === userProfile?.phoneNumber &&
                                         editBirthDate === (userProfile?.birthDate ? new Date(userProfile.birthDate) : null)
                                     }
@@ -566,8 +554,6 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                     <DialogContent sx={{ padding: '30px 0' }}>
                                         <h2 className="m-0 pb-5">{t('popup-edit-user-profile')}</h2>
                                         <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
-                                            <PETextField type={'text'} value={editFirstName} onChange={setEditFirstName} />
-                                            <PETextField type={'text'} value={editLastName} onChange={setEditLastName} />
                                             <PEPhoneNumberTextField
                                                 phoneNumber={editPhoneNumber}
                                                 onChange={(newPhoneNumber: string): void => setEditPhoneNumber(newPhoneNumber)}
@@ -589,8 +575,6 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                             title={t('popup-edit-button')}
                                             disabled={
                                                 editedProfilePicture === null &&
-                                                firstName === editFirstName &&
-                                                lastName === editLastName &&
                                                 editPhoneNumber === userProfile?.phoneNumber &&
                                                 editBirthDate === (userProfile?.birthDate ? new Date(userProfile.birthDate) : null)
                                             }
