@@ -287,7 +287,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                                 <PETextField
                                     disabled
                                     type="text"
-                                    value={userProfile.birthDate ? moment(userProfile.birthDate).format('LT') : ''}
+                                    value={userProfile.birthDate ? moment(userProfile.birthDate).format('LL') : ''}
                                     endContent={<CakeIcon />}
                                 />
 

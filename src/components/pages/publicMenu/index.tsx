@@ -511,6 +511,7 @@ export default function PublicMenuPage({
                                 />
                             )}
                         </HStack>
+
                         {isMobile && <PEButton title="Weiter" onClick={(): void => setAreMealsOnMenuSelected(true)} />}
 
                         {isMobile && areMealsOnMenuSelected && (
