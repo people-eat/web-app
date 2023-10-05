@@ -18,7 +18,7 @@ export interface CookProfilePageBookingsTabProps {
 
 export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBookingsTabProps): ReactElement {
     const [selectedBookingRequestId, setSelectedBookingRequestId] = useState<string | undefined>();
-    const { t } = useTranslation('global-booking-request');
+    const { t: translateGlobalBookingRequest } = useTranslation('global-booking-request');
     const { t: chefProfileTranslations } = useTranslation('chef-profile');
     const { data, loading } = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
     const bookingRequests = data?.cooks.bookingRequests.findMany ?? [];
@@ -44,7 +44,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                     }}
                 >
                     <span style={{ margin: 16 }} className="text-heading-ss-bold md:text-text-sm-bold">
-                        {chefProfileTranslations('tab-bookings')}
+                        {translateGlobalBookingRequest('booking-request-title')}
                     </span>
 
                     <Divider />
@@ -101,13 +101,12 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                     {formatPrice(bookingRequest.price)}
                                                 </span>
                                             </HStack>
-                                            <span className="text-heading-ss-bold md:text-text-sm-bold">
-                                                {bookingRequest.configuredMenu?.title ?? chefProfileTranslations('cook-request-title')}
-                                            </span>
+
+                                            <span className="text-heading-ss-bold md:text-text-sm-bold">{bookingRequest.occasion}</span>
 
                                             <HStack gap={16} className="text-gray">
                                                 {moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
-                                                <Divider orientation="vertical" flexItem style={{ display: 'inline' }}></Divider>
+                                                <Divider orientation="vertical" flexItem style={{ display: 'inline' }} />
                                                 {moment(bookingRequest.dateTime).format('LT')}
                                             </HStack>
 
@@ -129,7 +128,9 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                                 )}
                                                 {bookingRequest.user.firstName}
                                                 <Spacer />
-                                                {t('in')} {moment(bookingRequest.dateTime).diff(moment(), 'days')} {t('days')}
+                                                {translateGlobalBookingRequest('in')}{' '}
+                                                {moment(bookingRequest.dateTime).diff(moment(), 'days')}{' '}
+                                                {translateGlobalBookingRequest('days')}
                                             </HStack>
                                         </VStack>
                                     </ListItemButton>
@@ -154,7 +155,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                         />
                     )}
 
-                    {!selectedBookingRequestId && t('booking-selection')}
+                    {!selectedBookingRequestId && translateGlobalBookingRequest('booking-selection')}
                 </VStack>
             </HStack>
         </>

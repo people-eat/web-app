@@ -21,6 +21,7 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import CookProfilePageBookingsChatMessages from './CookProfilePageBookingsChatMessages';
+import { cookProfileBookingTabTranslationKeys, cookProfileBookingTabTypes, type CookProfileBookingTabType } from './cookProfileBookingTabs';
 
 export interface CookProfilePageBookingsTabProps {
     cookId: string;
@@ -39,14 +40,7 @@ export default function CookProfilePageBookingsTabDetail({
     const { t: commonTranslate } = useTranslation('common');
     const { t: cookProfileTranslate } = useTranslation('chef-profile');
 
-    const tabToTranslations: Record<'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING', string> = {
-        ['CHAT']: translateGlobalBookingRequest('tab-chat'),
-        ['EVENT_DETAILS']: translateGlobalBookingRequest('tab-details'),
-        ['MENU']: translateGlobalBookingRequest('tab-menu'),
-        ['RATING']: translateGlobalBookingRequest('tab-rating'),
-    };
-
-    const [tab, setTab] = useState<'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING'>('CHAT');
+    const [tab, setTab] = useState<CookProfileBookingTabType>('CHAT');
     const [newMessage, setNewMessage] = useState('');
     const [amount, setAmount] = useState(0);
 
@@ -68,30 +62,15 @@ export default function CookProfilePageBookingsTabDetail({
         <>
             <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
                 <Tabs value={tab}>
-                    <Tab
-                        value="CHAT"
-                        onClick={(): void => setTab('CHAT')}
-                        style={{ textTransform: 'none' }}
-                        label={tabToTranslations['CHAT']}
-                    />
-                    <Tab
-                        value="EVENT_DETAILS"
-                        onClick={(): void => setTab('EVENT_DETAILS')}
-                        style={{ textTransform: 'none' }}
-                        label={tabToTranslations['EVENT_DETAILS']}
-                    />
-                    <Tab
-                        value="MENU"
-                        onClick={(): void => setTab('MENU')}
-                        style={{ textTransform: 'none' }}
-                        label={tabToTranslations['MENU']}
-                    />
-                    <Tab
-                        value="RATING"
-                        onClick={(): void => setTab('RATING')}
-                        style={{ textTransform: 'none' }}
-                        label={tabToTranslations['RATING']}
-                    />
+                    {cookProfileBookingTabTypes.map((tabType) => (
+                        <Tab
+                            key={tabType}
+                            value={tabType}
+                            onClick={(): void => setTab(tabType)}
+                            style={{ textTransform: 'none' }}
+                            label={translateGlobalBookingRequest(cookProfileBookingTabTranslationKeys[tabType])}
+                        />
+                    ))}
                 </Tabs>
 
                 <Spacer />

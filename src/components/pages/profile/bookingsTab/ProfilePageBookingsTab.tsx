@@ -95,7 +95,7 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                                 <span className="text-green">{formatPrice(bookingRequest.price)}</span>
                                             </HStack>
 
-                                            <span className={'text-heading-ss-bold md:text-text-sm-bold'}>{t('chef-request-title')}</span>
+                                            <span className="text-heading-ss-bold md:text-text-sm-bold">{bookingRequest.occasion}</span>
 
                                             <HStack gap={16} className="text-gray">
                                                 {moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}

@@ -57,7 +57,6 @@
     "in-process": "in process",
     "cancelled": "cancelled",
     "completed": "completed",
-    "chef-request-title": "Chef Booking Request",
     "select-message": "Select a booking request",
     "loading": "Loading...",
     "event-details": "Event Details",
