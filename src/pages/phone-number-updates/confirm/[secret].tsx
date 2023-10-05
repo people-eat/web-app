@@ -19,7 +19,7 @@ const Index: NextPage = () => {
     const secret = router.query.secret;
 
     const [confirmOnePhoneNumberUpdate, { data, loading, error }] = useMutation(ConfirmOnePhoneNumberUpdateDocument, {
-        variables: { userId: '', secret: secret as string },
+        variables: { secret: secret as string },
     });
 
     return (

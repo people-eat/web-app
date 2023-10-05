@@ -1,0 +1,7 @@
+mutation ConfirmOneOneTimeAccessToken($secret: String!) {
+    users {
+        oneTimeAccessToken(userId: "") {
+            success: confirm(secret: $secret)
+        }
+    }
+}

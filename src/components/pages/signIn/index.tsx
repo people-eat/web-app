@@ -17,6 +17,7 @@ import PEPasswordTextField from '../../standard/textFields/PEPasswordTextField';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
+import ForgotPasswordDialog from './ForgotPasswordDialog';
 
 export default function SignInPage(): ReactElement {
     const { isDesktop } = useResponsive();
@@ -27,6 +28,7 @@ export default function SignInPage(): ReactElement {
     const [password, setPassword] = useState('');
     const [staySignedIn, setStaySignedIn] = useState(true);
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [forgotPasswordDialogOpen, setForgotPasswordDialogOpen] = useState(false);
 
     const closeErrorDialog = (): void => {
         setErrorDialogOpen(false);
@@ -115,9 +117,7 @@ export default function SignInPage(): ReactElement {
                         <PELineButton
                             title={t('forgot-password-label')}
                             fontSize={'text-text-m'}
-                            onClick={function (): void {
-                                throw new Error('Function not implemented.');
-                            }}
+                            onClick={(): void => setForgotPasswordDialogOpen(true)}
                         />
                     </div>
 
@@ -165,6 +165,8 @@ export default function SignInPage(): ReactElement {
                     </DialogContent>
                 </Dialog>
             )}
+
+            <ForgotPasswordDialog open={forgotPasswordDialogOpen} onClose={(): void => setForgotPasswordDialogOpen(false)} />
 
             {(error || (data && !data.sessions.success)) && (
                 <Dialog open={errorDialogOpen} className="p-3">

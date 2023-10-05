@@ -21,6 +21,7 @@ export default function PETextField({
         <TextField
             {...params}
             value={value}
+            // use helperText for hints during validation. Maybe in combination with error
             onChange={({ target }): void => onChange?.(target.value, validationRule ? validationRule(target.value) : true)}
             placeholder={placeholder}
             disabled={disabled}

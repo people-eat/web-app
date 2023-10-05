@@ -1,0 +1,7 @@
+mutation CreateOneOneTimeAccessTokenByEmailAddress($emailAddress: EmailAddress!) {
+    users {
+        oneTimeAccessToken(userId: "") {
+            success: createOneForEmailAddress(emailAddress: $emailAddress)
+        }
+    }
+}

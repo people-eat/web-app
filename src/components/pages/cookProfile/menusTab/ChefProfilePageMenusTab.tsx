@@ -231,13 +231,11 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                 </>
             )}
 
-            {loading && (
-                <Dialog open>
-                    <DialogContent>
-                        <CircularProgress />
-                    </DialogContent>
-                </Dialog>
-            )}
+            <Dialog open={loading}>
+                <DialogContent>
+                    <CircularProgress />
+                </DialogContent>
+            </Dialog>
 
             <Dialog open={openCreateNewMenuSuccess} onClose={(): void => setOpenCreateNewMenuSuccess(false)}>
                 <DialogContent className="overflow-hidden flex justify-center">

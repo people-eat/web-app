@@ -3339,7 +3339,6 @@ export type UpdateCookTravelExpensesMutationVariables = Exact<{
 export type UpdateCookTravelExpensesMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
 
 export type ConfirmOneEmailAddressUpdateMutationVariables = Exact<{
-    userId: Scalars['String'];
     secret: Scalars['String'];
 }>;
 
@@ -3367,8 +3366,25 @@ export type SignedInUserFragment = {
     isAdmin: boolean;
 } & { ' $fragmentName'?: 'SignedInUserFragment' };
 
+export type ConfirmOneOneTimeAccessTokenMutationVariables = Exact<{
+    secret: Scalars['String'];
+}>;
+
+export type ConfirmOneOneTimeAccessTokenMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; oneTimeAccessToken: { __typename?: 'UserOneTimeAccessTokenMutation'; success: boolean } };
+};
+
+export type CreateOneOneTimeAccessTokenByEmailAddressMutationVariables = Exact<{
+    emailAddress: Scalars['EmailAddress'];
+}>;
+
+export type CreateOneOneTimeAccessTokenByEmailAddressMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; oneTimeAccessToken: { __typename?: 'UserOneTimeAccessTokenMutation'; success: boolean } };
+};
+
 export type ConfirmOnePhoneNumberUpdateMutationVariables = Exact<{
-    userId: Scalars['String'];
     secret: Scalars['String'];
 }>;
 
@@ -9672,11 +9688,6 @@ export const ConfirmOneEmailAddressUpdateDocument = {
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'secret' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
@@ -9697,7 +9708,7 @@ export const ConfirmOneEmailAddressUpdateDocument = {
                                         {
                                             kind: 'Argument',
                                             name: { kind: 'Name', value: 'userId' },
-                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                            value: { kind: 'StringValue', value: '', block: false },
                                         },
                                     ],
                                     selectionSet: {
@@ -9790,6 +9801,124 @@ export const CreateOneEmailAddressUpdateDocument = {
         },
     ],
 } as unknown as DocumentNode<CreateOneEmailAddressUpdateMutation, CreateOneEmailAddressUpdateMutationVariables>;
+export const ConfirmOneOneTimeAccessTokenDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'ConfirmOneOneTimeAccessToken' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'secret' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'oneTimeAccessToken' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'StringValue', value: '', block: false },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'confirm' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'secret' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'secret' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ConfirmOneOneTimeAccessTokenMutation, ConfirmOneOneTimeAccessTokenMutationVariables>;
+export const CreateOneOneTimeAccessTokenByEmailAddressDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneOneTimeAccessTokenByEmailAddress' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'emailAddress' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'EmailAddress' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'oneTimeAccessToken' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'StringValue', value: '', block: false },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'createOneForEmailAddress' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'emailAddress' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'emailAddress' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneOneTimeAccessTokenByEmailAddressMutation, CreateOneOneTimeAccessTokenByEmailAddressMutationVariables>;
 export const ConfirmOnePhoneNumberUpdateDocument = {
     kind: 'Document',
     definitions: [
@@ -9798,11 +9927,6 @@ export const ConfirmOnePhoneNumberUpdateDocument = {
             operation: 'mutation',
             name: { kind: 'Name', value: 'ConfirmOnePhoneNumberUpdate' },
             variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'secret' } },
@@ -9825,7 +9949,7 @@ export const ConfirmOnePhoneNumberUpdateDocument = {
                                         {
                                             kind: 'Argument',
                                             name: { kind: 'Name', value: 'userId' },
-                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                            value: { kind: 'StringValue', value: '', block: false },
                                         },
                                     ],
                                     selectionSet: {

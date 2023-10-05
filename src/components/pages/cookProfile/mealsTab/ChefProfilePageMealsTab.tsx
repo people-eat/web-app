@@ -130,7 +130,7 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
                 </Dialog>
             )}
 
-            <Snackbar open={showMealCreatedBanner}>
+            <Snackbar open={showMealCreatedBanner} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert severity="success">Gericht erfolgreich erstellt</Alert>
             </Snackbar>
         </VStack>

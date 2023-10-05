@@ -161,12 +161,16 @@ const documents = {
         types.UpdateCookRankDocument,
     'mutation UpdateCookTravelExpenses($cookId: String!, $travelExpenses: UnsignedInt!) {\n  cooks {\n    success: updateTravelExpenses(cookId: $cookId, travelExpenses: $travelExpenses)\n  }\n}':
         types.UpdateCookTravelExpensesDocument,
-    'mutation ConfirmOneEmailAddressUpdate($userId: String!, $secret: String!) {\n  users {\n    emailAddressUpdate(userId: $userId) {\n      success: confirm(secret: $secret)\n    }\n  }\n}':
+    'mutation ConfirmOneEmailAddressUpdate($secret: String!) {\n  users {\n    emailAddressUpdate(userId: "") {\n      success: confirm(secret: $secret)\n    }\n  }\n}':
         types.ConfirmOneEmailAddressUpdateDocument,
     'mutation CreateOneEmailAddressUpdate($emailAddress: EmailAddress!, $userId: String!) {\n  users {\n    emailAddressUpdate(userId: $userId) {\n      success: createOne(emailAddress: $emailAddress)\n    }\n  }\n}':
         types.CreateOneEmailAddressUpdateDocument,
     'fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n  isAdmin\n}': types.SignedInUserFragmentDoc,
-    'mutation ConfirmOnePhoneNumberUpdate($userId: String!, $secret: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: confirm(secret: $secret)\n    }\n  }\n}':
+    'mutation ConfirmOneOneTimeAccessToken($secret: String!) {\n  users {\n    oneTimeAccessToken(userId: "") {\n      success: confirm(secret: $secret)\n    }\n  }\n}':
+        types.ConfirmOneOneTimeAccessTokenDocument,
+    'mutation CreateOneOneTimeAccessTokenByEmailAddress($emailAddress: EmailAddress!) {\n  users {\n    oneTimeAccessToken(userId: "") {\n      success: createOneForEmailAddress(emailAddress: $emailAddress)\n    }\n  }\n}':
+        types.CreateOneOneTimeAccessTokenByEmailAddressDocument,
+    'mutation ConfirmOnePhoneNumberUpdate($secret: String!) {\n  users {\n    phoneNumberUpdate(userId: "") {\n      success: confirm(secret: $secret)\n    }\n  }\n}':
         types.ConfirmOnePhoneNumberUpdateDocument,
     'mutation CreateOnePhoneNumberUpdate($phoneNumber: PhoneNumber!, $userId: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: createOne(phoneNumber: $phoneNumber)\n    }\n  }\n}':
         types.CreateOnePhoneNumberUpdateDocument,
@@ -686,8 +690,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'mutation ConfirmOneEmailAddressUpdate($userId: String!, $secret: String!) {\n  users {\n    emailAddressUpdate(userId: $userId) {\n      success: confirm(secret: $secret)\n    }\n  }\n}',
-): (typeof documents)['mutation ConfirmOneEmailAddressUpdate($userId: String!, $secret: String!) {\n  users {\n    emailAddressUpdate(userId: $userId) {\n      success: confirm(secret: $secret)\n    }\n  }\n}'];
+    source: 'mutation ConfirmOneEmailAddressUpdate($secret: String!) {\n  users {\n    emailAddressUpdate(userId: "") {\n      success: confirm(secret: $secret)\n    }\n  }\n}',
+): (typeof documents)['mutation ConfirmOneEmailAddressUpdate($secret: String!) {\n  users {\n    emailAddressUpdate(userId: "") {\n      success: confirm(secret: $secret)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -704,8 +708,20 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'mutation ConfirmOnePhoneNumberUpdate($userId: String!, $secret: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: confirm(secret: $secret)\n    }\n  }\n}',
-): (typeof documents)['mutation ConfirmOnePhoneNumberUpdate($userId: String!, $secret: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: confirm(secret: $secret)\n    }\n  }\n}'];
+    source: 'mutation ConfirmOneOneTimeAccessToken($secret: String!) {\n  users {\n    oneTimeAccessToken(userId: "") {\n      success: confirm(secret: $secret)\n    }\n  }\n}',
+): (typeof documents)['mutation ConfirmOneOneTimeAccessToken($secret: String!) {\n  users {\n    oneTimeAccessToken(userId: "") {\n      success: confirm(secret: $secret)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation CreateOneOneTimeAccessTokenByEmailAddress($emailAddress: EmailAddress!) {\n  users {\n    oneTimeAccessToken(userId: "") {\n      success: createOneForEmailAddress(emailAddress: $emailAddress)\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOneOneTimeAccessTokenByEmailAddress($emailAddress: EmailAddress!) {\n  users {\n    oneTimeAccessToken(userId: "") {\n      success: createOneForEmailAddress(emailAddress: $emailAddress)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation ConfirmOnePhoneNumberUpdate($secret: String!) {\n  users {\n    phoneNumberUpdate(userId: "") {\n      success: confirm(secret: $secret)\n    }\n  }\n}',
+): (typeof documents)['mutation ConfirmOnePhoneNumberUpdate($secret: String!) {\n  users {\n    phoneNumberUpdate(userId: "") {\n      success: confirm(secret: $secret)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -125,7 +125,7 @@ export default function ChefProfilePageEditMenusStep2({
             <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
                 {editMode && (
                     <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <p className="text-text-m-bold">{t('create-menu-greeting-form-kitchen-label')}</p>
+                        <p className="text-heading-m">{t('create-menu-greeting-form-kitchen-label')}</p>
 
                         <HStack className="gap-4 w-full h-14" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
                             <PETabItem
@@ -152,7 +152,7 @@ export default function ChefProfilePageEditMenusStep2({
 
                 {!editMode && menu.greetingFromKitchen && (
                     <VStack className="w-full">
-                        <p className="w-full mb-4 text-text-m-bold my-0">{t('greeting-from-kitchen')}</p>
+                        <p className="w-full mb-4 text-heading-m my-0">{t('greeting-from-kitchen')}</p>
                         <PETextField type="text" value={greetingFromKitchen} disabled={!editMode} onChange={setGreetingFromKitchen} />
                     </VStack>
                 )}
@@ -160,7 +160,7 @@ export default function ChefProfilePageEditMenusStep2({
                 {courses.map((course, index) => (
                     <VStack key={index} className="w-full" gap={16} style={{ alignItems: 'flex-start' }}>
                         <HStack gap={16} className="w-full" style={{ alignItems: 'center' }}>
-                            {!editMode && <p className="w-full mb-4 text-text-m-bold my-0">{course.title}</p>}
+                            {!editMode && <p className="w-full text-heading-m mb-4 my-0">{course.title}</p>}
                             {editMode && (
                                 <>
                                     <PETextField
@@ -344,7 +344,7 @@ export default function ChefProfilePageEditMenusStep2({
                     )}
                 </HStack>
 
-                <Snackbar open={changesHaveBeenSaved}>
+                <Snackbar open={changesHaveBeenSaved} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                     <Alert severity="success">Änderungen erfolgreich gespeichert</Alert>
                 </Snackbar>
             </VStack>

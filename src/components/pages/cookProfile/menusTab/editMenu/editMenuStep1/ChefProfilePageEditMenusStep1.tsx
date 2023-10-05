@@ -176,7 +176,7 @@ export default function ChefProfilePageEditMenusStep1({
                 />
             </HStack>
 
-            <Snackbar open={changesHaveBeenSaved}>
+            <Snackbar open={changesHaveBeenSaved} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert severity="success">Änderungen erfolgreich gespeichert</Alert>
             </Snackbar>
         </VStack>

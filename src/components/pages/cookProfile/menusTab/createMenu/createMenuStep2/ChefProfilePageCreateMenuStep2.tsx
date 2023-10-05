@@ -83,7 +83,12 @@ export default function ChefProfilePageCreateMenusStep2({
                             active={greetingFromKitchen === undefined || greetingFromKitchen === null}
                         />
                         {greetingFromKitchen !== undefined && (
-                            <PETextField type={'text'} value={greetingFromKitchen ?? undefined} onChange={setGreetingFromKitchen} />
+                            <PETextField
+                                type={'text'}
+                                value={greetingFromKitchen ?? undefined}
+                                placeholder="Beschreibung des Gerichts (optional)"
+                                onChange={setGreetingFromKitchen}
+                            />
                         )}
                     </HStack>
                 </VStack>

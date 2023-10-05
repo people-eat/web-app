@@ -213,7 +213,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                 </>
             )}
 
-            <Snackbar open={changesWereSaved}>
+            <Snackbar open={changesWereSaved} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert severity="success">Änderungen erfolgreich gespeichert</Alert>
             </Snackbar>
         </VStack>
