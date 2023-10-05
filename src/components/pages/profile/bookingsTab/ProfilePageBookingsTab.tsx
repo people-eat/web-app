@@ -5,6 +5,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
 import { FindManyUserBookingRequestsDocument, type Price } from '../../../../data-source/generated/graphql';
+import BookingRequestStatusPill from '../../../standard/bookingRequestStatusPill/BookingRequestStatusPill';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
 import HStack from '../../../utility/hStack/HStack';
@@ -62,36 +63,10 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
                                     >
                                         <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
                                             <HStack className="w-full">
-                                                {bookingRequest.status === 'OPEN' && (
-                                                    <span
-                                                        className="text-green"
-                                                        style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
-                                                    >
-                                                        {t('open')}
-                                                    </span>
-                                                )}
-                                                {bookingRequest.status === 'PENDING' && (
-                                                    <span
-                                                        className="text-blue-400"
-                                                        style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
-                                                    >
-                                                        {t('in-process')}
-                                                    </span>
-                                                )}
-                                                {bookingRequest.status === 'CANCELED' && (
-                                                    <span
-                                                        className="text-red-400"
-                                                        style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}
-                                                    >
-                                                        {t('cancelled')}
-                                                    </span>
-                                                )}
-                                                {bookingRequest.status === 'COMPLETED' && (
-                                                    <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>
-                                                        {t('completed')}
-                                                    </span>
-                                                )}
+                                                <BookingRequestStatusPill status={bookingRequest.status} />
+
                                                 <Spacer />
+
                                                 <span className="text-green">{formatPrice(bookingRequest.price)}</span>
                                             </HStack>
 

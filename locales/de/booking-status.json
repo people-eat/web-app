@@ -1,0 +1,6 @@
+{
+    "booking-status-open": "Offen",
+    "booking-status-in-progress": "In Bearbeitung",
+    "booking-status-cancelled": "Abgesagt",
+    "booking-status-completed": "Abgeschlossen"
+}
