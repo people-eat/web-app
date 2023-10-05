@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 import {
     CreateOneUserBookingRequestChatMessageDocument,
     FindOneUserBookingRequestDocument,
@@ -21,21 +21,25 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import ProfilePageBookingsChatMessages from './ProfilePageBookingsChatMessages';
+import { userProfileBookingTabTranslationKeys, userProfileBookingTabTypes, type UserProfileBookingTabType } from './userProfileBookingTabs';
 
 export interface ProfilePageBookingMobileProps {
     setIsSelectedOpen: (arg0: boolean) => void;
     userId: string;
     bookingRequestId: string;
 }
-type TabType = 'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING';
 
-const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId }: ProfilePageBookingMobileProps): JSX.Element => {
+export default function ProfilePageBookingMobile({
+    setIsSelectedOpen,
+    userId,
+    bookingRequestId,
+}: ProfilePageBookingMobileProps): ReactElement {
     const { data, refetch } = useQuery(FindOneUserBookingRequestDocument, {
         variables: { userId, bookingRequestId },
     });
-    const { t: translateBooking } = useTranslation('global-booking-request');
+    const { t: translateGlobalBookingRequest } = useTranslation('global-booking-request');
     const bookingRequest = data?.users.bookingRequests.findOne;
-    const [tab, setTab] = useState<TabType>('CHAT');
+    const [tab, setTab] = useState<UserProfileBookingTabType>('CHAT');
     const [newMessage, setNewMessage] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [amount, setAmount] = useState(0);
@@ -45,17 +49,10 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
     const [updateBookingRequestPrice] = useMutation(UserBookingRequestUpdatePriceDocument);
     const [createMessage] = useMutation(CreateOneUserBookingRequestChatMessageDocument);
 
-    const handleTabChange = (selectedTab: TabType): void => {
+    const handleTabChange = (selectedTab: UserProfileBookingTabType): void => {
         setTab(selectedTab);
         setIsMenuOpen(false);
     };
-
-    const menuItems = [
-        { tabName: 'CHAT' as const, label: translateBooking('tab-chat') },
-        { tabName: 'EVENT_DETAILS' as const, label: translateBooking('tab-details') },
-        { tabName: 'MENU' as const, label: translateBooking('tab-menu') },
-        { tabName: 'RATING' as const, label: translateBooking('tab-rating') },
-    ];
 
     useEffect(() => {
         setAmount(bookingRequest?.price.amount ?? 0);
@@ -96,17 +93,18 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                     >
                         <PEIcon icon={Icon.file} className="text-orangeActive" />
                     </button>
+
                     {isMenuOpen && (
                         <div className="absolute right-0 mt-2 py-2 w-60 border rounded shadow-md">
-                            {menuItems.map((item) => (
+                            {userProfileBookingTabTypes.map((tabType) => (
                                 <button
-                                    key={item.tabName}
-                                    className={`w-full bg-white text-lg border-none px-4 py-2 text-left  cursor-pointer  ${
-                                        tab === item.tabName ? 'font-semibold' : ''
-                                    } hover:text-orangeActive`}
-                                    onClick={(): void => handleTabChange(item.tabName)}
+                                    key={translateGlobalBookingRequest(tabType)}
+                                    className={`w-full bg-white text-lg border-none px-4 py-2 text-left  cursor-pointer hover:text-orangeActive ${
+                                        tab === tabType ? 'font-semibold' : ''
+                                    }`}
+                                    onClick={(): void => handleTabChange(translateGlobalBookingRequest(tabType))}
                                 >
-                                    {item.label}
+                                    {translateGlobalBookingRequest(userProfileBookingTabTranslationKeys[tabType])}
                                 </button>
                             ))}
                         </div>
@@ -129,7 +127,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                                     variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                                 }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                             }
-                                            title={translateBooking('decline')}
+                                            title={translateGlobalBookingRequest('decline')}
                                             size="s"
                                             type="secondary"
                                         />
@@ -139,7 +137,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                                     variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                                 }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                             }
-                                            title={translateBooking('accept')}
+                                            title={translateGlobalBookingRequest('accept')}
                                             size="s"
                                         />
                                     </>
@@ -151,7 +149,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                                 variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                             }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                         }
-                                        title={translateBooking('decline')}
+                                        title={translateGlobalBookingRequest('decline')}
                                         size="s"
                                     />
                                 )}
@@ -180,28 +178,29 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                                             })
                                         }
                                     >
-                                        {translateBooking('send')}
+                                        {translateGlobalBookingRequest('send')}
                                     </Button>
                                 }
                             />
                         )}
                     </div>
                 )}
+
                 {tab === 'EVENT_DETAILS' && (
                     <VStack className="w-[80vw]" gap={32}>
                         <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                            <span className="text-text-m-bold">{translateBooking('participants-label')}</span>
+                            <span className="text-text-m-bold">{translateGlobalBookingRequest('participants-label')}</span>
                             <HStack gap={16} className="w-full">
-                                <PEIcon icon={Icon.users} /> <span>{translateBooking('adults-label')}</span> <Spacer />{' '}
+                                <PEIcon icon={Icon.users} /> <span>{translateGlobalBookingRequest('adults-label')}</span> <Spacer />{' '}
                                 {bookingRequest?.adultParticipants}
                             </HStack>
                             <HStack gap={16} className="w-full">
-                                <PEIcon icon={Icon.users} /> <span>{translateBooking('children-label')}</span> <Spacer />{' '}
+                                <PEIcon icon={Icon.users} /> <span>{translateGlobalBookingRequest('children-label')}</span> <Spacer />{' '}
                                 {bookingRequest?.children}
                             </HStack>
                         </VStack>
                         <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                            <span className="text-text-m-bold">{translateBooking('event-details-label')}</span>
+                            <span className="text-text-m-bold">{translateGlobalBookingRequest('event-details-label')}</span>
                             <HStack gap={16}>
                                 <PETextField
                                     value={moment(bookingRequest?.dateTime).format(moment.HTML5_FMT.DATE)}
@@ -217,19 +216,19 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                             </HStack>
                         </VStack>
                         <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                            <span className="text-text-m-bold">{translateBooking('categories-label')}</span>
+                            <span className="text-text-m-bold">{translateGlobalBookingRequest('categories-label')}</span>
                             <PETextField value="" onChange={(): void => undefined} type="text" />
                         </VStack>
                         <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                            <span className="text-text-m-bold">{translateBooking('kitchen-label')}</span>
+                            <span className="text-text-m-bold">{translateGlobalBookingRequest('kitchen-label')}</span>
                             <PETextField value="" onChange={(): void => undefined} type="text" />
                         </VStack>
                         <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                            <span className="text-text-m-bold">{translateBooking('allergies-label')}</span>
+                            <span className="text-text-m-bold">{translateGlobalBookingRequest('allergies-label')}</span>
                             <PETextField value="" onChange={(): void => undefined} type="text" />
                         </VStack>
                         <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                            <span className="text-text-m-bold">{translateBooking('budget-label')}</span>
+                            <span className="text-text-m-bold">{translateGlobalBookingRequest('budget-label')}</span>
                             <PETextField
                                 value={`${amount}`}
                                 endContent={<>{bookingRequest?.price.currencyCode}</>}
@@ -239,7 +238,7 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                         </VStack>
                         {bookingRequest?.price.amount !== amount && (
                             <PEButton
-                                title={translateBooking('budget-suggestion')}
+                                title={translateGlobalBookingRequest('budget-suggestion')}
                                 onClick={(): void =>
                                     void updateBookingRequestPrice({
                                         variables: {
@@ -256,11 +255,11 @@ const ProfilePageBookingMobile = ({ setIsSelectedOpen, userId, bookingRequestId 
                         )}
                     </VStack>
                 )}
+
                 {tab === 'MENU' && <div></div>}
+
                 {tab === 'RATING' && <PEReviewCardUser />}
             </div>
         </div>
     );
-};
-
-export default ProfilePageBookingMobile;
+}

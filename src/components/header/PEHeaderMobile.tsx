@@ -1,5 +1,5 @@
 import MenuIcon from '@mui/icons-material/Menu';
-import { IconButton } from '@mui/material';
+import { Divider, IconButton } from '@mui/material';
 import Slide from '@mui/material/Slide';
 import classNames from 'classnames';
 import Image from 'next/image';
@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
 import PESideBar from '../standard/sideBar/PESideBar';
 import HStack from '../utility/hStack/HStack';
+import VStack from '../utility/vStack/VStack';
 import { type PEHeaderProps } from './PEHeaderProps';
 
 export default function PEHeaderMobile({ signedInUser }: PEHeaderProps): ReactElement {
@@ -21,9 +22,8 @@ export default function PEHeaderMobile({ signedInUser }: PEHeaderProps): ReactEl
     }, []);
 
     return (
-        <>
+        <VStack style={{ width: '100%' }}>
             <HStack
-                className="box-border border-y-[1px] border-solid border-b-disabled border-transparent"
                 style={{
                     backgroundColor: 'white',
                     width: '100%',
@@ -60,7 +60,9 @@ export default function PEHeaderMobile({ signedInUser }: PEHeaderProps): ReactEl
                 </div>
             </Slide>
 
+            <Divider flexItem />
+
             <PESideBar open={sideBarOpen} setOpen={setSideBarOpen} signedInUser={signedInUser} />
-        </>
+        </VStack>
     );
 }

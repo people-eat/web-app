@@ -35,15 +35,15 @@ export default function CookProfilePageBookingsTabDetail({
 }: CookProfilePageBookingsTabProps): ReactElement {
     const { data, refetch } = useQuery(FindOneCookBookingRequestDocument, { variables: { cookId, bookingRequestId } });
 
-    const { t: translateBooking } = useTranslation('global-booking-request');
+    const { t: translateGlobalBookingRequest } = useTranslation('global-booking-request');
     const { t: commonTranslate } = useTranslation('common');
     const { t: cookProfileTranslate } = useTranslation('chef-profile');
 
     const tabToTranslations: Record<'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING', string> = {
-        ['CHAT']: translateBooking('tab-chat'),
-        ['EVENT_DETAILS']: translateBooking('tab-details'),
-        ['MENU']: translateBooking('tab-menu'),
-        ['RATING']: translateBooking('tab-rating'),
+        ['CHAT']: translateGlobalBookingRequest('tab-chat'),
+        ['EVENT_DETAILS']: translateGlobalBookingRequest('tab-details'),
+        ['MENU']: translateGlobalBookingRequest('tab-menu'),
+        ['RATING']: translateGlobalBookingRequest('tab-rating'),
     };
 
     const [tab, setTab] = useState<'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING'>('CHAT');
@@ -214,18 +214,18 @@ export default function CookProfilePageBookingsTabDetail({
             {tab === 'EVENT_DETAILS' && (
                 <VStack className="box-border p-4 md:p-0" gap={32}>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('participants-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('participants-label')}</span>
                         <HStack gap={16} className="w-full">
-                            <PEIcon icon={Icon.users} /> <span>{translateBooking('adults-label')}</span> <Spacer />{' '}
+                            <PEIcon icon={Icon.users} /> <span>{translateGlobalBookingRequest('adults-label')}</span> <Spacer />{' '}
                             {bookingRequest.adultParticipants}
                         </HStack>
                         <HStack gap={16} className="w-full">
-                            <PEIcon icon={Icon.users} /> <span>{translateBooking('children-label')}</span> <Spacer />{' '}
+                            <PEIcon icon={Icon.users} /> <span>{translateGlobalBookingRequest('children-label')}</span> <Spacer />{' '}
                             {bookingRequest.children}
                         </HStack>
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('event-details-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('event-details-label')}</span>
                         <HStack gap={16}>
                             <PETextField
                                 value={moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
@@ -242,19 +242,19 @@ export default function CookProfilePageBookingsTabDetail({
                         <PETextField value={bookingRequest.location.text} onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('categories-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('categories-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('kitchen-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('kitchen-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('allergies-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('allergies-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('budget-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('budget-label')}</span>
                         <PETextField
                             value={`${amount}`}
                             endContent={<>{bookingRequest.price.currencyCode}</>}
@@ -264,7 +264,7 @@ export default function CookProfilePageBookingsTabDetail({
                     </VStack>
                     {bookingRequest.price.amount !== amount && (
                         <PEButton
-                            title={translateBooking('budget-suggestion')}
+                            title={translateGlobalBookingRequest('budget-suggestion')}
                             onClick={(): void =>
                                 void updateBookingRequestPrice({
                                     variables: {

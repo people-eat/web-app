@@ -46,6 +46,8 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                 <Image src="/logo.svg" alt="" width={203} height={46} style={{ margin: 16, marginTop: 32 }} />
             </Link>
 
+            <Divider flexItem />
+
             <List>
                 {signedInUser && (
                     <>

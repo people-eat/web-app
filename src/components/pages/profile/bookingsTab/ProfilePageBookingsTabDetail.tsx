@@ -21,6 +21,7 @@ import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
 import ProfilePageBookingsChatMessages from './ProfilePageBookingsChatMessages';
+import { userProfileBookingTabTranslationKeys, userProfileBookingTabTypes, type UserProfileBookingTabType } from './userProfileBookingTabs';
 
 export interface ProfilePageBookingsTabProps {
     userId: string;
@@ -35,9 +36,9 @@ export default function ProfilePageBookingsTabDetail({
 }: ProfilePageBookingsTabProps): ReactElement {
     const { data, refetch } = useQuery(FindOneUserBookingRequestDocument, { variables: { userId, bookingRequestId } });
 
-    const { t: translateBooking } = useTranslation('global-booking-request');
+    const { t: translateGlobalBookingRequest } = useTranslation('global-booking-request');
 
-    const [tab, setTab] = useState<'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING'>('CHAT');
+    const [tab, setTab] = useState<UserProfileBookingTabType>('CHAT');
     const [newMessage, setNewMessage] = useState('');
     const [amount, setAmount] = useState(0);
 
@@ -53,21 +54,21 @@ export default function ProfilePageBookingsTabDetail({
         if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
     }, [bookingRequest]);
 
-    if (!bookingRequest) return <>{translateBooking('loading')}</>;
+    if (!bookingRequest) return <>{translateGlobalBookingRequest('loading')}</>;
 
     return (
         <>
             <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
                 <Tabs value={tab}>
-                    <Tab value="CHAT" onClick={(): void => setTab('CHAT')} style={{ textTransform: 'none' }} label="Chat" />
-                    <Tab
-                        value="EVENT_DETAILS"
-                        onClick={(): void => setTab('EVENT_DETAILS')}
-                        style={{ textTransform: 'none' }}
-                        label={translateBooking('event-details')}
-                    />
-                    <Tab value="MENU" onClick={(): void => setTab('MENU')} style={{ textTransform: 'none' }} label="Menu" />
-                    <Tab value="RATING" onClick={(): void => setTab('RATING')} style={{ textTransform: 'none' }} label="Rating" />
+                    {userProfileBookingTabTypes.map((tabType) => (
+                        <Tab
+                            key={tabType}
+                            value={tabType}
+                            onClick={(): void => setTab(tabType)}
+                            style={{ textTransform: 'none' }}
+                            label={translateGlobalBookingRequest(userProfileBookingTabTranslationKeys[tabType])}
+                        />
+                    ))}
                 </Tabs>
 
                 <Spacer />
@@ -110,7 +111,7 @@ export default function ProfilePageBookingsTabDetail({
                                                 variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                             }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                         }
-                                        title={translateBooking('decline')}
+                                        title={translateGlobalBookingRequest('decline')}
                                         size="s"
                                         type="secondary"
                                     />
@@ -120,7 +121,7 @@ export default function ProfilePageBookingsTabDetail({
                                                 variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                             }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                         }
-                                        title={translateBooking('accept')}
+                                        title={translateGlobalBookingRequest('accept')}
                                         size="s"
                                     />
                                 </>
@@ -132,7 +133,7 @@ export default function ProfilePageBookingsTabDetail({
                                             variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
                                         }).then((result) => result.data?.users.bookingRequests.success && void refetch())
                                     }
-                                    title={translateBooking('decline')}
+                                    title={translateGlobalBookingRequest('decline')}
                                     size="s"
                                 />
                             )}
@@ -159,7 +160,7 @@ export default function ProfilePageBookingsTabDetail({
                                         })
                                     }
                                 >
-                                    {translateBooking('send')}
+                                    {translateGlobalBookingRequest('send')}
                                 </Button>
                             }
                         />
@@ -170,18 +171,18 @@ export default function ProfilePageBookingsTabDetail({
             {tab === 'EVENT_DETAILS' && (
                 <VStack className="box-border p-4 md:p-0" gap={32}>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('participants-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('participants-label')}</span>
                         <HStack gap={16} className="w-full">
-                            <PEIcon icon={Icon.users} /> <span>{translateBooking('adults-label')}</span> <Spacer />{' '}
+                            <PEIcon icon={Icon.users} /> <span>{translateGlobalBookingRequest('adults-label')}</span> <Spacer />{' '}
                             {bookingRequest.adultParticipants}
                         </HStack>
                         <HStack gap={16} className="w-full">
-                            <PEIcon icon={Icon.users} /> <span>{translateBooking('children-label')}</span> <Spacer />{' '}
+                            <PEIcon icon={Icon.users} /> <span>{translateGlobalBookingRequest('children-label')}</span> <Spacer />{' '}
                             {bookingRequest.children}
                         </HStack>
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('event-details-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('event-details-label')}</span>
                         <HStack gap={16}>
                             <PETextField
                                 value={moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
@@ -198,19 +199,19 @@ export default function ProfilePageBookingsTabDetail({
                         <PETextField value={bookingRequest.location.text} onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('categories-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('categories-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('kitchen-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('kitchen-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('allergies-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('allergies-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateBooking('budget-label')}</span>
+                        <span className="text-text-m-bold">{translateGlobalBookingRequest('budget-label')}</span>
                         <PETextField
                             value={`${amount}`}
                             endContent={<>{bookingRequest.price.currencyCode}</>}
@@ -220,7 +221,7 @@ export default function ProfilePageBookingsTabDetail({
                     </VStack>
                     {bookingRequest.price.amount !== amount && (
                         <PEButton
-                            title={translateBooking('budget-suggestion')}
+                            title={translateGlobalBookingRequest('budget-suggestion')}
                             onClick={(): void =>
                                 void updateBookingRequestPrice({
                                     variables: {
