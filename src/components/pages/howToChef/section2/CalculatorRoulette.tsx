@@ -8,13 +8,7 @@ interface CalculatorRouletteProps {
 
 export function CalculatorRoulette({ startValue, endValue }: CalculatorRouletteProps): ReactElement {
     useEffect(() => {
-        anime({
-            targets: '.animeRouletteCount',
-            innerHTML: [startValue, endValue],
-            easing: 'linear',
-            duration: 1000,
-            round: 1,
-        });
+        anime({ targets: '.animeRouletteCount', innerHTML: [startValue, endValue], easing: 'linear', duration: 1000, round: 1 });
     }, [startValue, endValue]);
 
     return (
