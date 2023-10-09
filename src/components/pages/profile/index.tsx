@@ -49,10 +49,10 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
                     className="w-full max-w-screen-xl overflow-x-scroll lg:px-4 box-border"
                     style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
                 >
-                    {userProfileTabs.map(({ translationKey, path }, index) => (
+                    {userProfileTabs.map(({ translationKey, path, tabIndex }) => (
                         <PETabItem
-                            key={index}
-                            active={selectedTab === index}
+                            key={tabIndex}
+                            active={selectedTab === tabIndex}
                             title={translateCommon(translationKey)}
                             onClick={(): void => void router.push(path)}
                         />

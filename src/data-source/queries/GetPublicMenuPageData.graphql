@@ -9,6 +9,7 @@ query GetPublicMenuPageData($menuId: String!) {
             menuId
             title
             description
+            greetingFromKitchen
             kitchen {
                 kitchenId
                 title

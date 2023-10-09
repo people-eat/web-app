@@ -107,7 +107,7 @@ export default function ChefProfilePageCreateMenusStep3({
                         onChange={(changedBasePrice): void => setBasePrice(changedBasePrice * 100)}
                         value={basePrice / 100}
                         endContent={<p className="text-black">{currencyCode}</p>}
-                        style={{ width: 120 }}
+                        style={{ width: 100 }}
                     />
                     <span>Für wie viele Personen?</span>
                     <PENumberTextField
@@ -116,7 +116,7 @@ export default function ChefProfilePageCreateMenusStep3({
                         step={1}
                         onChange={setBasePriceCustomers}
                         value={basePriceCustomers}
-                        style={{ width: 80 }}
+                        style={{ width: 100 }}
                     />
                     <span>Für jede weitere Person</span>
                     <PENumberTextField
@@ -129,7 +129,7 @@ export default function ChefProfilePageCreateMenusStep3({
                         }}
                         endContent={<p className="text-black">{currencyCode}</p>}
                         value={pricePerAdult / 100}
-                        style={{ width: 120 }}
+                        style={{ width: 100 }}
                     />
                     <span className="text-heading-l mb-2 md:text-text-m-bold">Möchtest du einen Kinderrabat anbieten?</span>
                     <HStack gap={16} style={{ alignItems: 'center' }}>
@@ -155,11 +155,13 @@ export default function ChefProfilePageCreateMenusStep3({
                                 style={{ width: 100 }}
                                 endContent={<>%</>}
                             />
-                            <span>
+                            <span className="text-text-sm" style={{ color: 'gray' }}>
                                 Der Kinderrabatt (z.B. 50%) berechnet sich auf Grundlage des angesetzten Betrags den du für jede weitere
                                 Person (z.B. 50 EUR) angegeben hast.
                             </span>
-                            <span>Mit dem gegebenen Beispielrabatt würde der Preis pro Kind beträgt 25 EUR betragen.</span>
+                            <span className="text-text-sm" style={{ color: 'gray' }}>
+                                Mit dem gegebenen Beispielrabatt würde der Preis pro Kind beträgt 25 EUR betragen.
+                            </span>
                         </>
                     )}
 

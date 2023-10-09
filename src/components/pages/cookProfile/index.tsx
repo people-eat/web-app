@@ -49,10 +49,10 @@ export default function CookProfilePage({ signedInUser }: CookProfilePageProps):
                         className="w-full max-w-screen-xl overflow-x-scroll"
                         style={{ overflowY: 'initial', justifyContent: 'flex-start' }}
                     >
-                        {cookProfileTabs.map(({ translationKey, path }, index) => (
+                        {cookProfileTabs.map(({ translationKey, path, tabIndex }) => (
                             <PETabItem
-                                key={index}
-                                active={selectedTab === index}
+                                key={tabIndex}
+                                active={selectedTab === tabIndex}
                                 title={translateCommon(translationKey)}
                                 onClick={(): void => void router.push(path)}
                             />

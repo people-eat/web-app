@@ -2495,6 +2495,7 @@ export type GetPublicMenuPageDataQuery = {
             menuId: string;
             title: string;
             description: string;
+            greetingFromKitchen?: string | null;
             imageUrls: Array<string>;
             basePrice: number;
             basePriceCustomers: number;
@@ -5532,6 +5533,7 @@ export const GetPublicMenuPageDataDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'menuId' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'greetingFromKitchen' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'kitchen' },

@@ -66,6 +66,7 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
         if (!data?.sessions.current?.cookieSettings && !loading) setShowCookieBanner(true);
 
         if (data?.sessions.current?.cookieSettings) {
+            // setShowCookieBanner(false);
             setCookieSettings({
                 sessionCookie: data.sessions.current.cookieSettings.sessionCookie,
                 googleAnalytics: data.sessions.current.cookieSettings.googleAnalytics,

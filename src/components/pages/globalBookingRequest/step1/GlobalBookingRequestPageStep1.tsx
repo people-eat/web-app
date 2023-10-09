@@ -52,7 +52,7 @@ export default function GlobalBookingRequestPageStep1({
 
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
-    const disabled = adultCount < 1 || budget === '';
+    const disabled = adultCount < 1 || budget === '' || occasion.length < 3 || addressSearchText === '';
 
     return (
         <VStack gap={32} className="w-full">

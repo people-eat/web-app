@@ -46,7 +46,7 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
         >
             <DialogTitle>
                 <HStack>
-                    <span style={{ fontWeight: 'bold' }}>{t('create-menu-courses-add-course')}</span>
+                    <span style={{ fontWeight: 'bold' }}>Wähle Gerichte für den Gang aus</span>
                     <Spacer />
                     <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
                 </HStack>

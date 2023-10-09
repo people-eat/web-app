@@ -77,7 +77,7 @@ export interface PublicMenuPageProps {
         basePrice: number;
         basePriceCustomers: number;
         currencyCode: CurrencyCode;
-        greetingFromKitchen: boolean;
+        greetingFromKitchen?: string;
         kitchen?: Kitchen;
         categories: Category[];
         imageUrls: string[];
@@ -432,6 +432,17 @@ export default function PublicMenuPage({
 
                         <HStack gap={32} className="w-full" style={{ minWidth: '500px', flexWrap: 'wrap' }}>
                             <VStack gap={32} style={{ flex: isMobile ? 'none' : 1 }}>
+                                {publicMenu.greetingFromKitchen && (
+                                    <VStack gap={32} style={{ width: isMobile ? '93vw' : '100%', alignItems: 'flex-start' }}>
+                                        <HStack gap={16}>
+                                            <span className="text-heading-m">Gruß aus der Küche</span>
+                                            <Spacer />
+                                        </HStack>
+                                        <span style={{ color: 'gray' }}>
+                                            Der Gruß aus der Küche regt den Apetit an und steigert die Vorfreude auf das Menü.
+                                        </span>
+                                    </VStack>
+                                )}
                                 {courses.map((course) => (
                                     <VStack
                                         key={course.courseId}
