@@ -207,6 +207,7 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                                 <PECounter
                                     value={maximumParticipants ?? 0}
                                     onValueChange={(value): void => handleUpdateOrderDetails(value, setMaximumParticipants)}
+                                    boundaries={{ min: 1, max: 20 }}
                                 />
                             </HStack>
                         </VStack>

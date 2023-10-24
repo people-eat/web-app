@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
+import { type Price } from '../../../data-source/generated/graphql';
 import PECarousel from '../../standard/carousel/PECarousel';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
@@ -22,6 +23,8 @@ export default function PEMenuCard({
     onClick,
     fullWidth,
 }: PEMenuCardProps): ReactElement {
+    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
+
     return (
         <div
             draggable
@@ -69,7 +72,7 @@ export default function PEMenuCard({
                 <VStack gap={8} className="h-[148px] overflow-hidden" style={{ alignItems: 'flex-start' }}>
                     <span className="text-text-sm-bold text-preBlack">{title}</span>
                     <span className="text-orange text-text-sm-bold">
-                        ab {pricePerPerson / 100} {currencyCode} pro Person
+                        ab {formatPrice({ amount: pricePerPerson, currencyCode })} pro Person
                     </span>
                     <span className="w-full text-text-s text-preBlack line-clamp-6">{description}</span>
                 </VStack>

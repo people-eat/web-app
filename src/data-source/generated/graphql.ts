@@ -1632,6 +1632,7 @@ export type UserBookingRequestMutation = {
     __typename?: 'UserBookingRequestMutation';
     accept: Scalars['Boolean'];
     chatMessages: UserBookingRequestChatMessageMutation;
+    confirmPaymentSetup: Scalars['Boolean'];
     createOne: UserCreateOneBookingRequestResponse;
     decline: Scalars['Boolean'];
     updatePrice: Scalars['Boolean'];
@@ -1643,6 +1644,10 @@ export type UserBookingRequestMutationAcceptArgs = {
 };
 
 export type UserBookingRequestMutationChatMessagesArgs = {
+    bookingRequestId: Scalars['String'];
+};
+
+export type UserBookingRequestMutationConfirmPaymentSetupArgs = {
     bookingRequestId: Scalars['String'];
 };
 
@@ -1697,6 +1702,7 @@ export type UserCookVisitQueryFindManyArgs = {
 
 export type UserCreateOneBookingRequestResponse = {
     __typename?: 'UserCreateOneBookingRequestResponse';
+    bookingRequestId: Scalars['String'];
     clientSecret: Scalars['String'];
     success: Scalars['Boolean'];
 };
@@ -3513,7 +3519,12 @@ export type CreateOneUserBookingRequestMutation = {
         __typename?: 'UserMutation';
         bookingRequests: {
             __typename?: 'UserBookingRequestMutation';
-            createOne: { __typename?: 'UserCreateOneBookingRequestResponse'; success: boolean; clientSecret: string };
+            createOne: {
+                __typename?: 'UserCreateOneBookingRequestResponse';
+                success: boolean;
+                clientSecret: string;
+                bookingRequestId: string;
+            };
         };
     };
 };
@@ -3645,6 +3656,16 @@ export type UserBookingRequestAcceptMutationVariables = Exact<{
 }>;
 
 export type UserBookingRequestAcceptMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; bookingRequests: { __typename?: 'UserBookingRequestMutation'; success: boolean } };
+};
+
+export type UserBookingRequestConfirmPaymentSetupMutationVariables = Exact<{
+    userId: Scalars['String'];
+    bookingRequestId: Scalars['String'];
+}>;
+
+export type UserBookingRequestConfirmPaymentSetupMutation = {
     __typename?: 'Mutation';
     users: { __typename?: 'UserMutation'; bookingRequests: { __typename?: 'UserBookingRequestMutation'; success: boolean } };
 };
@@ -10613,6 +10634,7 @@ export const CreateOneUserBookingRequestDocument = {
                                                     selections: [
                                                         { kind: 'Field', name: { kind: 'Name', value: 'success' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'clientSecret' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
                                                     ],
                                                 },
                                             },
@@ -11063,6 +11085,70 @@ export const UserBookingRequestAcceptDocument = {
         },
     ],
 } as unknown as DocumentNode<UserBookingRequestAcceptMutation, UserBookingRequestAcceptMutationVariables>;
+export const UserBookingRequestConfirmPaymentSetupDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UserBookingRequestConfirmPaymentSetup' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                alias: { kind: 'Name', value: 'success' },
+                                                name: { kind: 'Name', value: 'confirmPaymentSetup' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'bookingRequestId' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UserBookingRequestConfirmPaymentSetupMutation, UserBookingRequestConfirmPaymentSetupMutationVariables>;
 export const UserBookingRequestDeclineDocument = {
     kind: 'Document',
     definitions: [

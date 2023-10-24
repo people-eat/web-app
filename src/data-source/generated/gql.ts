@@ -190,7 +190,7 @@ const documents = {
         types.UpdateUserPasswordDocument,
     'mutation UpdateUserProfilePicture($userId: String!, $profilePicture: Upload) {\n  users {\n    success: updateProfilePicture(userId: $userId, profilePicture: $profilePicture)\n  }\n}':
         types.UpdateUserProfilePictureDocument,
-    'mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      createOne(request: $request) {\n        success\n        clientSecret\n      }\n    }\n  }\n}':
+    'mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      createOne(request: $request) {\n        success\n        clientSecret\n        bookingRequestId\n      }\n    }\n  }\n}':
         types.CreateOneUserBookingRequestDocument,
     'query FindManyUserBookingRequests($userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        status\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        duration\n        createdAt\n        cook {\n          cookId\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n        configuredMenu {\n          title\n        }\n      }\n    }\n  }\n}':
         types.FindManyUserBookingRequestsDocument,
@@ -200,6 +200,8 @@ const documents = {
         types.FindUserProfileGlobalBookingRequestsDocument,
     'mutation UserBookingRequestAccept($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: accept(bookingRequestId: $bookingRequestId)\n    }\n  }\n}':
         types.UserBookingRequestAcceptDocument,
+    'mutation UserBookingRequestConfirmPaymentSetup($userId: String!, $bookingRequestId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: confirmPaymentSetup(bookingRequestId: $bookingRequestId)\n    }\n  }\n}':
+        types.UserBookingRequestConfirmPaymentSetupDocument,
     'mutation UserBookingRequestDecline($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: decline(bookingRequestId: $bookingRequestId)\n    }\n  }\n}':
         types.UserBookingRequestDeclineDocument,
     'mutation UserBookingRequestUpdatePrice($userId: String!, $bookingRequestId: String!, $price: PriceInput!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: updatePrice(bookingRequestId: $bookingRequestId, price: $price)\n    }\n  }\n}':
@@ -780,8 +782,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      createOne(request: $request) {\n        success\n        clientSecret\n      }\n    }\n  }\n}',
-): (typeof documents)['mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      createOne(request: $request) {\n        success\n        clientSecret\n      }\n    }\n  }\n}'];
+    source: 'mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      createOne(request: $request) {\n        success\n        clientSecret\n        bookingRequestId\n      }\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      createOne(request: $request) {\n        success\n        clientSecret\n        bookingRequestId\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -806,6 +808,12 @@ export function gql(
 export function gql(
     source: 'mutation UserBookingRequestAccept($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: accept(bookingRequestId: $bookingRequestId)\n    }\n  }\n}',
 ): (typeof documents)['mutation UserBookingRequestAccept($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: accept(bookingRequestId: $bookingRequestId)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UserBookingRequestConfirmPaymentSetup($userId: String!, $bookingRequestId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: confirmPaymentSetup(bookingRequestId: $bookingRequestId)\n    }\n  }\n}',
+): (typeof documents)['mutation UserBookingRequestConfirmPaymentSetup($userId: String!, $bookingRequestId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      success: confirmPaymentSetup(bookingRequestId: $bookingRequestId)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

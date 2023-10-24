@@ -3,13 +3,17 @@ import { Icon } from '../icon/Icon';
 import PEIcon from '../icon/PEIcon';
 import { type PECounterProps } from './PECounterProps';
 
-export default function PECounter({ value, onValueChange }: PECounterProps): ReactElement {
+export default function PECounter({ value, onValueChange, boundaries }: PECounterProps): ReactElement {
     function handleIncreaseCount(): void {
+        if (boundaries?.max && value >= boundaries.max) return;
+
         onValueChange(value + 1);
     }
 
     function handleDecreaseCount(): void {
-        if (value - 1 >= 0) onValueChange(value - 1);
+        if (boundaries?.min && value <= boundaries.min) return;
+
+        onValueChange(value - 1);
     }
 
     return (

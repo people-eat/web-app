@@ -4,6 +4,7 @@ mutation CreateOneUserBookingRequest($request: CreateBookingRequestRequest!, $us
             createOne(request: $request) {
                 success
                 clientSecret
+                bookingRequestId
             }
         }
     }

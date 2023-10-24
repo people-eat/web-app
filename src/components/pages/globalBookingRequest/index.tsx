@@ -105,7 +105,7 @@ export default function GlobalBookingRequestPage({
         },
         occasion,
         price: {
-            amount: Number(budgetPerPerson) * (adults + children),
+            amount: Number(budgetPerPerson) * (adults + children) * 100,
             currencyCode: 'EUR',
         },
         allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),

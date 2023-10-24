@@ -30,6 +30,7 @@ import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
+import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 
 export interface PublicCookPageProps {
     signedInUser?: SignedInUser;
@@ -93,7 +94,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
         <VStack gap={40} className="w-full h-full">
             <PEHeader signedInUser={signedInUser} />
 
-            <VStack className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4" gap={16}>
+            <VStack className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4" gap={32}>
                 {publicCook && (
                     <>
                         <HStack
@@ -264,7 +265,16 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                                 title={menu.title}
                                                 description={menu.description}
                                                 imageUrls={menu.imageUrls}
-                                                pricePerPerson={100}
+                                                pricePerPerson={
+                                                    calculateMenuPrice(
+                                                        4,
+                                                        0,
+                                                        menu.basePrice,
+                                                        menu.basePriceCustomers,
+                                                        menu.pricePerAdult,
+                                                        menu.pricePerChild ?? undefined,
+                                                    ) / 4
+                                                }
                                                 currencyCode={menu.currencyCode}
                                                 chefFirstName={publicCook.user.firstName}
                                                 chefProfilePictureUrl={publicCook.user.profilePictureUrl}
@@ -279,7 +289,16 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                                 title={menu.title}
                                                 description={menu.description}
                                                 imageUrls={menu.imageUrls}
-                                                pricePerPerson={100}
+                                                pricePerPerson={
+                                                    calculateMenuPrice(
+                                                        4,
+                                                        0,
+                                                        menu.basePrice,
+                                                        menu.basePriceCustomers,
+                                                        menu.pricePerAdult,
+                                                        menu.pricePerChild ?? undefined,
+                                                    ) / 4
+                                                }
                                                 currencyCode={menu.currencyCode}
                                                 chefFirstName={publicCook.user.firstName}
                                                 chefProfilePictureUrl={publicCook.user.profilePictureUrl}

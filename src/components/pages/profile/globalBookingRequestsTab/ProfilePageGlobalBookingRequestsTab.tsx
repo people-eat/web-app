@@ -7,6 +7,7 @@ import {
     FindUserProfileGlobalBookingRequestsDocument,
     UserBookingRequestUpdatePriceDocument,
     type CurrencyCode,
+    type Price,
 } from '../../../../data-source/generated/graphql';
 import BookingRequestDetailsDialog from '../../../BookingRequestDetailsDialog';
 // import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
@@ -44,6 +45,8 @@ export default function ProfilePageGlobalBookingRequestsTab({ userId }: ProfileP
     const { data, loading, error, refetch } = useQuery(FindUserProfileGlobalBookingRequestsDocument, { variables: { userId } });
     const globalBookingRequests = data?.users.globalBookingRequests.findMany;
 
+    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
+
     return (
         <VStack className="w-full md:overflow-hidden relative max-w-screen-xl gap-6 lg:px-4 md:py-6 box-border">
             <HStack className="w-full gap-8 flex-wrap" style={{ justifyContent: 'space-between' }}>
@@ -52,7 +55,7 @@ export default function ProfilePageGlobalBookingRequestsTab({ userId }: ProfileP
                         <GlobalBookingRequestCardCustomer
                             createdAt={moment(globalBookingRequest.createdAt)}
                             occasion={globalBookingRequest.occasion}
-                            price={`${globalBookingRequest.price.amount} ${globalBookingRequest.price.currencyCode}`}
+                            price={formatPrice(globalBookingRequest.price)}
                             dateTime={moment(globalBookingRequest.dateTime)}
                             adults={globalBookingRequest.adultParticipants}
                             numOfChildren={globalBookingRequest.children}

@@ -151,7 +151,7 @@ export default function PublicMenuPage({
     const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'FAILED'>(undefined);
     const [loading, setLoading] = useState(false);
     const [courseSelections, setCourseSelections] = useState<Map<{ courseId: string; title: string; index: number }, Meal | undefined>>(
-        new Map(publicMenu.courses.map((course) => [course, undefined])),
+        new Map(publicMenu.courses.map((course) => [course, course.mealOptions[0]?.meal ?? undefined])),
     );
 
     const courseSelectionsArray = Array.from(courseSelections.entries());
@@ -236,6 +236,8 @@ export default function PublicMenuPage({
 
     const [createUserWithMenuBookingRequest] = useMutation(CreateOneUserByEmailAddressDocument);
 
+    const [bookingRequestId, setBookingRequestId] = useState<string | undefined>(undefined);
+
     function onBook(): void {
         const menuBookingRequest: CreateBookingRequestRequest = {
             adultParticipants: adults,
@@ -277,6 +279,7 @@ export default function PublicMenuPage({
                       if (data?.users.bookingRequests.createOne.success) {
                           setCompletionState('SUCCESSFUL');
                           setStripeClientSecret(data.users.bookingRequests.createOne.clientSecret);
+                          setBookingRequestId(data.users.bookingRequests.createOne.bookingRequestId);
                       } else setCompletionState('FAILED');
                   })
                   .catch(() => setCompletionState('FAILED'))
@@ -299,6 +302,10 @@ export default function PublicMenuPage({
                   .catch(() => setCompletionState('FAILED'))
                   .finally(() => setLoading(false));
     }
+
+    useEffect(() => {
+        return () => console.log('Unmounted');
+    }, []);
 
     return (
         <VStack gap={82} className="w-full h-full overflow-x-hidden">
@@ -603,7 +610,7 @@ export default function PublicMenuPage({
                     <DialogTitle>Zahlungsmittel hinterlegen</DialogTitle>
 
                     <Elements stripe={loadStripe(`${stripePublishableKey}`)} options={{ clientSecret: stripeClientSecret }}>
-                        <Payment>
+                        <Payment userId={signedInUser!.userId} bookingRequestId={bookingRequestId!}>
                             {costs && (
                                 <VStack gap={16} style={{ width: '100%', flex: 1 }}>
                                     <h3 style={{ lineHeight: 0 }}>{publicMenu.title}</h3>

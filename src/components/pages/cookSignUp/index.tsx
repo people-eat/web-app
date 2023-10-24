@@ -328,7 +328,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                         <span>{t('maximum-customers-limit', { count: 20 })}</span>
                     </VStack>
                     <Spacer />
-                    <PECounter value={maximumParticipants} onValueChange={setMaximumParticipants} />
+                    <PECounter value={maximumParticipants} onValueChange={setMaximumParticipants} boundaries={{ min: 1, max: 20 }} />
                 </HStack>
 
                 {!signedInUser && (
