@@ -10,7 +10,9 @@ import {
     UserBookingRequestAcceptDocument,
     UserBookingRequestDeclineDocument,
     UserBookingRequestUpdatePriceDocument,
+    type Price,
 } from '../../../../data-source/generated/graphql';
+import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
@@ -56,6 +58,8 @@ export default function ProfilePageBookingsTabDetail({
 
     if (!bookingRequest) return <>{translateGlobalBookingRequest('loading')}</>;
 
+    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
+
     return (
         <>
             <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
@@ -98,7 +102,7 @@ export default function ProfilePageBookingsTabDetail({
             <Divider flexItem />
 
             {tab === 'CHAT' && (
-                <>
+                <VStack style={{ width: '100%', height: '100%', justifyContent: 'space-between' }}>
                     <ProfilePageBookingsChatMessages userId={userId} bookingRequestId={bookingRequest.bookingRequestId} />
 
                     {bookingRequest.status === 'OPEN' && (
@@ -165,11 +169,31 @@ export default function ProfilePageBookingsTabDetail({
                             }
                         />
                     )}
-                </>
+                </VStack>
+            )}
+
+            {bookingRequest.configuredMenu && tab === 'MENU' && (
+                <VStack gap={32} style={{ alignItems: 'flex-start', width: '100%' }}>
+                    <span className="text-heading-m">{bookingRequest.configuredMenu.title}</span>
+                    <VStack gap={32} style={{ flex: 1, alignItems: 'flex-start' }}>
+                        {bookingRequest.configuredMenu.courses.map((course) => (
+                            <VStack gap={16} key={course.index} className="w-full" style={{ alignItems: 'flex-start' }}>
+                                <span className="text-heading-s">{course.title}</span>
+
+                                <PEMealCard
+                                    title={course.mealTitle}
+                                    description={course.mealDescription}
+                                    imageUrl={course.mealImageUrl ?? undefined}
+                                    displayOnly
+                                />
+                            </VStack>
+                        ))}
+                    </VStack>
+                </VStack>
             )}
 
             {tab === 'EVENT_DETAILS' && (
-                <VStack className="box-border p-4 md:p-0" gap={32}>
+                <VStack className="box-border p-4 md:p-0" gap={32} style={{ maxHeight: 675, overflowY: 'auto' }}>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                         <span className="text-text-m-bold">{translateGlobalBookingRequest('participants-label')}</span>
                         <HStack gap={16} className="w-full">
@@ -213,7 +237,7 @@ export default function ProfilePageBookingsTabDetail({
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                         <span className="text-text-m-bold">{translateGlobalBookingRequest('budget-label')}</span>
                         <PETextField
-                            value={`${amount}`}
+                            value={formatPrice({ amount, currencyCode: bookingRequest.price.currencyCode })}
                             endContent={<>{bookingRequest.price.currencyCode}</>}
                             onChange={(changedAmount): void => setAmount(Number(changedAmount))}
                             type="text"
@@ -238,6 +262,7 @@ export default function ProfilePageBookingsTabDetail({
                     )}
                 </VStack>
             )}
+
             {tab === 'RATING' && <PEReviewCardUser />}
         </>
     );

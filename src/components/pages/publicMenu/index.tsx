@@ -132,6 +132,8 @@ export default function PublicMenuPage({
     const [children, setChildren] = useState(searchParameters.children);
     const [dateTime, setDateTime] = useState(moment(searchParameters.date).set('hours', 12).set('minutes', 0));
 
+    const moreThanTwoWeeksInTheFuture = dateTime.diff(moment(), 'days');
+
     const [occasion, setOccasion] = useState('');
     const [message, setMessage] = useState<string>('');
 
@@ -261,8 +263,7 @@ export default function PublicMenuPage({
             preparationTime: 120,
             configuredMenu: {
                 menuId: publicMenu.menuId,
-                courses: [],
-                // Array.from(courseSelections.entries()).map(([courseId, mealId]) => ({ courseId, mealId })),
+                courses: Array.from(courseSelections.entries()).map(([{ courseId }, meal]) => ({ courseId, mealId: meal!.mealId })),
             },
         };
 
@@ -414,17 +415,35 @@ export default function PublicMenuPage({
                                         <Spacer />
                                     </HStack>
 
-                                    <p style={{ lineHeight: 0 }} className="text-gray">
-                                        Menübeschreibung
-                                    </p>
-                                    <span>{publicMenu.description}</span>
+                                    {publicMenu.description && (
+                                        <VStack style={{ alignItems: 'flex-start' }}>
+                                            <p style={{ lineHeight: 0 }} className="text-gray">
+                                                Menübeschreibung
+                                            </p>
+                                            <span>{publicMenu.description}</span>
+                                        </VStack>
+                                    )}
                                 </VStack>
+
                                 {publicMenu.categories.map((category) => (
                                     <div key={category.categoryId}>{category.title}</div>
                                 ))}
-                                {/* {publicMenu.kitchen && <>{publicMenu.kitchen.title}</>}
 
-                                {publicMenu.cook.languages?.length > 0 && (
+                                <HStack>
+                                    {publicMenu.kitchen && (
+                                        <VStack style={{ alignItems: 'flex-start' }}>
+                                            <p style={{ lineHeight: 0 }} className="text-gray">
+                                                Küche
+                                            </p>
+                                            <HStack gap={4}>
+                                                {Boolean(publicMenu.kitchen) && <PEIcon icon={Icon.dishes} />}
+                                                <span className="text-orange">{publicMenu.kitchen.title}</span>
+                                            </HStack>
+                                        </VStack>
+                                    )}
+                                </HStack>
+
+                                {/* {publicMenu.cook.languages?.length > 0 && (
                                     <HStack gap={16}>
                                         <PEIcon icon={Icon.messageChat} />
                                         <span>{publicMenu.cook.languages.map(({ title }) => title).join(', ')}</span>
@@ -643,6 +662,18 @@ export default function PublicMenuPage({
                                             <b>{formatPrice(costs.total)}</b>
                                         </span>
                                     </HStack>
+
+                                    {moreThanTwoWeeksInTheFuture <= 14 && (
+                                        <div className="text-text-sm" style={{ color: 'gray' }}>
+                                            Der Gesamtbetrag wird erst dann eingezogen wenn der Koch die Anfrage akzeptiert hat.
+                                        </div>
+                                    )}
+                                    {moreThanTwoWeeksInTheFuture > 14 && (
+                                        <div className="text-text-sm" style={{ color: 'gray' }}>
+                                            Nachdem der Koch die Anfrage akzeptiert hat, wird die Gesamtsumme 2 Wochen vor dem Event
+                                            eingezogen (zuvor wird eine Ankündigungsmail verschickt).
+                                        </div>
+                                    )}
                                 </VStack>
                             )}
                         </Payment>

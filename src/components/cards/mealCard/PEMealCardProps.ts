@@ -4,4 +4,6 @@ export interface PEMealCardProps {
     description: string;
     imageUrl?: string;
     active?: boolean;
+
+    displayOnly?: boolean;
 }

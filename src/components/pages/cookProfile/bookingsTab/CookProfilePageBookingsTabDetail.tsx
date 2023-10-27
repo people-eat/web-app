@@ -10,6 +10,7 @@ import {
     CookBookingRequestUpdatePriceDocument,
     CreateOneCookBookingRequestChatMessageDocument,
     FindOneCookBookingRequestDocument,
+    type Price,
 } from '../../../../data-source/generated/graphql';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -58,6 +59,8 @@ export default function CookProfilePageBookingsTabDetail({
 
     if (!bookingRequest) return <>{commonTranslate('loading')}</>;
 
+    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
+
     return (
         <>
             <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
@@ -99,7 +102,7 @@ export default function CookProfilePageBookingsTabDetail({
             <Divider flexItem />
 
             {tab === 'CHAT' && (
-                <>
+                <VStack style={{ width: '100%', height: '100%', justifyContent: 'space-between' }}>
                     <CookProfilePageBookingsChatMessages cookId={cookId} bookingRequestId={bookingRequest.bookingRequestId} />
 
                     {bookingRequest.status === 'OPEN' && (
@@ -167,22 +170,22 @@ export default function CookProfilePageBookingsTabDetail({
                             }
                         />
                     )}
-                </>
+                </VStack>
             )}
 
             {bookingRequest.configuredMenu && tab === 'MENU' && (
-                <VStack>
+                <VStack gap={32}>
                     <span className="text-heading-m">{bookingRequest.configuredMenu.title}</span>
-                    {JSON.stringify(bookingRequest.configuredMenu)}
-                    <VStack gap={32} style={{ flex: 1 }}>
+                    <VStack gap={32} style={{ flex: 1, alignItems: 'flex-start' }}>
                         {bookingRequest.configuredMenu.courses.map((course) => (
-                            <VStack gap={16} key={course.index} className="w-full">
+                            <VStack gap={16} key={course.index} className="w-full" style={{ alignItems: 'flex-start' }}>
                                 <span className="text-heading-s">{course.title}</span>
 
                                 <PEMealCard
                                     title={course.mealTitle}
                                     description={course.mealDescription}
                                     imageUrl={course.mealImageUrl ?? undefined}
+                                    displayOnly
                                 />
                             </VStack>
                         ))}
@@ -191,7 +194,7 @@ export default function CookProfilePageBookingsTabDetail({
             )}
 
             {tab === 'EVENT_DETAILS' && (
-                <VStack className="box-border p-4 md:p-0" gap={32}>
+                <VStack className="box-border p-4 md:p-0" gap={32} style={{ maxHeight: 675, overflowY: 'auto' }}>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                         <span className="text-text-m-bold">{translateGlobalBookingRequest('participants-label')}</span>
                         <HStack gap={16} className="w-full">
@@ -235,7 +238,7 @@ export default function CookProfilePageBookingsTabDetail({
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                         <span className="text-text-m-bold">{translateGlobalBookingRequest('budget-label')}</span>
                         <PETextField
-                            value={`${amount}`}
+                            value={formatPrice({ amount, currencyCode: bookingRequest.price.currencyCode })}
                             endContent={<>{bookingRequest.price.currencyCode}</>}
                             onChange={(changedAmount): void => setAmount(Number(changedAmount))}
                             type="text"

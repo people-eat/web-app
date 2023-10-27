@@ -5,15 +5,15 @@ import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import { type PEMealCardProps } from './PEMealCardProps';
 
-export default function PEMealCard({ onClick, title, description, imageUrl, active }: PEMealCardProps): ReactElement {
+export default function PEMealCard({ onClick, title, description, imageUrl, active, displayOnly }: PEMealCardProps): ReactElement {
     return (
         <div
             onClick={onClick}
             className={classNames(
                 'flex min-w-[340px] box-border w-full max-w-[410px] md:max-w-[710px] max-h-[144px] gap-3 flex-row p-3 rounded-3 shadow-primary cursor-pointer active:shadow-orange',
                 {
-                    ['shadow-orange']: active,
-                    ['hover:shadow-active']: !active,
+                    ['shadow-orange']: active && !displayOnly,
+                    ['hover:shadow-active']: !active && !displayOnly,
                 },
             )}
         >
