@@ -10,8 +10,8 @@ import {
     CookBookingRequestUpdatePriceDocument,
     CreateOneCookBookingRequestChatMessageDocument,
     FindOneCookBookingRequestDocument,
-    type Price,
 } from '../../../../data-source/generated/graphql';
+import { formatPrice } from '../../../../shared-domain/formatPrice';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -58,8 +58,6 @@ export default function CookProfilePageBookingsTabDetail({
     }, [bookingRequest]);
 
     if (!bookingRequest) return <>{commonTranslate('loading')}</>;
-
-    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
     return (
         <>

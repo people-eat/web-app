@@ -8,7 +8,6 @@ import Image from 'next/image';
 import { useContext, useEffect, useState, type ReactElement } from 'react';
 import {
     CreateOneUserBookingRequestDocument,
-    CreateOneUserByEmailAddressDocument,
     GetProfileQueryDocument,
     type CookRank,
     type CreateBookingRequestRequest,
@@ -23,6 +22,7 @@ import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
 import { type Language } from '../../../shared-domain/Language';
 import { type Location } from '../../../shared-domain/Location';
+import { formatPrice } from '../../../shared-domain/formatPrice';
 import { geoDistance } from '../../../utils/geoDistance';
 import BookingRequestForm from '../../BookingRequestForm';
 import SignInDialog from '../../SignInDialog';
@@ -141,11 +141,6 @@ export default function PublicMenuPage({
 
     const { refetch } = useQuery(GetProfileQueryDocument);
 
-    // for new users
-    const [firstName, _setFirstName] = useState('');
-    const [lastName, _setLastName] = useState('');
-    const [email, _setEmail] = useState('');
-    const [_phoneNumber, _setPhoneNumber] = useState('');
     const [areMealsOnMenuSelected, setAreMealsOnMenuSelected] = useState(false);
 
     const [stripeClientSecret, setStripeClientSecret] = useState<string | undefined>();
@@ -169,8 +164,6 @@ export default function PublicMenuPage({
     }, [publicMenu]);
 
     const disabled = Array.from(courseSelections.entries()).findIndex(([_courseId, mealId]) => mealId === undefined) !== -1;
-
-    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
     const distance: number | undefined =
         selectedLocation && geoDistance({ location1: selectedLocation, location2: publicMenu.cook.location });
@@ -222,22 +215,7 @@ export default function PublicMenuPage({
         },
     };
 
-    // const disabledForSignedInUser = !acceptedTermsAndConditions || !acceptedPrivacyPolicy;
-
-    // const disabledForNewUser =
-    //     firstName.length < 1 ||
-    //     lastName.length < 1 ||
-    //     !emailIsValid ||
-    //     !phoneNumberIsValid ||
-    //     !acceptedTermsAndConditions ||
-    //     !acceptedPrivacyPolicy;
-
-    // signedInUser ? disabledForSignedInUser : disabledForNewUser
-
     const [createMenuBookingRequest] = useMutation(CreateOneUserBookingRequestDocument);
-
-    const [createUserWithMenuBookingRequest] = useMutation(CreateOneUserByEmailAddressDocument);
-
     const [bookingRequestId, setBookingRequestId] = useState<string | undefined>(undefined);
 
     function onBook(): void {
@@ -269,44 +247,22 @@ export default function PublicMenuPage({
 
         setLoading(true);
 
-        signedInUser
-            ? void createMenuBookingRequest({
-                  variables: {
-                      userId: signedInUser?.userId ?? '',
-                      request: menuBookingRequest,
-                  },
-              })
-                  .then(({ data }) => {
-                      if (data?.users.bookingRequests.createOne.success) {
-                          setCompletionState('SUCCESSFUL');
-                          setStripeClientSecret(data.users.bookingRequests.createOne.clientSecret);
-                          setBookingRequestId(data.users.bookingRequests.createOne.bookingRequestId);
-                      } else setCompletionState('FAILED');
-                  })
-                  .catch(() => setCompletionState('FAILED'))
-                  .finally(() => setLoading(false))
-            : void createUserWithMenuBookingRequest({
-                  variables: {
-                      profilePicture: undefined,
-                      request: {
-                          firstName: firstName,
-                          lastName: lastName,
-                          emailAddress: email,
-                          gender: 'NO_INFORMATION',
-                          language: 'GERMAN',
-                          password: '',
-                          globalBookingRequest: menuBookingRequest,
-                      },
-                  },
-              })
-                  .then(({ data }) => setCompletionState(data?.users.success ? 'SUCCESSFUL' : 'FAILED'))
-                  .catch(() => setCompletionState('FAILED'))
-                  .finally(() => setLoading(false));
+        void createMenuBookingRequest({
+            variables: {
+                userId: signedInUser?.userId ?? '',
+                request: menuBookingRequest,
+            },
+        })
+            .then(({ data }) => {
+                if (data?.users.bookingRequests.createOne.success) {
+                    setCompletionState('SUCCESSFUL');
+                    setStripeClientSecret(data.users.bookingRequests.createOne.clientSecret);
+                    setBookingRequestId(data.users.bookingRequests.createOne.bookingRequestId);
+                } else setCompletionState('FAILED');
+            })
+            .catch(() => setCompletionState('FAILED'))
+            .finally(() => setLoading(false));
     }
-
-    useEffect(() => {
-        return () => console.log('Unmounted');
-    }, []);
 
     return (
         <VStack gap={82} className="w-full h-full overflow-x-hidden">

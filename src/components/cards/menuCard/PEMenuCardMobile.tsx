@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { type ReactElement } from 'react';
-import { type Price } from '../../../data-source/generated/graphql';
+import { formatPrice } from '../../../shared-domain/formatPrice';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
 import { type PEMenuCardProps } from './PEMenuCardProps';
@@ -17,8 +17,6 @@ export default function PEMenuCardMobile({
     kitchen,
     onClick,
 }: PEMenuCardProps): ReactElement {
-    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
-
     return (
         <div
             onClick={onClick}

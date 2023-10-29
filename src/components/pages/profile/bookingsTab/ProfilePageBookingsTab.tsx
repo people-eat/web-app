@@ -4,7 +4,8 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
-import { FindManyUserBookingRequestsDocument, type Price } from '../../../../data-source/generated/graphql';
+import { FindManyUserBookingRequestsDocument } from '../../../../data-source/generated/graphql';
+import { formatPrice } from '../../../../shared-domain/formatPrice';
 import BookingRequestStatusPill from '../../../standard/bookingRequestStatusPill/BookingRequestStatusPill';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
@@ -22,8 +23,6 @@ export default function ProfilePageBookingsTab({ userId }: ProfilePageBookingsTa
     const { t } = useTranslation('global-booking-request');
     const { data, loading } = useQuery(FindManyUserBookingRequestsDocument, { variables: { userId } });
     const bookingRequests = data?.users.bookingRequests.findMany ?? [];
-
-    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
     return (
         <>

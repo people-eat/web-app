@@ -4,7 +4,8 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
-import { FindManyCookBookingRequestsDocument, type Price } from '../../../../data-source/generated/graphql';
+import { FindManyCookBookingRequestsDocument } from '../../../../data-source/generated/graphql';
+import { formatPrice } from '../../../../shared-domain/formatPrice';
 import BookingRequestStatusPill from '../../../standard/bookingRequestStatusPill/BookingRequestStatusPill';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
@@ -22,8 +23,6 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
     const { t: translateGlobalBookingRequest } = useTranslation('global-booking-request');
     const { data, loading } = useQuery(FindManyCookBookingRequestsDocument, { variables: { cookId } });
     const bookingRequests = data?.cooks.bookingRequests.findMany ?? [];
-
-    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
     // useEffect(() => {
     //     bookingRequests = bookingRequests.sort((b1, b2) => new Date(b1.createdAt).getTime() - new Date(b2.createdAt).getTime());

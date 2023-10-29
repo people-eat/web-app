@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import Image from 'next/image';
 import { type ReactElement } from 'react';
-import { type Price } from '../../../data-source/generated/graphql';
+import { formatPrice } from '../../../shared-domain/formatPrice';
 import PECarousel from '../../standard/carousel/PECarousel';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
@@ -23,8 +23,6 @@ export default function PEMenuCard({
     onClick,
     fullWidth,
 }: PEMenuCardProps): ReactElement {
-    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
-
     return (
         <div
             draggable

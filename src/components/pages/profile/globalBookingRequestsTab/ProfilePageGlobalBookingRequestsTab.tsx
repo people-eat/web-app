@@ -7,10 +7,10 @@ import {
     FindUserProfileGlobalBookingRequestsDocument,
     UserBookingRequestUpdatePriceDocument,
     type CurrencyCode,
-    type Price,
 } from '../../../../data-source/generated/graphql';
 import BookingRequestDetailsDialog from '../../../BookingRequestDetailsDialog';
 // import PEBookingRequestCardOpen from '../../../cards/bookingRequestCard/PEBookingRequestCardOpen';
+import { formatPrice } from '../../../../shared-domain/formatPrice';
 import GlobalBookingRequestCardCustomer from '../../../cards/globalBookingRequests/GlobalBookingRequestCardCustomer';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
@@ -44,8 +44,6 @@ export default function ProfilePageGlobalBookingRequestsTab({ userId }: ProfileP
 
     const { data, loading, error, refetch } = useQuery(FindUserProfileGlobalBookingRequestsDocument, { variables: { userId } });
     const globalBookingRequests = data?.users.globalBookingRequests.findMany;
-
-    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
 
     return (
         <VStack className="w-full md:overflow-hidden relative max-w-screen-xl gap-6 lg:px-4 md:py-6 box-border">
