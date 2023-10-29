@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent } from '@mui/material';
+import { Alert, CircularProgress, Dialog, DialogContent, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMenusDocument, type CurrencyCode, type MealType } from '../../../../data-source/generated/graphql';
@@ -73,6 +73,7 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
     const { t } = useTranslation('chef-profile');
     const [selectedTab, setSelectedTab] = useState<'MENUS' | 'CREATE' | 'EDIT'>('MENUS');
     const [openCreateNewMenuSuccess, setOpenCreateNewMenuSuccess] = useState(false);
+    const [showMenuDeletedBanner, setShowMenuDeletedBanner] = useState(false);
     const [selectedMenuId, setSelectedMenuId] = useState<string | undefined>(undefined);
 
     const { data, loading, refetch } = useQuery(FindCookMenusDocument, { variables: { cookId } });
@@ -104,6 +105,12 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                     onSaveUpdates={(): void => {
                         setSelectedTab('MENUS');
                         void refetch();
+                    }}
+                    onDelete={(): void => {
+                        setSelectedTab('MENUS');
+                        void refetch();
+                        setShowMenuDeletedBanner(true);
+                        setTimeout(() => setShowMenuDeletedBanner(false), 3000);
                     }}
                     menuId={selectedMenuId}
                     cookId={cookId}
@@ -236,6 +243,10 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                     <CircularProgress />
                 </DialogContent>
             </Dialog>
+
+            <Snackbar open={showMenuDeletedBanner} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert severity="success">Menü erfolgreich gelöscht</Alert>
+            </Snackbar>
 
             <Dialog open={openCreateNewMenuSuccess} onClose={(): void => setOpenCreateNewMenuSuccess(false)}>
                 <DialogContent className="overflow-hidden flex justify-center">

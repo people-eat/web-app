@@ -29,6 +29,7 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
     const meals = data?.cooks.meals.findMany ?? [];
 
     const [showMealCreatedBanner, setShowMealCreatedBanner] = useState(false);
+    const [showMealDeletedBanner, setShowMealDeletedBanner] = useState(false);
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 box-border gap-6">
@@ -75,6 +76,12 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
                     onCancel={(): void => setSelectedTab('MEALS')}
                     onSaveUpdates={(): void => {
                         setSelectedTab('MEALS');
+                        void refetch();
+                    }}
+                    onDelete={(): void => {
+                        setSelectedTab('MEALS');
+                        setShowMealDeletedBanner(true);
+                        setTimeout(() => setShowMealDeletedBanner(false), 3000);
                         void refetch();
                     }}
                 />
@@ -132,6 +139,10 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
 
             <Snackbar open={showMealCreatedBanner} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert severity="success">Gericht erfolgreich erstellt</Alert>
+            </Snackbar>
+
+            <Snackbar open={showMealDeletedBanner} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert severity="success">Gericht erfolgreich gelöscht</Alert>
             </Snackbar>
         </VStack>
     );

@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Alert, Divider, Snackbar } from '@mui/material';
+import { Alert, Dialog, DialogContent, Divider, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
+    DeleteOneCookMenuDocument,
     GetCreateMenuPageDataDocument,
     UpdateCookMenuDescriptionDocument,
     UpdateCookMenuIsVisibleDocument,
@@ -16,6 +17,8 @@ import PEButton from '../../../../../standard/buttons/PEButton';
 import PECheckbox from '../../../../../standard/checkbox/PECheckbox';
 import PEDropdown from '../../../../../standard/dropdown/PEDropdown';
 import PESingleSelectDropdown from '../../../../../standard/dropdown/PESingleSelectDropdown';
+import { Icon } from '../../../../../standard/icon/Icon';
+import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
 import PEMultiLineTextField from '../../../../../standard/textFields/PEMultiLineTextField';
 import PENumberTextField from '../../../../../standard/textFields/PENumberTextField';
 import PETextField from '../../../../../standard/textFields/PETextField';
@@ -27,6 +30,7 @@ export interface ChefProfilePageEditMenusStep1Props {
     menu: MenuEntity;
     cookId: string;
     onChangesApplied: () => void;
+    onDelete: () => void;
 }
 
 // eslint-disable-next-line max-statements
@@ -34,6 +38,7 @@ export default function ChefProfilePageEditMenusStep1({
     cookId,
     menu,
     onChangesApplied,
+    onDelete,
 }: ChefProfilePageEditMenusStep1Props): ReactElement {
     const { t } = useTranslation('chef-profile');
     const { t: commonTranslations } = useTranslation('common');
@@ -55,6 +60,9 @@ export default function ChefProfilePageEditMenusStep1({
     const [updatePreparationTime] = useMutation(UpdateCookMenuPreparationTimeDocument, {
         variables: { cookId, menuId: menu.menuId, preparationTime },
     });
+
+    const [deleteMenu] = useMutation(DeleteOneCookMenuDocument, { variables: { cookId, menuId: menu.menuId } });
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
     const { data } = useQuery(GetCreateMenuPageDataDocument);
 
@@ -162,7 +170,7 @@ export default function ChefProfilePageEditMenusStep1({
             </HStack>
 
             <HStack className="w-full" gap={16} style={{ marginTop: 32 }}>
-                <PEButton title={commonTranslations('delete')} onClick={(): void => undefined} type="secondary" />
+                <PEButton title={commonTranslations('delete')} type="secondary" onClick={(): void => setShowDeleteDialog(true)} />
                 <PEButton
                     title={commonTranslations('save')}
                     onClick={handleSaveUpdates}
@@ -179,6 +187,40 @@ export default function ChefProfilePageEditMenusStep1({
             <Snackbar open={changesHaveBeenSaved} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert severity="success">Änderungen erfolgreich gespeichert</Alert>
             </Snackbar>
+
+            <Dialog open={showDeleteDialog} onClose={(): void => setShowDeleteDialog(false)}>
+                <DialogContent>
+                    <VStack className="gap-8 relative box-border">
+                        <VStack className="absolute top-0 right-0">
+                            <PEIconButton
+                                iconSize={24}
+                                icon={Icon.close}
+                                onClick={(): void => setShowDeleteDialog(false)}
+                                withoutShadow
+                                bg="white"
+                            />
+                        </VStack>
+
+                        <p className="m-0 mt-2 text-text-m-bold w-full text-start">Menü löschen</p>
+
+                        <p className="m-0 w-full text-start">Soll {menu.title} wirklich gelöscht werden?</p>
+
+                        <HStack className="w-full gap-4">
+                            <PEButton onClick={(): void => setShowDeleteDialog(false)} title={t('cancel-button')} type="secondary" />
+                            <PEButton
+                                title={t('create-meal-dropdown-delete')}
+                                onClick={(): void => {
+                                    deleteMenu()
+                                        .then(({ data: deleteData }) => {
+                                            if (deleteData?.cooks?.menus?.success) onDelete();
+                                        })
+                                        .catch((error) => console.log(error));
+                                }}
+                            />
+                        </HStack>
+                    </VStack>
+                </DialogContent>
+            </Dialog>
         </VStack>
     );
 }

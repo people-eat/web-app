@@ -26,7 +26,7 @@ export default function PEHeaderDesktop({ signedInUser }: PEHeaderProps): ReactE
     return (
         <HStack gap={16} className="w-full max-w-screen-xl" style={{ alignItems: 'center', marginTop: 8 }}>
             <Link href="/" className="ml-4 no-underline">
-                <Image src="/logo.svg" alt="" width={203} height={46} priority />
+                <Image src="/people-eat-logo-title.png" alt="" width={203} height={46} priority />
             </Link>
 
             <Link href="/how-to-chef" className="no-underline">

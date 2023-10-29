@@ -14,9 +14,10 @@ interface ChefProfilePageEditMenuProps {
     cookId: string;
     menuId: string;
     onSaveUpdates: () => void;
+    onDelete: () => void;
 }
 
-export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates }: ChefProfilePageEditMenuProps): ReactElement {
+export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates, onDelete }: ChefProfilePageEditMenuProps): ReactElement {
     const [step, setStep] = useState(0);
     const { t } = useTranslation('chef-profile');
     const { data, loading, refetch } = useQuery(FindCookMenuDocument, { variables: { menuId, cookId } });
@@ -42,7 +43,12 @@ export default function ChefProfilePageEditMenu({ cookId, menuId, onSaveUpdates 
                 </VStack>
 
                 {step === 0 && menu && (
-                    <ChefProfilePageEditMenusStep1 menu={menu} cookId={cookId} onChangesApplied={(): void => void refetch()} />
+                    <ChefProfilePageEditMenusStep1
+                        menu={menu}
+                        cookId={cookId}
+                        onChangesApplied={(): void => void refetch()}
+                        onDelete={(): void => void onDelete()}
+                    />
                 )}
 
                 {step === 1 && menu && (

@@ -34,7 +34,7 @@ export default function PEHeaderMobile({ signedInUser }: PEHeaderProps): ReactEl
                 }}
             >
                 <Link href="/">
-                    <Image src="/logo.svg" alt="" width={203} height={46} style={{ marginTop: 8 }} />
+                    <Image src="/people-eat-logo-title.png" alt="" width={203} height={46} style={{ marginTop: 8 }} />
                 </Link>
 
                 <IconButton onClick={(): void => setSideBarOpen(!sideBarOpen)}>

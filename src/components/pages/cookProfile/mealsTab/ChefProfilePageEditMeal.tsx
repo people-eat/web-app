@@ -28,10 +28,17 @@ export interface ChefProfilePageEditMealProps {
     mealId: string;
     onCancel: () => void;
     onSaveUpdates: () => void;
+    onDelete: () => void;
 }
 
 // eslint-disable-next-line max-statements
-export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSaveUpdates }: ChefProfilePageEditMealProps): ReactElement {
+export default function ChefProfilePageEditMeal({
+    cookId,
+    mealId,
+    onCancel,
+    onSaveUpdates,
+    onDelete,
+}: ChefProfilePageEditMealProps): ReactElement {
     const { t } = useTranslation('chef-profile');
     const { t: translateMealType } = useTranslation('meal-types');
 
@@ -169,6 +176,7 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                             disabled={meal.title === title && meal.description === description && meal.type === type && image === null}
                         />
                     </HStack>
+
                     <Dialog open={showDeleteDialog} onClose={(): void => setShowDeleteDialog(false)}>
                         <DialogContent>
                             <VStack className="gap-8 relative box-border">
@@ -195,10 +203,10 @@ export default function ChefProfilePageEditMeal({ cookId, mealId, onCancel, onSa
                                         type="secondary"
                                     />
                                     <PEButton
-                                        onClick={(): void =>
-                                            void deleteMeal().then((result) => result.data?.cooks.meals.success && onSaveUpdates())
-                                        }
                                         title={t('create-meal-dropdown-delete')}
+                                        onClick={(): void =>
+                                            void deleteMeal().then((result) => result.data?.cooks.meals.success && onDelete())
+                                        }
                                     />
                                 </HStack>
                             </VStack>
