@@ -5,6 +5,31 @@ import 'react-image-crop/dist/ReactCrop.css';
 import VStack from '../../utility/vStack/VStack';
 import PEButton from '../buttons/PEButton';
 
+// interface Dimensions {
+//     width: number;
+//     height: number;
+// }
+
+// function limitSize(size: Dimensions, maximumPixels: number): Dimensions {
+//     const { width, height } = size;
+
+//     const requiredPixels = width * height;
+//     if (requiredPixels <= maximumPixels) return { width, height };
+
+//     const scalar = Math.sqrt(maximumPixels) / Math.sqrt(requiredPixels);
+//     return {
+//         width: Math.floor(width * scalar),
+//         height: Math.floor(height * scalar),
+//     };
+// }
+
+function releaseCanvas(canvas: HTMLCanvasElement): void {
+    canvas.width = 1;
+    canvas.height = 1;
+    const ctx = canvas.getContext('2d');
+    ctx && ctx.clearRect(0, 0, 1, 1);
+}
+
 export interface PEImageClipperProps {
     imagePath: string;
     onSuccess: (croppedImage: File, croppedBase64Image: string) => void;
@@ -46,13 +71,14 @@ export default function PEImageClipper({ imagePath, onSuccess }: PEImageClipperP
                         const scaleX = image.naturalWidth / image.width;
                         const scaleY = image.naturalHeight / image.height;
                         const ctx = canvas.getContext('2d');
+                        releaseCanvas(canvas);
                         const pixelRatio = window.devicePixelRatio;
                         canvas.width = crop.width * pixelRatio * scaleX;
                         canvas.height = crop.height * pixelRatio * scaleY;
 
                         if (ctx) {
                             ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-                            ctx.imageSmoothingQuality = 'high';
+                            ctx.imageSmoothingQuality = 'medium';
 
                             ctx.drawImage(
                                 image,
