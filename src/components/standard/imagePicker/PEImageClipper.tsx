@@ -68,8 +68,8 @@ export default function PEImageClipper({ imagePath, onSuccess }: PEImageClipperP
                         const ctx = canvas.getContext('2d');
 
                         const pixelRatio = window.devicePixelRatio;
-                        canvas.width = crop.width * pixelRatio * scaleX;
-                        canvas.height = crop.height * pixelRatio * scaleY;
+                        // canvas.width = crop.width * pixelRatio * scaleX;
+                        // canvas.height = crop.height * pixelRatio * scaleY;
 
                         if (ctx) {
                             ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
