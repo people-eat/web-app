@@ -54,6 +54,8 @@ export default function PEImageClipper({ imagePath, onSuccess }: PEImageClipperP
 
                     // create a canvas element to draw the cropped image
                     const canvas = document.createElement('canvas');
+                    canvas.width = 5120;
+                    canvas.height = 3072;
 
                     // get the image element
                     const image = imgRef.current;
