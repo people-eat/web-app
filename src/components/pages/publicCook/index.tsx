@@ -19,7 +19,6 @@ import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEMenuCard from '../../cards/menuCard/PEMenuCard';
 import PEMenuCardMobile from '../../cards/menuCard/PEMenuCardMobile';
-import PEReviewCardMenu from '../../cards/reviewCard/PEReviewCardMenu';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEButton from '../../standard/buttons/PEButton';
@@ -339,7 +338,8 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                 />
                             </Link>
                         </HStack>
-                        <>
+
+                        {/* <>
                             <HStack
                                 className="w-full items-center  bg-white shadow-primary box-border rounded-4 p-[2rem]"
                                 style={{ justifyContent: 'space-between' }}
@@ -423,7 +423,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                     />
                                 </div>
                             </VStack>
-                        </>
+                        </> */}
                     </>
                 )}
             </VStack>

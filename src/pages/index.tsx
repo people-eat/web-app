@@ -53,28 +53,28 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export const HomePageContext: Context<{ signedInUser?: SignedInUser }> = createContext({});
 
 const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: HomePageProps) => {
+    const { isMobile } = useResponsive();
+
     const [showCookieBanner, setShowCookieBanner] = useState(false);
     const [cookieSettings, setCookieSettings] = useState<SessionCookieSettingsInput>({
         sessionCookie: false,
         googleAnalytics: false,
     });
 
-    const { data, loading } = useQuery(FindCurrentSessionDocument);
-    const { isMobile } = useResponsive();
+    const { data, loading, refetch } = useQuery(FindCurrentSessionDocument);
+    const [updateCookieSettings] = useMutation(UpdateSessionCookieSettingsDocument);
 
     useEffect(() => {
         if (!data?.sessions.current?.cookieSettings && !loading) setShowCookieBanner(true);
 
         if (data?.sessions.current?.cookieSettings) {
-            // setShowCookieBanner(false);
+            setShowCookieBanner(false);
             setCookieSettings({
                 sessionCookie: data.sessions.current.cookieSettings.sessionCookie,
                 googleAnalytics: data.sessions.current.cookieSettings.googleAnalytics,
             });
         }
     }, [data, loading]);
-
-    const [updateCookieSettings] = useMutation(UpdateSessionCookieSettingsDocument);
 
     return (
         <>
@@ -142,7 +142,10 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
                                         googleAnalytics: false,
                                     },
                                 },
-                            }).then((result) => result.data?.sessions.success && setShowCookieBanner(false));
+                            }).then((result) => {
+                                if (result.data?.sessions.success) setShowCookieBanner(false);
+                                void refetch();
+                            });
                         }}
                     >
                         Ablehnen
@@ -153,7 +156,10 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
                                 variables: {
                                     request: cookieSettings,
                                 },
-                            }).then((result) => result.data?.sessions.success && setShowCookieBanner(false));
+                            }).then((result) => {
+                                if (result.data?.sessions.success) setShowCookieBanner(false);
+                                void refetch();
+                            });
                         }}
                     >
                         Auswahl akzeptieren
@@ -168,7 +174,10 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
                                         googleAnalytics: true,
                                     },
                                 },
-                            }).then((result) => result.data?.sessions.success && setShowCookieBanner(false));
+                            }).then((result) => {
+                                if (result.data?.sessions.success) setShowCookieBanner(false);
+                                void refetch();
+                            });
                         }}
                     >
                         Alle akzeptieren

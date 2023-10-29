@@ -136,14 +136,14 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                     </HStack>
 
                     <HStack className="relative w-full gap-6 flex-wrap" style={{ alignItems: 'center', justifyContent: 'flex-start' }}>
-                        {visibleMenus.map((menu, index) => (
+                        {visibleMenus.map((menu) => (
                             <div
                                 onClick={(): void => {
                                     setSelectedMenuId(menu.menuId);
                                     setSelectedTab('EDIT');
                                 }}
                                 className="relative PEMenuCard editMenu md:w-full"
-                                key={index}
+                                key={menu.menuId}
                             >
                                 {isMobile ? (
                                     <PEMenuCardMobile
@@ -199,14 +199,14 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                                     className="relative w-full gap-6 flex-wrap opacity-30"
                                     style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                                 >
-                                    {invisibleMenus.map((menu, index) => (
+                                    {invisibleMenus.map((menu) => (
                                         <div
                                             onClick={(): void => {
                                                 setSelectedMenuId(menu.menuId);
                                                 setSelectedTab('EDIT');
                                             }}
                                             className="relative editMenu"
-                                            key={index}
+                                            key={menu.menuId}
                                         >
                                             <PEMenuCard
                                                 title={menu.title}
