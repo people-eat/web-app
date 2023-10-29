@@ -6,8 +6,6 @@ import DialogContent from '@mui/material/DialogContent';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -36,7 +34,6 @@ import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
 import { calculateMenuPrice } from '../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
-import Payment from './Payment';
 import MenuBookingRequestPageStep1 from './step1/MenuBookingRequestPageStep1';
 import MenuBookingRequestPageStep2 from './step2/MenuBookingRequestPageStep2';
 import MenuBookingRequestPageStep3 from './step3/MenuBookingRequestPageStep3';
@@ -99,7 +96,6 @@ export default function MenuBookingRequestPage({
     menu,
     searchParameters,
     allergies,
-    stripePublishableKey,
 }: MenuBookingRequestPageProps): ReactElement {
     const { t } = useTranslation('global-booking-request');
     const { t: homeTranslations } = useTranslation('home');
@@ -361,9 +357,9 @@ export default function MenuBookingRequestPage({
                 <Dialog open>
                     <DialogTitle>{'Jetzt bezahlen'}</DialogTitle>
                     <DialogContent>
-                        <Elements stripe={loadStripe(`${stripePublishableKey}`)} options={{ clientSecret: stripeClientSecret }}>
-                            <Payment />
-                        </Elements>
+                        {/* <Elements stripe={loadStripe(`${stripePublishableKey}`)} options={{ clientSecret: stripeClientSecret }}>
+                            <Payment bookingRequestId={} />
+                        </Elements> */}
                     </DialogContent>
                     <DialogActions>
                         <Link href="/" className="no-underline">
