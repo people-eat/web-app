@@ -80,9 +80,12 @@ export default function PEImagePicker({ onPick, onRemoveDefaultImage, defaultIma
                             imagePath={base64Image}
                             onSuccess={(croppedImage: File, croppedBase64Image: string): void => {
                                 new Compressor(croppedImage, {
+                                    maxWidth: 1000,
+                                    maxHeight: 1000,
                                     quality: 0.6,
                                     success: (compressedImage: File): void => onPick?.(compressedImage),
                                 });
+
                                 setBase64CroppedImage(croppedBase64Image);
                                 setShowImageCropper(false);
                             }}
