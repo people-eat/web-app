@@ -57,7 +57,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
 
     const [maximumParticipants, setMaximumParticipants] = useState(12);
 
-    const [travelExpenses, setTravelExpenses] = useState(0.42);
+    const [travelExpenses, setTravelExpenses] = useState(0.35);
     const [maximumTravelDistance, setMaximumTravelDistance] = useState(12);
 
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
@@ -307,9 +307,9 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                             <PEIcon icon={Icon.data} />
                             <p className="my-0">{t('travel-expenses')}</p>
                         </HStack>
-                        <p className="my-0 text-end w-full text-green text-ellipsis">{travelExpenses} EUR</p>
+                        <p className="my-0 text-end w-full text-green text-ellipsis">{travelExpenses.toFixed(2)} EUR</p>
                     </HStack>
-                    <PESlider min={0} max={1} step={0.01} value={travelExpenses} onValueChange={setTravelExpenses} />
+                    <PESlider min={0} max={0.7} step={0.05} value={travelExpenses} onValueChange={setTravelExpenses} />
                 </VStack>
                 <VStack className="w-full">
                     <HStack className="w-full" style={{ justifyContent: 'space-between' }}>
