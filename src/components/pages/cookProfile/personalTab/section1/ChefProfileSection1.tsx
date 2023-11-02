@@ -13,7 +13,6 @@ import PEIcon from '../../../../standard/icon/PEIcon';
 import PEIconButton from '../../../../standard/iconButton/PEIconButton';
 import PEImagePicker from '../../../../standard/imagePicker/PEImagePicker';
 import PEModalPopUp from '../../../../standard/modal/PEModalPopUp';
-import PETextField from '../../../../standard/textFields/PETextField';
 import HStack from '../../../../utility/hStack/HStack';
 import Spacer from '../../../../utility/spacer/Spacer';
 import VStack from '../../../../utility/vStack/VStack';
@@ -41,11 +40,7 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
 
     const [image] = useState<string | undefined>(chefProfile.user.profilePictureUrl ?? undefined);
     const [edit, setEdit] = useState(false);
-    const [firstName, setFirstName] = useState(chefProfile.user.firstName);
-    const [lastName, setLastName] = useState(chefProfile.user.lastName);
 
-    const [editFirstName, setEditFirstName] = useState(chefProfile.user.firstName);
-    const [editLastName, setEditLastName] = useState(chefProfile.user.lastName);
     const [editedProfilePicture, setEditedProfilePicture] = useState<File | undefined | null>(null);
 
     const { t: commonTranslate } = useTranslation('common');
@@ -55,8 +50,6 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
     };
 
     function handleUnSaveChefName(): void {
-        setEditFirstName(chefProfile.user.firstName);
-        setEditLastName(chefProfile.user.lastName);
         setEdit(!edit);
     }
 
@@ -74,8 +67,6 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
         }
 
         setEditedProfilePicture(null);
-        setFirstName(editFirstName);
-        setLastName(editLastName);
         setEdit(!edit);
     }
 
@@ -123,8 +114,8 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             }}
                         >
                             <VStack style={{ alignItems: 'flex-start' }}>
-                                <p className="text-heading-m my-0">{firstName}</p>
-                                <p className="text-start text-text-m text-disabled my-0">{lastName}</p>
+                                <p className="text-heading-m my-0">{chefProfile.user.firstName}</p>
+                                <p className="text-start text-text-m text-disabled my-0">{chefProfile.user.lastName}</p>
                             </VStack>
                             <div className="mt-2">
                                 <PEIconButton icon={Icon.editPencil} onClick={(): void => setEdit(!edit)} iconSize={24} withoutShadow />
@@ -176,8 +167,6 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                     <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
                         <h2 className="m-0 pb-5 w-full">{t('popup-edit-user-profile')}</h2>
                         <VStack className="w-full gap-4" style={{ alignItems: 'flex-start', justifyContent: 'center' }}>
-                            <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
-                            <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
                             <PEImagePicker
                                 onPick={setEditedProfilePicture}
                                 defaultImage={image}
@@ -188,7 +177,7 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             className="max-w-[250px] mt-10"
                             onClick={handleSaveProfileInfo}
                             title={t('popup-edit-button')}
-                            disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
+                            disabled={editedProfilePicture === null}
                         />
                     </VStack>
                 </PEModalPopUp>
@@ -231,8 +220,6 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             </div>
                             <h2 className="m-0 pb-5 w-full">{t('popup-edit-user-profile')}</h2>
                             <VStack className="w-full gap-4" style={{ alignItems: 'flex-start', justifyContent: 'center' }}>
-                                <PETextField type={'text'} value={editFirstName} onChange={(value): void => setEditFirstName(value)} />
-                                <PETextField type={'text'} value={editLastName} onChange={(value): void => setEditLastName(value)} />
                                 <PEImagePicker
                                     onPick={setEditedProfilePicture}
                                     defaultImage={image}
@@ -243,7 +230,7 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                                 className="max-w-[250px] mt-10"
                                 onClick={handleSaveProfileInfo}
                                 title={t('popup-edit-button')}
-                                disabled={editedProfilePicture === null && firstName === editFirstName && lastName === editLastName}
+                                disabled={editedProfilePicture === null}
                             />
                         </VStack>
                     </List>
