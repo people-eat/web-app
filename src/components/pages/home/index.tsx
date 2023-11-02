@@ -68,7 +68,8 @@ export default function HomePage({ searchParameters }: HomePageProps): ReactElem
 
             <VStack
                 className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4"
-                style={{ alignItems: 'flex-start', gap: 16 }}
+                style={{ alignItems: 'flex-start' }}
+                gap={16}
             >
                 <VStack
                     className="w-full relative pl-8 lg:pl-0 items-start max-w-screen-xl h-[602px] lg:h-[522px]"

@@ -73,7 +73,7 @@ export default function HomePageSearchMobile({
             <PEIconButton
                 onClick={(): void => setOpenDialog(!isOpen)}
                 bg="bg-orange"
-                icon={Icon.filters}
+                icon={Icon.searchBar}
                 size={'40px'}
                 iconSize={24}
                 className="rounded-4"

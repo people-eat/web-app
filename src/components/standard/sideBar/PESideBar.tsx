@@ -46,11 +46,10 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                 <Image src="/logo.svg" alt="" width={203} height={46} style={{ margin: 16, marginTop: 32 }} />
             </Link>
 
-            <Divider flexItem />
-
             <List>
                 {signedInUser && (
                     <>
+                        <Divider flexItem />
                         <ListItem disablePadding>
                             <ListItemButton onClick={(): void => setUserProfileTabsOpen(!userProfileTabsOpen)}>
                                 <ListItemIcon>
@@ -63,7 +62,7 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                         <Collapse in={userProfileTabsOpen}>
                             <List>
                                 {userProfileTabs.map(({ translationKey, path }) => (
-                                    <ListItem disablePadding key={path} sx={{ pl: 4 }}>
+                                    <ListItem disablePadding key={path} sx={{ pl: 0 }}>
                                         <Link
                                             href={path}
                                             className="w-full no-underline"
@@ -81,10 +80,9 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                     </>
                 )}
 
-                <Divider />
-
                 {signedInUser?.isCook && (
                     <>
+                        <Divider />
                         <ListItem disablePadding>
                             <ListItemButton onClick={(): void => setCookProfileTabsOpen(!cookProfileTabsOpen)}>
                                 <ListItemIcon>
@@ -96,7 +94,7 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                         </ListItem>
                         <Collapse in={cookProfileTabsOpen}>
                             {cookProfileTabs.map(({ translationKey, path }) => (
-                                <ListItem disablePadding key={path} sx={{ pl: 4 }}>
+                                <ListItem disablePadding key={path} sx={{ pl: 0 }}>
                                     <Link href={path} className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
                                         <ListItemButton>
                                             <ListItemIcon />
