@@ -267,7 +267,7 @@ export default function PublicMenuPage({
     return (
         <VStack gap={82} className="w-full h-full overflow-x-hidden">
             <PEHeader signedInUser={signedInUser} />
-            <VStack className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4" gap={16}>
+            <VStack className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4" gap={32}>
                 {publicMenu && (
                     <>
                         <HStack
@@ -410,9 +410,13 @@ export default function PublicMenuPage({
                             <Spacer />
                         </HStack>
 
-                        <Divider flexItem className="py-3" />
+                        {/* <Divider flexItem className="py-3" /> */}
 
-                        <HStack gap={32} className="w-full" style={{ minWidth: '500px', flexWrap: 'wrap' }}>
+                        <HStack
+                            gap={32}
+                            className="w-full"
+                            style={{ minWidth: '500px', flexWrap: 'wrap', justifyContent: 'space-between' }}
+                        >
                             <VStack gap={32} style={{ flex: isMobile ? 'none' : 1 }}>
                                 {publicMenu.greetingFromKitchen && (
                                     <VStack gap={32} style={{ width: isMobile ? '93vw' : '100%', alignItems: 'flex-start' }}>

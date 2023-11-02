@@ -21,7 +21,6 @@ import PEMenuCard from '../../cards/menuCard/PEMenuCard';
 import PEMenuCardMobile from '../../cards/menuCard/PEMenuCardMobile';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEButton from '../../standard/buttons/PEButton';
 import PEFavorite from '../../standard/favorite/PEFavorite';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
@@ -70,7 +69,6 @@ export interface PublicCookPageProps {
 
 export default function PublicCookPage({ signedInUser, publicCook, categories, kitchens }: PublicCookPageProps): ReactElement {
     const { t } = useTranslation('common');
-    const { t: bookingTranslations } = useTranslation('global-booking-request');
     const { isMobile } = useResponsive();
     const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>();
     const [selectedCategory, setSelectedCategory] = useState<Category | undefined>();
@@ -316,7 +314,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                 </Link>
                             )} */}
 
-                            <Link
+                            {/* <Link
                                 href={{
                                     pathname: '/cook-booking-request',
                                     query: {
@@ -336,8 +334,16 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                     type="primary"
                                     onClick={(): void => undefined}
                                 />
-                            </Link>
+                            </Link> */}
                         </HStack>
+
+                        <VStack gap={32} style={{ width: isMobile ? '93vw' : '100%', alignItems: 'flex-start' }}>
+                            <HStack gap={16}>
+                                <span className="text-heading-m">Bewertungen</span>
+                                <Spacer />
+                            </HStack>
+                            <span style={{ color: 'gray' }}>Noch keine Bewertungen vorhanden.</span>
+                        </VStack>
 
                         {/* <>
                             <HStack

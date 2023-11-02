@@ -2,12 +2,13 @@ import { Divider } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
-import { type CSSProperties, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
 import { type Price } from '../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../data-source/searchAddress';
 import { type Allergy } from '../shared-domain/Allergy';
 import { type Location } from '../shared-domain/Location';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
+import { formatPrice } from '../shared-domain/formatPrice';
 import { geoDistance } from '../utils/geoDistance';
 import PEButton from './standard/buttons/PEButton';
 import PECounter from './standard/counter/PECounter';
@@ -23,7 +24,7 @@ import VStack from './utility/vStack/VStack';
 
 export interface BookingRequestFormProps {
     externalDisabled: boolean;
-    style?: CSSProperties;
+
     signedInUser?: SignedInUser;
 
     allergies: Allergy[];
@@ -72,7 +73,7 @@ export interface BookingRequestFormProps {
 
 export default function BookingRequestForm({
     externalDisabled,
-    style,
+
     signedInUser,
     allergies,
     costs,
@@ -102,11 +103,6 @@ export default function BookingRequestForm({
 }: BookingRequestFormProps): ReactElement {
     const { t } = useTranslation('common');
 
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-
-    const formatPrice = (price: Price): string => (price.amount / 100).toFixed(2) + ' ' + price.currencyCode;
-
     const isOutOfCookTravelRadius =
         !!cookMaximumTravelDistance &&
         location &&
@@ -127,7 +123,7 @@ export default function BookingRequestForm({
     return (
         <VStack
             gap={16}
-            style={{ width: 400, alignItems: 'flex-start', ...style }}
+            style={{ width: 400, alignItems: 'flex-start', alignSelf: 'start', position: 'sticky', top: '0px' }}
             className="w-full bg-white shadow-primary box-border p-8 rounded-4"
         >
             <h3 style={{ lineHeight: 0 }}>Event Details</h3>
