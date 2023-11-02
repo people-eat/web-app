@@ -116,12 +116,12 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             <VStack style={{ alignItems: 'flex-start' }}>
                                 <p className="text-heading-m my-0">{chefProfile.user.firstName}</p>
                                 <p className="text-start text-text-m text-disabled my-0">{chefProfile.user.lastName}</p>
+                                {!isMobile ? <span>{commonTranslate(chefProfile.rank)}</span> : null}
                             </VStack>
                             <div className="mt-2">
                                 <PEIconButton icon={Icon.editPencil} onClick={(): void => setEdit(!edit)} iconSize={24} withoutShadow />
                             </div>
                         </HStack>
-                        {!isMobile ? <span>{commonTranslate(chefProfile.rank)}</span> : null}
                     </VStack>
 
                     {!isMobile ? <Spacer /> : null}

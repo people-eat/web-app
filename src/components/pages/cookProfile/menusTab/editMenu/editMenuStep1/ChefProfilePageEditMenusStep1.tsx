@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Alert, Dialog, DialogContent, Divider, Snackbar } from '@mui/material';
+import { Alert, Dialog, DialogContent, Divider, MenuItem, Select, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
@@ -19,7 +19,6 @@ import { Icon } from '../../../../../standard/icon/Icon';
 import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../../../standard/tabItem/PETabItem';
 import PEMultiLineTextField from '../../../../../standard/textFields/PEMultiLineTextField';
-import PENumberTextField from '../../../../../standard/textFields/PENumberTextField';
 import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
@@ -172,16 +171,29 @@ export default function ChefProfilePageEditMenusStep1({
 
             <Divider className="w-full" />
 
-            <VStack className="w-full" style={{ alignItems: 'flex-start' }}>
+            <VStack className="h-full" style={{ flex: 1, alignItems: 'flex-start', minWidth: 400 }}>
                 <p className="text-text-m-bold">{t('create-menu-preparation-time')}</p>
-                <PENumberTextField
-                    min={0}
-                    step={15}
-                    max={240}
-                    onChange={setPreparationTime}
-                    value={preparationTime}
-                    endContent={<>min</>}
-                />
+                <Select
+                    value={String(preparationTime)}
+                    onChange={(event): void => setPreparationTime(Number(event.target.value))}
+                    sx={{
+                        '&.Mui-focused': {
+                            '.MuiOutlinedInput-notchedOutline': {
+                                border: '1px solid black',
+                                borderColor: 'black',
+                            },
+                        },
+                        borderRadius: '12px',
+                        width: '100%',
+                    }}
+                >
+                    <MenuItem value={30}>30 Min</MenuItem>
+                    <MenuItem value={60}>1 Std</MenuItem>
+                    <MenuItem value={90}>1 Std 30 Min</MenuItem>
+                    <MenuItem value={120}>2 Std</MenuItem>
+                    <MenuItem value={150}>2 Std 30 Min</MenuItem>
+                    <MenuItem value={180}>3 Std</MenuItem>
+                </Select>
             </VStack>
 
             <HStack style={{ alignItems: 'center' }}>

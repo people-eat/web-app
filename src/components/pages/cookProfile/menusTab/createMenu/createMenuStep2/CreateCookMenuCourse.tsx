@@ -38,6 +38,8 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
 
     const [selectedMeals, setSelectedMeals] = useState<Map<string, MealEntity>>(new Map());
 
+    const disabled = !Boolean(title);
+
     return (
         <Dialog
             open={open}
@@ -103,6 +105,7 @@ export default function CreateCookMenuCourse({ open, meals, onSuccess, onCancel 
             <DialogActions>
                 <PEButton
                     title={t('create-menu-courses-add-course')}
+                    disabled={disabled}
                     onClick={(): void => onSuccess({ title, mealOptions: Array.from(selectedMeals.values()) })}
                 />
             </DialogActions>
