@@ -15,10 +15,9 @@ import { type Category } from '../../../../../../shared-domain/Category';
 import { type Kitchen } from '../../../../../../shared-domain/Kitchen';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import PECheckbox from '../../../../../standard/checkbox/PECheckbox';
-import PEDropdown from '../../../../../standard/dropdown/PEDropdown';
-import PESingleSelectDropdown from '../../../../../standard/dropdown/PESingleSelectDropdown';
 import { Icon } from '../../../../../standard/icon/Icon';
 import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
+import PETabItem from '../../../../../standard/tabItem/PETabItem';
 import PEMultiLineTextField from '../../../../../standard/textFields/PEMultiLineTextField';
 import PENumberTextField from '../../../../../standard/textFields/PENumberTextField';
 import PETextField from '../../../../../standard/textFields/PETextField';
@@ -129,26 +128,47 @@ export default function ChefProfilePageEditMenusStep1({
 
             <Divider className="w-full" />
 
-            <PEDropdown
-                title={t('create-menu-categories')}
-                defaultExpanded
-                options={categories}
-                getOptionLabel={(category): string => category.title}
-                optionsEqual={(categoryA, categoryB): boolean => categoryA.categoryId === categoryB.categoryId}
-                setSelectedOptions={setSelectedCategories}
-                showSelectedCount
-                selectedOptions={selectedCategories}
-            />
+            <VStack className="w-full">
+                <p className="w-full mb-4 text-text-m-bold my-0">{t('create-menu-categories')}</p>
+                <HStack gap={16} style={{ width: '100%', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                    {categories.map((category) => (
+                        <PETabItem
+                            key={category.categoryId}
+                            title={category.title}
+                            onClick={(): void => {
+                                const isSelected = !!selectedCategories.find(
+                                    (selectedCategory) => selectedCategory.categoryId === category.categoryId,
+                                );
+                                if (isSelected) {
+                                    setSelectedCategories(
+                                        selectedCategories.filter(
+                                            (selectedCategory) => selectedCategory.categoryId !== category.categoryId,
+                                        ),
+                                    );
+                                } else setSelectedCategories([...selectedCategories, category]);
+                            }}
+                            active={!!selectedCategories.find((selectedCategory) => selectedCategory.categoryId === category.categoryId)}
+                        />
+                    ))}
+                </HStack>
+            </VStack>
 
-            <PESingleSelectDropdown
-                title={t('create-menu-kitchen')}
-                options={kitchens}
-                getOptionLabel={(kitchen): string => kitchen?.title ?? ''}
-                optionsEqual={(kitchenA, kitchenB): boolean => kitchenA?.kitchenId === kitchenB?.kitchenId}
-                selectedOption={selectedKitchen}
-                setSelectedOption={setSelectedKitchen}
-                defaultExpanded
-            />
+            <VStack className="w-full">
+                <p className="w-full mb-4 text-text-m-bold my-0">{t('create-menu-kitchen')}</p>
+                <HStack gap={16} style={{ width: '100%', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                    {kitchens.map((kitchen) => (
+                        <PETabItem
+                            key={kitchen.kitchenId}
+                            title={kitchen.title}
+                            onClick={(): void => {
+                                if (selectedKitchen?.kitchenId === kitchen.kitchenId) setSelectedKitchen(undefined);
+                                else setSelectedKitchen(kitchen);
+                            }}
+                            active={selectedKitchen?.kitchenId === kitchen.kitchenId}
+                        />
+                    ))}
+                </HStack>
+            </VStack>
 
             <Divider className="w-full" />
 
