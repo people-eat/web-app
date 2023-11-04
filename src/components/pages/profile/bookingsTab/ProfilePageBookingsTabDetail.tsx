@@ -17,7 +17,6 @@ import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
-import PEReviewCardUser from '../../../standard/modal/PEReviewCardUser';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
@@ -261,7 +260,7 @@ export default function ProfilePageBookingsTabDetail({
                 </VStack>
             )}
 
-            {tab === 'RATING' && <PEReviewCardUser />}
+            {/* {tab === 'RATING' && <PEReviewCardUser />} */}
         </>
     );
 }
