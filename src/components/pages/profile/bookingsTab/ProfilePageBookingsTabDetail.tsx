@@ -3,7 +3,7 @@ import { Button, Divider, Tab, Tabs } from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
-import { useEffect, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import {
     CreateOneUserBookingRequestChatMessageDocument,
     FindOneUserBookingRequestDocument,
@@ -50,10 +50,10 @@ export default function ProfilePageBookingsTabDetail({
 
     const bookingRequest = data?.users.bookingRequests.findOne;
 
-    useEffect(() => {
-        setAmount(bookingRequest?.price.amount ?? 0);
-        if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
-    }, [bookingRequest]);
+    // useEffect(() => {
+    //     setAmount(bookingRequest?.price.amount ?? 0);
+    //     if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
+    // }, [bookingRequest]);
 
     if (!bookingRequest) return <>{translateGlobalBookingRequest('loading')}</>;
 

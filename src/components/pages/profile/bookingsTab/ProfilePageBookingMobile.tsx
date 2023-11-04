@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
-import { useEffect, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import {
     CreateOneUserBookingRequestChatMessageDocument,
     FindOneUserBookingRequestDocument,
@@ -15,7 +15,6 @@ import {
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
-import PEReviewCardUser from '../../../standard/modal/PEReviewCardUser';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
@@ -54,10 +53,10 @@ export default function ProfilePageBookingMobile({
         setIsMenuOpen(false);
     };
 
-    useEffect(() => {
-        setAmount(bookingRequest?.price.amount ?? 0);
-        if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
-    }, [bookingRequest]);
+    // useEffect(() => {
+    //     setAmount(bookingRequest?.price.amount ?? 0);
+    //     if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
+    // }, [bookingRequest]);
 
     return (
         <div className="fixed inset-0 z-50 mt-[80px] bg-white py-3" style={{ overflowY: 'auto' }}>
@@ -258,7 +257,7 @@ export default function ProfilePageBookingMobile({
 
                 {tab === 'MENU' && <div></div>}
 
-                {tab === 'RATING' && <PEReviewCardUser />}
+                {/* {tab === 'RATING' && <PEReviewCardUser />} */}
             </div>
         </div>
     );
