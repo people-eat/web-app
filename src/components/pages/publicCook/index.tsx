@@ -232,12 +232,11 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
 
                         <HStack gap={16} style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }} className="w-full">
                             {publicCook.menus
-                                .filter((_menu, index) => {
-                                    if (selectedKitchen && selectedKitchen.kitchenId !== _menu.kitchen?.kitchenId) return false;
+                                .filter((menu) => {
+                                    if (selectedKitchen && selectedKitchen.kitchenId !== menu.kitchen?.kitchenId) return false;
 
-                                    if (selectedCategory && !_menu.categories.some((cat) => cat.title === selectedCategory.title))
+                                    if (selectedCategory && !menu.categories.some((cat) => cat.title === selectedCategory.title))
                                         return false;
-                                    if (isMobile ? index > 4 : index > 3) return false;
 
                                     return true;
                                 })
