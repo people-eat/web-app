@@ -1,0 +1,5 @@
+query CookGetStripeOnboardingUrl($cookId: String!) {
+    cooks {
+        getStripeOnboardingUrl(cookId: $cookId)
+    }
+}

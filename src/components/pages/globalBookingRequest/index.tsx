@@ -91,7 +91,7 @@ export default function GlobalBookingRequestPage({
     const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
 
     const [loading, setLoading] = useState(false);
-    const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'FAILED'>(undefined);
+    const [completionState, setCompletionState] = useState<undefined | 'SUCCESSFUL' | 'SUCCESSFUL_NEW_USER' | 'FAILED'>(undefined);
 
     const globalBookingRequest: CreateOneGlobalBookingRequestRequest = {
         adultParticipants: adults,
@@ -226,7 +226,7 @@ export default function GlobalBookingRequestPage({
                                           .catch(() => setCompletionState('FAILED'))
                                           .finally(() => setLoading(false))
                                     : void createUserWithGlobalBookingRequest()
-                                          .then(({ data }) => setCompletionState(data?.users.success ? 'SUCCESSFUL' : 'FAILED'))
+                                          .then(({ data }) => setCompletionState(data?.users.success ? 'SUCCESSFUL_NEW_USER' : 'FAILED'))
                                           .catch(() => setCompletionState('FAILED'))
                                           .finally(() => setLoading(false));
                             }}
@@ -277,37 +277,59 @@ export default function GlobalBookingRequestPage({
                 )}
             </HStack>
 
-            {completionState === 'SUCCESSFUL' && (
-                <Dialog open>
-                    <DialogTitle>{t('booking-global-request-pop-up')}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            <HStack>
+            <Dialog open={completionState === 'SUCCESSFUL_NEW_USER'}>
+                <DialogTitle>{t('booking-global-request-pop-up')}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        <VStack style={{ alignItems: 'flex-start' }} gap={32}>
+                            <HStack style={{ width: '100%' }}>
                                 <PEIcon icon={Icon.confetti} edgeLength={64} />
                             </HStack>
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Link href="/profile?tab=2" className="no-underline">
-                            <Button autoFocus>{commonTranslate('back')}</Button>
-                        </Link>
-                    </DialogActions>
-                </Dialog>
-            )}
+                            <VStack style={{ alignItems: 'flex-start' }}>
+                                <span>Vielen Dank für deine Buchungsfrage!</span>
+                                <span>In deinem Email Postfach findest du eine Email mit der Zusammenfassung für deine Anfrage.</span>
+                            </VStack>
+                        </VStack>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Link href="/" className="no-underline">
+                        <Button autoFocus>Zur Startseite</Button>
+                    </Link>
+                </DialogActions>
+            </Dialog>
 
-            {loading && (
-                <Dialog open>
-                    <DialogContent>
-                        <CircularProgress />
-                    </DialogContent>
-                </Dialog>
-            )}
+            <Dialog open={completionState === 'SUCCESSFUL'}>
+                <DialogTitle>{t('booking-global-request-pop-up')}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        <VStack style={{ alignItems: 'flex-start' }} gap={32}>
+                            <HStack style={{ width: '100%' }}>
+                                <PEIcon icon={Icon.confetti} edgeLength={64} />
+                            </HStack>
+                            <VStack style={{ alignItems: 'flex-start' }}>
+                                <span>Vielen Dank für deine Buchungsfrage!</span>
+                                <span>In deinem Email Postfach findest du eine Email mit der Zusammenfassung für deine Anfrage.</span>
+                            </VStack>
+                        </VStack>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Link href="/" className="no-underline">
+                        <Button autoFocus>Zur Startseite</Button>
+                    </Link>
+                </DialogActions>
+            </Dialog>
 
-            {completionState === 'FAILED' && (
-                <Dialog open>
-                    <DialogContent>{commonTranslate('error')}</DialogContent>
-                </Dialog>
-            )}
+            <Dialog open={loading}>
+                <DialogContent>
+                    <CircularProgress />
+                </DialogContent>
+            </Dialog>
+
+            <Dialog open={completionState === 'FAILED'}>
+                <DialogContent>{commonTranslate('error')}</DialogContent>
+            </Dialog>
 
             <Spacer />
 

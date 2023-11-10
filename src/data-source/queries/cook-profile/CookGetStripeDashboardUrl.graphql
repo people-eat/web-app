@@ -1,0 +1,5 @@
+query CookGetStripeDashboardUrl($cookId: String!) {
+    cooks {
+        getStripeDashboardUrl(cookId: $cookId)
+    }
+}

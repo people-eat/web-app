@@ -56,10 +56,15 @@ export type Admin = {
 export type AdminMutation = {
     __typename?: 'AdminMutation';
     createOne: Scalars['Boolean'];
+    unlockBookingRequestPayment: Scalars['Boolean'];
 };
 
 export type AdminMutationCreateOneArgs = {
     request: CreateOneAdminRequest;
+};
+
+export type AdminMutationUnlockBookingRequestPaymentArgs = {
+    bookingRequestId: Scalars['String'];
 };
 
 export type AdminQuery = {
@@ -668,6 +673,8 @@ export type CookQuery = {
     findMany: Array<Cook>;
     findOne?: Maybe<Cook>;
     followers: CookFollowingQuery;
+    getStripeDashboardUrl?: Maybe<Scalars['URL']>;
+    getStripeOnboardingUrl?: Maybe<Scalars['URL']>;
     globalBookingRequests: CookGlobalBookingRequestQuery;
     meals: CookMealQuery;
     menuVisits: UserAddressQuery;
@@ -692,6 +699,14 @@ export type CookQueryFindManyArgs = {
 };
 
 export type CookQueryFindOneArgs = {
+    cookId: Scalars['String'];
+};
+
+export type CookQueryGetStripeDashboardUrlArgs = {
+    cookId: Scalars['String'];
+};
+
+export type CookQueryGetStripeOnboardingUrlArgs = {
     cookId: Scalars['String'];
 };
 
@@ -2608,6 +2623,24 @@ export type GetAdministrationUsersPageDataQuery = {
             createdAt: Date;
         }> | null;
     };
+};
+
+export type CookGetStripeDashboardUrlQueryVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type CookGetStripeDashboardUrlQuery = {
+    __typename?: 'Query';
+    cooks: { __typename?: 'CookQuery'; getStripeDashboardUrl?: string | null };
+};
+
+export type CookGetStripeOnboardingUrlQueryVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type CookGetStripeOnboardingUrlQuery = {
+    __typename?: 'Query';
+    cooks: { __typename?: 'CookQuery'; getStripeOnboardingUrl?: string | null };
 };
 
 export type GetCookProfileQueryQueryVariables = Exact<{
@@ -5972,6 +6005,90 @@ export const GetAdministrationUsersPageDataDocument = {
         },
     ],
 } as unknown as DocumentNode<GetAdministrationUsersPageDataQuery, GetAdministrationUsersPageDataQueryVariables>;
+export const CookGetStripeDashboardUrlDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'CookGetStripeDashboardUrl' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'getStripeDashboardUrl' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CookGetStripeDashboardUrlQuery, CookGetStripeDashboardUrlQueryVariables>;
+export const CookGetStripeOnboardingUrlDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'CookGetStripeOnboardingUrl' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'getStripeOnboardingUrl' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CookGetStripeOnboardingUrlQuery, CookGetStripeOnboardingUrlQueryVariables>;
 export const GetCookProfileQueryDocument = {
     kind: 'Document',
     definitions: [

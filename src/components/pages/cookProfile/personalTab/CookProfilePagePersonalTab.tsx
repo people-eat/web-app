@@ -1,9 +1,11 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import classNames from 'classnames';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
+    CookGetStripeDashboardUrlDocument,
+    CookGetStripeOnboardingUrlDocument,
     GetCookProfileQueryDocument,
     UpdateCookIsVisibleDocument,
     UpdateCookLocationDocument,
@@ -15,6 +17,7 @@ import useResponsive from '../../../../hooks/useResponsive';
 import { type Location } from '../../../../shared-domain/Location';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
 import PEMap from '../../../map/PEMap';
+import PEButton from '../../../standard/buttons/PEButton';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';
 import PECounter from '../../../standard/counter/PECounter';
 import { Icon } from '../../../standard/icon/Icon';
@@ -111,6 +114,9 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
     const [updateCookLocation] = useMutation(UpdateCookLocationDocument);
     const [updateCookIsVisible] = useMutation(UpdateCookIsVisibleDocument);
 
+    const [getStripeOnboardingUrl] = useLazyQuery(CookGetStripeOnboardingUrlDocument, { variables: { cookId } });
+    const [getStripeDashboardUrl] = useLazyQuery(CookGetStripeDashboardUrlDocument, { variables: { cookId } });
+
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:my-2 gap-6 md:gap-3 box-border">
             {chefProfile && (
@@ -120,6 +126,7 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                     <HStack
                         className="w-full bg-white shadow-primary box-border p-8 md:p-2 rounded-4"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
+                        gap={32}
                     >
                         <PECheckbox
                             checked={chefProfile.isVisible}
@@ -132,6 +139,33 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                         <span className={classNames({ ['text-disabled']: !chefProfile.isVisible })}>{t('section-public-visible')}</span>
                         &nbsp;/&nbsp;
                         <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>{t('section-public-no-visible')}</span>
+                        <Spacer />
+                        <HStack style={{ width: 600 }} gap={32}>
+                            <PEButton
+                                title="Stripe Onboarding"
+                                onClick={(): void =>
+                                    void getStripeOnboardingUrl()
+                                        .then(
+                                            ({ data: sData }) =>
+                                                sData?.cooks.getStripeOnboardingUrl &&
+                                                window.open(sData.cooks.getStripeOnboardingUrl, '_blank'),
+                                        )
+                                        .catch((e) => console.error(e))
+                                }
+                            />
+                            <PEButton
+                                title="Stripe Dashboard"
+                                onClick={(): void =>
+                                    void getStripeDashboardUrl()
+                                        .then(
+                                            ({ data: sData }) =>
+                                                sData?.cooks.getStripeDashboardUrl &&
+                                                window.open(sData.cooks.getStripeDashboardUrl, '_blank'),
+                                        )
+                                        .catch((e) => console.error(e))
+                                }
+                            />
+                        </HStack>
                     </HStack>
 
                     <ChefProfileSection2 chefBiography={biography} cookId={cookId} />

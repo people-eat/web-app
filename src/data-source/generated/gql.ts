@@ -61,6 +61,10 @@ const documents = {
         types.UpdateSessionCookieSettingsDocument,
     'query GetAdministrationUsersPageData($request: FindManyRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  users {\n    findMany(request: $request) {\n      userId\n      isLocked\n      firstName\n      lastName\n      profilePictureUrl\n      isAdmin\n      isCook\n      createdAt\n    }\n  }\n}':
         types.GetAdministrationUsersPageDataDocument,
+    'query CookGetStripeDashboardUrl($cookId: String!) {\n  cooks {\n    getStripeDashboardUrl(cookId: $cookId)\n  }\n}':
+        types.CookGetStripeDashboardUrlDocument,
+    'query CookGetStripeOnboardingUrl($cookId: String!) {\n  cooks {\n    getStripeOnboardingUrl(cookId: $cookId)\n  }\n}':
+        types.CookGetStripeOnboardingUrlDocument,
     'query GetCookProfileQuery($cookId: String!) {\n  cooks {\n    findOne(cookId: $cookId) {\n      cookId\n      user {\n        firstName\n        lastName\n        profilePictureUrl\n        addresses {\n          addressId\n          title\n          country\n          city\n          postCode\n          street\n          houseNumber\n          location {\n            latitude\n            longitude\n          }\n          createdAt\n        }\n      }\n      languages {\n        languageId\n        title\n      }\n      isLocked\n      isVisible\n      biography\n      location {\n        latitude\n        longitude\n      }\n      maximumParticipants\n      maximumPrice\n      maximumTravelDistance\n      minimumParticipants\n      minimumPrice\n      rank\n      travelExpenses\n      ratingAverage\n      ratingCount\n    }\n  }\n}':
         types.GetCookProfileQueryDocument,
     'mutation CookBookingRequestAccept($cookId: String!, $bookingRequestId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      success: accept(bookingRequestId: $bookingRequestId)\n    }\n  }\n}':
@@ -388,6 +392,18 @@ export function gql(
 export function gql(
     source: 'query GetAdministrationUsersPageData($request: FindManyRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  users {\n    findMany(request: $request) {\n      userId\n      isLocked\n      firstName\n      lastName\n      profilePictureUrl\n      isAdmin\n      isCook\n      createdAt\n    }\n  }\n}',
 ): (typeof documents)['query GetAdministrationUsersPageData($request: FindManyRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  users {\n    findMany(request: $request) {\n      userId\n      isLocked\n      firstName\n      lastName\n      profilePictureUrl\n      isAdmin\n      isCook\n      createdAt\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query CookGetStripeDashboardUrl($cookId: String!) {\n  cooks {\n    getStripeDashboardUrl(cookId: $cookId)\n  }\n}',
+): (typeof documents)['query CookGetStripeDashboardUrl($cookId: String!) {\n  cooks {\n    getStripeDashboardUrl(cookId: $cookId)\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query CookGetStripeOnboardingUrl($cookId: String!) {\n  cooks {\n    getStripeOnboardingUrl(cookId: $cookId)\n  }\n}',
+): (typeof documents)['query CookGetStripeOnboardingUrl($cookId: String!) {\n  cooks {\n    getStripeOnboardingUrl(cookId: $cookId)\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
