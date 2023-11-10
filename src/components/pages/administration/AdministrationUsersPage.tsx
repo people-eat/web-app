@@ -9,6 +9,7 @@ import VStack from '../../utility/vStack/VStack';
 
 export interface AdministrationUsersPageProps {
     signedInUser?: SignedInUser;
+    error?: any;
     users: {
         userId: string;
         isLocked: boolean;
