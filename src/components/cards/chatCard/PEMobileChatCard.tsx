@@ -63,7 +63,7 @@ const PEMobileChatCard = ({ bookingRequest, onClick }: PEMobileChatCardProps): J
             </HStack>
             {bookingRequest?.configuredMenu?.title}
             <HStack gap={16} className="text-gray">
-                {moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
+                {moment(bookingRequest.dateTime).format('L')}
                 <Divider orientation="vertical" flexItem style={{ display: 'inline' }}></Divider>
                 {moment(bookingRequest.dateTime).format('LT')}
             </HStack>

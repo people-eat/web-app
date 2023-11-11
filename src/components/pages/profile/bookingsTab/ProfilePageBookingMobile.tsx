@@ -202,7 +202,7 @@ export default function ProfilePageBookingMobile({
                             <span className="text-text-m-bold">{translateGlobalBookingRequest('event-details-label')}</span>
                             <HStack gap={16}>
                                 <PETextField
-                                    value={moment(bookingRequest?.dateTime).format(moment.HTML5_FMT.DATE)}
+                                    value={moment(bookingRequest?.dateTime).format('L')}
                                     onChange={(): void => undefined}
                                     type="text"
                                 />

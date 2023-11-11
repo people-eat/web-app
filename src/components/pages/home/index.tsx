@@ -51,7 +51,7 @@ export default function HomePage({ searchParameters }: HomePageProps): ReactElem
     const [adults, setAdults] = useState(searchParameters.adults);
     const [children, setChildren] = useState(searchParameters.children);
     const [date, setDate] = useState(moment(searchParameters.date));
-    const formattedDate: string = date.format(moment.HTML5_FMT.DATE);
+    const formattedDate: string = date.format('L');
 
     function onSearch(): void {
         const { latitude, longitude } = selectedLocation;

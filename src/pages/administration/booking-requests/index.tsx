@@ -1,41 +1,42 @@
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
-import AdministrationGlobalBookingRequestsPage, {
-    type AdministrationGlobalBookingRequestsPageProps,
-} from '../../../components/pages/administration/AdministrationGlobalBookingRequestsPage';
+import AdministrationBookingRequestsPage, {
+    type AdministrationBookingRequestsPageProps,
+} from '../../../components/pages/administration/AdministrationBookingRequestsPage';
 import { createApolloClient } from '../../../data-source/createApolloClient';
-import { GetAdministrationGlobalBookingRequestsPageDataDocument } from '../../../data-source/generated/graphql';
+import { GetAdministrationBookingRequestsPageDataDocument } from '../../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const apolloClient = createApolloClient(context.req.headers.cookie);
 
     try {
-        const { data } = await apolloClient.query({ query: GetAdministrationGlobalBookingRequestsPageDataDocument });
+        const { data } = await apolloClient.query({ query: GetAdministrationBookingRequestsPageDataDocument });
 
         return {
             props: {
                 signedInUser: data.users.signedInUser,
-                globalBookingRequests: data.globalBookingRequests.findMany,
+                bookingRequests: data.bookingRequests.findMany,
             },
         };
     } catch (error) {
+        console.log(error);
         return {
             props: {
                 signedInUser: null,
-                globalBookingRequests: [],
+                bookingRequests: [],
             },
         };
     }
 };
 
-const Index: NextPage<AdministrationGlobalBookingRequestsPageProps> = ({ signedInUser, globalBookingRequests }) => {
+const Index: NextPage<AdministrationBookingRequestsPageProps> = ({ signedInUser, bookingRequests }) => {
     return (
         <>
             <Head>
                 <title>PeopleEat - Administration - Global Booking Requests</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <AdministrationGlobalBookingRequestsPage signedInUser={signedInUser} globalBookingRequests={globalBookingRequests} />
+            <AdministrationBookingRequestsPage signedInUser={signedInUser} bookingRequests={bookingRequests} />
         </>
     );
 };

@@ -24,7 +24,6 @@ query GetAdministrationGlobalBookingRequestsPageData {
                 userId
                 firstName
                 profilePictureUrl
-                createdAt
             }
             createdAt
         }

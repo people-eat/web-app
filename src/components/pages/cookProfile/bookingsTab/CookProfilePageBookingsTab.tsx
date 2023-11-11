@@ -78,7 +78,7 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                                             <span className="text-heading-ss-bold md:text-text-sm-bold">{bookingRequest.occasion}</span>
 
                                             <HStack gap={16} className="text-gray">
-                                                {moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
+                                                {moment(bookingRequest.dateTime).format('L')}
                                                 <Divider orientation="vertical" flexItem style={{ display: 'inline' }} />
                                                 {moment(bookingRequest.dateTime).format('LT')}
                                             </HStack>

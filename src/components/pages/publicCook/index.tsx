@@ -251,7 +251,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                                 longitude: 0,
                                                 adults: 3,
                                                 children: 1,
-                                                date: moment().format(moment.HTML5_FMT.DATE),
+                                                date: moment().format('L'),
                                             },
                                         }}
                                         style={{ textDecoration: 'none' }}
@@ -323,7 +323,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                         longitude: 0,
                                         adults: 3,
                                         children: 1,
-                                        date: moment().format(moment.HTML5_FMT.DATE),
+                                        date: moment().format('L'),
                                     },
                                 }}
                                 className="no-underline w-[93vw]"

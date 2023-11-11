@@ -53,7 +53,7 @@ export default function SignUpPage(): ReactElement {
     const [createOneUserByEmailAddress, { data, loading, error }] = useMutation(CreateOneUserByEmailAddressDocument, {
         variables: {
             request: {
-                birthDate: birthDate.format(moment.HTML5_FMT.DATE),
+                birthDate: birthDate.format('L'),
                 cook: undefined,
                 emailAddress: emailAddress.value,
                 phoneNumber: phoneNumber.value.replaceAll(' ', ''),

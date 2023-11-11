@@ -205,11 +205,7 @@ export default function ProfilePageBookingsTabDetail({
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                         <span className="text-text-m-bold">{translateGlobalBookingRequest('event-details-label')}</span>
                         <HStack gap={16}>
-                            <PETextField
-                                value={moment(bookingRequest.dateTime).format(moment.HTML5_FMT.DATE)}
-                                onChange={(): void => undefined}
-                                type="text"
-                            />
+                            <PETextField value={moment(bookingRequest.dateTime).format('L')} onChange={(): void => undefined} type="text" />
                             <PETextField
                                 value={moment(bookingRequest.dateTime).format('LT')}
                                 onChange={(): void => undefined}

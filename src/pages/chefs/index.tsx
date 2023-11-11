@@ -37,10 +37,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
                 },
                 adults: adults ? Number(adults) : 4,
                 children: children ? Number(children) : 0,
-                date:
-                    typeof date === 'string'
-                        ? moment(date).format(moment.HTML5_FMT.DATE)
-                        : moment().add(14, 'days').format(moment.HTML5_FMT.DATE),
+                date: typeof date === 'string' ? moment(date).format('L') : moment().add(14, 'days').format('L'),
             },
             searchResults: {
                 publicCooks: data.publicCooks.findMany,

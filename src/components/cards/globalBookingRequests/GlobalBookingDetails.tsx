@@ -1,4 +1,4 @@
-import moment, { type Moment } from 'moment';
+import { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
 import { Icon } from '../../standard/icon/Icon';
@@ -46,7 +46,7 @@ const OrderDetails = ({ adults, numOfChildren, dateTime, occasion, price, onClos
                 </span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     <span>Date:</span>
-                    <p>{dateTime.format(moment.HTML5_FMT.DATE)}</p>
+                    <p>{dateTime.format('L')}</p>
                     <p>{dateTime.format('LT')}</p>
                 </div>
                 <p>Occasion: {occasion}</p>

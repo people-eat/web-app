@@ -1,4 +1,4 @@
-import moment, { type Moment } from 'moment';
+import { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
@@ -88,7 +88,7 @@ const PEGlobalBookingRequestCardChef = ({
             <HStack gap={16}>
                 <VStack gap={16} style={{ alignItems: 'flex-start', flex: 1 }}>
                     <span className="text-gray md:text-text-s text-text-m">
-                        {t('booking-date')}: <span className="text-black">{dateTime.format(moment.HTML5_FMT.DATE)}</span>
+                        {t('booking-date')}: <span className="text-black">{dateTime.format('L')}</span>
                     </span>
                     <span className="text-gray md:text-text-s text-text-m">
                         {t('booking-persons')}: <span className="text-black">{participants}</span>
@@ -110,7 +110,7 @@ const PEGlobalBookingRequestCardChef = ({
             <VStack style={{ alignItems: 'flex-end' }}>
                 <Spacer />
                 <span>{t('request-made')} </span>
-                <span className="text-60black text-text-s">{createdAt.format(moment.HTML5_FMT.DATE)}</span>
+                <span className="text-60black text-text-s">{createdAt.format('L')}</span>
             </VStack>
             {GlobalBookingDetails && (
                 <OrderDetails

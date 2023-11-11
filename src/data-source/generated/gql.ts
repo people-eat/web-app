@@ -33,12 +33,6 @@ const documents = {
         types.FindLatestPublicPrivacyPolicyUpdateDocument,
     'query FindLatestPublicTermsUpdate {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicTermsUpdates {\n    findLatest {\n      termsUpdateId\n      englishText\n      germanText\n      createdAt\n    }\n  }\n}':
         types.FindLatestPublicTermsUpdateDocument,
-    'query FindManyAdmins {\n  admins {\n    findMany {\n      adminId\n      user {\n        firstName\n        createdAt\n      }\n    }\n  }\n}':
-        types.FindManyAdminsDocument,
-    'query FindManyCooks($request: FindManyRequest!) {\n  cooks {\n    findMany(request: $request) {\n      cookId\n      user {\n        firstName\n        lastName\n      }\n      rank\n      isLocked\n      biography\n    }\n  }\n}':
-        types.FindManyCooksDocument,
-    'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}':
-        types.FindManyUsersDocument,
     'query GetCookBookingRequestPageData($cookId: String!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicCooks {\n    findOne(cookId: $cookId) {\n      cookId\n      languages {\n        languageId\n        title\n      }\n      location {\n        latitude\n        longitude\n      }\n      maximumTravelDistance\n      maximumPrice\n      minimumPrice\n      travelExpenses\n      rank\n      user {\n        firstName\n        profilePictureUrl\n      }\n      maximumParticipants\n      minimumParticipants\n      createdAt\n    }\n  }\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}':
         types.GetCookBookingRequestPageDataDocument,
     'query GetCookSignUpPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  languages {\n    findAll {\n      languageId\n      title\n    }\n  }\n}':
@@ -59,7 +53,15 @@ const documents = {
         types.GetPublicMenusPageDataDocument,
     'mutation UpdateSessionCookieSettings($request: SessionCookieSettingsInput!) {\n  sessions {\n    success: updateCookieSettings(request: $request)\n  }\n}':
         types.UpdateSessionCookieSettingsDocument,
-    'query GetAdministrationGlobalBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  globalBookingRequests {\n    findMany {\n      globalBookingRequestId\n      occasion\n      dateTime\n      adultParticipants\n      children\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n      user {\n        userId\n        firstName\n        profilePictureUrl\n        createdAt\n      }\n      createdAt\n    }\n  }\n}':
+    'query FindManyAdmins {\n  admins {\n    findMany {\n      adminId\n      user {\n        firstName\n      }\n    }\n  }\n}':
+        types.FindManyAdminsDocument,
+    'query FindManyCooks($request: FindManyRequest!) {\n  cooks {\n    findMany(request: $request) {\n      cookId\n      user {\n        firstName\n        lastName\n      }\n      rank\n      isLocked\n      biography\n    }\n  }\n}':
+        types.FindManyCooksDocument,
+    'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}':
+        types.FindManyUsersDocument,
+    'query GetAdministrationBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  bookingRequests {\n    findMany {\n      bookingRequestId\n      globalBookingRequestId\n      adultParticipants\n      children\n      cookAccepted\n      userAccepted\n      occasion\n      dateTime\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      cook {\n        cookId\n        user {\n          firstName\n          profilePictureUrl\n        }\n        rank\n        city\n      }\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n    }\n  }\n}':
+        types.GetAdministrationBookingRequestsPageDataDocument,
+    'query GetAdministrationGlobalBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  globalBookingRequests {\n    findMany {\n      globalBookingRequestId\n      occasion\n      dateTime\n      adultParticipants\n      children\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      createdAt\n    }\n  }\n}':
         types.GetAdministrationGlobalBookingRequestsPageDataDocument,
     'query GetAdministrationUsersPageData($request: FindManyRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  users {\n    findMany(request: $request) {\n      userId\n      isLocked\n      firstName\n      lastName\n      profilePictureUrl\n      isAdmin\n      isCook\n      createdAt\n    }\n  }\n}':
         types.GetAdministrationUsersPageDataDocument,
@@ -314,24 +316,6 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query FindManyAdmins {\n  admins {\n    findMany {\n      adminId\n      user {\n        firstName\n        createdAt\n      }\n    }\n  }\n}',
-): (typeof documents)['query FindManyAdmins {\n  admins {\n    findMany {\n      adminId\n      user {\n        firstName\n        createdAt\n      }\n    }\n  }\n}'];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(
-    source: 'query FindManyCooks($request: FindManyRequest!) {\n  cooks {\n    findMany(request: $request) {\n      cookId\n      user {\n        firstName\n        lastName\n      }\n      rank\n      isLocked\n      biography\n    }\n  }\n}',
-): (typeof documents)['query FindManyCooks($request: FindManyRequest!) {\n  cooks {\n    findMany(request: $request) {\n      cookId\n      user {\n        firstName\n        lastName\n      }\n      rank\n      isLocked\n      biography\n    }\n  }\n}'];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(
-    source: 'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}',
-): (typeof documents)['query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}'];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(
     source: 'query GetCookBookingRequestPageData($cookId: String!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicCooks {\n    findOne(cookId: $cookId) {\n      cookId\n      languages {\n        languageId\n        title\n      }\n      location {\n        latitude\n        longitude\n      }\n      maximumTravelDistance\n      maximumPrice\n      minimumPrice\n      travelExpenses\n      rank\n      user {\n        firstName\n        profilePictureUrl\n      }\n      maximumParticipants\n      minimumParticipants\n      createdAt\n    }\n  }\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}',
 ): (typeof documents)['query GetCookBookingRequestPageData($cookId: String!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  publicCooks {\n    findOne(cookId: $cookId) {\n      cookId\n      languages {\n        languageId\n        title\n      }\n      location {\n        latitude\n        longitude\n      }\n      maximumTravelDistance\n      maximumPrice\n      minimumPrice\n      travelExpenses\n      rank\n      user {\n        firstName\n        profilePictureUrl\n      }\n      maximumParticipants\n      minimumParticipants\n      createdAt\n    }\n  }\n  categories {\n    findAll {\n      categoryId\n      title\n    }\n  }\n  kitchens {\n    findAll {\n      kitchenId\n      title\n    }\n  }\n  allergies {\n    findAll {\n      allergyId\n      title\n    }\n  }\n}'];
 /**
@@ -392,8 +376,32 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query GetAdministrationGlobalBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  globalBookingRequests {\n    findMany {\n      globalBookingRequestId\n      occasion\n      dateTime\n      adultParticipants\n      children\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n      user {\n        userId\n        firstName\n        profilePictureUrl\n        createdAt\n      }\n      createdAt\n    }\n  }\n}',
-): (typeof documents)['query GetAdministrationGlobalBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  globalBookingRequests {\n    findMany {\n      globalBookingRequestId\n      occasion\n      dateTime\n      adultParticipants\n      children\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n      user {\n        userId\n        firstName\n        profilePictureUrl\n        createdAt\n      }\n      createdAt\n    }\n  }\n}'];
+    source: 'query FindManyAdmins {\n  admins {\n    findMany {\n      adminId\n      user {\n        firstName\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindManyAdmins {\n  admins {\n    findMany {\n      adminId\n      user {\n        firstName\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindManyCooks($request: FindManyRequest!) {\n  cooks {\n    findMany(request: $request) {\n      cookId\n      user {\n        firstName\n        lastName\n      }\n      rank\n      isLocked\n      biography\n    }\n  }\n}',
+): (typeof documents)['query FindManyCooks($request: FindManyRequest!) {\n  cooks {\n    findMany(request: $request) {\n      cookId\n      user {\n        firstName\n        lastName\n      }\n      rank\n      isLocked\n      biography\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}',
+): (typeof documents)['query FindManyUsers($request: FindManyRequest!) {\n  users {\n    findMany(request: $request) {\n      userId\n      firstName\n      lastName\n      language\n      isCook\n      isAdmin\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query GetAdministrationBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  bookingRequests {\n    findMany {\n      bookingRequestId\n      globalBookingRequestId\n      adultParticipants\n      children\n      cookAccepted\n      userAccepted\n      occasion\n      dateTime\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      cook {\n        cookId\n        user {\n          firstName\n          profilePictureUrl\n        }\n        rank\n        city\n      }\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n    }\n  }\n}',
+): (typeof documents)['query GetAdministrationBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  bookingRequests {\n    findMany {\n      bookingRequestId\n      globalBookingRequestId\n      adultParticipants\n      children\n      cookAccepted\n      userAccepted\n      occasion\n      dateTime\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      cook {\n        cookId\n        user {\n          firstName\n          profilePictureUrl\n        }\n        rank\n        city\n      }\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query GetAdministrationGlobalBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  globalBookingRequests {\n    findMany {\n      globalBookingRequestId\n      occasion\n      dateTime\n      adultParticipants\n      children\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      createdAt\n    }\n  }\n}',
+): (typeof documents)['query GetAdministrationGlobalBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  globalBookingRequests {\n    findMany {\n      globalBookingRequestId\n      occasion\n      dateTime\n      adultParticipants\n      children\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      createdAt\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

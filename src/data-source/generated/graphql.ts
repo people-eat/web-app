@@ -139,6 +139,16 @@ export type BookingRequest = {
     userId: Scalars['String'];
 };
 
+export type BookingRequestQuery = {
+    __typename?: 'BookingRequestQuery';
+    findMany?: Maybe<Array<BookingRequest>>;
+    findOne?: Maybe<BookingRequest>;
+};
+
+export type BookingRequestQueryFindOneArgs = {
+    bookingRequestId: Scalars['String'];
+};
+
 export type BookingRequestStatus = 'CANCELED' | 'COMPLETED' | 'OPEN' | 'PENDING';
 
 export type Category = {
@@ -1447,9 +1457,7 @@ export type PublicTermsUpdateQueryFindOneArgs = {
 
 export type PublicUser = {
     __typename?: 'PublicUser';
-    createdAt: Scalars['DateTime'];
     firstName: Scalars['String'];
-    language: UserLanguage;
     profilePictureUrl?: Maybe<Scalars['URL']>;
     userId: Scalars['String'];
 };
@@ -1458,6 +1466,7 @@ export type Query = {
     __typename?: 'Query';
     admins: AdminQuery;
     allergies: AllergyQuery;
+    bookingRequests: BookingRequestQuery;
     categories: CategoryQuery;
     cookSpecificFees: CookSpecificFeeQuery;
     cooks: CookQuery;
@@ -2263,55 +2272,6 @@ export type FindLatestPublicTermsUpdateQuery = {
     };
 };
 
-export type FindManyAdminsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FindManyAdminsQuery = {
-    __typename?: 'Query';
-    admins: {
-        __typename?: 'AdminQuery';
-        findMany: Array<{ __typename?: 'Admin'; adminId: string; user: { __typename?: 'PublicUser'; firstName: string; createdAt: Date } }>;
-    };
-};
-
-export type FindManyCooksQueryVariables = Exact<{
-    request: FindManyRequest;
-}>;
-
-export type FindManyCooksQuery = {
-    __typename?: 'Query';
-    cooks: {
-        __typename?: 'CookQuery';
-        findMany: Array<{
-            __typename?: 'Cook';
-            cookId: string;
-            rank: CookRank;
-            isLocked: boolean;
-            biography: string;
-            user: { __typename?: 'User'; firstName: string; lastName: string };
-        }>;
-    };
-};
-
-export type FindManyUsersQueryVariables = Exact<{
-    request: FindManyRequest;
-}>;
-
-export type FindManyUsersQuery = {
-    __typename?: 'Query';
-    users: {
-        __typename?: 'UserQuery';
-        findMany?: Array<{
-            __typename?: 'User';
-            userId: string;
-            firstName: string;
-            lastName: string;
-            language: UserLanguage;
-            isCook: boolean;
-            isAdmin: boolean;
-        }> | null;
-    };
-};
-
 export type GetCookBookingRequestPageDataQueryVariables = Exact<{
     cookId: Scalars['String'];
 }>;
@@ -2613,6 +2573,89 @@ export type UpdateSessionCookieSettingsMutation = {
     sessions: { __typename?: 'SessionMutation'; success: boolean };
 };
 
+export type FindManyAdminsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FindManyAdminsQuery = {
+    __typename?: 'Query';
+    admins: {
+        __typename?: 'AdminQuery';
+        findMany: Array<{ __typename?: 'Admin'; adminId: string; user: { __typename?: 'PublicUser'; firstName: string } }>;
+    };
+};
+
+export type FindManyCooksQueryVariables = Exact<{
+    request: FindManyRequest;
+}>;
+
+export type FindManyCooksQuery = {
+    __typename?: 'Query';
+    cooks: {
+        __typename?: 'CookQuery';
+        findMany: Array<{
+            __typename?: 'Cook';
+            cookId: string;
+            rank: CookRank;
+            isLocked: boolean;
+            biography: string;
+            user: { __typename?: 'User'; firstName: string; lastName: string };
+        }>;
+    };
+};
+
+export type FindManyUsersQueryVariables = Exact<{
+    request: FindManyRequest;
+}>;
+
+export type FindManyUsersQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        findMany?: Array<{
+            __typename?: 'User';
+            userId: string;
+            firstName: string;
+            lastName: string;
+            language: UserLanguage;
+            isCook: boolean;
+            isAdmin: boolean;
+        }> | null;
+    };
+};
+
+export type GetAdministrationBookingRequestsPageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAdministrationBookingRequestsPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
+    bookingRequests: {
+        __typename?: 'BookingRequestQuery';
+        findMany?: Array<{
+            __typename?: 'BookingRequest';
+            bookingRequestId: string;
+            globalBookingRequestId?: string | null;
+            adultParticipants: number;
+            children: number;
+            cookAccepted?: boolean | null;
+            userAccepted?: boolean | null;
+            occasion: string;
+            dateTime: Date;
+            user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
+            cook: {
+                __typename?: 'PublicCook';
+                cookId: string;
+                rank: CookRank;
+                city: string;
+                user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
+            };
+            price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+            location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
+        }> | null;
+    };
+};
+
 export type GetAdministrationGlobalBookingRequestsPageDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAdministrationGlobalBookingRequestsPageDataQuery = {
@@ -2633,7 +2676,7 @@ export type GetAdministrationGlobalBookingRequestsPageDataQuery = {
             createdAt: Date;
             price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
             location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
-            user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null; createdAt: Date };
+            user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
         }> | null;
     };
 };
@@ -4451,166 +4494,6 @@ export const FindLatestPublicTermsUpdateDocument = {
         },
     ],
 } as unknown as DocumentNode<FindLatestPublicTermsUpdateQuery, FindLatestPublicTermsUpdateQueryVariables>;
-export const FindManyAdminsDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FindManyAdmins' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'admins' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'findMany' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'adminId' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'user' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                                                    ],
-                                                },
-                                            },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FindManyAdminsQuery, FindManyAdminsQueryVariables>;
-export const FindManyCooksDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FindManyCooks' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'FindManyRequest' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'cooks' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'findMany' },
-                                    arguments: [
-                                        {
-                                            kind: 'Argument',
-                                            name: { kind: 'Name', value: 'request' },
-                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
-                                        },
-                                    ],
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'user' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
-                                                    ],
-                                                },
-                                            },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'isLocked' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'biography' } },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FindManyCooksQuery, FindManyCooksQueryVariables>;
-export const FindManyUsersDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FindManyUsers' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'FindManyRequest' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'users' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'findMany' },
-                                    arguments: [
-                                        {
-                                            kind: 'Argument',
-                                            name: { kind: 'Name', value: 'request' },
-                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
-                                        },
-                                    ],
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'language' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FindManyUsersQuery, FindManyUsersQueryVariables>;
 export const GetCookBookingRequestPageDataDocument = {
     kind: 'Document',
     definitions: [
@@ -5953,6 +5836,295 @@ export const UpdateSessionCookieSettingsDocument = {
         },
     ],
 } as unknown as DocumentNode<UpdateSessionCookieSettingsMutation, UpdateSessionCookieSettingsMutationVariables>;
+export const FindManyAdminsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindManyAdmins' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'admins' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findMany' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'adminId' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'user' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'firstName' } }],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindManyAdminsQuery, FindManyAdminsQueryVariables>;
+export const FindManyCooksDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindManyCooks' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'FindManyRequest' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findMany' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'request' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'user' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isLocked' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'biography' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindManyCooksQuery, FindManyCooksQueryVariables>;
+export const FindManyUsersDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FindManyUsers' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'FindManyRequest' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findMany' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'request' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'language' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FindManyUsersQuery, FindManyUsersQueryVariables>;
+export const GetAdministrationBookingRequestsPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetAdministrationBookingRequestsPageData' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'bookingRequests' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findMany' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'globalBookingRequestId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'adultParticipants' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'children' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'cookAccepted' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userAccepted' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'occasion' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'dateTime' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'user' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'cook' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'user' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'price' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'location' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetAdministrationBookingRequestsPageDataQuery, GetAdministrationBookingRequestsPageDataQueryVariables>;
 export const GetAdministrationGlobalBookingRequestsPageDataDocument = {
     kind: 'Document',
     definitions: [
@@ -6030,7 +6202,6 @@ export const GetAdministrationGlobalBookingRequestsPageDataDocument = {
                                                         { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                                                     ],
                                                 },
                                             },

@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                     },
                     adults: 4,
                     children: 0,
-                    date: moment().add(14, 'days').format(moment.HTML5_FMT.DATE),
+                    date: moment().add(14, 'days').format('L'),
                 },
             },
         };
