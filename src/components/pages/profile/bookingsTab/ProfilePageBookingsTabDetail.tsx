@@ -17,6 +17,7 @@ import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
+import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextField';
 import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
@@ -38,6 +39,14 @@ export default function ProfilePageBookingsTabDetail({
     const { data, refetch } = useQuery(FindOneUserBookingRequestDocument, { variables: { userId, bookingRequestId } });
 
     const { t: translateGlobalBookingRequest } = useTranslation('global-booking-request');
+
+    // const { register, handleSubmit } = useForm<{ subject: string; message: string }>();
+    // const onSubmit: SubmitHandler<{ subject: string; message: string }> = ({ subject, message }) => {
+    //     console.log({ subject, message });
+    // };
+
+    const [supportSubject, setSupportSubject] = useState('');
+    const [supportMessage, setSupportMessage] = useState('');
 
     const [tab, setTab] = useState<UserProfileBookingTabType>('CHAT');
     const [newMessage, setNewMessage] = useState('');
@@ -253,6 +262,29 @@ export default function ProfilePageBookingsTabDetail({
                             }
                         />
                     )}
+                </VStack>
+            )}
+
+            {tab === 'SUPPORT' && (
+                <VStack style={{ width: '100%' }} gap={32}>
+                    <form style={{ width: '100%' }}>
+                        <VStack gap={32} style={{ width: '100%', justifyContent: 'stretch' }}>
+                            <VStack style={{ width: '100%', alignItems: 'flex-start' }} gap={8}>
+                                <label>Betreff</label>
+                                <PETextField type="text" value={supportSubject} onChange={setSupportSubject} />
+                            </VStack>
+
+                            <VStack style={{ width: '100%', alignItems: 'flex-start' }} gap={8}>
+                                <label>Text Nachricht</label>
+                                <PEMultiLineTextField value={supportMessage} onChange={setSupportMessage} />
+                            </VStack>
+
+                            <PEButton title="Nachricht Senden" onClick={(): void => undefined} />
+                        </VStack>
+                    </form>
+                    <a href="tel:+4915256207005">
+                        <PEButton type="secondary" title="Anrufen" onClick={(): void => undefined} />
+                    </a>
                 </VStack>
             )}
 
