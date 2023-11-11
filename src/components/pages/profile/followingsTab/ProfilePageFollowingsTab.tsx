@@ -4,52 +4,60 @@ import { FindManyFollowingsDocument } from '../../../../data-source/generated/gr
 import useResponsive from '../../../../hooks/useResponsive';
 import PEChefCard from '../../../cards/chefCard/PEChefCard';
 import PEChefCardMobile from '../../../cards/chefCard/PEChefCardMobile';
-import VStack from '../../../utility/vStack/VStack';
+import HStack from '../../../utility/hStack/HStack';
 
 export interface ProfilePageFollowingsTabProps {
     userId?: string;
 }
 
 export default function ProfilePageFollowingsTab({ userId }: ProfilePageFollowingsTabProps): ReactElement {
-    const { data } = useQuery(FindManyFollowingsDocument);
-    const followings = data?.users.me?.followings;
     const { isMobile } = useResponsive();
 
+    const { data } = useQuery(FindManyFollowingsDocument);
+
+    const followings = data?.users.me?.followings;
+
     return (
-        <VStack>
+        <HStack
+            className="w-full max-w-screen-xl"
+            style={{
+                gap: 16,
+                flexWrap: 'wrap',
+                justifyContent: 'flex-start',
+                marginLeft: 32,
+            }}
+        >
             {!isMobile &&
-                followings?.map((following, index) => (
+                followings?.map((following) => (
                     <PEChefCard
-                        key={index}
+                        key={following.cook.cookId}
                         firstName={following.cook.user.firstName}
                         profilePictureUrl={following?.cook.user.profilePictureUrl ?? ''}
                         rank={following.cook.rank}
-                        location={''}
+                        location={following.cook.city}
                         rating={{ average: 5, count: 12 }}
                         categories={[]}
                         kitchens={[]}
                         userId={userId}
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                         cookId={following.cook.cookId}
                     />
                 ))}
 
             {isMobile &&
-                followings?.map((following, index) => (
+                followings?.map((following) => (
                     <PEChefCardMobile
-                        key={index}
+                        key={following.cook.cookId}
                         firstName={following.cook.user.firstName}
                         profilePictureUrl={following?.cook.user.profilePictureUrl ?? ''}
                         rank={following.cook.rank}
-                        location={''}
+                        location={following.cook.city}
                         rating={{ average: 5, count: 12 }}
                         categories={[]}
                         kitchens={[]}
                         userId={userId}
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                         cookId={following.cook.cookId}
                     />
                 ))}
-        </VStack>
+        </HStack>
     );
 }

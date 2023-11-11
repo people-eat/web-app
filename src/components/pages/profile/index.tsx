@@ -13,7 +13,6 @@ import VStack from '../../utility/vStack/VStack';
 import PEMobileChat from './PEMobileChat';
 import ProfilePageBookingsTab from './bookingsTab/ProfilePageBookingsTab';
 import ProfilePageFollowingsTab from './followingsTab/ProfilePageFollowingsTab';
-import ProfilePageGlobalBookingRequestsTab from './globalBookingRequestsTab/ProfilePageGlobalBookingRequestsTab';
 import ProfilePagePersonalTab from './personalTab/ProfilePagePersonalTab';
 
 export interface ProfilePageProps {
@@ -66,9 +65,9 @@ export default function ProfilePage({ signedInUser }: ProfilePageProps): ReactEl
 
             {selectedTab === 1 && signedInUser && isMobile && <PEMobileChat userId={signedInUser.userId} />}
 
-            {selectedTab === 2 && signedInUser && <ProfilePageGlobalBookingRequestsTab userId={signedInUser.userId} />}
+            {selectedTab === 2 && signedInUser && <ProfilePageFollowingsTab userId={signedInUser.userId} />}
 
-            {selectedTab === 4 && signedInUser && <ProfilePageFollowingsTab userId={signedInUser.userId} />}
+            {/* {selectedTab === 2 && signedInUser && <ProfilePageGlobalBookingRequestsTab userId={signedInUser.userId} />} */}
 
             <Spacer />
 

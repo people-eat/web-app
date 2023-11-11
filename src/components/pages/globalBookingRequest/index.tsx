@@ -286,8 +286,7 @@ export default function GlobalBookingRequestPage({
                                 <PEIcon icon={Icon.confetti} edgeLength={64} />
                             </HStack>
                             <VStack style={{ alignItems: 'flex-start' }}>
-                                <span>Vielen Dank für deine Buchungsfrage!</span>
-                                <span>In deinem Email Postfach findest du eine Email mit der Zusammenfassung für deine Anfrage.</span>
+                                <span>Du erhältst in Kürze eine Buchungsbestätigung an die von dir angegebene Email Adresse.</span>
                             </VStack>
                         </VStack>
                     </DialogContentText>
@@ -307,10 +306,6 @@ export default function GlobalBookingRequestPage({
                             <HStack style={{ width: '100%' }}>
                                 <PEIcon icon={Icon.confetti} edgeLength={64} />
                             </HStack>
-                            <VStack style={{ alignItems: 'flex-start' }}>
-                                <span>Vielen Dank für deine Buchungsfrage!</span>
-                                <span>In deinem Email Postfach findest du eine Email mit der Zusammenfassung für deine Anfrage.</span>
-                            </VStack>
                         </VStack>
                     </DialogContentText>
                 </DialogContent>

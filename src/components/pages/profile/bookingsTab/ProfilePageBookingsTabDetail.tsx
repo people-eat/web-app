@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, Divider, Tab, Tabs } from '@mui/material';
+import { Alert, Button, Divider, Snackbar, Tab, Tabs } from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -240,16 +240,25 @@ export default function ProfilePageBookingsTabDetail({
 
             {tab === 'SUPPORT' && (
                 <VStack style={{ width: '100%' }} gap={32}>
-                    <form style={{ width: '100%' }}>
+                    <form style={{ width: '100%' }} onSubmit={(event): void => event.preventDefault()}>
                         <VStack gap={32} style={{ width: '100%', justifyContent: 'stretch' }}>
                             <VStack style={{ width: '100%', alignItems: 'flex-start' }} gap={8}>
                                 <label>Betreff</label>
-                                <PETextField type="text" value={supportSubject} onChange={setSupportSubject} />
+                                <PETextField
+                                    type="text"
+                                    value={supportSubject}
+                                    onChange={setSupportSubject}
+                                    disabled={supportRequestStatus === 'REQUESTED'}
+                                />
                             </VStack>
 
                             <VStack style={{ width: '100%', alignItems: 'flex-start' }} gap={8}>
                                 <label>Text Nachricht</label>
-                                <PEMultiLineTextField value={supportMessage} onChange={setSupportMessage} />
+                                <PEMultiLineTextField
+                                    value={supportMessage}
+                                    onChange={setSupportMessage}
+                                    disabled={supportRequestStatus === 'REQUESTED'}
+                                />
                             </VStack>
 
                             <PEButton
@@ -272,8 +281,6 @@ export default function ProfilePageBookingsTabDetail({
                                         })
                                 }
                             />
-
-                            {supportRequestStatus}
                         </VStack>
                     </form>
                     <a href="tel:+4915678459804" className="w-full no-underline">
@@ -281,6 +288,28 @@ export default function ProfilePageBookingsTabDetail({
                     </a>
                 </VStack>
             )}
+
+            <Snackbar open={supportRequestStatus === 'REQUESTED'} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Alert
+                    severity="success"
+                    action={
+                        <Button
+                            color="inherit"
+                            size="small"
+                            onClick={(): void => {
+                                setTab('CHAT');
+                                setSupportSubject('');
+                                setSupportMessage('');
+                                setSupportRequestStatus('NOT_REQUESTED');
+                            }}
+                        >
+                            Schließen
+                        </Button>
+                    }
+                >
+                    Wir haben deine Support Anfrage erhalten und werden uns umgehend mit dir in Verbindung setzen.
+                </Alert>
+            </Snackbar>
 
             {/* {tab === 'RATING' && <PEReviewCardUser />} */}
         </>

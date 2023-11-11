@@ -96,13 +96,11 @@ export default function ChefProfilePageCreateMeal({
 
             <PEButton onClick={onCreateMeal} disabled={disabled} title={t('create-meal-button')} className="w-full" />
 
-            {loading && (
-                <Dialog open>
-                    <DialogContent>
-                        <CircularProgress />
-                    </DialogContent>
-                </Dialog>
-            )}
+            <Dialog open={loading}>
+                <DialogContent>
+                    <CircularProgress />
+                </DialogContent>
+            </Dialog>
         </VStack>
     );
 }

@@ -3959,6 +3959,7 @@ export type FindManyFollowingsQuery = {
                     __typename?: 'PublicCook';
                     cookId: string;
                     rank: CookRank;
+                    city: string;
                     user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
                 };
             }>;
@@ -12296,6 +12297,7 @@ export const FindManyFollowingsDocument = {
                                                                             ],
                                                                         },
                                                                     },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'city' } },
                                                                 ],
                                                             },
                                                         },

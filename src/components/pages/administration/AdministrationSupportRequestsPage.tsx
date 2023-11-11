@@ -39,7 +39,9 @@ export default function AdministrationSupportRequestsPage({
                                     <TableCell align="left">{supportRequest.user.firstName}</TableCell>
                                     <TableCell align="left">{supportRequest.subject}</TableCell>
                                     <TableCell align="left">{supportRequest.message}</TableCell>
-                                    <TableCell align="left">{moment(supportRequest.createdAt).format('L')}</TableCell>
+                                    <TableCell align="left">
+                                        {moment(supportRequest.createdAt).format('L')} {moment(supportRequest.createdAt).format('LT')}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

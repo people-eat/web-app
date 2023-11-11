@@ -102,6 +102,9 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
         void updateMaximumParticipants();
         void updateTravelExpenses();
         setEditOrderDetails(false);
+        setTimeout(() => {
+            void refetch();
+        }, 1000);
     }
 
     function handleUnSaveOrderDetails(): void {

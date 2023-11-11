@@ -3,15 +3,14 @@ import { Button, CircularProgress, Dialog, DialogContent, DialogTitle, Divider, 
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     CookBookingRequestAcceptDocument,
     CookBookingRequestDeclineDocument,
-    CookBookingRequestUpdatePriceDocument,
     CreateOneCookBookingRequestChatMessageDocument,
     FindOneCookBookingRequestDocument,
 } from '../../../../data-source/generated/graphql';
-import { formatPrice } from '../../../../shared-domain/formatPrice';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -43,17 +42,17 @@ export default function CookProfilePageBookingsTabDetail({
 
     const [tab, setTab] = useState<CookProfileBookingTabType>('CHAT');
     const [newMessage, setNewMessage] = useState('');
-    const [amount, setAmount] = useState(0);
+
+    const [showAcceptDialog, setShowAcceptDialog] = useState(false);
+    const [showDeclineDialog, setShowDeclineDialog] = useState(false);
 
     const [acceptBookingRequest, { loading: acceptLoading }] = useMutation(CookBookingRequestAcceptDocument);
     const [declineBookingRequest, { loading: declineLoading }] = useMutation(CookBookingRequestDeclineDocument);
-    const [updateBookingRequestPrice] = useMutation(CookBookingRequestUpdatePriceDocument);
     const [createMessage, { loading: createMessageLoading }] = useMutation(CreateOneCookBookingRequestChatMessageDocument);
 
     const bookingRequest = data?.cooks.bookingRequests.findOne;
 
     useEffect(() => {
-        setAmount(bookingRequest?.price.amount ?? 0);
         if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
     }, [bookingRequest]);
 
@@ -107,37 +106,12 @@ export default function CookProfilePageBookingsTabDetail({
                         <HStack gap={16} className="w-full">
                             {bookingRequest.cookAccepted === null && bookingRequest.userAccepted === true && (
                                 <>
-                                    <PEButton
-                                        onClick={(): void =>
-                                            void declineBookingRequest({
-                                                variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
-                                            }).then((result) => result.data?.cooks.bookingRequests.success && void refetch())
-                                        }
-                                        title="Decline"
-                                        size="s"
-                                        type="secondary"
-                                    />
-                                    <PEButton
-                                        onClick={(): void =>
-                                            void acceptBookingRequest({
-                                                variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
-                                            }).then((result) => result.data?.cooks.bookingRequests.success && void refetch())
-                                        }
-                                        title="Accept"
-                                        size="s"
-                                    />
+                                    <PEButton onClick={(): void => setShowDeclineDialog(true)} title="Ablehnen" size="s" type="secondary" />
+                                    <PEButton onClick={(): void => setShowAcceptDialog(true)} title="Akzeptieren" size="s" />
                                 </>
                             )}
                             {bookingRequest.cookAccepted === true && bookingRequest.userAccepted === null && (
-                                <PEButton
-                                    onClick={(): void =>
-                                        void declineBookingRequest({
-                                            variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
-                                        }).then((result) => result.data?.cooks.bookingRequests.success && void refetch())
-                                    }
-                                    title="Decline"
-                                    size="s"
-                                />
+                                <PEButton onClick={(): void => setShowDeclineDialog(true)} title="Ablehnen" size="s" />
                             )}
                         </HStack>
                     )}
@@ -229,32 +203,6 @@ export default function CookProfilePageBookingsTabDetail({
                         <span className="text-text-m-bold">{translateGlobalBookingRequest('allergies-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
-                    <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateGlobalBookingRequest('budget-label')}</span>
-                        <PETextField
-                            value={formatPrice({ amount, currencyCode: bookingRequest.price.currencyCode })}
-                            endContent={<>{bookingRequest.price.currencyCode}</>}
-                            onChange={(changedAmount): void => setAmount(Number(changedAmount))}
-                            type="text"
-                        />
-                    </VStack>
-                    {bookingRequest.price.amount !== amount && (
-                        <PEButton
-                            title={translateGlobalBookingRequest('budget-suggestion')}
-                            onClick={(): void =>
-                                void updateBookingRequestPrice({
-                                    variables: {
-                                        cookId,
-                                        bookingRequestId: bookingRequest.bookingRequestId,
-                                        price: { amount, currencyCode: bookingRequest.price.currencyCode },
-                                    },
-                                }).then((result) => {
-                                    if (!result.data?.cooks.bookingRequests.success) return;
-                                    void refetch();
-                                })
-                            }
-                        />
-                    )}
                 </VStack>
             )}
 
@@ -272,6 +220,60 @@ export default function CookProfilePageBookingsTabDetail({
                 <DialogContent>
                     <VStack>
                         <CircularProgress />
+                    </VStack>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog open={showDeclineDialog}>
+                <DialogTitle>Bist du dir sicher dass du die Buchungsanfrage ablehnen möchtest?</DialogTitle>
+                <DialogContent>
+                    <VStack className="w-full" gap={32}>
+                        <span>
+                            Bitte beachte unsere Stornierungsbedingungen bevor du die Buchungsanfrage ablehnst. Diese findest du in unseren{' '}
+                            <Link href="terms-and-conditions" target="_blank" className="text-orange">
+                                AGB
+                            </Link>
+                            .
+                        </span>
+                        <HStack gap={16} className="w-full">
+                            <PEButton title="Nein" type="secondary" onClick={(): void => setShowDeclineDialog(false)} />
+                            <PEButton
+                                title="Ja"
+                                type="primary"
+                                onClick={(): void =>
+                                    void declineBookingRequest({
+                                        variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
+                                    }).then((result) => {
+                                        setShowDeclineDialog(false);
+                                        if (result.data?.cooks.bookingRequests.success) void refetch();
+                                    })
+                                }
+                            />
+                        </HStack>
+                    </VStack>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog open={showAcceptDialog}>
+                <DialogTitle>Buchungsanfrage akzeptieren?</DialogTitle>
+                <DialogContent>
+                    <VStack className="w-full" gap={32}>
+                        <span>Wir freuen uns dass du die Buchungsanfrage annehmen möchtest.</span>
+                        <HStack gap={16} className="w-full">
+                            <PEButton title="Nein" type="secondary" onClick={(): void => setShowAcceptDialog(false)} />
+                            <PEButton
+                                title="Ja"
+                                type="primary"
+                                onClick={(): void =>
+                                    void acceptBookingRequest({
+                                        variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
+                                    }).then((result) => {
+                                        setShowAcceptDialog(false);
+                                        if (result.data?.cooks.bookingRequests.success) void refetch();
+                                    })
+                                }
+                            />
+                        </HStack>
                     </VStack>
                 </DialogContent>
             </Dialog>

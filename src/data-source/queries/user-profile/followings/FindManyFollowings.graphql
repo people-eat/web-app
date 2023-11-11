@@ -9,6 +9,7 @@ query FindManyFollowings {
                         firstName
                         profilePictureUrl
                     }
+                    city
                 }
             }
         }

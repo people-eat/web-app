@@ -70,7 +70,10 @@ export default function SignUpPage(): ReactElement {
     return (
         <HStack className="w-full h-full relative" style={{ justifyContent: 'space-between' }}>
             <VStack className="w-full" style={{ flex: 1, padding: '32px', overflowY: 'scroll' }}>
-                <form style={{ display: 'flex', flexDirection: 'column', gap: '32px', width: '100%', maxWidth: '400px' }}>
+                <form
+                    style={{ display: 'flex', flexDirection: 'column', gap: '32px', width: '100%', maxWidth: '400px' }}
+                    onSubmit={(event): void => event.preventDefault()}
+                >
                     <HStack style={{ width: '100%' }}>
                         <Link href={'/'}>
                             <Image src={'/logo.svg'} alt="" width={203} height={46} />
