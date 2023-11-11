@@ -12,22 +12,22 @@ export interface AdministrationPageProps {
     signedInUser?: SignedInUser;
 }
 
-export default function AdministrationPage({ signedInUser }: AdministrationPageProps): ReactElement {
-    const tiles: string[] = [
-        'Users',
-        'Chefs',
-        'Administrators',
-        'Statistics',
-        'Feature Toggles',
-        'Search Requests',
-        'Categories',
-        'Languages',
-        'Allergies',
-        'Terms and Conditions',
-        'Privacy Policy Statement',
-        'Global Booking Requests',
-    ];
+const tiles: { title: string; path: string }[] = [
+    { title: 'Users', path: '/administration/users' },
+    { title: 'Chefs', path: '/administration' },
+    { title: 'Administrators', path: '/administration' },
+    { title: 'Statistics', path: '/administration' },
+    { title: 'Feature Toggles', path: '/administration' },
+    { title: 'Search Requests', path: '/administration' },
+    { title: 'Categories', path: '/administration' },
+    { title: 'Languages', path: '/administration' },
+    { title: 'Allergies', path: '/administration' },
+    { title: 'Terms and Conditions', path: '/administration' },
+    { title: 'Privacy Policy Statement', path: '/administration' },
+    { title: 'Global Booking Requests', path: '/administration/global-booking-requests' },
+];
 
+export default function AdministrationPage({ signedInUser }: AdministrationPageProps): ReactElement {
     const tileStyle: CSSProperties = {
         padding: 8,
         width: 180,
@@ -43,11 +43,11 @@ export default function AdministrationPage({ signedInUser }: AdministrationPageP
             <PEHeader signedInUser={signedInUser} />
 
             <HStack gap={32} style={{ flexWrap: 'wrap', margin: 16 }} className="max-w-screen-xl">
-                {tiles.map((tile, index) => (
-                    <Link key={index} href="/" className="no-underline">
+                {tiles.map(({ title, path }) => (
+                    <Link key={path} href={path} className="no-underline">
                         <ButtonBase>
                             <Paper style={tileStyle} elevation={3} className="text-heading-m">
-                                {tile}
+                                {title}
                             </Paper>
                         </ButtonBase>
                     </Link>

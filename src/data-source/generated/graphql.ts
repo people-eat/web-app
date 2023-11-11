@@ -1079,6 +1079,16 @@ export type GlobalBookingRequest = {
     userId: Scalars['String'];
 };
 
+export type GlobalBookingRequestQuery = {
+    __typename?: 'GlobalBookingRequestQuery';
+    findMany?: Maybe<Array<GlobalBookingRequest>>;
+    findOne?: Maybe<GlobalBookingRequest>;
+};
+
+export type GlobalBookingRequestQueryFindOneArgs = {
+    globalBookingRequestId: Scalars['String'];
+};
+
 export type IdentityProvider = 'APPLE' | 'GOOGLE';
 
 export type Kitchen = {
@@ -1452,6 +1462,7 @@ export type Query = {
     cookSpecificFees: CookSpecificFeeQuery;
     cooks: CookQuery;
     customerFeeUpdates: CustomerFeeUpdateQuery;
+    globalBookingRequests: GlobalBookingRequestQuery;
     kitchens: KitchenQuery;
     languages: LanguageQuery;
     privacyPolicyUpdates: PrivacyPolicyUpdateQuery;
@@ -2600,6 +2611,31 @@ export type UpdateSessionCookieSettingsMutationVariables = Exact<{
 export type UpdateSessionCookieSettingsMutation = {
     __typename?: 'Mutation';
     sessions: { __typename?: 'SessionMutation'; success: boolean };
+};
+
+export type GetAdministrationGlobalBookingRequestsPageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAdministrationGlobalBookingRequestsPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
+    globalBookingRequests: {
+        __typename?: 'GlobalBookingRequestQuery';
+        findMany?: Array<{
+            __typename?: 'GlobalBookingRequest';
+            globalBookingRequestId: string;
+            occasion: string;
+            dateTime: Date;
+            adultParticipants: number;
+            children: number;
+            createdAt: Date;
+            price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+            location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
+            user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null; createdAt: Date };
+        }> | null;
+    };
 };
 
 export type GetAdministrationUsersPageDataQueryVariables = Exact<{
@@ -5917,6 +5953,117 @@ export const UpdateSessionCookieSettingsDocument = {
         },
     ],
 } as unknown as DocumentNode<UpdateSessionCookieSettingsMutation, UpdateSessionCookieSettingsMutationVariables>;
+export const GetAdministrationGlobalBookingRequestsPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetAdministrationGlobalBookingRequestsPageData' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'globalBookingRequests' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findMany' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'globalBookingRequestId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'occasion' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'dateTime' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'adultParticipants' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'children' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'price' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'location' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'user' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<
+    GetAdministrationGlobalBookingRequestsPageDataQuery,
+    GetAdministrationGlobalBookingRequestsPageDataQueryVariables
+>;
 export const GetAdministrationUsersPageDataDocument = {
     kind: 'Document',
     definitions: [

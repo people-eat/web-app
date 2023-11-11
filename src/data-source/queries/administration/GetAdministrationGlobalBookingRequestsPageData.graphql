@@ -1,0 +1,32 @@
+query GetAdministrationGlobalBookingRequestsPageData {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    globalBookingRequests {
+        findMany {
+            globalBookingRequestId
+            occasion
+            dateTime
+            adultParticipants
+            children
+            price {
+                amount
+                currencyCode
+            }
+            location {
+                latitude
+                longitude
+                text
+            }
+            user {
+                userId
+                firstName
+                profilePictureUrl
+                createdAt
+            }
+            createdAt
+        }
+    }
+}
