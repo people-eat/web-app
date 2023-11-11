@@ -1,0 +1,22 @@
+query GetAdministrationSupportRequestsPageData {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    supportRequests {
+        findMany {
+            supportRequestId
+            userId
+            bookingRequestId
+            subject
+            message
+            createdAt
+            user {
+                userId
+                firstName
+                profilePictureUrl
+            }
+        }
+    }
+}

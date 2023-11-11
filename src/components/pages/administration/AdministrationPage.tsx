@@ -26,6 +26,7 @@ const tiles: { title: string; path: string }[] = [
     { title: 'Privacy Policy Statement', path: '/administration' },
     { title: 'Global Booking Requests', path: '/administration/global-booking-requests' },
     { title: 'Booking Requests', path: '/administration/booking-requests' },
+    { title: 'Support Requests', path: '/administration/support-requests' },
 ];
 
 export default function AdministrationPage({ signedInUser }: AdministrationPageProps): ReactElement {

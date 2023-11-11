@@ -44,6 +44,7 @@ export default function ProfilePageBookingsTabDetail({
     //     console.log({ subject, message });
     // };
 
+    const [supportRequestStatus, setSupportRequestStatus] = useState<'NOT_REQUESTED' | 'REQUESTED' | 'REQUEST_FAILED'>('NOT_REQUESTED');
     const [supportSubject, setSupportSubject] = useState('');
     const [supportMessage, setSupportMessage] = useState('');
 
@@ -53,9 +54,7 @@ export default function ProfilePageBookingsTabDetail({
     const [acceptBookingRequest] = useMutation(UserBookingRequestAcceptDocument);
     const [declineBookingRequest] = useMutation(UserBookingRequestDeclineDocument);
     const [createMessage] = useMutation(CreateOneUserBookingRequestChatMessageDocument);
-    const [createSupportRequest] = useMutation(CreateOneUserSupportRequestDocument, {
-        variables: { userId, request: { bookingRequestId, subject: supportSubject, message: supportMessage } },
-    });
+    const [createSupportRequest] = useMutation(CreateOneUserSupportRequestDocument);
 
     const bookingRequest = data?.users.bookingRequests.findOne;
 
@@ -256,11 +255,25 @@ export default function ProfilePageBookingsTabDetail({
                             <PEButton
                                 title="Nachricht Senden"
                                 onClick={(): void =>
-                                    void createSupportRequest()
-                                        .then(({ data: resData }) => console.log(resData?.users.supportRequests.createOne))
-                                        .catch((error) => console.log(error))
+                                    void createSupportRequest({
+                                        variables: {
+                                            userId,
+                                            request: { bookingRequestId, subject: supportSubject, message: supportMessage },
+                                        },
+                                    })
+                                        .then(({ data: resData }) =>
+                                            setSupportRequestStatus(
+                                                resData?.users.supportRequests.createOne ? 'REQUESTED' : 'REQUEST_FAILED',
+                                            ),
+                                        )
+                                        .catch((error) => {
+                                            console.log(error);
+                                            setSupportRequestStatus('REQUEST_FAILED');
+                                        })
                                 }
                             />
+
+                            {supportRequestStatus}
                         </VStack>
                     </form>
                     <a href="tel:+4915678459804" className="w-full no-underline">

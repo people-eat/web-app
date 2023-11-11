@@ -48,7 +48,7 @@ export default function CookProfilePageBookingsChatMessages({
 
     useSubscription(BookingRequestChatMessageCreationsDocument, {
         variables: { bookingRequestId },
-        onSubscriptionData: ({ subscriptionData }) => {
+        onData: ({ data: subscriptionData }) => {
             const newChatMessage = subscriptionData.data?.bookingRequestChatMessageCreations;
             if (!newChatMessage) return;
             setChatMessages([

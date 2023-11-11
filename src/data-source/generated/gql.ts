@@ -63,6 +63,8 @@ const documents = {
         types.GetAdministrationBookingRequestsPageDataDocument,
     'query GetAdministrationGlobalBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  globalBookingRequests {\n    findMany {\n      globalBookingRequestId\n      occasion\n      dateTime\n      adultParticipants\n      children\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      createdAt\n    }\n  }\n}':
         types.GetAdministrationGlobalBookingRequestsPageDataDocument,
+    'query GetAdministrationSupportRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  supportRequests {\n    findMany {\n      supportRequestId\n      userId\n      bookingRequestId\n      subject\n      message\n      createdAt\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n    }\n  }\n}':
+        types.GetAdministrationSupportRequestsPageDataDocument,
     'query GetAdministrationUsersPageData($request: FindManyRequest!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  users {\n    findMany(request: $request) {\n      userId\n      isLocked\n      firstName\n      lastName\n      profilePictureUrl\n      isAdmin\n      isCook\n      createdAt\n    }\n  }\n}':
         types.GetAdministrationUsersPageDataDocument,
     'query CookGetStripeDashboardUrl($cookId: String!) {\n  cooks {\n    getStripeDashboardUrl(cookId: $cookId)\n  }\n}':
@@ -404,6 +406,12 @@ export function gql(
 export function gql(
     source: 'query GetAdministrationGlobalBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  globalBookingRequests {\n    findMany {\n      globalBookingRequestId\n      occasion\n      dateTime\n      adultParticipants\n      children\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      createdAt\n    }\n  }\n}',
 ): (typeof documents)['query GetAdministrationGlobalBookingRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  globalBookingRequests {\n    findMany {\n      globalBookingRequestId\n      occasion\n      dateTime\n      adultParticipants\n      children\n      price {\n        amount\n        currencyCode\n      }\n      location {\n        latitude\n        longitude\n        text\n      }\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n      createdAt\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query GetAdministrationSupportRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  supportRequests {\n    findMany {\n      supportRequestId\n      userId\n      bookingRequestId\n      subject\n      message\n      createdAt\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n    }\n  }\n}',
+): (typeof documents)['query GetAdministrationSupportRequestsPageData {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  supportRequests {\n    findMany {\n      supportRequestId\n      userId\n      bookingRequestId\n      subject\n      message\n      createdAt\n      user {\n        userId\n        firstName\n        profilePictureUrl\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

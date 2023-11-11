@@ -1560,6 +1560,7 @@ export type SupportRequest = {
     message: Scalars['String'];
     subject: Scalars['String'];
     supportRequestId: Scalars['String'];
+    user: PublicUser;
     userId: Scalars['String'];
 };
 
@@ -2722,6 +2723,29 @@ export type GetAdministrationGlobalBookingRequestsPageDataQuery = {
             createdAt: Date;
             price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
             location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
+            user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
+        }> | null;
+    };
+};
+
+export type GetAdministrationSupportRequestsPageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetAdministrationSupportRequestsPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: ({ __typename?: 'User' } & { ' $fragmentRefs'?: { SignedInUserFragment: SignedInUserFragment } }) | null;
+    };
+    supportRequests: {
+        __typename?: 'SupportRequestQuery';
+        findMany?: Array<{
+            __typename?: 'SupportRequest';
+            supportRequestId: string;
+            userId: string;
+            bookingRequestId?: string | null;
+            subject: string;
+            message: string;
+            createdAt: Date;
             user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
         }> | null;
     };
@@ -6291,6 +6315,90 @@ export const GetAdministrationGlobalBookingRequestsPageDataDocument = {
     GetAdministrationGlobalBookingRequestsPageDataQuery,
     GetAdministrationGlobalBookingRequestsPageDataQueryVariables
 >;
+export const GetAdministrationSupportRequestsPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetAdministrationSupportRequestsPageData' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'supportRequests' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findMany' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'supportRequestId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'subject' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'user' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetAdministrationSupportRequestsPageDataQuery, GetAdministrationSupportRequestsPageDataQueryVariables>;
 export const GetAdministrationUsersPageDataDocument = {
     kind: 'Document',
     definitions: [

@@ -131,7 +131,7 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                     <Link href="/events" className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
                         <ListItemButton>
                             <ListItemIcon />
-                            <ListItemText>{t('Events')}</ListItemText>
+                            <ListItemText>Events</ListItemText>
                         </ListItemButton>
                     </Link>
                 </ListItem>

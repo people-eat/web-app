@@ -13,8 +13,13 @@ export function createComplexApolloClient(httpUri: string, wsUri: string): Apoll
         return new ApolloClient({
             cache: new InMemoryCache(),
             defaultOptions: {
+                watchQuery: {
+                    fetchPolicy: 'no-cache',
+                    errorPolicy: 'ignore',
+                },
                 query: {
                     fetchPolicy: 'no-cache',
+                    errorPolicy: 'all',
                 },
             },
             link: httpLink,
@@ -26,6 +31,7 @@ export function createComplexApolloClient(httpUri: string, wsUri: string): Apoll
     const splitLink = split(
         ({ query }) => {
             const definition = getMainDefinition(query);
+            console.log({ useWs: definition.kind === 'OperationDefinition' && definition.operation === 'subscription' });
             return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
         },
         wsLink,
@@ -35,8 +41,13 @@ export function createComplexApolloClient(httpUri: string, wsUri: string): Apoll
     return new ApolloClient({
         cache: new InMemoryCache(),
         defaultOptions: {
+            watchQuery: {
+                fetchPolicy: 'no-cache',
+                errorPolicy: 'ignore',
+            },
             query: {
                 fetchPolicy: 'no-cache',
+                errorPolicy: 'all',
             },
         },
         link: splitLink,
