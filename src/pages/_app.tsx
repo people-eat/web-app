@@ -4,7 +4,7 @@ import { LocalizationProvider as MuiI18nProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment';
 import { type AppPropsType, type AppType } from 'next/dist/shared/lib/utils';
-import createApolloClient from '../data-source/createApolloClient';
+import { createComplexApolloClient } from '../data-source/createApolloClient';
 
 import 'moment/locale/de';
 import 'moment/locale/fr';
@@ -21,7 +21,7 @@ export const theme: Theme = createTheme({
     },
 });
 
-export const apolloClient: ApolloClient<NormalizedCacheObject> = createApolloClient(
+export const apolloClient: ApolloClient<NormalizedCacheObject> = createComplexApolloClient(
     process.env.NEXT_PUBLIC_SERVER_URL ?? '',
     process.env.NEXT_PUBLIC_SERVER_WEB_SOCKET_URL ?? '',
 );

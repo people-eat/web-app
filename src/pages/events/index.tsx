@@ -1,4 +1,3 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { type GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -11,18 +10,14 @@ import { Icon } from '../../components/standard/icon/Icon';
 import PEIcon from '../../components/standard/icon/PEIcon';
 import HStack from '../../components/utility/hStack/HStack';
 import VStack from '../../components/utility/vStack/VStack';
+import { createApolloClient } from '../../data-source/createApolloClient';
 import { GetProfileQueryDocument } from '../../data-source/generated/graphql';
 import useResponsive from '../../hooks/useResponsive';
 import { type SignedInUser } from '../../shared-domain/SignedInUser';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { data: profileData } = await new ApolloClient({
-        uri: process.env.NEXT_PUBLIC_SERVER_URL,
-        credentials: 'include',
-        headers: { cookie: context.req.headers.cookie as string },
-        cache: new InMemoryCache(),
-        ssrMode: true,
-    }).query({ query: GetProfileQueryDocument });
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const apolloClient = createApolloClient(req.headers.cookie);
+    const { data: profileData } = await apolloClient.query({ query: GetProfileQueryDocument });
 
     return {
         props: {

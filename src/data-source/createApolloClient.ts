@@ -4,7 +4,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { createUploadLink } from 'apollo-upload-client';
 import { createClient } from 'graphql-ws';
 
-export default function createApolloClient(httpUri: string, wsUri: string): ApolloClient<NormalizedCacheObject> {
+export function createComplexApolloClient(httpUri: string, wsUri: string): ApolloClient<NormalizedCacheObject> {
     const httpLink = createUploadLink({ uri: httpUri, headers: { 'Apollo-Require-Preflight': 'true' }, credentials: 'include' });
 
     const isBrowser = typeof window !== 'undefined';
@@ -40,5 +40,15 @@ export default function createApolloClient(httpUri: string, wsUri: string): Apol
             },
         },
         link: splitLink,
+    });
+}
+
+export function createApolloClient(cookieString?: string): ApolloClient<NormalizedCacheObject> {
+    return new ApolloClient({
+        uri: process.env.NEXT_PUBLIC_SERVER_URL,
+        credentials: 'include',
+        headers: { cookie: cookieString as string },
+        cache: new InMemoryCache(),
+        ssrMode: true,
     });
 }

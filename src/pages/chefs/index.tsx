@@ -1,21 +1,17 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import PublicCooksPage, { type PublicCooksPageProps } from '../../components/pages/publicCooks';
+import { createApolloClient } from '../../data-source/createApolloClient';
 import { GetPublicCooksPageDataDocument } from '../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async ({ query, req }) => {
     const { address, latitude, longitude, adults, children, date } = query;
 
-    const { data } = await new ApolloClient({
-        uri: process.env.NEXT_PUBLIC_SERVER_URL,
-        credentials: 'include',
-        headers: { cookie: req.headers.cookie as string },
-        cache: new InMemoryCache(),
-        ssrMode: true,
-    }).query({
+    const apolloClient = createApolloClient(req.headers.cookie);
+
+    const { data } = await apolloClient.query({
         query: GetPublicCooksPageDataDocument,
         variables: {
             request: {

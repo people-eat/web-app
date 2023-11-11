@@ -1,18 +1,13 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { type GetServerSideProps, type NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import CookSignUpPage, { type CookSignUpPageProps } from '../../components/pages/cookSignUp';
+import { createApolloClient } from '../../data-source/createApolloClient';
 import { GetCookSignUpPageDataDocument } from '../../data-source/generated/graphql';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { data } = await new ApolloClient({
-        uri: process.env.NEXT_PUBLIC_SERVER_URL,
-        credentials: 'include',
-        headers: { cookie: context.req.headers.cookie as string },
-        cache: new InMemoryCache(),
-        ssrMode: true,
-    }).query({ query: GetCookSignUpPageDataDocument });
+    const apolloClient = createApolloClient(context.req.headers.cookie);
+    const { data } = await apolloClient.query({ query: GetCookSignUpPageDataDocument });
 
     return {
         props: {

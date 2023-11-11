@@ -1,18 +1,13 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { type GetServerSideProps, type NextPage } from 'next';
 import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import TermsAndConditionsPage, { type TermsAndConditionsPageProps } from '../../components/pages/termsAndConditions';
+import { createApolloClient } from '../../data-source/createApolloClient';
 import { FindLatestPublicTermsUpdateDocument } from '../../data-source/generated/graphql';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { data } = await new ApolloClient({
-        uri: process.env.NEXT_PUBLIC_SERVER_URL,
-        credentials: 'include',
-        headers: { cookie: context.req.headers.cookie as string },
-        cache: new InMemoryCache(),
-        ssrMode: true,
-    }).query({ query: FindLatestPublicTermsUpdateDocument });
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const apolloClient = createApolloClient(req.headers.cookie);
+    const { data } = await apolloClient.query({ query: FindLatestPublicTermsUpdateDocument });
 
     return {
         props: {
@@ -24,6 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const Index: NextPage<TermsAndConditionsPageProps> = ({ signedInUser, latestTermsUpdate }) => {
     const { t } = useTranslation('common');
+
     return (
         <>
             <Head>
