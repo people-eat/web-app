@@ -46,6 +46,7 @@
         "next-translate": "^2.0.5",
         "react": "18.2.0",
         "react-dom": "18.2.0",
+        "react-hook-form": "^7.48.2",
         "react-image-crop": "^10.1.5",
         "react-material-ui-carousel": "^3.4.2",
         "use-file-picker": "^1.7.0",
