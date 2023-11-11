@@ -6,12 +6,11 @@ import Image from 'next/image';
 import { useState, type ReactElement } from 'react';
 import {
     CreateOneUserBookingRequestChatMessageDocument,
+    CreateOneUserSupportRequestDocument,
     FindOneUserBookingRequestDocument,
     UserBookingRequestAcceptDocument,
     UserBookingRequestDeclineDocument,
-    UserBookingRequestUpdatePriceDocument,
 } from '../../../../data-source/generated/graphql';
-import { formatPrice } from '../../../../shared-domain/formatPrice';
 import PEMealCard from '../../../cards/mealCard/PEMealCard';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -50,12 +49,13 @@ export default function ProfilePageBookingsTabDetail({
 
     const [tab, setTab] = useState<UserProfileBookingTabType>('CHAT');
     const [newMessage, setNewMessage] = useState('');
-    const [amount, setAmount] = useState(0);
 
     const [acceptBookingRequest] = useMutation(UserBookingRequestAcceptDocument);
     const [declineBookingRequest] = useMutation(UserBookingRequestDeclineDocument);
-    const [updateBookingRequestPrice] = useMutation(UserBookingRequestUpdatePriceDocument);
     const [createMessage] = useMutation(CreateOneUserBookingRequestChatMessageDocument);
+    const [createSupportRequest] = useMutation(CreateOneUserSupportRequestDocument, {
+        variables: { userId, request: { bookingRequestId, subject: supportSubject, message: supportMessage } },
+    });
 
     const bookingRequest = data?.users.bookingRequests.findOne;
 
@@ -236,32 +236,6 @@ export default function ProfilePageBookingsTabDetail({
                         <span className="text-text-m-bold">{translateGlobalBookingRequest('allergies-label')}</span>
                         <PETextField value="" onChange={(): void => undefined} type="text" />
                     </VStack>
-                    <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
-                        <span className="text-text-m-bold">{translateGlobalBookingRequest('budget-label')}</span>
-                        <PETextField
-                            value={formatPrice({ amount, currencyCode: bookingRequest.price.currencyCode })}
-                            endContent={<>{bookingRequest.price.currencyCode}</>}
-                            onChange={(changedAmount): void => setAmount(Number(changedAmount))}
-                            type="text"
-                        />
-                    </VStack>
-                    {bookingRequest.price.amount !== amount && (
-                        <PEButton
-                            title={translateGlobalBookingRequest('budget-suggestion')}
-                            onClick={(): void =>
-                                void updateBookingRequestPrice({
-                                    variables: {
-                                        userId,
-                                        bookingRequestId: bookingRequest.bookingRequestId,
-                                        price: { amount, currencyCode: bookingRequest.price.currencyCode },
-                                    },
-                                }).then((result) => {
-                                    if (!result.data?.users.bookingRequests.success) return;
-                                    void refetch();
-                                })
-                            }
-                        />
-                    )}
                 </VStack>
             )}
 
@@ -279,11 +253,18 @@ export default function ProfilePageBookingsTabDetail({
                                 <PEMultiLineTextField value={supportMessage} onChange={setSupportMessage} />
                             </VStack>
 
-                            <PEButton title="Nachricht Senden" onClick={(): void => undefined} />
+                            <PEButton
+                                title="Nachricht Senden"
+                                onClick={(): void =>
+                                    void createSupportRequest()
+                                        .then(({ data: resData }) => console.log(resData?.users.supportRequests.createOne))
+                                        .catch((error) => console.log(error))
+                                }
+                            />
                         </VStack>
                     </form>
-                    <a href="tel:+4915256207005">
-                        <PEButton type="secondary" title="Anrufen" onClick={(): void => undefined} />
+                    <a href="tel:+4915678459804" className="w-full no-underline">
+                        <PEButton type="secondary" title="Anrufen +491567 8459804" onClick={(): void => undefined} />
                     </a>
                 </VStack>
             )}

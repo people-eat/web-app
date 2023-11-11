@@ -186,6 +186,8 @@ const documents = {
         types.CreateOneCookDocument,
     'mutation CreateOneUserAddress($address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: createOne(address: $address)\n    }\n  }\n}':
         types.CreateOneUserAddressDocument,
+    'mutation CreateOneUserSupportRequest($request: CreateOneSupportRequest!, $userId: String!) {\n  users {\n    supportRequests(userId: $userId) {\n      createOne(request: $request)\n    }\n  }\n}':
+        types.CreateOneUserSupportRequestDocument,
     'mutation DeleteOneUserAddress($addressId: String!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: deleteOne(addressId: $addressId)\n    }\n  }\n}':
         types.DeleteOneUserAddressDocument,
     'query GetProfileQuery {\n  users {\n    me {\n      userId\n      firstName\n      lastName\n      profilePictureUrl\n      birthDate\n      gender\n      acceptedTerms\n      acceptedPrivacyPolicy\n      emailAddress\n      phoneNumber\n      createdAt\n      isCook\n      isAdmin\n      addresses {\n        addressId\n        title\n        country\n        city\n        postCode\n        street\n        houseNumber\n        location {\n          latitude\n          longitude\n        }\n        createdAt\n      }\n      emailAddressUpdate {\n        emailAddress\n        createdAt\n      }\n      phoneNumberUpdate {\n        phoneNumber\n        createdAt\n      }\n    }\n  }\n}':
@@ -774,6 +776,12 @@ export function gql(
 export function gql(
     source: 'mutation CreateOneUserAddress($address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: createOne(address: $address)\n    }\n  }\n}',
 ): (typeof documents)['mutation CreateOneUserAddress($address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: createOne(address: $address)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation CreateOneUserSupportRequest($request: CreateOneSupportRequest!, $userId: String!) {\n  users {\n    supportRequests(userId: $userId) {\n      createOne(request: $request)\n    }\n  }\n}',
+): (typeof documents)['mutation CreateOneUserSupportRequest($request: CreateOneSupportRequest!, $userId: String!) {\n  users {\n    supportRequests(userId: $userId) {\n      createOne(request: $request)\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

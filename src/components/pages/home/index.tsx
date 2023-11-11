@@ -51,14 +51,13 @@ export default function HomePage({ searchParameters }: HomePageProps): ReactElem
     const [adults, setAdults] = useState(searchParameters.adults);
     const [children, setChildren] = useState(searchParameters.children);
     const [date, setDate] = useState(moment(searchParameters.date));
-    const formattedDate: string = date.format('L');
 
     function onSearch(): void {
         const { latitude, longitude } = selectedLocation;
 
         void router.push({
             pathname: '/global-booking-request',
-            query: { address, latitude, longitude, adults, children, date: formattedDate },
+            query: { address, latitude, longitude, adults, children, date: date.format(moment.HTML5_FMT.DATE) },
         });
     }
 

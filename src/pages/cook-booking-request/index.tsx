@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
                 },
                 adults: adults ? Number(adults) : 4,
                 children: children ? Number(children) : 0,
-                date: typeof date === 'string' ? moment(date).format('L') : moment().format('L'),
+                date: typeof date === 'string' ? moment(date).format(moment.HTML5_FMT.DATE) : moment().format(moment.HTML5_FMT.DATE),
             },
             categories: data.categories.findAll,
             allergies: data.allergies.findAll,

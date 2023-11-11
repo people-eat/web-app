@@ -1,0 +1,7 @@
+mutation CreateOneUserSupportRequest($request: CreateOneSupportRequest!, $userId: String!) {
+    users {
+        supportRequests(userId: $userId) {
+            createOne(request: $request)
+        }
+    }
+}

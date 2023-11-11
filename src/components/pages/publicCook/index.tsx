@@ -251,7 +251,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                                 longitude: 0,
                                                 adults: 3,
                                                 children: 1,
-                                                date: moment().format('L'),
+                                                date: moment().format(moment.HTML5_FMT.DATE),
                                             },
                                         }}
                                         style={{ textDecoration: 'none' }}

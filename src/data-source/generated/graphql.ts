@@ -944,6 +944,12 @@ export type CreateOneSessionByPhoneNumberRequest = {
     title: Scalars['String'];
 };
 
+export type CreateOneSupportRequest = {
+    bookingRequestId?: InputMaybe<Scalars['String']>;
+    message: Scalars['String'];
+    subject: Scalars['String'];
+};
+
 export type CreateOneTermsUpdateRequest = {
     englishText: Scalars['String'];
     germanText: Scalars['String'];
@@ -1481,6 +1487,7 @@ export type Query = {
     publicTermsUpdates: PublicTermsUpdateQuery;
     sessions: SessionQuery;
     stripePublishableKey?: Maybe<Scalars['String']>;
+    supportRequests: SupportRequestQuery;
     termsUpdates: TermsUpdateQuery;
     users: UserQuery;
 };
@@ -1544,6 +1551,30 @@ export type Subscription = {
 
 export type SubscriptionBookingRequestChatMessageCreationsArgs = {
     bookingRequestId: Scalars['String'];
+};
+
+export type SupportRequest = {
+    __typename?: 'SupportRequest';
+    bookingRequestId?: Maybe<Scalars['String']>;
+    createdAt: Scalars['DateTime'];
+    message: Scalars['String'];
+    subject: Scalars['String'];
+    supportRequestId: Scalars['String'];
+    userId: Scalars['String'];
+};
+
+export type SupportRequestQuery = {
+    __typename?: 'SupportRequestQuery';
+    findMany?: Maybe<Array<SupportRequest>>;
+    findOne?: Maybe<SupportRequest>;
+};
+
+export type SupportRequestQueryFindManyArgs = {
+    request?: InputMaybe<FindManyRequest>;
+};
+
+export type SupportRequestQueryFindOneArgs = {
+    supportRequestId: Scalars['String'];
 };
 
 export type TermsUpdate = {
@@ -1860,6 +1891,7 @@ export type UserMutation = {
     oneTimeAccessToken: UserOneTimeAccessTokenMutation;
     phoneNumberUpdate: UserPhoneNumberUpdateMutation;
     sessions: UserSessionMutation;
+    supportRequests: UserSupportRequestMutation;
     updateGender: Scalars['Boolean'];
     updateIsLocked: Scalars['Boolean'];
     updatePassword: Scalars['Boolean'];
@@ -1916,6 +1948,10 @@ export type UserMutationPhoneNumberUpdateArgs = {
 };
 
 export type UserMutationSessionsArgs = {
+    userId: Scalars['String'];
+};
+
+export type UserMutationSupportRequestsArgs = {
     userId: Scalars['String'];
 };
 
@@ -2128,6 +2164,16 @@ export type UserSessionQuery = {
     __typename?: 'UserSessionQuery';
     findMany?: Maybe<Array<Session>>;
     userId: Scalars['String'];
+};
+
+export type UserSupportRequestMutation = {
+    __typename?: 'UserSupportRequestMutation';
+    createOne: Scalars['Boolean'];
+    userId: Scalars['String'];
+};
+
+export type UserSupportRequestMutationCreateOneArgs = {
+    request: CreateOneSupportRequest;
 };
 
 export type UserUserRatingQuery = {
@@ -3537,6 +3583,16 @@ export type CreateOneUserAddressMutationVariables = Exact<{
 export type CreateOneUserAddressMutation = {
     __typename?: 'Mutation';
     users: { __typename?: 'UserMutation'; addresses: { __typename?: 'UserAddressMutation'; success: boolean } };
+};
+
+export type CreateOneUserSupportRequestMutationVariables = Exact<{
+    request: CreateOneSupportRequest;
+    userId: Scalars['String'];
+}>;
+
+export type CreateOneUserSupportRequestMutation = {
+    __typename?: 'Mutation';
+    users: { __typename?: 'UserMutation'; supportRequests: { __typename?: 'UserSupportRequestMutation'; createOne: boolean } };
 };
 
 export type DeleteOneUserAddressMutationVariables = Exact<{
@@ -10617,6 +10673,69 @@ export const CreateOneUserAddressDocument = {
         },
     ],
 } as unknown as DocumentNode<CreateOneUserAddressMutation, CreateOneUserAddressMutationVariables>;
+export const CreateOneUserSupportRequestDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneUserSupportRequest' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateOneSupportRequest' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'supportRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'createOne' },
+                                                arguments: [
+                                                    {
+                                                        kind: 'Argument',
+                                                        name: { kind: 'Name', value: 'request' },
+                                                        value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneUserSupportRequestMutation, CreateOneUserSupportRequestMutationVariables>;
 export const DeleteOneUserAddressDocument = {
     kind: 'Document',
     definitions: [
