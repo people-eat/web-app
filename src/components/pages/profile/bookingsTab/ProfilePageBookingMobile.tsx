@@ -185,7 +185,7 @@ export default function ProfilePageBookingMobile({
                     </div>
                 )}
 
-                {tab === 'EVENT_DETAILS' && (
+                {tab === 'EVENT' && (
                     <VStack className="w-[80vw]" gap={32}>
                         <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                             <span className="text-text-m-bold">{translateGlobalBookingRequest('participants-label')}</span>

@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
@@ -9,6 +9,7 @@ import HomePage, { type HomePageProps } from '../components/pages/home';
 import PECheckbox from '../components/standard/checkbox/PECheckbox';
 import HStack from '../components/utility/hStack/HStack';
 import Spacer from '../components/utility/spacer/Spacer';
+import { createApolloClient } from '../data-source/createApolloClient';
 import {
     FindCurrentSessionDocument,
     GetProfileQueryDocument,
@@ -18,15 +19,11 @@ import {
 import useResponsive from '../hooks/useResponsive';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+    const apolloClient = createApolloClient(req.headers.cookie);
+
     try {
-        const { data } = await new ApolloClient({
-            uri: process.env.NEXT_PUBLIC_SERVER_URL,
-            credentials: 'include',
-            headers: { cookie: context.req.headers.cookie as string },
-            cache: new InMemoryCache(),
-            ssrMode: true,
-        }).query({ query: GetProfileQueryDocument });
+        const { data } = await apolloClient.query({ query: GetProfileQueryDocument });
 
         return {
             props: {

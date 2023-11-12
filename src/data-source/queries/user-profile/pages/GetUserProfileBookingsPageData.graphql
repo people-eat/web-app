@@ -1,7 +1,10 @@
-query FindOneUserBookingRequest($userId: String!, $bookingRequestId: String!) {
+query GetUserProfileBookingsPageData($userId: String!) {
     users {
+        signedInUser: me {
+            ...SignedInUser
+        }
         bookingRequests(userId: $userId) {
-            findOne(bookingRequestId: $bookingRequestId) {
+            findMany {
                 bookingRequestId
                 globalBookingRequestId
                 adultParticipants
@@ -18,6 +21,8 @@ query FindOneUserBookingRequest($userId: String!, $bookingRequestId: String!) {
                     currencyCode
                 }
                 location {
+                    latitude
+                    longitude
                     text
                 }
                 duration
@@ -31,8 +36,29 @@ query FindOneUserBookingRequest($userId: String!, $bookingRequestId: String!) {
                     }
                 }
                 configuredMenu {
-                    ...ConfiguredMenu
+                    title
                 }
+            }
+        }
+        globalBookingRequests(userId: $userId) {
+            findMany {
+                globalBookingRequestId
+                children
+                adultParticipants
+                occasion
+                message
+                dateTime
+                duration
+                price {
+                    amount
+                    currencyCode
+                }
+                location {
+                    latitude
+                    longitude
+                    text
+                }
+                createdAt
             }
         }
     }

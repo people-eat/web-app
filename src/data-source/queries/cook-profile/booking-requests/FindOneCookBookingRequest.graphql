@@ -27,19 +27,7 @@ query FindOneCookBookingRequest($cookId: String!, $bookingRequestId: String!) {
                 duration
                 createdAt
                 configuredMenu {
-                    menuId
-                    title
-                    description
-                    greetingFromKitchen
-                    kitchenId
-                    courses {
-                        index
-                        title
-                        mealTitle
-                        mealDescription
-                        mealImageUrl
-                        mealType
-                    }
+                    ...ConfiguredMenu
                 }
             }
         }

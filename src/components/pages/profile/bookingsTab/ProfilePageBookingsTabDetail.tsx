@@ -197,7 +197,7 @@ export default function ProfilePageBookingsTabDetail({
                 </VStack>
             )}
 
-            {tab === 'EVENT_DETAILS' && (
+            {tab === 'EVENT' && (
                 <VStack className="box-border p-4 md:p-0" gap={32} style={{ maxHeight: 675, overflowY: 'auto' }}>
                     <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                         <span className="text-text-m-bold">{translateGlobalBookingRequest('participants-label')}</span>

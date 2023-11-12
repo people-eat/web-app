@@ -27,7 +27,7 @@ export interface CookProfilePageBookingsTabDetailMobileProps {
     bookingRequestId: string;
 }
 
-type TabType = 'CHAT' | 'EVENT_DETAILS' | 'MENU' | 'RATING';
+type TabType = 'CHAT' | 'EVENT' | 'MENU' | 'RATING';
 
 export default function CookProfilePageBookingsTabMobile({
     setIsSelectedOpen,
@@ -56,7 +56,7 @@ export default function CookProfilePageBookingsTabMobile({
 
     const menuItems = [
         { tabName: 'CHAT' as const, label: 'Chat' },
-        { tabName: 'EVENT_DETAILS' as const, label: 'Event Details' },
+        { tabName: 'EVENT' as const, label: 'Event Details' },
         { tabName: 'MENU' as const, label: 'Menu' },
         { tabName: 'RATING' as const, label: 'Rating' },
     ];
@@ -191,7 +191,7 @@ export default function CookProfilePageBookingsTabMobile({
                         )}
                     </div>
                 )}
-                {tab === 'EVENT_DETAILS' && (
+                {tab === 'EVENT' && (
                     <VStack className="w-[80vw]" gap={32}>
                         <VStack gap={16} style={{ alignItems: 'flex-start' }} className="w-full">
                             <span className="text-text-m-bold">{translateBooking('participants-label')}</span>

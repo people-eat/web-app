@@ -10,7 +10,7 @@ import HStack from '../utility/hStack/HStack';
 import VStack from '../utility/vStack/VStack';
 import { type PEHeaderProps } from './PEHeaderProps';
 
-export default function PEHeaderMobile({ signedInUser }: PEHeaderProps): ReactElement {
+export default function PEHeaderMobile({ className, signedInUser }: PEHeaderProps): ReactElement {
     const [sideBarOpen, setSideBarOpen] = useState(false);
     const [sticky, setSticky] = useState(false);
 
@@ -22,8 +22,9 @@ export default function PEHeaderMobile({ signedInUser }: PEHeaderProps): ReactEl
     }, []);
 
     return (
-        <VStack style={{ width: '100%' }}>
+        <VStack className={className} style={{ width: '100%' }}>
             <HStack
+                data-element="regular-mobile"
                 style={{
                     backgroundColor: 'white',
                     width: '100%',
@@ -44,9 +45,11 @@ export default function PEHeaderMobile({ signedInUser }: PEHeaderProps): ReactEl
 
             <Slide direction="down" in={sticky}>
                 <div
+                    data-element="slide-mobile"
                     className={classNames(
                         'flex mt-0 bg-white z-50 top-0 left-0 w-full justify-between px-4 box-border max-w-screen-xl border-y-[1px] border-solid border-b-disabled border-transparent',
                         { ['h-0 hidden']: !sticky, ['lg:fixed']: sticky },
+                        className,
                     )}
                     style={{ alignItems: 'center', paddingLeft: 16, paddingRight: 16, gap: 16 }}
                 >

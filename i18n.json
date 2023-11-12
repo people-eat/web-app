@@ -10,6 +10,7 @@
         "/chef-sign-up": ["chef-sign-up", "address"],
         "/chef-profile": ["chef-profile", "meal-types", "address", "global-booking-request", "booking-status"],
         "/profile": ["profile", "address", "global-booking-request", "booking-status"],
+        "/profile/bookings/[[...slug]]": ["global-booking-request", "booking-status", "chef-profile"],
         "/about-us": ["about-us"],
         "/imprint": ["imprint"],
         "/chefs": ["search-results", "search"],

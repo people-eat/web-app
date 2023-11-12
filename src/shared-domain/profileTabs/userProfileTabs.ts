@@ -10,7 +10,7 @@ export const userProfileTabs = [
         tabIndex: 1,
     },
     {
-        translationKey: 'profile-user-tab-favorite-chefs-label',
+        translationKey: 'profile-user-tab-favorite-cooks-label',
         path: '/profile?tab=2',
         tabIndex: 2,
     },

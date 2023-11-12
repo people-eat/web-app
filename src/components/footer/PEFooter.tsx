@@ -1,15 +1,20 @@
 import Button from '@mui/material/Button';
+import classNames from 'classnames';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { type ReactElement } from 'react';
 import VStack from '../utility/vStack/VStack';
 
-export default function PEFooter(): ReactElement {
+interface PEFooterProps {
+    className?: string;
+}
+
+export default function PEFooter({ className }: PEFooterProps): ReactElement {
     const { t } = useTranslation('common');
 
     return (
-        <div className={'w-full lg_min:p-15 md:p-10 box-border flex justify-center bg-footer py-15'}>
+        <div className={classNames('w-full lg_min:p-15 md:p-10 box-border flex justify-center bg-footer py-15', className)}>
             <div className={'flex md:flex-col max-w-screen-xl justify-between w-full'} style={{ padding: '8px' }}>
                 <div className="flex md:flex-col md:gap-4 flex-row gap-[100px]">
                     <div className="flex flex-col gap-4">

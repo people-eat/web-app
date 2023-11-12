@@ -141,7 +141,7 @@ export default function BookingRequestForm({
                 <PECounter value={children} onValueChange={setChildren} />
             </HStack>
 
-            <span>Veranstaltungsdetails</span>
+            <span>Veranstaltung</span>
             <HStack gap={16}>
                 <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
                     <DatePicker

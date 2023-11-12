@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import { AccountBox, AdminPanelSettings, Dining, Logout } from '@mui/icons-material';
 import { Divider, ListItemIcon, Menu, MenuItem } from '@mui/material';
 import Button from '@mui/material/Button';
+import classNames from 'classnames';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,7 +13,7 @@ import HStack from '../utility/hStack/HStack';
 import Spacer from '../utility/spacer/Spacer';
 import { type PEHeaderProps } from './PEHeaderProps';
 
-export default function PEHeaderDesktop({ signedInUser }: PEHeaderProps): ReactElement {
+export default function PEHeaderDesktop({ className, signedInUser }: PEHeaderProps): ReactElement {
     const { t } = useTranslation('common');
     const router = useRouter();
 
@@ -24,7 +25,12 @@ export default function PEHeaderDesktop({ signedInUser }: PEHeaderProps): ReactE
     if (data?.users.sessions.success) void router.push('/');
 
     return (
-        <HStack gap={16} className="w-full max-w-screen-xl" style={{ alignItems: 'center', marginTop: 8 }}>
+        <HStack
+            gap={16}
+            className={classNames('w-full max-w-screen-xl', className)}
+            style={{ alignItems: 'center', marginTop: 8 }}
+            data-element="header-desktop"
+        >
             <Link href="/" className="ml-4 no-underline">
                 <Image src="/people-eat-logo-title.png" alt="" width={203} height={46} priority />
             </Link>
