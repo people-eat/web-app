@@ -881,7 +881,7 @@ export type CreateOneGlobalBookingRequestRequest = {
     message: Scalars['String'];
     occasion: Scalars['String'];
     phoneNumber?: InputMaybe<Scalars['PhoneNumber']>;
-    price: PriceInput;
+    priceClassType: GlobalBookingRequestPriceClassType;
 };
 
 export type CreateOneMealOptionRequest = {
@@ -1090,10 +1090,21 @@ export type GlobalBookingRequest = {
     location: Location;
     message: Scalars['String'];
     occasion: Scalars['String'];
-    price: Price;
+    priceClass: GlobalBookingRequestPriceClass;
+    priceClassType: GlobalBookingRequestPriceClassType;
     user: PublicUser;
     userId: Scalars['String'];
 };
+
+export type GlobalBookingRequestPriceClass = {
+    __typename?: 'GlobalBookingRequestPriceClass';
+    currencyCode: CurrencyCode;
+    max: Scalars['UnsignedInt'];
+    min: Scalars['UnsignedInt'];
+    type: GlobalBookingRequestPriceClassType;
+};
+
+export type GlobalBookingRequestPriceClassType = 'FINE' | 'GOURMET' | 'SIMPLE';
 
 export type GlobalBookingRequestQuery = {
     __typename?: 'GlobalBookingRequestQuery';
@@ -1824,7 +1835,7 @@ export type UserGlobalBookingRequestMutation = {
     updateDateTime: Scalars['Boolean'];
     updateMessage: Scalars['Boolean'];
     updateOccasion: Scalars['Boolean'];
-    updatePrice: Scalars['Boolean'];
+    updatePriceClass: Scalars['Boolean'];
     userId: Scalars['String'];
 };
 
@@ -1851,9 +1862,9 @@ export type UserGlobalBookingRequestMutationUpdateOccasionArgs = {
     occasion: Scalars['String'];
 };
 
-export type UserGlobalBookingRequestMutationUpdatePriceArgs = {
+export type UserGlobalBookingRequestMutationUpdatePriceClassArgs = {
     globalBookingRequestId: Scalars['String'];
-    price: PriceInput;
+    priceClassType: GlobalBookingRequestPriceClassType;
 };
 
 export type UserGlobalBookingRequestQuery = {
@@ -2822,7 +2833,13 @@ export type GetAdministrationGlobalBookingRequestsPageDataQuery = {
             adultParticipants: number;
             children: number;
             createdAt: Date;
-            price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+            priceClass: {
+                __typename?: 'GlobalBookingRequestPriceClass';
+                type: GlobalBookingRequestPriceClassType;
+                min: number;
+                max: number;
+                currencyCode: CurrencyCode;
+            };
             location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
             user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
         }> | null;
@@ -3015,7 +3032,13 @@ export type FindCookProfileGlobalBookingRequestsQuery = {
                 dateTime: Date;
                 duration?: number | null;
                 createdAt: Date;
-                price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+                priceClass: {
+                    __typename?: 'GlobalBookingRequestPriceClass';
+                    type: GlobalBookingRequestPriceClassType;
+                    min: number;
+                    max: number;
+                    currencyCode: CurrencyCode;
+                };
                 location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
             }> | null;
         };
@@ -3968,7 +3991,13 @@ export type FindUserProfileGlobalBookingRequestsQuery = {
                 dateTime: Date;
                 duration?: number | null;
                 createdAt: Date;
-                price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+                priceClass: {
+                    __typename?: 'GlobalBookingRequestPriceClass';
+                    type: GlobalBookingRequestPriceClassType;
+                    min: number;
+                    max: number;
+                    currencyCode: CurrencyCode;
+                };
                 location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
             }> | null;
         };
@@ -4156,7 +4185,13 @@ export type GetUserProfileBookingsPageDataQuery = {
                 dateTime: Date;
                 duration?: number | null;
                 createdAt: Date;
-                price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+                priceClass: {
+                    __typename?: 'GlobalBookingRequestPriceClass';
+                    type: GlobalBookingRequestPriceClassType;
+                    min: number;
+                    max: number;
+                    currencyCode: CurrencyCode;
+                };
                 location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
             }> | null;
         };
@@ -6532,11 +6567,13 @@ export const GetAdministrationGlobalBookingRequestsPageDataDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'children' } },
                                             {
                                                 kind: 'Field',
-                                                name: { kind: 'Name', value: 'price' },
+                                                name: { kind: 'Name', value: 'priceClass' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'min' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'max' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
                                                     ],
                                                 },
@@ -7299,11 +7336,13 @@ export const FindCookProfileGlobalBookingRequestsDocument = {
                                                         { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
                                                         {
                                                             kind: 'Field',
-                                                            name: { kind: 'Name', value: 'price' },
+                                                            name: { kind: 'Name', value: 'priceClass' },
                                                             selectionSet: {
                                                                 kind: 'SelectionSet',
                                                                 selections: [
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'min' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'max' } },
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
                                                                 ],
                                                             },
@@ -11931,11 +11970,13 @@ export const FindUserProfileGlobalBookingRequestsDocument = {
                                                         { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
                                                         {
                                                             kind: 'Field',
-                                                            name: { kind: 'Name', value: 'price' },
+                                                            name: { kind: 'Name', value: 'priceClass' },
                                                             selectionSet: {
                                                                 kind: 'SelectionSet',
                                                                 selections: [
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'min' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'max' } },
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
                                                                 ],
                                                             },
@@ -12755,11 +12796,13 @@ export const GetUserProfileBookingsPageDataDocument = {
                                                         { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
                                                         {
                                                             kind: 'Field',
-                                                            name: { kind: 'Name', value: 'price' },
+                                                            name: { kind: 'Name', value: 'priceClass' },
                                                             selectionSet: {
                                                                 kind: 'SelectionSet',
                                                                 selections: [
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'min' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'max' } },
                                                                     { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
                                                                 ],
                                                             },

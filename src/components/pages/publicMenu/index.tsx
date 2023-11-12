@@ -34,7 +34,7 @@ import styles from './PublicMenu.module.css';
 import PublicMenuCourses from './PublicMenuCourses';
 import PublicMenuSummaryHeader from './PublicMenuSummaryHeader';
 
-interface PublicMenuPageProps {
+export interface PublicMenuPageProps {
     searchParameters: {
         location: {
             address: string;

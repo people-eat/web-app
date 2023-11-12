@@ -11,8 +11,10 @@ query GetAdministrationGlobalBookingRequestsPageData {
             dateTime
             adultParticipants
             children
-            price {
-                amount
+            priceClass {
+                type
+                min
+                max
                 currencyCode
             }
             location {

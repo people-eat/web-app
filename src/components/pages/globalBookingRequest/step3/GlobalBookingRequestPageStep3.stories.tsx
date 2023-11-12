@@ -34,6 +34,8 @@ const meta: Meta<typeof GlobalBookingRequestPageStep3> = {
                 setAcceptedTermsAndConditions={setAcceptedTermsAndConditions}
                 // eslint-disable-next-line no-alert
                 onContinue={(): void => alert('Continue')}
+                password={''}
+                setPassword={(): void => undefined}
             />
         );
     },

@@ -1,0 +1,27 @@
+.card {
+    padding: 16px;
+    width: 150px;
+    background-color: white;
+    border-radius: 16px;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    cursor: pointer;
+}
+
+.selectedCard {
+    background-color: rgba(255, 100, 51, 1);
+    color: white;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.priceRange {
+}

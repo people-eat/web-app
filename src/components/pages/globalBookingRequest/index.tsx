@@ -15,6 +15,7 @@ import {
     CreateOneUserByEmailAddressDocument,
     CreateOneUserGlobalBookingRequestDocument,
     type CreateOneGlobalBookingRequestRequest,
+    type GlobalBookingRequestPriceClassType,
 } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
 import { type Allergy } from '../../../shared-domain/Allergy';
@@ -75,7 +76,7 @@ export default function GlobalBookingRequestPage({
     const [dateTime, setDateTime] = useState(moment(searchParameters.date).set('hours', 12).set('minutes', 0));
 
     const [occasion, setOccasion] = useState('');
-    const [budgetPerPerson, setBudgetPerPerson] = useState('');
+    const [priceClassType, setPriceClassType] = useState<GlobalBookingRequestPriceClassType>('FINE');
     const [message, setMessage] = useState('');
 
     const [firstName, setFirstName] = useState('');
@@ -105,10 +106,7 @@ export default function GlobalBookingRequestPage({
             text: addressSearchText,
         },
         occasion,
-        price: {
-            amount: Number(budgetPerPerson) * (adults + children) * 100,
-            currencyCode: 'EUR',
-        },
+        priceClassType,
         allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
         categoryIds: selectedCategories.map(({ categoryId }) => categoryId),
         kitchenId: selectedKitchen?.kitchenId,
@@ -179,8 +177,8 @@ export default function GlobalBookingRequestPage({
                             setDateTime={setDateTime}
                             occasion={occasion}
                             setOccasion={setOccasion}
-                            budget={budgetPerPerson}
-                            setBudget={setBudgetPerPerson}
+                            priceClassType={priceClassType}
+                            setPriceClassType={setPriceClassType}
                             onContinue={(): void => setStep(1)}
                         />
                     )}

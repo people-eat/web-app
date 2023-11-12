@@ -150,7 +150,7 @@ const Index: NextPage<UserProfileBookingsPageProps> = ({ signedInUser, bookingRe
 
                                                         <Spacer />
 
-                                                        <span className="text-green">{formatPrice(bookingRequest.price)}</span>
+                                                        <span className="text-green">{bookingRequest.priceClass.type}</span>
                                                     </HStack>
 
                                                     <span className="text-heading-ss-bold md:text-text-sm-bold">

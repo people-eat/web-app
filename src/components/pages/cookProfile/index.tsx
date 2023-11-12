@@ -11,7 +11,6 @@ import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
 import CookProfilePageBookingsTab from './bookingsTab/CookProfilePageBookingsTab';
 import CookProfilePageBookingsTabMobile from './bookingsTab/CookProfilePageBookingsTabMobile';
-import ChefProfilePageGlobalBookingsTab from './globalBookingsTab/ChefProfilePageGlobalBookingsTab';
 import CookProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
 import CookProfilePageMenusTab from './menusTab/ChefProfilePageMenusTab';
 import CookProfilePagePersonalTab from './personalTab/CookProfilePagePersonalTab';
@@ -65,7 +64,6 @@ export default function CookProfilePage({ signedInUser }: CookProfilePageProps):
                 {selectedTab === 2 && signedInUser && <CookProfilePageMenusTab cookId={signedInUser.userId} />}
                 {selectedTab === 3 && signedInUser && !isMobile && <CookProfilePageBookingsTab cookId={signedInUser.userId} />}
                 {selectedTab === 3 && signedInUser && isMobile && <CookProfilePageBookingsTabMobile cookId={signedInUser.userId} />}
-                {selectedTab === 4 && signedInUser && <ChefProfilePageGlobalBookingsTab cookId={signedInUser.userId} />}
             </VStack>
 
             <PEFooter />

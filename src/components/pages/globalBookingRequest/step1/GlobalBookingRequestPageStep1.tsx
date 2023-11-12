@@ -3,6 +3,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
+import { type GlobalBookingRequestPriceClassType } from '../../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../../data-source/searchAddress';
 import { type Location } from '../../../../shared-domain/Location';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -12,6 +13,7 @@ import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+import PriceClassCard from './PriceClassCard';
 
 export interface GlobalBookingRequestPageStep1Props {
     adultCount: number;
@@ -26,8 +28,8 @@ export interface GlobalBookingRequestPageStep1Props {
     setDateTime: (changedDateTime: Moment) => void;
     occasion: string;
     setOccasion: (changedOccasion: string) => void;
-    budget: string;
-    setBudget: (changedBudget: string) => void;
+    priceClassType: GlobalBookingRequestPriceClassType;
+    setPriceClassType: (changedPriceClassType: GlobalBookingRequestPriceClassType) => void;
     onContinue: () => void;
 }
 
@@ -44,15 +46,15 @@ export default function GlobalBookingRequestPageStep1({
     setDateTime,
     occasion,
     setOccasion,
-    budget,
-    setBudget,
+    priceClassType,
+    setPriceClassType,
     onContinue,
 }: GlobalBookingRequestPageStep1Props): ReactElement {
     const { t } = useTranslation('global-booking-request');
 
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
 
-    const disabled = adultCount < 1 || budget === '' || occasion.length < 3 || addressSearchText === '';
+    const disabled = adultCount < 1 || occasion.length < 3 || addressSearchText === '';
 
     return (
         <VStack gap={32} className="w-full">
@@ -122,20 +124,52 @@ export default function GlobalBookingRequestPageStep1({
 
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>{t('budget-label')}</h3>
+
+                <HStack gap={16} style={{ paddingTop: 8 }}>
+                    <PriceClassCard
+                        id="A"
+                        title={'Einfaches Menü'}
+                        min={70}
+                        max={90}
+                        currencyCode={'EUR'}
+                        selected={priceClassType === 'SIMPLE'}
+                        onClick={(): void => setPriceClassType('SIMPLE')}
+                    />
+                    <PriceClassCard
+                        id="B"
+                        title={'Fine-Dining Menü'}
+                        min={90}
+                        max={130}
+                        currencyCode={'EUR'}
+                        selected={priceClassType === 'FINE'}
+                        onClick={(): void => setPriceClassType('FINE')}
+                    />
+                    <PriceClassCard
+                        id="C"
+                        title={'Gourmet Menü'}
+                        min={130}
+                        max={200}
+                        currencyCode={'EUR'}
+                        selected={priceClassType === 'GOURMET'}
+                        onClick={(): void => setPriceClassType('GOURMET')}
+                    />
+                </HStack>
+
+                {/*
                 <PETextField
                     startContent={<>€</>}
                     type="number"
-                    value={budget}
-                    onChange={setBudget}
+                    value={priceClassType}
+                    onChange={setPriceClassType}
                     placeholder={t('budget-placeholder-label')}
-                />
+                /> */}
             </VStack>
 
-            <VStack gap={16}>
+            {/* <VStack gap={16}>
                 <span className="text-text-sm text-disabled">{t('ind-request-budget-hint-1')}</span>
                 <span className="text-text-sm text-disabled">{t('ind-request-budget-hint-2')}</span>
                 <span className="text-text-sm text-disabled">{t('ind-request-budget-hint-3')}</span>
-            </VStack>
+            </VStack> */}
 
             <PEButton onClick={onContinue} title={t('continue-label')} disabled={disabled} />
         </VStack>
