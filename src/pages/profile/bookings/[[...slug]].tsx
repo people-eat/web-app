@@ -126,14 +126,14 @@ const Index: NextPage<UserProfileBookingsPageProps> = ({ signedInUser, bookingRe
                                 Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : '',
                             )}
                         >
-                            <List className={styles.bookingList}>
-                                <BookingListHeader selectedFilterOption={filterOption} onSelectedFilterOptionChange={setFilterOption} />
+                            <BookingListHeader selectedFilterOption={filterOption} onSelectedFilterOptionChange={setFilterOption} />
 
+                            <Divider />
+
+                            <List className={styles.bookingList}>
                                 {(filterOption === 'ALL' || filterOption === 'OPEN') &&
                                     globalBookingRequests.map((bookingRequest) => (
                                         <div key={bookingRequest.globalBookingRequestId} style={{ width: '100%' }}>
-                                            <Divider />
-
                                             <ListItemButton
                                                 selected={selectedBookingRequestId === bookingRequest.globalBookingRequestId}
                                                 onClick={(): void =>
@@ -170,13 +170,13 @@ const Index: NextPage<UserProfileBookingsPageProps> = ({ signedInUser, bookingRe
                                                     </HStack>
                                                 </VStack>
                                             </ListItemButton>
+
+                                            <Divider />
                                         </div>
                                     ))}
 
-                                {filteredBookingRequests.map((bookingRequest) => (
+                                {filteredBookingRequests.map((bookingRequest, index) => (
                                     <div key={bookingRequest.bookingRequestId} style={{ width: '100%' }}>
-                                        <Divider />
-
                                         <ListItemButton
                                             selected={selectedBookingRequestId === bookingRequest.bookingRequestId}
                                             onClick={(): void =>
@@ -224,6 +224,8 @@ const Index: NextPage<UserProfileBookingsPageProps> = ({ signedInUser, bookingRe
                                                 </HStack>
                                             </VStack>
                                         </ListItemButton>
+
+                                        {index !== filteredBookingRequests.length - 1 && <Divider />}
                                     </div>
                                 ))}
                             </List>
