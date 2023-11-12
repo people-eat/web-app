@@ -44,7 +44,7 @@ export default function BookingRequestDetailChatTab({
     const [createMessage, { loading: createMessageLoading }] = useMutation(CreateOneUserBookingRequestChatMessageDocument);
 
     return (
-        <VStack style={{ width: '100%', height: '100%', justifyContent: 'space-between' }}>
+        <VStack style={{ width: '100%', height: '100%', justifyContent: 'space-between', overflowY: 'auto' }}>
             <ProfilePageBookingsChatMessages userId={userId} bookingRequestId={bookingRequest.bookingRequestId} />
 
             {bookingRequest.status === 'OPEN' && (
