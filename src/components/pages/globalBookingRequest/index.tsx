@@ -82,6 +82,7 @@ export default function GlobalBookingRequestPage({
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [password, setPassword] = useState('');
 
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
     const [selectedKitchen, setSelectedKitchen] = useState<Kitchen | undefined>(undefined);
@@ -132,7 +133,7 @@ export default function GlobalBookingRequestPage({
                 phoneNumber: phoneNumber.replaceAll(' ', ''),
                 gender: 'NO_INFORMATION',
                 language: 'GERMAN',
-                password: '',
+                password,
                 globalBookingRequest: globalBookingRequest,
             },
         },
@@ -210,6 +211,8 @@ export default function GlobalBookingRequestPage({
                             setEmail={setEmail}
                             phoneNumber={phoneNumber}
                             setPhoneNumber={setPhoneNumber}
+                            password={password}
+                            setPassword={setPassword}
                             acceptedPrivacyPolicy={acceptedPrivacyPolicy}
                             setAcceptedPrivacyPolicy={setAcceptedPrivacyPolicy}
                             acceptedTermsAndConditions={acceptedTermsAndConditions}

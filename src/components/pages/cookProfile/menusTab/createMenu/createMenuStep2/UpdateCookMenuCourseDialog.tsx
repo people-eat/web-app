@@ -5,7 +5,7 @@ import { type MealType } from '../../../../../../data-source/generated/graphql';
 import useResponsive from '../../../../../../hooks/useResponsive';
 import { mealTypeTranslations } from '../../../../../../shared-domain/mealTypeTranslations';
 import { mealTypes } from '../../../../../../shared-domain/mealTypes';
-import PEMealCard from '../../../../../cards/mealCard/PEMealCard';
+import PEMealCardDesktop from '../../../../../cards/mealCard/PEMealCardDesktop';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../../standard/icon/Icon';
 import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
@@ -79,7 +79,7 @@ export default function UpdateCookMenuCourseDialog({
                                 .filter(({ type }) => (selectedMealType === 'ALL' ? true : type === selectedMealType))
                                 .map((meal, index) => (
                                     <div key={index} className="flex basis-[340px]">
-                                        <PEMealCard
+                                        <PEMealCardDesktop
                                             onClick={(): void => {
                                                 if (selectedMeals.has(meal.mealId)) selectedMeals.delete(meal.mealId);
                                                 else selectedMeals.set(meal.mealId, meal);

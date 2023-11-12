@@ -11,7 +11,7 @@ import {
     UpdateCookMenuGreetingFromKitchenDocument,
     type MealType,
 } from '../../../../../../data-source/generated/graphql';
-import PEMealCard from '../../../../../cards/mealCard/PEMealCard';
+import PEMealCardDesktop from '../../../../../cards/mealCard/PEMealCardDesktop';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../../standard/icon/Icon';
 import PEIcon from '../../../../../standard/icon/PEIcon';
@@ -225,7 +225,7 @@ export default function ChefProfilePageEditMenusStep2({
                                         setSelectedMealOption({ courseId: course.courseId, mealId: mealOption.meal.mealId });
                                     }}
                                 >
-                                    <PEMealCard
+                                    <PEMealCardDesktop
                                         imageUrl={mealOption.meal.imageUrl ?? undefined}
                                         title={mealOption.meal.title}
                                         description={mealOption.meal.description}

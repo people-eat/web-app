@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px;
+    position: sticky;
+    align-self: flex-start;
+    top: 16px;
+}
+@media (width <= 768px) {
+    .container {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 64px;
+    }
+}
+
+@media (width <= 768px) {
+    .header {
+        text-align: center;
+    }
+}
+
+.title {
+    display: inline;
+    line-height: 0;
+}
+
+.backButton {
+    display: inline-block;
+}
+
+@media (width > 768px) {
+    .hiddenOnDesktop {
+        display: none;
+        visibility: hidden;
+        float: none;
+        position: fixed;
+    }
+}

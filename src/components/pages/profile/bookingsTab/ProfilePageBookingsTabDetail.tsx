@@ -11,7 +11,7 @@ import {
     UserBookingRequestAcceptDocument,
     UserBookingRequestDeclineDocument,
 } from '../../../../data-source/generated/graphql';
-import PEMealCard from '../../../cards/mealCard/PEMealCard';
+import PEMealCardDesktop from '../../../cards/mealCard/PEMealCardDesktop';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
@@ -185,7 +185,7 @@ export default function ProfilePageBookingsTabDetail({
                             <VStack gap={16} key={course.index} className="w-full" style={{ alignItems: 'flex-start' }}>
                                 <span className="text-heading-s">{course.title}</span>
 
-                                <PEMealCard
+                                <PEMealCardDesktop
                                     title={course.mealTitle}
                                     description={course.mealDescription}
                                     imageUrl={course.mealImageUrl ?? undefined}

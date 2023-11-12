@@ -39,7 +39,7 @@
     .mainContainer {
         display: flex;
         gap: 16px;
-        max-height: 675px;
+        height: 675px;
     }
 }
 

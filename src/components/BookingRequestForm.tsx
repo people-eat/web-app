@@ -1,8 +1,9 @@
 import { Divider } from '@mui/material';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import classNames from 'classnames';
 import moment, { type Moment } from 'moment';
 import useTranslation from 'next-translate/useTranslation';
-import { type ReactElement } from 'react';
+import { useEffect, type ReactElement } from 'react';
 import { type Price } from '../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../data-source/searchAddress';
 import { type Allergy } from '../shared-domain/Allergy';
@@ -10,11 +11,13 @@ import { type Location } from '../shared-domain/Location';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
 import { formatPrice } from '../shared-domain/formatPrice';
 import { geoDistance } from '../utils/geoDistance';
+import styles from './BookingRequestForm.module.css';
 import PEButton from './standard/buttons/PEButton';
 import PECounter from './standard/counter/PECounter';
 import PEDropdown from './standard/dropdown/PEDropdown';
 import { Icon } from './standard/icon/Icon';
 import PEIcon from './standard/icon/PEIcon';
+import PEIconButton from './standard/iconButton/PEIconButton';
 import PEAutoCompleteTextField from './standard/textFields/PEAutoCompleteTextField';
 import PEMultiLineTextField from './standard/textFields/PEMultiLineTextField';
 import PETextField from './standard/textFields/PETextField';
@@ -23,8 +26,7 @@ import Spacer from './utility/spacer/Spacer';
 import VStack from './utility/vStack/VStack';
 
 export interface BookingRequestFormProps {
-    externalDisabled: boolean;
-
+    className?: string;
     signedInUser?: SignedInUser;
 
     allergies: Allergy[];
@@ -69,16 +71,17 @@ export interface BookingRequestFormProps {
     onComplete: () => void;
 
     onShowSignInDialog: () => void;
+    onBack: () => void;
 }
 
 export default function BookingRequestForm({
-    externalDisabled,
-
+    className,
     signedInUser,
     allergies,
     costs,
     onComplete,
     onShowSignInDialog,
+    onBack,
 
     address,
     setAddress,
@@ -103,12 +106,20 @@ export default function BookingRequestForm({
 }: BookingRequestFormProps): ReactElement {
     const { t } = useTranslation('common');
 
+    useEffect(() => {
+        const timeOut = setTimeout(() => {
+            searchAddress(address, setAddressSearchResults);
+        }, 400);
+
+        return () => clearTimeout(timeOut);
+    }, [address, setAddressSearchResults]);
+
     const isOutOfCookTravelRadius =
         !!cookMaximumTravelDistance &&
         location &&
         geoDistance({ location1: cookLocation, location2: location }) > cookMaximumTravelDistance;
 
-    const disabled = externalDisabled || location === undefined || message === '' || occasion === '' || isOutOfCookTravelRadius;
+    const disabled = location === undefined || message === '' || occasion === '' || isOutOfCookTravelRadius;
 
     function handleOnComplete(): void {
         if (!signedInUser) {
@@ -121,12 +132,12 @@ export default function BookingRequestForm({
     }
 
     return (
-        <VStack
-            gap={16}
-            style={{ width: 400, alignItems: 'flex-start', alignSelf: 'start', position: 'sticky', top: '0px' }}
-            className="w-full bg-white shadow-primary box-border p-8 rounded-4"
-        >
-            <h3 style={{ lineHeight: 0 }}>Event Details</h3>
+        <div className={classNames(styles.container, 'shadow-primary rounded-4', className)}>
+            <div className={styles.header}>
+                <PEIconButton icon={Icon.arrowPrev} onClick={onBack} className={(styles.backButton, styles.hiddenOnDesktop)} />
+
+                <h2 className={styles.title}>Event Details</h2>
+            </div>
 
             <span>Personen</span>
             <HStack gap={16} className="w-full">
@@ -152,7 +163,7 @@ export default function BookingRequestForm({
                         }}
                         slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
                         label={t('date-label')}
-                        minDate={moment().add(2, 'days')}
+                        minDate={moment().add(3, 'days')}
                     />
                 </div>
                 <div className="w-full min-w-[calc(50% - 8px)] h-16 border-[1px] border-solid border-disabled rounded-4 px-4 py-2 box-border">
@@ -170,10 +181,11 @@ export default function BookingRequestForm({
 
             <PEAutoCompleteTextField
                 searchText={address}
-                onSearchTextChange={(changedAddressSearchText: string): void => {
-                    setAddress(changedAddressSearchText);
-                    searchAddress(changedAddressSearchText, setAddressSearchResults);
-                }}
+                onSearchTextChange={setAddress}
+                // onSearchTextChange={(changedAddressSearchText: string): void => {
+                //     setAddress(changedAddressSearchText);
+                //     searchAddress(changedAddressSearchText, setAddressSearchResults);
+                // }}
                 options={addressSearchResults}
                 getOptionLabel={(selectedOption: GoogleMapsPlacesResult): string => selectedOption.formatted_address}
                 onOptionSelect={(selectedSearchResult: GoogleMapsPlacesResult): void =>
@@ -229,29 +241,8 @@ export default function BookingRequestForm({
                     </VStack>
 
                     <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={handleOnComplete} />
-
-                    {/* {signedInUser && <PEButton disabled={disabled} title={'Jetzt Buchen'} onClick={handleOnComplete} />}
-                    {!signedInUser && (
-                        <>
-                            <Link href="/sign-in" target="_blank" style={{ textDecoration: 'none', width: '100%' }}>
-                                <PEButton title={'Anmelden'} onClick={(): void => undefined} />
-                            </Link>
-
-                            <HStack className="gap-8" style={{ width: '100%', alignItems: 'center' }}>
-                                <div style={{ height: '1px', backgroundColor: 'lightgray', flex: 1 }}></div>
-                                <p className="lg:my-2">oder</p>
-                                <div style={{ height: '1px', backgroundColor: 'lightgray', flex: 1 }}></div>
-                            </HStack>
-
-                            <b>Registriere dich</b>
-
-                            <PEEmailTextField email={email} onChange={setEmail} placeholder="Email Adresse" />
-
-                            <PEPasswordTextField password={password} onChange={setPassword} placeholder="Passwort" />
-                        </>
-                    )} */}
                 </VStack>
             )}
-        </VStack>
+        </div>
     );
 }

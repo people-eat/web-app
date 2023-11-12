@@ -177,7 +177,10 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                         className="relative w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4 gap-6"
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
-                        <p className="text-heading-ss w-full justify-start my-0 md:mb-2">{t('section-order-details')}</p>
+                        <HStack className="w-full">
+                            <h2 style={{ lineHeight: 0 }}>{t('section-order-details')}</h2>
+                            <Spacer />
+                        </HStack>
                         {editOrderDetails && (
                             <HStack
                                 className="absolute right-8 top-8 md:top-4 md:right-2 gap-3 w-full mb-4"
@@ -206,7 +209,7 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                                     <PEIcon icon={Icon.data} />
                                     <p className="my-0">{t('section-order-details-travel-cost')}</p>
                                 </HStack>
-                                <p className="my-0 text-end w-full text-green text-ellipsis">{travelExpenses} EUR</p>
+                                <p className="my-0 text-end w-full text-green text-ellipsis">{travelExpenses?.toFixed(2)} EUR</p>
                             </HStack>
                             <PESlider
                                 min={0}
@@ -264,7 +267,7 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                     >
                         <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                            <p className="text-heading-ss w-full justify-start my-0">{t('section-event-address')}</p>
+                            <h2 style={{ lineHeight: 0 }}>{t('section-event-address')}</h2>
                             <PEIconButton
                                 icon={Icon.plus}
                                 iconSize={24}

@@ -5,7 +5,7 @@ import { useState, type ReactElement } from 'react';
 import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypeTranslations } from '../../../../shared-domain/mealTypeTranslations';
 import { mealTypes } from '../../../../shared-domain/mealTypes';
-import PEMealCard from '../../../cards/mealCard/PEMealCard';
+import PEMealCardDesktop from '../../../cards/mealCard/PEMealCardDesktop';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../standard/tabItem/PETabItem';
@@ -108,7 +108,7 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
                         meals
                             .filter(({ type }) => type === selectedMealType)
                             .map(({ title, description, imageUrl, mealId }, index) => (
-                                <PEMealCard
+                                <PEMealCardDesktop
                                     key={index}
                                     title={title}
                                     description={description}
@@ -118,7 +118,7 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
                             ))}
                     {selectedMealType === undefined &&
                         meals.map(({ title, description, imageUrl, mealId }, index) => (
-                            <PEMealCard
+                            <PEMealCardDesktop
                                 key={index}
                                 title={title}
                                 description={description}

@@ -25,7 +25,7 @@ import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
-import PEMealCard from '../../cards/mealCard/PEMealCard';
+import PEMealCardDesktop from '../../cards/mealCard/PEMealCardDesktop';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';
@@ -289,7 +289,7 @@ export default function MenuBookingRequestPage({
                                         {course.mealOptions.map(
                                             (mealOption) =>
                                                 mealOption.meal.mealId === courseSelections.get(course.courseId) && (
-                                                    <PEMealCard
+                                                    <PEMealCardDesktop
                                                         key={mealOption.index}
                                                         title={mealOption.meal.title}
                                                         description={mealOption.meal.description}

@@ -1,0 +1,45 @@
+.container {
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 32px;
+    box-sizing: border-box;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+@media (width > 768px) {
+    .body {
+        display: flex;
+        gap: 32px;
+    }
+}
+
+@media (width <= 768px) {
+    .body {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+}
+
+@media (width <= 768px) {
+    .hiddenOnMobile {
+        display: none;
+        visibility: hidden;
+        float: none;
+        position: fixed;
+    }
+}
+
+@media (width > 768px) {
+    .hiddenOnDesktop {
+        display: none;
+        visibility: hidden;
+    }
+}
+
+.nextButton {
+    margin-bottom: 64px;
+}

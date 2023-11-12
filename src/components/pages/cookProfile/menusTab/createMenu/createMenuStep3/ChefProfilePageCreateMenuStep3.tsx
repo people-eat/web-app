@@ -21,7 +21,7 @@ export function calculateMenuPrice(
     basePrice: number,
     basePriceCustomers: number,
     pricePerAdult: number,
-    pricePerUnderaged?: number,
+    pricePerUnderaged?: number | null,
 ): number {
     if (adultParticipants + underagedParticipants <= basePriceCustomers) return basePrice;
 

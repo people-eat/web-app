@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.greetingFromKitchen {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.course {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.mealOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+}

@@ -4,7 +4,7 @@ import Divider from '@mui/material/Divider';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMealsDocument } from '../../../../../../data-source/generated/graphql';
-import PEMealCard from '../../../../../cards/mealCard/PEMealCard';
+import PEMealCardDesktop from '../../../../../cards/mealCard/PEMealCardDesktop';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../../standard/icon/Icon';
 import PEIcon from '../../../../../standard/icon/PEIcon';
@@ -143,7 +143,11 @@ export default function ChefProfilePageCreateMenusStep2({
                                         setActiveCourse(course);
                                     }}
                                 >
-                                    <PEMealCard imageUrl={meal.imageUrl ?? undefined} title={meal.title} description={meal.description} />
+                                    <PEMealCardDesktop
+                                        imageUrl={meal.imageUrl ?? undefined}
+                                        title={meal.title}
+                                        description={meal.description}
+                                    />
                                 </div>
                             ))}
                         </HStack>

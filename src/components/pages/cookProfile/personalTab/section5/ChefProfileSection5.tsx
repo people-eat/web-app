@@ -12,6 +12,7 @@ import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
 import PEAutoCompleteTextField from '../../../../standard/textFields/PEAutoCompleteTextField';
 import HStack from '../../../../utility/hStack/HStack';
+import Spacer from '../../../../utility/spacer/Spacer';
 import VStack from '../../../../utility/vStack/VStack';
 
 export interface ChefProfileSection5Props {
@@ -72,7 +73,10 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
             className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4"
             style={{ alignItems: 'center', justifyContent: 'flex-start' }}
         >
-            <p className="text-heading-ss w-full justify-start my-0">{t('section-languages')}</p>
+            <HStack className="w-full">
+                <h2 style={{ lineHeight: 0 }}>{t('section-languages')}</h2>
+                <Spacer />
+            </HStack>
             {data && !loading && (
                 <VStack className="w-full gap-3">
                     <VStack className="w-full mt-4" style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>

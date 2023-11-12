@@ -1,5 +1,5 @@
 import { type ReactElement } from 'react';
-import PEMealCard from '../../../../components/cards/mealCard/PEMealCard';
+import PEMealCardDesktop from '../../../../components/cards/mealCard/PEMealCardDesktop';
 import VStack from '../../../../components/utility/vStack/VStack';
 import { type ConfiguredMenuFragment } from '../../../../data-source/generated/graphql';
 
@@ -16,7 +16,7 @@ export default function BookingRequestDetailMenuTab({ configuredMenu }: BookingR
                     <VStack gap={16} key={course.index} className="w-full" style={{ alignItems: 'flex-start' }}>
                         <span className="text-heading-s">{course.title}</span>
 
-                        <PEMealCard
+                        <PEMealCardDesktop
                             title={course.mealTitle}
                             description={course.mealDescription}
                             imageUrl={course.mealImageUrl ?? undefined}

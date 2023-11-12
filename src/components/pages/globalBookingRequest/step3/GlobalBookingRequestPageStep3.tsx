@@ -8,6 +8,7 @@ import PEButton from '../../../standard/buttons/PEButton';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';
 import PEEmailTextField from '../../../standard/textFields/PEEmailTextField';
 import PEMultiLineTextField from '../../../standard/textFields/PEMultiLineTextField';
+import PEPasswordTextField from '../../../standard/textFields/PEPasswordTextField';
 import PEPhoneNumberTextField from '../../../standard/textFields/PEPhoneNumberTextField';
 import PETextField from '../../../standard/textFields/PETextField';
 import VStack from '../../../utility/vStack/VStack';
@@ -22,12 +23,15 @@ export interface GlobalBookingRequestPageStep3Props {
     setEmail: (changedEmail: string) => void;
     phoneNumber: string;
     setPhoneNumber: (changedPhoneNumber: string) => void;
+    password: string;
+    setPassword: (changedPassword: string) => void;
     message: string;
     setMessage: (changedMessage: string) => void;
     acceptedPrivacyPolicy: boolean;
     setAcceptedPrivacyPolicy: (changedAcceptedPrivacyPolicy: boolean) => void;
     acceptedTermsAndConditions: boolean;
     setAcceptedTermsAndConditions: (changedAcceptedTermsAndConditions: boolean) => void;
+
     onContinue: () => void;
 }
 
@@ -43,6 +47,8 @@ export default function GlobalBookingRequestPageStep3({
     setEmail,
     phoneNumber,
     setPhoneNumber,
+    password,
+    setPassword,
     acceptedPrivacyPolicy,
     setAcceptedPrivacyPolicy,
     acceptedTermsAndConditions,
@@ -50,6 +56,8 @@ export default function GlobalBookingRequestPageStep3({
     onContinue,
 }: GlobalBookingRequestPageStep3Props): ReactElement {
     const { t } = useTranslation('global-booking-request');
+
+    const [passwordRepeat, setPasswordRepeat] = useState('');
 
     const [emailIsValid, setEmailIsValid] = useState(false);
     const [phoneNumberIsValid, setPhoneNumberIsValid] = useState(false);
@@ -62,7 +70,9 @@ export default function GlobalBookingRequestPageStep3({
         !emailIsValid ||
         !phoneNumberIsValid ||
         !acceptedTermsAndConditions ||
-        !acceptedPrivacyPolicy;
+        !acceptedPrivacyPolicy ||
+        password === '' ||
+        password !== passwordRepeat;
 
     return (
         <VStack gap={32} className="w-full">
@@ -86,6 +96,8 @@ export default function GlobalBookingRequestPageStep3({
                         }}
                         placeholder={t('phone-number-label')}
                     />
+                    <PEPasswordTextField placeholder="Passwort" password={password} onChange={setPassword} />
+                    <PEPasswordTextField placeholder="Passwort wiederholen" password={passwordRepeat} onChange={setPasswordRepeat} />
                 </>
             )}
 

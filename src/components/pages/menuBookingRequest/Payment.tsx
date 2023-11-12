@@ -36,7 +36,7 @@ export default function Payment({
         // });
         const { error } = await stripe.confirmSetup({
             elements,
-            confirmParams: { return_url: `${window.location.origin}/profile?tab=1` },
+            confirmParams: { return_url: `${window.location.origin}/profile/bookings/${bookingRequestId}` },
             redirect: 'if_required',
         });
 
@@ -48,14 +48,14 @@ export default function Payment({
         }
 
         confirmPaymentSetup()
-            .then(({ data }) => data?.users.bookingRequests.success && router.push('/profile?tab=1'))
+            .then(({ data }) => data?.users.bookingRequests.success && router.push(`/profile/bookings/${bookingRequestId}`))
             .catch(() => undefined);
     }
 
     return (
-        <VStack gap={32} style={{ margin: 32, width: 800 }}>
+        <VStack gap={32} style={{ margin: 32 }}>
             <HStack gap={32} style={{ width: '100%' }}>
-                <VStack style={{ flex: 1 }}>{children}</VStack>
+                {children}
                 <VStack style={{ flex: 1, alignItems: 'stretch' }}>
                     <PaymentElement id="payment-element" />
                 </VStack>

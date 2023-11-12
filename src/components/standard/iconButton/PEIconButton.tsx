@@ -50,8 +50,9 @@ export default function PEIconButton({
             size={'small'}
             variant="contained"
             onClick={onClick}
+            className={className}
         >
-            <PEIcon icon={icon} className={classNames('cursor-pointer', className)} edgeLength={iconSize ?? 16} />
+            <PEIcon icon={icon} className={classNames('cursor-pointer')} edgeLength={iconSize ?? 16} />
         </Button>
     );
 }
