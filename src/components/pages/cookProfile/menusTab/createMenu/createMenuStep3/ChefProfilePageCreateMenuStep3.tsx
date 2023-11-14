@@ -232,8 +232,8 @@ export default function ChefProfilePageCreateMenusStep3({
                             <span>Kinder</span>
                         </VStack>
                         <VStack style={{ justifyContent: 'space-evenly', height: 120 }}>
-                            <PECounter value={adults} onValueChange={setAdults} />
-                            <PECounter value={children} onValueChange={setChildren} />
+                            <PECounter value={adults} onValueChange={setAdults} boundaries={{ min: 1 }} />
+                            <PECounter value={children} onValueChange={setChildren} boundaries={{ min: 0 }} />
                         </VStack>
                     </HStack>
                 </VStack>
@@ -323,8 +323,8 @@ export default function ChefProfilePageCreateMenusStep3({
                             <span>Kinder</span>
                         </VStack>
                         <VStack style={{ justifyContent: 'space-evenly', height: 120 }}>
-                            <PECounter value={adults} onValueChange={setAdults} />
-                            <PECounter value={children} onValueChange={setChildren} />
+                            <PECounter value={adults} onValueChange={setAdults} boundaries={{ min: 1 }} />
+                            <PECounter value={children} onValueChange={setChildren} boundaries={{ min: 0 }} />
                         </VStack>
 
                         <Spacer />
