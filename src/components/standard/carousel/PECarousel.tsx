@@ -1,35 +1,39 @@
-import { type ReactElement } from 'react';
-import Carousel from 'react-material-ui-carousel';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { IconButton } from '@mui/material';
+import { useState, type ReactElement } from 'react';
 
 export interface PECarouselProps {
     images: ReactElement[];
 }
 
 export default function PECarousel({ images }: PECarouselProps): ReactElement {
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+    // todo
+    // 1. buttons nur on hover zeigen
+
     return (
-        <Carousel
-            // sx={{
-            //     next: {
-            //         right: 0,
-            //         backgroundColor: 'white',
-            //     },
-            //     // Applies to the "prev" button wrapper
-            //     '& .MuiButtonBase-root': {
-            //         '&:hover': {
-            //             backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            //         },
-            //     },
-            // }}
-            // NextIcon={<div className="w-6 h-6 flex justify-center items-center"><PEIcon icon={Icon.arrowNext} edgeLength={8} /></div>}
-            // PrevIcon={<PEIcon icon={Icon.arrowPrev} edgeLength={8} />}
-            indicators={false}
-            autoPlay={false}
-            navButtonsAlwaysInvisible={false}
-            className={'w-full h-full object-cover'}
-        >
-            {images.map((Item, i) => (
-                <div key={`Carousel-component__${i}`}>{Item}</div>
-            ))}
-        </Carousel>
+        <div style={{ position: 'relative' }}>
+            {images[selectedImageIndex]}
+            <IconButton
+                onClick={(event): void => {
+                    event.preventDefault();
+                    setSelectedImageIndex((images.length + selectedImageIndex - 1) % images.length);
+                }}
+                style={{ position: 'absolute', top: '50%', left: '10%', transform: 'translate(-50%, -50%)' }}
+            >
+                <ArrowBackIosIcon />
+            </IconButton>
+            <IconButton
+                onClick={(event): void => {
+                    event.preventDefault();
+                    setSelectedImageIndex((selectedImageIndex + 1) % images.length);
+                }}
+                style={{ position: 'absolute', top: '50%', right: '10%', transform: 'translate(+50%, -50%)' }}
+            >
+                <ArrowForwardIosIcon />
+            </IconButton>
+        </div>
     );
 }

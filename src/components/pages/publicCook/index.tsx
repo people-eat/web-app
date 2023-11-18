@@ -249,8 +249,8 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                                                 address: '',
                                                 latitude: 0,
                                                 longitude: 0,
-                                                adults: 3,
-                                                children: 1,
+                                                adults: 4,
+                                                children: 0,
                                                 date: moment().format(moment.HTML5_FMT.DATE),
                                             },
                                         }}
