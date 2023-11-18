@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/client';
 import { Alert, Button, Snackbar } from '@mui/material';
 import { useState, type ReactElement } from 'react';
-import PEButton from '../../../../components/standard/buttons/PEButton';
-import PEMultiLineTextField from '../../../../components/standard/textFields/PEMultiLineTextField';
-import PETextField from '../../../../components/standard/textFields/PETextField';
-import VStack from '../../../../components/utility/vStack/VStack';
-import { CreateOneUserSupportRequestDocument } from '../../../../data-source/generated/graphql';
+import { CreateOneUserSupportRequestDocument } from '../../../data-source/generated/graphql';
+import PEButton from '../../standard/buttons/PEButton';
+import PEMultiLineTextField from '../../standard/textFields/PEMultiLineTextField';
+import PETextField from '../../standard/textFields/PETextField';
+import VStack from '../../utility/vStack/VStack';
 
 export interface BookingRequestDetailSupportTabProps {
     userId: string;

@@ -10,6 +10,10 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import PEFooter from '../../../components/footer/PEFooter';
 import PEHeader from '../../../components/header/PEHeader';
+import BookingListHeader, { type BookingListHeaderFilterOption } from '../../../components/new-user-profile-booking-tab/BookingListHeader';
+import BookingRequestDetail from '../../../components/new-user-profile-booking-tab/BookingRequestDetail';
+import GlobalBookingRequestDetail from '../../../components/new-user-profile-booking-tab/GlobalBookingRequestDetail';
+import styles from '../../../components/new-user-profile-booking-tab/bookings.module.css';
 import BookingRequestStatusPill from '../../../components/standard/bookingRequestStatusPill/BookingRequestStatusPill';
 import { Icon } from '../../../components/standard/icon/Icon';
 import PEIcon from '../../../components/standard/icon/PEIcon';
@@ -25,10 +29,6 @@ import {
 } from '../../../data-source/generated/graphql';
 import { formatPrice } from '../../../shared-domain/formatPrice';
 import { userProfileTabs } from '../shared';
-import BookingListHeader, { type BookingListHeaderFilterOption } from './BookingListHeader';
-import BookingRequestDetail from './BookingRequestDetail';
-import GlobalBookingRequestDetail from './GlobalBookingRequestDetail';
-import styles from './bookings.module.css';
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     const apolloClient = createApolloClient(req.headers.cookie);

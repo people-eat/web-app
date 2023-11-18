@@ -1,7 +1,7 @@
 import { type ReactElement } from 'react';
-import PEMealCardDesktop from '../../../../components/cards/mealCard/PEMealCardDesktop';
-import VStack from '../../../../components/utility/vStack/VStack';
-import { type ConfiguredMenuFragment } from '../../../../data-source/generated/graphql';
+import { type ConfiguredMenuFragment } from '../../../data-source/generated/graphql';
+import PEMealCardDesktop from '../../cards/mealCard/PEMealCardDesktop';
+import VStack from '../../utility/vStack/VStack';
 
 export interface BookingRequestDetailMenuTabProps {
     configuredMenu: ConfiguredMenuFragment;

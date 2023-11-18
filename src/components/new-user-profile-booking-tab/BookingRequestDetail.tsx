@@ -4,17 +4,17 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
+import { FindOneUserBookingRequestDocument } from '../../data-source/generated/graphql';
 import {
     isUserProfileBookingTabType,
     userProfileBookingTabTranslationKeys,
     userProfileBookingTabTypes,
     type UserProfileBookingTabType,
-} from '../../../components/pages/profile/bookingsTab/userProfileBookingTabs';
-import { Icon } from '../../../components/standard/icon/Icon';
-import PEIcon from '../../../components/standard/icon/PEIcon';
-import PEIconButton from '../../../components/standard/iconButton/PEIconButton';
-import HStack from '../../../components/utility/hStack/HStack';
-import { FindOneUserBookingRequestDocument } from '../../../data-source/generated/graphql';
+} from '../pages/profile/bookingsTab/userProfileBookingTabs';
+import { Icon } from '../standard/icon/Icon';
+import PEIcon from '../standard/icon/PEIcon';
+import PEIconButton from '../standard/iconButton/PEIconButton';
+import HStack from '../utility/hStack/HStack';
 import styles from './BookingRequestDetail.module.css';
 import BookingRequestDetailChatTab from './detail-tabs/BookingRequestDetailChatTab';
 import BookingRequestDetailEventTab from './detail-tabs/BookingRequestDetailEventTab';

@@ -3,17 +3,17 @@ import { Button, CircularProgress, Dialog, DialogContent, DialogTitle } from '@m
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
-import ProfilePageBookingsChatMessages from '../../../../components/pages/profile/bookingsTab/ProfilePageBookingsChatMessages';
-import PEButton from '../../../../components/standard/buttons/PEButton';
-import PETextField from '../../../../components/standard/textFields/PETextField';
-import HStack from '../../../../components/utility/hStack/HStack';
-import VStack from '../../../../components/utility/vStack/VStack';
 import {
     CreateOneUserBookingRequestChatMessageDocument,
     UserBookingRequestAcceptDocument,
     UserBookingRequestDeclineDocument,
     type BookingRequestStatus,
-} from '../../../../data-source/generated/graphql';
+} from '../../../data-source/generated/graphql';
+import ProfilePageBookingsChatMessages from '../../pages/profile/bookingsTab/ProfilePageBookingsChatMessages';
+import PEButton from '../../standard/buttons/PEButton';
+import PETextField from '../../standard/textFields/PETextField';
+import HStack from '../../utility/hStack/HStack';
+import VStack from '../../utility/vStack/VStack';
 
 export interface BookingRequestDetailChatTabProps {
     userId: string;
