@@ -19,12 +19,14 @@ const Index: NextPage = () => {
 
     const [state, setState] = useState<'LOADING' | 'FAILED' | 'SUCCESSFUL'>('LOADING');
 
-    const [confirmOneEmailAddressUpdate] = useMutation(ConfirmOneEmailAddressUpdateDocument, {
-        variables: { secret: secret as string },
-    });
+    const [confirmOneEmailAddressUpdate] = useMutation(ConfirmOneEmailAddressUpdateDocument);
 
     useEffect(() => {
-        confirmOneEmailAddressUpdate()
+        if (!secret || typeof secret !== 'string') {
+            setState('FAILED');
+            return;
+        }
+        confirmOneEmailAddressUpdate({ variables: { secret } })
             .then(({ data }) => {
                 if (!data?.users.emailAddressUpdate.success) {
                     setState('FAILED');
@@ -33,7 +35,7 @@ const Index: NextPage = () => {
                 setState('SUCCESSFUL');
             })
             .catch(() => setState('FAILED'));
-    }, [confirmOneEmailAddressUpdate]);
+    }, [confirmOneEmailAddressUpdate, secret]);
 
     return (
         <>

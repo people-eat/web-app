@@ -1,0 +1,5 @@
+mutation UpdateCookHasStripePayoutMethodActivated($cookId: String!) {
+    cooks {
+        success: updateHasStripePayoutMethodActivated(cookId: $cookId)
+    }
+}

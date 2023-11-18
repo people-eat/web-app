@@ -152,6 +152,8 @@ const documents = {
         types.UpdateCookMenuTitleDocument,
     'mutation UpdateCookBiography($cookId: String!, $biography: String!) {\n  cooks {\n    success: updateBiography(cookId: $cookId, biography: $biography)\n  }\n}':
         types.UpdateCookBiographyDocument,
+    'mutation UpdateCookHasStripePayoutMethodActivated($cookId: String!) {\n  cooks {\n    success: updateHasStripePayoutMethodActivated(cookId: $cookId)\n  }\n}':
+        types.UpdateCookHasStripePayoutMethodActivatedDocument,
     'mutation UpdateCookIsLocked($cookId: String!, $isLocked: Boolean!) {\n  cooks {\n    success: updateIsLocked(cookId: $cookId, isLocked: $isLocked)\n  }\n}':
         types.UpdateCookIsLockedDocument,
     'mutation UpdateCookIsVisible($cookId: String!, $isVisible: Boolean!) {\n  cooks {\n    success: updateIsVisible(cookId: $cookId, isVisible: $isVisible)\n  }\n}':
@@ -681,6 +683,12 @@ export function gql(
 export function gql(
     source: 'mutation UpdateCookBiography($cookId: String!, $biography: String!) {\n  cooks {\n    success: updateBiography(cookId: $cookId, biography: $biography)\n  }\n}',
 ): (typeof documents)['mutation UpdateCookBiography($cookId: String!, $biography: String!) {\n  cooks {\n    success: updateBiography(cookId: $cookId, biography: $biography)\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation UpdateCookHasStripePayoutMethodActivated($cookId: String!) {\n  cooks {\n    success: updateHasStripePayoutMethodActivated(cookId: $cookId)\n  }\n}',
+): (typeof documents)['mutation UpdateCookHasStripePayoutMethodActivated($cookId: String!) {\n  cooks {\n    success: updateHasStripePayoutMethodActivated(cookId: $cookId)\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

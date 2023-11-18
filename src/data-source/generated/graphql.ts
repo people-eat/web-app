@@ -582,6 +582,7 @@ export type CookMutation = {
     menus: CookMenuMutation;
     removeOneLanguage: Scalars['Boolean'];
     updateBiography: Scalars['Boolean'];
+    updateHasStripePayoutMethodActivated: Scalars['Boolean'];
     updateIsLocked: Scalars['Boolean'];
     updateIsVisible: Scalars['Boolean'];
     updateLocation: Scalars['Boolean'];
@@ -623,6 +624,10 @@ export type CookMutationRemoveOneLanguageArgs = {
 
 export type CookMutationUpdateBiographyArgs = {
     biography: Scalars['String'];
+    cookId: Scalars['String'];
+};
+
+export type CookMutationUpdateHasStripePayoutMethodActivatedArgs = {
     cookId: Scalars['String'];
 };
 
@@ -3599,6 +3604,15 @@ export type UpdateCookBiographyMutationVariables = Exact<{
 }>;
 
 export type UpdateCookBiographyMutation = { __typename?: 'Mutation'; cooks: { __typename?: 'CookMutation'; success: boolean } };
+
+export type UpdateCookHasStripePayoutMethodActivatedMutationVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type UpdateCookHasStripePayoutMethodActivatedMutation = {
+    __typename?: 'Mutation';
+    cooks: { __typename?: 'CookMutation'; success: boolean };
+};
 
 export type UpdateCookIsLockedMutationVariables = Exact<{
     cookId: Scalars['String'];
@@ -10124,6 +10138,49 @@ export const UpdateCookBiographyDocument = {
         },
     ],
 } as unknown as DocumentNode<UpdateCookBiographyMutation, UpdateCookBiographyMutationVariables>;
+export const UpdateCookHasStripePayoutMethodActivatedDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateCookHasStripePayoutMethodActivated' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'updateHasStripePayoutMethodActivated' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateCookHasStripePayoutMethodActivatedMutation, UpdateCookHasStripePayoutMethodActivatedMutationVariables>;
 export const UpdateCookIsLockedDocument = {
     kind: 'Document',
     definitions: [
