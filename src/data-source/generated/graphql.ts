@@ -205,6 +205,7 @@ export type Cook = {
     createdAt: Scalars['DateTime'];
     followerCount: Scalars['UnsignedInt'];
     followers: Array<Following>;
+    hasStripePayoutMethodActivated: Scalars['Boolean'];
     isLocked: Scalars['Boolean'];
     isVisible: Scalars['Boolean'];
     languages: Array<Language>;
@@ -2947,6 +2948,7 @@ export type GetCookProfileQueryQuery = {
             travelExpenses: number;
             ratingAverage: number;
             ratingCount: number;
+            hasStripePayoutMethodActivated: boolean;
             user: {
                 __typename?: 'User';
                 firstName: string;
@@ -7005,6 +7007,7 @@ export const GetCookProfileQueryDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'ratingAverage' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'ratingCount' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'hasStripePayoutMethodActivated' } },
                                         ],
                                     },
                                 },

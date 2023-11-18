@@ -1,4 +1,5 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import { Dialog, DialogContent } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import classNames from 'classnames';
 import useTranslation from 'next-translate/useTranslation';
@@ -76,7 +77,12 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
         variables: { cookId, maximumParticipants: maximumParticipants ?? 0 },
     });
 
-    const { data, loading, error, refetch } = useQuery(GetCookProfileQueryDocument, {
+    const {
+        data,
+        loading: loadingCookProfile,
+        error,
+        refetch,
+    } = useQuery(GetCookProfileQueryDocument, {
         variables: { cookId },
     });
 
@@ -117,8 +123,12 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
     const [updateCookLocation] = useMutation(UpdateCookLocationDocument);
     const [updateCookIsVisible] = useMutation(UpdateCookIsVisibleDocument);
 
-    const [getStripeOnboardingUrl] = useLazyQuery(CookGetStripeOnboardingUrlDocument, { variables: { cookId } });
-    const [getStripeDashboardUrl] = useLazyQuery(CookGetStripeDashboardUrlDocument, { variables: { cookId } });
+    const [getStripeOnboardingUrl, { loading: loadingStripeOnboardingUrl }] = useLazyQuery(CookGetStripeOnboardingUrlDocument, {
+        variables: { cookId },
+    });
+    const [getStripeDashboardUrl, { loading: loadingStripeDashboardUrl }] = useLazyQuery(CookGetStripeDashboardUrlDocument, {
+        variables: { cookId },
+    });
 
     return (
         <VStack className="w-full max-w-screen-xl mb-[80px] lg_min:my-10 md:my-2 gap-6 md:gap-3 box-border">
@@ -144,30 +154,34 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                         <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>{t('section-public-no-visible')}</span>
                         <Spacer />
                         <HStack style={{ width: 600 }} gap={32}>
-                            <PEButton
-                                title="Stripe Onboarding"
-                                onClick={(): void =>
-                                    void getStripeOnboardingUrl()
-                                        .then(
-                                            ({ data: sData }) =>
-                                                sData?.cooks.getStripeOnboardingUrl &&
-                                                window.open(sData.cooks.getStripeOnboardingUrl, '_blank'),
-                                        )
-                                        .catch((e) => console.error(e))
-                                }
-                            />
-                            <PEButton
-                                title="Stripe Dashboard"
-                                onClick={(): void =>
-                                    void getStripeDashboardUrl()
-                                        .then(
-                                            ({ data: sData }) =>
-                                                sData?.cooks.getStripeDashboardUrl &&
-                                                window.open(sData.cooks.getStripeDashboardUrl, '_blank'),
-                                        )
-                                        .catch((e) => console.error(e))
-                                }
-                            />
+                            {!chefProfile.hasStripePayoutMethodActivated && (
+                                <PEButton
+                                    title="Stripe Onboarding"
+                                    onClick={(): void =>
+                                        void getStripeOnboardingUrl()
+                                            .then(
+                                                ({ data: sData }) =>
+                                                    sData?.cooks.getStripeOnboardingUrl &&
+                                                    window.open(sData.cooks.getStripeOnboardingUrl, '_blank'),
+                                            )
+                                            .catch((e) => console.error(e))
+                                    }
+                                />
+                            )}
+                            {chefProfile.hasStripePayoutMethodActivated && (
+                                <PEButton
+                                    title="Stripe Dashboard"
+                                    onClick={(): void =>
+                                        void getStripeDashboardUrl()
+                                            .then(
+                                                ({ data: sData }) =>
+                                                    sData?.cooks.getStripeDashboardUrl &&
+                                                    window.open(sData.cooks.getStripeDashboardUrl, '_blank'),
+                                            )
+                                            .catch((e) => console.error(e))
+                                    }
+                                />
+                            )}
                         </HStack>
                     </HStack>
 
@@ -334,7 +348,11 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                 </>
             )}
 
-            {loading && <CircularProgress />}
+            <Dialog open={loadingCookProfile || loadingStripeOnboardingUrl || loadingStripeDashboardUrl}>
+                <DialogContent>
+                    <CircularProgress />
+                </DialogContent>
+            </Dialog>
 
             {error && <>{commonTranslations('error')}</>}
         </VStack>

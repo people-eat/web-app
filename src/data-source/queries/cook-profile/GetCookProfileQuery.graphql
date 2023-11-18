@@ -41,6 +41,7 @@ query GetCookProfileQuery($cookId: String!) {
             travelExpenses
             ratingAverage
             ratingCount
+            hasStripePayoutMethodActivated
         }
     }
 }
