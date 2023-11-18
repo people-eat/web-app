@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { Dialog, DialogContent } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { type NextPage } from 'next';
 import Head from 'next/head';
@@ -53,7 +53,7 @@ const Index: NextPage = () => {
             <VStack className="w-full min-h-screen" gap={64}>
                 <PEHeader />
 
-                {state !== 'SUCCESSFUL' && (
+                {state === 'SUCCESSFUL' && (
                     <VStack gap={64}>
                         <h1>Dein Wallet wurde erfolgreich angelegt!</h1>
 
@@ -61,7 +61,7 @@ const Index: NextPage = () => {
 
                         <Image src="/wallet-onboarding-successful.png" alt="" width={400} height={400} style={{ objectFit: 'cover' }} />
 
-                        <Link href="chef-profile" className="no-underline">
+                        <Link href="/chef-profile" className="no-underline">
                             <PEButton title="Zum Koch Profil" onClick={(): void => undefined} />
                         </Link>
                     </VStack>
@@ -75,10 +75,10 @@ const Index: NextPage = () => {
                     </DialogContent>
                 </Dialog>
 
-                {/* <Dialog open={state === 'FAILED'}>
+                <Dialog open={state === 'FAILED'}>
                     <DialogTitle>Da ist etwas schief gelaufen</DialogTitle>
                     <DialogContent>Es ist ein unerwarteter Fehler aufgetreten</DialogContent>
-                </Dialog> */}
+                </Dialog>
 
                 <Spacer />
 
