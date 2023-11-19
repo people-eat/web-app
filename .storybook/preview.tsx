@@ -9,10 +9,6 @@ import commonGerman from '../locales/de/common.json';
 import homeGerman from '../locales/de/home.json';
 import commonEnglish from '../locales/en/common.json';
 import homeEnglish from '../locales/en/home.json';
-import commonFrench from '../locales/fr/common.json';
-import homeFrench from '../locales/fr/home.json';
-import commonRussian from '../locales/ru/common.json';
-import homeRussian from '../locales/ru/home.json';
 import { theme } from '../src/pages/_app';
 import '../src/styles/globals.css';
 
@@ -24,8 +20,8 @@ export const decorators = [
         let nameSpaces = { common: commonEnglish, home: homeEnglish };
 
         if (language === 'de') nameSpaces = { common: commonGerman, home: homeGerman };
-        if (language === 'ru') nameSpaces = { common: commonRussian, home: homeRussian };
-        if (language === 'fr') nameSpaces = { common: commonFrench, home: homeFrench };
+        // if (language === 'ru') nameSpaces = { common: commonRussian, home: homeRussian };
+        // if (language === 'fr') nameSpaces = { common: commonFrench, home: homeFrench };
 
         return (
             <ThemeProvider theme={theme}>
@@ -47,9 +43,9 @@ const preview: Preview = {
                 icon: 'globe',
                 items: [
                     { value: 'de', right: '🇩🇪', title: 'German' },
-                    { value: 'fr', right: '🇫🇷', title: 'French' },
+                    // { value: 'fr', right: '🇫🇷', title: 'French' },
                     { value: 'en', right: '🇺🇸', title: 'English' },
-                    { value: 'ru', right: '🇷🇺', title: 'Russian' },
+                    // { value: 'ru', right: '🇷🇺', title: 'Russian' },
                 ],
             },
         },
