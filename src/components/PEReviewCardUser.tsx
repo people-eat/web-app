@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import HStack from '../../utility/hStack/HStack';
-import VStack from '../../utility/vStack/VStack';
-import PEButton from '../buttons/PEButton';
-import { Icon } from '../icon/Icon';
-import PEIcon from '../icon/PEIcon';
-import PEMultiLineTextField from '../textFields/PEMultiLineTextField';
+import PEButton from './standard/buttons/PEButton';
+import { Icon } from './standard/icon/Icon';
+import PEIcon from './standard/icon/PEIcon';
+import PEMultiLineTextField from './standard/textFields/PEMultiLineTextField';
+import HStack from './utility/hStack/HStack';
+import VStack from './utility/vStack/VStack';
 
 const reviewsFields = ['Quelitat des Essens', 'Kommunikation', 'Wie beaurteilen Sie die Qualitat der Reiniging', 'Service'];
 // there are missing props because I wasn't sure what they need to contain, should only signedInUser and setOpen or to have something more

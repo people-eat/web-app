@@ -125,7 +125,7 @@ export default function GlobalBookingRequestPageStep1({
             <VStack gap={4} className="w-full" style={{ alignItems: 'flex-start' }}>
                 <h3>{t('budget-label')}</h3>
 
-                <HStack gap={16} style={{ paddingTop: 8 }}>
+                <HStack gap={16} style={{ paddingTop: 8, flexWrap: 'wrap' }}>
                     <PriceClassCard
                         id="A"
                         title={'Einfaches Menü'}

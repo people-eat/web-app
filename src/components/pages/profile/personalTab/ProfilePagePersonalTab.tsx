@@ -1,9 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import CakeIcon from '@mui/icons-material/Cake';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import { Dialog, DialogContent } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import List from '@mui/material/List';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -25,6 +23,7 @@ import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PEImagePicker from '../../../standard/imagePicker/PEImagePicker';
+import PEMobileBottomSheet from '../../../standard/modal/PEMobileBottomSheet';
 import PEModalPopUp from '../../../standard/modal/PEModalPopUp';
 import PEEmailTextField from '../../../standard/textFields/PEEmailTextField';
 import PEPasswordTextField from '../../../standard/textFields/PEPasswordTextField';
@@ -518,72 +517,34 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                         </PEModalPopUp>
                     )}
 
-                    {isMobile && (
-                        <div style={{ position: 'absolute', height: '100vh', overflowY: 'scroll' }}>
-                            <Dialog
-                                sx={{
-                                    height: '100vh',
-                                    width: '100%',
-                                    minHeight: '90%',
-                                    minWidth: '100%',
-                                    overflow: 'hidden',
-                                    position: 'relative',
-                                    '& .MuiPaper-root': {
-                                        margin: '5vh 0 0',
-                                        borderRadius: '16px 16px 0 0',
-                                        padding: '16px',
-                                        boxSizing: 'border-box',
-                                        minHeight: '95vh',
-                                        minWidth: '100%',
-                                    },
-                                }}
-                                aria-describedby="alert-dialog-slide-description"
-                                open={edit}
-                                onClose={(): void => setEdit(false)}
-                            >
-                                <List
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        flexDirection: 'column',
-                                        minHeight: '90%',
-                                        minWidth: '100%',
-                                        height: '80vh',
-                                    }}
-                                >
-                                    <DialogContent sx={{ padding: '30px 0' }}>
-                                        <h2 className="m-0 pb-5">{t('popup-edit-user-profile')}</h2>
-                                        <VStack className="w-full gap-4" style={{ alignItems: 'flex-start' }}>
-                                            <PEPhoneNumberTextField
-                                                phoneNumber={editPhoneNumber}
-                                                onChange={(newPhoneNumber: string): void => setEditPhoneNumber(newPhoneNumber)}
-                                            />
-                                            <PEEmailTextField
-                                                email={editEmail}
-                                                onChange={(newEmail: string): void => setEditEmail(newEmail)}
-                                                placeholder={userProfile?.emailAddressUpdate?.emailAddress ?? ''}
-                                            />
-                                            <PEImagePicker
-                                                onPick={setEditedProfilePicture}
-                                                defaultImage={image}
-                                                onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
-                                            />
-                                        </VStack>
-                                        <PEButton
-                                            className="max-w-[250px] mt-10"
-                                            onClick={handleSaveProfileInfo}
-                                            title={t('popup-edit-button')}
-                                            disabled={
-                                                editedProfilePicture === null &&
-                                                editPhoneNumber === userProfile?.phoneNumber &&
-                                                editBirthDate === (userProfile?.birthDate ? new Date(userProfile.birthDate) : null)
-                                            }
-                                        />
-                                    </DialogContent>
-                                </List>
-                            </Dialog>
-                        </div>
-                    )}
+                    <PEMobileBottomSheet open={edit && isMobile} onClose={(): void => setEdit(false)} title={t('popup-edit-user-profile')}>
+                        <VStack style={{ alignItems: 'flex-start' }} gap={16}>
+                            <PEPhoneNumberTextField
+                                phoneNumber={editPhoneNumber}
+                                onChange={(newPhoneNumber: string): void => setEditPhoneNumber(newPhoneNumber)}
+                            />
+                            <PEEmailTextField
+                                email={editEmail}
+                                onChange={(newEmail: string): void => setEditEmail(newEmail)}
+                                placeholder={userProfile?.emailAddressUpdate?.emailAddress ?? ''}
+                            />
+                            <PEImagePicker
+                                onPick={setEditedProfilePicture}
+                                defaultImage={image}
+                                onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
+                            />
+                        </VStack>
+
+                        <PEButton
+                            onClick={handleSaveProfileInfo}
+                            title={t('popup-edit-button')}
+                            disabled={
+                                editedProfilePicture === null &&
+                                editPhoneNumber === userProfile?.phoneNumber &&
+                                editBirthDate === (userProfile?.birthDate ? new Date(userProfile.birthDate) : null)
+                            }
+                        />
+                    </PEMobileBottomSheet>
                 </>
             )}
 
