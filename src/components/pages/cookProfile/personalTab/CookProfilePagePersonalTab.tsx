@@ -141,49 +141,62 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                         style={{ alignItems: 'center', justifyContent: 'flex-start' }}
                         gap={32}
                     >
-                        <PECheckbox
-                            checked={chefProfile.isVisible}
-                            onCheckedChange={(): void =>
-                                void updateCookIsVisible({ variables: { cookId, isVisible: !chefProfile.isVisible } }).then(
-                                    (res) => res.data?.cooks.success && void refetch(),
-                                )
-                            }
-                        />
-                        <span className={classNames({ ['text-disabled']: !chefProfile.isVisible })}>{t('section-public-visible')}</span>
-                        &nbsp;/&nbsp;
-                        <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>{t('section-public-no-visible')}</span>
-                        <Spacer />
-                        <HStack style={{ width: 600 }} gap={32}>
-                            {!chefProfile.hasStripePayoutMethodActivated && (
-                                <PEButton
-                                    title="Stripe Onboarding"
-                                    onClick={(): void => {
-                                        const openEvent = window.open('', '_blank');
-                                        void getStripeOnboardingUrl()
-                                            .then(({ data: sData }) => {
-                                                if (sData?.cooks.getStripeOnboardingUrl)
-                                                    openEvent!.location.href = sData.cooks.getStripeOnboardingUrl;
-                                            })
-                                            .catch((e) => console.error(e));
-                                    }}
-                                />
-                            )}
-                            {chefProfile.hasStripePayoutMethodActivated && (
-                                <PEButton
-                                    title="Stripe Dashboard"
-                                    onClick={(): void => {
-                                        const openEvent = window.open('', '_blank');
-                                        void getStripeDashboardUrl()
-                                            .then(({ data: sData }) => {
-                                                if (sData?.cooks.getStripeDashboardUrl)
-                                                    openEvent!.location.href = sData.cooks.getStripeDashboardUrl;
-                                            })
-                                            .catch((e) => console.error(e));
-                                    }}
-                                />
-                            )}
+                        <HStack style={{ alignItems: 'center' }}>
+                            <PECheckbox
+                                checked={chefProfile.isVisible}
+                                onCheckedChange={(): void =>
+                                    void updateCookIsVisible({ variables: { cookId, isVisible: !chefProfile.isVisible } }).then(
+                                        (res) => res.data?.cooks.success && void refetch(),
+                                    )
+                                }
+                            />
+                            <span className={classNames({ ['text-disabled']: !chefProfile.isVisible })}>{t('section-public-visible')}</span>
+                            &nbsp;/&nbsp;
+                            <span className={classNames({ ['text-disabled']: chefProfile.isVisible })}>
+                                {t('section-public-no-visible')}
+                            </span>
                         </HStack>
+                        <Spacer />
                     </HStack>
+
+                    <VStack className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4 gap-3">
+                        <HStack className="w-full" style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+                            <h2 style={{ lineHeight: 0 }}>Ein- und Auszahlungen</h2>
+                        </HStack>
+                        <HStack gap={32} className="w-full">
+                            <HStack>
+                                {!chefProfile.hasStripePayoutMethodActivated && (
+                                    <PEButton
+                                        title="Wallet hinzufügen"
+                                        onClick={(): void => {
+                                            const openEvent = window.open('', '_blank');
+                                            void getStripeOnboardingUrl()
+                                                .then(({ data: sData }) => {
+                                                    if (sData?.cooks.getStripeOnboardingUrl)
+                                                        openEvent!.location.href = sData.cooks.getStripeOnboardingUrl;
+                                                })
+                                                .catch((e) => console.error(e));
+                                        }}
+                                    />
+                                )}
+                                {chefProfile.hasStripePayoutMethodActivated && (
+                                    <PEButton
+                                        title="Transaktionen Anzeigen"
+                                        onClick={(): void => {
+                                            const openEvent = window.open('', '_blank');
+                                            void getStripeDashboardUrl()
+                                                .then(({ data: sData }) => {
+                                                    if (sData?.cooks.getStripeDashboardUrl)
+                                                        openEvent!.location.href = sData.cooks.getStripeDashboardUrl;
+                                                })
+                                                .catch((e) => console.error(e));
+                                        }}
+                                    />
+                                )}
+                            </HStack>
+                            <Spacer />
+                        </HStack>
+                    </VStack>
 
                     <ChefProfileSection2 chefBiography={biography} cookId={cookId} />
 
