@@ -157,29 +157,29 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                             {!chefProfile.hasStripePayoutMethodActivated && (
                                 <PEButton
                                     title="Stripe Onboarding"
-                                    onClick={(): void =>
+                                    onClick={(): void => {
+                                        const openEvent = window.open('', '_blank');
                                         void getStripeOnboardingUrl()
-                                            .then(
-                                                ({ data: sData }) =>
-                                                    sData?.cooks.getStripeOnboardingUrl &&
-                                                    window.open(sData.cooks.getStripeOnboardingUrl, '_blank'),
-                                            )
-                                            .catch((e) => console.error(e))
-                                    }
+                                            .then(({ data: sData }) => {
+                                                if (sData?.cooks.getStripeOnboardingUrl)
+                                                    openEvent!.location.href = sData.cooks.getStripeOnboardingUrl;
+                                            })
+                                            .catch((e) => console.error(e));
+                                    }}
                                 />
                             )}
                             {chefProfile.hasStripePayoutMethodActivated && (
                                 <PEButton
                                     title="Stripe Dashboard"
-                                    onClick={(): void =>
+                                    onClick={(): void => {
+                                        const openEvent = window.open('', '_blank');
                                         void getStripeDashboardUrl()
-                                            .then(
-                                                ({ data: sData }) =>
-                                                    sData?.cooks.getStripeDashboardUrl &&
-                                                    window.open(sData.cooks.getStripeDashboardUrl, '_blank'),
-                                            )
-                                            .catch((e) => console.error(e))
-                                    }
+                                            .then(({ data: sData }) => {
+                                                if (sData?.cooks.getStripeDashboardUrl)
+                                                    openEvent!.location.href = sData.cooks.getStripeDashboardUrl;
+                                            })
+                                            .catch((e) => console.error(e));
+                                    }}
                                 />
                             )}
                         </HStack>
