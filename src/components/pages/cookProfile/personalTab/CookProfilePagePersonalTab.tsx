@@ -357,7 +357,7 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
 
                     {/* <ChefProfileCertificationsSection /> */}
 
-                    <ChefProfileSection5 chefProfile={chefProfile} />
+                    <ChefProfileSection5 chefProfile={chefProfile} onInvalidate={(): void => void refetch()} />
                 </>
             )}
 

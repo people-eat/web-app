@@ -9,6 +9,7 @@ import PEMealCardDesktop from '../../../../../cards/mealCard/PEMealCardDesktop';
 import PEButton from '../../../../../standard/buttons/PEButton';
 import { Icon } from '../../../../../standard/icon/Icon';
 import PEIconButton from '../../../../../standard/iconButton/PEIconButton';
+import PEMobileBottomSheet from '../../../../../standard/modal/PEMobileBottomSheet';
 import PETabItem from '../../../../../standard/tabItem/PETabItem';
 import HStack from '../../../../../utility/hStack/HStack';
 import Spacer from '../../../../../utility/spacer/Spacer';
@@ -46,62 +47,113 @@ export default function UpdateCookMenuCourseDialog({
     const [selectedMeals, setSelectedMeals] = useState<Map<string, MealEntity>>(selectedCourseMeals);
 
     return (
-        <Dialog open={open} maxWidth="md">
-            <DialogTitle>
-                <HStack>
-                    <span>{t('create-menu-add-meals-title', { courseTitle: title })}</span>
-                    <Spacer />
-                    <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
-                </HStack>
-            </DialogTitle>
-            <DialogContent sx={{ margin: 0, padding: isMobile ? '8px' : '16px', boxSizing: 'border-box' }}>
-                <DialogContentText>
-                    <VStack gap={32}>
-                        <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start', overflowX: 'scroll' }}>
-                            <PETabItem
-                                title={translateMealType('meal-type-all')}
-                                onClick={(): void => setSelectedMealType('ALL')}
-                                active={selectedMealType === 'ALL'}
-                            />
-
-                            {mealTypes.map((mealType, index) => (
+        <>
+            <Dialog open={open && !isMobile} maxWidth="md">
+                <DialogTitle>
+                    <HStack>
+                        <span>{t('create-menu-add-meals-title', { courseTitle: title })}</span>
+                        <Spacer />
+                        <PEIconButton withoutShadow bg="white" icon={Icon.close} onClick={onCancel} iconSize={24} />
+                    </HStack>
+                </DialogTitle>
+                <DialogContent sx={{ margin: 0, padding: isMobile ? '8px' : '16px', boxSizing: 'border-box' }}>
+                    <DialogContentText>
+                        <VStack gap={32}>
+                            <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start', overflowX: 'scroll' }}>
                                 <PETabItem
-                                    key={index}
-                                    title={translateMealType(mealTypeTranslations[mealType])}
-                                    onClick={(): void => setSelectedMealType(mealType)}
-                                    active={selectedMealType === mealType}
+                                    title={translateMealType('meal-type-all')}
+                                    onClick={(): void => setSelectedMealType('ALL')}
+                                    active={selectedMealType === 'ALL'}
                                 />
-                            ))}
-                        </HStack>
 
-                        <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-                            {meals
-                                .filter(({ type }) => (selectedMealType === 'ALL' ? true : type === selectedMealType))
-                                .map((meal, index) => (
-                                    <div key={index} className="flex basis-[340px]">
-                                        <PEMealCardDesktop
-                                            onClick={(): void => {
-                                                if (selectedMeals.has(meal.mealId)) selectedMeals.delete(meal.mealId);
-                                                else selectedMeals.set(meal.mealId, meal);
-                                                setSelectedMeals(new Map(selectedMeals));
-                                            }}
-                                            title={meal.title}
-                                            description={meal.description}
-                                            imageUrl={meal.imageUrl ?? undefined}
-                                            active={selectedMeals.has(meal.mealId)}
-                                        />
-                                    </div>
+                                {mealTypes.map((mealType, index) => (
+                                    <PETabItem
+                                        key={index}
+                                        title={translateMealType(mealTypeTranslations[mealType])}
+                                        onClick={(): void => setSelectedMealType(mealType)}
+                                        active={selectedMealType === mealType}
+                                    />
                                 ))}
-                        </HStack>
-                    </VStack>
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <PEButton
-                    title={t('create-menu-courses-save-course')}
-                    onClick={(): void => onSuccess({ title, mealOptions: Array.from(selectedMeals.values()) })}
-                />
-            </DialogActions>
-        </Dialog>
+                            </HStack>
+
+                            <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                                {meals
+                                    .filter(({ type }) => (selectedMealType === 'ALL' ? true : type === selectedMealType))
+                                    .map((meal, index) => (
+                                        <div key={index} className="flex basis-[340px]">
+                                            <PEMealCardDesktop
+                                                onClick={(): void => {
+                                                    if (selectedMeals.has(meal.mealId)) selectedMeals.delete(meal.mealId);
+                                                    else selectedMeals.set(meal.mealId, meal);
+                                                    setSelectedMeals(new Map(selectedMeals));
+                                                }}
+                                                title={meal.title}
+                                                description={meal.description}
+                                                imageUrl={meal.imageUrl ?? undefined}
+                                                active={selectedMeals.has(meal.mealId)}
+                                            />
+                                        </div>
+                                    ))}
+                            </HStack>
+                        </VStack>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <PEButton
+                        title={t('create-menu-courses-save-course')}
+                        onClick={(): void => onSuccess({ title, mealOptions: Array.from(selectedMeals.values()) })}
+                    />
+                </DialogActions>
+            </Dialog>
+
+            <PEMobileBottomSheet
+                open={open && isMobile}
+                onClose={onCancel}
+                title={t('create-menu-add-meals-title', { courseTitle: title })}
+            >
+                <VStack gap={32}>
+                    <HStack gap={16} className="w-full" style={{ justifyContent: 'flex-start', overflowX: 'scroll' }}>
+                        <PETabItem
+                            title={translateMealType('meal-type-all')}
+                            onClick={(): void => setSelectedMealType('ALL')}
+                            active={selectedMealType === 'ALL'}
+                        />
+
+                        {mealTypes.map((mealType, index) => (
+                            <PETabItem
+                                key={index}
+                                title={translateMealType(mealTypeTranslations[mealType])}
+                                onClick={(): void => setSelectedMealType(mealType)}
+                                active={selectedMealType === mealType}
+                            />
+                        ))}
+                    </HStack>
+
+                    <HStack gap={16} className="w-full" style={{ flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+                        {meals
+                            .filter(({ type }) => (selectedMealType === 'ALL' ? true : type === selectedMealType))
+                            .map((meal, index) => (
+                                <div key={index} className="flex basis-[340px]">
+                                    <PEMealCardDesktop
+                                        onClick={(): void => {
+                                            if (selectedMeals.has(meal.mealId)) selectedMeals.delete(meal.mealId);
+                                            else selectedMeals.set(meal.mealId, meal);
+                                            setSelectedMeals(new Map(selectedMeals));
+                                        }}
+                                        title={meal.title}
+                                        description={meal.description}
+                                        imageUrl={meal.imageUrl ?? undefined}
+                                        active={selectedMeals.has(meal.mealId)}
+                                    />
+                                </div>
+                            ))}
+                    </HStack>
+                    <PEButton
+                        title={t('create-menu-courses-save-course')}
+                        onClick={(): void => onSuccess({ title, mealOptions: Array.from(selectedMeals.values()) })}
+                    />
+                </VStack>
+            </PEMobileBottomSheet>
+        </>
     );
 }

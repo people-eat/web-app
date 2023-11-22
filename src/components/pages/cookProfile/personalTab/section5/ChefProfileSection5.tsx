@@ -4,7 +4,6 @@ import { useState, type ReactElement } from 'react';
 import {
     AddOneCookLanguageDocument,
     FindLanguagesDocument,
-    GetCookProfileQueryDocument,
     RemoveOneCookLanguageDocument,
 } from '../../../../../data-source/generated/graphql';
 import PEChoice from '../../../../standard/choice/PEChoice';
@@ -16,17 +15,16 @@ import Spacer from '../../../../utility/spacer/Spacer';
 import VStack from '../../../../utility/vStack/VStack';
 
 export interface ChefProfileSection5Props {
+    onInvalidate: () => void;
     chefProfile: {
         cookId: string;
         languages: { languageId: string; title: string }[];
     };
 }
 
-export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5Props): ReactElement {
+export default function ChefProfileSection5({ chefProfile, onInvalidate }: ChefProfileSection5Props): ReactElement {
     const { t } = useTranslation('chef-profile');
     const [languageSearchText, setLanguageSearchText] = useState('');
-
-    const { refetch: chefRefetch } = useQuery(GetCookProfileQueryDocument, { variables: { cookId: chefProfile.cookId } });
 
     const { data, loading } = useQuery(FindLanguagesDocument);
 
@@ -45,7 +43,7 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
                     languageId,
                 },
             }).then((): void => {
-                void chefRefetch();
+                onInvalidate();
                 setLanguageSearchText('');
             });
         } catch (e) {
@@ -60,9 +58,7 @@ export default function ChefProfileSection5({ chefProfile }: ChefProfileSection5
                     cookId: chefProfile.cookId,
                     languageId,
                 },
-            }).then((): void => {
-                void chefRefetch();
-            });
+            }).then((): void => onInvalidate());
         } catch (e) {
             console.error(e);
         }

@@ -1,6 +1,4 @@
 import { useMutation } from '@apollo/client';
-import Dialog from '@mui/material/Dialog';
-import List from '@mui/material/List';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,6 +10,7 @@ import { Icon } from '../../../../standard/icon/Icon';
 import PEIcon from '../../../../standard/icon/PEIcon';
 import PEIconButton from '../../../../standard/iconButton/PEIconButton';
 import PEImagePicker from '../../../../standard/imagePicker/PEImagePicker';
+import PEMobileBottomSheet from '../../../../standard/modal/PEMobileBottomSheet';
 import PEModalPopUp from '../../../../standard/modal/PEModalPopUp';
 import HStack from '../../../../utility/hStack/HStack';
 import Spacer from '../../../../utility/spacer/Spacer';
@@ -89,7 +88,6 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             height={isMobile ? 60 : 120}
                         />
                     )}
-
                     {!image && (
                         <div
                             className="bg-base rounded-2 flex justify-center items-center"
@@ -102,7 +100,6 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             <PEIcon edgeLength={32} icon={Icon.profileLight} />
                         </div>
                     )}
-
                     <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-start', width: isMobile ? '100%' : 'auto' }}>
                         <HStack
                             className="gap-4"
@@ -123,9 +120,7 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                             </div>
                         </HStack>
                     </VStack>
-
                     {!isMobile ? <Spacer /> : null}
-
                     {!isMobile && (
                         <VStack style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
                             <Link href="/profile" className="no-underline">
@@ -183,59 +178,23 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                 </PEModalPopUp>
             )}
 
-            {isMobile && (
-                <Dialog
-                    sx={{
-                        height: '100vh',
-                        width: '100%',
-                        minHeight: '90%',
-                        minWidth: '100%',
-                        overflow: 'hidden',
-                        position: 'relative',
-                        '& .MuiPaper-root': {
-                            margin: '5vh 0 0',
-                            borderRadius: '16px 16px 0 0',
-                            padding: '16px',
-                            boxSizing: 'border-box',
-                            minHeight: '95vh',
-                            minWidth: '100%',
-                        },
-                    }}
-                    open={edit}
-                    onClose={handleClose}
-                >
-                    <List
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            flexDirection: 'column',
-                            minHeight: '90%',
-                            minWidth: '100%',
-                            height: '80vh',
-                        }}
-                    >
-                        <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
-                            <div className="absolute top-8 right-8 md:top-2 md:right-0">
-                                <PEIconButton icon={Icon.close} onClick={handleClose} withoutShadow bg="white" iconSize={24} />
-                            </div>
-                            <h2 className="m-0 pb-5 w-full">{t('popup-edit-user-profile')}</h2>
-                            <VStack className="w-full gap-4" style={{ alignItems: 'flex-start', justifyContent: 'center' }}>
-                                <PEImagePicker
-                                    onPick={setEditedProfilePicture}
-                                    defaultImage={image}
-                                    onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
-                                />
-                            </VStack>
-                            <PEButton
-                                className="max-w-[250px] mt-10"
-                                onClick={handleSaveProfileInfo}
-                                title={t('popup-edit-button')}
-                                disabled={editedProfilePicture === null}
-                            />
-                        </VStack>
-                    </List>
-                </Dialog>
-            )}
+            <PEMobileBottomSheet open={isMobile && edit} onClose={handleClose} title={t('popup-edit-user-profile')}>
+                <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
+                    <VStack className="w-full gap-4" style={{ alignItems: 'flex-start', justifyContent: 'center' }}>
+                        <PEImagePicker
+                            onPick={setEditedProfilePicture}
+                            defaultImage={image}
+                            onRemoveDefaultImage={(): void => setEditedProfilePicture(undefined)}
+                        />
+                    </VStack>
+                    <PEButton
+                        className="max-w-[250px] mt-10"
+                        onClick={handleSaveProfileInfo}
+                        title={t('popup-edit-button')}
+                        disabled={editedProfilePicture === null}
+                    />
+                </VStack>
+            </PEMobileBottomSheet>
         </>
     );
 }

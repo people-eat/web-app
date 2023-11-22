@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import CakeIcon from '@mui/icons-material/Cake';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
@@ -445,20 +446,17 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                             </HStack>
                         </VStack>
 
-                        <PEModalPopUp
-                            width={isMobile ? '100%' : 750}
-                            openMenu={showPasswordChangeSuccessDialog}
-                            handleOpenMenu={(): void => setShowPasswordChangeSuccessDialog(false)}
-                        >
-                            <VStack className="w-[750px] md:w-full md:h-full px-10 md:px-4 py-15 md:py-4 box-border relative">
-                                <h2 className="m-0 pb-5">{t('password-popup-success-title')}</h2>
+                        <Dialog open={showPasswordChangeSuccessDialog}>
+                            <DialogTitle>{t('password-popup-success-title')}</DialogTitle>
+                            <DialogContent>
+                                <p>Dein Passwort wurde erfolgreich geändert. Du kannst es bei Deiner nächsten Anmeldung verwenden.</p>
                                 <PEButton
                                     className="max-w-[250px] mt-10"
                                     onClick={(): void => setShowPasswordChangeSuccessDialog(false)}
                                     title={t('password-popup-close')}
                                 />
-                            </VStack>
-                        </PEModalPopUp>
+                            </DialogContent>
+                        </Dialog>
 
                         <PEModalPopUp
                             width={isMobile ? '100%' : 750}

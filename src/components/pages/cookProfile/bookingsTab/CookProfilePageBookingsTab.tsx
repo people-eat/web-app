@@ -1,5 +1,16 @@
 import { useQuery } from '@apollo/client';
-import { Divider, List, ListItemButton, Skeleton } from '@mui/material';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    List,
+    ListItemButton,
+    Skeleton,
+} from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -131,6 +142,21 @@ export default function CookProfilePageBookingsTab({ cookId }: CookProfilePageBo
                     {!selectedBookingRequestId && translateGlobalBookingRequest('booking-selection')}
                 </VStack>
             </HStack>
+
+            <Dialog open={false}>
+                <DialogTitle>Wallet hinzufügen um fortzufahren</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Um Buchungsanfragen zukünftig akzeptieren zu können, schließe die Einrichtung deines Kontos bitte ab.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button>Abbrechen</Button>
+                    <Button variant="contained" autoFocus>
+                        Wallet hinzufügen
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }
