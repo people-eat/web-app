@@ -148,7 +148,6 @@ export default function GlobalBookingRequestPageStep1({
                         id="C"
                         title={'Gourmet Menü'}
                         min={130}
-                        max={200}
                         currencyCode={'EUR'}
                         selected={priceClassType === 'GOURMET'}
                         onClick={(): void => setPriceClassType('GOURMET')}
