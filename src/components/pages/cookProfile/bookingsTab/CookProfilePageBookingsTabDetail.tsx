@@ -1,5 +1,16 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Button, CircularProgress, Dialog, DialogContent, DialogTitle, Divider, Tab, Tabs } from '@mui/material';
+import {
+    Button,
+    CircularProgress,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    Tab,
+    Tabs,
+} from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -29,6 +40,7 @@ export interface CookProfilePageBookingsTabProps {
     onClose: () => void;
 }
 
+// eslint-disable-next-line max-statements
 export default function CookProfilePageBookingsTabDetail({
     cookId,
     bookingRequestId,
@@ -45,12 +57,14 @@ export default function CookProfilePageBookingsTabDetail({
 
     const [showAcceptDialog, setShowAcceptDialog] = useState(false);
     const [showDeclineDialog, setShowDeclineDialog] = useState(false);
+    const [showCompleteStripeOnboardingDialog, setShowCompleteStripeOnboardingDialog] = useState(false);
 
     const [acceptBookingRequest, { loading: acceptLoading }] = useMutation(CookBookingRequestAcceptDocument);
     const [declineBookingRequest, { loading: declineLoading }] = useMutation(CookBookingRequestDeclineDocument);
     const [createMessage, { loading: createMessageLoading }] = useMutation(CreateOneCookBookingRequestChatMessageDocument);
 
     const bookingRequest = data?.cooks.bookingRequests.findOne;
+    const hasStripePayoutMethodActivated = data?.cooks.findOne?.hasStripePayoutMethodActivated;
 
     useEffect(() => {
         if (bookingRequest?.status === 'COMPLETED') setTab('RATING');
@@ -107,7 +121,14 @@ export default function CookProfilePageBookingsTabDetail({
                             {bookingRequest.cookAccepted === null && bookingRequest.userAccepted === true && (
                                 <>
                                     <PEButton onClick={(): void => setShowDeclineDialog(true)} title="Ablehnen" size="s" type="secondary" />
-                                    <PEButton onClick={(): void => setShowAcceptDialog(true)} title="Akzeptieren" size="s" />
+                                    <PEButton
+                                        onClick={(): void => {
+                                            if (hasStripePayoutMethodActivated) setShowAcceptDialog(true);
+                                            else setShowCompleteStripeOnboardingDialog(true);
+                                        }}
+                                        title="Akzeptieren"
+                                        size="s"
+                                    />
                                 </>
                             )}
                             {bookingRequest.cookAccepted === true && bookingRequest.userAccepted === null && (
@@ -276,6 +297,21 @@ export default function CookProfilePageBookingsTabDetail({
                         </HStack>
                     </VStack>
                 </DialogContent>
+            </Dialog>
+
+            <Dialog open={showCompleteStripeOnboardingDialog} onClose={(): void => setShowCompleteStripeOnboardingDialog(false)}>
+                <DialogTitle>Wallet hinzufügen um fortzufahren</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Um Buchungsanfragen zukünftig akzeptieren zu können, schließe die Einrichtung deines Kontos bitte ab.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button>Abbrechen</Button>
+                    <Button variant="contained" autoFocus>
+                        Wallet hinzufügen
+                    </Button>
+                </DialogActions>
             </Dialog>
         </>
     );

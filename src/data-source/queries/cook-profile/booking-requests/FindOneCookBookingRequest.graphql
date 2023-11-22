@@ -1,5 +1,8 @@
 query FindOneCookBookingRequest($cookId: String!, $bookingRequestId: String!) {
     cooks {
+        findOne(cookId: $cookId) {
+            hasStripePayoutMethodActivated
+        }
         bookingRequests(cookId: $cookId) {
             findOne(bookingRequestId: $bookingRequestId) {
                 bookingRequestId

@@ -3094,6 +3094,7 @@ export type FindOneCookBookingRequestQuery = {
     __typename?: 'Query';
     cooks: {
         __typename?: 'CookQuery';
+        findOne?: { __typename?: 'Cook'; hasStripePayoutMethodActivated: boolean } | null;
         bookingRequests: {
             __typename?: 'CookBookingRequestQuery';
             findOne?: {
@@ -7518,6 +7519,21 @@ export const FindOneCookBookingRequestDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findOne' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'hasStripePayoutMethodActivated' } }],
+                                    },
+                                },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'bookingRequests' },
