@@ -1,0 +1,20 @@
+query GetCookProfileMealsPageData($cookId: String!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    cooks {
+        meals(cookId: $cookId) {
+            findMany {
+                mealId
+                cookId
+                title
+                type
+                description
+                imageUrl
+                createdAt
+            }
+        }
+    }
+}

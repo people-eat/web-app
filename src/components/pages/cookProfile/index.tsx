@@ -9,8 +9,6 @@ import PEHeader from '../../header/PEHeader';
 import PETabItem from '../../standard/tabItem/PETabItem';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
-import CookProfilePageMealsTab from './mealsTab/ChefProfilePageMealsTab';
-import CookProfilePageMenusTab from './menusTab/ChefProfilePageMenusTab';
 import CookProfilePagePersonalTab from './personalTab/CookProfilePagePersonalTab';
 
 export interface CookProfilePageProps {
@@ -58,8 +56,6 @@ export default function CookProfilePage({ signedInUser }: CookProfilePageProps):
                 )}
 
                 {selectedTab === 0 && signedInUser && <CookProfilePagePersonalTab cookId={signedInUser.userId} />}
-                {selectedTab === 1 && signedInUser && <CookProfilePageMealsTab cookId={signedInUser.userId} />}
-                {selectedTab === 2 && signedInUser && <CookProfilePageMenusTab cookId={signedInUser.userId} />}
             </VStack>
 
             <PEFooter />

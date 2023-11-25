@@ -28,6 +28,7 @@ const Index: NextPage = ({ signedInUser }: PEHeaderProps) => {
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
             <CookProfilePage signedInUser={signedInUser} />
         </>
     );

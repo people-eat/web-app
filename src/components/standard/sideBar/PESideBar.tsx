@@ -135,6 +135,15 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                         </ListItemButton>
                     </Link>
                 </ListItem>
+
+                <ListItem disablePadding>
+                    <Link href="/global-booking-request" className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
+                        <ListItemButton>
+                            <ListItemIcon />
+                            <ListItemText>Lass dir etwas vorschlagen</ListItemText>
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
                 <Divider />
             </List>
 

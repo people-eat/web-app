@@ -5,7 +5,7 @@ import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { createContext, useEffect, useState, type Context } from 'react';
-import HomePage, { type HomePageProps } from '../components/pages/home';
+import { HomePage, type HomePageProps } from '../components/pages/home/HomePage';
 import PECheckbox from '../components/standard/checkbox/PECheckbox';
 import HStack from '../components/utility/hStack/HStack';
 import Spacer from '../components/utility/spacer/Spacer';
