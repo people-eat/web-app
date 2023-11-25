@@ -3,7 +3,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
     CookBookingRequestAcceptDocument,
@@ -11,6 +10,8 @@ import {
     CreateOneCookBookingRequestChatMessageDocument,
     FindOneCookBookingRequestDocument,
 } from '../../../../data-source/generated/graphql';
+import { BookingRequestAcceptDialog } from '../../../bookingRequestAcceptDialog/BookingRequestAcceptDialog';
+import { BookingRequestDeclineDialog } from '../../../bookingRequestDeclineDialog/BookingRequestDeclineDialog';
 import PEMealCardDesktop from '../../../cards/mealCard/PEMealCardDesktop';
 import { LoadingDialog } from '../../../loadingDialog/LoadingDialog';
 import PEButton from '../../../standard/buttons/PEButton';
@@ -221,59 +222,31 @@ export default function CookProfilePageBookingsTabDetail({
 
             <LoadingDialog title={cookProfileTranslate('booking-loading-title-decline')} isLoading={declineLoading} />
 
-            <Dialog open={showDeclineDialog}>
-                <DialogTitle>Bist du dir sicher dass du die Buchungsanfrage ablehnen möchtest?</DialogTitle>
-                <DialogContent>
-                    <VStack className="w-full" gap={32}>
-                        <span>
-                            Bitte beachte unsere Stornierungsbedingungen bevor du die Buchungsanfrage ablehnst. Diese findest du in unseren{' '}
-                            <Link href="terms-and-conditions" target="_blank" className="text-orange">
-                                AGB
-                            </Link>
-                            .
-                        </span>
-                        <HStack gap={16} className="w-full">
-                            <PEButton title="Nein" type="secondary" onClick={(): void => setShowDeclineDialog(false)} />
-                            <PEButton
-                                title="Ja"
-                                type="primary"
-                                onClick={(): void =>
-                                    void declineBookingRequest({
-                                        variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
-                                    }).then((result) => {
-                                        setShowDeclineDialog(false);
-                                        if (result.data?.cooks.bookingRequests.success) void refetch();
-                                    })
-                                }
-                            />
-                        </HStack>
-                    </VStack>
-                </DialogContent>
-            </Dialog>
+            <BookingRequestDeclineDialog
+                isOpen={showDeclineDialog}
+                onCancel={(): void => setShowDeclineDialog(false)}
+                onDecline={(): void =>
+                    void declineBookingRequest({
+                        variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
+                    }).then((result) => {
+                        setShowDeclineDialog(false);
+                        if (result.data?.cooks.bookingRequests.success) void refetch();
+                    })
+                }
+            />
 
-            <Dialog open={showAcceptDialog}>
-                <DialogTitle>Buchungsanfrage akzeptieren?</DialogTitle>
-                <DialogContent>
-                    <VStack className="w-full" gap={32}>
-                        <span>Wir freuen uns dass du die Buchungsanfrage annehmen möchtest.</span>
-                        <HStack gap={16} className="w-full">
-                            <PEButton title="Nein" type="secondary" onClick={(): void => setShowAcceptDialog(false)} />
-                            <PEButton
-                                title="Ja"
-                                type="primary"
-                                onClick={(): void =>
-                                    void acceptBookingRequest({
-                                        variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
-                                    }).then((result) => {
-                                        setShowAcceptDialog(false);
-                                        if (result.data?.cooks.bookingRequests.success) void refetch();
-                                    })
-                                }
-                            />
-                        </HStack>
-                    </VStack>
-                </DialogContent>
-            </Dialog>
+            <BookingRequestAcceptDialog
+                isOpen={showAcceptDialog}
+                onCancel={(): void => setShowAcceptDialog(false)}
+                onAccept={(): void =>
+                    void acceptBookingRequest({
+                        variables: { cookId, bookingRequestId: bookingRequest.bookingRequestId },
+                    }).then((result) => {
+                        setShowAcceptDialog(false);
+                        if (result.data?.cooks.bookingRequests.success) void refetch();
+                    })
+                }
+            />
 
             <Dialog open={showCompleteStripeOnboardingDialog} onClose={(): void => setShowCompleteStripeOnboardingDialog(false)}>
                 <DialogTitle>Wallet hinzufügen um fortzufahren</DialogTitle>
