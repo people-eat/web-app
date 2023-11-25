@@ -1,0 +1,7 @@
+fragment ChatMessage on ChatMessage {
+    chatMessageId
+    bookingRequestId
+    message
+    createdBy
+    createdAt
+}

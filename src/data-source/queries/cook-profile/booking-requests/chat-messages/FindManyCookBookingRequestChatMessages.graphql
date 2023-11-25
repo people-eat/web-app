@@ -3,10 +3,7 @@ query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId
         bookingRequests(cookId: $cookId) {
             chatMessages(bookingRequestId: $bookingRequestId) {
                 findMany {
-                    chatMessageId
-                    message
-                    createdBy
-                    createdAt
+                    ...ChatMessage
                 }
             }
         }

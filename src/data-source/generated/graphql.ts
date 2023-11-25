@@ -3189,6 +3189,7 @@ export type FindManyCookBookingRequestChatMessagesQuery = {
                 findMany?: Array<{
                     __typename?: 'ChatMessage';
                     chatMessageId: string;
+                    bookingRequestId: string;
                     message: string;
                     createdBy: string;
                     createdAt: Date;
@@ -3720,6 +3721,15 @@ export type CreateOneEmailAddressUpdateMutation = {
     users: { __typename?: 'UserMutation'; emailAddressUpdate: { __typename?: 'UserEmailAddressUpdateMutation'; success: boolean } };
 };
 
+export type ChatMessageFragment = {
+    __typename?: 'ChatMessage';
+    chatMessageId: string;
+    bookingRequestId: string;
+    message: string;
+    createdBy: string;
+    createdAt: Date;
+};
+
 export type ConfiguredMenuFragment = {
     __typename?: 'ConfiguredMenu';
     menuId?: string | null;
@@ -4114,6 +4124,7 @@ export type FindManyUserBookingRequestChatMessagesQuery = {
                 findMany?: Array<{
                     __typename?: 'ChatMessage';
                     chatMessageId: string;
+                    bookingRequestId: string;
                     message: string;
                     createdBy: string;
                     createdAt: Date;
@@ -4314,6 +4325,26 @@ export type GetUserProfilePersonalInformationPageDataQuery = {
     };
 };
 
+export const ChatMessageFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ChatMessage' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessage' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ChatMessageFragment, unknown>;
 export const ConfiguredMenuFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -4444,15 +4475,24 @@ export const BookingRequestChatMessageCreationsDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'message' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'ChatMessage' } }],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ChatMessage' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessage' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 ],
             },
         },
@@ -7904,10 +7944,10 @@ export const FindManyCookBookingRequestChatMessagesDocument = {
                                                             selectionSet: {
                                                                 kind: 'SelectionSet',
                                                                 selections: [
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'message' } },
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                                    {
+                                                                        kind: 'FragmentSpread',
+                                                                        name: { kind: 'Name', value: 'ChatMessage' },
+                                                                    },
                                                                 ],
                                                             },
                                                         },
@@ -7920,6 +7960,21 @@ export const FindManyCookBookingRequestChatMessagesDocument = {
                             ],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ChatMessage' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessage' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 ],
             },
         },
@@ -12594,10 +12649,10 @@ export const FindManyUserBookingRequestChatMessagesDocument = {
                                                             selectionSet: {
                                                                 kind: 'SelectionSet',
                                                                 selections: [
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'message' } },
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-                                                                    { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                                    {
+                                                                        kind: 'FragmentSpread',
+                                                                        name: { kind: 'Name', value: 'ChatMessage' },
+                                                                    },
                                                                 ],
                                                             },
                                                         },
@@ -12610,6 +12665,21 @@ export const FindManyUserBookingRequestChatMessagesDocument = {
                             ],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ChatMessage' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ChatMessage' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'chatMessageId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'message' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 ],
             },
         },

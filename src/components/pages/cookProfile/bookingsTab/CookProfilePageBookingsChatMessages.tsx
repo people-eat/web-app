@@ -4,17 +4,10 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import {
     BookingRequestChatMessageCreationsDocument,
     FindManyCookBookingRequestChatMessagesDocument,
+    type ChatMessageFragment,
 } from '../../../../data-source/generated/graphql';
-import HStack from '../../../utility/hStack/HStack';
-import Spacer from '../../../utility/spacer/Spacer';
+import { BookingRequestChatMessage } from '../../../bookingRequestChatMessage/BookingRequestChatMessage';
 import VStack from '../../../utility/vStack/VStack';
-
-interface ChatMessage {
-    chatMessageId: string;
-    message: string;
-    createdBy: string;
-    createdAt: Date;
-}
 
 export interface CookProfilePageBookingsChatMessagesProps {
     cookId: string;
@@ -26,7 +19,7 @@ export default function CookProfilePageBookingsChatMessages({
     bookingRequestId,
 }: CookProfilePageBookingsChatMessagesProps): ReactElement {
     const { data } = useQuery(FindManyCookBookingRequestChatMessagesDocument, { variables: { cookId, bookingRequestId } });
-    const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+    const [chatMessages, setChatMessages] = useState<ChatMessageFragment[]>([]);
 
     const chatBottom = useRef<HTMLDivElement>(null);
 
@@ -51,15 +44,7 @@ export default function CookProfilePageBookingsChatMessages({
         onData: ({ data: subscriptionData }) => {
             const newChatMessage = subscriptionData.data?.bookingRequestChatMessageCreations;
             if (!newChatMessage) return;
-            setChatMessages([
-                ...chatMessages,
-                {
-                    chatMessageId: newChatMessage.chatMessageId,
-                    message: newChatMessage.message,
-                    createdBy: newChatMessage.createdBy,
-                    createdAt: newChatMessage.createdAt,
-                },
-            ]);
+            setChatMessages([...chatMessages, newChatMessage]);
             setTimeout(() => scrollToChatBottom(), 200);
         },
     });
@@ -71,14 +56,11 @@ export default function CookProfilePageBookingsChatMessages({
     return (
         <VStack gap={32} style={{ width: '100%', maxHeight: 600, overflowY: 'scroll', minHeight: 400 }}>
             {sortedChatMessages.map((chatMessage) => (
-                <HStack key={chatMessage.chatMessageId} className="w-full">
-                    {cookId === chatMessage.createdBy && <Spacer />}
-                    <VStack gap={8} style={{ alignItems: cookId === chatMessage.createdBy ? 'flex-end' : 'flex-start' }}>
-                        <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>{chatMessage.message}</span>
-                        <span className="text-text-s">{moment(chatMessage.createdAt).format('lll')}</span>
-                    </VStack>
-                    {cookId !== chatMessage.createdBy && <Spacer />}
-                </HStack>
+                <BookingRequestChatMessage
+                    key={chatMessage.chatMessageId}
+                    type={cookId === chatMessage.createdBy ? 'SENT' : 'RECEIVED'}
+                    chatMessage={chatMessage}
+                />
             ))}
             <div data-element="chat-bottom" ref={chatBottom} />
         </VStack>

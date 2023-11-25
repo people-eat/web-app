@@ -4,17 +4,10 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import {
     BookingRequestChatMessageCreationsDocument,
     FindManyUserBookingRequestChatMessagesDocument,
+    type ChatMessageFragment,
 } from '../../../../data-source/generated/graphql';
-import HStack from '../../../utility/hStack/HStack';
-import Spacer from '../../../utility/spacer/Spacer';
+import { BookingRequestChatMessage } from '../../../bookingRequestChatMessage/BookingRequestChatMessage';
 import VStack from '../../../utility/vStack/VStack';
-
-interface ChatMessage {
-    chatMessageId: string;
-    message: string;
-    createdBy: string;
-    createdAt: Date;
-}
 
 export interface ProfilePageBookingsChatMessagesProps {
     userId: string;
@@ -23,7 +16,7 @@ export interface ProfilePageBookingsChatMessagesProps {
 
 export default function ProfilePageBookingsChatMessages({ userId, bookingRequestId }: ProfilePageBookingsChatMessagesProps): ReactElement {
     const { data } = useQuery(FindManyUserBookingRequestChatMessagesDocument, { variables: { userId, bookingRequestId } });
-    const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+    const [chatMessages, setChatMessages] = useState<ChatMessageFragment[]>([]);
 
     const chatBottom = useRef<HTMLDivElement>(null);
 
@@ -48,15 +41,7 @@ export default function ProfilePageBookingsChatMessages({ userId, bookingRequest
         onData: ({ data: subscriptionData }) => {
             const newChatMessage = subscriptionData.data?.bookingRequestChatMessageCreations;
             if (!newChatMessage) return;
-            setChatMessages([
-                ...chatMessages,
-                {
-                    chatMessageId: newChatMessage.chatMessageId,
-                    message: newChatMessage.message,
-                    createdBy: newChatMessage.createdBy,
-                    createdAt: newChatMessage.createdAt,
-                },
-            ]);
+            setChatMessages([...chatMessages, newChatMessage]);
             setTimeout(() => scrollToChatBottom(), 200);
         },
     });
@@ -68,14 +53,11 @@ export default function ProfilePageBookingsChatMessages({ userId, bookingRequest
     return (
         <VStack gap={32} style={{ width: '100%', overflowY: 'auto' }}>
             {sortedChatMessages.map((chatMessage) => (
-                <HStack key={chatMessage.chatMessageId} className="w-full">
-                    {userId === chatMessage.createdBy && <Spacer />}
-                    <VStack gap={8} style={{ alignItems: userId === chatMessage.createdBy ? 'flex-end' : 'flex-start' }}>
-                        <span style={{ padding: '4px 16px', backgroundColor: 'lightgray', borderRadius: 16 }}>{chatMessage.message}</span>
-                        <span className="text-text-s">{moment(chatMessage.createdAt).format('lll')}</span>
-                    </VStack>
-                    {userId !== chatMessage.createdBy && <Spacer />}
-                </HStack>
+                <BookingRequestChatMessage
+                    key={chatMessage.chatMessageId}
+                    type={userId === chatMessage.createdBy ? 'SENT' : 'RECEIVED'}
+                    chatMessage={chatMessage}
+                />
             ))}
             <div data-element="chat-bottom" ref={chatBottom} />
         </VStack>

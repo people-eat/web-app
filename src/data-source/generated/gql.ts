@@ -15,7 +15,7 @@ import * as types from './graphql';
 const documents = {
     'mutation AssignOneSessionByEmailAddress($request: CreateOneSessionByEmailAddressRequest!) {\n  sessions {\n    success: assignOneByEmailAddress(request: $request)\n  }\n}':
         types.AssignOneSessionByEmailAddressDocument,
-    'subscription BookingRequestChatMessageCreations($bookingRequestId: String!) {\n  bookingRequestChatMessageCreations(bookingRequestId: $bookingRequestId) {\n    chatMessageId\n    bookingRequestId\n    message\n    createdBy\n    createdAt\n  }\n}':
+    'subscription BookingRequestChatMessageCreations($bookingRequestId: String!) {\n  bookingRequestChatMessageCreations(bookingRequestId: $bookingRequestId) {\n    ...ChatMessage\n  }\n}':
         types.BookingRequestChatMessageCreationsDocument,
     'mutation CreateOneUserByEmailAddress($request: CreateOneUserByEmailAddressRequest!, $profilePicture: Upload) {\n  users {\n    success: createOneByEmailAddress(\n      request: $request\n      profilePicture: $profilePicture\n    )\n  }\n}':
         types.CreateOneUserByEmailAddressDocument,
@@ -90,7 +90,7 @@ const documents = {
         types.FindOneCookBookingRequestDocument,
     'mutation CreateOneCookBookingRequestChatMessage($request: CreateChatMessageRequest!, $bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        success: createOne(request: $request)\n      }\n    }\n  }\n}':
         types.CreateOneCookBookingRequestChatMessageDocument,
-    'query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}':
+    'query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          ...ChatMessage\n        }\n      }\n    }\n  }\n}':
         types.FindManyCookBookingRequestChatMessagesDocument,
     'mutation AddOneCookLanguage($cookId: String!, $languageId: String!) {\n  cooks {\n    success: addOneLanguage(cookId: $cookId, languageId: $languageId)\n  }\n}':
         types.AddOneCookLanguageDocument,
@@ -178,6 +178,8 @@ const documents = {
         types.ConfirmOneEmailAddressUpdateDocument,
     'mutation CreateOneEmailAddressUpdate($emailAddress: EmailAddress!, $userId: String!) {\n  users {\n    emailAddressUpdate(userId: $userId) {\n      success: createOne(emailAddress: $emailAddress)\n    }\n  }\n}':
         types.CreateOneEmailAddressUpdateDocument,
+    'fragment ChatMessage on ChatMessage {\n  chatMessageId\n  bookingRequestId\n  message\n  createdBy\n  createdAt\n}':
+        types.ChatMessageFragmentDoc,
     'fragment ConfiguredMenu on ConfiguredMenu {\n  menuId\n  title\n  description\n  greetingFromKitchen\n  kitchenId\n  courses {\n    index\n    title\n    mealTitle\n    mealDescription\n    mealImageUrl\n    mealType\n  }\n}':
         types.ConfiguredMenuFragmentDoc,
     'fragment SignedInUser on User {\n  userId\n  firstName\n  profilePictureUrl\n  isCook\n  isAdmin\n}': types.SignedInUserFragmentDoc,
@@ -225,7 +227,7 @@ const documents = {
         types.UserBookingRequestUpdatePriceDocument,
     'mutation CreateOneUserBookingRequestChatMessage($request: CreateChatMessageRequest!, $bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        success: createOne(request: $request)\n      }\n    }\n  }\n}':
         types.CreateOneUserBookingRequestChatMessageDocument,
-    'query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}':
+    'query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          ...ChatMessage\n        }\n      }\n    }\n  }\n}':
         types.FindManyUserBookingRequestChatMessagesDocument,
     'mutation CreateOneFollowing($cookId: String!, $userId: String!) {\n  users {\n    followings(userId: $userId) {\n      success: createOne(cookId: $cookId)\n    }\n  }\n}':
         types.CreateOneFollowingDocument,
@@ -265,8 +267,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'subscription BookingRequestChatMessageCreations($bookingRequestId: String!) {\n  bookingRequestChatMessageCreations(bookingRequestId: $bookingRequestId) {\n    chatMessageId\n    bookingRequestId\n    message\n    createdBy\n    createdAt\n  }\n}',
-): (typeof documents)['subscription BookingRequestChatMessageCreations($bookingRequestId: String!) {\n  bookingRequestChatMessageCreations(bookingRequestId: $bookingRequestId) {\n    chatMessageId\n    bookingRequestId\n    message\n    createdBy\n    createdAt\n  }\n}'];
+    source: 'subscription BookingRequestChatMessageCreations($bookingRequestId: String!) {\n  bookingRequestChatMessageCreations(bookingRequestId: $bookingRequestId) {\n    ...ChatMessage\n  }\n}',
+): (typeof documents)['subscription BookingRequestChatMessageCreations($bookingRequestId: String!) {\n  bookingRequestChatMessageCreations(bookingRequestId: $bookingRequestId) {\n    ...ChatMessage\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -505,8 +507,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}',
-): (typeof documents)['query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}'];
+    source: 'query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          ...ChatMessage\n        }\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindManyCookBookingRequestChatMessages($bookingRequestId: String!, $cookId: String!) {\n  cooks {\n    bookingRequests(cookId: $cookId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          ...ChatMessage\n        }\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -769,6 +771,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+    source: 'fragment ChatMessage on ChatMessage {\n  chatMessageId\n  bookingRequestId\n  message\n  createdBy\n  createdAt\n}',
+): (typeof documents)['fragment ChatMessage on ChatMessage {\n  chatMessageId\n  bookingRequestId\n  message\n  createdBy\n  createdAt\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
     source: 'fragment ConfiguredMenu on ConfiguredMenu {\n  menuId\n  title\n  description\n  greetingFromKitchen\n  kitchenId\n  courses {\n    index\n    title\n    mealTitle\n    mealDescription\n    mealImageUrl\n    mealType\n  }\n}',
 ): (typeof documents)['fragment ConfiguredMenu on ConfiguredMenu {\n  menuId\n  title\n  description\n  greetingFromKitchen\n  kitchenId\n  courses {\n    index\n    title\n    mealTitle\n    mealDescription\n    mealImageUrl\n    mealType\n  }\n}'];
 /**
@@ -913,8 +921,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-    source: 'query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}',
-): (typeof documents)['query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          chatMessageId\n          message\n          createdBy\n          createdAt\n        }\n      }\n    }\n  }\n}'];
+    source: 'query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          ...ChatMessage\n        }\n      }\n    }\n  }\n}',
+): (typeof documents)['query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId: String!) {\n  users {\n    bookingRequests(userId: $userId) {\n      chatMessages(bookingRequestId: $bookingRequestId) {\n        findMany {\n          ...ChatMessage\n        }\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -3,10 +3,7 @@ query FindManyUserBookingRequestChatMessages($bookingRequestId: String!, $userId
         bookingRequests(userId: $userId) {
             chatMessages(bookingRequestId: $bookingRequestId) {
                 findMany {
-                    chatMessageId
-                    message
-                    createdBy
-                    createdAt
+                    ...ChatMessage
                 }
             }
         }
