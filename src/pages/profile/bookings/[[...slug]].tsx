@@ -109,7 +109,6 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, globa
                         <div
                             className={classNames(
                                 styles.bookingListContainer,
-                                'shadow-primary',
                                 Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : '',
                             )}
                         >
@@ -195,7 +194,7 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, globa
                     </main>
                 </div>
 
-                <PEFooter className={Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : ''} />
+                <PEFooter className={styles.hiddenOnMobile} />
             </VStack>
         </>
     );

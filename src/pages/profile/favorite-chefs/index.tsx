@@ -99,7 +99,7 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, favoriteCooks }) => {
                     </main>
                 </div>
 
-                <PEFooter />
+                <PEFooter className={styles.hiddenOnMobile} />
             </VStack>
         </>
     );

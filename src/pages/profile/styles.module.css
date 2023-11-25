@@ -22,3 +22,12 @@
 .mainContainer {
     width: 100%;
 }
+
+@media (width <= 768px) {
+    .hiddenOnMobile {
+        display: none;
+        visibility: hidden;
+        float: none;
+        position: fixed;
+    }
+}

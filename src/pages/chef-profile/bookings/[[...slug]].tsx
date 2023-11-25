@@ -163,7 +163,7 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, hasSt
                     </main>
                 </div>
 
-                <PEFooter className={Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : ''} />
+                <PEFooter className={styles.hiddenOnMobile} />
             </VStack>
         </>
     );

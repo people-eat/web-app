@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useSubscription } from '@apollo/client';
 import { Button } from '@mui/material';
+import classNames from 'classnames';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useRef, useState, type ReactElement } from 'react';
@@ -20,6 +21,7 @@ import PEButton from '../../standard/buttons/PEButton';
 import PETextField from '../../standard/textFields/PETextField';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
+import styles from './BookingRequestDetailChatTab.module.css';
 
 export interface BookingRequestDetailChatTabProps {
     userId: string;
@@ -98,7 +100,7 @@ export default function BookingRequestDetailChatTab({
             </VStack>
 
             {bookingRequest.status === 'OPEN' && (
-                <HStack gap={16} className="w-full">
+                <HStack gap={16} className={classNames('w-full', styles.attachedToBottomOnMobile)}>
                     {bookingRequest.cookAccepted === true && bookingRequest.userAccepted === null && (
                         <>
                             <PEButton
@@ -126,6 +128,7 @@ export default function BookingRequestDetailChatTab({
 
             {bookingRequest.status === 'PENDING' && (
                 <PETextField
+                    className={styles.attachedToBottomOnMobile}
                     value={newMessage}
                     onChange={setNewMessage}
                     type="text"

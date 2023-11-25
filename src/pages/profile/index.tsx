@@ -70,7 +70,7 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser }) => {
                     </main>
                 </div>
 
-                <PEFooter />
+                <PEFooter className={styles.hiddenOnMobile} />
             </VStack>
         </>
     );
