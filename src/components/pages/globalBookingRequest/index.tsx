@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/client';
 import { Button, DialogActions, DialogContentText, DialogTitle } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import Step from '@mui/material/Step';
@@ -25,6 +24,7 @@ import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
+import { LoadingDialog } from '../../loadingDialog/LoadingDialog';
 import PEBulletPoint from '../../standard/bulletPoint/PEBulletPoint';
 import { Icon } from '../../standard/icon/Icon';
 import PEIcon from '../../standard/icon/PEIcon';
@@ -317,11 +317,7 @@ export default function GlobalBookingRequestPage({
                 </DialogActions>
             </Dialog>
 
-            <Dialog open={loading}>
-                <DialogContent>
-                    <CircularProgress />
-                </DialogContent>
-            </Dialog>
+            <LoadingDialog isLoading={loading} />
 
             <Dialog open={completionState === 'FAILED'}>
                 <DialogContent>{commonTranslate('error')}</DialogContent>

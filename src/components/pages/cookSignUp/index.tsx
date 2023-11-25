@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/client';
 import { Button, DialogActions } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -20,6 +19,7 @@ import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import { cookRanks } from '../../../shared-domain/cookRanks';
 import PEHeader from '../../header/PEHeader';
+import { LoadingDialog } from '../../loadingDialog/LoadingDialog';
 import PEMap from '../../map/PEMap';
 import PEButton from '../../standard/buttons/PEButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
@@ -442,13 +442,7 @@ export default function CookSignUpPage({ signedInUser, languages }: CookSignUpPa
                     </Dialog>
                 )}
 
-                {loading && (
-                    <Dialog open>
-                        <DialogContent>
-                            <CircularProgress />
-                        </DialogContent>
-                    </Dialog>
-                )}
+                <LoadingDialog isLoading={loading} />
 
                 {error && <Dialog open>{translateCommon('error')}</Dialog>}
             </VStack>

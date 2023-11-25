@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { Button, CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
@@ -9,6 +9,7 @@ import {
     UserBookingRequestDeclineDocument,
     type BookingRequestStatus,
 } from '../../../data-source/generated/graphql';
+import { LoadingDialog } from '../../loadingDialog/LoadingDialog';
 import ProfilePageBookingsChatMessages from '../../pages/profile/bookingsTab/ProfilePageBookingsChatMessages';
 import PEButton from '../../standard/buttons/PEButton';
 import PETextField from '../../standard/textFields/PETextField';
@@ -101,23 +102,9 @@ export default function BookingRequestDetailChatTab({
                 />
             )}
 
-            <Dialog open={acceptLoading}>
-                <DialogTitle>{cookProfileTranslate('booking-loading-title-accept')}</DialogTitle>
-                <DialogContent>
-                    <VStack>
-                        <CircularProgress />
-                    </VStack>
-                </DialogContent>
-            </Dialog>
+            <LoadingDialog title={cookProfileTranslate('booking-loading-title-accept')} isLoading={acceptLoading} />
 
-            <Dialog open={declineLoading}>
-                <DialogTitle>{cookProfileTranslate('booking-loading-title-decline')}</DialogTitle>
-                <DialogContent>
-                    <VStack>
-                        <CircularProgress />
-                    </VStack>
-                </DialogContent>
-            </Dialog>
+            <LoadingDialog title={cookProfileTranslate('booking-loading-title-decline')} isLoading={declineLoading} />
 
             <Dialog open={showDeclineDialog}>
                 <DialogTitle>Bist du dir sicher dass du die Buchungsanfrage ablehnen möchtest?</DialogTitle>

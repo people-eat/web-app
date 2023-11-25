@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Divider } from '@mui/material';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import classNames from 'classnames';
@@ -24,6 +24,7 @@ import BookingRequestForm from '../../BookingRequestForm';
 import SignInDialog from '../../SignInDialog';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
+import { LoadingDialog } from '../../loadingDialog/LoadingDialog';
 import PEButton from '../../standard/buttons/PEButton';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
@@ -335,11 +336,7 @@ export default function PublicMenuPage({
                 </Dialog>
             )}
 
-            <Dialog open={loading}>
-                <DialogContent>
-                    <CircularProgress />
-                </DialogContent>
-            </Dialog>
+            <LoadingDialog isLoading={loading} />
 
             <Dialog open={completionState === 'FAILED'}>
                 <DialogContent>{t('error')}</DialogContent>

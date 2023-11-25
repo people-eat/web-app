@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client';
-import CircularProgress from '@mui/material/CircularProgress';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -12,6 +11,7 @@ import Link from 'next/link';
 import { useState, type ReactElement } from 'react';
 import { CreateOneUserByEmailAddressDocument } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
+import { LoadingDialog } from '../../loadingDialog/LoadingDialog';
 import PEButton from '../../standard/buttons/PEButton';
 import PELineButton from '../../standard/buttons/PELineButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
@@ -245,13 +245,7 @@ export default function SignUpPage(): ReactElement {
                 </Dialog>
             )}
 
-            {loading && (
-                <Dialog open>
-                    <DialogContent>
-                        <CircularProgress />
-                    </DialogContent>
-                </Dialog>
-            )}
+            <LoadingDialog isLoading={loading} />
 
             {(error || (data && !data.users.success)) && (
                 <Dialog open>

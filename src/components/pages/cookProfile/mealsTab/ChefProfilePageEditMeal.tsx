@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Alert, CircularProgress, Dialog, DialogContent, Snackbar } from '@mui/material';
+import { Alert, Dialog, DialogContent, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
 import {
@@ -13,6 +13,7 @@ import {
 } from '../../../../data-source/generated/graphql';
 import { mealTypeTranslations } from '../../../../shared-domain/mealTypeTranslations';
 import { mealTypes } from '../../../../shared-domain/mealTypes';
+import { LoadingDialog } from '../../../loadingDialog/LoadingDialog';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
@@ -213,11 +214,7 @@ export default function ChefProfilePageEditMeal({
                         </DialogContent>
                     </Dialog>
 
-                    <Dialog open={loading}>
-                        <DialogContent>
-                            <CircularProgress />
-                        </DialogContent>
-                    </Dialog>
+                    <LoadingDialog isLoading={loading} />
                 </>
             )}
 

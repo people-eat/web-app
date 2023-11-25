@@ -1,16 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import {
-    Button,
-    CircularProgress,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Divider,
-    Tab,
-    Tabs,
-} from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Tab, Tabs } from '@mui/material';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -23,6 +12,7 @@ import {
     FindOneCookBookingRequestDocument,
 } from '../../../../data-source/generated/graphql';
 import PEMealCardDesktop from '../../../cards/mealCard/PEMealCardDesktop';
+import { LoadingDialog } from '../../../loadingDialog/LoadingDialog';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
@@ -227,23 +217,9 @@ export default function CookProfilePageBookingsTabDetail({
                 </VStack>
             )}
 
-            <Dialog open={acceptLoading}>
-                <DialogTitle>{cookProfileTranslate('booking-loading-title-accept')}</DialogTitle>
-                <DialogContent>
-                    <VStack>
-                        <CircularProgress />
-                    </VStack>
-                </DialogContent>
-            </Dialog>
+            <LoadingDialog title={cookProfileTranslate('booking-loading-title-accept')} isLoading={acceptLoading} />
 
-            <Dialog open={declineLoading}>
-                <DialogTitle>{cookProfileTranslate('booking-loading-title-decline')}</DialogTitle>
-                <DialogContent>
-                    <VStack>
-                        <CircularProgress />
-                    </VStack>
-                </DialogContent>
-            </Dialog>
+            <LoadingDialog title={cookProfileTranslate('booking-loading-title-decline')} isLoading={declineLoading} />
 
             <Dialog open={showDeclineDialog}>
                 <DialogTitle>Bist du dir sicher dass du die Buchungsanfrage ablehnen möchtest?</DialogTitle>

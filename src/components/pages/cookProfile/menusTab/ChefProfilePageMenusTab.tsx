@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Alert, CircularProgress, Dialog, DialogContent, Snackbar } from '@mui/material';
+import { Alert, Dialog, DialogContent, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMenusDocument, type CurrencyCode, type MealType } from '../../../../data-source/generated/graphql';
@@ -8,6 +8,7 @@ import { type Category } from '../../../../shared-domain/Category';
 import { type Kitchen } from '../../../../shared-domain/Kitchen';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import PEMenuCardMobile from '../../../cards/menuCard/PEMenuCardMobile';
+import { LoadingDialog } from '../../../loadingDialog/LoadingDialog';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIcon from '../../../standard/icon/PEIcon';
@@ -238,11 +239,7 @@ export default function CookProfilePageMenusTab({ cookId }: CookProfilePageMenus
                 </>
             )}
 
-            <Dialog open={loading}>
-                <DialogContent>
-                    <CircularProgress />
-                </DialogContent>
-            </Dialog>
+            <LoadingDialog isLoading={loading} />
 
             <Snackbar open={showMenuDeletedBanner} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert severity="success">Menü erfolgreich gelöscht</Alert>

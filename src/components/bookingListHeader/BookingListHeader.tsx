@@ -10,7 +10,7 @@ export interface BookingListHeaderProps {
     onSelectedFilterOptionChange: (changed: BookingListHeaderFilterOption) => void;
 }
 
-export default function BookingListHeader({ selectedFilterOption, onSelectedFilterOptionChange }: BookingListHeaderProps): ReactElement {
+export function BookingListHeader({ selectedFilterOption, onSelectedFilterOptionChange }: BookingListHeaderProps): ReactElement {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: MouseEvent<HTMLElement>): void => setAnchorEl(event.currentTarget);

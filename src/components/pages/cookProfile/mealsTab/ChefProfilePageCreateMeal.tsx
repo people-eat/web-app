@@ -1,10 +1,10 @@
 import { useMutation } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { CreateOneCookMealDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypeTranslations } from '../../../../shared-domain/mealTypeTranslations';
 import { mealTypes } from '../../../../shared-domain/mealTypes';
+import { LoadingDialog } from '../../../loadingDialog/LoadingDialog';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
@@ -96,11 +96,7 @@ export default function ChefProfilePageCreateMeal({
 
             <PEButton onClick={onCreateMeal} disabled={disabled} title={t('create-meal-button')} className="w-full" />
 
-            <Dialog open={loading}>
-                <DialogContent>
-                    <CircularProgress />
-                </DialogContent>
-            </Dialog>
+            <LoadingDialog isLoading={loading} />
         </VStack>
     );
 }

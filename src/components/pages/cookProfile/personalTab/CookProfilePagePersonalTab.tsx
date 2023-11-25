@@ -1,6 +1,4 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import { Dialog, DialogContent } from '@mui/material';
-import CircularProgress from '@mui/material/CircularProgress';
 import classNames from 'classnames';
 import useTranslation from 'next-translate/useTranslation';
 import { useEffect, useState, type ReactElement } from 'react';
@@ -17,6 +15,7 @@ import {
 import useResponsive from '../../../../hooks/useResponsive';
 import { type Location } from '../../../../shared-domain/Location';
 import PEAddressCard from '../../../cards/address/PEAddressCard';
+import { LoadingDialog } from '../../../loadingDialog/LoadingDialog';
 import PEMap from '../../../map/PEMap';
 import PEButton from '../../../standard/buttons/PEButton';
 import PECheckbox from '../../../standard/checkbox/PECheckbox';
@@ -361,11 +360,7 @@ export default function CookProfilePagePersonalTab({ cookId }: { cookId: string 
                 </>
             )}
 
-            <Dialog open={loadingCookProfile || loadingStripeOnboardingUrl || loadingStripeDashboardUrl}>
-                <DialogContent>
-                    <CircularProgress />
-                </DialogContent>
-            </Dialog>
+            <LoadingDialog isLoading={loadingCookProfile || loadingStripeOnboardingUrl || loadingStripeDashboardUrl} />
 
             {error && <>{commonTranslations('error')}</>}
         </VStack>

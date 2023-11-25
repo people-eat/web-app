@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client';
-import { Alert, CircularProgress, Dialog, DialogContent, Snackbar } from '@mui/material';
+import { Alert, Snackbar } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
 import { FindCookMealsDocument, type MealType } from '../../../../data-source/generated/graphql';
 import { mealTypeTranslations } from '../../../../shared-domain/mealTypeTranslations';
 import { mealTypes } from '../../../../shared-domain/mealTypes';
 import PEMealCardDesktop from '../../../cards/mealCard/PEMealCardDesktop';
+import { LoadingDialog } from '../../../loadingDialog/LoadingDialog';
 import { Icon } from '../../../standard/icon/Icon';
 import PEIconButton from '../../../standard/iconButton/PEIconButton';
 import PETabItem from '../../../standard/tabItem/PETabItem';
@@ -129,13 +130,7 @@ export default function CookProfilePageMealsTab({ cookId }: CookProfilePageMeals
                 </HStack>
             )}
 
-            {loading && (
-                <Dialog open>
-                    <DialogContent>
-                        <CircularProgress />
-                    </DialogContent>
-                </Dialog>
-            )}
+            <LoadingDialog isLoading={loading} />
 
             <Snackbar open={showMealCreatedBanner} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                 <Alert severity="success">Gericht erfolgreich erstellt</Alert>

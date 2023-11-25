@@ -1,11 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { type NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import PEFooter from '../../components/footer/PEFooter';
 import PEHeader from '../../components/header/PEHeader';
+import { LoadingDialog } from '../../components/loadingDialog/LoadingDialog';
 import PEButton from '../../components/standard/buttons/PEButton';
 import PEPasswordTextField from '../../components/standard/textFields/PEPasswordTextField';
 import Spacer from '../../components/utility/spacer/Spacer';
@@ -71,13 +72,7 @@ const Index: NextPage = () => {
             <VStack className="w-full min-h-screen" gap={64}>
                 <PEHeader />
 
-                <Dialog open={state === 'LOADING'}>
-                    <DialogContent>
-                        <VStack>
-                            <CircularProgress />
-                        </VStack>
-                    </DialogContent>
-                </Dialog>
+                <LoadingDialog isLoading={state === 'LOADING'} />
 
                 <Dialog open={state === 'FAILED'}>
                     <DialogTitle>Da ist etwas schief gelaufen</DialogTitle>

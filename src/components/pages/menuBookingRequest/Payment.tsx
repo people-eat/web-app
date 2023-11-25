@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent } from '@mui/material';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useRouter } from 'next/router';
 import { useState, type PropsWithChildren, type ReactElement } from 'react';
 import { UserBookingRequestConfirmPaymentSetupDocument } from '../../../data-source/generated/graphql';
+import { LoadingDialog } from '../../loadingDialog/LoadingDialog';
 import PEButton from '../../standard/buttons/PEButton';
 import HStack from '../../utility/hStack/HStack';
 import VStack from '../../utility/vStack/VStack';
@@ -64,13 +64,8 @@ export default function Payment({
             <PEButton title="Fertig" onClick={(): void => void pay().then(() => console.log('called'))} />
 
             {resultMessage && <span>{resultMessage}</span>}
-            {loading && (
-                <Dialog open>
-                    <DialogContent>
-                        <CircularProgress />
-                    </DialogContent>
-                </Dialog>
-            )}
+
+            <LoadingDialog isLoading={loading} />
         </VStack>
     );
 }

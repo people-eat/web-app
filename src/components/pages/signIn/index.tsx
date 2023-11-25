@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { CircularProgress, Dialog, DialogContent } from '@mui/material';
+import { Dialog, DialogContent } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
 import { AssignOneSessionByEmailAddressDocument } from '../../../data-source/generated/graphql';
 import useResponsive from '../../../hooks/useResponsive';
+import { LoadingDialog } from '../../loadingDialog/LoadingDialog';
 import PEButton from '../../standard/buttons/PEButton';
 import PELineButton from '../../standard/buttons/PELineButton';
 import PECheckbox from '../../standard/checkbox/PECheckbox';
@@ -158,13 +159,7 @@ export default function SignInPage(): ReactElement {
                 </VStack>
             )}
 
-            {loading && (
-                <Dialog open>
-                    <DialogContent>
-                        <CircularProgress />
-                    </DialogContent>
-                </Dialog>
-            )}
+            <LoadingDialog isLoading={loading} />
 
             <ForgotPasswordDialog open={forgotPasswordDialogOpen} onClose={(): void => setForgotPasswordDialogOpen(false)} />
 
