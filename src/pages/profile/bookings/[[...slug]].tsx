@@ -109,6 +109,7 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, globa
                         <div
                             className={classNames(
                                 styles.bookingListContainer,
+                                'shadow-primary',
                                 Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : '',
                             )}
                         >
