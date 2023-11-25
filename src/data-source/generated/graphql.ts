@@ -3619,6 +3619,57 @@ export type UpdateCookMenuTitleMutation = {
     cooks: { __typename?: 'CookMutation'; menus: { __typename?: 'CookMenuMutation'; success: boolean } };
 };
 
+export type GetCookProfileBookingsPageDataQueryVariables = Exact<{
+    cookId: Scalars['String'];
+}>;
+
+export type GetCookProfileBookingsPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: {
+            __typename?: 'User';
+            userId: string;
+            firstName: string;
+            profilePictureUrl?: string | null;
+            isCook: boolean;
+            isAdmin: boolean;
+        } | null;
+    };
+    cooks: {
+        __typename?: 'CookQuery';
+        findOne?: { __typename?: 'Cook'; hasStripePayoutMethodActivated: boolean } | null;
+        bookingRequests: {
+            __typename?: 'CookBookingRequestQuery';
+            findMany?: Array<{
+                __typename?: 'BookingRequest';
+                bookingRequestId: string;
+                globalBookingRequestId?: string | null;
+                adultParticipants: number;
+                children: number;
+                dateTime: Date;
+                status: BookingRequestStatus;
+                userAccepted?: boolean | null;
+                cookAccepted?: boolean | null;
+                kitchenId?: string | null;
+                occasion: string;
+                preparationTime: number;
+                duration: number;
+                createdAt: Date;
+                price: { __typename?: 'Price'; amount: number; currencyCode: CurrencyCode };
+                location: { __typename?: 'Location'; latitude: number; longitude: number; text: string };
+                cook: {
+                    __typename?: 'PublicCook';
+                    cookId: string;
+                    rank: CookRank;
+                    user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
+                };
+                configuredMenu?: { __typename?: 'ConfiguredMenu'; title: string } | null;
+            }> | null;
+        };
+    };
+};
+
 export type UpdateCookBiographyMutationVariables = Exact<{
     cookId: Scalars['String'];
     biography: Scalars['String'];
@@ -10255,6 +10306,182 @@ export const UpdateCookMenuTitleDocument = {
         },
     ],
 } as unknown as DocumentNode<UpdateCookMenuTitleMutation, UpdateCookMenuTitleMutationVariables>;
+export const GetCookProfileBookingsPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetCookProfileBookingsPageData' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'cooks' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findOne' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'Field', name: { kind: 'Name', value: 'hasStripePayoutMethodActivated' } }],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bookingRequests' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'cookId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'cookId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'findMany' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'bookingRequestId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'globalBookingRequestId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'adultParticipants' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'children' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'dateTime' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'userAccepted' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookAccepted' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'occasion' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'preparationTime' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'price' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'amount' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'location' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'duration' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'cook' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'user' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'firstName' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'profilePictureUrl' },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'configuredMenu' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'title' } }],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetCookProfileBookingsPageDataQuery, GetCookProfileBookingsPageDataQueryVariables>;
 export const UpdateCookBiographyDocument = {
     kind: 'Document',
     definitions: [

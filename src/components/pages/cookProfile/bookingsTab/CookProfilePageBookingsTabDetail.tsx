@@ -22,8 +22,12 @@ import PETextField from '../../../standard/textFields/PETextField';
 import HStack from '../../../utility/hStack/HStack';
 import Spacer from '../../../utility/spacer/Spacer';
 import VStack from '../../../utility/vStack/VStack';
+import {
+    cookProfileBookingTabTranslationKeys,
+    cookProfileBookingTabTypes,
+    type CookProfileBookingTabType,
+} from '../cookProfileBookingTabs';
 import CookProfilePageBookingsChatMessages from './CookProfilePageBookingsChatMessages';
-import { cookProfileBookingTabTranslationKeys, cookProfileBookingTabTypes, type CookProfileBookingTabType } from './cookProfileBookingTabs';
 
 export interface CookProfilePageBookingsTabProps {
     cookId: string;

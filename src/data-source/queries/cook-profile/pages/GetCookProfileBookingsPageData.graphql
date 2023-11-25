@@ -1,0 +1,49 @@
+query GetCookProfileBookingsPageData($cookId: String!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    cooks {
+        findOne(cookId: $cookId) {
+            hasStripePayoutMethodActivated
+        }
+        bookingRequests(cookId: $cookId) {
+            findMany {
+                bookingRequestId
+                globalBookingRequestId
+                adultParticipants
+                children
+                dateTime
+                status
+                userAccepted
+                cookAccepted
+                kitchenId
+                occasion
+                preparationTime
+                price {
+                    amount
+                    currencyCode
+                }
+                location {
+                    latitude
+                    longitude
+                    text
+                }
+                duration
+                createdAt
+                cook {
+                    cookId
+                    rank
+                    user {
+                        firstName
+                        profilePictureUrl
+                    }
+                }
+                configuredMenu {
+                    title
+                }
+            }
+        }
+    }
+}

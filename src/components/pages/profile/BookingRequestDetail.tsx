@@ -4,22 +4,22 @@ import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState, type ReactElement } from 'react';
-import { FindOneUserBookingRequestDocument } from '../../data-source/generated/graphql';
+import { FindOneUserBookingRequestDocument } from '../../../data-source/generated/graphql';
+import { BookingRequestDetailEventTab } from '../../bookingRequestSharedTabs/BookingRequestDetailEventTab';
+import { BookingRequestDetailMenuTab } from '../../bookingRequestSharedTabs/BookingRequestDetailMenuTab';
+import { BookingRequestDetailSupportTab } from '../../bookingRequestSharedTabs/BookingRequestDetailSupportTab';
+import { Icon } from '../../standard/icon/Icon';
+import PEIcon from '../../standard/icon/PEIcon';
+import PEIconButton from '../../standard/iconButton/PEIconButton';
+import HStack from '../../utility/hStack/HStack';
+import styles from './BookingRequestDetail.module.css';
+import BookingRequestDetailChatTab from './BookingRequestDetailChatTab';
 import {
     isUserProfileBookingTabType,
     userProfileBookingTabTranslationKeys,
     userProfileBookingTabTypes,
     type UserProfileBookingTabType,
-} from '../pages/profile/bookingsTab/userProfileBookingTabs';
-import { Icon } from '../standard/icon/Icon';
-import PEIcon from '../standard/icon/PEIcon';
-import PEIconButton from '../standard/iconButton/PEIconButton';
-import HStack from '../utility/hStack/HStack';
-import styles from './BookingRequestDetail.module.css';
-import BookingRequestDetailChatTab from './detail-tabs/BookingRequestDetailChatTab';
-import BookingRequestDetailEventTab from './detail-tabs/BookingRequestDetailEventTab';
-import BookingRequestDetailMenuTab from './detail-tabs/BookingRequestDetailMenuTab';
-import BookingRequestDetailSupportTab from './detail-tabs/BookingRequestDetailSupportTab';
+} from './userProfileBookingTabs';
 
 export interface BookingRequestDetailProps {
     userId: string;

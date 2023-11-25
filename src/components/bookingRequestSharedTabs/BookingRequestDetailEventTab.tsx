@@ -1,12 +1,12 @@
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { type ReactElement } from 'react';
-import { Icon } from '../../standard/icon/Icon';
-import PEIcon from '../../standard/icon/PEIcon';
-import PETextField from '../../standard/textFields/PETextField';
-import HStack from '../../utility/hStack/HStack';
-import Spacer from '../../utility/spacer/Spacer';
-import VStack from '../../utility/vStack/VStack';
+import { Icon } from '../standard/icon/Icon';
+import PEIcon from '../standard/icon/PEIcon';
+import PETextField from '../standard/textFields/PETextField';
+import HStack from '../utility/hStack/HStack';
+import Spacer from '../utility/spacer/Spacer';
+import VStack from '../utility/vStack/VStack';
 
 export interface BookingRequestDetailEventTabProps {
     bookingRequest: {
@@ -20,7 +20,7 @@ export interface BookingRequestDetailEventTabProps {
     };
 }
 
-export default function BookingRequestDetailEventTab({ bookingRequest }: BookingRequestDetailEventTabProps): ReactElement {
+export function BookingRequestDetailEventTab({ bookingRequest }: BookingRequestDetailEventTabProps): ReactElement {
     const { t: translateGlobalBookingRequest } = useTranslation('global-booking-request');
 
     return (

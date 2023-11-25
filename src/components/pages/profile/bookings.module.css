@@ -1,0 +1,97 @@
+/* Body Container */
+
+.bodyContainer {
+    max-width: 1280px;
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 32px;
+}
+
+@media (width > 768px) {
+    .bodyContainer {
+        box-sizing: border-box;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
+/* Main Container */
+
+.mainContainer {
+    width: 100%;
+}
+
+@media (width > 768px) {
+    .mainContainer {
+        display: flex;
+        gap: 16px;
+        height: 675px;
+    }
+}
+
+/* Booking List Container */
+
+.bookingListContainer {
+    flex: 2;
+    flex-basis: 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (width > 768px) {
+    .bookingListContainer {
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        border-radius: 16px;
+    }
+}
+
+/* Booking List */
+
+.bookingList {
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow-y: auto;
+}
+
+/* Selected Booking Container */
+
+@media (width > 768px) {
+    .selectedBookingContainer {
+        flex: 3;
+        flex-basis: 0;
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* No Selected Booking */
+
+.noSelectedBookingLabel {
+    font-size: larger;
+    font-weight: bold;
+    margin-left: 32px;
+    margin-right: 32px;
+    text-align: center;
+}
+
+.noSelectedBookingImage {
+    max-width: 100%;
+    height: fit-content;
+    object-fit: contain;
+}
+
+@media (width <= 768px) {
+    .hiddenOnMobile {
+        display: none;
+        visibility: hidden;
+        float: none;
+        position: fixed;
+    }
+}

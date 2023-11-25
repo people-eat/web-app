@@ -150,6 +150,8 @@ const documents = {
         types.UpdateCookMenuPricePerChildDocument,
     'mutation UpdateCookMenuTitle($menuId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateTitle(menuId: $menuId, title: $title)\n    }\n  }\n}':
         types.UpdateCookMenuTitleDocument,
+    'query GetCookProfileBookingsPageData($cookId: String!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  cooks {\n    findOne(cookId: $cookId) {\n      hasStripePayoutMethodActivated\n    }\n    bookingRequests(cookId: $cookId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        status\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n          text\n        }\n        duration\n        createdAt\n        cook {\n          cookId\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n        configuredMenu {\n          title\n        }\n      }\n    }\n  }\n}':
+        types.GetCookProfileBookingsPageDataDocument,
     'mutation UpdateCookBiography($cookId: String!, $biography: String!) {\n  cooks {\n    success: updateBiography(cookId: $cookId, biography: $biography)\n  }\n}':
         types.UpdateCookBiographyDocument,
     'mutation UpdateCookHasStripePayoutMethodActivated($cookId: String!) {\n  cooks {\n    success: updateHasStripePayoutMethodActivated(cookId: $cookId)\n  }\n}':
@@ -683,6 +685,12 @@ export function gql(
 export function gql(
     source: 'mutation UpdateCookMenuTitle($menuId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateTitle(menuId: $menuId, title: $title)\n    }\n  }\n}',
 ): (typeof documents)['mutation UpdateCookMenuTitle($menuId: String!, $title: String!, $cookId: String!) {\n  cooks {\n    menus(cookId: $cookId) {\n      success: updateTitle(menuId: $menuId, title: $title)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'query GetCookProfileBookingsPageData($cookId: String!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  cooks {\n    findOne(cookId: $cookId) {\n      hasStripePayoutMethodActivated\n    }\n    bookingRequests(cookId: $cookId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        status\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n          text\n        }\n        duration\n        createdAt\n        cook {\n          cookId\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n        configuredMenu {\n          title\n        }\n      }\n    }\n  }\n}',
+): (typeof documents)['query GetCookProfileBookingsPageData($cookId: String!) {\n  users {\n    signedInUser: me {\n      ...SignedInUser\n    }\n  }\n  cooks {\n    findOne(cookId: $cookId) {\n      hasStripePayoutMethodActivated\n    }\n    bookingRequests(cookId: $cookId) {\n      findMany {\n        bookingRequestId\n        globalBookingRequestId\n        adultParticipants\n        children\n        dateTime\n        status\n        userAccepted\n        cookAccepted\n        kitchenId\n        occasion\n        preparationTime\n        price {\n          amount\n          currencyCode\n        }\n        location {\n          latitude\n          longitude\n          text\n        }\n        duration\n        createdAt\n        cook {\n          cookId\n          rank\n          user {\n            firstName\n            profilePictureUrl\n          }\n        }\n        configuredMenu {\n          title\n        }\n      }\n    }\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

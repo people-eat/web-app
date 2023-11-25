@@ -1,13 +1,13 @@
 import { type ReactElement } from 'react';
-import { type ConfiguredMenuFragment } from '../../../data-source/generated/graphql';
-import PEMealCardDesktop from '../../cards/mealCard/PEMealCardDesktop';
-import VStack from '../../utility/vStack/VStack';
+import { type ConfiguredMenuFragment } from '../../data-source/generated/graphql';
+import PEMealCardDesktop from '../cards/mealCard/PEMealCardDesktop';
+import VStack from '../utility/vStack/VStack';
 
 export interface BookingRequestDetailMenuTabProps {
     configuredMenu: ConfiguredMenuFragment;
 }
 
-export default function BookingRequestDetailMenuTab({ configuredMenu }: BookingRequestDetailMenuTabProps): ReactElement {
+export function BookingRequestDetailMenuTab({ configuredMenu }: BookingRequestDetailMenuTabProps): ReactElement {
     return (
         <VStack gap={32} style={{ alignItems: 'flex-start', width: '100%' }}>
             <span className="text-heading-m">{configuredMenu.title}</span>

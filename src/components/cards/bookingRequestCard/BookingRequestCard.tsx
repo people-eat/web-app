@@ -66,6 +66,7 @@ export function BookingRequestCard({ bookingRequest, isSelected, showDividerAtEn
                 </VStack>
             </ListItemButton>
 
+            {showDividerAtEnd && 'showDividerAtEnd'}
             {showDividerAtEnd && <Divider />}
         </>
     );

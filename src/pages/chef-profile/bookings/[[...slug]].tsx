@@ -8,26 +8,24 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { BookingListHeader, type BookingListHeaderFilterOption } from '../../../components/bookingListHeader/BookingListHeader';
 import { BookingRequestCard } from '../../../components/cards/bookingRequestCard/BookingRequestCard';
-import { GlobalBookingRequestCard } from '../../../components/cards/globalBookingRequestCard/GlobalBookingRequestCard';
 import PEFooter from '../../../components/footer/PEFooter';
 import PEHeader from '../../../components/header/PEHeader';
-import { UserProfileNavigationTabs } from '../../../components/navigation/UserProfileNavigationTabs';
-import BookingRequestDetail from '../../../components/pages/profile/BookingRequestDetail';
-import GlobalBookingRequestDetail from '../../../components/pages/profile/GlobalBookingRequestDetail';
-import styles from '../../../components/pages/profile/bookings.module.css';
+import { CookProfileNavigationTabs } from '../../../components/navigation/CookProfileNavigationTabs';
+import BookingRequestDetail from '../../../components/pages/cookProfile/CookBookingRequestDetail';
+import styles from '../../../components/pages/cookProfile/cook-bookings.module.css';
 import VStack from '../../../components/utility/vStack/VStack';
 import { createApolloClient } from '../../../data-source/createApolloClient';
 import {
+    GetCookProfileBookingsPageDataDocument,
     GetSignedInUserDocument,
-    GetUserProfileBookingsPageDataDocument,
+    type GetCookProfileBookingsPageDataQuery,
     type GetSignedInUserQuery,
-    type GetUserProfileBookingsPageDataQuery,
 } from '../../../data-source/generated/graphql';
 
 interface ServerSideProps {
     signedInUser: NonNullable<GetSignedInUserQuery['users']['signedInUser']>;
-    bookingRequests: NonNullable<GetUserProfileBookingsPageDataQuery['users']['bookingRequests']['findMany']>;
-    globalBookingRequests: NonNullable<GetUserProfileBookingsPageDataQuery['users']['globalBookingRequests']['findMany']>;
+    bookingRequests: NonNullable<GetCookProfileBookingsPageDataQuery['cooks']['bookingRequests']['findMany']>;
+    hasStripePayoutMethodActivated: boolean;
 }
 
 export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ req }) => {
@@ -40,32 +38,23 @@ export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ 
     if (!signedInUser) throw new Error();
 
     const { data: bookingRequestData } = await apolloClient.query({
-        query: GetUserProfileBookingsPageDataDocument,
-        variables: { userId: signedInUser.userId },
+        query: GetCookProfileBookingsPageDataDocument,
+        variables: { cookId: signedInUser.userId },
     });
 
     return {
         props: {
             signedInUser,
-            bookingRequests: bookingRequestData.users.bookingRequests.findMany ?? [],
-            globalBookingRequests: bookingRequestData.users.globalBookingRequests.findMany ?? [],
+            bookingRequests: bookingRequestData.cooks.bookingRequests.findMany ?? [],
+            hasStripePayoutMethodActivated: bookingRequestData.cooks.findOne?.hasStripePayoutMethodActivated ?? false,
         },
     };
 };
 
-const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, globalBookingRequests }) => {
+const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, hasStripePayoutMethodActivated }) => {
     const router = useRouter();
 
     const [selectedBookingRequestId] = router.query.slug ?? [];
-
-    let selectedBookingRequestIdType: 'REGULAR' | 'GLOBAL' = 'REGULAR';
-
-    if (
-        globalBookingRequests.findIndex(
-            (globalBookingRequest) => globalBookingRequest.globalBookingRequestId === selectedBookingRequestId,
-        ) !== -1
-    )
-        selectedBookingRequestIdType = 'GLOBAL';
 
     const [filterOption, setFilterOption] = useState<BookingListHeaderFilterOption>('ALL');
 
@@ -100,7 +89,7 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, globa
                 <PEHeader className={Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : ''} signedInUser={signedInUser} />
 
                 <div className={styles.bodyContainer}>
-                    <UserProfileNavigationTabs
+                    <CookProfileNavigationTabs
                         selection="BOOKINGS"
                         className={Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : ''}
                     />
@@ -117,23 +106,6 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, globa
                             <Divider />
 
                             <List className={styles.bookingList}>
-                                {(filterOption === 'ALL' || filterOption === 'OPEN') &&
-                                    globalBookingRequests.map((bookingRequest) => (
-                                        <div key={bookingRequest.globalBookingRequestId} style={{ width: '100%' }}>
-                                            <GlobalBookingRequestCard
-                                                globalBookingRequest={bookingRequest}
-                                                isSelected={selectedBookingRequestId === bookingRequest.globalBookingRequestId}
-                                                onClick={(): void =>
-                                                    void router.push(
-                                                        `/profile/bookings/${bookingRequest.globalBookingRequestId}`,
-                                                        undefined,
-                                                        { scroll: false },
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    ))}
-
                                 {filteredBookingRequests.map((bookingRequest, index) => (
                                     <div key={bookingRequest.bookingRequestId} style={{ width: '100%' }}>
                                         <BookingRequestCard
@@ -141,7 +113,7 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, globa
                                             isSelected={selectedBookingRequestId === bookingRequest.bookingRequestId}
                                             showDividerAtEnd={index !== filteredBookingRequests.length - 1}
                                             onClick={(): void =>
-                                                void router.push(`/profile/bookings/${bookingRequest.bookingRequestId}`, undefined, {
+                                                void router.push(`/chef-profile/bookings/${bookingRequest.bookingRequestId}`, undefined, {
                                                     scroll: false,
                                                 })
                                             }
@@ -157,16 +129,13 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, globa
                                 Boolean(selectedBookingRequestId) ? '' : styles.hiddenOnMobile,
                             )}
                         >
-                            {selectedBookingRequestId && selectedBookingRequestIdType === 'REGULAR' && (
+                            {selectedBookingRequestId && (
                                 <BookingRequestDetail
-                                    userId={signedInUser.userId}
+                                    cookId={signedInUser.userId}
+                                    cookHasStripePayoutMethodActivated={hasStripePayoutMethodActivated}
                                     bookingRequestId={selectedBookingRequestId}
                                     onBack={(): void => void router.push('/profile/bookings')}
                                 />
-                            )}
-
-                            {selectedBookingRequestId && selectedBookingRequestIdType === 'GLOBAL' && (
-                                <GlobalBookingRequestDetail globalBookingRequestId={selectedBookingRequestId} />
                             )}
 
                             {!selectedBookingRequestId && (

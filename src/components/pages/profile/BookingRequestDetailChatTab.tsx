@@ -1,17 +1,21 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery, useSubscription } from '@apollo/client';
 import { Button } from '@mui/material';
+import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
-import { useState, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type ReactElement } from 'react';
 import {
+    BookingRequestChatMessageCreationsDocument,
     CreateOneUserBookingRequestChatMessageDocument,
+    FindManyUserBookingRequestChatMessagesDocument,
     UserBookingRequestAcceptDocument,
     UserBookingRequestDeclineDocument,
     type BookingRequestStatus,
+    type ChatMessageFragment,
 } from '../../../data-source/generated/graphql';
 import { BookingRequestAcceptDialog } from '../../bookingRequestAcceptDialog/BookingRequestAcceptDialog';
+import { BookingRequestChatMessage } from '../../bookingRequestChatMessage/BookingRequestChatMessage';
 import { BookingRequestDeclineDialog } from '../../bookingRequestDeclineDialog/BookingRequestDeclineDialog';
 import { LoadingDialog } from '../../loadingDialog/LoadingDialog';
-import ProfilePageBookingsChatMessages from '../../pages/profile/bookingsTab/ProfilePageBookingsChatMessages';
 import PEButton from '../../standard/buttons/PEButton';
 import PETextField from '../../standard/textFields/PETextField';
 import HStack from '../../utility/hStack/HStack';
@@ -28,6 +32,7 @@ export interface BookingRequestDetailChatTabProps {
     onUpdateRequired: () => void;
 }
 
+// eslint-disable-next-line max-statements
 export default function BookingRequestDetailChatTab({
     userId,
     bookingRequest,
@@ -36,18 +41,61 @@ export default function BookingRequestDetailChatTab({
     const { t: translateGlobalBookingRequest } = useTranslation('global-booking-request');
     const { t: cookProfileTranslate } = useTranslation('chef-profile');
 
-    const [newMessage, setNewMessage] = useState('');
+    const chatBottom = useRef<HTMLDivElement>(null);
 
+    const [chatMessages, setChatMessages] = useState<ChatMessageFragment[]>([]);
+    const [newMessage, setNewMessage] = useState('');
     const [showAcceptDialog, setShowAcceptDialog] = useState(false);
     const [showDeclineDialog, setShowDeclineDialog] = useState(false);
 
     const [acceptBookingRequest, { loading: acceptLoading }] = useMutation(UserBookingRequestAcceptDocument);
     const [declineBookingRequest, { loading: declineLoading }] = useMutation(UserBookingRequestDeclineDocument);
     const [createMessage, { loading: createMessageLoading }] = useMutation(CreateOneUserBookingRequestChatMessageDocument);
+    const { data } = useQuery(FindManyUserBookingRequestChatMessagesDocument, {
+        variables: { userId, bookingRequestId: bookingRequest.bookingRequestId },
+    });
+    useSubscription(BookingRequestChatMessageCreationsDocument, {
+        variables: { bookingRequestId: bookingRequest.bookingRequestId },
+        onData: ({ data: subscriptionData }) => {
+            const newChatMessage = subscriptionData.data?.bookingRequestChatMessageCreations;
+            if (!newChatMessage) return;
+            setChatMessages([...chatMessages, newChatMessage]);
+            setTimeout(() => scrollToChatBottom(), 200);
+        },
+    });
+
+    function scrollToChatBottom(): void {
+        chatBottom.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center',
+        });
+    }
+
+    useEffect(() => {
+        const fetchedChatMessages = data?.users.bookingRequests.chatMessages.findMany;
+        if (fetchedChatMessages) setChatMessages(fetchedChatMessages);
+        setTimeout(() => scrollToChatBottom(), 200);
+    }, [data]);
+
+    useEffect(() => scrollToChatBottom(), []);
+
+    const sortedChatMessages = chatMessages.map((chatMessage) => ({ ...chatMessage }));
+
+    sortedChatMessages.sort((chatMessageA, chatMessageB): number => moment(chatMessageA.createdAt).diff(moment(chatMessageB.createdAt)));
 
     return (
         <VStack style={{ width: '100%', height: '100%', justifyContent: 'space-between', overflowY: 'auto' }}>
-            <ProfilePageBookingsChatMessages userId={userId} bookingRequestId={bookingRequest.bookingRequestId} />
+            <VStack gap={32} style={{ width: '100%', overflowY: 'auto' }}>
+                {sortedChatMessages.map((chatMessage) => (
+                    <BookingRequestChatMessage
+                        key={chatMessage.chatMessageId}
+                        type={userId === chatMessage.createdBy ? 'SENT' : 'RECEIVED'}
+                        chatMessage={chatMessage}
+                    />
+                ))}
+                <div data-element="chat-bottom" ref={chatBottom} />
+            </VStack>
 
             {bookingRequest.status === 'OPEN' && (
                 <HStack gap={16} className="w-full">
