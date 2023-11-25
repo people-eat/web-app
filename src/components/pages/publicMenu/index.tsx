@@ -147,28 +147,26 @@ export default function PublicMenuPage({
 
     function onBook(): void {
         const menuBookingRequest: CreateBookingRequestRequest = {
-            adultParticipants: adults,
-            children,
-            dateTime: dateTime.toDate(),
-            duration: 120,
-            location: {
-                latitude: selectedLocation?.latitude ?? 0,
-                longitude: selectedLocation?.latitude ?? 0,
-                text: address,
-            },
-            occasion,
-            price: {
-                // TODO: remove this from menu booking params. Should be calculated on the server side
-                amount: finalPrice,
-                currencyCode: 'EUR',
-            },
-            // allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
-            message,
-            cookId: publicMenu.cook.cookId,
-            preparationTime: 120,
-            configuredMenu: {
-                menuId: publicMenu.menuId,
-                courses: configuredMenuCourses,
+            menu: {
+                adultParticipants: adults,
+                children,
+                dateTime: dateTime.toDate(),
+                duration: 120,
+                location: {
+                    latitude: selectedLocation?.latitude ?? 0,
+                    longitude: selectedLocation?.latitude ?? 0,
+                    text: address,
+                },
+                occasion,
+                // allergyIds: selectedAllergies.map(({ allergyId }) => allergyId),
+                message,
+                cookId: publicMenu.cook.cookId,
+                preparationTime: 120,
+                configuredMenu: {
+                    menuId: publicMenu.menuId,
+                    courses: configuredMenuCourses,
+                },
+                travelExpensesAmount: travelExpenses!,
             },
         };
 

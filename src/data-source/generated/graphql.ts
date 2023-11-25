@@ -813,18 +813,8 @@ export type Course = {
 };
 
 export type CreateBookingRequestRequest = {
-    adultParticipants: Scalars['UnsignedInt'];
-    children: Scalars['UnsignedInt'];
-    configuredMenu?: InputMaybe<CreateConfiguredMenuRequest>;
-    cookId: Scalars['String'];
-    dateTime: Scalars['DateTime'];
-    duration: Scalars['UnsignedInt'];
-    kitchenId?: InputMaybe<Scalars['String']>;
-    location: LocationInput;
-    message: Scalars['String'];
-    occasion: Scalars['String'];
-    preparationTime: Scalars['UnsignedInt'];
-    price: PriceInput;
+    cook?: InputMaybe<CreateCookBookingRequestRequest>;
+    menu?: InputMaybe<CreateMenuBookingRequestRequest>;
 };
 
 export type CreateChatMessageRequest = {
@@ -839,6 +829,35 @@ export type CreateConfiguredMenuCourseRequest = {
 export type CreateConfiguredMenuRequest = {
     courses: Array<CreateConfiguredMenuCourseRequest>;
     menuId: Scalars['String'];
+};
+
+export type CreateCookBookingRequestRequest = {
+    adultParticipants: Scalars['UnsignedInt'];
+    children: Scalars['UnsignedInt'];
+    cookId: Scalars['String'];
+    dateTime: Scalars['DateTime'];
+    duration: Scalars['UnsignedInt'];
+    kitchenId?: InputMaybe<Scalars['String']>;
+    location: LocationInput;
+    message: Scalars['String'];
+    occasion: Scalars['String'];
+    preparationTime: Scalars['UnsignedInt'];
+    price: PriceInput;
+    travelExpensesAmount: Scalars['UnsignedInt'];
+};
+
+export type CreateMenuBookingRequestRequest = {
+    adultParticipants: Scalars['UnsignedInt'];
+    children: Scalars['UnsignedInt'];
+    configuredMenu: CreateConfiguredMenuRequest;
+    cookId: Scalars['String'];
+    dateTime: Scalars['DateTime'];
+    duration: Scalars['UnsignedInt'];
+    location: LocationInput;
+    message: Scalars['String'];
+    occasion: Scalars['String'];
+    preparationTime: Scalars['UnsignedInt'];
+    travelExpensesAmount: Scalars['UnsignedInt'];
 };
 
 export type CreateOneAddressRequest = {
