@@ -1,6 +1,6 @@
-export type UserProfileTabType = 'PERSONAL_INFORMATION' | 'BOOKINGS' | 'FAVORITE_COOKS';
+export type UserProfileNavigationTabType = 'PERSONAL_INFORMATION' | 'BOOKINGS' | 'FAVORITE_COOKS';
 
-export const userProfileTabs: { type: UserProfileTabType; path: string; translationKey: string }[] = [
+export const userProfileNavigationTabTypes: { type: UserProfileNavigationTabType; path: string; translationKey: string }[] = [
     {
         type: 'PERSONAL_INFORMATION',
         path: '/profile',

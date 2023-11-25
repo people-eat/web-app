@@ -1,43 +1,43 @@
-import { Divider, List, ListItemButton } from '@mui/material';
+import { Divider, List } from '@mui/material';
 import classNames from 'classnames';
-import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
-import useTranslation from 'next-translate/useTranslation';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { BookingRequestCard } from '../../../components/cards/bookingRequestCard/BookingRequestCard';
+import { GlobalBookingRequestCard } from '../../../components/cards/globalBookingRequestCard/GlobalBookingRequestCard';
 import PEFooter from '../../../components/footer/PEFooter';
 import PEHeader from '../../../components/header/PEHeader';
+import { UserProfileNavigationTabs } from '../../../components/navigation/UserProfileNavigationTabs';
 import BookingListHeader, { type BookingListHeaderFilterOption } from '../../../components/new-user-profile-booking-tab/BookingListHeader';
 import BookingRequestDetail from '../../../components/new-user-profile-booking-tab/BookingRequestDetail';
 import GlobalBookingRequestDetail from '../../../components/new-user-profile-booking-tab/GlobalBookingRequestDetail';
 import styles from '../../../components/new-user-profile-booking-tab/bookings.module.css';
-import BookingRequestStatusPill from '../../../components/standard/bookingRequestStatusPill/BookingRequestStatusPill';
-import { Icon } from '../../../components/standard/icon/Icon';
-import PEIcon from '../../../components/standard/icon/PEIcon';
-import PETabItem from '../../../components/standard/tabItem/PETabItem';
-import HStack from '../../../components/utility/hStack/HStack';
-import Spacer from '../../../components/utility/spacer/Spacer';
 import VStack from '../../../components/utility/vStack/VStack';
 import { createApolloClient } from '../../../data-source/createApolloClient';
 import {
     GetSignedInUserDocument,
     GetUserProfileBookingsPageDataDocument,
+    type GetSignedInUserQuery,
     type GetUserProfileBookingsPageDataQuery,
 } from '../../../data-source/generated/graphql';
-import { formatPrice } from '../../../shared-domain/formatPrice';
-import { userProfileTabs } from '../shared';
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+interface ServerSideProps {
+    signedInUser: NonNullable<GetSignedInUserQuery['users']['signedInUser']>;
+    bookingRequests: NonNullable<GetUserProfileBookingsPageDataQuery['users']['bookingRequests']['findMany']>;
+    globalBookingRequests: NonNullable<GetUserProfileBookingsPageDataQuery['users']['globalBookingRequests']['findMany']>;
+}
+
+export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ req }) => {
     const apolloClient = createApolloClient(req.headers.cookie);
 
     const { data: signedInUserData } = await apolloClient.query({ query: GetSignedInUserDocument });
 
     const signedInUser = signedInUserData.users.signedInUser;
 
-    if (!signedInUser) return { props: {} };
+    if (!signedInUser) throw new Error();
 
     const { data: bookingRequestData } = await apolloClient.query({
         query: GetUserProfileBookingsPageDataDocument,
@@ -47,21 +47,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     return {
         props: {
             signedInUser,
-            bookingRequests: bookingRequestData.users.bookingRequests.findMany,
-            globalBookingRequests: bookingRequestData.users.globalBookingRequests.findMany,
+            bookingRequests: bookingRequestData.users.bookingRequests.findMany ?? [],
+            globalBookingRequests: bookingRequestData.users.globalBookingRequests.findMany ?? [],
         },
     };
 };
 
-interface UserProfileBookingsPageProps {
-    signedInUser: NonNullable<GetUserProfileBookingsPageDataQuery['users']['signedInUser']>;
-    bookingRequests: NonNullable<GetUserProfileBookingsPageDataQuery['users']['bookingRequests']['findMany']>;
-    globalBookingRequests: NonNullable<GetUserProfileBookingsPageDataQuery['users']['globalBookingRequests']['findMany']>;
-}
-
-const Index: NextPage<UserProfileBookingsPageProps> = ({ signedInUser, bookingRequests, globalBookingRequests }) => {
-    const { t: translateCommon } = useTranslation('common');
-    const { t } = useTranslation('global-booking-request');
+const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, globalBookingRequests }) => {
     const router = useRouter();
 
     const [selectedBookingRequestId] = router.query.slug ?? [];
@@ -108,16 +100,10 @@ const Index: NextPage<UserProfileBookingsPageProps> = ({ signedInUser, bookingRe
                 <PEHeader className={Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : ''} signedInUser={signedInUser} />
 
                 <div className={styles.bodyContainer}>
-                    <div className={classNames(styles.tabSelector, Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : '')}>
-                        {userProfileTabs.map(({ type, translationKey, path }) => (
-                            <PETabItem
-                                key={type}
-                                active={type === 'BOOKINGS'}
-                                title={translateCommon(translationKey)}
-                                onClick={(): void => void router.push(path)}
-                            />
-                        ))}
-                    </div>
+                    <UserProfileNavigationTabs
+                        selection="BOOKINGS"
+                        className={Boolean(selectedBookingRequestId) ? styles.hiddenOnMobile : ''}
+                    />
 
                     <main className={styles.mainContainer}>
                         <div
@@ -134,8 +120,9 @@ const Index: NextPage<UserProfileBookingsPageProps> = ({ signedInUser, bookingRe
                                 {(filterOption === 'ALL' || filterOption === 'OPEN') &&
                                     globalBookingRequests.map((bookingRequest) => (
                                         <div key={bookingRequest.globalBookingRequestId} style={{ width: '100%' }}>
-                                            <ListItemButton
-                                                selected={selectedBookingRequestId === bookingRequest.globalBookingRequestId}
+                                            <GlobalBookingRequestCard
+                                                globalBookingRequest={bookingRequest}
+                                                isSelected={selectedBookingRequestId === bookingRequest.globalBookingRequestId}
                                                 onClick={(): void =>
                                                     void router.push(
                                                         `/profile/bookings/${bookingRequest.globalBookingRequestId}`,
@@ -143,89 +130,22 @@ const Index: NextPage<UserProfileBookingsPageProps> = ({ signedInUser, bookingRe
                                                         { scroll: false },
                                                     )
                                                 }
-                                            >
-                                                <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
-                                                    <HStack className="w-full">
-                                                        <BookingRequestStatusPill status="OPEN" />
-
-                                                        <Spacer />
-
-                                                        <span className="text-green">{bookingRequest.priceClass.type}</span>
-                                                    </HStack>
-
-                                                    <span className="text-heading-ss-bold md:text-text-sm-bold">
-                                                        {bookingRequest.occasion}
-                                                    </span>
-
-                                                    <HStack gap={16} className="text-gray">
-                                                        {moment(bookingRequest.dateTime).format('L')}
-                                                        <Divider orientation="vertical" flexItem style={{ display: 'inline' }}></Divider>
-                                                        {moment(bookingRequest.dateTime).format('LT')}
-                                                    </HStack>
-
-                                                    <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
-                                                        <span>Globale Anfrage</span>
-                                                        <Spacer />
-                                                        in {moment(bookingRequest.dateTime).diff(moment(), 'days')} {t('days')}
-                                                    </HStack>
-                                                </VStack>
-                                            </ListItemButton>
-
-                                            <Divider />
+                                            />
                                         </div>
                                     ))}
 
                                 {filteredBookingRequests.map((bookingRequest, index) => (
                                     <div key={bookingRequest.bookingRequestId} style={{ width: '100%' }}>
-                                        <ListItemButton
-                                            selected={selectedBookingRequestId === bookingRequest.bookingRequestId}
+                                        <BookingRequestCard
+                                            bookingRequest={bookingRequest}
+                                            isSelected={selectedBookingRequestId === bookingRequest.bookingRequestId}
+                                            showDividerAtEnd={index !== filteredBookingRequests.length - 1}
                                             onClick={(): void =>
                                                 void router.push(`/profile/bookings/${bookingRequest.bookingRequestId}`, undefined, {
                                                     scroll: false,
                                                 })
                                             }
-                                        >
-                                            <VStack gap={16} className="w-full" style={{ alignItems: 'flex-start' }}>
-                                                <HStack className="w-full">
-                                                    <BookingRequestStatusPill status={bookingRequest.status} />
-
-                                                    <Spacer />
-
-                                                    <span className="text-green">{formatPrice(bookingRequest.price)}</span>
-                                                </HStack>
-
-                                                <span className="text-heading-ss-bold md:text-text-sm-bold">{bookingRequest.occasion}</span>
-
-                                                <HStack gap={16} className="text-gray">
-                                                    {moment(bookingRequest.dateTime).format('L')}
-                                                    <Divider orientation="vertical" flexItem style={{ display: 'inline' }}></Divider>
-                                                    {moment(bookingRequest.dateTime).format('LT')}
-                                                </HStack>
-
-                                                <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
-                                                    {bookingRequest.cook.user.profilePictureUrl && (
-                                                        <Image
-                                                            className="rounded-3"
-                                                            style={{ width: '45px', height: '45px', objectFit: 'cover' }}
-                                                            src={bookingRequest.cook.user.profilePictureUrl}
-                                                            alt={'client image'}
-                                                            width={45}
-                                                            height={45}
-                                                        />
-                                                    )}
-                                                    {!bookingRequest.cook.user.profilePictureUrl && (
-                                                        <div className="flex justify-center items-center w-11 h-11 bg-base rounded-3">
-                                                            <PEIcon icon={Icon.profileLight} edgeLength={32} />
-                                                        </div>
-                                                    )}
-                                                    {bookingRequest.cook.user.firstName}
-                                                    <Spacer />
-                                                    in {moment(bookingRequest.dateTime).diff(moment(), 'days')} {t('days')}
-                                                </HStack>
-                                            </VStack>
-                                        </ListItemButton>
-
-                                        {index !== filteredBookingRequests.length - 1 && <Divider />}
+                                        />
                                     </div>
                                 ))}
                             </List>

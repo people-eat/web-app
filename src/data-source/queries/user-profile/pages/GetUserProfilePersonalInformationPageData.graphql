@@ -1,0 +1,47 @@
+query GetUserProfilePersonalInformationPageData {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+        me {
+            userId
+            firstName
+            lastName
+            profilePictureUrl
+            birthDate
+            gender
+            acceptedTerms
+            acceptedPrivacyPolicy
+            emailAddress
+            phoneNumber
+            createdAt
+
+            isCook
+            isAdmin
+
+            addresses {
+                addressId
+                title
+                country
+                city
+                postCode
+                street
+                houseNumber
+                location {
+                    latitude
+                    longitude
+                }
+                createdAt
+            }
+
+            emailAddressUpdate {
+                emailAddress
+                createdAt
+            }
+            phoneNumberUpdate {
+                phoneNumber
+                createdAt
+            }
+        }
+    }
+}

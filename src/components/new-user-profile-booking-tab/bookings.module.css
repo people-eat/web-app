@@ -17,19 +17,6 @@
     }
 }
 
-/* Tab Selector */
-
-.tabSelector {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    gap: 8px;
-    overflow-x: auto;
-
-    /* className="w-full max-w-screen-xl overflow-x-scroll lg:px-4 box-border"
-       style={{ overflowY: 'initial', justifyContent: 'flex-start' }} */
-}
-
 /* Main Container */
 
 .mainContainer {

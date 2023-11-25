@@ -1,21 +1,52 @@
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
-import ProfilePage, { type ProfilePageProps } from '../../components/pages/profile';
+import PEFooter from '../../components/footer/PEFooter';
+import PEHeader from '../../components/header/PEHeader';
+import { UserProfileNavigationTabs } from '../../components/navigation/UserProfileNavigationTabs';
+import ProfilePagePersonalTab from '../../components/pages/profile/personalTab/ProfilePagePersonalTab';
+import VStack from '../../components/utility/vStack/VStack';
 import { createApolloClient } from '../../data-source/createApolloClient';
-import { GetProfileQueryDocument } from '../../data-source/generated/graphql';
+import {
+    GetUserProfilePersonalInformationPageDataDocument,
+    type GetSignedInUserQuery,
+    type GetUserProfilePersonalInformationPageDataQuery,
+} from '../../data-source/generated/graphql';
+import styles from './styles.module.css';
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+interface ServerSideProps {
+    signedInUser: NonNullable<GetSignedInUserQuery['users']['signedInUser']>;
+    userProfile: NonNullable<GetUserProfilePersonalInformationPageDataQuery['users']['me']>;
+}
+
+export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ req }) => {
     const apolloClient = createApolloClient(req.headers.cookie);
-    const { data } = await apolloClient.query({ query: GetProfileQueryDocument });
 
-    return {
-        props: {
-            signedInUser: data.users.me,
-        },
-    };
+    try {
+        const { data } = await apolloClient.query({ query: GetUserProfilePersonalInformationPageDataDocument });
+
+        const signedInUser = data.users.signedInUser;
+
+        if (!signedInUser) throw new Error();
+
+        const userProfile = data.users.me;
+
+        if (!userProfile) throw new Error();
+
+        return {
+            props: {
+                signedInUser,
+                userProfile,
+            },
+        };
+    } catch (error) {
+        // if (!isApolloError(error as Error)) throw error;
+        // (error as ApolloError).networkError.
+        throw error;
+    }
 };
 
-const Index: NextPage<ProfilePageProps> = ({ signedInUser }) => {
+// todo: use userProfile
+const Index: NextPage<ServerSideProps> = ({ signedInUser }) => {
     return (
         <>
             <Head>
@@ -27,7 +58,20 @@ const Index: NextPage<ProfilePageProps> = ({ signedInUser }) => {
 
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <ProfilePage signedInUser={signedInUser} />
+
+            <VStack className="w-full" gap={32}>
+                <PEHeader signedInUser={signedInUser} />
+
+                <div className={styles.bodyContainer}>
+                    <UserProfileNavigationTabs selection="PERSONAL_INFORMATION" />
+
+                    <main className={styles.mainContainer}>
+                        <ProfilePagePersonalTab userId={signedInUser.userId} />
+                    </main>
+                </div>
+
+                <PEFooter />
+            </VStack>
         </>
     );
 };

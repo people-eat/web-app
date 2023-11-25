@@ -1,0 +1,25 @@
+query GetUserProfileFavoriteCooksPageData($userId: String!) {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+        followings(userId: $userId) {
+            findAll {
+                cookId
+                cook {
+                    user {
+                        firstName
+                        profilePictureUrl
+                    }
+                    rank
+                    city
+                    location {
+                        text
+                        longitude
+                        latitude
+                    }
+                }
+            }
+        }
+    }
+}

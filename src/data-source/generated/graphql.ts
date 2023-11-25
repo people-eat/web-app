@@ -4234,6 +4234,86 @@ export type GetUserProfileBookingsPageDataQuery = {
     };
 };
 
+export type GetUserProfileFavoriteCooksPageDataQueryVariables = Exact<{
+    userId: Scalars['String'];
+}>;
+
+export type GetUserProfileFavoriteCooksPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: {
+            __typename?: 'User';
+            userId: string;
+            firstName: string;
+            profilePictureUrl?: string | null;
+            isCook: boolean;
+            isAdmin: boolean;
+        } | null;
+        followings: {
+            __typename?: 'UserFollowingQuery';
+            findAll: Array<{
+                __typename?: 'Following';
+                cookId: string;
+                cook: {
+                    __typename?: 'PublicCook';
+                    rank: CookRank;
+                    city: string;
+                    user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
+                    location: { __typename?: 'Location'; text: string; longitude: number; latitude: number };
+                };
+            }>;
+        };
+    };
+};
+
+export type GetUserProfilePersonalInformationPageDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetUserProfilePersonalInformationPageDataQuery = {
+    __typename?: 'Query';
+    users: {
+        __typename?: 'UserQuery';
+        signedInUser?: {
+            __typename?: 'User';
+            userId: string;
+            firstName: string;
+            profilePictureUrl?: string | null;
+            isCook: boolean;
+            isAdmin: boolean;
+        } | null;
+        me?: {
+            __typename?: 'User';
+            userId: string;
+            firstName: string;
+            lastName: string;
+            profilePictureUrl?: string | null;
+            birthDate?: string | null;
+            gender: Gender;
+            acceptedTerms: Date;
+            acceptedPrivacyPolicy: Date;
+            emailAddress?: string | null;
+            phoneNumber?: string | null;
+            createdAt: Date;
+            isCook: boolean;
+            isAdmin: boolean;
+            addresses: Array<{
+                __typename?: 'Address';
+                addressId: string;
+                title: string;
+                country: string;
+                city: string;
+                postCode: string;
+                street: string;
+                houseNumber: string;
+                createdAt: Date;
+                location: { __typename?: 'Location'; latitude: number; longitude: number };
+            }>;
+            emailAddressUpdate?: { __typename?: 'EmailAddressUpdate'; emailAddress: string; createdAt: Date } | null;
+            phoneNumberUpdate?: { __typename?: 'PhoneNumberUpdate'; phoneNumber: string; createdAt: Date } | null;
+        } | null;
+    };
+};
+
 export const ConfiguredMenuFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -12944,3 +13024,250 @@ export const GetUserProfileBookingsPageDataDocument = {
         },
     ],
 } as unknown as DocumentNode<GetUserProfileBookingsPageDataQuery, GetUserProfileBookingsPageDataQueryVariables>;
+export const GetUserProfileFavoriteCooksPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetUserProfileFavoriteCooksPageData' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'followings' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'userId' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'userId' } },
+                                        },
+                                    ],
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'findAll' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'cook' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'user' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'firstName' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'profilePictureUrl' },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'location' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'longitude' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'latitude' },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetUserProfileFavoriteCooksPageDataQuery, GetUserProfileFavoriteCooksPageDataQueryVariables>;
+export const GetUserProfilePersonalInformationPageDataDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'GetUserProfilePersonalInformationPageData' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'users' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'signedInUser' },
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'SignedInUser' } }],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'me' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'birthDate' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'gender' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedTerms' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'acceptedPrivacyPolicy' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'addresses' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'addressId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'postCode' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'street' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'houseNumber' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'location' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'emailAddressUpdate' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'phoneNumberUpdate' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'SignedInUser' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'userId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isCook' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'isAdmin' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GetUserProfilePersonalInformationPageDataQuery, GetUserProfilePersonalInformationPageDataQueryVariables>;

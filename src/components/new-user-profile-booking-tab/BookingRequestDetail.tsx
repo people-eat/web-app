@@ -104,10 +104,13 @@ export default function BookingRequestDetail({ userId, bookingRequestId, onBack 
                     onUpdateRequired={(): void => void refetch()}
                 />
             )}
+
             {tab === 'EVENT' && <BookingRequestDetailEventTab bookingRequest={bookingRequest} />}
+
             {bookingRequest.configuredMenu && tab === 'MENU' && (
                 <BookingRequestDetailMenuTab configuredMenu={bookingRequest.configuredMenu} />
             )}
+
             {tab === 'SUPPORT' && (
                 <BookingRequestDetailSupportTab
                     userId={userId}
