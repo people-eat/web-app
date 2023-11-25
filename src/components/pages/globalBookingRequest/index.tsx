@@ -5,6 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
+import classNames from 'classnames';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
@@ -16,7 +17,6 @@ import {
     type CreateOneGlobalBookingRequestRequest,
     type GlobalBookingRequestPriceClassType,
 } from '../../../data-source/generated/graphql';
-import useResponsive from '../../../hooks/useResponsive';
 import { type Allergy } from '../../../shared-domain/Allergy';
 import { type Category } from '../../../shared-domain/Category';
 import { type Kitchen } from '../../../shared-domain/Kitchen';
@@ -31,6 +31,7 @@ import PEIcon from '../../standard/icon/PEIcon';
 import HStack from '../../utility/hStack/HStack';
 import Spacer from '../../utility/spacer/Spacer';
 import VStack from '../../utility/vStack/VStack';
+import styles from './GlobalBookingRequest.module.css';
 import { header, header02, header03 } from './points.mock';
 import GlobalBookingRequestPageStep1 from './step1/GlobalBookingRequestPageStep1';
 import GlobalBookingRequestPageStep2 from './step2/GlobalBookingRequestPageStep2';
@@ -64,7 +65,6 @@ export default function GlobalBookingRequestPage({
     const { t } = useTranslation('global-booking-request');
     const { t: homeTranslations } = useTranslation('home');
     const { t: commonTranslate } = useTranslation('common');
-    const { isDesktop } = useResponsive();
 
     const [step, setStep] = useState(0);
 
@@ -235,47 +235,33 @@ export default function GlobalBookingRequestPage({
                     )}
                 </VStack>
 
-                {isDesktop && (
-                    <VStack gap={32} className="w-full" style={{ alignItems: 'flex-start' }}>
-                        <Image
-                            className="w-full"
-                            src={'/koch-münchen.png'}
-                            alt=""
-                            width={512}
-                            height={512}
-                            style={{
-                                height: '100%',
-                                backgroundPosition: 'center',
-                                backgroundSize: 'cover',
-                                borderRadius: '16px',
-                                alignItems: 'flex-start',
-                                boxSizing: 'border-box',
-                                maxHeight: '660px',
-                            }}
+                {/* <VStack gap={32} className={}"w-full" style={{ alignItems: 'flex-start' }}> */}
+
+                <div className={classNames(styles.hiddenOnMobile, styles.additionalInformationContainer)}>
+                    <Image className={styles.image} src="/koch-münchen.png" alt="" width={512} height={512} />
+
+                    <VStack gap={32} style={{ alignItems: 'flex-start' }}>
+                        <h3>{t('booking-global-request-in-price')}</h3>
+                        <PEBulletPoint
+                            icon={Icon.foodBasket}
+                            title={homeTranslations('section-3-bullet-point-1-title')}
+                            text=""
+                            maxWidth={'530px'}
                         />
-                        <VStack gap={32} style={{ alignItems: 'flex-start' }}>
-                            <h3>{t('booking-global-request-in-price')}</h3>
-                            <PEBulletPoint
-                                icon={Icon.foodBasket}
-                                title={homeTranslations('section-3-bullet-point-1-title')}
-                                text=""
-                                maxWidth={'530px'}
-                            />
-                            <PEBulletPoint
-                                icon={Icon.dinner}
-                                title={homeTranslations('section-3-bullet-point-2-title')}
-                                text=""
-                                maxWidth={'530px'}
-                            />
-                            <PEBulletPoint
-                                icon={Icon.cleanKitchen}
-                                title={homeTranslations('section-3-bullet-point-3-title')}
-                                text=""
-                                maxWidth={'530px'}
-                            />
-                        </VStack>
+                        <PEBulletPoint
+                            icon={Icon.dinner}
+                            title={homeTranslations('section-3-bullet-point-2-title')}
+                            text=""
+                            maxWidth={'530px'}
+                        />
+                        <PEBulletPoint
+                            icon={Icon.cleanKitchen}
+                            title={homeTranslations('section-3-bullet-point-3-title')}
+                            text=""
+                            maxWidth={'530px'}
+                        />
                     </VStack>
-                )}
+                </div>
             </HStack>
 
             <Dialog open={completionState === 'SUCCESSFUL_NEW_USER'}>

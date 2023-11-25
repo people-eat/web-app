@@ -2,22 +2,18 @@ export const cookProfileTabs = [
     {
         translationKey: 'profile-cook-tab-personal-information-label',
         path: '/chef-profile',
-        tabIndex: 0,
     },
     {
         translationKey: 'profile-cook-tab-meals-label',
         path: '/chef-profile/meals',
-        tabIndex: 1,
     },
     {
         translationKey: 'profile-cook-tab-menus-label',
         path: '/chef-profile/menus',
-        tabIndex: 2,
     },
     {
         translationKey: 'profile-cook-tab-bookings-label',
         path: '/chef-profile/bookings',
-        tabIndex: 3,
     },
     // {
     //     translationKey: 'profile-cook-tab-global-bookings-label',
