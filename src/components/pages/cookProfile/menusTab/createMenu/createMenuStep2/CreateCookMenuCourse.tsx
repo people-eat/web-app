@@ -1,8 +1,10 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, type ReactElement } from 'react';
-import { type MealType } from '../../../../../../data-source/generated/graphql';
+import { type CurrencyCode, type MealType } from '../../../../../../data-source/generated/graphql';
 import useResponsive from '../../../../../../hooks/useResponsive';
+import { type Category } from '../../../../../../shared-domain/Category';
+import { type Kitchen } from '../../../../../../shared-domain/Kitchen';
 import { mealTypeTranslations } from '../../../../../../shared-domain/mealTypeTranslations';
 import { mealTypes } from '../../../../../../shared-domain/mealTypes';
 import PEMEalCard from '../../../../../cards/mealCard/PEMealCard';
@@ -16,7 +18,50 @@ import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
 import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
-import { type MealEntity } from '../../ChefProfilePageMenusTab';
+
+export interface MealEntity {
+    mealId: string;
+    cookId: string;
+    title: string;
+    type: MealType;
+    description: string;
+    imageUrl?: string | null;
+    createdAt: Date;
+}
+
+export interface MenuEntity {
+    __typename?: 'Menu';
+    menuId: string;
+    isVisible: boolean;
+    title: string;
+    description: string;
+    basePrice: number;
+    basePriceCustomers: number;
+    pricePerAdult: number;
+    pricePerChild?: number | null;
+    currencyCode: CurrencyCode;
+    greetingFromKitchen?: string | null;
+    preparationTime: number;
+    createdAt: Date;
+    kitchen?: Kitchen | null;
+    categories: Category[];
+    courses: {
+        courseId: string;
+        index: number;
+        title: string;
+        mealOptions: {
+            index: number;
+            meal: {
+                mealId: string;
+                title: string;
+                description: string;
+                imageUrl?: string | null;
+                type: MealType;
+                createdAt: Date;
+            };
+        }[];
+    }[];
+}
 
 export interface CreateCookMenuCourseDto {
     title: string;

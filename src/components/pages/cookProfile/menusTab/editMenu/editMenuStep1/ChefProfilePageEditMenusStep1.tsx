@@ -22,7 +22,7 @@ import PEMultiLineTextField from '../../../../../standard/textFields/PEMultiLine
 import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
-import { type MenuEntity } from '../../ChefProfilePageMenusTab';
+import { type MenuEntity } from '../../createMenu/createMenuStep2/CreateCookMenuCourse';
 
 export interface ChefProfilePageEditMenusStep1Props {
     menu: MenuEntity;

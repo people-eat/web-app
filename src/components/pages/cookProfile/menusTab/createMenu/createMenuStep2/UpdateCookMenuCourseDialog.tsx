@@ -14,7 +14,7 @@ import PETabItem from '../../../../../standard/tabItem/PETabItem';
 import HStack from '../../../../../utility/hStack/HStack';
 import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
-import { type MealEntity } from '../../ChefProfilePageMenusTab';
+import { type MealEntity } from './CreateCookMenuCourse';
 
 export interface UpdateCookMenuCourseDto {
     title: string;

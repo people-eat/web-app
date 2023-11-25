@@ -22,7 +22,7 @@ import PENumberTextField from '../../../../../standard/textFields/PENumberTextFi
 import HStack from '../../../../../utility/hStack/HStack';
 import Spacer from '../../../../../utility/spacer/Spacer';
 import VStack from '../../../../../utility/vStack/VStack';
-import { type MenuEntity } from '../../ChefProfilePageMenusTab';
+import { type MenuEntity } from '../../createMenu/createMenuStep2/CreateCookMenuCourse';
 import { calculateMenuPrice } from '../../createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 
 export interface ChefProfilePageEditMenusStep3Props {

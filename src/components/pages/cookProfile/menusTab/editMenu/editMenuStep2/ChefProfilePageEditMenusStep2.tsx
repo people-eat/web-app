@@ -20,8 +20,7 @@ import PETabItem from '../../../../../standard/tabItem/PETabItem';
 import PETextField from '../../../../../standard/textFields/PETextField';
 import HStack from '../../../../../utility/hStack/HStack';
 import VStack from '../../../../../utility/vStack/VStack';
-import { type MenuEntity } from '../../ChefProfilePageMenusTab';
-import CreateCookMenuCourse from '../../createMenu/createMenuStep2/CreateCookMenuCourse';
+import CreateCookMenuCourse, { type MenuEntity } from '../../createMenu/createMenuStep2/CreateCookMenuCourse';
 import UpdateCookMenuCourseDialog from '../../createMenu/createMenuStep2/UpdateCookMenuCourseDialog';
 
 export interface ChefProfilePageEditMenusStep2Props {
