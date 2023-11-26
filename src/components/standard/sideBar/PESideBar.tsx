@@ -140,7 +140,7 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                     <Link href="/global-booking-request" className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
                         <ListItemButton>
                             <ListItemIcon />
-                            <ListItemText>Lass dir etwas vorschlagen</ListItemText>
+                            <ListItemText>Individuelle Anfrage</ListItemText>
                         </ListItemButton>
                     </Link>
                 </ListItem>

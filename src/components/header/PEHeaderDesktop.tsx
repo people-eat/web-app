@@ -42,7 +42,7 @@ export default function PEHeaderDesktop({ className, signedInUser }: PEHeaderPro
                 <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>Events</Button>
             </Link>
             <Link href="/global-booking-request" className="no-underline">
-                <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>Lass dir etwas vorschlagen</Button>
+                <Button style={{ color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>Individuelle Anfrage</Button>
             </Link>
 
             <Spacer />
