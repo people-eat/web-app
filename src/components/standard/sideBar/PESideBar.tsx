@@ -43,7 +43,7 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
     return (
         <PEModal openMenu={open} handleOpenMenu={setOpen}>
             <Link href="/">
-                <Image src="/logo.svg" alt="" width={203} height={46} style={{ margin: 16, marginTop: 32 }} />
+                <Image unoptimized src="/logo.svg" alt="" width={203} height={46} style={{ margin: 16, marginTop: 32 }} />
             </Link>
 
             <List>

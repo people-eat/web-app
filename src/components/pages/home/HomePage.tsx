@@ -142,7 +142,7 @@ export function HomePage({ searchParameters }: HomePageProps): ReactElement {
                         </div>
                     </div>
 
-                    <Image className={styles.heroSectionImage} src="/koch-mieten.jpg" alt="" width={400} height={400} />
+                    <Image unoptimized className={styles.heroSectionImage} src="/koch-mieten.jpg" alt="" width={400} height={400} />
                 </div> */}
                 <VStack
                     className="w-full relative pl-8 lg:pl-0 items-start max-w-screen-xl h-[602px] lg:h-[522px]"
@@ -236,7 +236,7 @@ export function HomePage({ searchParameters }: HomePageProps): ReactElement {
                     </div>
 
                     <div className="bottom-[-15px] left-0 absolute lg:hidden">
-                        <Image src={'/waves.svg'} width={1300} height={58} alt="PeopleEat waves" />
+                        <Image unoptimized src={'/waves.svg'} width={1300} height={58} alt="PeopleEat waves" />
                     </div>
                 </VStack>
                 <HomePageSection1 />

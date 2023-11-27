@@ -19,7 +19,7 @@ export default function PEFooter({ className }: PEFooterProps): ReactElement {
                 <div className="flex md:flex-col md:gap-4 flex-row gap-[100px]">
                     <div className="flex flex-col gap-4">
                         <Link className="no-underline" href={'/'}>
-                            <Image src={'/people-eat-logo-title.png'} alt="" width={203} height={46} />
+                            <Image unoptimized src={'/people-eat-logo-title.png'} alt="" width={203} height={46} />
                         </Link>
                         <Link className="no-underline" href={'/how-to-chef'}>
                             <Button style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>
@@ -32,7 +32,7 @@ export default function PEFooter({ className }: PEFooterProps): ReactElement {
                     </div>
                     <div className="flex md:ml-2 md:mb-4 flex-row gap-4">
                         <Link target="_blank" className="no-underline" href="https://www.instagram.com/peopleeat_official/">
-                            <Image src={'/instagram.png'} alt="" width={35} height={35} />
+                            <Image unoptimized src={'/instagram.png'} alt="" width={35} height={35} />
                         </Link>
                         {/* <PEIcon icon={Icon.facebook} edgeLength={35} /> */}
                     </div>

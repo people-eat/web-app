@@ -101,6 +101,7 @@ export default function PublicCookPage({ signedInUser, publicCook, categories, k
                         >
                             {publicCook.user.profilePictureUrl && (
                                 <Image
+                                    unoptimized
                                     style={{
                                         width: '120px',
                                         height: '120px',
