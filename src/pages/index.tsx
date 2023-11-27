@@ -5,29 +5,46 @@ import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { createContext, useEffect, useState, type Context } from 'react';
-import { HomePage, type HomePageProps } from '../components/pages/home/HomePage';
+import { HomePage } from '../components/pages/home/HomePage';
 import PECheckbox from '../components/standard/checkbox/PECheckbox';
 import HStack from '../components/utility/hStack/HStack';
 import Spacer from '../components/utility/spacer/Spacer';
 import { createApolloClient } from '../data-source/createApolloClient';
 import {
     FindCurrentSessionDocument,
-    GetProfileQueryDocument,
+    GetHomePageDataDocumentDocument,
     UpdateSessionCookieSettingsDocument,
+    type GetHomePageDataDocumentQuery,
     type SessionCookieSettingsInput,
 } from '../data-source/generated/graphql';
 import useResponsive from '../hooks/useResponsive';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+interface ServerSideProps {
+    signedInUser: GetHomePageDataDocumentQuery['users']['signedInUser'];
+    heroCooks: NonNullable<GetHomePageDataDocumentQuery['publicCooks']['findHeroes']>;
+    searchParameters: {
+        location: {
+            address: string;
+            latitude: number;
+            longitude: number;
+        };
+        adults: number;
+        children: number;
+        date: string;
+    };
+}
+
+export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ req }) => {
     const apolloClient = createApolloClient(req.headers.cookie);
 
     try {
-        const { data } = await apolloClient.query({ query: GetProfileQueryDocument });
+        const { data } = await apolloClient.query({ query: GetHomePageDataDocumentDocument });
 
         return {
             props: {
-                signedInUser: data.users.me,
+                signedInUser: data.users.signedInUser,
+                heroCooks: data.publicCooks.findHeroes,
                 searchParameters: {
                     location: {
                         address: '',
@@ -40,16 +57,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
                 },
             },
         };
-    } catch {
-        return {
-            props: {},
-        };
+    } catch (error) {
+        // @todo: handle properly
+        throw error;
     }
 };
 
 export const HomePageContext: Context<{ signedInUser?: SignedInUser }> = createContext({});
 
-const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: HomePageProps) => {
+const Index: NextPage<ServerSideProps> = ({ signedInUser, searchParameters, heroCooks }) => {
     const { isMobile } = useResponsive();
 
     const [showCookieBanner, setShowCookieBanner] = useState(false);
@@ -91,9 +107,7 @@ const Index: NextPage<HomePageProps> = ({ signedInUser, searchParameters }: Home
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <HomePageContext.Provider value={{ signedInUser }}>
-                <HomePage signedInUser={signedInUser} searchParameters={searchParameters} />
-            </HomePageContext.Provider>
+            <HomePage signedInUser={signedInUser ?? undefined} heroCooks={heroCooks} searchParameters={searchParameters} />
 
             <Dialog open={showCookieBanner}>
                 <DialogTitle>Privatsphäre-Einstellungen</DialogTitle>

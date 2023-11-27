@@ -3,10 +3,18 @@ import { type ReactElement } from 'react';
 import PEChefCard from '../../../cards/chefCard/PEChefCard';
 import PEChefCardMobile from '../../../cards/chefCard/PEChefCardMobile';
 import VStack from '../../../utility/vStack/VStack';
-import { mockPublicChefs } from './chefs.mock';
+// todo: delete these mock cooks
+// import { mockPublicChefs } from './chefs.mock';
+import { type GetHomePageDataDocumentQuery } from '../../../../data-source/generated/graphql';
 
-export default function HomePageCookSection(): ReactElement {
+export interface HomePageCookSectionProps {
+    heroCooks: NonNullable<GetHomePageDataDocumentQuery['publicCooks']['findHeroes']>;
+}
+
+export default function HomePageCookSection({ heroCooks }: HomePageCookSectionProps): ReactElement | null {
     const { t } = useTranslation('home');
+
+    if (heroCooks.length < 1) return null;
 
     return (
         <VStack className="w-full">
@@ -15,30 +23,30 @@ export default function HomePageCookSection(): ReactElement {
                     <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">{t('chefs-section-header')}</h2>
                 </div>
                 <div className="flex flex-wrap gap-5 mt-10 sm:hidden">
-                    {mockPublicChefs.map(({ rank, rating, user, location, categories, kitchens }, index) => (
+                    {heroCooks.map(({ cookId, rank, user, city }) => (
                         <PEChefCard
-                            key={index}
+                            key={cookId}
                             firstName={user.firstName}
-                            profilePictureUrl={user.profilePictureUrl}
+                            profilePictureUrl={user.profilePictureUrl ?? undefined}
                             rank={rank}
-                            location={location.city}
-                            rating={rating}
-                            categories={categories.map(({ title }) => title)}
-                            kitchens={kitchens.map(({ title }) => title)}
+                            location={city}
+                            rating={{ average: 10, count: 0 }}
+                            categories={[]}
+                            kitchens={[]}
                         />
                     ))}
                 </div>
                 <div className="flex justify-center w-full flex-wrap gap-5 mt-10 hidden sm:flex">
-                    {mockPublicChefs.map(({ rank, rating, user, location, categories, kitchens }, index) => (
+                    {heroCooks.map(({ cookId, rank, user, city }) => (
                         <PEChefCardMobile
-                            key={index}
+                            key={cookId}
                             firstName={user.firstName}
-                            profilePictureUrl={user.profilePictureUrl}
+                            profilePictureUrl={user.profilePictureUrl ?? undefined}
                             rank={rank}
-                            location={location.city}
-                            rating={rating}
-                            categories={categories.map(({ title }) => title)}
-                            kitchens={kitchens.map(({ title }) => title)}
+                            location={city}
+                            rating={{ average: 10, count: 0 }}
+                            categories={[]}
+                            kitchens={[]}
                         />
                     ))}
                 </div>

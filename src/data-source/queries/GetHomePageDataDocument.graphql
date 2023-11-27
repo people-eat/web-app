@@ -1,0 +1,26 @@
+query GetHomePageDataDocument {
+    users {
+        signedInUser: me {
+            ...SignedInUser
+        }
+    }
+    publicCooks {
+        findHeroes {
+            cookId
+            user {
+                userId
+                firstName
+                profilePictureUrl
+            }
+            rank
+            biography
+            location {
+                latitude
+                longitude
+            }
+            city
+            travelExpenses
+            createdAt
+        }
+    }
+}

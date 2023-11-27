@@ -2,10 +2,10 @@ import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useContext, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
+import { type GetHomePageDataDocumentQuery } from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import useResponsive from '../../../hooks/useResponsive';
-import { HomePageContext } from '../../../pages';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
@@ -26,6 +26,7 @@ import HomePageSection5 from './section5/HomePageSection5';
 
 export interface HomePageProps {
     signedInUser?: SignedInUser;
+    heroCooks: NonNullable<GetHomePageDataDocumentQuery['publicCooks']['findHeroes']>;
     searchParameters: {
         location: {
             address: string;
@@ -38,11 +39,10 @@ export interface HomePageProps {
     };
 }
 
-export function HomePage({ searchParameters }: HomePageProps): ReactElement {
+export function HomePage({ signedInUser, searchParameters, heroCooks }: HomePageProps): ReactElement {
     const { t } = useTranslation('home');
     const { isMobile } = useResponsive();
     const router = useRouter();
-    const { signedInUser } = useContext(HomePageContext);
 
     const [address, setAddress] = useState(searchParameters.location.address);
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
@@ -256,7 +256,7 @@ export function HomePage({ searchParameters }: HomePageProps): ReactElement {
                     setSelectedLocation={setSelectedLocation}
                     onSearch={onSearch}
                 />
-                <HomePageCookSection />
+                <HomePageCookSection heroCooks={heroCooks} />
                 <HomePageRatingSection />
                 <HomePageSection10 />
             </VStack>
