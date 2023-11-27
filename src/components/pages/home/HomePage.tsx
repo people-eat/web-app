@@ -12,9 +12,7 @@ import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import VStack from '../../utility/vStack/VStack';
 import HomePageCookSection from './cookSection/HomePageCookSection';
-import HomePageMapSection from './mapSection/HomePageMapSection';
 import HomePageMenuSection from './menuSection/HomePageMenuSection';
-import HomePageRatingSection from './ratingSection/HomePageRatingSection';
 import HomePageSearch from './search/HomePageSearch';
 import HomePageSearchMobile from './search/HomePageSearchMobile';
 import HomePageSection1 from './section1/HomePageSection1';
@@ -27,6 +25,7 @@ import HomePageSection5 from './section5/HomePageSection5';
 export interface HomePageProps {
     signedInUser?: SignedInUser;
     heroCooks: NonNullable<GetHomePageDataDocumentQuery['publicCooks']['findHeroes']>;
+    heroMenus: NonNullable<GetHomePageDataDocumentQuery['publicMenus']['findHeroes']>;
     searchParameters: {
         location: {
             address: string;
@@ -39,7 +38,7 @@ export interface HomePageProps {
     };
 }
 
-export function HomePage({ signedInUser, searchParameters, heroCooks }: HomePageProps): ReactElement {
+export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus }: HomePageProps): ReactElement {
     const { t } = useTranslation('home');
     const { isMobile } = useResponsive();
     const router = useRouter();
@@ -244,8 +243,8 @@ export function HomePage({ signedInUser, searchParameters, heroCooks }: HomePage
                 <HomePageSection3 />
                 <HomePageSection4 />
                 <HomePageSection5 />
-                <HomePageMenuSection />
-                <HomePageMapSection
+                <HomePageMenuSection heroMenus={heroMenus} adults={adults} childrenCount={children} />
+                {/* <HomePageMapSection
                     addressSearchText={address}
                     onAddressSearchTextChange={(changedAddressSearchText: string): void => {
                         setAddress(changedAddressSearchText);
@@ -255,9 +254,9 @@ export function HomePage({ signedInUser, searchParameters, heroCooks }: HomePage
                     selectedLocation={selectedLocation}
                     setSelectedLocation={setSelectedLocation}
                     onSearch={onSearch}
-                />
+                /> */}
                 <HomePageCookSection heroCooks={heroCooks} />
-                <HomePageRatingSection />
+                {/* <HomePageRatingSection /> */}
                 <HomePageSection10 />
             </VStack>
 

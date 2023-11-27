@@ -1,13 +1,23 @@
 import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
 import { type ReactElement } from 'react';
+import { type GetHomePageDataDocumentQuery } from '../../../../data-source/generated/graphql';
 import PEMenuCard from '../../../cards/menuCard/PEMenuCard';
 import PEMenuCardMobile from '../../../cards/menuCard/PEMenuCardMobile';
 import HStack from '../../../utility/hStack/HStack';
 import VStack from '../../../utility/vStack/VStack';
+import { calculateMenuPrice } from '../../cookProfile/menusTab/createMenu/createMenuStep3/ChefProfilePageCreateMenuStep3';
 import PEPointsCard from './PEPointsCard';
-import { mockPublicMenus } from './menus.mock';
+// todo: delete these mock cooks
+// import { mockPublicMenus } from './menus.mock';
 
-export default function HomePageMenuSection(): ReactElement {
+export interface HomePageMenuSectionProps {
+    heroMenus: NonNullable<GetHomePageDataDocumentQuery['publicMenus']['findHeroes']>;
+    adults: number;
+    childrenCount: number;
+}
+
+export default function HomePageMenuSection({ heroMenus, adults, childrenCount: children }: HomePageMenuSectionProps): ReactElement {
     const { t } = useTranslation('home');
 
     return (
@@ -20,36 +30,92 @@ export default function HomePageMenuSection(): ReactElement {
                     <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">{t('menus-section-header')}</h2>
                 </HStack>
                 <div className="flex flex-wrap gap-5 justify-center mt-10 sm:hidden">
-                    {mockPublicMenus.map((menu, index) => (
-                        <PEMenuCard
-                            key={index}
-                            title={menu.title}
-                            description={menu.description}
-                            imageUrls={menu.pictures}
-                            chefFirstName={menu.cook.user.firstName}
-                            chefProfilePictureUrl={menu.cook.user.profilePictureUrl}
-                            pricePerPerson={menu.price}
-                            currencyCode="EUR"
-                            kitchen={menu.kitchen}
-                            categories={menu.categories.map(({ title }) => title)}
-                        />
+                    {heroMenus.map((publicMenu) => (
+                        <Link
+                            key={publicMenu.menuId}
+                            href={{
+                                pathname: `menus/${publicMenu.menuId}`,
+                                // query: {
+                                //     address,
+                                //     latitude: selectedLocation.latitude,
+                                //     longitude: selectedLocation.longitude,
+                                //     adults,
+                                //     children,
+                                //     date: date.format(moment.HTML5_FMT.DATE),
+                                // },
+                            }}
+                            target="_blank"
+                            className="no-underline"
+                            style={{ textDecoration: 'none', color: '#000' }}
+                        >
+                            <PEMenuCard
+                                title={publicMenu.title}
+                                description={publicMenu.description}
+                                imageUrls={publicMenu.imageUrls}
+                                pricePerPerson={
+                                    calculateMenuPrice(
+                                        adults,
+                                        children,
+                                        publicMenu.basePrice,
+                                        publicMenu.basePriceCustomers,
+                                        publicMenu.pricePerAdult,
+                                        publicMenu.pricePerChild,
+                                    ) /
+                                    (adults + children)
+                                }
+                                currencyCode={publicMenu.currencyCode}
+                                chefFirstName={publicMenu.cook.user.firstName}
+                                chefProfilePictureUrl={publicMenu.cook.user.profilePictureUrl ?? undefined}
+                                categories={publicMenu.categories.map(({ title }) => title)}
+                                kitchen={publicMenu.kitchen?.title}
+                                onClick={(): void => undefined}
+                            />
+                        </Link>
                     ))}
                     <PEPointsCard />
                 </div>
                 <div className="flex flex-wrap justify-center gap-5 mt-10 sm:flex hidden">
-                    {mockPublicMenus.map((menu, index) => (
-                        <PEMenuCardMobile
-                            key={index}
-                            title={menu.title}
-                            description={menu.description}
-                            imageUrls={menu.pictures}
-                            chefProfilePictureUrl={menu.cook.user.profilePictureUrl}
-                            pricePerPerson={menu.price}
-                            currencyCode="EUR"
-                            chefFirstName={menu.cook.user.firstName}
-                            kitchen={menu.kitchen}
-                            categories={menu.categories.map(({ title }) => title)}
-                        />
+                    {heroMenus.map((publicMenu) => (
+                        <Link
+                            key={publicMenu.menuId}
+                            href={{
+                                pathname: `menus/${publicMenu.menuId}`,
+                                // query: {
+                                //     address,
+                                //     latitude: selectedLocation.latitude,
+                                //     longitude: selectedLocation.longitude,
+                                //     adults,
+                                //     children,
+                                //     date: date.format(moment.HTML5_FMT.DATE),
+                                // },
+                            }}
+                            target="_blank"
+                            className="no-underline"
+                            style={{ textDecoration: 'none', color: '#000' }}
+                        >
+                            <PEMenuCardMobile
+                                title={publicMenu.title}
+                                description={publicMenu.description}
+                                imageUrls={publicMenu.imageUrls}
+                                pricePerPerson={
+                                    calculateMenuPrice(
+                                        adults,
+                                        children,
+                                        publicMenu.basePrice,
+                                        publicMenu.basePriceCustomers,
+                                        publicMenu.pricePerAdult,
+                                        publicMenu.pricePerChild,
+                                    ) /
+                                    (adults + children)
+                                }
+                                currencyCode={publicMenu.currencyCode}
+                                chefFirstName={publicMenu.cook.user.firstName}
+                                chefProfilePictureUrl={publicMenu.cook.user.profilePictureUrl ?? undefined}
+                                categories={publicMenu.categories.map(({ title }) => title)}
+                                kitchen={publicMenu.kitchen?.title}
+                                onClick={(): void => undefined}
+                            />
+                        </Link>
                     ))}
                 </div>
             </VStack>

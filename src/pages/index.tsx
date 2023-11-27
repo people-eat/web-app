@@ -23,6 +23,7 @@ import { type SignedInUser } from '../shared-domain/SignedInUser';
 interface ServerSideProps {
     signedInUser: GetHomePageDataDocumentQuery['users']['signedInUser'];
     heroCooks: NonNullable<GetHomePageDataDocumentQuery['publicCooks']['findHeroes']>;
+    heroMenus: NonNullable<GetHomePageDataDocumentQuery['publicMenus']['findHeroes']>;
     searchParameters: {
         location: {
             address: string;
@@ -45,6 +46,7 @@ export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ 
             props: {
                 signedInUser: data.users.signedInUser,
                 heroCooks: data.publicCooks.findHeroes,
+                heroMenus: data.publicMenus.findHeroes,
                 searchParameters: {
                     location: {
                         address: '',
@@ -65,7 +67,7 @@ export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ 
 
 export const HomePageContext: Context<{ signedInUser?: SignedInUser }> = createContext({});
 
-const Index: NextPage<ServerSideProps> = ({ signedInUser, searchParameters, heroCooks }) => {
+const Index: NextPage<ServerSideProps> = ({ signedInUser, searchParameters, heroCooks, heroMenus }) => {
     const { isMobile } = useResponsive();
 
     const [showCookieBanner, setShowCookieBanner] = useState(false);
@@ -107,7 +109,12 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, searchParameters, hero
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <HomePage signedInUser={signedInUser ?? undefined} heroCooks={heroCooks} searchParameters={searchParameters} />
+            <HomePage
+                signedInUser={signedInUser ?? undefined}
+                heroCooks={heroCooks}
+                heroMenus={heroMenus}
+                searchParameters={searchParameters}
+            />
 
             <Dialog open={showCookieBanner}>
                 <DialogTitle>Privatsphäre-Einstellungen</DialogTitle>

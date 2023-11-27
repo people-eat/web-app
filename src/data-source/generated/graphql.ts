@@ -1448,6 +1448,7 @@ export type PublicMenu = {
 
 export type PublicMenuQuery = {
     __typename?: 'PublicMenuQuery';
+    findHeroes: Array<PublicMenu>;
     findMany: Array<PublicMenu>;
     findOne?: Maybe<PublicMenu>;
 };
@@ -2483,6 +2484,29 @@ export type GetHomePageDataDocumentQuery = {
             createdAt: Date;
             user: { __typename?: 'PublicUser'; userId: string; firstName: string; profilePictureUrl?: string | null };
             location: { __typename?: 'Location'; latitude: number; longitude: number };
+        }>;
+    };
+    publicMenus: {
+        __typename?: 'PublicMenuQuery';
+        findHeroes: Array<{
+            __typename?: 'PublicMenu';
+            menuId: string;
+            title: string;
+            description: string;
+            imageUrls: Array<string>;
+            basePrice: number;
+            basePriceCustomers: number;
+            pricePerAdult: number;
+            pricePerChild?: number | null;
+            currencyCode: CurrencyCode;
+            kitchen?: { __typename?: 'Kitchen'; kitchenId: string; title: string } | null;
+            cook: {
+                __typename?: 'PublicCook';
+                cookId: string;
+                rank: CookRank;
+                user: { __typename?: 'PublicUser'; firstName: string; profilePictureUrl?: string | null };
+            };
+            categories: Array<{ __typename?: 'Category'; categoryId: string; title: string }>;
         }>;
     };
 };
@@ -5698,6 +5722,77 @@ export const GetHomePageDataDocumentDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'city' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'travelExpenses' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'publicMenus' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'findHeroes' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'menuId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kitchen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'kitchenId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'cook' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'cookId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'rank' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'user' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                                                                    { kind: 'Field', name: { kind: 'Name', value: 'profilePictureUrl' } },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'categories' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                                                    ],
+                                                },
+                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'imageUrls' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'basePrice' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'basePriceCustomers' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'pricePerAdult' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'pricePerChild' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'currencyCode' } },
                                         ],
                                     },
                                 },
