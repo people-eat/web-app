@@ -188,7 +188,7 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                                     profilePictureUrl={publicCook.user.profilePictureUrl}
                                     rank={publicCook.rank}
                                     location={publicCook.city}
-                                    rating={{ average: 8, count: 12 }}
+                                    rating={{ average: 5, count: 0 }}
                                     categories={[]}
                                     kitchens={[]}
                                     userId={signedInUser?.userId}
@@ -201,7 +201,7 @@ export default function PublicCooksPage({ signedInUser, searchParameters, search
                                     profilePictureUrl={publicCook.user.profilePictureUrl}
                                     rank={publicCook.rank}
                                     location={publicCook.city}
-                                    rating={{ average: 5, count: 12 }}
+                                    rating={{ average: 5, count: 0 }}
                                     categories={[]}
                                     kitchens={[]}
                                     userId={signedInUser?.userId}

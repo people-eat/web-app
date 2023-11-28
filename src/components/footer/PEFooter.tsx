@@ -21,11 +21,11 @@ export default function PEFooter({ className }: PEFooterProps): ReactElement {
                         <Link className="no-underline" href={'/'}>
                             <Image unoptimized src={'/people-eat-logo-title.png'} alt="" width={203} height={46} />
                         </Link>
-                        <Link className="no-underline" href={'/how-to-chef'}>
+                        {/* <Link className="no-underline" href={'/how-to-chef'}>
                             <Button style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>
                                 {t('how-to-become-a-chef')}
                             </Button>
-                        </Link>
+                        </Link> */}
                         <Link className="no-underline" href={'/about-us'}>
                             <Button style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('about-us')}</Button>
                         </Link>

@@ -1,4 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
+import Image from 'next/image';
+import Link from 'next/link';
 import { type ReactElement } from 'react';
 import VStack from '../../../utility/vStack/VStack';
 
@@ -8,15 +10,10 @@ export default function HomePageSection10(): ReactElement {
     return (
         <VStack className="w-full my-[140px] sm:my-[40px]">
             <p className="text-heading-m lg:text-rem-heading-xm lg:uppercase">{t('support-section-header')}</p>
-            <VStack
-                className="w-full max-w-[900px] h-[181px] sm:h-[150px]"
-                style={{
-                    width: '100%',
-                    backgroundImage: 'url(/frankfurt-school.png)',
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
-                }}
-            />
+
+            <Link href="https://entrepreneurship-centre.fs.de/portfolio/peopleeat" style={{ width: '100%', flex: 1 }}>
+                <Image src="/frankfurt-school.png" alt="" width={400} height={200} style={{ objectFit: 'cover', width: '100%' }} />
+            </Link>
         </VStack>
     );
 }

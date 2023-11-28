@@ -57,7 +57,7 @@ export default function HomePageCookSection({ heroCooks }: HomePageCookSectionPr
                                 profilePictureUrl={user.profilePictureUrl ?? undefined}
                                 rank={rank}
                                 location={city}
-                                rating={{ average: 10, count: 0 }}
+                                rating={{ average: 5, count: 0 }}
                                 categories={[]}
                                 kitchens={[]}
                             />
@@ -98,7 +98,7 @@ export default function HomePageCookSection({ heroCooks }: HomePageCookSectionPr
                                 profilePictureUrl={user.profilePictureUrl ?? undefined}
                                 rank={rank}
                                 location={city}
-                                rating={{ average: 10, count: 0 }}
+                                rating={{ average: 5, count: 0 }}
                                 categories={[]}
                                 kitchens={[]}
                             />

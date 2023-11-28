@@ -2,7 +2,6 @@ import { type ReactElement } from 'react';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import HowToChefSection6 from '../../pages/howToChef/section6';
 import VStack from '../../utility/vStack/VStack';
 import HowToChefSection1 from './section1';
 import HowToChefSection2 from './section2';
@@ -26,7 +25,7 @@ export default function HowToChefPage({ signedInUser }: HowToChefPageProps): Rea
                 <HowToChefSection3 />
                 <HowToChefSection4 />
                 <HowToChefSection5 />
-                <HowToChefSection6 />
+                {/* <HowToChefSection6 /> */}
                 <HowToChefSection7 />
                 {/* <HowToChefSection8 /> */}
             </VStack>

@@ -109,14 +109,14 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
 
                 <Divider />
 
-                <ListItem disablePadding>
+                {/* <ListItem disablePadding>
                     <Link href="/how-to-chef" className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
                         <ListItemButton>
                             <ListItemIcon />
                             <ListItemText>{t('how-to-become-a-chef')}</ListItemText>
                         </ListItemButton>
                     </Link>
-                </ListItem>
+                </ListItem> */}
 
                 <ListItem disablePadding>
                     <Link href="/about-us" className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
