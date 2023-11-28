@@ -17,7 +17,6 @@ import {
     type GetHomePageDataDocumentQuery,
     type SessionCookieSettingsInput,
 } from '../data-source/generated/graphql';
-import useResponsive from '../hooks/useResponsive';
 import { type SignedInUser } from '../shared-domain/SignedInUser';
 
 interface ServerSideProps {
@@ -68,8 +67,6 @@ export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ 
 export const HomePageContext: Context<{ signedInUser?: SignedInUser }> = createContext({});
 
 const Index: NextPage<ServerSideProps> = ({ signedInUser, searchParameters, heroCooks, heroMenus }) => {
-    const { isMobile } = useResponsive();
-
     const [showCookieBanner, setShowCookieBanner] = useState(false);
     const [cookieSettings, setCookieSettings] = useState<SessionCookieSettingsInput>({
         sessionCookie: false,
@@ -150,7 +147,7 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, searchParameters, hero
                         <Spacer />
                     </HStack>
                 </DialogContent>
-                <DialogActions style={{ padding: isMobile ? '24px' : '10px' }}>
+                <DialogActions style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
                     <Button
                         onClick={(): void => {
                             void updateCookieSettings({
