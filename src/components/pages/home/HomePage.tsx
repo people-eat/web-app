@@ -1,11 +1,9 @@
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import { type GetHomePageDataDocumentQuery } from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
-import useResponsive from '../../../hooks/useResponsive';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
@@ -40,7 +38,6 @@ export interface HomePageProps {
 
 export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus }: HomePageProps): ReactElement {
     const { t } = useTranslation('home');
-    const { isMobile } = useResponsive();
     const router = useRouter();
 
     const [address, setAddress] = useState(searchParameters.location.address);
@@ -69,97 +66,26 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
                 style={{ alignItems: 'flex-start' }}
                 gap={16}
             >
-                {/* <div className={styles.heroSection}>
-                    <div className={styles.heroSectionContent}>
-                        <h1>Finde einen Privatkoch für jeden Anlass bei dir Zuhause</h1>
-                        <h2>Hier warten kulinarische Erlebnismomente auf dich</h2>
-                        <div className={styles.searchBar}>
-                            <Autocomplete
-                                style={{ width: 200 }}
-                                freeSolo
-                                disableClearable
-                                options={new Array<AddressSearchResult>()}
-                                onChange={(_event): void => {
-                                    // if (typeof selectedSearchResult === 'string') return;
-                                    // onSearchResultSelect(selectedSearchResult);
-                                }}
-                                inputValue={''}
-                                placeholder="dsad"
-                                onInputChange={(_event): void => undefined}
-                                // onAddressSearchTextChange(value)
-                                filterOptions={(options): AddressSearchResult[] => options}
-                                renderInput={(params): ReactElement => (
-                                    <TextField
-                                        {...params}
-                                        variant="standard"
-                                        label={''}
-                                        InputProps={{ disableUnderline: true, ...params.InputProps }}
-                                        InputLabelProps={{ shrink: true }}
-                                    />
-                                )}
-                            />
-                            <Divider orientation="vertical" />
-                            <TextField
-                                sx={{ maxWidth: '140px' }}
-                                // value={validateFirstZero(adultCount)}
-                                // onChange={(event): void => {
-                                //     onAdultsChange(Number(event.target.value));
-                                // }}
-                                variant="standard"
-                                label={'Teilnehmer'}
-                                type="number"
-                                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', min: 1 }}
-                                InputProps={{ disableUnderline: true }}
-                            />
-                            <Divider orientation="vertical" />
-                            <DatePicker
-                                // value={date}
-                                // onChange={(changedDate: Moment | null): void => {
-                                //     if (changedDate) onDateChange(changedDate);
-                                // }}
-                                slotProps={{ textField: { variant: 'standard', InputProps: { disableUnderline: true } } }}
-                                label={'Datum'}
-                                minDate={moment().add(3, 'days')}
-                            />
-                        </div>
-
-                        <div className={styles.buttons}>
-                            <div className={styles.buttonRow1}>
-                                <Button style={{ flex: 1 }} variant="contained">
-                                    Köche
-                                </Button>
-                                <Button style={{ flex: 1 }} variant="contained">
-                                    Menüs
-                                </Button>
-                            </div>
-
-                            <div className={styles.buttonRow2}>
-                                <Button style={{ flex: 1 }} variant="contained">
-                                    Vorschläg erhalten
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <Image unoptimized className={styles.heroSectionImage} src="/koch-mieten.jpg" alt="" width={400} height={400} />
-                </div> */}
                 <VStack
                     className="w-full relative pl-8 lg:pl-0 items-start max-w-screen-xl h-[602px] lg:h-[522px]"
                     style={{
-                        borderRadius: '16px',
-                        boxSizing: 'border-box',
+                        // borderRadius: '16px',
+                        // boxSizing: 'border-box',
                         alignItems: 'flex-start',
                     }}
                 >
                     <VStack
                         className="absolute lg:w-full w-full h-[602px] lg:h-[202px] lg:bottom-0 max-w-screen-xl left-0 overflow-hidden -z-10"
                         style={{
-                            backgroundImage: 'url(/koch-mieten.jpg)',
-                            backgroundPosition: isMobile ? 'top' : '0 -60px',
-                            backgroundSize: 'cover',
-                            borderRadius: '16px',
+                            backgroundImage: 'url(/wein-dinner.png)',
                             alignItems: 'flex-start',
-                            boxSizing: 'border-box',
+                            backgroundPosition: 'center',
+                            backgroundSize: 'cover',
+                            // objectFit: 'fill',
+                            // backgroundPosition: isMobile ? 'top' : '0 -60px',
+                            // backgroundSize: 'cover',
+                            borderRadius: '16px',
+                            // boxSizing: 'border-box',
                         }}
                     />
 
@@ -232,10 +158,6 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
                             }
                             onSearch={onSearch}
                         />
-                    </div>
-
-                    <div className="bottom-[-15px] left-0 absolute lg:hidden">
-                        <Image unoptimized src={'/waves.svg'} width={1300} height={58} alt="PeopleEat waves" />
                     </div>
                 </VStack>
                 <HomePageSection1 />
