@@ -12,7 +12,14 @@ export default function HomePageSection10(): ReactElement {
             <p className="text-heading-m lg:text-rem-heading-xm lg:uppercase">{t('support-section-header')}</p>
 
             <Link href="https://entrepreneurship-centre.fs.de/portfolio/peopleeat" style={{ width: '100%', flex: 1 }}>
-                <Image src="/frankfurt-school.png" alt="" width={400} height={200} style={{ objectFit: 'cover', width: '100%' }} />
+                <Image
+                    unoptimized
+                    src="/frankfurt-school.png"
+                    alt=""
+                    width={400}
+                    height={200}
+                    style={{ objectFit: 'cover', width: '100%' }}
+                />
             </Link>
         </VStack>
     );
