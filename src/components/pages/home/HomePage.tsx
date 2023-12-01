@@ -1,5 +1,6 @@
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import { type GetHomePageDataDocumentQuery } from '../../../data-source/generated/graphql';
@@ -9,6 +10,7 @@ import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
 import VStack from '../../utility/vStack/VStack';
+import styles from './HomePage.module.css';
 import HomePageCookSection from './cookSection/HomePageCookSection';
 import HomePageMenuSection from './menuSection/HomePageMenuSection';
 import HomePageSearch from './search/HomePageSearch';
@@ -160,12 +162,51 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
                         />
                     </div>
                 </VStack>
+
+                <div className={styles.newSection}>
+                    <h2 className={styles.newSectionTitle}>Finde in nur wenigen Schritten einen Koch für Zuhause</h2>
+                    <div className={styles.newSectionBody}>
+                        <div className={styles.newSectionEntry}>
+                            <Image src="/home/köche.png" alt="" width={380} height={240} className={styles.newSectionEntryImage} />
+                            <h3 className={styles.newSectionEntryTitle}>Finde einen Koch in deiner Umgebung</h3>
+                            <p className={styles.newSectionEntryDescription}>
+                                Wähle einen Koch oder aus verschiedenen Menüvorschlägen aus. Wenn du nach einer speziellen Küche oder einer
+                                Kategorie suchst, hilft dir unsere Filterfunktion weiter. Du hast nichts passendes in deiner Umgebung
+                                gefunden? Dann sende uns eine individuelle Anfrage. Unser Netzwerk aus Köchen wächst stetig weiter.{' '}
+                            </p>
+                        </div>
+                        <div className={styles.newSectionEntry}>
+                            <Image src="/home/menü-gerichte.png" alt="" width={380} height={240} className={styles.newSectionEntryImage} />
+                            <h3 className={styles.newSectionEntryTitle}>Stelle dein Menü individuell zusammen</h3>
+                            <p className={styles.newSectionEntryDescription}>
+                                Wähle einen Koch oder aus verschiedenen Menüvorschlägen aus. Wenn du nach einer speziellen Küche oder einer
+                                Kategorie suchst, hilft dir unsere Filterfunktion weiter. Du hast nichts passendes in deiner Umgebung
+                                gefunden? Dann sende uns eine individuelle Anfrage. Unser Netzwerk aus Köchen wächst stetig weiter.{' '}
+                            </p>
+                        </div>
+                        <div className={styles.newSectionEntry}>
+                            <Image src="/home/chat.png" alt="" width={380} height={240} className={styles.newSectionEntryImage} />
+                            <h3 className={styles.newSectionEntryTitle}>Kommuniziert gemeinsam via Chat</h3>
+                            <p className={styles.newSectionEntryDescription}>
+                                Sobald dein ausgewählter Koch die Anfrage bestätigt, können die letzten Einzelheiten via Chat gemeinsam
+                                abgestimmt werden. Menüanpassungen können nach der Buchung selbstverständlich erfolgen.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <HomePageSection1 />
+
                 <HomePageSection2 />
+
                 <HomePageSection3 />
+
                 <HomePageSection4 />
+
                 <HomePageSection5 />
+
                 <HomePageMenuSection heroMenus={heroMenus} adults={adults} childrenCount={children} />
+
                 {/* <HomePageMapSection
                     addressSearchText={address}
                     onAddressSearchTextChange={(changedAddressSearchText: string): void => {
@@ -177,8 +218,11 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
                     setSelectedLocation={setSelectedLocation}
                     onSearch={onSearch}
                 /> */}
+
                 <HomePageCookSection heroCooks={heroCooks} />
+
                 {/* <HomePageRatingSection /> */}
+
                 <HomePageSection10 />
             </VStack>
 
