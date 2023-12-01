@@ -59,7 +59,6 @@
 @media (width <= 1279px) {
     .newSectionTitle {
         text-align: center;
-        max-width: 380px;
     }
 
     .newSectionBody {
@@ -95,6 +94,80 @@
 }
 
 .newSectionEntryDescription {
+    margin: 0;
+    padding: 0;
+}
+
+.section3 {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+}
+
+.section3Body {
+    display: flex;
+    gap: 32px;
+}
+
+@media (width <= 1279px) {
+    .section3Title {
+        text-align: center;
+    }
+
+    .section3Body {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+}
+
+.section3BodyImage {
+    flex: 1;
+    object-fit: cover;
+    height: 500px;
+    border-radius: 16px;
+}
+
+@media (width <= 1279px) {
+    .section3BodyImage {
+        max-width: 380px;
+    }
+}
+
+.section3Content {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.section3Entries {
+    display: flex;
+    gap: 16px;
+}
+
+@media (width <= 1279px) {
+    .section3Entries {
+        flex-direction: column;
+    }
+}
+
+.section3Entry {
+    flex: 1;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    gap: 16px;
+}
+
+.section3EntryTitle {
+    margin: 0;
+    padding: 0;
+}
+
+.section3EntryDescription {
     margin: 0;
     padding: 0;
 }
