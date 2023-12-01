@@ -164,38 +164,6 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
                     </div>
                 </VStack>
 
-                <div className={styles.section3}>
-                    <h2 className={styles.section3Title}>Werde Gastgeber aus Leidenschaft, wir kümmern uns um den Rest</h2>
-                    <div className={styles.section3Body}>
-                        <div className={styles.section3Content}>
-                            <div className={styles.section3Entries}>
-                                <div className={styles.section3Entry}>
-                                    <h3 className={styles.section3EntryTitle}>🛒 Einkauf der Lebensmittel</h3>
-                                    <p className={styles.section3EntryDescription}>
-                                        Du erhältst frische und regionale Lebensmittel von deinem Koch zu dir nachhause geliefert und vor
-                                        Ort zubereitet
-                                    </p>
-                                </div>
-                                <div className={styles.section3Entry}>
-                                    <h3 className={styles.section3EntryTitle}>🍽️ Servieren der Gerichte</h3>
-                                    <p className={styles.section3EntryDescription}>
-                                        Lehn dich zurück, lass dich und deine deine Lieben kulinarisch verwöhnen und genieße dir Zeit mit
-                                        deinen Lieben
-                                    </p>
-                                </div>
-                                <div className={styles.section3Entry}>
-                                    <h3 className={styles.section3EntryTitle}>🫧 Saubere Küche</h3>
-                                    <p className={styles.section3EntryDescription}>
-                                        Lass den Abend ausklingen und mache dir als Gastgeber keine Gedanken mehr über eine Saubere Küche
-                                    </p>
-                                </div>
-                            </div>
-                            <PEButton title="Koch finden" onClick={(): void => undefined} />
-                        </div>
-                        <Image src="/home/3/dinner.jpeg" alt="" width={500} height={500} className={styles.section3BodyImage} />
-                    </div>
-                </div>
-
                 <div className={styles.newSection}>
                     <h2 className={styles.newSectionTitle}>Finde in nur wenigen Schritten einen Koch für Zuhause</h2>
                     <div className={styles.newSectionBody}>
@@ -231,6 +199,38 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
                                 abgestimmt werden. Menüanpassungen können nach der Buchung selbstverständlich erfolgen.
                             </p>
                         </div>
+                    </div>
+                </div>
+
+                <div className={styles.section3}>
+                    <h2 className={styles.section3Title}>Werde Gastgeber aus Leidenschaft, wir kümmern uns um den Rest</h2>
+                    <div className={styles.section3Body}>
+                        <div className={styles.section3Content}>
+                            <div className={styles.section3Entries}>
+                                <div className={styles.section3Entry}>
+                                    <h3 className={styles.section3EntryTitle}>🛒 Einkauf der Lebensmittel</h3>
+                                    <p className={styles.section3EntryDescription}>
+                                        Du erhältst frische und regionale Lebensmittel von deinem Koch zu dir nachhause geliefert und vor
+                                        Ort zubereitet
+                                    </p>
+                                </div>
+                                <div className={styles.section3Entry}>
+                                    <h3 className={styles.section3EntryTitle}>🍽️ Servieren der Gerichte</h3>
+                                    <p className={styles.section3EntryDescription}>
+                                        Lehn dich zurück, lass dich und deine deine Lieben kulinarisch verwöhnen und genieße dir Zeit mit
+                                        deinen Lieben
+                                    </p>
+                                </div>
+                                <div className={styles.section3Entry}>
+                                    <h3 className={styles.section3EntryTitle}>🫧 Saubere Küche</h3>
+                                    <p className={styles.section3EntryDescription}>
+                                        Lass den Abend ausklingen und mache dir als Gastgeber keine Gedanken mehr über eine Saubere Küche
+                                    </p>
+                                </div>
+                            </div>
+                            <PEButton title="Koch finden" onClick={(): void => undefined} />
+                        </div>
+                        <Image src="/home/3/dinner.jpeg" alt="" width={500} height={500} className={styles.section3BodyImage} />
                     </div>
                 </div>
 
