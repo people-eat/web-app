@@ -17,8 +17,10 @@ export interface HomePageMenuSectionProps {
     childrenCount: number;
 }
 
-export default function HomePageMenuSection({ heroMenus, adults, childrenCount: children }: HomePageMenuSectionProps): ReactElement {
+export default function HomePageMenuSection({ heroMenus, adults, childrenCount: children }: HomePageMenuSectionProps): ReactElement | null {
     const { t } = useTranslation('home');
+
+    if (heroMenus.length < 1) return null;
 
     return (
         <VStack className="w-full">

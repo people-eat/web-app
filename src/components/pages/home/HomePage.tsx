@@ -16,11 +16,7 @@ import HomePageCookSection from './cookSection/HomePageCookSection';
 import HomePageMenuSection from './menuSection/HomePageMenuSection';
 import HomePageSearch from './search/HomePageSearch';
 import HomePageSearchMobile from './search/HomePageSearchMobile';
-import HomePageSection1 from './section1/HomePageSection1';
 import HomePageSection10 from './section10/HomePageSection10';
-import HomePageSection2 from './section2/HomePageSection2';
-import HomePageSection3 from './section3/HomePageSection3';
-import HomePageSection4 from './section4/HomePageSection4';
 import HomePageSection5 from './section5/HomePageSection5';
 
 export interface HomePageProps {
@@ -67,7 +63,7 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
             <VStack
                 className="relative lg:w-[calc(100%-32px)] w-[calc(100%-64px)] max-w-screen-xl mx-8 lg:mx-4"
                 style={{ alignItems: 'flex-start' }}
-                gap={16}
+                gap={64}
             >
                 <VStack
                     className="w-full relative pl-8 lg:pl-0 items-start max-w-screen-xl h-[602px] lg:h-[522px]"
@@ -234,13 +230,13 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
                     </div>
                 </div>
 
-                <HomePageSection1 />
+                {/* <HomePageSection1 /> */}
 
-                <HomePageSection2 />
+                {/* <HomePageSection2 /> */}
 
-                <HomePageSection3 />
+                {/* <HomePageSection3 /> */}
 
-                <HomePageSection4 />
+                {/* <HomePageSection4 /> */}
 
                 <HomePageSection5 />
 

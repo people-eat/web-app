@@ -48,7 +48,6 @@
     flex-direction: column;
     gap: 32px;
     width: 100%;
-    margin-top: 32px;
 }
 
 .newSectionBody {
@@ -108,7 +107,6 @@
     flex-direction: column;
     gap: 32px;
     width: 100%;
-    margin-top: 32px;
 }
 
 .section3Body {
