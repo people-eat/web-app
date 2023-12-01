@@ -99,7 +99,7 @@ export default function PublicMenuSummaryHeader({
 
             <VStack gap={16} style={{ alignItems: 'flex-start' }}>
                 <VStack gap={0} style={{ alignItems: 'flex-start' }} className="h-full">
-                    <p style={{ lineHeight: 0, textAlign: 'start' }} className="text-heading-m">
+                    <p style={{ textAlign: 'start', padding: 0, margin: 0 }} className="text-heading-m">
                         {publicMenu.title}
                     </p>
                     <p style={{ lineHeight: 0, textAlign: 'start' }} className="text-orange">

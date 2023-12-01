@@ -48,12 +48,17 @@
     flex-direction: column;
     gap: 32px;
     width: 100%;
+    margin-top: 32px;
 }
 
 .newSectionBody {
     width: 100%;
     display: flex;
     gap: 32px;
+}
+
+.newSectionTitle {
+    /* font-size: 48px; */
 }
 
 @media (width <= 1279px) {
@@ -103,6 +108,7 @@
     flex-direction: column;
     gap: 32px;
     width: 100%;
+    margin-top: 32px;
 }
 
 .section3Body {
