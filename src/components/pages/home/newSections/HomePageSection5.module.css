@@ -20,6 +20,12 @@
     }
 }
 
+.entriesAndButton {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
 .image {
     object-fit: cover;
     height: 500px;
@@ -36,8 +42,12 @@
     .entries {
         justify-content: center;
     }
+
+    .image {
+        width: auto;
+    }
 }
 
 .entry {
-    max-width: 275px;
+    max-width: 320px;
 }

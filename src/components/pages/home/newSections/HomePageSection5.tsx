@@ -11,7 +11,7 @@ export default function HomePageSection5(): ReactElement {
             <h2 className={styles.title}>Deine nächste Feier ist nur einen klick entfernt</h2>
             <div className={styles.body}>
                 <Image unoptimized src="/home/5/dining.jpeg" alt="" width={640} height={500} className={styles.image} />
-                <div>
+                <div className={styles.entriesAndButton}>
                     <div className={styles.entries}>
                         <div className={styles.entry}>
                             <PEIcon icon={Icon.checkCircle} />
