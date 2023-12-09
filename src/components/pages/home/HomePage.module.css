@@ -43,6 +43,19 @@
     align-items: center;
 }
 
+.firstSection {
+    display: flex;
+    gap: 32px;
+}
+
+.firstSectionImage {
+    flex: 1;
+    object-fit: cover;
+    width: 420px;
+    height: 340px;
+    border-radius: 16px;
+}
+
 .newSection {
     display: flex;
     flex-direction: column;

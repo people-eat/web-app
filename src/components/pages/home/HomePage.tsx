@@ -1,6 +1,5 @@
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
 import { type GetHomePageDataDocumentQuery } from '../../../data-source/generated/graphql';
@@ -9,15 +8,18 @@ import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
 import PEFooter from '../../footer/PEFooter';
 import PEHeader from '../../header/PEHeader';
-import PEButton from '../../standard/buttons/PEButton';
 import VStack from '../../utility/vStack/VStack';
-import styles from './HomePage.module.css';
 import HomePageCookSection from './cookSection/HomePageCookSection';
 import HomePageMenuSection from './menuSection/HomePageMenuSection';
+import HomePageSection1 from './newSections/HomePageSection1';
+import HomePageSection2 from './newSections/HomePageSection2';
+import HomePageSection3 from './newSections/HomePageSection3';
+import HomePageSection4 from './newSections/HomePageSection4';
+import HomePageSection5 from './newSections/HomePageSection5';
 import HomePageSearch from './search/HomePageSearch';
 import HomePageSearchMobile from './search/HomePageSearchMobile';
 import HomePageSection10 from './section10/HomePageSection10';
-import HomePageSection5 from './section5/HomePageSection5';
+import OldHomePageSection5 from './section5/HomePageSection5';
 
 export interface HomePageProps {
     signedInUser?: SignedInUser;
@@ -160,90 +162,12 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
                     </div>
                 </VStack>
 
-                <div className={styles.newSection}>
-                    <h2 className={styles.newSectionTitle}>Finde in nur wenigen Schritten einen Koch für Zuhause</h2>
-                    <div className={styles.newSectionBody}>
-                        <div className={styles.newSectionEntry}>
-                            <Image
-                                unoptimized
-                                src="/home/2/köche.png"
-                                alt=""
-                                width={380}
-                                height={240}
-                                className={styles.newSectionEntryImage}
-                            />
-                            <h3 className={styles.newSectionEntryTitle}>Finde einen Koch in deiner Umgebung</h3>
-                            <p className={styles.newSectionEntryDescription}>
-                                Wähle einen Koch oder aus verschiedenen Menüvorschlägen aus. Wenn du nach einer speziellen Küche oder einer
-                                Kategorie suchst, hilft dir unsere Filterfunktion weiter. Du hast nichts passendes in deiner Umgebung
-                                gefunden? Dann sende uns eine individuelle Anfrage. Unser Netzwerk aus Köchen wächst stetig weiter.{' '}
-                            </p>
-                        </div>
-                        <div className={styles.newSectionEntry}>
-                            <Image
-                                unoptimized
-                                src="/home/2/menü-gerichte.png"
-                                alt=""
-                                width={380}
-                                height={240}
-                                className={styles.newSectionEntryImage}
-                            />
-                            <h3 className={styles.newSectionEntryTitle}>Stelle dein Menü individuell zusammen</h3>
-                            <p className={styles.newSectionEntryDescription}>
-                                Wähle einen Koch oder aus verschiedenen Menüvorschlägen aus. Wenn du nach einer speziellen Küche oder einer
-                                Kategorie suchst, hilft dir unsere Filterfunktion weiter. Du hast nichts passendes in deiner Umgebung
-                                gefunden? Dann sende uns eine individuelle Anfrage. Unser Netzwerk aus Köchen wächst stetig weiter.{' '}
-                            </p>
-                        </div>
-                        <div className={styles.newSectionEntry}>
-                            <Image
-                                unoptimized
-                                src="/home/2/chat.png"
-                                alt=""
-                                width={380}
-                                height={240}
-                                className={styles.newSectionEntryImage}
-                            />
-                            <h3 className={styles.newSectionEntryTitle}>Kommuniziert gemeinsam via Chat</h3>
-                            <p className={styles.newSectionEntryDescription}>
-                                Sobald dein ausgewählter Koch die Anfrage bestätigt, können die letzten Einzelheiten via Chat gemeinsam
-                                abgestimmt werden. Menüanpassungen können nach der Buchung selbstverständlich erfolgen.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={styles.section3}>
-                    <h2 className={styles.section3Title}>Werde Gastgeber aus Leidenschaft, wir kümmern uns um den Rest</h2>
-                    <div className={styles.section3Body}>
-                        <div className={styles.section3Content}>
-                            <div className={styles.section3Entries}>
-                                <div className={styles.section3Entry}>
-                                    <h3 className={styles.section3EntryTitle}>🛒 Einkauf der Lebensmittel</h3>
-                                    <p className={styles.section3EntryDescription}>
-                                        Du erhältst frische und regionale Lebensmittel von deinem Koch zu dir nachhause geliefert und vor
-                                        Ort zubereitet
-                                    </p>
-                                </div>
-                                <div className={styles.section3Entry}>
-                                    <h3 className={styles.section3EntryTitle}>🍽️ Servieren der Gerichte</h3>
-                                    <p className={styles.section3EntryDescription}>
-                                        Lehn dich zurück, lass dich und deine deine Lieben kulinarisch verwöhnen und genieße dir Zeit mit
-                                        deinen Lieben
-                                    </p>
-                                </div>
-                                <div className={styles.section3Entry}>
-                                    <h3 className={styles.section3EntryTitle}>🫧 Saubere Küche</h3>
-                                    <p className={styles.section3EntryDescription}>
-                                        Lass den Abend ausklingen und mache dir als Gastgeber keine Gedanken mehr über eine Saubere Küche
-                                    </p>
-                                </div>
-                            </div>
-                            <PEButton title="Koch finden" onClick={(): void => undefined} />
-                        </div>
-                        <Image unoptimized src="/home/3/dinner.jpeg" alt="" width={500} height={500} className={styles.section3BodyImage} />
-                    </div>
-                </div>
+                <HomePageSection1 />
+                <HomePageSection2 />
+                <HomePageSection3 />
+                <HomePageSection4 />
+                <HomePageSection5 />
+                {/* <HomePageSection6 /> */}
 
                 {/* <HomePageSection1 /> */}
 
@@ -253,7 +177,7 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
 
                 {/* <HomePageSection4 /> */}
 
-                <HomePageSection5 />
+                <OldHomePageSection5 />
 
                 <HomePageMenuSection heroMenus={heroMenus} adults={adults} childrenCount={children} />
 

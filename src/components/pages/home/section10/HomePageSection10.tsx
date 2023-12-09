@@ -18,7 +18,7 @@ export default function HomePageSection10(): ReactElement {
                     alt=""
                     width={400}
                     height={200}
-                    style={{ objectFit: 'cover', width: '100%' }}
+                    style={{ objectFit: 'cover', width: '75%' }}
                 />
             </Link>
         </VStack>

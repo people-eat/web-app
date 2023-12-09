@@ -26,6 +26,9 @@ export default function PEFooter({ className }: PEFooterProps): ReactElement {
                                 {t('how-to-become-a-chef')}
                             </Button>
                         </Link> */}
+                        {/* <Link className="no-underline" href="/sitemap.xml">
+                            <Button style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>Sitemap</Button>
+                        </Link> */}
                         <Link className="no-underline" href={'/about-us'}>
                             <Button style={{ fontSize: 16, color: 'rgba(31, 31, 31, 0.8)', textTransform: 'none' }}>{t('about-us')}</Button>
                         </Link>

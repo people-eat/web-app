@@ -1,0 +1,38 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.body {
+    display: flex;
+    gap: 32px;
+}
+
+@media (width <= 1279px) {
+    .title {
+        text-align: center;
+    }
+
+    .body {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+}
+
+.image {
+    object-fit: cover;
+    height: 500px;
+    border-radius: 16px;
+}
+
+.entries {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+.entry {
+    max-width: 275px;
+}
