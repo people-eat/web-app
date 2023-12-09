@@ -15,6 +15,7 @@ export enum Icon {
     celebrate = '/icons/celebrate.svg',
     chatDots = '/icons/chat-dots.svg',
     check = '/icons/check.svg',
+    checkCircle = '/icons/check-circle.svg',
     checkWhite = '/icons/check-white.svg',
     checkGreen = '/icons/check-green.svg',
     chefTiming = '/icons/chef-timing.svg',
