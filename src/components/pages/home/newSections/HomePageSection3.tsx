@@ -28,7 +28,9 @@ export default function HomePageSection3(): ReactElement {
                         </p>
                     </div>
                 </div>
-                <PEButton title="Koch finden" onClick={(): void => undefined} />
+                <div className={styles.buttonContainer}>
+                    <PEButton title="Koch finden" onClick={(): void => undefined} className="max-w-sm" />
+                </div>
             </div>
             <Image unoptimized src="/home/3/dinner.jpeg" alt="" width={500} height={500} className={styles.image} />
         </div>

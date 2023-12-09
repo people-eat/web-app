@@ -1,0 +1,27 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+}
+
+.title {
+    text-align: center;
+}
+
+.imageWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.image {
+    object-fit: cover;
+    width: 100%;
+}
+
+@media (width > 1279px) {
+    .image {
+        max-width: 800px;
+    }
+}

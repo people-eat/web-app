@@ -10,3 +10,8 @@
     height: auto;
     border-radius: 16px;
 }
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+}

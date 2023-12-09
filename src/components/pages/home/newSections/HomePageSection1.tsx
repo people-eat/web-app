@@ -13,7 +13,9 @@ export default function HomePageSection1(): ReactElement {
                     einen Geburtstag planst oder ein Familienessen organisierst, PeopleEat bietet dir die Plattform auf der du deine
                     Lebensmomente mit kulinarischen Erlebnissen verbindest.
                 </p>
-                <PEButton title="Finde einen Koch" onClick={(): void => undefined} />
+                <div className={styles.buttonContainer}>
+                    <PEButton title="Finde einen Koch" onClick={(): void => undefined} className="max-w-sm" />
+                </div>
             </div>
             <Image src="/home/1/party.png" unoptimized width={420} height={340} alt="" className={styles.image} />
         </div>

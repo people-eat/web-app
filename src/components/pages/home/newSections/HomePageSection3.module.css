@@ -70,3 +70,10 @@
     margin: 0;
     padding: 0;
 }
+
+@media (width <= 1279px) {
+    .buttonContainer {
+        display: flex;
+        justify-content: center;
+    }
+}

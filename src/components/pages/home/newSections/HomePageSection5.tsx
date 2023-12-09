@@ -37,7 +37,9 @@ export default function HomePageSection5(): ReactElement {
                             </p>
                         </div>
                     </div>
-                    <PEButton title="Koch finden" onClick={(): void => undefined} />
+                    <div className={styles.buttonContainer}>
+                        <PEButton title="Koch finden" onClick={(): void => undefined} className="max-w-sm" />
+                    </div>
                 </div>
             </div>
         </div>

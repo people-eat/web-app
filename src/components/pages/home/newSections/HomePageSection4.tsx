@@ -13,8 +13,9 @@ export default function HomePageSection4(): ReactElement {
                     Dinnerparty veranstaltest, einen besonderen Anlass feierst oder einfach nur Lust auf ein Gourmet-Menü hast, bei uns
                     findest du das Richtige für deinen Anlass.
                 </p>
-
-                <PEButton title="Menüs entdecken" onClick={(): void => undefined} />
+                <div className={styles.buttonContainer}>
+                    <PEButton title="Menüs entdecken" onClick={(): void => undefined} className="max-w-sm" />
+                </div>
             </div>
 
             <Image unoptimized src="/home/4/dining.png" alt="" width={600} height={400} className={styles.image} />

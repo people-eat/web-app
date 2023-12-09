@@ -3,16 +3,25 @@
     gap: 32px;
 }
 
+.image {
+    object-fit: cover;
+    height: 340px;
+    width: 420px;
+    border-radius: 16px;
+}
+
 @media (width <= 1279px) {
     .section {
         align-items: center;
         flex-direction: column;
     }
-}
 
-.image {
-    object-fit: cover;
-    height: 340px;
-    width: 420;
-    border-radius: 16px;
+    .image {
+        width: 100%;
+    }
+
+    .buttonContainer {
+        display: flex;
+        justify-content: center;
+    }
 }
