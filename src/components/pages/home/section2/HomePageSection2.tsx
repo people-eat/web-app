@@ -34,7 +34,6 @@ export default function HomePageSection2(): ReactElement {
                 </Link>
             </div>
             <Image
-                unoptimized
                 style={{ height: 602, objectFit: 'cover' }}
                 className="rounded-t-[50%] h-[602px] md:h-[502px] sm_min:max-h-[402px] minn:max-h-[302px] sm_min:min-w-full w-[50%] big:min-w-[460px] lg_min:min-w-[460px] lg:w-full lg:max-w-[540px]"
                 src="/event-zuhause.png"

@@ -18,7 +18,6 @@ export default function PEMealCardDesktop({ onClick, title, description, imageUr
             <div className="flex rounded-3 overflow-hidden min-w-[120px] h-[120px] justify-center items-center bg-base">
                 {imageUrl ? (
                     <Image
-                        unoptimized
                         style={{ objectPosition: 'center', objectFit: 'cover' }}
                         src={imageUrl}
                         alt={imageUrl}

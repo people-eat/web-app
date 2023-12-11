@@ -17,7 +17,6 @@ export default function PEMealCardMobile({ onClick, title, description, imageUrl
             <div className="flex rounded-3 overflow-hidden min-w-[200px] h-[200px] min-h-[200px] justify-center items-center bg-base ">
                 {imageUrl ? (
                     <Image
-                        unoptimized
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                         src={imageUrl}
                         alt={imageUrl}

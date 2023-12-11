@@ -28,7 +28,6 @@ export default function PEReviewCardPlatformWeb({
                     <div className="overflow-hidden rounded-3 min-w-[220px] max-w-[220px] h-[220px]">
                         {userProfilePictureUrl && (
                             <Image
-                                unoptimized
                                 style={{ objectPosition: 'center', objectFit: 'cover' }}
                                 src={userProfilePictureUrl}
                                 alt={'client image'}

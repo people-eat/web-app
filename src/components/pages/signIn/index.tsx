@@ -67,8 +67,8 @@ export default function SignInPage(): ReactElement {
             <VStack style={{ flex: 1, padding: '32px', overflowY: 'scroll' }}>
                 <VStack className="gap-8 lg:gap-4" style={{ width: '100%', maxWidth: '800px' }}>
                     <HStack style={{ width: '100%' }}>
-                        <Link href={'/'}>
-                            <Image unoptimized src={'/logo.svg'} alt="" width={203} height={46} />
+                        <Link href="/">
+                            <Image src={'/logo.svg'} alt="" width={203} height={46} />
                         </Link>
                         <Spacer />
                     </HStack>

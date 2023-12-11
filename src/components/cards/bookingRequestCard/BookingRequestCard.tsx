@@ -46,11 +46,10 @@ export function BookingRequestCard({ bookingRequest, isSelected, showDividerAtEn
                     <HStack gap={16} style={{ alignItems: 'center' }} className="w-full">
                         {bookingRequest.cook.user.profilePictureUrl && (
                             <Image
-                                unoptimized
                                 className="rounded-3"
                                 style={{ width: '45px', height: '45px', objectFit: 'cover' }}
                                 src={bookingRequest.cook.user.profilePictureUrl}
-                                alt={'client image'}
+                                alt="Profilbild Koch"
                                 width={45}
                                 height={45}
                             />

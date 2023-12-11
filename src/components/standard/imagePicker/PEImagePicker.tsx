@@ -56,7 +56,6 @@ export default function PEImagePicker({ onPick, onRemoveDefaultImage, defaultIma
                 {base64CroppedImage && (
                     <>
                         <Image
-                            unoptimized
                             style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                             src={base64CroppedImage}
                             alt=""

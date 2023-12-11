@@ -24,7 +24,6 @@ export default function ChefPromoCard(): ReactElement {
             <div className="flex gap-2">
                 <div className={'overflow-hidden rounded-2 min-w-8 w-8 min-h-8 h-8'}>
                     <Image
-                        unoptimized
                         style={{ width: '33px', height: '33px', objectPosition: 'center', objectFit: 'cover' }}
                         src={'/picture-1.png'}
                         alt={'client image'}

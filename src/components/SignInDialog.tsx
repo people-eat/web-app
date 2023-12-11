@@ -27,7 +27,7 @@ export default function SignInDialog({ onSuccess, onFail }: SignInDialogProps): 
 
     const disabled = !emailAddress.isValid || password.length < 1;
 
-    const [assignOneSessionByEmailAddress, { loading }] = useMutation(AssignOneSessionByEmailAddressDocument, {
+    const [assignOneSessionByEmailAddress] = useMutation(AssignOneSessionByEmailAddressDocument, {
         variables: {
             request: {
                 emailAddress: emailAddress.value,
@@ -52,7 +52,7 @@ export default function SignInDialog({ onSuccess, onFail }: SignInDialogProps): 
             <VStack className="gap-8 lg:gap-4" style={{ width: '100%', maxWidth: '800px' }}>
                 <HStack style={{ width: '100%' }}>
                     <Link href="/">
-                        <Image unoptimized src={'/logo.svg'} alt="" width={203} height={46} />
+                        <Image src="/logo.svg" alt="" width={203} height={46} />
                     </Link>
                     <Spacer />
                 </HStack>

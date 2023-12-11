@@ -238,7 +238,7 @@ export default function GlobalBookingRequestPage({
                 {/* <VStack gap={32} className={}"w-full" style={{ alignItems: 'flex-start' }}> */}
 
                 <div className={classNames(styles.hiddenOnMobile, styles.additionalInformationContainer)}>
-                    <Image unoptimized className={styles.image} src="/koch-münchen.png" alt="" width={512} height={512} />
+                    <Image className={styles.image} src="/koch-münchen.png" alt="" width={512} height={512} />
 
                     <VStack gap={32} style={{ alignItems: 'flex-start' }}>
                         <h3>{t('booking-global-request-in-price')}</h3>

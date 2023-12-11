@@ -59,14 +59,7 @@ const Index: NextPage = () => {
 
                         <p>Ab sofort kannst du zukünftige Transaktionen über dein Wallet einsehen und verwalten.</p>
 
-                        <Image
-                            unoptimized
-                            src="/wallet-onboarding-successful.png"
-                            alt=""
-                            width={400}
-                            height={400}
-                            style={{ objectFit: 'cover' }}
-                        />
+                        <Image src="/wallet-onboarding-successful.png" alt="" width={400} height={400} style={{ objectFit: 'cover' }} />
 
                         <Link href="/chef-profile" className="no-underline">
                             <PEButton title="Zum Koch Profil" onClick={(): void => undefined} />

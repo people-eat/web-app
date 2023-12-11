@@ -46,7 +46,6 @@ export default function HowToChefSection3(): ReactElement {
                             <PEButton onClick={(): void => undefined} title={t('register-button')} />
                         </Link>
                         <Image
-                            unoptimized
                             className="rounded-4"
                             style={{ width: isMobile ? '100%' : '500px', objectPosition: 'center', objectFit: 'cover' }}
                             src="/mietkoch-gericht.png"

@@ -75,7 +75,6 @@ export default function ChefProfileSection1({ chefProfile, refetch }: ChefProfil
                 <HStack className="w-full gap-4">
                     {image && (
                         <Image
-                            unoptimized
                             style={{
                                 width: isMobile ? '60px' : '120px',
                                 height: isMobile ? '60px' : '120px',

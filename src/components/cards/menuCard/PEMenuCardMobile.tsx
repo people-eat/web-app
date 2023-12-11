@@ -26,7 +26,6 @@ export default function PEMenuCardMobile({
                 <div className="flex rounded-3 overflow-hidden min-w-[120px] h-[120px] justify-center items-center bg-base">
                     {Boolean(imageUrls.length) && (
                         <Image
-                            unoptimized
                             draggable={false}
                             src={imageUrls[0] as string}
                             alt={title}
@@ -58,7 +57,6 @@ export default function PEMenuCardMobile({
                 <div className="flex flex-row items-center gap-2 overflow-hidden">
                     {chefProfilePictureUrl && (
                         <Image
-                            unoptimized
                             draggable={false}
                             width={24}
                             height={24}

@@ -64,7 +64,6 @@ export default function CookBookingRequestDetail({
 
                     {bookingRequest.user.profilePictureUrl && (
                         <Image
-                            unoptimized
                             className="rounded-3"
                             style={{ width: '45px', height: '45px', objectFit: 'cover' }}
                             src={bookingRequest.user.profilePictureUrl}

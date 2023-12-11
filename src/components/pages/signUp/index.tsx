@@ -75,7 +75,7 @@ export default function SignUpPage(): ReactElement {
                     onSubmit={(event): void => event.preventDefault()}
                 >
                     <HStack style={{ width: '100%' }}>
-                        <Link href={'/'}>
+                        <Link href="/">
                             <Image src={'/logo.svg'} alt="" width={203} height={46} />
                         </Link>
                         <Spacer />

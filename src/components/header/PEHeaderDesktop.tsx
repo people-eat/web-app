@@ -32,7 +32,7 @@ export default function PEHeaderDesktop({ className, signedInUser }: PEHeaderPro
             data-element="header-desktop"
         >
             <Link href="/" className="ml-4 no-underline">
-                <Image unoptimized src="/people-eat-logo-title.png" alt="" width={203} height={46} priority />
+                <Image src="/people-eat-logo-title.png" alt="" width={203} height={46} priority />
             </Link>
 
             <Link href="/how-to-chef" className="no-underline">
@@ -61,7 +61,6 @@ export default function PEHeaderDesktop({ className, signedInUser }: PEHeaderPro
                     >
                         {signedInUser.profilePictureUrl && (
                             <Image
-                                unoptimized
                                 width={32}
                                 height={32}
                                 alt="profile picture"

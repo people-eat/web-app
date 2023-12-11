@@ -15,7 +15,7 @@ export default function HomePageSection6(): ReactElement {
                 </p>
                 <PEButton title="Gutschein verschenken" onClick={(): void => undefined} />
             </div>
-            <Image unoptimized src="/home/5/gutschein.png" alt="" width={600} height={400} />
+            <Image src="/home/5/gutschein.png" alt="" width={600} height={400} />
         </div>
     );
 }

@@ -35,7 +35,7 @@ export default function PEHeaderMobile({ className, signedInUser }: PEHeaderProp
                 }}
             >
                 <Link href="/">
-                    <Image unoptimized src="/people-eat-logo-title.png" alt="" width={203} height={46} style={{ marginTop: 8 }} />
+                    <Image src="/people-eat-logo-title.png" alt="" width={203} height={46} style={{ marginTop: 8 }} />
                 </Link>
 
                 <IconButton onClick={(): void => setSideBarOpen(!sideBarOpen)}>
@@ -54,7 +54,7 @@ export default function PEHeaderMobile({ className, signedInUser }: PEHeaderProp
                     style={{ alignItems: 'center', paddingLeft: 16, paddingRight: 16, gap: 16 }}
                 >
                     <Link href="/">
-                        <Image unoptimized src="/logo.svg" alt="" width={203} height={46} style={{ marginTop: 8 }} />
+                        <Image src="/logo.svg" alt="" width={203} height={46} style={{ marginTop: 8 }} />
                     </Link>
 
                     <IconButton onClick={(): void => setSideBarOpen(!sideBarOpen)}>

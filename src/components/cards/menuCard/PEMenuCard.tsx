@@ -40,7 +40,6 @@ export default function PEMenuCard({
 
                 {imageUrls.length === 1 && (
                     <Image
-                        unoptimized
                         draggable={false}
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                         src={imageUrls[0] as string}
@@ -54,7 +53,6 @@ export default function PEMenuCard({
                     <PECarousel
                         images={imageUrls.map((picture, index) => (
                             <Image
-                                unoptimized
                                 draggable={false}
                                 key={index}
                                 style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
@@ -90,7 +88,6 @@ export default function PEMenuCard({
                 <HStack gap={8} className="w-full">
                     {chefProfilePictureUrl && (
                         <Image
-                            unoptimized
                             width={24}
                             height={24}
                             src={chefProfilePictureUrl}

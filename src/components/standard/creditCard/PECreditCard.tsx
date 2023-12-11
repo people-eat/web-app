@@ -14,7 +14,7 @@ export default function PECreditCard({ disabled, label, number }: PECreditCardPr
     return (
         <section className={className}>
             <section className="flex flex-row items-center gap-2">
-                <Image unoptimized src={'/master-card.png'} alt={'MasterCard'} width={36} height={22} />
+                <Image src={'/master-card.png'} alt={'MasterCard'} width={36} height={22} />
                 <span className="text-text-sm">{label}</span>
                 <span className="text-text-sm">{number}</span>
             </section>

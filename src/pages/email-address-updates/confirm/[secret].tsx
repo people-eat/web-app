@@ -64,7 +64,6 @@ const Index: NextPage = () => {
                     <DialogContent>
                         <VStack gap={32}>
                             <Image
-                                unoptimized
                                 src="/email-confirmation.png"
                                 alt=""
                                 width={200}
