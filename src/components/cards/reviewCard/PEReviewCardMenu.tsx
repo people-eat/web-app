@@ -37,6 +37,7 @@ export default function PEReviewCardMenu({
                     <div className={'overflow-hidden rounded-3'}>
                         {chefProfilePictureUrl ? (
                             <Image
+                                unoptimized
                                 style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                                 src={chefProfilePictureUrl ?? ''}
                                 alt={'client image'}

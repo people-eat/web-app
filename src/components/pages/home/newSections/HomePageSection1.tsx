@@ -17,7 +17,7 @@ export default function HomePageSection1(): ReactElement {
                     <PEButton title="Finde einen Koch" onClick={(): void => undefined} className="max-w-sm" />
                 </div>
             </div>
-            <Image src="/home/1/party.png" width={420} height={340} alt="" className={styles.image} />
+            <Image unoptimized src="/home/1/party.png" width={420} height={340} alt="" className={styles.image} />
         </div>
     );
 }

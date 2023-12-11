@@ -191,6 +191,7 @@ export default function ProfilePagePersonalTab({ userId }: ProfilePagePersonalTa
                     <HStack className="w-full bg-white shadow-primary box-border p-8 md:p-4 rounded-4" gap={16}>
                         {userProfile.profilePictureUrl && (
                             <Image
+                                unoptimized
                                 style={{
                                     width: isMobile ? '60px' : '120px',
                                     height: isMobile ? '60px' : '120px',

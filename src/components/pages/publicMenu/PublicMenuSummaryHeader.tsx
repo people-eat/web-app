@@ -39,6 +39,7 @@ export default function PublicMenuSummaryHeader({
 
                 {publicMenu.imageUrls.length === 1 && (
                     <Image
+                        unoptimized
                         draggable={false}
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                         src={publicMenu.imageUrls[0] as string}
@@ -52,6 +53,7 @@ export default function PublicMenuSummaryHeader({
                     <PECarousel
                         images={publicMenu.imageUrls.map((picture, index) => (
                             <Image
+                                unoptimized
                                 draggable={false}
                                 key={index}
                                 style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
@@ -66,6 +68,7 @@ export default function PublicMenuSummaryHeader({
 
                 {publicMenu.imageUrls.length > 1 && isMobile && (
                     <Image
+                        unoptimized
                         draggable={false}
                         style={{ width: '100%', objectPosition: 'center', objectFit: 'cover' }}
                         src={publicMenu.imageUrls[0] as string}
@@ -81,6 +84,7 @@ export default function PublicMenuSummaryHeader({
                     {publicMenu.imageUrls.slice(1).map((imageUrl, index) => (
                         <div key={index} className="flex-none rounded-3 w-28">
                             <Image
+                                unoptimized
                                 draggable={false}
                                 style={{ width: '100%', objectPosition: 'center', objectFit: 'fill', borderRadius: '12px' }}
                                 src={imageUrl}
@@ -110,6 +114,7 @@ export default function PublicMenuSummaryHeader({
                     <HStack gap={8} className="w-full">
                         {publicMenu.cook.user.profilePictureUrl && (
                             <Image
+                                unoptimized
                                 width={48}
                                 height={48}
                                 src={publicMenu.cook.user.profilePictureUrl}

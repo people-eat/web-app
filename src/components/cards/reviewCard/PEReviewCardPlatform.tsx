@@ -28,6 +28,7 @@ export default function PEReviewCardPlatform({
                         {userProfilePictureUrl && (
                             <div>
                                 <Image
+                                    unoptimized
                                     style={{ objectPosition: 'center', objectFit: 'cover' }}
                                     src={userProfilePictureUrl ?? ''}
                                     alt={'client image'}

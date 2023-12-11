@@ -10,7 +10,7 @@ export default function HomePageSection5(): ReactElement {
         <div className={styles.section}>
             <h2 className={styles.title}>Deine nächste Feier ist nur einen klick entfernt</h2>
             <div className={styles.body}>
-                <Image src="/home/5/dining.jpeg" alt="" width={640} height={500} className={styles.image} />
+                <Image unoptimized src="/home/5/dining.jpeg" alt="" width={640} height={500} className={styles.image} />
                 <div className={styles.entriesAndButton}>
                     <div className={styles.entries}>
                         <div className={styles.entry}>

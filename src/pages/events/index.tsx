@@ -68,6 +68,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                             <HStack style={{ justifyContent: 'start', alignItems: 'center', flexWrap: 'wrap' }} gap={6}>
                                 <Link href="https://yogaloft-frankfurt.de" target="_blank">
                                     <Image
+                                        unoptimized
                                         className="cursor-pointer block"
                                         src={'/events/Yogaloft.png'}
                                         alt="YogaLoft"
@@ -78,6 +79,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                                 <PEIcon icon={Icon.close} edgeLength={15} />
                                 <Link href="/">
                                     <Image
+                                        unoptimized
                                         className="cursor-pointer block"
                                         src={'/people-eat-logo-title.png'}
                                         alt="PeopleEat"
@@ -88,6 +90,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                                 <PEIcon icon={Icon.close} edgeLength={15} />
                                 <Link href="https://grainology.de" target="_blank">
                                     <Image
+                                        unoptimized
                                         className="cursor-pointer block"
                                         src="/events/Grainology.png"
                                         alt="grainology"
@@ -130,7 +133,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
                                 backgroundSize: 'cover',
                             }}
                         >
-                            <Image src="/events/group1.jpeg" alt="deco" width={800} height={520} />
+                            <Image unoptimized src="/events/group1.jpeg" alt="deco" width={800} height={520} />
                         </VStack>
                     )}
                 </HStack>
@@ -155,6 +158,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
 
                     {isMobile && (
                         <Image
+                            unoptimized
                             src="/events/yoga.jpg"
                             alt="yoga"
                             height={300}
@@ -181,6 +185,7 @@ function Content({ signedInUser }: EventsProps): ReactElement {
 
                     {isMobile && (
                         <Image
+                            unoptimized
                             src="/events/meals.png"
                             alt="nice vegan meals"
                             height={200}

@@ -18,7 +18,7 @@ export default function HomePageSection4(): ReactElement {
                 </div>
             </div>
 
-            <Image src="/home/4/dining.png" alt="" width={600} height={400} className={styles.image} />
+            <Image unoptimized src="/home/4/dining.png" alt="" width={600} height={400} className={styles.image} />
         </div>
     );
 }

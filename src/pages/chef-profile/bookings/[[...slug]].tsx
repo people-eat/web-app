@@ -141,6 +141,7 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, bookingRequests, hasSt
                             {!selectedBookingRequestId && (
                                 <>
                                     <Image
+                                        unoptimized
                                         src="/logo/people-eat.png"
                                         alt=""
                                         width="1920"

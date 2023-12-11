@@ -76,7 +76,7 @@ export default function SignUpPage(): ReactElement {
                 >
                     <HStack style={{ width: '100%' }}>
                         <Link href="/">
-                            <Image src={'/logo.svg'} alt="" width={203} height={46} />
+                            <Image unoptimized src={'/logo.svg'} alt="" width={203} height={46} />
                         </Link>
                         <Spacer />
                     </HStack>

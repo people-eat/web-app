@@ -12,7 +12,7 @@ export default function HomePageSection10(): ReactElement {
             <h2 className={styles.title}>{t('support-section-header')}</h2>
 
             <Link href="https://entrepreneurship-centre.fs.de/portfolio/peopleeat" className={styles.imageWrapper}>
-                <Image src="/frankfurt-school.png" alt="" width={400} height={200} className={styles.image} />
+                <Image unoptimized src="/frankfurt-school.png" alt="" width={400} height={200} className={styles.image} />
             </Link>
         </div>
     );
