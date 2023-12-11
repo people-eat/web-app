@@ -1,7 +1,13 @@
 .section {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 64px;
+}
+
+.sectionContent {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .image {
@@ -11,7 +17,7 @@
     border-radius: 16px;
 }
 
-.buttonContainer {
-    display: flex;
-    justify-content: center;
+.title {
+    margin: 0;
+    padding: 0;
 }

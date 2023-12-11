@@ -24,7 +24,7 @@ export default function HomePageMenuSection({ heroMenus, adults, childrenCount: 
 
     return (
         <VStack className="w-full">
-            <VStack className="relative w-full sm:pt-0 pt-[140px] pb-15 rounded-4 gap-4 max-w-[1190px]">
+            <VStack className="relative w-full sm:pt-0 rounded-4 gap-4 max-w-[1190px]">
                 <div className="hidden sm:block w-full mb-12">
                     <PEPointsCard />
                 </div>

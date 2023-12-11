@@ -19,7 +19,7 @@ export default function HomePageCookSection({ heroCooks }: HomePageCookSectionPr
 
     return (
         <VStack className="w-full">
-            <VStack className="relative w-full pt-[140px] pb-15 lg:py-15 rounded-4 gap-4 max-w-[1190px]">
+            <VStack className="relative w-full lg:py-15 rounded-4 gap-4 max-w-[1190px]">
                 <div className="flex justify-center w-full">
                     <h2 className="text-heading-xl lg:text-rem-heading-xm my-0 lg:uppercase">{t('chefs-section-header')}</h2>
                 </div>

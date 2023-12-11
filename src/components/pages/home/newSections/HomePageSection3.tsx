@@ -10,7 +10,7 @@ export default function HomePageSection3(): ReactElement {
                 <h2 className={styles.title}>Werde Gastgeber aus Leidenschaft, wir kümmern uns um den Rest</h2>
                 <div className={styles.entires}>
                     <div className={styles.section3Entry}>
-                        <h3 className={styles.section3EntryTitle}>🛒 Einkauf der Lebensmittel</h3>
+                        <h3 className={styles.section3EntryTitle}>🛒 Einkauf der Zutaten</h3>
                         <p className={styles.section3EntryDescription}>
                             Du erhältst frische und regionale Lebensmittel von deinem Koch zu dir nachhause geliefert und vor Ort zubereitet
                         </p>
