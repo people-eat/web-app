@@ -71,6 +71,10 @@
     padding: 0;
 }
 
+.buttonContainer {
+    text-decoration-line: none;
+}
+
 @media (width <= 1279px) {
     .buttonContainer {
         display: flex;

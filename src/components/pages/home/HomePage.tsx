@@ -167,15 +167,6 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
                 <HomePageSection3 />
                 <HomePageSection4 />
                 <HomePageSection5 />
-                {/* <HomePageSection6 /> */}
-
-                {/* <HomePageSection1 /> */}
-
-                {/* <HomePageSection2 /> */}
-
-                {/* <HomePageSection3 /> */}
-
-                {/* <HomePageSection4 /> */}
 
                 <OldHomePageSection5 />
 

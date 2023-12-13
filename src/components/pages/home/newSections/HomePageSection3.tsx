@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import styles from './HomePageSection3.module.css';
@@ -28,9 +29,9 @@ export default function HomePageSection3(): ReactElement {
                         </p>
                     </div>
                 </div>
-                <div className={styles.buttonContainer}>
+                <Link href="/chefs" className={styles.buttonContainer}>
                     <PEButton title="Koch finden" onClick={(): void => undefined} className="max-w-sm" />
-                </div>
+                </Link>
             </div>
             <Image unoptimized src="/home/3/dinner.jpeg" alt="" width={500} height={500} className={styles.image} />
         </div>

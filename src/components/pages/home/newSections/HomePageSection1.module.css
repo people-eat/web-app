@@ -10,6 +10,10 @@
     border-radius: 16px;
 }
 
+.buttonContainer {
+    text-decoration-line: none;
+}
+
 @media (width <= 1279px) {
     .section {
         align-items: center;

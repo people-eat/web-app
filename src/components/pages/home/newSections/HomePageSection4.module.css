@@ -21,3 +21,8 @@
     margin: 0;
     padding: 0;
 }
+
+.buttonContainer {
+    text-decoration-line: none;
+    max-width: 384px;
+}

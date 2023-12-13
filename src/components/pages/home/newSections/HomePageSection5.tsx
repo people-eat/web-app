@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { type ReactElement } from 'react';
 import PEButton from '../../../standard/buttons/PEButton';
 import { Icon } from '../../../standard/icon/Icon';
@@ -37,9 +38,9 @@ export default function HomePageSection5(): ReactElement {
                             </p>
                         </div>
                     </div>
-                    <div className={styles.buttonContainer}>
+                    <Link href="/chefs" className={styles.buttonContainer}>
                         <PEButton title="Koch finden" onClick={(): void => undefined} className="max-w-sm" />
-                    </div>
+                    </Link>
                 </div>
             </div>
         </div>

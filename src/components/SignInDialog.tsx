@@ -106,7 +106,7 @@ export default function SignInDialog({ onSuccess, onFail }: SignInDialogProps): 
 
                 <HStack style={{ alignItems: 'center' }}>
                     <p className="text-disabled">{t('sign-up-label-1')} &nbsp;</p>
-                    <Link href="/sign-up" className={'no-underline'} target="_blank">
+                    <Link href="/sign-up" className="no-underline" target="_blank">
                         <PELineButton title={t('sign-up-label-2')} fontSize="text-text-m" />
                     </Link>
                 </HStack>
