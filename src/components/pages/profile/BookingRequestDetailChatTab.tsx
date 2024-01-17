@@ -87,8 +87,8 @@ export default function BookingRequestDetailChatTab({
     sortedChatMessages.sort((chatMessageA, chatMessageB): number => moment(chatMessageA.createdAt).diff(moment(chatMessageB.createdAt)));
 
     return (
-        <VStack style={{ width: '100%', height: '100%', justifyContent: 'space-between', overflowY: 'auto' }}>
-            <VStack gap={32} style={{ width: '100%', overflowY: 'auto' }}>
+        <VStack style={{ width: '100%', height: '100%', justifyContent: 'space-between' }}>
+            <VStack gap={32} style={{ width: '100%', overflowY: 'auto', height: 500 }}>
                 {sortedChatMessages.map((chatMessage) => (
                     <BookingRequestChatMessage
                         key={chatMessage.chatMessageId}

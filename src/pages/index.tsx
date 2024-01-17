@@ -112,7 +112,6 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, searchParameters, hero
                 heroMenus={heroMenus}
                 searchParameters={searchParameters}
             />
-
             <Dialog open={showCookieBanner}>
                 <DialogTitle>Privatsphäre-Einstellungen</DialogTitle>
                 <DialogContent>

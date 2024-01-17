@@ -1,8 +1,9 @@
+import { useMutation } from '@apollo/client';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
-import { type GetHomePageDataDocumentQuery } from '../../../data-source/generated/graphql';
+import { CreateOneSearchRequestDocument, type GetHomePageDataDocumentQuery } from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import { type Location } from '../../../shared-domain/Location';
 import { type SignedInUser } from '../../../shared-domain/SignedInUser';
@@ -40,6 +41,7 @@ export interface HomePageProps {
 export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus }: HomePageProps): ReactElement {
     const { t } = useTranslation('home');
     const router = useRouter();
+    const [createOneSearchRequest] = useMutation(CreateOneSearchRequestDocument);
 
     const [address, setAddress] = useState(searchParameters.location.address);
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
@@ -51,6 +53,18 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
 
     function onSearch(): void {
         const { latitude, longitude } = selectedLocation;
+
+        void createOneSearchRequest({
+            variables: {
+                request: {
+                    adults,
+                    children,
+                    date: date.format(moment.HTML5_FMT.DATE),
+                    locationText: address,
+                    origin: 'HOME',
+                },
+            },
+        });
 
         void router.push({
             pathname: '/menus',

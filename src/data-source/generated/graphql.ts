@@ -946,6 +946,14 @@ export type CreateOnePrivacyPolicyUpdateRequest = {
     germanText: Scalars['String'];
 };
 
+export type CreateOneSearchRequestRequest = {
+    adults: Scalars['UnsignedInt'];
+    children: Scalars['UnsignedInt'];
+    date: Scalars['Date'];
+    locationText: Scalars['String'];
+    origin: SearchRequestOrigin;
+};
+
 export type CreateOneSessionByEmailAddressRequest = {
     emailAddress: Scalars['EmailAddress'];
     password: Scalars['String'];
@@ -1277,6 +1285,7 @@ export type Mutation = {
     languages: LanguageMutation;
     notifications: NotificationMutation;
     privacyPolicyUpdates: PrivacyPolicyUpdateMutation;
+    searchRequests: SearchRequestMutation;
     sessions: SessionMutation;
     termsUpdates: TermsUpdateMutation;
     users: UserMutation;
@@ -1523,11 +1532,39 @@ export type Query = {
     publicMenus: PublicMenuQuery;
     publicPrivacyPolicyUpdates: PublicPrivacyPolicyUpdateQuery;
     publicTermsUpdates: PublicTermsUpdateQuery;
+    searchRequests: SearchRequestQuery;
     sessions: SessionQuery;
     stripePublishableKey?: Maybe<Scalars['String']>;
     supportRequests: SupportRequestQuery;
     termsUpdates: TermsUpdateQuery;
     users: UserQuery;
+};
+
+export type SearchRequest = {
+    __typename?: 'SearchRequest';
+    adults: Scalars['UnsignedInt'];
+    children: Scalars['UnsignedInt'];
+    createdAt: Scalars['DateTime'];
+    date: Scalars['Date'];
+    locationText: Scalars['String'];
+    origin: SearchRequestOrigin;
+    searchRequestId?: Maybe<Scalars['String']>;
+};
+
+export type SearchRequestMutation = {
+    __typename?: 'SearchRequestMutation';
+    createOne: Scalars['Boolean'];
+};
+
+export type SearchRequestMutationCreateOneArgs = {
+    request: CreateOneSearchRequestRequest;
+};
+
+export type SearchRequestOrigin = 'HOME' | 'PUBLIC_COOKS' | 'PUBLIC_MENUS';
+
+export type SearchRequestQuery = {
+    __typename?: 'SearchRequestQuery';
+    findAll: Array<SearchRequest>;
 };
 
 export type Session = {
@@ -4035,6 +4072,15 @@ export type CreateOnePhoneNumberUpdateMutationVariables = Exact<{
 export type CreateOnePhoneNumberUpdateMutation = {
     __typename?: 'Mutation';
     users: { __typename?: 'UserMutation'; phoneNumberUpdate: { __typename?: 'UserPhoneNumberUpdateMutation'; success: boolean } };
+};
+
+export type CreateOneSearchRequestMutationVariables = Exact<{
+    request: CreateOneSearchRequestRequest;
+}>;
+
+export type CreateOneSearchRequestMutation = {
+    __typename?: 'Mutation';
+    searchRequests: { __typename?: 'SearchRequestMutation'; success: boolean };
 };
 
 export type CreateOneCookMutationVariables = Exact<{
@@ -12181,6 +12227,52 @@ export const CreateOnePhoneNumberUpdateDocument = {
         },
     ],
 } as unknown as DocumentNode<CreateOnePhoneNumberUpdateMutation, CreateOnePhoneNumberUpdateMutationVariables>;
+export const CreateOneSearchRequestDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'CreateOneSearchRequest' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateOneSearchRequestRequest' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'searchRequests' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    alias: { kind: 'Name', value: 'success' },
+                                    name: { kind: 'Name', value: 'createOne' },
+                                    arguments: [
+                                        {
+                                            kind: 'Argument',
+                                            name: { kind: 'Name', value: 'request' },
+                                            value: { kind: 'Variable', name: { kind: 'Name', value: 'request' } },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CreateOneSearchRequestMutation, CreateOneSearchRequestMutationVariables>;
 export const CreateOneCookDocument = {
     kind: 'Document',
     definitions: [

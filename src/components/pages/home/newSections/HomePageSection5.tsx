@@ -38,8 +38,8 @@ export default function HomePageSection5(): ReactElement {
                             </p>
                         </div>
                     </div>
-                    <Link href="/chefs" className={styles.buttonContainer}>
-                        <PEButton title="Koch finden" onClick={(): void => undefined} className="max-w-sm" />
+                    <Link href="/global-booking-request" className={styles.buttonContainer}>
+                        <PEButton title="Anfrage senden" onClick={(): void => undefined} className="max-w-sm" />
                     </Link>
                 </div>
             </div>

@@ -1,9 +1,10 @@
+import { useMutation } from '@apollo/client';
 import moment from 'moment';
 import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, type ReactElement } from 'react';
-import { type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
+import { CreateOneSearchRequestDocument, type CookRank, type CurrencyCode } from '../../../data-source/generated/graphql';
 import searchAddress, { type GoogleMapsPlacesResult } from '../../../data-source/searchAddress';
 import useResponsive from '../../../hooks/useResponsive';
 import { type Category } from '../../../shared-domain/Category';
@@ -63,6 +64,8 @@ export default function PublicMenusPage({ signedInUser, searchParameters, search
     const router = useRouter();
     const { t } = useTranslation('search-results');
     const { isMobile } = useResponsive();
+    const [createOneSearchRequest] = useMutation(CreateOneSearchRequestDocument);
+
     const [address, setAddress] = useState(searchParameters.location.address);
     const [addressSearchResults, setAddressSearchResults] = useState<GoogleMapsPlacesResult[]>([]);
     const [selectedLocation, setSelectedLocation] = useState<Location>(searchParameters.location);
@@ -73,6 +76,18 @@ export default function PublicMenusPage({ signedInUser, searchParameters, search
 
     function onSearch(): void {
         const { latitude, longitude } = selectedLocation;
+
+        void createOneSearchRequest({
+            variables: {
+                request: {
+                    adults,
+                    children,
+                    date: date.format(moment.HTML5_FMT.DATE),
+                    locationText: address,
+                    origin: 'PUBLIC_MENUS',
+                },
+            },
+        });
 
         void router.push({
             pathname: 'menus',

@@ -38,7 +38,9 @@ export default function PEMenuCardMobile({
                     {Boolean(!imageUrls.length) && <PEIcon icon={Icon.food} edgeLength={52} />}
                 </div>
                 <div className="flex flex-col gap-2">
-                    <span className="text-text-sm-bold text-preBlack">{title}</span>
+                    <span className="text-text-sm-bold text-preBlack" style={{ wordBreak: 'break-word' }}>
+                        {title}
+                    </span>
                     <span className="text-orange text-text-sm-bold">
                         ab {formatPrice({ amount: pricePerPerson, currencyCode })} pro Person
                     </span>

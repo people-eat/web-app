@@ -201,6 +201,8 @@ const documents = {
         types.ConfirmOnePhoneNumberUpdateDocument,
     'mutation CreateOnePhoneNumberUpdate($phoneNumber: PhoneNumber!, $userId: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: createOne(phoneNumber: $phoneNumber)\n    }\n  }\n}':
         types.CreateOnePhoneNumberUpdateDocument,
+    'mutation CreateOneSearchRequest($request: CreateOneSearchRequestRequest!) {\n  searchRequests {\n    success: createOne(request: $request)\n  }\n}':
+        types.CreateOneSearchRequestDocument,
     'mutation CreateOneCook($cookId: String!, $request: CreateOneCookRequest!) {\n  cooks {\n    success: createOne(cookId: $cookId, request: $request)\n  }\n}':
         types.CreateOneCookDocument,
     'mutation CreateOneUserAddress($address: CreateOneAddressRequest!, $userId: String!) {\n  users {\n    addresses(userId: $userId) {\n      success: createOne(address: $address)\n    }\n  }\n}':
@@ -849,6 +851,12 @@ export function gql(
 export function gql(
     source: 'mutation CreateOnePhoneNumberUpdate($phoneNumber: PhoneNumber!, $userId: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: createOne(phoneNumber: $phoneNumber)\n    }\n  }\n}',
 ): (typeof documents)['mutation CreateOnePhoneNumberUpdate($phoneNumber: PhoneNumber!, $userId: String!) {\n  users {\n    phoneNumberUpdate(userId: $userId) {\n      success: createOne(phoneNumber: $phoneNumber)\n    }\n  }\n}'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+    source: 'mutation CreateOneSearchRequest($request: CreateOneSearchRequestRequest!) {\n  searchRequests {\n    success: createOne(request: $request)\n  }\n}',
+): (typeof documents)['mutation CreateOneSearchRequest($request: CreateOneSearchRequestRequest!) {\n  searchRequests {\n    success: createOne(request: $request)\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

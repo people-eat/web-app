@@ -45,7 +45,6 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
             <Link href="/">
                 <Image unoptimized src="/logo.svg" alt="" width={203} height={46} style={{ margin: 16, marginTop: 32 }} />
             </Link>
-
             <List>
                 {signedInUser && (
                     <>
@@ -146,7 +145,6 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                 </ListItem>
                 <Divider />
             </List>
-
             <VStack gap={16} style={{ alignItems: 'flex-start', margin: 16 }}>
                 {!signedInUser && (
                     <>
@@ -158,7 +156,7 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                             <PEButton type="secondary" title={t('sign-up')} onClick={(): void => undefined} />
                         </Link>
 
-                        <Link href="/chef-sign-up" className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
+                        <Link href="/how-to-chef" className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
                             <PEButton type="secondary" title={t('how-to-become-a-chef')} onClick={(): void => undefined} />
                         </Link>
                     </>
@@ -167,7 +165,7 @@ export default function PESideBar({ open, setOpen, signedInUser }: PEMobileMenuP
                 {signedInUser && (
                     <>
                         {!signedInUser.isCook && (
-                            <Link href="/chef-sign-up" className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
+                            <Link href="/how-to-chef" className="w-full no-underline" style={{ textDecoration: 'none', color: 'black' }}>
                                 <PEButton title={t('how-to-become-a-chef')} onClick={(): void => undefined} />
                             </Link>
                         )}

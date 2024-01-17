@@ -14,8 +14,8 @@ export default function HomePageSection4(): ReactElement {
                     Dinnerparty veranstaltest, einen besonderen Anlass feierst oder einfach nur Lust auf ein Gourmet-Menü hast, bei uns
                     findest du das Richtige für deinen Anlass.
                 </p>
-                <Link href="/menus" className={styles.buttonContainer}>
-                    <PEButton title="Menüs entdecken" onClick={(): void => undefined} />
+                <Link href="/global-booking-request" className={styles.buttonContainer}>
+                    <PEButton title="Anfrage senden" onClick={(): void => undefined} />
                 </Link>
             </div>
 

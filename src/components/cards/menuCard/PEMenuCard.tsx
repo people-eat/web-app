@@ -70,7 +70,9 @@ export default function PEMenuCard({
 
             <VStack gap={8} className="w-full max-w-[325px] box-border" style={{ alignItems: 'flex-start' }}>
                 <VStack gap={8} className="h-[148px] overflow-hidden" style={{ alignItems: 'flex-start' }}>
-                    <span className="text-text-sm-bold text-preBlack">{title}</span>
+                    <span className="text-text-sm-bold text-preBlack" style={{ wordBreak: 'break-word' }}>
+                        {title}
+                    </span>
                     <span className="text-orange text-text-sm-bold">
                         ab {formatPrice({ amount: pricePerPerson, currencyCode })} pro Person
                     </span>

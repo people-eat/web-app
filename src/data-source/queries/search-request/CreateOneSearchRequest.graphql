@@ -1,0 +1,5 @@
+mutation CreateOneSearchRequest($request: CreateOneSearchRequestRequest!) {
+    searchRequests {
+        success: createOne(request: $request)
+    }
+}
