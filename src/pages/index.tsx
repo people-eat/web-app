@@ -4,6 +4,7 @@ import moment from 'moment';
 import { type GetServerSideProps, type NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import Script from 'next/script';
 import { createContext, useEffect, useState, type Context } from 'react';
 import { HomePage } from '../components/pages/home/HomePage';
 import PECheckbox from '../components/standard/checkbox/PECheckbox';
@@ -105,6 +106,28 @@ const Index: NextPage<ServerSideProps> = ({ signedInUser, searchParameters, hero
                 <link rel="alternate" href="https://people-eat.com/en/" hrefLang="en" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
+            <Script id="ga-script" strategy="lazyOnload">
+                {`
+                    (function(w,d,s,l,i) {
+                        w[l] = w[l]||[];
+                        w[l].push({'gtm.start': new Date().getTime(), event:'gtm.js'});
+                        var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+                        j.async=true;
+                        j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+                        f.parentNode.insertBefore(j,f);
+                    })(window,document,'script','dataLayer','GTM-TZHTVCP');
+                `}
+            </Script>
+
+            <noscript>
+                <iframe
+                    src="https://www.googletagmanager.com/ns.html?id=GTM-TZHTVCP"
+                    height="0"
+                    width="0"
+                    style={{ display: 'none', visibility: 'hidden' }}
+                ></iframe>
+            </noscript>
 
             <HomePage
                 signedInUser={signedInUser ?? undefined}

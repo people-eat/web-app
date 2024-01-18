@@ -43,6 +43,7 @@ const PeopleEatApp: AppType = ({ Component, pageProps, router }: AppPropsType) =
                     });
                 `}
             </Script>
+
             <ApolloProvider client={apolloClient}>
                 <ThemeProvider theme={theme}>
                     <MuiI18nProvider dateAdapter={AdapterMoment} adapterLocale={router.locale}>
