@@ -67,7 +67,7 @@ export function HomePage({ signedInUser, searchParameters, heroCooks, heroMenus 
         });
 
         void router.push({
-            pathname: '/menus',
+            pathname: '/global-booking-request',
             query: { address, latitude, longitude, adults, children, date: date.format(moment.HTML5_FMT.DATE) },
         });
     }
