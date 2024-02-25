@@ -4,12 +4,14 @@ import { LocalizationProvider as MuiI18nProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment';
 import { type AppPropsType, type AppType } from 'next/dist/shared/lib/utils';
+import { clarity } from 'react-microsoft-clarity';
 import { createComplexApolloClient } from '../data-source/createApolloClient';
 
 import 'moment/locale/de';
 import 'moment/locale/fr';
 import 'moment/locale/ru';
 import Script from 'next/script';
+import { useEffect } from 'react';
 import '../styles/globals.css';
 
 export const theme: Theme = createTheme({
@@ -28,6 +30,8 @@ export const apolloClient: ApolloClient<NormalizedCacheObject> = createComplexAp
 
 const PeopleEatApp: AppType = ({ Component, pageProps, router }: AppPropsType) => {
     moment.locale(router.locale);
+
+    useEffect(() => clarity.init('l6qxwo5j7v'));
 
     return (
         <>
