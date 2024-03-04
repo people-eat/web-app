@@ -1074,7 +1074,7 @@ export type FindManyPublicCooksRequest = {
     children?: InputMaybe<Scalars['UnsignedInt']>;
     dateTime: Scalars['DateTime'];
     kitchenIds?: InputMaybe<Array<Scalars['String']>>;
-    location: LocationInput;
+    location?: InputMaybe<LocationInput>;
     price?: InputMaybe<PriceInput>;
     searchText?: InputMaybe<Scalars['String']>;
     skip?: InputMaybe<Scalars['UnsignedInt']>;
@@ -1087,7 +1087,7 @@ export type FindManyPublicMenusRequest = {
     children?: InputMaybe<Scalars['UnsignedInt']>;
     dateTime: Scalars['DateTime'];
     kitchenIds?: InputMaybe<Array<Scalars['String']>>;
-    location: LocationInput;
+    location?: InputMaybe<LocationInput>;
     price?: InputMaybe<PriceInput>;
     searchText?: InputMaybe<Scalars['String']>;
     skip?: InputMaybe<Scalars['UnsignedInt']>;
@@ -1410,6 +1410,7 @@ export type PublicCook = {
     maximumParticipants?: Maybe<Scalars['UnsignedInt']>;
     maximumPrice?: Maybe<Scalars['UnsignedInt']>;
     maximumTravelDistance?: Maybe<Scalars['UnsignedInt']>;
+    menuCount: Scalars['UnsignedInt'];
     menus: Array<PublicMenu>;
     minimumParticipants?: Maybe<Scalars['UnsignedInt']>;
     minimumPrice?: Maybe<Scalars['UnsignedInt']>;
@@ -1420,9 +1421,14 @@ export type PublicCook = {
 
 export type PublicCookQuery = {
     __typename?: 'PublicCookQuery';
+    checkAvailability: Scalars['Boolean'];
     findHeroes: Array<PublicCook>;
     findMany: Array<PublicCook>;
     findOne?: Maybe<PublicCook>;
+};
+
+export type PublicCookQueryCheckAvailabilityArgs = {
+    request: FindManyPublicCooksRequest;
 };
 
 export type PublicCookQueryFindManyArgs = {
@@ -1457,9 +1463,14 @@ export type PublicMenu = {
 
 export type PublicMenuQuery = {
     __typename?: 'PublicMenuQuery';
+    checkAvailability: Scalars['Boolean'];
     findHeroes: Array<PublicMenu>;
     findMany: Array<PublicMenu>;
     findOne?: Maybe<PublicMenu>;
+};
+
+export type PublicMenuQueryCheckAvailabilityArgs = {
+    request: FindManyPublicMenusRequest;
 };
 
 export type PublicMenuQueryFindManyArgs = {

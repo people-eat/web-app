@@ -15,10 +15,13 @@ export const getServerSideProps: GetServerSideProps = async ({ query, req }) => 
         query: GetPublicCooksPageDataDocument,
         variables: {
             request: {
-                location: {
-                    latitude: latitude ? Number(latitude) : 49,
-                    longitude: longitude ? Number(longitude) : 49,
-                },
+                location:
+                    latitude && longitude
+                        ? {
+                              latitude: latitude ? Number(latitude) : 49,
+                              longitude: longitude ? Number(longitude) : 49,
+                          }
+                        : undefined,
                 adultParticipants: adults ? Number(adults) : 4,
                 children: children ? Number(children) : 0,
                 dateTime: typeof date === 'string' ? new Date(date) : new Date(),
